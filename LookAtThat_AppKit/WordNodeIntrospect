@@ -1,0 +1,181 @@
+import Foundation
+import SceneKit
+import SwiftSyntax
+
+var z = CGFloat(0)
+var nextZ: CGFloat {
+    z += 5
+    return z
+}
+
+
+struct SourceInfo {
+    var tokenTypes = [String]()
+
+    var identifiers = Set<String>()
+    var strings = Set<String>()
+    var numbers = Set<String>()
+
+    var allTokens = AutoListValueDict<String, String>()
+    var sortedTokens: [(String, [String])] {
+        return allTokens.map.sorted { leftPair, rightPair in
+            return leftPair.key <= rightPair.key
+        }
+    }
+}
+
+// ewww...
+var bumped = Set<Int>()
+let highlightCache = HighlightCache()
+
+extension MainSceneController {
+
+    func highlightNode(_ node: SCNNode) {
+        for letter in node.childNodes {
+            letter.geometry = highlightCache[letter.geometry!]
+        }
+    }
+
+    func bumpNodes(_ nodes: [SCNNode]) {
+        sceneTransaction {
+            for node in nodes {
+                let hash = node.hash
+                if bumped.contains(hash) {
+                    bumped.remove(hash)
+                    node.position = node.position.translated(dZ: -50)
+                    highlightNode(node)
+                } else {
+                    bumped.insert(hash)
+                    node.position = node.position.translated(dZ: 50)
+                    highlightNode(node)
+                }
+            }
+        }
+    }
+
+    func allTokensWith(name: String) -> [SCNNode] {
+        return sceneState.rootGeometryNode.childNodes{ testNode, _ in
+            return testNode.name?.contains(name) ?? false
+        }
+    }
+
+    func onTokensWith(type: String, _ operation: (SCNNode) -> Void) {
+        sceneState.rootGeometryNode.enumerateChildNodes{ testNode, _ in
+            if testNode.name?.contains(type) ?? false {
+                operation(testNode)
+            }
+        }
+    }
+
+    func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
+        sceneControllerQueue.async {
+            handler(self.renderFromSyntax())
+        }
+    }
+
+    func renderFromSyntax() -> SourceInfo {
+        let nodes = SwiftSyntaxNodes()
+        guard let source = nodes.start() else {
+            return SourceInfo()
+        }
+        _ = nodes.visit(source)
+
+        var allLines = [SCNNode]()
+        var resultInfo = SourceInfo()
+
+        func newline(_ count: Int) -> SCNNode {
+            return (0..<count).map { _ in
+                let newLine = SCNNode()
+                newLine.position = iteratorY.nextPosition()
+                allLines.append(newLine)
+                return newLine
+            }.last ?? {
+                print("Requested new lines of count \(count)!!")
+                return SCNNode()
+            }()
+        }
+
+        var lineNode = newline(1)
+        for token in nodes.allTokens {
+            func arrange(text: String) {
+                let newNode = wordNodeBuilder.node(for: text)
+                newNode.name = token.registeredName(in: &resultInfo)
+                [newNode].arrangeInLine(on: lineNode)
+            }
+            func iterateTrivia(_ trivia: Trivia) {
+                for triviaPiece in trivia {
+                    if case TriviaPiece.newlines(let count) = triviaPiece {
+                        lineNode = newline(count)
+                    } else {
+                        arrange(text: triviaPiece.stringify)
+                    }
+                }
+            }
+            iterateTrivia(token.leadingTrivia)
+            arrange(text: token.text)
+            iterateTrivia(token.trailingTrivia)
+        }
+
+        sceneTransaction {
+            for line in allLines {
+                self.sceneState.rootGeometryNode.addChildNode(line)
+            }
+        }
+
+        return resultInfo
+    }
+
+    private func customRender() {
+        wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"
+            let lineNode = SCNNode()
+            lineNode.position = iteratorY.nextPosition()
+            sourceLine.splitToWordsAndSpaces
+                .map{ wordNodeBuilder.node(for: $0) }
+                .arrangeInLine(on: lineNode)
+
+            sceneTransaction {
+                self.sceneState.rootGeometryNode.addChildNode(lineNode)
+            }
+        }
+    }
+}
+
+extension Array where Element == SCNNode {
+    func arrangeInLine(on node: SCNNode) {
+        var lastNode: SCNNode?
+        forEach {
+            let lastWordPosition: SCNVector3
+            if let lastNode = lastNode {
+                let lastWordSize = lastNode.lengthX
+                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
+            } else {
+                if let lastChild = node.childNodes.last {
+                    lastWordPosition = lastChild.position.translated(dX: lastChild.lengthX)
+                } else {
+                    lastWordPosition = SCNVector3Zero
+                }
+            }
+            $0.position = lastWordPosition
+            node.addChildNode($0)
+            lastNode = $0
+        }
+    }
+
+    func appendToLine(on node: SCNNode) {
+        var lastNode: SCNNode?
+        forEach {
+            let lastWordPosition: SCNVector3
+            if let lastNode = lastNode {
+                let lastWordSize =
+                    lastNode.boundingBox.max.x -
+                    lastNode.boundingBox.min.x
+                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
+            } else {
+                lastWordPosition = SCNVector3Zero
+            }
+            $0.position = lastWordPosition
+            node.addChildNode($0)
+            lastNode = $0
+        }
+    }
+}
