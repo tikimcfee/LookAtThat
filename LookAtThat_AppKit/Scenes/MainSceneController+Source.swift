@@ -4,7 +4,7 @@ import SwiftSyntax
 
 var z = CGFloat(0)
 var nextZ: CGFloat {
-    z += 5
+    z -= 50
     return z
 }
 

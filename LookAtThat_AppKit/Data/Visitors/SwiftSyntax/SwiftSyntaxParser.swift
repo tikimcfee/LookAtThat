@@ -19,21 +19,17 @@ public struct SourceInfo {
 
 // SwiftSyntax
 class SwiftSyntaxParser: SyntaxRewriter {
-    var iteratorY: WordPositionIterator
-    var textNodeBuilder: WordNodeBuilder
 
-    var allLines = [SCNNode]()
+    var textNodeBuilder: WordNodeBuilder
     var resultInfo = SourceInfo()
 
     init(iterator: WordPositionIterator,
          wordNodeBuilder: WordNodeBuilder) {
-        self.iteratorY = iterator
         self.textNodeBuilder = wordNodeBuilder
         super.init()
-        newlines(1)
     }
 
-    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+    override func visit(_ functionDeclarationNode: FunctionDeclSyntax) -> DeclSyntax {
 //        print("---------------------------------------")
 //        print("Found a function: \(node.identifier)")
 //        print(
@@ -51,12 +47,15 @@ class SwiftSyntaxParser: SyntaxRewriter {
 //        }
 //        print(functionText)
 
-//        defer { iteratorY.reset() }
-//        let functionBlockRoot = SCNNode()
 
 
+//        for token in functionDeclarationNode.tokens {
+//            iterateTrivia(token.leadingTrivia, token)
+//            arrange(token.text, token)
+//            iterateTrivia(token.trailingTrivia, token)
+//        }
 
-        return super.visit(node)
+        return super.visit(functionDeclarationNode)
     }
 }
 
@@ -92,14 +91,18 @@ extension SwiftSyntaxParser {
         let rootSyntax = visit(sourceFileSyntax)
         print("Rendering \(fileUrl)})")
 
+        let codeSheet = CodeSheet()
+        codeSheet.lastLine.position =
+            codeSheet.lastLine.position.translated(dZ: nextZ - 100)
+
         for token in rootSyntax.tokens {
-            iterateTrivia(token.leadingTrivia, token)
-            arrange(token.text, token)
-            iterateTrivia(token.trailingTrivia, token)
+            iterateTrivia(token.leadingTrivia, token, codeSheet)
+            arrange(token.text, token, codeSheet)
+            iterateTrivia(token.trailingTrivia, token, codeSheet)
         }
 
         sceneTransaction {
-            for line in allLines {
+            for line in codeSheet.allLines {
                 MainSceneController.global.sceneState
                     .rootGeometryNode.addChildNode(line)
             }
@@ -108,29 +111,48 @@ extension SwiftSyntaxParser {
         return resultInfo
     }
 
-    private func arrange(_ text: String, _ token: TokenSyntax) {
+    private func arrange(_ text: String,
+                         _ token: TokenSyntax,
+                         _ codeSheet: CodeSheet) {
         let newNode = textNodeBuilder.node(for: text)
         newNode.name = token.registeredName(in: &resultInfo)
-        [newNode].arrangeInLine(on: allLines.last!)
+        [newNode].arrangeInLine(on: codeSheet.lastLine)
     }
 
-    private func iterateTrivia(_ trivia: Trivia, _ token: TokenSyntax) {
+    private func iterateTrivia(_ trivia: Trivia,
+                               _ token: TokenSyntax,
+                               _ codeSheet: CodeSheet) {
         for triviaPiece in trivia {
             if case TriviaPiece.newlines(let count) = triviaPiece {
-                newlines(count)
+                codeSheet.newlines(count)
             } else {
-                arrange(triviaPiece.stringify, token)
+                arrange(triviaPiece.stringify, token, codeSheet)
             }
         }
     }
+}
 
-    private func newlines(_ count: Int) {
-        return (0..<count).map { _ in
-            let newLine = SCNNode()
-            newLine.position = iteratorY.nextPosition()
-            allLines.append(newLine)
-        }.last ?? {
-            print("Requested new lines of count \(count)!!")
-        }()
+class CodeSheet {
+    var allLines = [SCNNode]()
+    var iteratorY = WordPositionIterator()
+    var lastLine: SCNNode
+    init() {
+        lastLine = SCNNode()
+        lastLine.position = SCNVector3(-25, iteratorY.nextLineY(), -25)
+    }
+
+    func newlines(_ count: Int) {
+        for _ in 0..<count {
+            setNewLine()
+        }
+    }
+
+    private func setNewLine() {
+        let newLine = SCNNode()
+        newLine.position = lastLine.position.translated(
+            dY: -iteratorY.linesPerBlock
+        )
+        allLines.append(newLine)
+        lastLine = newLine
     }
 }
