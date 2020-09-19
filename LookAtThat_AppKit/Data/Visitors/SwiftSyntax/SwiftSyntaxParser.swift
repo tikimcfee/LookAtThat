@@ -19,16 +19,11 @@ public struct SourceInfo {
 
 // SwiftSyntax
 class SwiftSyntaxParser: SyntaxRewriter {
-    var resultInfo = SourceInfo()
-    var allLines = [SCNNode]()
     var iteratorY: WordPositionIterator
     var textNodeBuilder: WordNodeBuilder
 
-    lazy var sourceInfo = SourceInfo()
-    lazy var allTokens = [TokenSyntax]()
-
-    lazy var positionSortedTokens =
-        allTokens.sorted{ $0.position.utf8Offset < $1.position.utf8Offset }
+    var allLines = [SCNNode]()
+    var resultInfo = SourceInfo()
 
     init(iterator: WordPositionIterator,
          wordNodeBuilder: WordNodeBuilder) {
@@ -63,11 +58,6 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
         return super.visit(node)
     }
-
-    override func visit(_ token: TokenSyntax) -> Syntax {
-        allTokens.append(token)
-        return super.visit(token)
-    }
 }
 
 // File loading
@@ -97,11 +87,12 @@ extension SwiftSyntaxParser {
     func renderNodes(_ fileUrl: URL) -> SourceInfo {
         guard let sourceFileSyntax = loadSourceUrl(fileUrl)
             else { return SourceInfo() }
+        resultInfo = SourceInfo()
 
         let rootSyntax = visit(sourceFileSyntax)
-        print("Rendering \(rootSyntax.id)")
+        print("Rendering \(fileUrl)})")
 
-        for token in allTokens {
+        for token in rootSyntax.tokens {
             iterateTrivia(token.leadingTrivia, token)
             arrange(token.text, token)
             iterateTrivia(token.trailingTrivia, token)
