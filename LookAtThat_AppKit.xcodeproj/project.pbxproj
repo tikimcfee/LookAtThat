@@ -14,8 +14,6 @@
 		F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		F00FC746250C53820092AFF9 /* WordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC743250C53820092AFF9 /* WordParser.swift */; };
 		F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC745250C53820092AFF9 /* WordNodes.swift */; };
-		F026C2F52516A5CC00436954 /* LeapObjectiveC.h in Sources */ = {isa = PBXBuildFile; fileRef = F09A52AD25169FD900F5082A /* LeapObjectiveC.h */; settings = {COMPILER_FLAGS = "-w"; }; };
-		F0287B9B2516A6EC008D633F /* libLeap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F09A52AF2516A00200F5082A /* libLeap.dylib */; };
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
@@ -29,10 +27,6 @@
 		F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */; };
 		F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
-		F09A52AE25169FD900F5082A /* LeapObjectiveC.mm in Sources */ = {isa = PBXBuildFile; fileRef = F09A52AC25169FD900F5082A /* LeapObjectiveC.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
-		F09A52B02516A00200F5082A /* libLeap.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = F09A52AF2516A00200F5082A /* libLeap.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		F09A52B52516A08B00F5082A /* LeapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52B42516A08B00F5082A /* LeapManager.swift */; };
-		F09A52B62516A1A400F5082A /* libLeap.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = F09A52AF2516A00200F5082A /* libLeap.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F09B4F1E25144BA6004110D8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */; };
 		F09B4F1F25145048004110D8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F09B4F222514511F004110D8 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F09B4F212514511F004110D8 /* SwiftSyntax */; };
@@ -55,7 +49,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F09A52B62516A1A400F5082A /* libLeap.dylib in CopyFiles */,
 				F09B4F1F25145048004110D8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,7 +59,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				F09A52B02516A00200F5082A /* libLeap.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,14 +89,6 @@
 		F092E5C025101B9200B18894 /* CustomAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimations.swift; sourceTree = "<group>"; };
 		F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSyntaxParser.swift; sourceTree = "<group>"; };
 		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
-		F09A52A925169FD800F5082A /* LookAtThat_AppKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LookAtThat_AppKit-Bridging-Header.h"; sourceTree = "<group>"; };
-		F09A52AA25169FD900F5082A /* Leap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leap.h; sourceTree = "<group>"; };
-		F09A52AB25169FD900F5082A /* LeapMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapMath.h; sourceTree = "<group>"; };
-		F09A52AC25169FD900F5082A /* LeapObjectiveC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LeapObjectiveC.mm; sourceTree = "<group>"; };
-		F09A52AD25169FD900F5082A /* LeapObjectiveC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeapObjectiveC.h; sourceTree = "<group>"; };
-		F09A52AF2516A00200F5082A /* libLeap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libLeap.dylib; sourceTree = "<group>"; };
-		F09A52B42516A08B00F5082A /* LeapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeapManager.swift; sourceTree = "<group>"; };
-		F09A52B72516A32700F5082A /* Leap.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = Leap.i; sourceTree = "<group>"; };
 		F09B4F20251450DF004110D8 /* swift-syntax */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "swift-syntax"; sourceTree = "<group>"; };
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitor.swift; sourceTree = "<group>"; };
@@ -125,7 +109,6 @@
 				F09B4F1E25144BA6004110D8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F0CA74462514021200978111 /* SwiftAST in Frameworks */,
 				F09B4F222514511F004110D8 /* SwiftSyntax in Frameworks */,
-				F0287B9B2516A6EC008D633F /* libLeap.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +147,6 @@
 				F0341048250C7D3700031147 /* Scenes */,
 				F00FC742250C53820092AFF9 /* Data */,
 				F00FC744250C53820092AFF9 /* DataVisualizers */,
-				F09A52B32516A07B00F5082A /* LeapController */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
 				F00FC731250C53460092AFF9 /* ContentView.swift */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
@@ -230,7 +212,6 @@
 		F075BE46251445FC00DEB06F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				F09A52A825169F9100F5082A /* LeapSDK */,
 				F09B4F20251450DF004110D8 /* swift-syntax */,
 				F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
@@ -282,28 +263,6 @@
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 			);
 			path = SwiftSyntax;
-			sourceTree = "<group>";
-		};
-		F09A52A825169F9100F5082A /* LeapSDK */ = {
-			isa = PBXGroup;
-			children = (
-				F09A52AF2516A00200F5082A /* libLeap.dylib */,
-				F09A52AA25169FD900F5082A /* Leap.h */,
-				F09A52B72516A32700F5082A /* Leap.i */,
-				F09A52AB25169FD900F5082A /* LeapMath.h */,
-				F09A52AD25169FD900F5082A /* LeapObjectiveC.h */,
-				F09A52AC25169FD900F5082A /* LeapObjectiveC.mm */,
-				F09A52A925169FD800F5082A /* LookAtThat_AppKit-Bridging-Header.h */,
-			);
-			path = LeapSDK;
-			sourceTree = "<group>";
-		};
-		F09A52B32516A07B00F5082A /* LeapController */ = {
-			isa = PBXGroup;
-			children = (
-				F09A52B42516A08B00F5082A /* LeapManager.swift */,
-			);
-			path = LeapController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F026C2F52516A5CC00436954 /* LeapObjectiveC.h in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
@@ -400,11 +358,9 @@
 				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F00FC732250C53460092AFF9 /* ContentView.swift in Sources */,
-				F09A52B52516A08B00F5082A /* LeapManager.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* MainSceneController+Source.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
-				F09A52AE25169FD900F5082A /* LeapObjectiveC.mm in Sources */,
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
@@ -579,7 +535,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LookAtThat_AppKit/Libraries/LeapSDK/LookAtThat_AppKit-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -613,7 +569,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LookAtThat_AppKit/Libraries/LeapSDK/LookAtThat_AppKit-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

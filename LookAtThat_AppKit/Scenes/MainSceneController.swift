@@ -66,7 +66,9 @@ class MainSceneController {
     lazy var sceneView: SCNView = makeSceneView()
     lazy var sceneCamera: SCNCamera = makeSceneCamera()
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
-    lazy var panGestureRecognizer = NSPanGestureRecognizer(target: self, action: #selector(pan(_:)))
+
+    lazy var panGestureRecognizer = NSPanGestureRecognizer(target: self, action: #selector(pan))
+    lazy var gestureRecognizer = NSGestureRecognizer(target: self, action: #selector(gestures))
 
     private lazy var setupWorkers = (0..<8).map { DispatchQueue(label: "Q\($0)", qos: .userInteractive) }
     private lazy var workerIterator = setupWorkers.makeIterator()
@@ -88,7 +90,8 @@ class MainSceneController {
         sceneView.backgroundColor = NSUIColor.gray
 
 //        sceneView.addGestureRecognizer(panGestureRecognizer)
-        sceneView.allowsCameraControl = true
+        sceneView.addGestureRecognizer(gestureRecognizer)
+//        sceneView.allowsCameraControl = true
 
         let ambientLightNode = SCNNode()
         ambientLightNode.light = SCNLight()
@@ -121,6 +124,9 @@ class MainSceneController {
         sceneView.scene = scene
     }
 
+    @objc func gestures(_ receiver: NSGestureRecognizer) {
+        print("Gesture state: \(receiver.state)")
+    }
 
     var originalCameraPosition: SCNVector3?
     @objc func pan(_ receiver: NSPanGestureRecognizer) {
