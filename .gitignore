@@ -1,1 +1,2 @@
-LookAtThat_AppKit/Libraries/*
+LookAtThat_AppKit/Libraries/**
+LookAtThat_AppKit/ExternalFiles/**
