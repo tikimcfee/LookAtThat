@@ -30,31 +30,6 @@ class SwiftSyntaxParser: SyntaxRewriter {
     }
 
     override func visit(_ functionDeclarationNode: FunctionDeclSyntax) -> DeclSyntax {
-//        print("---------------------------------------")
-//        print("Found a function: \(node.identifier)")
-//        print(
-//"""
-//\(node.attributes)
-//\(node.modifiers)
-//\(node.genericParameterClause)
-//\(node.signature)
-//\(node.genericWhereClause)
-//\(node.body?.statements.forEach{ print($0) })
-//"""
-//        )
-//        let functionText = node.tokens.reduce(into: "") { buffer, token in
-//            buffer.append(token.alltext)
-//        }
-//        print(functionText)
-
-
-
-//        for token in functionDeclarationNode.tokens {
-//            iterateTrivia(token.leadingTrivia, token)
-//            arrange(token.text, token)
-//            iterateTrivia(token.trailingTrivia, token)
-//        }
-
         return super.visit(functionDeclarationNode)
     }
 }
@@ -82,6 +57,7 @@ extension SwiftSyntaxParser {
     }
 }
 
+// Node building
 extension SwiftSyntaxParser {
     func renderNodes(_ fileUrl: URL) -> SourceInfo {
         guard let sourceFileSyntax = loadSourceUrl(fileUrl)
@@ -92,8 +68,8 @@ extension SwiftSyntaxParser {
         print("Rendering \(fileUrl)})")
 
         let codeSheet = CodeSheet()
-        codeSheet.lastLine.position =
-            codeSheet.lastLine.position.translated(dZ: nextZ - 100)
+        codeSheet.containerNode.position =
+            codeSheet.containerNode.position.translated(dZ: nextZ - 100)
 
         for token in rootSyntax.tokens {
             iterateTrivia(token.leadingTrivia, token, codeSheet)
@@ -101,11 +77,11 @@ extension SwiftSyntaxParser {
             iterateTrivia(token.trailingTrivia, token, codeSheet)
         }
 
+        codeSheet.sizePageToContainerNode()
+
         sceneTransaction {
-            for line in codeSheet.allLines {
-                MainSceneController.global.sceneState
-                    .rootGeometryNode.addChildNode(line)
-            }
+            MainSceneController.global.sceneState
+                .rootGeometryNode.addChildNode(codeSheet.containerNode)
         }
 
         return resultInfo
@@ -133,18 +109,46 @@ extension SwiftSyntaxParser {
 }
 
 class CodeSheet {
-    var allLines = [SCNNode]()
-    var iteratorY = WordPositionIterator()
-    var lastLine: SCNNode
-    init() {
-        lastLine = SCNNode()
-        lastLine.position = SCNVector3(-25, iteratorY.nextLineY(), -25)
-    }
+
+    lazy var sheetName = UUID().uuidString
+    lazy var allLines = [SCNNode]()
+    lazy var iteratorY = WordPositionIterator()
+
+    lazy var pageGeometry: SCNBox = {
+        let sheetGeometry = SCNBox()
+        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
+        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
+        return sheetGeometry
+    }()
+
+    lazy var pageGeometryNode = SCNNode()
+
+    lazy var containerNode: SCNNode = {
+        let container = SCNNode()
+        container.addChildNode(pageGeometryNode)
+        pageGeometryNode.geometry = pageGeometry
+        return container
+    }()
+
+    lazy var lastLine: SCNNode = {
+        // The scene geometry at the end is off by a line. This will probably be an issue at some point.
+        let line = SCNNode()
+        line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
+        containerNode.addChildNode(line)
+        return line
+    }()
 
     func newlines(_ count: Int) {
         for _ in 0..<count {
             setNewLine()
         }
+    }
+
+    func sizePageToContainerNode() {
+        pageGeometry.width = containerNode.lengthX
+        pageGeometry.height = containerNode.lengthY
+        pageGeometryNode.simdPosition.y = -Float(pageGeometry.height / 2)
+        pageGeometryNode.simdPosition.x = Float(pageGeometry.width / 2)
     }
 
     private func setNewLine() {
@@ -154,5 +158,16 @@ class CodeSheet {
         )
         allLines.append(newLine)
         lastLine = newLine
+        containerNode.addChildNode(newLine)
+    }
+}
+
+extension simd_float4x4 {
+    init(translation vector: SIMD3<Float>) {
+        self.init(SIMD4<Float>(1, 0, 0, 0),
+                  SIMD4<Float>(0, 1, 0, 0),
+                  SIMD4<Float>(0, 0, 1, 0),
+                  SIMD4<Float>(vector.x, vector.y, vector.z, 1)
+        )
     }
 }

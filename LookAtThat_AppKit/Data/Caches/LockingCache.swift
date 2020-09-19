@@ -59,7 +59,7 @@ class WordGeometryCache: LockingCache<Character, SizedText> {
         let (word, color) =
             key.isWhitespace
                 ? (" ",     NSUIColor.clear)
-                : ("\(key)", NSUIColor.blue) // SCNText doesn't like some Characters
+                : ("\(key)", NSUIColor.white) // SCNText doesn't like some Characters
 
         let textGeometry = SCNText(string: word, extrusionDepth: WORD_EXTRUSION_SIZE)
         textGeometry.font = kDefaultSCNTextFont

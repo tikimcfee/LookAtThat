@@ -28,6 +28,10 @@ public extension SCNNode {
         return boundingBox.max.x - boundingBox.min.x
     }
 
+    var lengthY: CGFloat {
+        return boundingBox.max.y - boundingBox.min.y
+    }
+
     func chainLinkTo(to target: SCNNode) {
         let distance = SCNDistanceConstraint(target: target)
         distance.maximumDistance = target.lengthX
