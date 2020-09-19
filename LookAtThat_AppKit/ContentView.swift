@@ -19,7 +19,9 @@ struct ContentView: View {
         return ZStack {
             HStack {
                 VStack {
-                    SceneKitView(sceneController: MainSceneController.global)
+                    MainSceneController.global.addDragGesture(
+                        to: SceneKitView(sceneController: MainSceneController.global)
+                    )
                     buttons
                 }.padding()
                 VStack {

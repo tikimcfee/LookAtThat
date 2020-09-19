@@ -530,7 +530,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/LeapSDK",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -564,7 +563,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/LeapSDK",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";

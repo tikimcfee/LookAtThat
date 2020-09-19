@@ -2,6 +2,72 @@ import Foundation
 import SwiftUI
 import SceneKit
 
+struct TouchState {
+    var selectedNode: SCNNode?
+    var touchZDepth = CGFloat(0)
+}
+
+extension NSEvent {
+
+}
+
+extension MainSceneController: TouchDelegate {
+
+    func addDragGesture(to view: SceneKitView) -> some View {
+        return view.gesture(
+            DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                .onChanged { value in
+                    print("Drag change: \(value.location)")
+                    print("Drag translation: \(value.translation.width), \(value.translation.height)")
+                }
+                .onEnded{ value in
+                    print("Drag end: \(value.location)")
+                }
+        )
+    }
+
+    func touchesBegan(with event: TouchEvent) {
+        
+//        guard let firstTouch = event.allTouches().first else { return }
+//
+//        let hitNodes = sceneView.hitTest(firstTouch.location(in: sceneView), options: nil)
+//        if let firstHit = hitNodes.first {
+//            touchState.selectedNode = firstHit.node
+//            touchState.touchZDepth = sceneView.projectPoint(firstHit.node.position).z
+//        }
+    }
+
+    func touchesMoved(with event: TouchEvent) {
+
+//        guard let firstTouch = event.allTouches().first,
+//              let selectedNode = touchState.selectedNode
+//            else { return }
+//
+//        let touchPoint = firstTouch.location(in: sceneView)
+//        sceneTransaction {
+//            selectedNode.position = self.sceneView.unprojectPoint(
+//                SCNVector3(
+//                    x: touchPoint.x,
+//                    y: touchPoint.y,
+//                    z: touchState.touchZDepth
+//                )
+//            )
+//        }
+    }
+
+    func touchesEnded(with event: TouchEvent) {
+//        guard let firstTouch = event.allTouches().first else { return }
+
+        touchState.selectedNode = nil
+    }
+
+    func touchesCancelled(with event: TouchEvent) {
+//        guard let firstTouch = event.allTouches().first else { return }
+
+        touchState.selectedNode = nil
+    }
+}
+
 extension MainSceneController {
     func makeScene() -> SCNScene {
         let scene = SCNScene()
@@ -68,7 +134,7 @@ class MainSceneController {
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
 
     lazy var panGestureRecognizer = NSPanGestureRecognizer(target: self, action: #selector(pan))
-    lazy var gestureRecognizer = NSGestureRecognizer(target: self, action: #selector(gestures))
+    lazy var touchState = TouchState()
 
     private lazy var setupWorkers = (0..<8).map { DispatchQueue(label: "Q\($0)", qos: .userInteractive) }
     private lazy var workerIterator = setupWorkers.makeIterator()
@@ -90,7 +156,6 @@ class MainSceneController {
         sceneView.backgroundColor = NSUIColor.gray
 
 //        sceneView.addGestureRecognizer(panGestureRecognizer)
-        sceneView.addGestureRecognizer(gestureRecognizer)
 //        sceneView.allowsCameraControl = true
 
         let ambientLightNode = SCNNode()
@@ -122,10 +187,6 @@ class MainSceneController {
          Hope real hard
         */
         sceneView.scene = scene
-    }
-
-    @objc func gestures(_ receiver: NSGestureRecognizer) {
-        print("Gesture state: \(receiver.state)")
     }
 
     var originalCameraPosition: SCNVector3?

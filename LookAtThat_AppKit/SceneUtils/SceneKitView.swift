@@ -1,5 +1,14 @@
 import SceneKit
 import Foundation
+import SwiftUI
+
+typealias TouchEvent = DragGesture.Value
+protocol TouchDelegate {
+    func touchesBegan(with event: TouchEvent)
+    func touchesMoved(with event: TouchEvent)
+    func touchesEnded(with event: TouchEvent)
+    func touchesCancelled(with event: TouchEvent)
+}
 
 public struct SceneKitView: NSUIRepresentable {
 
@@ -15,7 +24,6 @@ public struct SceneKitView: NSUIRepresentable {
     }
     #elseif os(iOS)
     public func makeUIView(context: NSUIPreview) -> SCNView {
-        sceneController.sceneView.backgroundColor = NSUIColor.gray
         return sceneController.sceneView
     }
 
