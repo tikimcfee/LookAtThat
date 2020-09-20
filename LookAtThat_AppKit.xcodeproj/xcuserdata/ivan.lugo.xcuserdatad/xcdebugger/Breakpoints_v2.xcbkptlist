@@ -31,16 +31,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A93DAF06-863C-4A6C-B0A5-67936F3B4722"
-            shouldBeEnabled = "Yes"
+            uuid = "7C7C6253-92E6-4268-B7BD-7A7FD7DA451F"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LookAtThat_AppKit/Scenes/MainSceneController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "touchesBegan(with:)"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "pan(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -126,6 +126,7 @@ class CodeSheet {
     lazy var containerNode: SCNNode = {
         let container = SCNNode()
         container.addChildNode(pageGeometryNode)
+        pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
         return container
     }()

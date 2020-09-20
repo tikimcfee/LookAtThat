@@ -2,14 +2,6 @@ import SceneKit
 import Foundation
 import SwiftUI
 
-typealias TouchEvent = DragGesture.Value
-protocol TouchDelegate {
-    func touchesBegan(with event: TouchEvent)
-    func touchesMoved(with event: TouchEvent)
-    func touchesEnded(with event: TouchEvent)
-    func touchesCancelled(with event: TouchEvent)
-}
-
 public struct SceneKitView: NSUIRepresentable {
 
     let sceneController: MainSceneController

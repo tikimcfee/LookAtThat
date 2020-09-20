@@ -2,69 +2,86 @@ import Foundation
 import SwiftUI
 import SceneKit
 
+struct HitTestType  {
+    static let codeSheet: Int = 0x1 << 1
+}
+
+
 struct TouchState {
-    var selectedNode: SCNNode?
+
     var touchZDepth = CGFloat(0)
-}
+    var selectedNode: SCNNode?
+    var selectedNodeStartPosition = SCNVector3Zero
 
-extension NSEvent {
-
-}
-
-extension MainSceneController: TouchDelegate {
-
-    func addDragGesture(to view: SceneKitView) -> some View {
-        return view.gesture(
-            DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                .onChanged { value in
-                    print("Drag change: \(value.location)")
-                    print("Drag translation: \(value.translation.width), \(value.translation.height)")
-                }
-                .onEnded{ value in
-                    print("Drag end: \(value.location)")
-                }
-        )
-    }
-
-    func touchesBegan(with event: TouchEvent) {
-        
-//        guard let firstTouch = event.allTouches().first else { return }
+//    var touchNodeStart = SCNVector3Zero
+//    var touchNode: SCNNode = {
+//        let node = SCNNode()
+//        node.geometry = SCNSphere(radius: 3.0)
+//        node.geometry?.firstMaterial?.diffuse.contents = NSUIColor.blue
 //
-//        let hitNodes = sceneView.hitTest(firstTouch.location(in: sceneView), options: nil)
-//        if let firstHit = hitNodes.first {
-//            touchState.selectedNode = firstHit.node
-//            touchState.touchZDepth = sceneView.projectPoint(firstHit.node.position).z
-//        }
-    }
-
-    func touchesMoved(with event: TouchEvent) {
-
-//        guard let firstTouch = event.allTouches().first,
-//              let selectedNode = touchState.selectedNode
-//            else { return }
-//
-//        let touchPoint = firstTouch.location(in: sceneView)
 //        sceneTransaction {
-//            selectedNode.position = self.sceneView.unprojectPoint(
-//                SCNVector3(
-//                    x: touchPoint.x,
-//                    y: touchPoint.y,
-//                    z: touchState.touchZDepth
-//                )
-//            )
+//            MainSceneController.global.sceneState.rootGeometryNode.addChildNode(node)
 //        }
+//
+//        return node
+//    }()
+}
+
+typealias TouchEvent = DragGesture.Value
+
+extension MainSceneController {
+    func attachPanRecognizer() {
+        sceneView.addGestureRecognizer(panGestureRecognizer)
     }
 
-    func touchesEnded(with event: TouchEvent) {
-//        guard let firstTouch = event.allTouches().first else { return }
+    @objc func pan(_ receiver: NSPanGestureRecognizer) {
+        // TODO: add a roller ball or something
+        if receiver.state == .began {
+            let location = receiver.location(in: sceneView)
+            let hitTestResults = sceneView.hitTest(
+                location,
+                options: [
+//                    SCNHitTestOption.boundingBoxOnly: true,
+//                    SCNHitTestOption.backFaceCulling: true,
+//                    SCNHitTestOption.clipToZRange: true,
+                    SCNHitTestOption.categoryBitMask: HitTestType.codeSheet,
+                    SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
+                ]
+            )
 
-        touchState.selectedNode = nil
-    }
+            guard let firstResult = hitTestResults.first,
+                  let pageParent = firstResult.node.parent else {
+                return
+            }
 
-    func touchesCancelled(with event: TouchEvent) {
-//        guard let firstTouch = event.allTouches().first else { return }
+            print("Found a node: \(pageParent)")
+            let selectedNode = pageParent
+            touchState.selectedNode = selectedNode
+            touchState.touchZDepth = sceneView.projectPoint(selectedNode.position).z
+            touchState.selectedNodeStartPosition = selectedNode.position
 
-        touchState.selectedNode = nil
+        } else if receiver.state == .ended {
+            print("-- Ended pan")
+            touchState.selectedNode = nil
+        } else {
+            guard let selectedNode = touchState.selectedNode
+                else { return }
+            let location = receiver.location(in: sceneView)
+            sceneTransaction {
+                let unprojectedPoint = self.sceneView.unprojectPoint(
+                    SCNVector3(
+                        x: location.x,
+                        y: location.y,
+                        z: touchState.touchZDepth
+                    )
+                )
+                selectedNode.position =
+                    touchState.selectedNodeStartPosition.translated(
+                        dX: unprojectedPoint.x - touchState.selectedNodeStartPosition.x,
+                        dY: unprojectedPoint.y - touchState.selectedNodeStartPosition.y
+                    )
+            }
+        }
     }
 }
 
@@ -155,7 +172,7 @@ class MainSceneController {
     private func setupScene() {
         sceneView.backgroundColor = NSUIColor.gray
 
-//        sceneView.addGestureRecognizer(panGestureRecognizer)
+        attachPanRecognizer()
 //        sceneView.allowsCameraControl = true
 
         let ambientLightNode = SCNNode()
@@ -187,26 +204,6 @@ class MainSceneController {
          Hope real hard
         */
         sceneView.scene = scene
-    }
-
-    var originalCameraPosition: SCNVector3?
-    @objc func pan(_ receiver: NSPanGestureRecognizer) {
-        // TODO: add a roller ball or something
-        if receiver.state == .began {
-            originalCameraPosition = sceneCameraNode.position
-        } else if receiver.state == .ended {
-            originalCameraPosition = nil
-        }
-        guard let originalCameraPosition
-                = originalCameraPosition
-        else { return }
-
-        let translation = receiver.translation(in: sceneView)
-        sceneTransaction {
-            self.sceneCameraNode.constraints = nil
-            self.sceneCameraNode.position =
-                originalCameraPosition.translated(dX: translation.x, dY: translation.y)
-        }
     }
 }
 
