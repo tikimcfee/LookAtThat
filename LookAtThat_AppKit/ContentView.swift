@@ -70,12 +70,17 @@ struct SourceInfoGrid: View {
 
                 identifiers(named: "Extensions",
                             with: info.extensions.map.map{ $0.key })
+
+                List {
+                    identifiers(named: "All Identifiers",
+                                with: info.allTokens.map.map{ $0.key })
+                }
             }
 //                grid(for: stringSlices).frame(height: 256)
 //                grid(for: identifierSlices).frame(height: 256)
         }
         .padding(8)
-        .frame(width: 256, alignment: .leading)
+        .frame(width: 296, alignment: .leading)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
