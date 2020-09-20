@@ -82,9 +82,9 @@ struct TouchState {
 struct TouchStart {
     var gesturePoint = CGPoint()
     var positioningNode = SCNNode()
-
     var positioningNodeStart = SCNVector3Zero
     var positioningNodeEulers = SCNVector3Zero
+
     var projectionDepthPosition = SCNVector3Zero
     var computedStartUnprojection = SCNVector3Zero
 
