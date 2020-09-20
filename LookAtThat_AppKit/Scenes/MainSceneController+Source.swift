@@ -58,10 +58,7 @@ extension MainSceneController {
     }
 
     func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
-        let nodes = SwiftSyntaxParser(
-            iterator: iteratorY,
-            wordNodeBuilder: wordNodeBuilder
-        )
+        let nodes = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
         nodes.requestSourceFile { fileUrl in
             self.sceneControllerQueue.async {
                 // todo: make a presenter or something oof
@@ -71,6 +68,21 @@ extension MainSceneController {
         }
 
     }
+
+    func renderDirectory(_ handler: @escaping (SourceInfo) -> Void) {
+        let nodes = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
+        nodes.requestSourceDirectory{ directory in
+            self.sceneControllerQueue.async {
+                // todo: make a presenter or something oof
+                for url in directory.swiftUrls {
+                    let sourceInfo = nodes.renderNodes(url)
+                    handler(sourceInfo)
+                }
+            }
+        }
+
+    }
+
 
     private func customRender() {
         wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"

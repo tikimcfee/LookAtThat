@@ -153,9 +153,6 @@ class WordPositionIterator {
 class SceneState {
     // Geometry
     var rootGeometryNode: SCNNode = SCNNode()
-
-    // Gestures
-    var currentAngle: Float = 0.0
 }
 
 enum SceneControllerError: Error, Identifiable {

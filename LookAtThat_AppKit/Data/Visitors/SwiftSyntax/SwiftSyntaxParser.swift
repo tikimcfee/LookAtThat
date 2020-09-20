@@ -23,8 +23,7 @@ class SwiftSyntaxParser: SyntaxRewriter {
     var textNodeBuilder: WordNodeBuilder
     var resultInfo = SourceInfo()
 
-    init(iterator: WordPositionIterator,
-         wordNodeBuilder: WordNodeBuilder) {
+    init(wordNodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = wordNodeBuilder
         super.init()
     }
@@ -36,6 +35,17 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
 // File loading
 extension SwiftSyntaxParser {
+    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+        openDirectory { directoryResult in
+            switch directoryResult {
+            case let .success(directory):
+                receiver(directory)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+
     func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
         openFile { fileReslt in
             switch fileReslt {

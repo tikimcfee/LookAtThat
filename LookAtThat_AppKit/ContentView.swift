@@ -147,11 +147,20 @@ struct TestButtons_Source: View {
             Button(action: renderSource) {
                 Text("Load source")
             }
+            Button(action: renderDirectory) {
+                Text("Load directory")
+            }
         }
     }
 
     private func renderSource() {
         MainSceneController.global.renderSyntax { info in
+            sourceInfo = info
+        }
+    }
+
+    private func renderDirectory() {
+        MainSceneController.global.renderDirectory { info in
             sourceInfo = info
         }
     }
