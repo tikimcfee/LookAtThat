@@ -9,13 +9,24 @@ func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.unlock()
 }
 
-func sceneTransaction(_ operation: () -> Void) {
+func sceneTransaction(_ duration: Int? = nil, _ operation: () -> Void, ) {
     SCNTransaction.begin()
+    SCNTransaction.animationDuration =
+        duration.map{ CFTimeInterval($0) }
+            ?? SCNTransaction.animationDuration
     operation()
     SCNTransaction.commit()
 }
 
 public extension SCNGeometry {
+    var lengthX: CGFloat { return boundingBox.max.x - boundingBox.min.x }
+    var lengthY: CGFloat { return boundingBox.max.y - boundingBox.min.y }
+    var lengthZ: CGFloat { return boundingBox.max.z - boundingBox.min.z }
+    var centerX: CGFloat { return lengthX / 2 }
+    var centerY: CGFloat { return lengthY / 2 }
+    var centerZ: CGFloat { return lengthZ / 2 }
+    var centerPosition: SCNVector3 { return SCNVector3(x: centerX, y: centerY, z: centerZ) }
+
     func deepCopy() -> SCNGeometry {
         let clone = copy() as! SCNGeometry
         clone.materials = materials.map{ $0.copy() as! SCNMaterial }

@@ -6,28 +6,51 @@ struct HitTestType  {
     static let codeSheet: Int = 0x1 << 1
 }
 
-
 struct TouchState {
-
-    var touchZDepth = CGFloat(0)
-    var selectedNode: SCNNode?
-    var selectedNodeStartPosition = SCNVector3Zero
-
-//    var touchNodeStart = SCNVector3Zero
-//    var touchNode: SCNNode = {
-//        let node = SCNNode()
-//        node.geometry = SCNSphere(radius: 3.0)
-//        node.geometry?.firstMaterial?.diffuse.contents = NSUIColor.blue
-//
-//        sceneTransaction {
-//            MainSceneController.global.sceneState.rootGeometryNode.addChildNode(node)
-//        }
-//
-//        return node
-//    }()
+    var start = TouchStart()
 }
 
-typealias TouchEvent = DragGesture.Value
+struct TouchStart {
+    var gesturePoint = CGPoint()
+    var positioningNode = SCNNode()
+    var positioningNodeStart = SCNVector3Zero
+    var projectionDepthPosition = SCNVector3Zero
+
+    func computedEndUnprojection(with location: CGPoint, in scene: SCNView) -> SCNVector3 {
+        return scene.unprojectPoint(
+            SCNVector3(
+                x: location.x,
+                y: location.y,
+                z: projectionDepthPosition.z
+            )
+        )
+    }
+
+    func computedStartUnprojection(in scene: SCNView) -> SCNVector3 {
+        return scene.unprojectPoint(
+            SCNVector3(
+                x: gesturePoint.x,
+                y: gesturePoint.y,
+                z: projectionDepthPosition.z
+            )
+        )
+    }
+}
+
+extension SCNView {
+    func hitTestCodeSheet(with location: CGPoint) -> [SCNHitTestResult] {
+        return hitTest(
+            location,
+            options: [
+                SCNHitTestOption.boundingBoxOnly: true,
+                SCNHitTestOption.backFaceCulling: true,
+                SCNHitTestOption.clipToZRange: true,
+                SCNHitTestOption.categoryBitMask: HitTestType.codeSheet,
+                SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
+            ]
+        )
+    }
+}
 
 extension MainSceneController {
     func attachPanRecognizer() {
@@ -37,50 +60,34 @@ extension MainSceneController {
     @objc func pan(_ receiver: NSPanGestureRecognizer) {
         // TODO: add a roller ball or something
         if receiver.state == .began {
-            let location = receiver.location(in: sceneView)
-            let hitTestResults = sceneView.hitTest(
-                location,
-                options: [
-//                    SCNHitTestOption.boundingBoxOnly: true,
-//                    SCNHitTestOption.backFaceCulling: true,
-//                    SCNHitTestOption.clipToZRange: true,
-                    SCNHitTestOption.categoryBitMask: HitTestType.codeSheet,
-                    SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
-                ]
-            )
-
+            let touchStartLocation = receiver.location(in: sceneView)
+            let hitTestResults = sceneView.hitTestCodeSheet(with: touchStartLocation)
             guard let firstResult = hitTestResults.first,
-                  let pageParent = firstResult.node.parent else {
+                  let positioningNode = firstResult.node.parent else {
                 return
             }
+            print("Found a node: \(positioningNode)")
+            touchState.start.gesturePoint = touchStartLocation
+            touchState.start.positioningNode = positioningNode
+            touchState.start.positioningNodeStart = positioningNode.position
+            touchState.start.projectionDepthPosition = sceneView.projectPoint(positioningNode.position)
 
-            print("Found a node: \(pageParent)")
-            let selectedNode = pageParent
-            touchState.selectedNode = selectedNode
-            touchState.touchZDepth = sceneView.projectPoint(selectedNode.position).z
-            touchState.selectedNodeStartPosition = selectedNode.position
-
-        } else if receiver.state == .ended {
-            print("-- Ended pan")
-            touchState.selectedNode = nil
-        } else {
-            guard let selectedNode = touchState.selectedNode
-                else { return }
-            let location = receiver.location(in: sceneView)
-            sceneTransaction {
-                let unprojectedPoint = self.sceneView.unprojectPoint(
-                    SCNVector3(
-                        x: location.x,
-                        y: location.y,
-                        z: touchState.touchZDepth
-                    )
-                )
-                selectedNode.position =
-                    touchState.selectedNodeStartPosition.translated(
-                        dX: unprojectedPoint.x - touchState.selectedNodeStartPosition.x,
-                        dY: unprojectedPoint.y - touchState.selectedNodeStartPosition.y
-                    )
+        } else if receiver.state == .changed {
+            let touchEndLocation = receiver.location(in: sceneView)
+            let endUnprojectedPosition =
+                touchState.start.computedEndUnprojection(with: touchEndLocation, in: sceneView)
+            let startUnprojectedPosition =
+                touchState.start.computedStartUnprojection(in: sceneView)
+            let dX = endUnprojectedPosition.x - startUnprojectedPosition.x
+            let dY = endUnprojectedPosition.y - startUnprojectedPosition.y
+            sceneTransaction(0) {
+                touchState.start.positioningNode.position =
+                    touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
             }
+
+        } else {
+            print("-- Ended pan")
+            touchState.start = TouchStart()
         }
     }
 }
