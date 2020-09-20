@@ -63,12 +63,37 @@ extension SCNView {
     }
 }
 
+class ModifiersPanGestureRecognizer: PanGestureRecognizer {
+    var modifierFlags = NSEvent.ModifierFlags()
+    var pressingOption: Bool {
+        modifierFlags.contains(.option)
+    }
+
+    override func flagsChanged(with event: NSEvent) {
+        super.flagsChanged(with: event)
+        modifierFlags = event.modifierFlags
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        modifierFlags = event.modifierFlags
+    }
+}
+
 extension MainSceneController {
     func attachPanRecognizer() {
         sceneView.addGestureRecognizer(panGestureRecognizer)
     }
 
-    @objc func pan(_ receiver: NSPanGestureRecognizer) {
+    func onKeyDown(_ event: NSEvent) {
+        print("Pressed: \(event.keyCode)")
+    }
+
+    func onKeyUp(_ event: NSEvent) {
+        print("End: \(event.keyCode)")
+    }
+
+    @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
         // TODO: add a roller ball or something
         if receiver.state == .began {
             let touchStartLocation = receiver.location(in: sceneView)
@@ -85,8 +110,8 @@ extension MainSceneController {
             touchState.start.computeStartUnprojection(in: sceneView)
 
         } else if receiver.state == .changed {
-            switch touchState.action {
-            case .pan:
+            switch receiver.pressingOption {
+            case false:
                 let touchEndLocation = receiver.location(in: sceneView)
                 let endUnprojectedPosition = touchState.start.computedEndUnprojection(with: touchEndLocation, in: sceneView)
                 let dX = endUnprojectedPosition.x - touchState.start.computedStartUnprojection.x
@@ -96,7 +121,7 @@ extension MainSceneController {
                     touchState.start.positioningNode.position =
                         touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
                 }
-            case .rotate:
+            case true:
                 let translation = receiver.translation(in: sceneView)
                 var newAngleY = translation.x * CGFloat(Double.pi/180.0)
                 var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
@@ -185,7 +210,7 @@ class MainSceneController {
     lazy var sceneCamera: SCNCamera = makeSceneCamera()
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
 
-    lazy var panGestureRecognizer = NSPanGestureRecognizer(target: self, action: #selector(pan))
+    lazy var panGestureRecognizer = ModifiersPanGestureRecognizer(target: self, action: #selector(pan))
     lazy var touchState = TouchState()
 
     private lazy var setupWorkers = (0..<8).map { DispatchQueue(label: "Q\($0)", qos: .userInteractive) }
