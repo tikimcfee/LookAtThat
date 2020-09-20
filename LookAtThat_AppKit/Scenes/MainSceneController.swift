@@ -94,16 +94,16 @@ extension MainSceneController {
     }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
-        // TODO: add a roller ball or something
+        let currentTouchLocation = receiver.location(in: sceneView)
+
         if receiver.state == .began {
-            let touchStartLocation = receiver.location(in: sceneView)
-            let hitTestResults = sceneView.hitTestCodeSheet(with: touchStartLocation)
+            let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
             guard let firstResult = hitTestResults.first,
                   let positioningNode = firstResult.node.parent else {
                 return
             }
             print("Found a node: \(positioningNode)")
-            touchState.start.gesturePoint = touchStartLocation
+            touchState.start.gesturePoint = currentTouchLocation
             touchState.start.positioningNode = positioningNode
             touchState.start.positioningNodeStart = positioningNode.position
             touchState.start.projectionDepthPosition = sceneView.projectPoint(positioningNode.position)
@@ -121,12 +121,18 @@ extension MainSceneController {
                     touchState.start.positioningNode.position =
                         touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
                 }
+
             case true:
                 let translation = receiver.translation(in: sceneView)
                 var newAngleY = translation.x * CGFloat(Double.pi/180.0)
                 var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
                 newAngleY += touchState.start.currentRotationY
                 newAngleX += touchState.start.currentRotationX
+
+                touchState.start.gesturePoint = currentTouchLocation
+                touchState.start.positioningNodeStart = touchState.start.positioningNode.position
+                touchState.start.projectionDepthPosition = sceneView.projectPoint(touchState.start.positioningNode.position)
+                touchState.start.computeStartUnprojection(in: sceneView)
 
                 sceneTransaction(0) {
                     touchState.start.positioningNode.eulerAngles.y = newAngleY

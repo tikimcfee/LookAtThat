@@ -148,8 +148,13 @@ class CodeSheet {
     func sizePageToContainerNode() {
         pageGeometry.width = containerNode.lengthX
         pageGeometry.height = containerNode.lengthY
-        pageGeometryNode.simdPosition.y = -Float(pageGeometry.height / 2)
-        pageGeometryNode.simdPosition.x = Float(pageGeometry.width / 2)
+        pageGeometryNode.position.y = -pageGeometry.height / 2
+        pageGeometryNode.position.x = pageGeometry.width / 2
+        containerNode.pivot = SCNMatrix4MakeTranslation(CGFloat(pageGeometry.width / 2.0),
+                                                        -CGFloat(pageGeometry.height / 2.0),
+                                                        0);
+//        pageGeometryNode.simdPosition.y = -Float(pageGeometry.height / 2)
+//        pageGeometryNode.simdPosition.x = Float(pageGeometry.width / 2)
     }
 
     private func setNewLine() {
