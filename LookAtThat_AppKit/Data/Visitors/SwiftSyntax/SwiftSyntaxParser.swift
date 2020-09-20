@@ -9,6 +9,8 @@ public struct SourceInfo {
     var strings = Set<String>()
     var numbers = Set<String>()
 
+    var functions = Set<String>()
+
     var allTokens = AutoListValueDict<String, String>()
     var sortedTokens: [(String, [String])] {
         return allTokens.map.sorted { leftPair, rightPair in
@@ -30,40 +32,6 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
     override func visit(_ functionDeclarationNode: FunctionDeclSyntax) -> DeclSyntax {
         return super.visit(functionDeclarationNode)
-    }
-}
-
-// File loading
-extension SwiftSyntaxParser {
-    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
-        openDirectory { directoryResult in
-            switch directoryResult {
-            case let .success(directory):
-                receiver(directory)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
-        openFile { fileReslt in
-            switch fileReslt {
-            case let .success(url):
-                receiver(url)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
-        do {
-            return try SyntaxParser.parse(url)
-        } catch {
-            print("|\(url)| failed to load > \(error)")
-            return nil
-        }
     }
 }
 
@@ -109,9 +77,18 @@ extension SwiftSyntaxParser {
                                _ token: TokenSyntax,
                                _ codeSheet: CodeSheet) {
         for triviaPiece in trivia {
-            if case TriviaPiece.newlines(let count) = triviaPiece {
+            switch triviaPiece {
+            case let .newlines(count):
                 codeSheet.newlines(count)
-            } else {
+            case let .blockComment(comment),
+                 let .docBlockComment(comment):
+                comment
+                    .split(whereSeparator: { $0.isNewline })
+                    .forEach{
+                        arrange(String($0), token, codeSheet)
+                        codeSheet.newlines(1)
+                    }
+            default:
                 arrange(triviaPiece.stringify, token, codeSheet)
             }
         }
@@ -158,13 +135,11 @@ class CodeSheet {
     func sizePageToContainerNode() {
         pageGeometry.width = containerNode.lengthX
         pageGeometry.height = containerNode.lengthY
-        pageGeometryNode.position.y = -pageGeometry.height / 2
-        pageGeometryNode.position.x = pageGeometry.width / 2
-        containerNode.pivot = SCNMatrix4MakeTranslation(CGFloat(pageGeometry.width / 2.0),
-                                                        -CGFloat(pageGeometry.height / 2.0),
-                                                        0);
-//        pageGeometryNode.simdPosition.y = -Float(pageGeometry.height / 2)
-//        pageGeometryNode.simdPosition.x = Float(pageGeometry.width / 2)
+        let centerY = -pageGeometry.height / 2
+        let centerX = pageGeometry.width / 2
+        pageGeometryNode.position.y = centerY
+        pageGeometryNode.position.x = centerX
+        containerNode.pivot = SCNMatrix4MakeTranslation(centerX, centerY, 0);
     }
 
     private func setNewLine() {
@@ -178,12 +153,36 @@ class CodeSheet {
     }
 }
 
-extension simd_float4x4 {
-    init(translation vector: SIMD3<Float>) {
-        self.init(SIMD4<Float>(1, 0, 0, 0),
-                  SIMD4<Float>(0, 1, 0, 0),
-                  SIMD4<Float>(0, 0, 1, 0),
-                  SIMD4<Float>(vector.x, vector.y, vector.z, 1)
-        )
+// File loading
+extension SwiftSyntaxParser {
+    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+        openDirectory { directoryResult in
+            switch directoryResult {
+            case let .success(directory):
+                receiver(directory)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+
+    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
+        openFile { fileReslt in
+            switch fileReslt {
+            case let .success(url):
+                receiver(url)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+
+    func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
+        do {
+            return try SyntaxParser.parse(url)
+        } catch {
+            print("|\(url)| failed to load > \(error)")
+            return nil
+        }
     }
 }
