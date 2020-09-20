@@ -59,28 +59,38 @@ struct SourceInfoGrid: View {
 //                .slices(sliceSize: 5)
         return VStack(alignment: .leading) {
             if let info = sourceInfo {
-                Text("Function Declarations").underline()
-                ForEach(info.functions.map.map{ $0.key }, id:\.self) { name in
-                    Text(name)
-                        .frame(minWidth: 128, alignment: .leading)
-                        .padding(4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.gray)
-                        )
-                        .onTapGesture {
-                            selected(name: name)
-                        }
-                }
+                identifiers(named: "Function Declarations",
+                            with: info.functions.map.map{ $0.key })
+                identifiers(named: "Field Declarations",
+                            with: info.functions.map.map{ $0.key })
             }
 //                grid(for: stringSlices).frame(height: 256)
 //                grid(for: identifierSlices).frame(height: 256)
-        }.frame(width: 256)
-        .padding(4)
+        }
+        .padding(8)
+        .frame(width: 256, alignment: .leading)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
         )
+    }
+
+    @ViewBuilder
+    func identifiers(named: String, with names: [String]) -> some View {
+        Text(named).underline().padding(.top, 8)
+        ForEach(names, id:\.self) { name in
+            Text(name)
+                .frame(minWidth: 232, alignment: .leading)
+                .padding(4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color.gray)
+                )
+                .onTapGesture {
+                    selected(name: name)
+                }
+                .padding(.vertical, 4)
+        }
     }
 
     func grid(for stringSlices: [ArraySlice<String>]) -> some View {
@@ -210,9 +220,33 @@ struct TestButtons_Dictionary: View {
 }
 
 #if DEBUG
+import SwiftSyntax
 struct ContentView_Previews: PreviewProvider {
+    static var sourceInfo = WrappedBinding<SourceInfo?>(
+        {
+            let info = SourceInfo()
+            info.functions["append"].append(FunctionDeclSyntax.init({ _ in }))
+            info.functions["slice"].append(FunctionDeclSyntax.init({ _ in }))
+            info.functions["add"].append(FunctionDeclSyntax.init({ _ in }))
+            info.functions["multiple"].append(FunctionDeclSyntax.init({ _ in }))
+
+            return info
+        }()
+    )
+
     static var previews: some View {
-        ContentView()
+        SourceInfoGrid(sourceInfo: sourceInfo.binding)
     }
 }
 #endif
+
+public class WrappedBinding<Value> {
+    private var current: Value
+    init(_ start: Value) {
+        self.current = start
+    }
+    lazy var binding = Binding<Value>(
+        get: { return self.current },
+        set: { (val: Value) in self.current = val }
+    )
+}
