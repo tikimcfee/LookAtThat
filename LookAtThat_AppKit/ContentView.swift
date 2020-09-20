@@ -61,8 +61,15 @@ struct SourceInfoGrid: View {
             if let info = sourceInfo {
                 identifiers(named: "Function Declarations",
                             with: info.functions.map.map{ $0.key })
-                identifiers(named: "Field Declarations",
-                            with: info.functions.map.map{ $0.key })
+
+                identifiers(named: "Enum Declarations",
+                            with: info.enums.map.map{ $0.key })
+
+                identifiers(named: "Closures",
+                            with: info.closures.map.map{ $0.key })
+
+                identifiers(named: "Extensions",
+                            with: info.extensions.map.map{ $0.key })
             }
 //                grid(for: stringSlices).frame(height: 256)
 //                grid(for: identifierSlices).frame(height: 256)

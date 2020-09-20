@@ -10,6 +10,10 @@ public struct SourceInfo {
     var numbers = Set<String>()
 
     var functions = AutoListValueDict<String, FunctionDeclSyntax>()
+    var enums = AutoListValueDict<String, EnumDeclSyntax>()
+    var closures = AutoListValueDict<String, ClosureExprSyntax>()
+    var extensions = AutoListValueDict<String, ExtensionDeclSyntax>()
+    var structs = AutoListValueDict<String, StructDeclSyntax>()
 
     var allTokens = AutoListValueDict<String, String>()
     var sortedTokens: [(String, [String])] {
@@ -30,9 +34,29 @@ class SwiftSyntaxParser: SyntaxRewriter {
         super.init()
     }
 
-    override func visit(_ functionDeclarationNode: FunctionDeclSyntax) -> DeclSyntax {
-        resultInfo.functions[functionDeclarationNode.identifier.alltext].append(functionDeclarationNode)
-        return super.visit(functionDeclarationNode)
+    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+        resultInfo.functions[node.identifier.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
+        resultInfo.enums[node.identifier.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
+        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
+        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
+        resultInfo.structs[node.identifier.alltext].append(node)
+        return super.visit(node)
     }
 }
 
