@@ -12,6 +12,7 @@ enum TouchAction {
 }
 
 struct TouchState {
+    var valid: Bool = false
     var action = TouchAction.pan
     var start = TouchStart()
 }
@@ -21,11 +22,9 @@ struct TouchStart {
     var positioningNode = SCNNode()
 
     var positioningNodeStart = SCNVector3Zero
+    var positioningNodeEulers = SCNVector3Zero
     var projectionDepthPosition = SCNVector3Zero
     var computedStartUnprojection = SCNVector3Zero
-
-    var currentRotationY = CGFloat(0)
-    var currentRotationX = CGFloat(0)
 
     mutating func computeStartUnprojection(in scene: SCNView) {
         computedStartUnprojection = scene.unprojectPoint(
@@ -63,34 +62,53 @@ extension SCNView {
     }
 }
 
+extension NSEvent.ModifierFlags: Hashable {
+    public var hashValue: Int {
+        return rawValue.hashValue
+    }
+}
+
 class ModifiersPanGestureRecognizer: PanGestureRecognizer {
     var modifierFlags = NSEvent.ModifierFlags()
+
+    var positionsForFlagChanges = [NSEvent.ModifierFlags: CGPoint]()
+    var currentLocation: CGPoint { return location(in: view!) }
+
     var pressingOption: Bool {
         modifierFlags.contains(.option)
+    }
+
+    var pressingCommand: Bool {
+        modifierFlags.contains(.command)
     }
 
     override func flagsChanged(with event: NSEvent) {
         super.flagsChanged(with: event)
         modifierFlags = event.modifierFlags
+        computePositions()
     }
 
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         modifierFlags = event.modifierFlags
+        computePositions()
+    }
+
+    func computePositions() {
+        let currentLocation = location(in: view!)
+        positionsForFlagChanges[.option] = pressingOption ? currentLocation : nil
+        positionsForFlagChanges[.command] = pressingCommand ? currentLocation : nil
+    }
+
+    subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
+        return positionsForFlagChanges[index]
     }
 }
 
 extension MainSceneController {
     func attachPanRecognizer() {
         sceneView.addGestureRecognizer(panGestureRecognizer)
-    }
 
-    func onKeyDown(_ event: NSEvent) {
-        print("Pressed: \(event.keyCode)")
-    }
-
-    func onKeyUp(_ event: NSEvent) {
-        print("End: \(event.keyCode)")
     }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
@@ -102,51 +120,59 @@ extension MainSceneController {
                   let positioningNode = firstResult.node.parent else {
                 return
             }
-            print("Found a node: \(positioningNode)")
             touchState.start.gesturePoint = currentTouchLocation
             touchState.start.positioningNode = positioningNode
             touchState.start.positioningNodeStart = positioningNode.position
+            touchState.start.positioningNodeEulers = positioningNode.eulerAngles
             touchState.start.projectionDepthPosition = sceneView.projectPoint(positioningNode.position)
             touchState.start.computeStartUnprojection(in: sceneView)
+            touchState.valid = true
+            print("-- Found a node; touch valid")
+        }
 
-        } else if receiver.state == .changed {
-            switch receiver.pressingOption {
-            case false:
-                let touchEndLocation = receiver.location(in: sceneView)
-                let endUnprojectedPosition = touchState.start.computedEndUnprojection(with: touchEndLocation, in: sceneView)
-                let dX = endUnprojectedPosition.x - touchState.start.computedStartUnprojection.x
-                let dY = endUnprojectedPosition.y - touchState.start.computedStartUnprojection.y
+        guard touchState.valid else { return }
 
-                sceneTransaction(0) {
-                    touchState.start.positioningNode.position =
-                        touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
-                }
+        switch receiver.pressingOption {
+        case false:
+            let newLocationProjection = touchState.start.computedEndUnprojection(with: currentTouchLocation, in: sceneView)
+            let dX = newLocationProjection.x - touchState.start.computedStartUnprojection.x
+            let dY = newLocationProjection.y - touchState.start.computedStartUnprojection.y
 
-            case true:
-                let translation = receiver.translation(in: sceneView)
-                var newAngleY = translation.x * CGFloat(Double.pi/180.0)
-                var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
-                newAngleY += touchState.start.currentRotationY
-                newAngleX += touchState.start.currentRotationX
+            touchState.start.positioningNodeEulers = touchState.start.positioningNode.eulerAngles
 
-                touchState.start.gesturePoint = currentTouchLocation
-                touchState.start.positioningNodeStart = touchState.start.positioningNode.position
-                touchState.start.projectionDepthPosition = sceneView.projectPoint(touchState.start.positioningNode.position)
-                touchState.start.computeStartUnprojection(in: sceneView)
-
-                sceneTransaction(0) {
-                    touchState.start.positioningNode.eulerAngles.y = newAngleY
-                    touchState.start.positioningNode.eulerAngles.x = newAngleX
-                }
+            sceneTransaction(0) {
+                touchState.start.positioningNode.position =
+                    touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
             }
-        } else {
-            print("-- Ended pan")
-            touchState.start = TouchStart()
+        case true:
+            let startPosition = receiver[.option]!
+            let endPosition = receiver.currentLocation
+            let translation = CGPoint(x: endPosition.x - startPosition.x,
+                                      y: endPosition.y - startPosition.y)
 
-            touchState.start.currentRotationY =
-                touchState.start.positioningNode.eulerAngles.y
-            touchState.start.currentRotationX =
-                touchState.start.positioningNode.eulerAngles.x
+            guard translation.x != 0.0 || translation.y != 0.0 else { return }
+
+            var newAngleY = translation.x * CGFloat(Double.pi/180.0)
+            var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
+            newAngleY += touchState.start.positioningNodeEulers.y
+            newAngleX += touchState.start.positioningNodeEulers.x
+
+            sceneTransaction(0) {
+                touchState.start.positioningNode.eulerAngles.y = newAngleY
+                touchState.start.positioningNode.eulerAngles.x = newAngleX
+            }
+
+            // Reset position 'start' position after rotation
+            touchState.start.gesturePoint = currentTouchLocation
+            touchState.start.positioningNodeStart = touchState.start.positioningNode.position
+            touchState.start.projectionDepthPosition = sceneView.projectPoint(touchState.start.positioningNode.position)
+            touchState.start.computeStartUnprojection(in: sceneView)
+        }
+
+        if receiver.state == .ended {
+            touchState.start = TouchStart()
+            touchState.valid = false
+            print("-- Ended pan")
         }
     }
 }
