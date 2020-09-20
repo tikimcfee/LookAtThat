@@ -6,31 +6,42 @@ struct HitTestType  {
     static let codeSheet: Int = 0x1 << 1
 }
 
+enum TouchAction {
+    case pan
+    case rotate
+}
+
 struct TouchState {
+    var action = TouchAction.pan
     var start = TouchStart()
 }
 
 struct TouchStart {
     var gesturePoint = CGPoint()
     var positioningNode = SCNNode()
+
     var positioningNodeStart = SCNVector3Zero
     var projectionDepthPosition = SCNVector3Zero
+    var computedStartUnprojection = SCNVector3Zero
+
+    var currentRotationY = CGFloat(0)
+    var currentRotationX = CGFloat(0)
+
+    mutating func computeStartUnprojection(in scene: SCNView) {
+        computedStartUnprojection = scene.unprojectPoint(
+            SCNVector3(
+                x: gesturePoint.x,
+                y: gesturePoint.y,
+                z: projectionDepthPosition.z
+            )
+        )
+    }
 
     func computedEndUnprojection(with location: CGPoint, in scene: SCNView) -> SCNVector3 {
         return scene.unprojectPoint(
             SCNVector3(
                 x: location.x,
                 y: location.y,
-                z: projectionDepthPosition.z
-            )
-        )
-    }
-
-    func computedStartUnprojection(in scene: SCNView) -> SCNVector3 {
-        return scene.unprojectPoint(
-            SCNVector3(
-                x: gesturePoint.x,
-                y: gesturePoint.y,
                 z: projectionDepthPosition.z
             )
         )
@@ -71,23 +82,40 @@ extension MainSceneController {
             touchState.start.positioningNode = positioningNode
             touchState.start.positioningNodeStart = positioningNode.position
             touchState.start.projectionDepthPosition = sceneView.projectPoint(positioningNode.position)
+            touchState.start.computeStartUnprojection(in: sceneView)
 
         } else if receiver.state == .changed {
-            let touchEndLocation = receiver.location(in: sceneView)
-            let endUnprojectedPosition =
-                touchState.start.computedEndUnprojection(with: touchEndLocation, in: sceneView)
-            let startUnprojectedPosition =
-                touchState.start.computedStartUnprojection(in: sceneView)
-            let dX = endUnprojectedPosition.x - startUnprojectedPosition.x
-            let dY = endUnprojectedPosition.y - startUnprojectedPosition.y
-            sceneTransaction(0) {
-                touchState.start.positioningNode.position =
-                    touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
-            }
+            switch touchState.action {
+            case .pan:
+                let touchEndLocation = receiver.location(in: sceneView)
+                let endUnprojectedPosition = touchState.start.computedEndUnprojection(with: touchEndLocation, in: sceneView)
+                let dX = endUnprojectedPosition.x - touchState.start.computedStartUnprojection.x
+                let dY = endUnprojectedPosition.y - touchState.start.computedStartUnprojection.y
 
+                sceneTransaction(0) {
+                    touchState.start.positioningNode.position =
+                        touchState.start.positioningNodeStart.translated(dX: dX, dY: dY)
+                }
+            case .rotate:
+                let translation = receiver.translation(in: sceneView)
+                var newAngleY = translation.x * CGFloat(Double.pi/180.0)
+                var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
+                newAngleY += touchState.start.currentRotationY
+                newAngleX += touchState.start.currentRotationX
+
+                sceneTransaction(0) {
+                    touchState.start.positioningNode.eulerAngles.y = newAngleY
+                    touchState.start.positioningNode.eulerAngles.x = newAngleX
+                }
+            }
         } else {
             print("-- Ended pan")
             touchState.start = TouchStart()
+
+            touchState.start.currentRotationY =
+                touchState.start.positioningNode.eulerAngles.y
+            touchState.start.currentRotationX =
+                touchState.start.positioningNode.eulerAngles.x
         }
     }
 }

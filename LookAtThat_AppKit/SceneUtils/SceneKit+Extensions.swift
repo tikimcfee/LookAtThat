@@ -9,7 +9,7 @@ func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.unlock()
 }
 
-func sceneTransaction(_ duration: Int? = nil, _ operation: () -> Void, ) {
+func sceneTransaction(_ duration: Int? = nil, _ operation: () -> Void) {
     SCNTransaction.begin()
     SCNTransaction.animationDuration =
         duration.map{ CFTimeInterval($0) }
