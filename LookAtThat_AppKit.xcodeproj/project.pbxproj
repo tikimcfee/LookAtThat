@@ -39,6 +39,9 @@
 		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		F0BA5F8D2510802C009A726C /* MainSceneController+Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */; };
 		F0CA74462514021200978111 /* SwiftAST in Frameworks */ = {isa = PBXBuildFile; productRef = F0CA74452514021200978111 /* SwiftAST */; };
+		F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */; };
+		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
+		F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
 		F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +99,9 @@
 		F0A82EF32510819B00BEA636 /* MainSceneController+Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainSceneController+Source.swift"; sourceTree = "<group>"; };
 		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
 		F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainSceneController+Dict.swift"; sourceTree = "<group>"; };
+		F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControllerInteractions.swift; sourceTree = "<group>"; };
+		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
+		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,6 +200,7 @@
 		F0341048250C7D3700031147 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F0CCB0FE2517BF6100937279 /* UserControls */,
 				F07C12A9250F1A9700B08C7D /* MainSceneController.swift */,
 				F0A82EF32510819B00BEA636 /* MainSceneController+Source.swift */,
 				F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */,
@@ -263,6 +270,16 @@
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 			);
 			path = SwiftSyntax;
+			sourceTree = "<group>";
+		};
+		F0CCB0FE2517BF6100937279 /* UserControls */ = {
+			isa = PBXGroup;
+			children = (
+				F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */,
+				F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */,
+				F0CCB1012517BFC500937279 /* NodeHitTests.swift */,
+			);
+			path = UserControls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -353,8 +370,10 @@
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				F0BA5F8D2510802C009A726C /* MainSceneController+Dict.swift in Sources */,
+				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
 				F07C12AA250F1A9700B08C7D /* MainSceneController.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
+				F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */,
 				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F00FC732250C53460092AFF9 /* ContentView.swift in Sources */,
@@ -370,6 +389,7 @@
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */,
+				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
