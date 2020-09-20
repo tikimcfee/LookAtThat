@@ -9,7 +9,7 @@ public struct SourceInfo {
     var strings = Set<String>()
     var numbers = Set<String>()
 
-    var functions = Set<String>()
+    var functions = AutoListValueDict<String, FunctionDeclSyntax>()
 
     var allTokens = AutoListValueDict<String, String>()
     var sortedTokens: [(String, [String])] {
@@ -31,6 +31,7 @@ class SwiftSyntaxParser: SyntaxRewriter {
     }
 
     override func visit(_ functionDeclarationNode: FunctionDeclSyntax) -> DeclSyntax {
+        resultInfo.functions[functionDeclarationNode.identifier.alltext].append(functionDeclarationNode)
         return super.visit(functionDeclarationNode)
     }
 }

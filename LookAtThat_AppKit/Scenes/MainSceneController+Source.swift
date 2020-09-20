@@ -45,7 +45,7 @@ extension MainSceneController {
 
     func allTokensWith(name: String) -> [SCNNode] {
         return sceneState.rootGeometryNode.childNodes{ testNode, _ in
-            return testNode.name?.contains(name) ?? false
+            return testNode.name == name
         }
     }
 

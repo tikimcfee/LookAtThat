@@ -22,26 +22,11 @@ struct ContentView: View {
                     SceneKitView(sceneController: MainSceneController.global)
                     buttons
                 }.padding()
-                VStack {
+                VStack(alignment: .leading) {
                     SourceInfoGrid(sourceInfo: $sourceInfo)
                 }
             }
         }
-//        .gesture(DragGesture()
-//            .onChanged{ value in
-//                defer { DRAG_GESTURE_LAST_POINT = value.location }
-//                guard let point = DRAG_GESTURE_LAST_POINT else { return }
-//
-//                let words = SceneController.global.sceneState.rootGeometryNode.childNodes
-//                inSceneTransaction {
-//                    words.first?.position.x += point.x - value.location.x
-//                    words.first?.position.y += value.location.y - point.y
-//                }
-//            }
-//            .onEnded{ value in
-//                DRAG_GESTURE_LAST_POINT = nil
-//            }
-//        )
     }
 
 
@@ -65,18 +50,37 @@ struct SourceInfoGrid: View {
     @Binding var sourceInfo: SourceInfo?
 
     var body: some View {
-        let stringSlices =
-            Array(sourceInfo?.strings ?? []).sorted()
-                .slices(sliceSize: 5)
-
-        let identifierSlices =
-            Array(sourceInfo?.identifiers ?? []).sorted()
-                .slices(sliceSize: 5)
-
-        return VStack {
-            grid(for: stringSlices).frame(height: 256)
-            grid(for: identifierSlices).frame(height: 256)
+//        let stringSlices =
+//            Array(info.strings).sorted()
+//                .slices(sliceSize: 5)
+//
+//        let identifierSlices =
+//            Array(info.identifiers).sorted()
+//                .slices(sliceSize: 5)
+        return VStack(alignment: .leading) {
+            if let info = sourceInfo {
+                Text("Function Declarations").underline()
+                ForEach(info.functions.map.map{ $0.key }, id:\.self) { name in
+                    Text(name)
+                        .frame(minWidth: 128, alignment: .leading)
+                        .padding(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.gray)
+                        )
+                        .onTapGesture {
+                            selected(name: name)
+                        }
+                }
+            }
+//                grid(for: stringSlices).frame(height: 256)
+//                grid(for: identifierSlices).frame(height: 256)
         }.frame(width: 256)
+        .padding(4)
+        .overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.gray)
+        )
     }
 
     func grid(for stringSlices: [ArraySlice<String>]) -> some View {
