@@ -9,10 +9,11 @@ func whitespaces(in line: String) -> [Match] {
     let testRange = NSRange(line.startIndex..<line.endIndex, in: line)
     var matches = [Match]()
     searchExpression?.enumerateMatches(in: line, options: [], range: testRange) { (nextMatch, _, stop) in
-        guard let someMatch = nextMatch else { return }
-        guard let leading = Range(someMatch.range(at: 1), in: line),
+        guard let someMatch = nextMatch,
+              let leading = Range(someMatch.range(at: 1), in: line),
               let text = Range(someMatch.range(at: 2), in: line),
-              let trailing = Range(someMatch.range(at: 3), in: line) else { return }
+              let trailing = Range(someMatch.range(at: 3), in: line)
+        else { return }
         matches.append(
             Match(
                 source: line,

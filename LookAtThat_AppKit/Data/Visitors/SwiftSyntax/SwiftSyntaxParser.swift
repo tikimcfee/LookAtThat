@@ -2,7 +2,7 @@ import Foundation
 import SwiftSyntax
 import SceneKit
 
-public struct SourceInfo {
+public class SourceInfo {
     var tokenTypes = [String]()
 
     var identifiers = Set<String>()
@@ -62,9 +62,13 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
 // Node building
 extension SwiftSyntaxParser {
-    func renderNodes(_ fileUrl: URL) -> SourceInfo {
+    func renderTokenSection() {
+
+    }
+
+    func render(source fileUrl: URL, in sceneState: SceneState) {
         guard let sourceFileSyntax = loadSourceUrl(fileUrl)
-            else { return SourceInfo() }
+            else { return }
         resultInfo = SourceInfo()
 
         let rootSyntax = visit(sourceFileSyntax)
@@ -83,11 +87,8 @@ extension SwiftSyntaxParser {
         codeSheet.sizePageToContainerNode()
 
         sceneTransaction {
-            MainSceneController.global.sceneState
-                .rootGeometryNode.addChildNode(codeSheet.containerNode)
+            sceneState.rootGeometryNode.addChildNode(codeSheet.containerNode)
         }
-
-        return resultInfo
     }
 
     private func arrange(_ text: String,

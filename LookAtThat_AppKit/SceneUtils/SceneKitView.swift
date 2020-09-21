@@ -4,23 +4,28 @@ import SwiftUI
 
 public struct SceneKitView: NSUIRepresentable {
 
-    let sceneController: MainSceneController
+    let sceneView: SCNView
+    let currentScene: SceneType
 
     #if os(OSX)
     public func makeNSView(context: Context) -> SCNView {
-        return sceneController.sceneView
+        print("==== Returning SceneKitView ====")
+        return sceneView
     }
 
     public func updateNSView(_ nsView: SCNView, context: Context) {
-
+        print("++++ Updating SceneKitView ++++")
+        sceneView.scene = SceneLibrary.global.currentController.scene
     }
     #elseif os(iOS)
     public func makeUIView(context: NSUIPreview) -> SCNView {
-        return sceneController.sceneView
+        print("==== Returning SceneKitView ====")
+        return sceneView
     }
 
     public func updateUIView(_ uiView: SCNView, context: NSUIPreview) {
-
+        print("++++ Updating SceneKitView ++++")
+        sceneView.scene = SceneLibrary.global.currentController.scene
     }
     #endif
 }

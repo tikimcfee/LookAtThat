@@ -5,27 +5,26 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
-            uuid = "E8382675-C004-45BC-9D8B-7A5F66D58C9A"
-            shouldBeEnabled = "No"
+            uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LookAtThat_AppKit/Data/Visitors/SwiftSyntax/SwiftSyntaxNodes.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "visit(_:)"
-            landmarkType = "7">
-            <Actions>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po token.parent!.parent!">
-                  </ActionContent>
-               </BreakpointActionProxy>
-            </Actions>
+            symbolName = "print_cycle"
+            moduleName = "">
+            <Locations>
+               <Location
+                  uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8 - 7af2f92ae775233c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AG::Graph::print_cycle(unsigned int) const"
+                  moduleName = "AttributeGraph"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -2,13 +2,28 @@ import Foundation
 import SwiftUI
 import SceneKit
 
-extension MainSceneController {
-    func attachPanRecognizer() {
-        sceneView.addGestureRecognizer(panGestureRecognizer)
+typealias PanReceiver = (ModifiersPanGestureRecognizer) -> Void
+class PanGestureShim {
+    let onPan: PanReceiver
+    lazy var panGestureRecognizer =
+        ModifiersPanGestureRecognizer(target: self, action: #selector(pan))
 
+    init(_ onPan: @escaping (ModifiersPanGestureRecognizer) -> Void) {
+        self.onPan = onPan
     }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
+        onPan(receiver)
+    }
+}
+
+// Adapted from https://stackoverflow.com/questions/48970111/rotating-scnnode-on-y-axis-based-on-pan-gesture
+extension BaseSceneController {
+    func attachPanRecognizer() {
+        sceneView.addGestureRecognizer(panGestureShim.panGestureRecognizer)
+    }
+
+    func pan(_ receiver: ModifiersPanGestureRecognizer) {
         let currentTouchLocation = receiver.location(in: sceneView)
 
         if receiver.state == .began {
@@ -74,12 +89,12 @@ extension MainSceneController {
     }
 }
 
-struct TouchState {
+class TouchState {
     var valid: Bool = false
     var start = TouchStart()
 }
 
-struct TouchStart {
+class TouchStart {
     var gesturePoint = CGPoint()
     var positioningNode = SCNNode()
     var positioningNodeStart = SCNVector3Zero
@@ -88,7 +103,7 @@ struct TouchStart {
     var projectionDepthPosition = SCNVector3Zero
     var computedStartUnprojection = SCNVector3Zero
 
-    mutating func computeStartUnprojection(in scene: SCNView) {
+    func computeStartUnprojection(in scene: SCNView) {
         computedStartUnprojection = scene.unprojectPoint(
             SCNVector3(
                 x: gesturePoint.x,

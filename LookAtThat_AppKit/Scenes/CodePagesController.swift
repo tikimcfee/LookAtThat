@@ -8,11 +8,28 @@ var nextZ: CGFloat {
     return z
 }
 
-// ewww...
-var bumped = Set<Int>()
-let highlightCache = HighlightCache()
+class CodePagesController: BaseSceneController {
 
-extension MainSceneController {
+    let iteratorY = WordPositionIterator()
+    var bumped = Set<Int>()
+    let highlightCache = HighlightCache()
+
+    let wordNodeBuilder: WordNodeBuilder
+    let syntaxNodeParser: SwiftSyntaxParser
+
+    init(sceneView: SCNView,
+         wordNodeBuilder: WordNodeBuilder) {
+        self.wordNodeBuilder = wordNodeBuilder
+        self.syntaxNodeParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
+        super.init(sceneView: sceneView)
+    }
+
+    override func onSceneStateReset() {
+        iteratorY.reset()
+    }
+}
+
+extension CodePagesController {
 
     func selected(name: String) {
         bumpNodes(
@@ -58,42 +75,37 @@ extension MainSceneController {
     }
 
     func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
-        let nodes = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
-        nodes.requestSourceFile { fileUrl in
-            self.sceneControllerQueue.async {
+        syntaxNodeParser.requestSourceFile { fileUrl in
+            self.workerQueue.async {
                 // todo: make a presenter or something oof
-                let sourceInfo = nodes.renderNodes(fileUrl)
-                handler(sourceInfo)
-            }
-        }
-
-    }
-
-    func renderDirectory(_ handler: @escaping (SourceInfo) -> Void) {
-        let nodes = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
-        nodes.requestSourceDirectory{ directory in
-            self.sceneControllerQueue.async {
-                // todo: make a presenter or something oof
-                for url in directory.swiftUrls {
-                    let sourceInfo = nodes.renderNodes(url)
-                    handler(sourceInfo)
+                self.syntaxNodeParser.render(
+                    source: fileUrl,
+                    in: self.sceneState
+                )
+                // AFTER ALL THAT THE ISSUE WAS THE MAIN THREAD.
+                // DAMN IT.
+                self.main.async {
+                    handler(self.syntaxNodeParser.resultInfo)
                 }
             }
         }
-
     }
 
+    func renderDirectory(_ handler: @escaping (SourceInfo) -> Void) {
+        syntaxNodeParser.requestSourceDirectory{ directory in
+            self.workerQueue.async {
+                for url in directory.swiftUrls {
+                    self.syntaxNodeParser.render(
+                        source: url,
+                        in: self.sceneState
+                    )
+                }
 
-    private func customRender() {
-        wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"
-            let lineNode = SCNNode()
-            lineNode.position = iteratorY.nextPosition()
-            sourceLine.splitToWordsAndSpaces
-                .map{ wordNodeBuilder.node(for: $0) }
-                .arrangeInLine(on: lineNode)
-
-            sceneTransaction {
-                self.sceneState.rootGeometryNode.addChildNode(lineNode)
+                // AFTER ALL THAT THE ISSUE WAS THE MAIN THREAD.
+                // DAMN IT.
+                self.main.async {
+                    handler(self.syntaxNodeParser.resultInfo)
+                }
             }
         }
     }

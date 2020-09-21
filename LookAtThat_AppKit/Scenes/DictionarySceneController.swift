@@ -1,7 +1,24 @@
 import SceneKit
 import Foundation
 
-extension MainSceneController {
+class DictionarySceneController: BaseSceneController {
+    let wordParser = WordParser()
+    let iteratorY = WordPositionIterator()
+    let wordNodeBuilder: WordNodeBuilder
+
+    init(sceneView: SCNView,
+         wordNodeBuilder: WordNodeBuilder) {
+        self.wordNodeBuilder = wordNodeBuilder
+        super.init(sceneView: sceneView)
+    }
+
+    override func onSceneStateReset() {
+        iteratorY.reset()
+    }
+}
+
+extension DictionarySceneController {
+
     func add(word: String) throws {
         guard let definition = wordParser.dictionary[word] else {
             throw SceneControllerError.missingWord(query: word)
@@ -42,7 +59,7 @@ extension MainSceneController {
     }
 
     func renderDictionaryTest() {
-        sceneControllerQueue.async {
+        workerQueue.async {
             sceneTransaction {
                 self.doRenderDictionaryTest()
             }
@@ -63,7 +80,7 @@ extension MainSceneController {
 
     private func renderWordSlice(_ wordSlice: ArraySlice<(String, String)>,
                                  _ renderFinished: @escaping VoidCompletion) {
-        self.nextWorker().async {
+        workerQueue.async {
             print("Dispatched \(wordSlice.startIndex)..<\(wordSlice.endIndex)")
             var rootWordPositions = self.iteratorY.wordIndicesForWordCount(wordSlice.count + 1).makeIterator()
 
@@ -90,7 +107,7 @@ extension MainSceneController {
     }
 
     func trackWordWithCamera(_ word: String) {
-        sceneControllerQueue.async {
+        workerQueue.async {
             let searchNodes = self.sceneState.rootGeometryNode.childNodes(
                 passingTest: { node, stopLooking in
                     let rootWordNodeName = node.name

@@ -14,11 +14,15 @@
 		F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		F00FC746250C53820092AFF9 /* WordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC743250C53820092AFF9 /* WordParser.swift */; };
 		F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC745250C53820092AFF9 /* WordNodes.swift */; };
+		F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D125180A9200B94E7A /* BaseSceneController.swift */; };
+		F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D325185D8500B94E7A /* WordPositionIterator.swift */; };
+		F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
+		F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8DA251903B400B94E7A /* TestButtonViews.swift */; };
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
-		F07C12AA250F1A9700B08C7D /* MainSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* MainSceneController.swift */; };
+		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
 		F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
@@ -35,9 +39,9 @@
 		F0A2199E2511BADF00D71C98 /* SwiftAST+Tooling in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2199D2511BADF00D71C98 /* SwiftAST+Tooling */; };
 		F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */; };
 		F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */; };
-		F0A82EF42510819B00BEA636 /* MainSceneController+Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* MainSceneController+Source.swift */; };
+		F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
 		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
-		F0BA5F8D2510802C009A726C /* MainSceneController+Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */; };
+		F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */; };
 		F0CA74462514021200978111 /* SwiftAST in Frameworks */ = {isa = PBXBuildFile; productRef = F0CA74452514021200978111 /* SwiftAST */; };
 		F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
@@ -78,12 +82,16 @@
 		F00FC73C250C53470092AFF9 /* LookAtThat_AppKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThat_AppKit.entitlements; sourceTree = "<group>"; };
 		F00FC743250C53820092AFF9 /* WordParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordParser.swift; sourceTree = "<group>"; };
 		F00FC745250C53820092AFF9 /* WordNodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordNodes.swift; sourceTree = "<group>"; };
+		F030B8D125180A9200B94E7A /* BaseSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseSceneController.swift; path = CodePages/BaseSceneController.swift; sourceTree = "<group>"; };
+		F030B8D325185D8500B94E7A /* WordPositionIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPositionIterator.swift; sourceTree = "<group>"; };
+		F030B8D72518741E00B94E7A /* SceneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLibrary.swift; sourceTree = "<group>"; };
+		F030B8DA251903B400B94E7A /* TestButtonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonViews.swift; sourceTree = "<group>"; };
 		F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Extensions.swift"; sourceTree = "<group>"; };
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		F07C12A9250F1A9700B08C7D /* MainSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSceneController.swift; sourceTree = "<group>"; };
+		F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextParser.swift; sourceTree = "<group>"; };
 		F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAliases.swift; sourceTree = "<group>"; };
 		F092E5B825101B0600B18894 /* SCNBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNBezierPath.swift; sourceTree = "<group>"; };
 		F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
@@ -96,9 +104,9 @@
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitor.swift; sourceTree = "<group>"; };
 		F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitorMuxer.swift; sourceTree = "<group>"; };
-		F0A82EF32510819B00BEA636 /* MainSceneController+Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainSceneController+Source.swift"; sourceTree = "<group>"; };
+		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
 		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
-		F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainSceneController+Dict.swift"; sourceTree = "<group>"; };
+		F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySceneController.swift; sourceTree = "<group>"; };
 		F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControllerInteractions.swift; sourceTree = "<group>"; };
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
@@ -154,7 +162,7 @@
 				F00FC742250C53820092AFF9 /* Data */,
 				F00FC744250C53820092AFF9 /* DataVisualizers */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
-				F00FC731250C53460092AFF9 /* ContentView.swift */,
+				F030B8D92519039A00B94E7A /* SwiftUIViews */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
 			);
 			path = LookAtThat_AppKit;
@@ -174,6 +182,7 @@
 				F09A529E25157F7800F5082A /* Visitors */,
 				F043BB0F2515369000FB1EF6 /* Caches */,
 				F00FC743250C53820092AFF9 /* WordParser.swift */,
+				F030B8D325185D8500B94E7A /* WordPositionIterator.swift */,
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
 				F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */,
 				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
@@ -197,13 +206,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F030B8D92519039A00B94E7A /* SwiftUIViews */ = {
+			isa = PBXGroup;
+			children = (
+				F00FC731250C53460092AFF9 /* ContentView.swift */,
+				F030B8DA251903B400B94E7A /* TestButtonViews.swift */,
+			);
+			path = SwiftUIViews;
+			sourceTree = "<group>";
+		};
 		F0341048250C7D3700031147 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F030B8D125180A9200B94E7A /* BaseSceneController.swift */,
 				F0CCB0FE2517BF6100937279 /* UserControls */,
-				F07C12A9250F1A9700B08C7D /* MainSceneController.swift */,
-				F0A82EF32510819B00BEA636 /* MainSceneController+Source.swift */,
-				F0BA5F8C2510802C009A726C /* MainSceneController+Dict.swift */,
+				F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */,
+				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */,
+				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -367,17 +387,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
+				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
-				F0BA5F8D2510802C009A726C /* MainSceneController+Dict.swift in Sources */,
+				F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */,
+				F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
-				F07C12AA250F1A9700B08C7D /* MainSceneController.swift in Sources */,
+				F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */,
+				F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */,
 				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F00FC732250C53460092AFF9 /* ContentView.swift in Sources */,
-				F0A82EF42510819B00BEA636 /* MainSceneController+Source.swift in Sources */,
+				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
@@ -385,6 +408,7 @@
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
+				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
