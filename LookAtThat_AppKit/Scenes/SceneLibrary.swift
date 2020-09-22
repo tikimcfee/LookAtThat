@@ -9,25 +9,33 @@ enum SceneType {
 
 protocol MousePositionReceiver: class {
     var mousePosition: CGPoint { get set }
+    var scrollEvent: NSEvent { get set }
 }
 
 class CustomSceneView: SCNView {
-
-    lazy var trackingOptions: NSTrackingArea.Options =
-        [.mouseEnteredAndExited, .mouseMoved, .activeInKeyWindow, .activeAlways]
-
+    weak var positionReceiver: MousePositionReceiver?
     var trackingArea : NSTrackingArea?
 
-    weak var positionReceiver: MousePositionReceiver?
+    override func scrollWheel(with event: NSEvent) {
+        super.scrollWheel(with: event)
+        guard let receiver = positionReceiver,
+              event.type == .scrollWheel else { return }
+        receiver.scrollEvent = event
+    }
 
     override func updateTrackingAreas() {
         if let trackingArea = trackingArea {
             removeTrackingArea(trackingArea)
         }
-        trackingArea = NSTrackingArea(rect: bounds,
-                                      options: trackingOptions,
-                                      owner: self,
-                                      userInfo: nil)
+        trackingArea = NSTrackingArea(
+            rect: bounds,
+            options: [.mouseEnteredAndExited,
+                      .mouseMoved,
+                      .activeInKeyWindow,
+                      .activeAlways],
+            owner: self,
+            userInfo: nil
+        )
         self.addTrackingArea(trackingArea!)
     }
 
@@ -56,9 +64,14 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     var currentController: SceneControls
 
     private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
+    private let scrollSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
     let sharedMouse: AnyPublisher<CGPoint, Never>
+    let sharedScroll: AnyPublisher<NSEvent, Never>
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { mouseSubject.send(mousePosition) }
+    }
+    var scrollEvent: NSEvent = NSEvent() {
+        didSet { scrollSubject.send(scrollEvent) }
     }
 
     private init() {
@@ -74,6 +87,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
 
         // Unsafe initialization from .global ... more refactoring inc?
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
+        self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
         self.currentController = codePagesController
         self.currentMode = .source
         self.sharedSceneView.positionReceiver = self

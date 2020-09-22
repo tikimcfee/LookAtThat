@@ -62,7 +62,10 @@ extension BaseSceneController {
             touchState.magnify.lastScaleZ = sceneCameraNode.scale.z
         case .changed:
             let magnification = receiver.magnification + 1.0;
-            let newScaleZ = touchState.magnify.lastScaleZ * magnification;
+            let newScaleZ = max(
+                touchState.magnify.lastScaleZ * magnification,
+                CGFloat(0.25)
+            )
             sceneTransaction(0) {
                 self.sceneCameraNode.scale = SCNVector3Make(1, 1, newScaleZ);
             }

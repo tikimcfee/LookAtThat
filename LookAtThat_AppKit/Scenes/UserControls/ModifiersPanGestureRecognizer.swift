@@ -40,7 +40,6 @@ class ModifiersMagnificationGestureRecognizer: MagnificationGestureRecognizer {
     }
 }
 
-
 class ModifiersPanGestureRecognizer: PanGestureRecognizer {
     private var store = ModifierStore()
     var pressingOption: Bool { store.pressingOption }

@@ -34,6 +34,13 @@ class CodePagesController: BaseSceneController {
                 self?.newMousePosition(mousePosition)
             }
             .store(in: &cancellables)
+
+        SceneLibrary.global.sharedScroll
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [weak self] scrollEvent in
+                self?.newScrollEvent(scrollEvent)
+            }
+            .store(in: &cancellables)
     }
 
     override func sceneActive() {
@@ -57,6 +64,16 @@ class CodePagesController: BaseSceneController {
 
 
 extension CodePagesController {
+
+    func newScrollEvent(_ event: NSEvent) {
+        sceneTransaction(0) {
+            let sensitivity = CGFloat(1.5)
+            let scaledX = -event.deltaX * sensitivity
+            let scaledY = event.deltaY * sensitivity
+            sceneCameraNode.position.x += scaledX
+            sceneCameraNode.position.y += scaledY
+        }
+    }
 
     func newMousePosition(_ point: CGPoint) {
         let hoverTranslationY = CGFloat(50)
