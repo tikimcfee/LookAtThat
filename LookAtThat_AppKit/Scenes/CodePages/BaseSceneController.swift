@@ -9,7 +9,7 @@ protocol SceneControls {
 
     var sceneState: SceneState { get set }
     var touchState: TouchState { get set }
-    var panGestureShim: PanGestureShim { get set }
+    var panGestureShim: GestureShim { get set }
 
     var workerQueue: DispatchQueue { get }
 
@@ -25,7 +25,10 @@ open class BaseSceneController: SceneControls {
 
     lazy var sceneState: SceneState = SceneState()
     lazy var touchState = TouchState()
-    lazy var panGestureShim: PanGestureShim = PanGestureShim{ self.pan($0) }
+    lazy var panGestureShim: GestureShim = GestureShim(
+        { self.pan($0) },
+        { self.magnify($0) }
+    )
 
     var workerQueue: DispatchQueue {
         return WorkerPool.shared.nextWorker()
@@ -87,6 +90,7 @@ open class BaseSceneController: SceneControls {
         //        sceneView.allowsCameraControl = true
         scene.rootNode.addChildNode(sceneCameraNode)
         attachPanRecognizer()
+        attachMagnificationRecognizer()
 
         // TODO: have a way to set the scene on completion of loading stuff
         // Seems logical to break down into preloaded scenes and then set on the view.

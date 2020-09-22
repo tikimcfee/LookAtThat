@@ -47,6 +47,7 @@
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
 		F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
+		F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +112,7 @@
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
+		F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePageDrawerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +223,7 @@
 				F030B8D125180A9200B94E7A /* BaseSceneController.swift */,
 				F0CCB0FE2517BF6100937279 /* UserControls */,
 				F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */,
-				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */,
 				F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */,
 				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
 			);
@@ -300,6 +302,15 @@
 				F0CCB1012517BFC500937279 /* NodeHitTests.swift */,
 			);
 			path = UserControls;
+			sourceTree = "<group>";
+		};
+		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
+			isa = PBXGroup;
+			children = (
+				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */,
+			);
+			path = CodeInThreeDee;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,6 +417,7 @@
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
+				F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,

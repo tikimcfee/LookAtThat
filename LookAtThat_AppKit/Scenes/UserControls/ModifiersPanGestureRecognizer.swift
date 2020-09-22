@@ -2,11 +2,9 @@ import Foundation
 import SceneKit
 import SwiftUI
 
-class ModifiersPanGestureRecognizer: PanGestureRecognizer {
+class ModifierStore {
     var modifierFlags = NSEvent.ModifierFlags()
-
     var positionsForFlagChanges = [NSEvent.ModifierFlags: CGPoint]()
-    var currentLocation: CGPoint { return location(in: view!) }
 
     var pressingOption: Bool {
         modifierFlags.contains(.option)
@@ -16,26 +14,52 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
         modifierFlags.contains(.command)
     }
 
+    func computePositions(_ currentLocation: CGPoint) {
+        positionsForFlagChanges[.option] = pressingOption ? currentLocation : nil
+        positionsForFlagChanges[.command] = pressingCommand ? currentLocation : nil
+    }
+}
+
+extension GestureRecognizer {
+    var currentLocation: CGPoint { return location(in: view!) }
+}
+
+class ModifiersMagnificationGestureRecognizer: MagnificationGestureRecognizer {
+    private var store = ModifierStore()
+    var pressingOption: Bool { store.pressingOption }
+    var pressingCommand: Bool { store.pressingCommand }
+
     override func flagsChanged(with event: NSEvent) {
         super.flagsChanged(with: event)
-        modifierFlags = event.modifierFlags
-        computePositions()
+        store.modifierFlags = event.modifierFlags
+        store.computePositions(location(in: view!))
+    }
+
+    subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
+        return store.positionsForFlagChanges[index]
+    }
+}
+
+
+class ModifiersPanGestureRecognizer: PanGestureRecognizer {
+    private var store = ModifierStore()
+    var pressingOption: Bool { store.pressingOption }
+    var pressingCommand: Bool { store.pressingCommand }
+
+    override func flagsChanged(with event: NSEvent) {
+        super.flagsChanged(with: event)
+        store.modifierFlags = event.modifierFlags
+        store.computePositions(currentLocation)
     }
 
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
-        modifierFlags = event.modifierFlags
-        computePositions()
-    }
-
-    func computePositions() {
-        let currentLocation = location(in: view!)
-        positionsForFlagChanges[.option] = pressingOption ? currentLocation : nil
-        positionsForFlagChanges[.command] = pressingCommand ? currentLocation : nil
+        store.modifierFlags = event.modifierFlags
+        store.computePositions(currentLocation)
     }
 
     subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
-        return positionsForFlagChanges[index]
+        return store.positionsForFlagChanges[index]
     }
 }
 

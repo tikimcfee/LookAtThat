@@ -129,6 +129,10 @@ class CodeSheet {
 
     lazy var pageGeometry: SCNBox = {
         let sheetGeometry = SCNBox()
+        sheetGeometry.chamferRadius = 4.0
+//        sheetGeometry.firstMaterial?.metalness.contents = 0.5
+//        sheetGeometry.firstMaterial?.roughness.contents = NSUIColor.darkGray
+//        sheetGeometry.firstMaterial?.lightingModel = .physicallyBased
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
         sheetGeometry.length = PAGE_EXTRUSION_DEPTH
         return sheetGeometry

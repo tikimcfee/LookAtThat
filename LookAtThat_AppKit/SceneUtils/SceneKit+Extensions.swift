@@ -66,9 +66,19 @@ public extension SCNNode {
 }
 
 extension SCNVector3 {
-    func translated(dX: CGFloat = 0, dY: CGFloat = 0, dZ: CGFloat = 0) -> SCNVector3 {
+    func translated(dX: CGFloat = 0,
+                    dY: CGFloat = 0,
+                    dZ: CGFloat = 0) -> SCNVector3 {
         return SCNVector3(x: x + dX,
                           y: y + dY,
                           z: z + dZ)
+    }
+
+    func scaled(scaleX: CGFloat = 1.0,
+                scaleY: CGFloat = 1.0,
+                scaleZ: CGFloat = 1.0) -> SCNVector3 {
+        return SCNVector3(x: x * scaleX,
+                          y: y * scaleY,
+                          z: z * scaleZ)
     }
 }
