@@ -2,7 +2,8 @@ import Foundation
 import SceneKit
 
 extension SCNView {
-    func hitTestCodeSheet(with location: CGPoint) -> [SCNHitTestResult] {
+    func hitTestCodeSheet(with location: CGPoint,
+                          _ mode: SCNHitTestSearchMode = .all) -> [SCNHitTestResult] {
         return hitTest(
             location,
             options: [
@@ -10,7 +11,7 @@ extension SCNView {
                 SCNHitTestOption.backFaceCulling: true,
                 SCNHitTestOption.clipToZRange: true,
                 SCNHitTestOption.categoryBitMask: HitTestType.codeSheet,
-                SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
+                SCNHitTestOption.searchMode: mode.rawValue
             ]
         )
     }

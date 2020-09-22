@@ -30,8 +30,8 @@ class CodePagesController: BaseSceneController {
     func attachMouseSink() {
         SceneLibrary.global.sharedMouse
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { mousePosition in
-                print("\(mousePosition) in code pages controller")
+            .sink { [weak self] mousePosition in
+                self?.newMousePosition(mousePosition)
             }
             .store(in: &cancellables)
     }
@@ -55,7 +55,31 @@ class CodePagesController: BaseSceneController {
     }
 }
 
+
 extension CodePagesController {
+
+    func newMousePosition(_ point: CGPoint) {
+        let hoverTranslationY = CGFloat(50)
+
+        let newMouseHoverSheet =
+            self.sceneView.hitTestCodeSheet(with: point).first?.node.parent
+
+        let currentHoveredSheet =
+            touchState.mouse.currentHoveredSheet
+
+        if currentHoveredSheet == nil, let newSheet = newMouseHoverSheet {
+            touchState.mouse.currentHoveredSheet = newSheet
+            sceneTransaction {
+                newSheet.position.y += hoverTranslationY
+            }
+        } else if let currentSheet = currentHoveredSheet, currentSheet != newMouseHoverSheet {
+            touchState.mouse.currentHoveredSheet = newMouseHoverSheet
+            sceneTransaction {
+                currentSheet.position.y -= hoverTranslationY
+                newMouseHoverSheet?.position.y += hoverTranslationY
+            }
+        }
+    }
 
     func selected(name: String) {
         bumpNodes(

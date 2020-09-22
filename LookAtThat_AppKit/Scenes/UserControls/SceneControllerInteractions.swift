@@ -147,6 +147,11 @@ extension BaseSceneController {
 class TouchState {
     var pan = TouchStart()
     var magnify = MagnifyStart()
+    var mouse = Mouse()
+}
+
+class Mouse {
+    var currentHoveredSheet: SCNNode?
 }
 
 class MagnifyStart {
