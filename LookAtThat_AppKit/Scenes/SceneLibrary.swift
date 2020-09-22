@@ -6,7 +6,39 @@ enum SceneType {
     case dictionary
 }
 
-class SceneLibrary: ObservableObject {
+protocol MousePositionReceiver: class {
+    var mousePosition: CGPoint { get set }
+}
+
+class CustomSceneView: SCNView {
+
+    lazy var trackingOptions: NSTrackingArea.Options =
+        [.mouseEnteredAndExited, .mouseMoved, .activeInKeyWindow, .activeAlways]
+
+    var trackingArea : NSTrackingArea?
+
+    weak var positionReceiver: MousePositionReceiver?
+
+    override func updateTrackingAreas() {
+        if let trackingArea = trackingArea {
+            removeTrackingArea(trackingArea)
+        }
+        trackingArea = NSTrackingArea(rect: bounds,
+                                      options: trackingOptions,
+                                      owner: self,
+                                      userInfo: nil)
+        self.addTrackingArea(trackingArea!)
+    }
+
+    override func mouseMoved(with event: NSEvent) {
+        super.mouseMoved(with: event)
+        guard let receiver = positionReceiver else { return }
+        let convertedPosition = convert(event.locationInWindow, from: nil)
+        receiver.mousePosition = convertedPosition
+    }
+}
+
+class SceneLibrary: ObservableObject, MousePositionReceiver {
     public static let global = SceneLibrary()
 
     let wordNodeBuilder = WordNodeBuilder()
@@ -14,13 +46,14 @@ class SceneLibrary: ObservableObject {
     let codePagesController: CodePagesController
     let dictionaryController: DictionarySceneController
 
-    let sharedSceneView: SCNView = {
-        let sceneView = SCNView()
+    let sharedSceneView: CustomSceneView = {
+        let sceneView = CustomSceneView()
         return sceneView
     }()
 
     @Published var currentMode: SceneType
     var currentController: SceneControls
+    var mousePosition: CGPoint = CGPoint.zero
 
     private init() {
         self.customTextController =
@@ -36,6 +69,7 @@ class SceneLibrary: ObservableObject {
         codePagesController.setupScene()
         currentController = codePagesController
         currentMode = .source
+        sharedSceneView.positionReceiver = self
     }
 
     func customText() {
