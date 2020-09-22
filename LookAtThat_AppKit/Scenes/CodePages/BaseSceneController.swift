@@ -15,6 +15,9 @@ protocol SceneControls {
 
     func setupScene()
     func resetScene()
+
+    func sceneActive()
+    func sceneInactive()
 }
 
 open class BaseSceneController: SceneControls {
@@ -61,6 +64,14 @@ open class BaseSceneController: SceneControls {
         cameraNode.camera = makeSceneCamera()
         cameraNode.position = SCNVector3Make(0, 0, 150)
         return cameraNode
+    }
+
+    open func sceneActive() {
+
+    }
+
+    open func sceneInactive() {
+        
     }
 
     open func setupScene() {

@@ -1,5 +1,6 @@
 import Foundation
 import SceneKit
+import Combine
 
 enum SceneType {
     case source
@@ -53,7 +54,12 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
 
     @Published var currentMode: SceneType
     var currentController: SceneControls
-    var mousePosition: CGPoint = CGPoint.zero
+
+    private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
+    let sharedMouse: AnyPublisher<CGPoint, Never>
+    var mousePosition: CGPoint = CGPoint.zero {
+        didSet { mouseSubject.send(mousePosition) }
+    }
 
     private init() {
         self.customTextController =
@@ -66,27 +72,36 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
             DictionarySceneController(sceneView: sharedSceneView,
                                       wordNodeBuilder: wordNodeBuilder)
 
-        codePagesController.setupScene()
-        currentController = codePagesController
-        currentMode = .source
-        sharedSceneView.positionReceiver = self
+        // Unsafe initialization from .global ... more refactoring inc?
+        self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
+        self.currentController = codePagesController
+        self.currentMode = .source
+        self.sharedSceneView.positionReceiver = self
+
+        codePages()
     }
 
     func customText() {
+        currentController.sceneInactive()
         customTextController.setupScene()
         currentController = customTextController
+        currentController.sceneActive()
     }
 
     func dictionary() {
+        currentController.sceneInactive()
         dictionaryController.setupScene()
         currentController = dictionaryController
         currentMode = .dictionary
+        currentController.sceneActive()
     }
 
     func codePages() {
+        currentController.sceneInactive()
         codePagesController.setupScene()
         currentController = codePagesController
         currentMode = .source
+        currentController.sceneActive()
     }
     
 }

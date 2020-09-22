@@ -1,6 +1,7 @@
 import Foundation
 import SceneKit
 import SwiftSyntax
+import Combine
 
 var z = CGFloat(0)
 var nextZ: CGFloat {
@@ -17,11 +18,36 @@ class CodePagesController: BaseSceneController {
     let wordNodeBuilder: WordNodeBuilder
     let syntaxNodeParser: SwiftSyntaxParser
 
+    var cancellables = Set<AnyCancellable>()
+
     init(sceneView: SCNView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
         self.syntaxNodeParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
         super.init(sceneView: sceneView)
+    }
+
+    func attachMouseSink() {
+        SceneLibrary.global.sharedMouse
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { mousePosition in
+                print("\(mousePosition) in code pages controller")
+            }
+            .store(in: &cancellables)
+    }
+
+    override func sceneActive() {
+        // This is pretty dumb. I have the scene library global, and it automatically inits this.
+        // However, this tries to attach immediately.. by accessing the init'ing global.
+        //                 This is why we don't .global =(
+        // Anyway, dispatch for now with no guarantee of success.
+        DispatchQueue.main.async {
+            self.attachMouseSink()
+        }
+    }
+
+    override func sceneInactive() {
+        cancellables = Set()
     }
 
     override func onSceneStateReset() {

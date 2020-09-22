@@ -44,8 +44,9 @@ extension NSGestureRecognizer.State: CustomStringConvertible {
             return "failed"
         case .possible:
             return "possible"
-        case .recognized:
-            return "recognized"
+        @unknown default:
+            print("Uknown gesture type: \(self)")
+            return "unknown_new_type"
         }
     }
 }
