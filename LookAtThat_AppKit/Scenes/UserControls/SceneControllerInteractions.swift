@@ -157,12 +157,12 @@ extension BaseSceneController {
     private func panHoldingCommand(_ receiver: ModifiersPanGestureRecognizer) {
         let start = receiver[.command]!
         let end = receiver.currentLocation
+        // reverse 'mouselook'
         let rotation = rotationBetween(end, start, using: touchState.pan.cameraNodeEulers)
-        print("\(start) \(end) \(rotation)")
         guard rotation.x != 0.0 || rotation.y != 0 else { return }
         sceneTransaction(0) {
-            sceneCameraNode.eulerAngles.y = rotation.y
-            sceneCameraNode.eulerAngles.x = rotation.x
+            sceneCameraNode.eulerAngles.y = rotation.y * 0.33
+            sceneCameraNode.eulerAngles.x = rotation.x * 0.33
         }
     }
 

@@ -71,7 +71,12 @@ extension CodePagesController {
             let scaledX = -event.deltaX * sensitivity
             let scaledY = event.deltaY * sensitivity
             sceneCameraNode.position.x += scaledX
-            sceneCameraNode.position.y += scaledY
+            if event.modifierFlags.contains(.command) {
+                sceneCameraNode.position.z += scaledY
+            } else {
+                sceneCameraNode.position.y += scaledY
+            }
+
         }
     }
 
