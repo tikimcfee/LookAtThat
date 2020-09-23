@@ -70,18 +70,20 @@ extension CodePagesController {
             let sensitivity = CGFloat(1.5)
             let scaledX = -event.deltaX * sensitivity
             let scaledY = event.deltaY * sensitivity
-            sceneCameraNode.position.x += scaledX
             if event.modifierFlags.contains(.command) {
-                sceneCameraNode.position.z += scaledY
+                let translate = SCNMatrix4MakeTranslation(scaledX, scaledY, 0)
+                sceneCameraNode.transform = SCNMatrix4Mult(translate, sceneCameraNode.transform)
             } else {
-                sceneCameraNode.position.y += scaledY
+                let translate = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
+                sceneCameraNode.transform = SCNMatrix4Mult(translate, sceneCameraNode.transform)
             }
-
         }
     }
 
     func newMousePosition(_ point: CGPoint) {
+        let hoverEnabled = false
         let hoverTranslationY = CGFloat(50)
+        guard hoverEnabled else { return }
 
         let newMouseHoverSheet =
             self.sceneView.hitTestCodeSheet(with: point).first?.node.parent

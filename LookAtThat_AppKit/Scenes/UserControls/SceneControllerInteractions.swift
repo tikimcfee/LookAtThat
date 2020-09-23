@@ -75,6 +75,16 @@ extension BaseSceneController {
     }
 }
 
+extension CGPoint {
+    func distance(to point: CGPoint) -> CGFloat {
+        return sqrt(pow(point.x - x, 2) + pow(point.y - y, 2))
+    }
+
+    func scaled(_ factor: CGFloat) -> CGPoint {
+        return CGPoint(x: x * factor, y: y * factor)
+    }
+}
+
 // Adapted from https://stackoverflow.com/questions/48970111/rotating-scnnode-on-y-axis-based-on-pan-gesture
 extension BaseSceneController {
     func attachPanRecognizer() {
@@ -155,14 +165,21 @@ extension BaseSceneController {
     }
 
     private func panHoldingCommand(_ receiver: ModifiersPanGestureRecognizer) {
-        let start = receiver[.command]!
-        let end = receiver.currentLocation
-        // reverse 'mouselook'
+        let start = receiver[.command]!.scaled(0.33)
+        let end = receiver.currentLocation.scaled(0.33)
+        if start == end  {
+            touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
+            return
+        }
+
+        // reverse start and end to reverse camera control style
         let rotation = rotationBetween(end, start, using: touchState.pan.cameraNodeEulers)
+
         guard rotation.x != 0.0 || rotation.y != 0 else { return }
+
         sceneTransaction(0) {
-            sceneCameraNode.eulerAngles.y = rotation.y * 0.33
-            sceneCameraNode.eulerAngles.x = rotation.x * 0.33
+            sceneCameraNode.eulerAngles.y = rotation.y
+            sceneCameraNode.eulerAngles.x = rotation.x
         }
     }
 
@@ -177,6 +194,22 @@ extension BaseSceneController {
         newAngleY += currentAngles.y
         newAngleX += currentAngles.x
         return CGPoint(x: newAngleX, y: newAngleY)
+    }
+
+    func setPositionOf(_ node: SCNNode,
+                       to position: SCNVector3,
+                       relativeTo referenceNode: SCNNode) {
+        let referenceNodeTransform = matrix_float4x4(referenceNode.transform)
+
+        // Setup a translation matrix with the desired position
+        var translationMatrix = matrix_identity_float4x4
+        translationMatrix.columns.3.x = Float(position.x)
+        translationMatrix.columns.3.y = Float(position.y)
+        translationMatrix.columns.3.z = Float(position.z)
+
+        // Combine the configured translation matrix with the referenceNode's transform to get the desired position AND orientation
+        let updatedTransform = matrix_multiply(referenceNodeTransform, translationMatrix)
+        node.transform = SCNMatrix4(updatedTransform)
     }
 }
 

@@ -6,6 +6,7 @@ protocol SceneControls {
     var sceneView: SCNView { get }
     var sceneCamera: SCNCamera { get }
     var sceneCameraNode: SCNNode { get }
+    var sceneCameraPlacementNode: SCNNode { get }
 
     var sceneState: SceneState { get set }
     var touchState: TouchState { get set }
@@ -25,6 +26,7 @@ open class BaseSceneController: SceneControls {
     lazy var scene: SCNScene = makeScene()
     lazy var sceneCamera: SCNCamera = makeSceneCamera()
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
+    lazy var sceneCameraPlacementNode: SCNNode = makeSceneCameraPlacementNode()
 
     lazy var sceneState: SceneState = SceneState()
     lazy var touchState = TouchState()
@@ -59,10 +61,19 @@ open class BaseSceneController: SceneControls {
         return camera
     }
 
+    open func makeSceneCameraPlacementNode() -> SCNNode {
+        let node = SCNNode()
+        node.position.z = -150
+        node.geometry = SCNBox(width: 5, height: 5, length: 5, chamferRadius: 2)
+        node.geometry?.firstMaterial?.diffuse.contents = NSUIColor.red
+        return node
+    }
+
     open func makeSceneCameraNode() -> SCNNode {
         let cameraNode = SCNNode()
-        cameraNode.camera = makeSceneCamera()
+        cameraNode.camera = sceneCamera
         cameraNode.position = SCNVector3Make(0, 0, 150)
+//        cameraNode.addChildNode(sceneCameraPlacementNode)
         return cameraNode
     }
 

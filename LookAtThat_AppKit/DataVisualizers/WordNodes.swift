@@ -11,9 +11,18 @@ let LINE_MARGIN_HEIGHT = CGFloat(1.5)
 
 public typealias SizedText = (SCNGeometry, CGSize)
 
+enum BuildMode {
+    case words
+    case characters
+}
+
 class WordNodeBuilder {
     let wordColorMap = WordColorCache()
-    let wordGeometryCache = WordGeometryCache()
+
+    let wordCharacterCache = WordGeometryCache()
+    let wordStringCache = WordStringCache()
+
+    let buildMode = BuildMode.words
 
     func definitionNode(_ rootWordPosition: SCNVector3,
                         _ rootWord: String,
@@ -42,9 +51,9 @@ class WordNodeBuilder {
 
     func node(for word: String) -> SCNNode {
         let containerNode = makeTextNode(word)
-        var lastPosition = SCNVector3(x: 0, y: 0, z: 0)
+        var lastPosition = SCNVector3Zero
         var maxHeight = CGFloat(0)
-        makeDecomposedGeometry(word).forEach{ sizedText in
+        let mapSizedText = { (sizedText: SizedText) in
             let letterNode = SCNNode()
             containerNode.addChildNode(letterNode)
             letterNode.position = lastPosition
@@ -52,8 +61,14 @@ class WordNodeBuilder {
             lastPosition.x += sizedText.1.width + WORD_CHARACTER_SPACING
             maxHeight = max(sizedText.1.height, maxHeight)
         }
+        switch buildMode {
+        case .characters:
+            makeDecomposedGeometry(word).forEach(mapSizedText)
+        case .words:
+            makeFullStringTextGeometry(word).forEach(mapSizedText)
+        }
         containerNode.boundingBox = (
-            SCNVector3(),
+            SCNVector3Zero,
             SCNVector3(x: lastPosition.x, y: maxHeight, z: WORD_EXTRUSION_SIZE)
         )
         return containerNode
@@ -62,20 +77,19 @@ class WordNodeBuilder {
     var TEXT_NODE_COUNT = 0
     private func makeTextNode(_ word: String) -> SCNNode {
         let wordNode = SCNNode()
-        wordNode.name = word.appending("[>]\(TEXT_NODE_COUNT)")
+//        wordNode.name = word.appending("[>]\(TEXT_NODE_COUNT)")
+        wordNode.name = word
         TEXT_NODE_COUNT += 1
         return wordNode
     }
 
-    private func makeFullStringTextGeometry(_ word: String) -> SCNGeometry {
-        let wordText = SCNText(string: word, extrusionDepth: WORD_EXTRUSION_SIZE)
-        wordText.font = NSUIFont.systemFont(ofSize: WORD_FONT_POINT_SIZE)
-        wordText.firstMaterial?.diffuse.contents = wordColorMap[word]
-        return wordText
+    private func makeFullStringTextGeometry(_ word: String) -> [SizedText] {
+        let wordText = wordStringCache[word]
+        return [wordText]
     }
 
     private func makeDecomposedGeometry(_ word: String) -> [SizedText] {
-        let geometry = word.map{ wordGeometryCache[$0] }
+        let geometry = word.map{ wordCharacterCache[$0] }
         return geometry
     }
 }
