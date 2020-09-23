@@ -21,6 +21,7 @@
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
+		F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */; };
 		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
 		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
@@ -90,6 +91,7 @@
 		F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Extensions.swift"; sourceTree = "<group>"; };
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
+		F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Interactions.swift"; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextParser.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
 				F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */,
 			);
 			path = CodeInThreeDee;
@@ -398,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
+				F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,

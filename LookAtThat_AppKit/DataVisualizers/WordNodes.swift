@@ -22,7 +22,7 @@ class WordNodeBuilder {
     let wordCharacterCache = WordGeometryCache()
     let wordStringCache = WordStringCache()
 
-    let buildMode = BuildMode.words
+    let buildMode = BuildMode.characters
 
     func definitionNode(_ rootWordPosition: SCNVector3,
                         _ rootWord: String,
