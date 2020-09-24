@@ -27,6 +27,9 @@
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
 		F07C49D2251C29F900F28173 /* SwiftSyntaxParser+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49D1251C29F900F28173 /* SwiftSyntaxParser+Tests.swift */; };
+		F07C49D5251C469D00F28173 /* CodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49D4251C469D00F28173 /* CodeSheet.swift */; };
+		F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */; };
+		F07C49DB251C477500F28173 /* SourceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49DA251C477500F28173 /* SourceInfo.swift */; };
 		F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
 		F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
 		F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
@@ -112,6 +115,9 @@
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F07C49D1251C29F900F28173 /* SwiftSyntaxParser+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntaxParser+Tests.swift"; sourceTree = "<group>"; };
+		F07C49D4251C469D00F28173 /* CodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheet.swift; sourceTree = "<group>"; };
+		F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntaxParser+SheetRendering.swift"; sourceTree = "<group>"; };
+		F07C49DA251C477500F28173 /* SourceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfo.swift; sourceTree = "<group>"; };
 		F092E5B825101B0600B18894 /* SCNBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNBezierPath.swift; sourceTree = "<group>"; };
 		F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpolatorFunctions.swift; sourceTree = "<group>"; };
@@ -326,7 +332,10 @@
 			isa = PBXGroup;
 			children = (
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
+				F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */,
 				F07C49D1251C29F900F28173 /* SwiftSyntaxParser+Tests.swift */,
+				F07C49D4251C469D00F28173 /* CodeSheet.swift */,
+				F07C49DA251C477500F28173 /* SourceInfo.swift */,
 			);
 			path = SwiftSyntax;
 			sourceTree = "<group>";
@@ -470,6 +479,7 @@
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
+				F07C49DB251C477500F28173 /* SourceInfo.swift in Sources */,
 				F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */,
 				F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
@@ -479,10 +489,12 @@
 				F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */,
 				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
+				F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
 				F00FC732250C53460092AFF9 /* ContentView.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
+				F07C49D5251C469D00F28173 /* CodeSheet.swift in Sources */,
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
