@@ -1,20 +1,19 @@
 import Foundation
-import SceneKit
 import SwiftSyntax
+import SceneKit
 
-var z = CGFloat(0)
-var nextZ: CGFloat {
-    z += 5
-    return z
-}
-
-
-struct SourceInfo {
+public class SourceInfo {
     var tokenTypes = [String]()
 
     var identifiers = Set<String>()
     var strings = Set<String>()
     var numbers = Set<String>()
+
+    var functions = AutoListValueDict<String, FunctionDeclSyntax>()
+    var enums = AutoListValueDict<String, EnumDeclSyntax>()
+    var closures = AutoListValueDict<String, ClosureExprSyntax>()
+    var extensions = AutoListValueDict<String, ExtensionDeclSyntax>()
+    var structs = AutoListValueDict<String, StructDeclSyntax>()
 
     var allTokens = AutoListValueDict<String, String>()
     var sortedTokens: [(String, [String])] {
@@ -24,158 +23,237 @@ struct SourceInfo {
     }
 }
 
-// ewww...
-var bumped = Set<Int>()
-let highlightCache = HighlightCache()
+// SwiftSyntax
+class SwiftSyntaxParser: SyntaxRewriter {
+    var preparedSourceFile: URL?
+    var sourceFileSyntax: SourceFileSyntax?
+    var rootSyntaxNode: Syntax?
+    var resultInfo = SourceInfo()
 
-extension MainSceneController {
+    var textNodeBuilder: WordNodeBuilder
 
-    func highlightNode(_ node: SCNNode) {
-        for letter in node.childNodes {
-            letter.geometry = highlightCache[letter.geometry!]
-        }
+    init(wordNodeBuilder: WordNodeBuilder) {
+        self.textNodeBuilder = wordNodeBuilder
+        super.init()
     }
 
-    func bumpNodes(_ nodes: [SCNNode]) {
-        sceneTransaction {
-            for node in nodes {
-                let hash = node.hash
-                if bumped.contains(hash) {
-                    bumped.remove(hash)
-                    node.position = node.position.translated(dZ: -50)
-                    highlightNode(node)
-                } else {
-                    bumped.insert(hash)
-                    node.position = node.position.translated(dZ: 50)
-                    highlightNode(node)
+    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+        resultInfo.functions[node.identifier.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
+        resultInfo.enums[node.identifier.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
+        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
+        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
+        return super.visit(node)
+    }
+
+    override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
+        resultInfo.structs[node.identifier.alltext].append(node)
+        return super.visit(node)
+    }
+}
+
+// Node building
+extension SwiftSyntaxParser {
+
+    func prepareRendering(source fileUrl: URL) {
+        preparedSourceFile = fileUrl
+        guard let loadedFile = loadSourceUrl(fileUrl) else {
+            print("Couldn't load \(fileUrl)")
+            return
+        }
+        sourceFileSyntax = loadedFile
+        rootSyntaxNode = visit(loadedFile)
+    }
+
+    func render(in sceneState: SceneState) {
+        guard let rootSyntaxNode = rootSyntaxNode else {
+            print("Rendering failed, no root syntax for \(String(describing: preparedSourceFile))")
+            return
+        }
+
+        let rootSheet = CodeSheet()
+        rootSheet.containerNode.position =
+            rootSheet.containerNode.position.translated(dZ: nextZ - 100)
+
+        for childSyntaxNode in rootSyntaxNode.children {
+            if childSyntaxNode.syntaxNodeType.self is FunctionDeclSyntax.Type {
+                let functionChild = rootSheet.spawnChild()
+                functionChild.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.darkGray
+                functionChild.containerNode.position.y = rootSheet.lastLine.position.y
+                childSyntaxNode.tokens.forEach { token in
+                    iterateTrivia(token.leadingTrivia, token, functionChild)
+                    arrange(token.text, token, functionChild)
+                    iterateTrivia(token.trailingTrivia, token, functionChild)
+                }
+                functionChild.sizePageToContainerNode()
+                functionChild.containerNode.position.z += 5
+                functionChild.containerNode.position.x +=
+                    functionChild.containerNode.lengthX / 2.0
+            } else {
+                for token in childSyntaxNode.tokens {
+                    iterateTrivia(token.leadingTrivia, token, rootSheet)
+                    arrange(token.text, token, rootSheet)
+                    iterateTrivia(token.trailingTrivia, token, rootSheet)
                 }
             }
         }
-    }
 
-    func allTokensWith(name: String) -> [SCNNode] {
-        return sceneState.rootGeometryNode.childNodes{ testNode, _ in
-            return testNode.name?.contains(name) ?? false
+        rootSheet.sizePageToContainerNode()
+
+        sceneTransaction {
+            sceneState.rootGeometryNode.addChildNode(rootSheet.containerNode)
         }
     }
 
-    func onTokensWith(type: String, _ operation: (SCNNode) -> Void) {
-        sceneState.rootGeometryNode.enumerateChildNodes{ testNode, _ in
-            if testNode.name?.contains(type) ?? false {
-                operation(testNode)
-            }
-        }
+    func renderTokenSection() {
+
     }
 
-    func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
-        sceneControllerQueue.async {
-            handler(self.renderFromSyntax())
-        }
+    private func arrange(_ text: String,
+                         _ token: TokenSyntax,
+                         _ codeSheet: CodeSheet) {
+        let newNode = textNodeBuilder.node(for: text)
+        newNode.name = token.registeredName(in: &resultInfo)
+        [newNode].arrangeInLine(on: codeSheet.lastLine)
     }
 
-    func renderFromSyntax() -> SourceInfo {
-        let nodes = SwiftSyntaxNodes()
-        guard let source = nodes.start() else {
-            return SourceInfo()
-        }
-        _ = nodes.visit(source)
-
-        var allLines = [SCNNode]()
-        var resultInfo = SourceInfo()
-
-        func newline(_ count: Int) -> SCNNode {
-            return (0..<count).map { _ in
-                let newLine = SCNNode()
-                newLine.position = iteratorY.nextPosition()
-                allLines.append(newLine)
-                return newLine
-            }.last ?? {
-                print("Requested new lines of count \(count)!!")
-                return SCNNode()
-            }()
-        }
-
-        var lineNode = newline(1)
-        for token in nodes.allTokens {
-            func arrange(text: String) {
-                let newNode = wordNodeBuilder.node(for: text)
-                newNode.name = token.registeredName(in: &resultInfo)
-                [newNode].arrangeInLine(on: lineNode)
-            }
-            func iterateTrivia(_ trivia: Trivia) {
-                for triviaPiece in trivia {
-                    if case TriviaPiece.newlines(let count) = triviaPiece {
-                        lineNode = newline(count)
-                    } else {
-                        arrange(text: triviaPiece.stringify)
+    private func iterateTrivia(_ trivia: Trivia,
+                               _ token: TokenSyntax,
+                               _ codeSheet: CodeSheet) {
+        for triviaPiece in trivia {
+            switch triviaPiece {
+            case let .newlines(count):
+                codeSheet.newlines(count)
+            case let .lineComment(comment),
+                 let .blockComment(comment),
+                 let .docLineComment(comment),
+                 let .docBlockComment(comment):
+                comment
+                    .split(whereSeparator: { $0.isNewline })
+                    .forEach{
+                        arrange(String($0), token, codeSheet)
+                        codeSheet.newlines(1)
                     }
-                }
-            }
-            iterateTrivia(token.leadingTrivia)
-            arrange(text: token.text)
-            iterateTrivia(token.trailingTrivia)
-        }
-
-        sceneTransaction {
-            for line in allLines {
-                self.sceneState.rootGeometryNode.addChildNode(line)
-            }
-        }
-
-        return resultInfo
-    }
-
-    private func customRender() {
-        wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"
-            let lineNode = SCNNode()
-            lineNode.position = iteratorY.nextPosition()
-            sourceLine.splitToWordsAndSpaces
-                .map{ wordNodeBuilder.node(for: $0) }
-                .arrangeInLine(on: lineNode)
-
-            sceneTransaction {
-                self.sceneState.rootGeometryNode.addChildNode(lineNode)
+            default:
+                arrange(triviaPiece.stringify, token, codeSheet)
             }
         }
     }
 }
 
-extension Array where Element == SCNNode {
-    func arrangeInLine(on node: SCNNode) {
-        var lastNode: SCNNode?
-        forEach {
-            let lastWordPosition: SCNVector3
-            if let lastNode = lastNode {
-                let lastWordSize = lastNode.lengthX
-                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
-            } else {
-                if let lastChild = node.childNodes.last {
-                    lastWordPosition = lastChild.position.translated(dX: lastChild.lengthX)
-                } else {
-                    lastWordPosition = SCNVector3Zero
-                }
-            }
-            $0.position = lastWordPosition
-            node.addChildNode($0)
-            lastNode = $0
+class CodeSheet {
+
+    weak var parent: CodeSheet?
+
+    lazy var sheetName = UUID().uuidString
+    lazy var allLines = [SCNNode]()
+    lazy var iteratorY = WordPositionIterator()
+
+    lazy var pageGeometry: SCNBox = {
+        let sheetGeometry = SCNBox()
+        sheetGeometry.chamferRadius = 4.0
+//        sheetGeometry.firstMaterial?.metalness.contents = 0.5
+//        sheetGeometry.firstMaterial?.roughness.contents = NSUIColor.darkGray
+//        sheetGeometry.firstMaterial?.lightingModel = .physicallyBased
+        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
+        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
+        return sheetGeometry
+    }()
+
+    lazy var pageGeometryNode = SCNNode()
+
+    lazy var containerNode: SCNNode = {
+        let container = SCNNode()
+        container.addChildNode(pageGeometryNode)
+        pageGeometryNode.categoryBitMask = HitTestType.codeSheet
+        pageGeometryNode.geometry = pageGeometry
+        return container
+    }()
+
+    lazy var lastLine: SCNNode = {
+        // The scene geometry at the end is off by a line. This will probably be an issue at some point.
+        let line = SCNNode()
+        line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
+        containerNode.addChildNode(line)
+        return line
+    }()
+
+    func newlines(_ count: Int) {
+        for _ in 0..<count {
+            setNewLine()
+            parent?.setNewLine()
         }
     }
 
-    func appendToLine(on node: SCNNode) {
-        var lastNode: SCNNode?
-        forEach {
-            let lastWordPosition: SCNVector3
-            if let lastNode = lastNode {
-                let lastWordSize =
-                    lastNode.boundingBox.max.x -
-                    lastNode.boundingBox.min.x
-                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
-            } else {
-                lastWordPosition = SCNVector3Zero
+    func sizePageToContainerNode() {
+        pageGeometry.width = containerNode.lengthX
+        pageGeometry.height = containerNode.lengthY
+        let centerY = -pageGeometry.height / 2
+        let centerX = pageGeometry.width / 2
+        pageGeometryNode.position.y = centerY
+        pageGeometryNode.position.x = centerX
+        containerNode.pivot = SCNMatrix4MakeTranslation(centerX, centerY, 0);
+    }
+
+    private func setNewLine() {
+        let newLine = SCNNode()
+        newLine.position = lastLine.position.translated(
+            dY: -iteratorY.linesPerBlock
+        )
+        allLines.append(newLine)
+        lastLine = newLine
+        containerNode.addChildNode(newLine)
+    }
+
+    func spawnChild() -> CodeSheet {
+        let codeSheet = CodeSheet()
+        codeSheet.parent = self
+        containerNode.addChildNode(codeSheet.containerNode)
+        return codeSheet
+    }
+}
+
+// File loading
+extension SwiftSyntaxParser {
+    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+        openDirectory { directoryResult in
+            switch directoryResult {
+            case let .success(directory):
+                receiver(directory)
+            case let .failure(error):
+                print(error)
             }
-            $0.position = lastWordPosition
-            node.addChildNode($0)
-            lastNode = $0
+        }
+    }
+
+    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
+        openFile { fileReslt in
+            switch fileReslt {
+            case let .success(url):
+                receiver(url)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+
+    private func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
+        do {
+            return try SyntaxParser.parse(url)
+        } catch {
+            print("|\(url)| failed to load > \(error)")
+            return nil
         }
     }
 }

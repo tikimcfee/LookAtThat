@@ -20,8 +20,8 @@ extension TokenSyntax {
 
     var alltext: String {
         leadingTrivia.stringified
-            .appending(text)
-            .appending(trailingTrivia.stringified)
+        .appending(text)
+        .appending(trailingTrivia.stringified)
     }
 
     typealias SelectionInfo = (String)

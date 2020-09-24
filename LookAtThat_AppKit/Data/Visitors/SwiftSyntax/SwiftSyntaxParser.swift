@@ -25,9 +25,12 @@ public class SourceInfo {
 
 // SwiftSyntax
 class SwiftSyntaxParser: SyntaxRewriter {
+    var preparedSourceFile: URL?
+    var sourceFileSyntax: SourceFileSyntax?
+    var rootSyntaxNode: Syntax?
+    var resultInfo = SourceInfo()
 
     var textNodeBuilder: WordNodeBuilder
-    var resultInfo = SourceInfo()
 
     init(wordNodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = wordNodeBuilder
@@ -62,26 +65,29 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
 // Node building
 extension SwiftSyntaxParser {
-    func renderTokenSection() {
 
+    func prepareRendering(source fileUrl: URL) {
+        preparedSourceFile = fileUrl
+        guard let loadedFile = loadSourceUrl(fileUrl) else {
+            print("Couldn't load \(fileUrl)")
+            return
+        }
+        sourceFileSyntax = loadedFile
+        rootSyntaxNode = visit(loadedFile)
     }
 
-    func render(source fileUrl: URL, in sceneState: SceneState) {
-        guard let sourceFileSyntax = loadSourceUrl(fileUrl)
-            else { return }
-        resultInfo = SourceInfo()
-
-        let rootSyntax = visit(sourceFileSyntax)
-        print("Rendering \(fileUrl)})")
+    func render(in sceneState: SceneState) {
+        guard let rootSyntaxNode = rootSyntaxNode else {
+            print("Rendering failed, no root syntax for \(String(describing: preparedSourceFile))")
+            return
+        }
 
         let codeSheet = CodeSheet()
         codeSheet.containerNode.position =
             codeSheet.containerNode.position.translated(dZ: nextZ - 100)
 
-        for token in rootSyntax.tokens {
-            iterateTrivia(token.leadingTrivia, token, codeSheet)
-            arrange(token.text, token, codeSheet)
-            iterateTrivia(token.trailingTrivia, token, codeSheet)
+        for token in rootSyntaxNode.tokens {
+            add(token, to: codeSheet)
         }
 
         codeSheet.sizePageToContainerNode()
@@ -91,22 +97,31 @@ extension SwiftSyntaxParser {
         }
     }
 
-    private func arrange(_ text: String,
-                         _ token: TokenSyntax,
-                         _ codeSheet: CodeSheet) {
+    func add(_ token: TokenSyntax,
+             to codeSheet: CodeSheet) {
+        iterateTrivia(token.leadingTrivia, token, codeSheet)
+        arrange(token.text, token, codeSheet)
+        iterateTrivia(token.trailingTrivia, token, codeSheet)
+    }
+
+    func arrange(_ text: String,
+                 _ token: TokenSyntax,
+                 _ codeSheet: CodeSheet) {
         let newNode = textNodeBuilder.node(for: text)
         newNode.name = token.registeredName(in: &resultInfo)
         [newNode].arrangeInLine(on: codeSheet.lastLine)
     }
 
-    private func iterateTrivia(_ trivia: Trivia,
-                               _ token: TokenSyntax,
-                               _ codeSheet: CodeSheet) {
+    func iterateTrivia(_ trivia: Trivia,
+                       _ token: TokenSyntax,
+                       _ codeSheet: CodeSheet) {
         for triviaPiece in trivia {
             switch triviaPiece {
             case let .newlines(count):
                 codeSheet.newlines(count)
-            case let .blockComment(comment),
+            case let .lineComment(comment),
+                 let .blockComment(comment),
+                 let .docLineComment(comment),
                  let .docBlockComment(comment):
                 comment
                     .split(whereSeparator: { $0.isNewline })
@@ -123,9 +138,16 @@ extension SwiftSyntaxParser {
 
 class CodeSheet {
 
+    weak var parent: CodeSheet?
+    var children = [CodeSheet]()
+
     lazy var sheetName = UUID().uuidString
     lazy var allLines = [SCNNode]()
     lazy var iteratorY = WordPositionIterator()
+
+    init(parent: CodeSheet? = nil) {
+        self.parent = parent
+    }
 
     lazy var pageGeometry: SCNBox = {
         let sheetGeometry = SCNBox()
@@ -139,10 +161,12 @@ class CodeSheet {
     }()
 
     lazy var pageGeometryNode = SCNNode()
+    lazy var childContainerNode = SCNNode()
 
     lazy var containerNode: SCNNode = {
         let container = SCNNode()
         container.addChildNode(pageGeometryNode)
+        container.addChildNode(childContainerNode)
         pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
         return container
@@ -159,6 +183,7 @@ class CodeSheet {
     func newlines(_ count: Int) {
         for _ in 0..<count {
             setNewLine()
+            parent?.setNewLine()
         }
     }
 
@@ -180,6 +205,13 @@ class CodeSheet {
         allLines.append(newLine)
         lastLine = newLine
         containerNode.addChildNode(newLine)
+    }
+
+    func spawnChild() -> CodeSheet {
+        let codeSheet = CodeSheet(parent: self)
+        childContainerNode.addChildNode(codeSheet.containerNode)
+        children.append(codeSheet)
+        return codeSheet
     }
 }
 
@@ -207,7 +239,7 @@ extension SwiftSyntaxParser {
         }
     }
 
-    func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
+    private func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
         do {
             return try SyntaxParser.parse(url)
         } catch {

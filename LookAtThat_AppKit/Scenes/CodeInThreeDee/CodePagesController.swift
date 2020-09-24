@@ -112,12 +112,8 @@ extension CodePagesController {
         syntaxNodeParser.requestSourceFile { fileUrl in
             self.workerQueue.async {
                 // todo: make a presenter or something oof
-                self.syntaxNodeParser.render(
-                    source: fileUrl,
-                    in: self.sceneState
-                )
-                // AFTER ALL THAT THE ISSUE WAS THE MAIN THREAD.
-                // DAMN IT.
+                self.syntaxNodeParser.prepareRendering(source: fileUrl)
+                self.syntaxNodeParser.render(in: self.sceneState)
                 self.main.async {
                     handler(self.syntaxNodeParser.resultInfo)
                 }
@@ -128,15 +124,11 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping (SourceInfo) -> Void) {
         syntaxNodeParser.requestSourceDirectory{ directory in
             self.workerQueue.async {
+                // todo: make a presenter or something oof
                 for url in directory.swiftUrls {
-                    self.syntaxNodeParser.render(
-                        source: url,
-                        in: self.sceneState
-                    )
+                    self.syntaxNodeParser.prepareRendering(source: url)
+                    self.syntaxNodeParser.render(in: self.sceneState)
                 }
-
-                // AFTER ALL THAT THE ISSUE WAS THE MAIN THREAD.
-                // DAMN IT.
                 self.main.async {
                     handler(self.syntaxNodeParser.resultInfo)
                 }
