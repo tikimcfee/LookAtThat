@@ -18,7 +18,8 @@ extension SwiftSyntaxParser {
         let parentCodeSheet = CodeSheet()
 
         parentCodeSheet.containerNode.position =
-            parentCodeSheet.containerNode.position.translated(dZ: nextZ - 100)
+            parentCodeSheet.containerNode.position
+                .translated(dY: -100, dZ: nextZ - 200)
 
         for node in rootSyntaxNode!.children {
             print("At node \(node.syntaxNodeType)")
@@ -33,13 +34,9 @@ extension SwiftSyntaxParser {
     func visitChildrenOf(_ childSyntaxNode: SyntaxChildren.Element,
                          _ parentCodeSheet: CodeSheet) {
         for syntaxChild in childSyntaxNode.children {
-            print("At syntax node child \(syntaxChild.syntaxNodeType)")
             let childSheet = parentCodeSheet.spawnChild()
-            childSheet.containerNode.position.y =
-                parentCodeSheet.lastLine.position.y +
-                    parentCodeSheet.lastLine.lengthY
-
-            childSheet.containerNode.position.z -= 15
+            childSheet.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.gray
+            childSheet.containerNode.position.z -= nextZ
 
             if syntaxChild.isToken {
                 print("Found solo syntax node")
@@ -53,13 +50,12 @@ extension SwiftSyntaxParser {
             }
 
             childSheet.sizePageToContainerNode()
-
             childSheet.containerNode.position.x +=
                 childSheet.containerNode.lengthX / 2.0
             childSheet.containerNode.position.y -=
                 childSheet.containerNode.lengthY / 2.0
 
-            parentCodeSheet.lastLine = childSheet.lastLine
+            parentCodeSheet.arrangeLastChild()
         }
     }
 

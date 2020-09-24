@@ -5,7 +5,7 @@ import Combine
 
 var z = CGFloat(0)
 var nextZ: CGFloat {
-    z -= 50
+    z -= 15
     return z
 }
 
