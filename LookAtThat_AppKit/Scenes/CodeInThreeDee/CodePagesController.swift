@@ -109,11 +109,14 @@ extension CodePagesController {
     }
 
     func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
-        self.workerQueue.async {
-            // todo: make a presenter or something oof
-            self.syntaxNodeParser.__renderSheetTest(in: self.sceneState)
-            self.main.async {
-                handler(self.syntaxNodeParser.resultInfo)
+        syntaxNodeParser.requestSourceFile { fileUrl in
+            self.workerQueue.async {
+                // todo: make a presenter or something oof
+                self.syntaxNodeParser.prepareRendering(source: fileUrl)
+                self.syntaxNodeParser.render(in: self.sceneState)
+                self.main.async {
+                    handler(self.syntaxNodeParser.resultInfo)
+                }
             }
         }
     }

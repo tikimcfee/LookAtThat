@@ -16,6 +16,17 @@ class SwiftSyntaxParser: SyntaxRewriter {
         super.init()
     }
 
+    override func visit(_ node: CodeBlockItemListSyntax) -> Syntax {
+//        for codeBlock in node.children {
+//            print("----------- Code block -----------")
+//            let thisBlock = codeBlock.tokens.reduce(into: "") {
+//                $0.append($1.alltext)
+//            }
+//            print(thisBlock)
+//        }
+        return super.visit(node)
+    }
+
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
         resultInfo.functions[node.identifier.alltext].append(node)
         return super.visit(node)
@@ -56,23 +67,15 @@ extension SwiftSyntaxParser {
     }
 
     func render(in sceneState: SceneState) {
-        guard let rootSyntaxNode = rootSyntaxNode else {
-            print("Rendering failed, no root syntax for \(String(describing: preparedSourceFile))")
+        guard rootSyntaxNode != nil else {
+            print("No syntax to render for \(String(describing: preparedSourceFile))")
             return
         }
 
-        let codeSheet = CodeSheet()
-        codeSheet.containerNode.position =
-            codeSheet.containerNode.position.translated(dZ: nextZ - 100)
-
-        for token in rootSyntaxNode.tokens {
-            add(token, to: codeSheet)
-        }
-
-        codeSheet.sizePageToContainerNode()
+        let parentCodeSheet = makeCodeSheet()
 
         sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(codeSheet.containerNode)
+            sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
         }
     }
 }
