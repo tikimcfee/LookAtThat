@@ -9,10 +9,10 @@ extension CodePagesController {
             let scaledX = -event.deltaX * sensitivity
             let scaledY = event.deltaY * sensitivity
             if event.modifierFlags.contains(.command) {
-                let translate = SCNMatrix4MakeTranslation(scaledX, scaledY, 0)
+                let translate = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
                 sceneCameraNode.transform = SCNMatrix4Mult(translate, sceneCameraNode.transform)
             } else {
-                let translate = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
+                let translate = SCNMatrix4MakeTranslation(scaledX, scaledY, 0)
                 sceneCameraNode.transform = SCNMatrix4Mult(translate, sceneCameraNode.transform)
             }
         }

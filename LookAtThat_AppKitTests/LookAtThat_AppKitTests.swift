@@ -21,46 +21,12 @@ class LookAtThat_AppKitTests: XCTestCase {
     }
 
     func test_JustFunctions() throws {
-        print("------------------------------- Starting -------------------------------\n\n" )
-        let parentCodeSheet = CodeSheet()
-        for node in swiftSyntaxParser.rootSyntaxNode!.children {
-            print("At node \(node.syntaxNodeType)")
-            if node.isToken {
-                let token = node.firstToken!
-                swiftSyntaxParser.add(token, to: parentCodeSheet)
-            }
-            visitChildrenOf(node, parentCodeSheet)
-        }
+        print("------------------------------- Starting -------------------------------\n\n")
 
-        print("\nParent code sheet created: \(parentCodeSheet.allLines.count) lines")
-        for childSheet in parentCodeSheet.children {
-            print("- Child sheet: \(childSheet.allLines.count) lines")
-        }
+        let testCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        print("CodeSheet created with lines: \(testCodeSheet.allLines.count)")
 
         print("\n\n------------------------------- Done -------------------------------" )
-    }
-
-    func visitChildrenOf(_ childSyntaxNode: SyntaxChildren.Element,
-                         _ parentCodeSheet: CodeSheet) {
-        for syntaxChild in childSyntaxNode.children {
-            print("At syntax node child \(syntaxChild.syntaxNodeType)")
-            let childSheet = parentCodeSheet.spawnChild()
-
-            if syntaxChild.isToken {
-                print("Found solo syntax node")
-                swiftSyntaxParser.arrange(syntaxChild.firstToken!.text,
-                                          syntaxChild.firstToken!,
-                                          childSheet)
-            } else {
-                for token in syntaxChild.tokens {
-                    swiftSyntaxParser.add(token, to: childSheet)
-                }
-            }
-
-            childSheet.sizePageToContainerNode()
-            childSheet.containerNode.position.x +=
-                childSheet.containerNode.lengthX / 2.0
-        }
     }
 
     func testPerformanceExample() throws {
