@@ -57,6 +57,12 @@
 		F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
+		F0E3F41D251D325E00FC02ED /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F0E3F41C251D325E00FC02ED /* SwiftSyntax */; };
+		F0E3F41F251D325E00FC02ED /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = F0E3F41E251D325E00FC02ED /* SwiftSyntaxBuilder */; };
+		F0E3F421251D325E00FC02ED /* SwiftAST in Frameworks */ = {isa = PBXBuildFile; productRef = F0E3F420251D325E00FC02ED /* SwiftAST */; };
+		F0E3F423251D325E00FC02ED /* SwiftAST+Tooling in Frameworks */ = {isa = PBXBuildFile; productRef = F0E3F422251D325E00FC02ED /* SwiftAST+Tooling */; };
+		F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
+		F0E3F425251D327600FC02ED /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
 		F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */; };
 /* End PBXBuildFile section */
@@ -175,6 +181,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0E3F423251D325E00FC02ED /* SwiftAST+Tooling in Frameworks */,
+				F0E3F41D251D325E00FC02ED /* SwiftSyntax in Frameworks */,
+				F0E3F421251D325E00FC02ED /* SwiftAST in Frameworks */,
+				F0E3F41F251D325E00FC02ED /* SwiftSyntaxBuilder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +259,7 @@
 		F00FC744250C53820092AFF9 /* DataVisualizers */ = {
 			isa = PBXGroup;
 			children = (
+				F09A52A025157F9300F5082A /* SwiftSyntax */,
 				F092E5C025101B9200B18894 /* CustomAnimations.swift */,
 				F00FC745250C53820092AFF9 /* WordNodes.swift */,
 			);
@@ -355,7 +366,6 @@
 		F09A529E25157F7800F5082A /* Visitors */ = {
 			isa = PBXGroup;
 			children = (
-				F09A52A025157F9300F5082A /* SwiftSyntax */,
 				F09A529F25157F8C00F5082A /* AST */,
 			);
 			path = Visitors;
@@ -461,6 +471,12 @@
 			dependencies = (
 			);
 			name = LookAtThatMobile;
+			packageProductDependencies = (
+				F0E3F41C251D325E00FC02ED /* SwiftSyntax */,
+				F0E3F41E251D325E00FC02ED /* SwiftSyntaxBuilder */,
+				F0E3F420251D325E00FC02ED /* SwiftAST */,
+				F0E3F422251D325E00FC02ED /* SwiftAST+Tooling */,
+			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
 			productType = "com.apple.product-type.application";
@@ -534,6 +550,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */,
+				F0E3F425251D327600FC02ED /* dict.json in Resources */,
 				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
 				F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */,
 			);
@@ -965,6 +983,24 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */;
 			productName = SwiftAST;
+		};
+		F0E3F41C251D325E00FC02ED /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftSyntax;
+		};
+		F0E3F41E251D325E00FC02ED /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftSyntaxBuilder;
+		};
+		F0E3F420251D325E00FC02ED /* SwiftAST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */;
+			productName = SwiftAST;
+		};
+		F0E3F422251D325E00FC02ED /* SwiftAST+Tooling */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */;
+			productName = "SwiftAST+Tooling";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -28,27 +28,27 @@ class SwiftSyntaxParser: SyntaxRewriter {
     }
 
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
-        resultInfo.functions[node.identifier.alltext].append(node)
+//        resultInfo.functions[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
-        resultInfo.enums[node.identifier.alltext].append(node)
+//        resultInfo.enums[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
-        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
+//        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
-        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
+//        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
-        resultInfo.structs[node.identifier.alltext].append(node)
+//        resultInfo.structs[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 }

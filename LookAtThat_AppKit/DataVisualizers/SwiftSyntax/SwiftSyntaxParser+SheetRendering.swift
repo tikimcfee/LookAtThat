@@ -2,6 +2,10 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
+extension CodeSheet {
+        
+}
+
 extension SwiftSyntaxParser {
 
     func makeCodeSheet() -> CodeSheet {
@@ -22,22 +26,18 @@ extension SwiftSyntaxParser {
     }
 
     private func visitChildrenOf(_ childSyntaxNode: SyntaxChildren.Element,
-                         _ parentCodeSheet: CodeSheet) {
+                                 _ parentCodeSheet: CodeSheet) {
+
         for syntaxChild in childSyntaxNode.children {
             let childSheet = parentCodeSheet.spawnChild()
             childSheet.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.gray
             childSheet.containerNode.position.z += 25
 
-            if syntaxChild.isToken {
-                print("Found solo syntax node")
-                arrange(syntaxChild.firstToken!.text,
-                        syntaxChild.firstToken!,
-                        childSheet)
-            } else {
-                for token in syntaxChild.tokens {
-                    add(token, to: childSheet)
-                }
+
+            for token in syntaxChild.tokens {
+                add(token, to: childSheet)
             }
+
 
             childSheet.sizePageToContainerNode()
             childSheet.containerNode.position.x +=
@@ -78,12 +78,13 @@ extension SwiftSyntaxParser {
                  let .blockComment(comment),
                  let .docLineComment(comment),
                  let .docBlockComment(comment):
-                comment
-                    .split(whereSeparator: { $0.isNewline })
-                    .forEach{
-                        arrange(String($0), token, codeSheet)
+                let lines = comment.split(whereSeparator: { $0.isNewline })
+                for piece in lines {
+                    arrange(String(piece), token, codeSheet)
+                    if piece != lines.last {
                         codeSheet.newlines(1)
                     }
+                }
             default:
                 arrange(triviaPiece.stringify, token, codeSheet)
             }

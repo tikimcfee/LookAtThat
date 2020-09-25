@@ -1,20 +1,20 @@
 import Foundation
 import SceneKit
 
-class CodeSheet {
-
-    var children = [CodeSheet]()
+class CodeSheet: Identifiable {
     weak var parent: CodeSheet?
 
-    lazy var sheetName = UUID().uuidString
-    lazy var allLines = [SCNNode]()
-    lazy var iteratorY = WordPositionIterator()
+    var id = UUID().uuidString
+    var allLines = [SCNNode]()
+    var iteratorY = WordPositionIterator()
+    var children = [CodeSheet]()
 
     lazy var containerNode: SCNNode = {
         let container = SCNNode()
         container.addChildNode(pageGeometryNode)
         pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
+        pageGeometryNode.name = id
         return container
     }()
 

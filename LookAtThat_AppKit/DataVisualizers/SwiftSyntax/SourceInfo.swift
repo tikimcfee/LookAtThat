@@ -14,7 +14,14 @@ public class SourceInfo {
     var extensions = AutoListValueDict<String, ExtensionDeclSyntax>()
     var structs = AutoListValueDict<String, StructDeclSyntax>()
 
+    var functionSheets = AutoListValueDict<String, CodeSheet>()
+    var enumSheets = AutoListValueDict<String, CodeSheet>()
+    var extensionSheets = AutoListValueDict<String, CodeSheet>()
+    var structSheets = AutoListValueDict<String, CodeSheet>()
+    var classSheets = AutoListValueDict<String, CodeSheet>()
+
     var allTokens = AutoListValueDict<String, String>()
+
     var sortedTokens: [(String, [String])] {
         return allTokens.map.sorted { leftPair, rightPair in
             return leftPair.key <= rightPair.key
