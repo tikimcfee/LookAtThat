@@ -59,8 +59,8 @@
 		F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
 		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */; };
-		F0C91E03251EB7D30082E3B2 /* MultipeerManager in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager */; };
-		F0C91E04251EB7D30082E3B2 /* MultipeerManager in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager */; };
+		F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
+		F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		F0CA74462514021200978111 /* SwiftAST in Frameworks */ = {isa = PBXBuildFile; productRef = F0CA74452514021200978111 /* SwiftAST */; };
 		F0CCB0FD2517BF2900937279 /* SceneControllerInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
@@ -161,7 +161,7 @@
 		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
 		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
 		F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySceneController.swift; sourceTree = "<group>"; };
-		F0C91E02251EB7D30082E3B2 /* MultipeerManager */ = {isa = PBXFileReference; lastKnownFileType = text; path = MultipeerManager; sourceTree = "<group>"; };
+		F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
 		F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControllerInteractions.swift; sourceTree = "<group>"; };
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
-				F0C91E02251EB7D30082E3B2 /* MultipeerManager */,
+				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
 				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
 				F02E1110251EEF240052D993 /* MultipeerData.swift */,
 				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
@@ -615,7 +615,7 @@
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
 				F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */,
-				F0C91E03251EB7D30082E3B2 /* MultipeerManager in Sources */,
+				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F07C49D2251C29F900F28173 /* SwiftSyntaxParser+Tests.swift in Sources */,
@@ -643,7 +643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F07C49EC251C5AE800F28173 /* ContentView.swift in Sources */,
-				F0C91E04251EB7D30082E3B2 /* MultipeerManager in Sources */,
+				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
