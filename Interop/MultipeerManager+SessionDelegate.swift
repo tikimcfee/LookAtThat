@@ -1,7 +1,7 @@
 import MultipeerConnectivity
 import Foundation
 
-extension MultipeerCommunicator: MCSessionDelegate {
+extension MultipeerConnectionManager: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         guard let connection = peerConnections[peerID] else {
             print("Received a state change without known peer.", peerConnections)
