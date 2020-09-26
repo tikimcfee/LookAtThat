@@ -10,7 +10,8 @@ import ARKit
 
 struct ContentView : View {
     var body: some View {
-        return ARViewContainer().edgesIgnoringSafeArea(.all)
+        return MultipeerInfoView()
+//        return ARViewContainer().edgesIgnoringSafeArea(.all)
     }
 }
 

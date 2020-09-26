@@ -15,11 +15,11 @@
             moduleName = "">
             <Locations>
                <Location
-                  uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8 - 7af2f92ae775233c"
+                  uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8 - cc86abe8c9557793"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "AG::Graph::print_cycle(unsigned int) const"
+                  symbolName = "AG::Graph::print_cycle(AG::data::ptr&lt;AG::Node&gt;) const"
                   moduleName = "AttributeGraph"
                   usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">
@@ -54,17 +54,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A49FE89C-30A7-4EA3-AFC0-200B3457038C"
+            uuid = "DBAC7251-712F-4795-98FB-B1FABAA013FF"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LookAtThatMobile/ContentView.swift"
+            filePath = "Interop/Views/MultipeerInfoView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "ARViewDelegate"
-            landmarkType = "3">
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "sendMessageToPeers()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

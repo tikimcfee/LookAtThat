@@ -67,6 +67,8 @@
 		F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
 		F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		F0E3F425251D327600FC02ED /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
+		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
+		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
 		F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */; };
 /* End PBXBuildFile section */
@@ -125,6 +127,7 @@
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
 		F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Interactions.swift"; sourceTree = "<group>"; };
+		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextParser.swift; sourceTree = "<group>"; };
@@ -161,6 +164,7 @@
 		F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControllerInteractions.swift; sourceTree = "<group>"; };
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
+		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePageDrawerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -329,6 +333,7 @@
 		F07C49E8251C5AE800F28173 /* LookAtThatMobile */ = {
 			isa = PBXGroup;
 			children = (
+				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
 				F07C49EB251C5AE800F28173 /* ContentView.swift */,
 				F07C49ED251C5AE800F28173 /* Experience.rcproject */,
@@ -400,6 +405,7 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				F0E685B8251EF6BC000E4B9F /* Views */,
 				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
 				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
 				F02E1110251EEF240052D993 /* MultipeerData.swift */,
@@ -416,6 +422,14 @@
 				F0CCB1012517BFC500937279 /* NodeHitTests.swift */,
 			);
 			path = UserControls;
+			sourceTree = "<group>";
+		};
+		F0E685B8251EF6BC000E4B9F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
@@ -610,6 +624,7 @@
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
+				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */,
@@ -632,6 +647,7 @@
 			files = (
 				F07C49EC251C5AE800F28173 /* ContentView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
+				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
@@ -891,6 +907,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
@@ -903,6 +921,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -914,6 +933,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
@@ -926,6 +947,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

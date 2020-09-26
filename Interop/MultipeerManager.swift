@@ -1,5 +1,8 @@
 import Foundation
 import MultipeerConnectivity
+import Combine
+
+typealias PeerMap = [MCPeerID: PeerConnection]
 
 enum UserKeys: String {
     case mcPeerId
@@ -22,21 +25,17 @@ enum UserKeys: String {
 }
 
 class MultipeerConnectionManager: NSObject {
-    static let myServiceName = "LookAtThat_MacOS_Connections"
-    #if os(OSX)
-    static let myDefaultName = "LookAtThat_MacOS_".appending(UUID().uuidString)
-    #elseif os(iOS)
-    static let myDefaultName = "LookAtThat_iOS_".appending(UUID().uuidString)
-    #endif
+    public static let shared = MultipeerConnectionManager()
 
-    static var myServiceType: String {
-        return UserKeys.applicationServiceType.safeValue(using: Self.myServiceName)
-    }
-
-    static var myPeerId: MCPeerID {
-        let displayName = UserKeys.mcPeerId.safeValue(using: Self.myDefaultName)
+    static let myPeerId: MCPeerID = {
+        #if os(OSX)
+        let defaultName = "lat-macos".appending(UUID().uuidString)
+        #elseif os(iOS)
+        let defaultName = "lat-ios".appending(UUID().uuidString)
+        #endif
+        let displayName = UserKeys.mcPeerId.safeValue(using: defaultName)
         return MCPeerID(displayName: displayName)
-    }
+    }()
 
     lazy var discoveryInfo: [String:String] = {
         return [
@@ -45,7 +44,8 @@ class MultipeerConnectionManager: NSObject {
     }()
 
     lazy var serviceBrowser: MCNearbyServiceBrowser = {
-        let browser = MCNearbyServiceBrowser(peer: Self.myPeerId, serviceType: Self.myServiceType)
+        let browser = MCNearbyServiceBrowser(peer: Self.myPeerId,
+                                             serviceType: "latmacconn")
         browser.delegate = self
         return browser
     }()
@@ -53,7 +53,7 @@ class MultipeerConnectionManager: NSObject {
     lazy var serviceAdvertiser: MCNearbyServiceAdvertiser  = {
         let browser = MCNearbyServiceAdvertiser(peer: Self.myPeerId,
                                                 discoveryInfo: discoveryInfo,
-                                                serviceType: Self.myServiceType)
+                                                serviceType: "latmacconn")
         browser.delegate = self
         return browser
     }()
@@ -65,10 +65,18 @@ class MultipeerConnectionManager: NSObject {
         return session
     }()
 
+    private lazy var connectionStream = CurrentValueSubject<PeerMap, Never>(peerConnections)
+    lazy var sharedConnectionStream = connectionStream.share().eraseToAnyPublisher()
     var peerConnections = [MCPeerID: PeerConnection]()
 
-    override init() {
+    var workerQueue = DispatchQueue(label: "MultipeerManager", qos: .userInitiated)
+
+    private override init() {
         super.init()
+    }
+
+    func sendUpdate() {
+        connectionStream.send(peerConnections)
     }
 }
 
@@ -89,11 +97,11 @@ extension MultipeerConnectionManager: MCNearbyServiceAdvertiserDelegate {
 
         peerConnections[peerID] = PeerConnection(
             targetPeerId: peerID,
-            state: .invited,
-            session: globalSession
+            state: .invited
         )
 
         invitationHandler(true, globalSession)
+        sendUpdate()
     }
 }
 
@@ -103,16 +111,16 @@ extension MultipeerConnectionManager: MCNearbyServiceBrowserDelegate {
                  withDiscoveryInfo info: [String : String]?) {
         let advertisedConnection = PeerConnection(
             targetPeerId: peerID,
-            state: .invited,
-            session: globalSession
+            state: .invited
         )
         peerConnections[peerID] = advertisedConnection
         browser.invitePeer(
             peerID,
             to: globalSession,
-            withContext: ConnectionData.message("Greetings from the other side").toData,
+            withContext: nil,
             timeout: 10.0
         )
+        sendUpdate()
     }
 
     func browser(_ browser: MCNearbyServiceBrowser,
@@ -123,10 +131,12 @@ extension MultipeerConnectionManager: MCNearbyServiceBrowserDelegate {
         }
         print("\(peerID) is no longer connected")
         peer.state = .notConnected
+        sendUpdate()
     }
 
     func browser(_ browser: MCNearbyServiceBrowser,
                  didNotStartBrowsingForPeers error: Error) {
         print("Failed browsing for peers", error)
+        sendUpdate()
     }
 }

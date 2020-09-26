@@ -20,8 +20,15 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_latmacconn._tcp</string>
+		<string>_latmacconn._udp</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>If you want to see code, the code must see YOU. Ok this just means we need the camera to track stuff in 3D. </string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Bluetooth, Wifi, and any other device networking will be used to locate and connect to nearby devices. Make sure you know who you&apos;re connecting to!</string>
 	<key>NSMotionUsageDescription</key>
 	<string>You move, we track.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -31,6 +38,8 @@
 		<string>armv7</string>
 		<string>arkit</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
@@ -39,10 +48,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Bluetooth, Wifi, and any other device networking will be used to locate and connect to nearby devices. Make sure you know who you&apos;re connecting to!</string>
-	<key>NSBonjourServices</key>
-	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,16 +1,22 @@
 import MultipeerConnectivity
 import Foundation
 
-class PeerConnection {
+class PeerConnection: Equatable, Hashable {
     var targetPeerId: MCPeerID
     var state: PeerConnectionState
-    var session: MCSession
     init(targetPeerId: MCPeerID,
-         state: PeerConnectionState,
-         session: MCSession) {
+         state: PeerConnectionState) {
         self.targetPeerId = targetPeerId
         self.state = state
-        self.session = session
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(targetPeerId)
+    }
+
+    public static func == (_ left: PeerConnection, _ right: PeerConnection) -> Bool {
+        return left.targetPeerId == right.targetPeerId
+            && left.state == right.state
     }
 }
 
@@ -63,8 +69,11 @@ enum ConnectionData: CustomStringConvertible {
         }
     }
 
-    var toData: Data? {
-        return description.data(using: Self.encoding)!
+    var toData: Data {
+        return description.data(using: Self.encoding) ?? {
+            print("!! Failed to encode !!", description)
+            return Data()
+        }()
     }
 
     static func fromData(_ data: Data) -> ConnectionData {
