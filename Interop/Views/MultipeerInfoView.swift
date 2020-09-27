@@ -7,9 +7,9 @@ struct MultipeerInfoView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            MultipeerStateView()
             PeerListView(selectedPeer: $selectedPeer)
             MessageSendView(selectedPeer: $selectedPeer)
+            MultipeerStateView()
         }.background(Color.gray.opacity(0.3))
     }
 }
@@ -25,21 +25,39 @@ struct MultipeerStateViewModel {
 struct MultipeerStateView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
     var viewModel: MultipeerStateViewModel { manager.peerDiscoveryState }
+    @State var isChangingName = true
 
     var body: some View {
-        return HStack {
+        return VStack {
             displayName
-            Spacer()
-            startBrowsingButton
-            startAdvertisingButton
+            HStack {
+                startBrowsingButton
+                startAdvertisingButton
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(8)
+        .sheet(isPresented: $isChangingName) {
+            ChangeNameView(
+                isChangingName: $isChangingName,
+                originalDisplayName: manager.currentConnection.myPeerId.displayName
+            )
+        }
+
     }
 
     var displayName: some View {
-        Text(viewModel.displayName)
-            .fontWeight(.heavy)
+        Button(action: { isChangingName = true }) {
+            VStack(alignment: .leading) {
+                Text("My display name (tap to change)")
+                    .font(.caption)
+                    .fontWeight(.heavy)
+                Text(viewModel.displayName)
+                    .font(.footnote)
+            }
+        }
+        .foregroundColor(Color.purple)
+        .padding(8)
     }
 
     var startBrowsingButton: some View {
@@ -70,6 +88,96 @@ struct MultipeerStateView: View {
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
         )
+    }
+}
+
+struct ChangeNameView: View {
+    @EnvironmentObject var manager: MultipeerConnectionManager
+
+    @Binding var isChangingName: Bool
+    var originalDisplayName: String = ""
+    @State var displayName: String = ""
+
+    @State var triedToSave = false
+    var nameLengthRange = 5...15
+    var nameLength: Bool { return nameLengthRange.contains(displayName.count) }
+    var validString: Bool { displayName.allSatisfy { character in
+        return character.isLetter || character.isNumber
+    }}
+
+    var isDisabled: Bool {
+        return !(nameLength && validString)
+    }
+
+    var buttonText: String {
+        isDisabled
+            ? "Fix name to save"
+            : "Save"
+    }
+
+    var problemText: String {
+        if isDisabled {
+            if !nameLength {
+                return "Name is \(displayName.count), should be between (\(nameLengthRange))"
+            } else if !validString {
+                return "Letters and numbers only, please."
+            } else {
+                return "If you see this: Sorry, we messed up."
+            }
+        } else {
+            return ""
+        }
+    }
+
+    var body: some View {
+        return VStack(alignment: .leading) {
+            Spacer()
+            Text("Current name")
+                .underline()
+            Text(originalDisplayName)
+                .font(.footnote)
+                .padding(8)
+
+            Text("New name")
+                .underline()
+            TextField("Enter a new name here", text: $displayName)
+                .keyboardType(.namePhonePad)
+                .font(.footnote)
+                .lineLimit(0)
+                .multilineTextAlignment(.leading)
+                .padding(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color.gray)
+                )
+
+            Spacer()
+            Button(action: saveDisplayName) {
+                Text(buttonText)
+                    .padding(8)
+            }
+            .disabled(isDisabled)
+            .frame(maxWidth: .infinity)
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.gray)
+            )
+            if isDisabled && triedToSave {
+                Text(problemText)
+                    .font(.footnote)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .padding(8)
+        .frame(maxHeight: .infinity)
+        .background(Color.gray.opacity(0.4))
+    }
+
+    func saveDisplayName() {
+        triedToSave = true
+        guard isDisabled else { return }
+        manager.setDisplayName(to: displayName)
+        isChangingName = false
     }
 }
 
@@ -165,7 +273,7 @@ struct MessageSendView_Previews: PreviewProvider {
     )
 
     static var previews: some View {
-        return MultipeerInfoView()
+        return MultipeerInfoView().environmentObject(MultipeerConnectionManager.shared)
     }
 }
 #endif
