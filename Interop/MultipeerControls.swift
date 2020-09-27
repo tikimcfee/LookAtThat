@@ -6,30 +6,34 @@ extension MultipeerConnectionManager {
     func startBrowser() {
         workerQueue.async {
             self.currentConnection.startBrowsing()
-            self.mainQueue.async {
-                self.peerDiscoveryState.isBrowsing = true
-            }
+            self.updatePeerState()
         }
     }
 
     func startAdvertiser() {
         workerQueue.async {
             self.currentConnection.startAdvertising()
-            self.mainQueue.async {
-                self.peerDiscoveryState.isAdvertising = true
-            }
+            self.updatePeerState()
         }
     }
 
     func send(message: String, to peer: MCPeerID) {
         workerQueue.async {
             self.onQueueSendMessage(message, peer)
+            self.updatePeerState()
         }
     }
 
     func setDisplayName(to newName: String) {
         workerQueue.async {
             self.onQueueSetDisplayName(newName)
+            self.updatePeerState()
+        }
+    }
+
+    private func updatePeerState() {
+        mainQueue.async {
+            self.peerDiscoveryState = self.makeNewDiscoveryState()
         }
     }
 
@@ -44,6 +48,7 @@ extension MultipeerConnectionManager {
 
         mainQueue.async {
             self.sentMessages[peer].append(message)
+            self.updatePeerState()
         }
     }
 
@@ -54,7 +59,6 @@ extension MultipeerConnectionManager {
         currentConnection.delegate = self
         mainQueue.async {
             self.currentPeers = [MCPeerID: PeerConnection]()
-            self.peerDiscoveryState = MultipeerStateViewModel()
             if oldConnection.isAdvertising {
                 self.startAdvertiser()
             }

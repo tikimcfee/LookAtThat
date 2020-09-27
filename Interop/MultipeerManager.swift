@@ -20,11 +20,23 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     @Published var currentPeers = [MCPeerID: PeerConnection]()
     @Published var peerDiscoveryState = MultipeerStateViewModel()
 
-    lazy var peerStream = $currentPeers.share()
+    lazy var peerStream = $currentPeers.share().eraseToAnyPublisher()
+    lazy var stateStream = $peerDiscoveryState.share().eraseToAnyPublisher()
 
     private override init() {
         super.init()
+        peerDiscoveryState = makeNewDiscoveryState()
         currentConnection.delegate = self
+    }
+
+    func makeNewDiscoveryState() -> MultipeerStateViewModel {
+        return MultipeerStateViewModel(
+            displayName: currentConnection.myPeerId.displayName,
+            isBrowsing: currentConnection.isBrowsing,
+            isAdvertising: currentConnection.isAdvertising,
+            startBrowsing: { self.startBrowser() },
+            startAdvertising: { self.startAdvertiser() }
+        )
     }
 }
 

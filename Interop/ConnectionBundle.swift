@@ -92,7 +92,7 @@ class ConnectionBundle {
     private static func createAdvertiser(_ peerId: MCPeerID) -> MCNearbyServiceAdvertiser {
         let advertisier = MCNearbyServiceAdvertiser(
             peer: peerId,
-            discoveryInfo: Self.newDiscoveryInfo,
+            discoveryInfo: nil,
             serviceType: Self.kServiceName
         )
         return advertisier
@@ -101,7 +101,7 @@ class ConnectionBundle {
     private static var newDiscoveryInfo: [String: String] {
         return ["advertiserStart": Date().description]
     }
-    private static let kServiceName = "latmaccon"
+    private static let kServiceName = "latmacconn"
     private static var defaultDeviceName: String {
         #if os(OSX)
         return "macOS-App-".appending(UUID().uuidString)

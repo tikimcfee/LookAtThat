@@ -23,12 +23,11 @@
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_latmacconn._tcp</string>
-		<string>_latmacconn._udp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>If you want to see code, the code must see YOU. Ok this just means we need the camera to track stuff in 3D. </string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Bluetooth, Wifi, and any other device networking will be used to locate and connect to nearby devices. Make sure you know who you're connecting to!</string>
+	<string>Bluetooth, Wifi, and any other device networking will be used to locate and connect to nearby devices. Make sure you know who you&apos;re connecting to!</string>
 	<key>NSMotionUsageDescription</key>
 	<string>You move, we track.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

@@ -44,7 +44,7 @@ struct MultipeerStateView: View {
             )
         }
         .onReceive(
-            manager.$peerDiscoveryState
+            manager.stateStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: RunLoop.main)
         ) { item in
@@ -75,7 +75,7 @@ struct MultipeerStateView: View {
                     : "Start browsing"
             )
         }
-        .disabled(viewModel.isAdvertising)
+        .disabled(viewModel.isBrowsing)
         .padding(8).overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
@@ -90,7 +90,7 @@ struct MultipeerStateView: View {
                     : "Start advertising"
             )
         }
-        .disabled(viewModel.isBrowsing)
+        .disabled(viewModel.isAdvertising)
         .padding(8).overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
