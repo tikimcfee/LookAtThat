@@ -24,7 +24,7 @@ struct MultipeerStateViewModel {
 
 struct MultipeerStateView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
-    var viewModel: MultipeerStateViewModel { manager.peerDiscoveryState }
+    @State var viewModel: MultipeerStateViewModel = MultipeerStateViewModel()
     @State var isChangingName = false
 
     var body: some View {
@@ -42,6 +42,13 @@ struct MultipeerStateView: View {
                 isChangingName: $isChangingName,
                 originalDisplayName: manager.currentConnection.myPeerId.displayName
             )
+        }
+        .onReceive(
+            manager.$peerDiscoveryState
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: RunLoop.main)
+        ) { item in
+            viewModel = item
         }
 
     }
@@ -98,7 +105,6 @@ struct ChangeNameView: View {
     var originalDisplayName: String = ""
     @State var displayName: String = ""
 
-    @State var triedToSave = false
     var nameLengthRange = 5...15
     var nameLength: Bool { return nameLengthRange.contains(displayName.count) }
     var validString: Bool { displayName.allSatisfy { character in
@@ -162,10 +168,12 @@ struct ChangeNameView: View {
                 RoundedRectangle(cornerRadius: 4)
                     .stroke(Color.gray)
             )
-            if isDisabled && triedToSave {
+            if isDisabled && displayName.count >= nameLengthRange.first! {
                 Text(problemText)
                     .font(.footnote)
+                    .italic()
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(Color.red.opacity(0.6))
             }
         }
         .padding(8)
@@ -174,8 +182,7 @@ struct ChangeNameView: View {
     }
 
     func saveDisplayName() {
-        triedToSave = true
-        guard isDisabled else { return }
+        guard !isDisabled else { return }
         manager.setDisplayName(to: displayName)
         isChangingName = false
     }

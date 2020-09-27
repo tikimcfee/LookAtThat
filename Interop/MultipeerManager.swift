@@ -8,6 +8,7 @@ typealias MessageHistory = AutoListValueDict<MCPeerID, String>
 class MultipeerConnectionManager: NSObject, ObservableObject {
     public static let shared = MultipeerConnectionManager()
     let workerQueue = DispatchQueue(label: "MultipeerManager", qos: .userInitiated)
+    let mainQueue = DispatchQueue.main
 
     // Multipeer API setup
     var currentConnection = ConnectionBundle()
@@ -20,9 +21,6 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     @Published var peerDiscoveryState = MultipeerStateViewModel()
 
     lazy var peerStream = $currentPeers.share()
-
-    lazy var connectionStateStream =
-        $currentPeers.share().eraseToAnyPublisher()
 
     private override init() {
         super.init()
