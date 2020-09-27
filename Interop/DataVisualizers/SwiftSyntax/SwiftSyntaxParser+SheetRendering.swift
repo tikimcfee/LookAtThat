@@ -2,10 +2,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-extension CodeSheet {
-        
-}
-
 extension SwiftSyntaxParser {
 
     func makeCodeSheet() -> CodeSheet {
@@ -21,6 +17,9 @@ extension SwiftSyntaxParser {
         }
 
         parentCodeSheet.sizePageToContainerNode()
+
+        // Save node to be looked up later
+        nodesToSheets[parentCodeSheet.containerNode] = parentCodeSheet
 
         return parentCodeSheet
     }

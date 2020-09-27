@@ -27,6 +27,24 @@ extension CodePagesController {
         }
     }
 
+    func newMouseDown(_ event: NSEvent) {
+        guard let view = sceneView as? CustomSceneView
+            else { return }
+
+        var safePoint: CGPoint?
+        DispatchQueue.main.sync {
+            safePoint = view.convert(event.locationInWindow, to: nil)
+        }
+        guard let point = safePoint else { return }
+
+        guard let clickedSheet = sceneView.hitTestCodeSheet(with: point).first?.node.parent
+            else { return }
+
+        let maybeSheet = syntaxNodeParser.nodesToSheets[clickedSheet]
+        print("Clicked \(maybeSheet?.id)")
+        touchState.mouse.currentClickedSheet = maybeSheet
+    }
+
     func newMousePosition(_ point: CGPoint) {
 //        let hoverTranslationY = CGFloat(50)
 //

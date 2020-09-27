@@ -9,7 +9,7 @@ struct MultipeerInfoView: View {
         VStack(spacing: 0) {
             PeerListView(selectedPeer: $selectedPeer)
             MessageSendView(selectedPeer: $selectedPeer)
-            MultipeerStateView()
+            MultipeerStateView(selectedPeer: $selectedPeer)
         }.background(Color.gray.opacity(0.3))
     }
 }
@@ -18,14 +18,13 @@ struct MultipeerStateViewModel {
     var displayName: String = UserKeys.peerDisplayName.safeValue(using: "")
     var isBrowsing: Bool = false
     var isAdvertising: Bool = false
-    var startBrowsing: () -> Void = { }
-    var startAdvertising: () -> Void = { }
 }
 
 struct MultipeerStateView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
     @State var viewModel: MultipeerStateViewModel = MultipeerStateViewModel()
     @State var isChangingName = false
+    @Binding var selectedPeer: PeerConnection?
 
     var body: some View {
         return VStack {
@@ -33,6 +32,9 @@ struct MultipeerStateView: View {
             HStack {
                 startBrowsingButton
                 startAdvertisingButton
+            }
+            HStack {
+                sendCodeSheetButton
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,7 +70,7 @@ struct MultipeerStateView: View {
     }
 
     var startBrowsingButton: some View {
-        Button(action: viewModel.startBrowsing) {
+        Button(action: { manager.startBrowser() }) {
             Text(
                 viewModel.isBrowsing
                     ? "Browsing..."
@@ -83,7 +85,7 @@ struct MultipeerStateView: View {
     }
 
     var startAdvertisingButton: some View {
-        Button(action: viewModel.startAdvertising) {
+        Button(action: { manager.startAdvertiser() }) {
             Text(
                 viewModel.isAdvertising
                     ? "Advertising..."
@@ -91,6 +93,19 @@ struct MultipeerStateView: View {
             )
         }
         .disabled(viewModel.isAdvertising)
+        .padding(8).overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.gray)
+        )
+    }
+
+    var sendCodeSheetButton: some View {
+        Button(action: {
+            guard let selectedPeer = selectedPeer else { return }
+            manager.sendCodeSheet(to: selectedPeer.targetPeerId)
+        }) {
+            Text("Send code sheet")
+        }
         .padding(8).overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray)
@@ -285,12 +300,9 @@ struct MessageSendView: View {
 
 #if DEBUG
 struct MessageSendView_Previews: PreviewProvider {
-    static let current = WrappedBinding<PeerConnection?>(
-        PeerConnection(targetPeerId: .init(displayName: "Sup"), state: .connected)
-    )
-
     static var previews: some View {
-        return MultipeerInfoView().environmentObject(MultipeerConnectionManager.shared)
+        return MultipeerInfoView()
+            .environmentObject(MultipeerConnectionManager.shared)
     }
 }
 #endif

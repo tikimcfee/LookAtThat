@@ -63,6 +63,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
     var rootSyntaxNode: Syntax?
     var resultInfo = SourceInfo()
 
+    var nodesToSheets = [SCNNode: CodeSheet]()
+
     var textNodeBuilder: WordNodeBuilder
 
     init(wordNodeBuilder: WordNodeBuilder) {

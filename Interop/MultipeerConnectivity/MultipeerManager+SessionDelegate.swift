@@ -19,13 +19,15 @@ extension MultipeerConnectionManager: MCSessionDelegate {
 
     // Received data from remote peer.
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        guard case let .message(messageData) = ConnectionData.fromData(data) else {
-            let utf8Data = String(data: data, encoding: .utf8) ?? "<read_data_failed>"
-            print("Failed to parse recevied data for \(peerID)::\(utf8Data)")
-            return
+        let connectionData = ConnectionData.fromData(data)
+        switch connectionData {
+        case .error:
+            print("Failed to parse data; got an error")
+        case let .message(messageData):
+            print("Message: ", messageData)
+        case let .sheet(sheet):
+            print("Sheet: ", sheet)
         }
-        print("Got new data", messageData)
-
         mainQueue.async {
             self.objectWillChange.send()
         }

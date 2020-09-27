@@ -33,9 +33,7 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
         return MultipeerStateViewModel(
             displayName: currentConnection.myPeerId.displayName,
             isBrowsing: currentConnection.isBrowsing,
-            isAdvertising: currentConnection.isAdvertising,
-            startBrowsing: { self.startBrowser() },
-            startAdvertising: { self.startAdvertiser() }
+            isAdvertising: currentConnection.isAdvertising
         )
     }
 }

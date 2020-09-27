@@ -42,6 +42,13 @@ class CodePagesController: BaseSceneController {
                 self?.newScrollEvent(scrollEvent)
             }
             .store(in: &cancellables)
+
+        SceneLibrary.global.sharedMouseDown
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [weak self] downEvent in
+                self?.newMouseDown(downEvent)
+            }
+            .store(in: &cancellables)
         #endif
     }
 
@@ -115,7 +122,7 @@ extension CodePagesController {
             self.workerQueue.async {
                 // todo: make a presenter or something oof
                 self.syntaxNodeParser.prepareRendering(source: fileUrl)
-                self.syntaxNodeParser.renderAndDuplicate(in: self.sceneState)
+                self.syntaxNodeParser.render(in: self.sceneState)
                 self.main.async {
                     handler(self.syntaxNodeParser.resultInfo)
                 }

@@ -17,6 +17,18 @@ extension MultipeerConnectionManager {
         }
     }
 
+    func sendCodeSheet(to peer: MCPeerID) {
+        workerQueue.async {
+            // Lol look at that dependency chain....
+            guard let clickedSheet =
+                    SceneLibrary.global.codePagesController
+                        .touchState.mouse.currentClickedSheet
+            else { return }
+            self.onQueueSendSheet(clickedSheet, peer)
+            self.updatePeerState()
+        }
+    }
+
     func send(message: String, to peer: MCPeerID) {
         workerQueue.async {
             self.onQueueSendMessage(message, peer)
@@ -35,6 +47,16 @@ extension MultipeerConnectionManager {
         mainQueue.async {
             self.peerDiscoveryState = self.makeNewDiscoveryState()
         }
+    }
+
+    private func onQueueSendSheet(_ sheet: CodeSheet, _ peer: MCPeerID) {
+        guard currentPeers[peer] != nil else {
+            print("Stop making up peer ids", peer)
+            return
+        }
+
+        let sheetData = ConnectionData.sheet(sheet).toData
+        currentConnection.send(sheetData, to: peer)
     }
 
     private func onQueueSendMessage(_ message: String, _ peer: MCPeerID) {

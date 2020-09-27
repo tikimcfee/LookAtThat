@@ -11,6 +11,7 @@ enum SceneType {
 protocol MousePositionReceiver: class {
     var mousePosition: CGPoint { get set }
     var scrollEvent: UIEvent { get set }
+    var mouseDownEvent: UIEvent { get set }
 }
 
 class CustomSceneView: SCNView {
@@ -20,6 +21,7 @@ class CustomSceneView: SCNView {
 protocol MousePositionReceiver: class {
     var mousePosition: CGPoint { get set }
     var scrollEvent: NSEvent { get set }
+    var mouseDownEvent: NSEvent { get set }
 }
 
 class CustomSceneView: SCNView {
@@ -55,6 +57,12 @@ class CustomSceneView: SCNView {
         let convertedPosition = convert(event.locationInWindow, from: nil)
         receiver.mousePosition = convertedPosition
     }
+
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mouseDownEvent = event
+    }
 }
 #endif
 
@@ -78,19 +86,27 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     #if os(OSX)
     private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
     private let scrollSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    private let mouseDownSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
     let sharedMouse: AnyPublisher<CGPoint, Never>
     let sharedScroll: AnyPublisher<NSEvent, Never>
+    let sharedMouseDown: AnyPublisher<NSEvent, Never>
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { mouseSubject.send(mousePosition) }
     }
     var scrollEvent: NSEvent = NSEvent() {
         didSet { scrollSubject.send(scrollEvent) }
     }
+    var mouseDownEvent: NSEvent = NSEvent() {
+        didSet { mouseDownSubject.send(mouseDownEvent) }
+    }
     #elseif os(iOS)
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { }
     }
     var scrollEvent: UIEvent = UIEvent() {
+        didSet { }
+    }
+    var mouseDownEvent: UIEvent = UIEvent() {
         didSet { }
     }
     #endif
@@ -110,6 +126,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
         #if os(OSX)
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
         self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
+        self.sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
         #endif
         self.currentController = codePagesController
         self.currentMode = .source
