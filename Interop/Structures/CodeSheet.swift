@@ -45,10 +45,10 @@ extension CodeSheet {
     }
 
     func makeLineNode() -> SCNNode {
-        // The scene geometry at the end is off by a line. This will probably be an issue at some point.
         let line = SCNNode()
         line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
         containerNode.addChildNode(line)
+        allLines.append(line)
         return line
     }
 }

@@ -2,7 +2,8 @@ import Foundation
 import SceneKit
 
 extension SCNNode {
-    var wireNode: WireNode { WireNode.from(self) }
+    var wireNode: WireNode { WireNode.from(self, isContainer: false) }
+    var containerWireNode: WireNode { WireNode.from(self, isContainer: true) }
 }
 extension SCNText {
     var wireText: WireText { WireText.from(self) }
@@ -43,8 +44,8 @@ struct WireSheet: Codable {
     static func from(_ sheet: CodeSheet) -> WireSheet {
         let newSheet = WireSheet(
             id: sheet.id,
-            containerNode: sheet.containerNode.wireNode,
-            pageGeometryNode: sheet.pageGeometryNode.wireNode,
+            containerNode: sheet.containerNode.containerWireNode,
+            pageGeometryNode: sheet.pageGeometryNode.containerWireNode,
             pageGeometry: sheet.pageGeometry.wireBox,
             allLines: sheet.allLines.map {
                 WireNode.from($0)
@@ -59,46 +60,18 @@ struct WireSheet: Codable {
     func makeCodeSheet(_ parent: CodeSheet? = nil) -> CodeSheet {
         let root = CodeSheet(id)
 
-        // xxx -- TODO, make this better! -- xxx
-        /* Right now, the root node contains all the other nodes...
-         which means when we serialize it, we serialize it, every code
-         sheet, and every code sheet's child.
-         That's not very efficient. It also causes problems.
-         If we just draw all the children, we'll end up with duplicates
-         of everything - nodes that aren't tracked by a code sheet (as
-         reified from the WireNode) and the nodes that are (as reified from WireSheet).
-         Options:
-         - Make CodeSheet smart about parsing through a node hierarchy
-         -- that sounds dangerous, especially since the allLines lines is meh..
-         - Serialize more clever-er-ly
-         -- I mention 'wirechild' and 'wireroot'. maybe CodeSheet can have a
-         -- 'myNodes' set (or lookup by name) to separate the two
-         - Completely change 'allLines' and 'containerNode'
-         -- allLines is weird, especially since the node hierarchy is always there
-         -- it's a structure around line breaks, which means we could tag those
-         -- nodes as 'lineContainers'.
-         -*** remove containers somewhere in the process
-         -- below is a stopgap fix for rendering, although it definitely has bugs
-         with respects to child code sheets. At the moment, this removes
-         all containers from the root hierarchy which effectively leaves
-         just the lines in tact. Even that's weird though, 'cause this whole
-         thing is recursive and... ugh I'm confused.
-        */
+        // xxx -- TODO PART 2 -- xxx
+        /* Ok so now the container nodes never contain children.
+         WireSheets *always need to be re-rendered*... kinda lame, but it works right now.
+         The algorithm thing took look up nodes might come in handy later, but now, this does
+         exactly what we want.
+         */
         root.containerNode = containerNode.scnNode
-        root.containerNode.childNodes(passingTest: { node, stop in
-            if node.parent == root.containerNode
-                && node.name == kContainerName {
-                return true
-            }
-            return false
-        }).forEach{ $0.removeFromParentNode() }
-        root.pageGeometryNode = pageGeometryNode.scnNode
-        root.containerNode.addChildNode(root.pageGeometryNode)
-
         root.pageGeometry = pageGeometry.scnBox
-        root.pageGeometryNode.categoryBitMask = HitTestType.codeSheet
+
+        root.pageGeometryNode = pageGeometryNode.scnNode
         root.pageGeometryNode.geometry = root.pageGeometry
-        root.pageGeometryNode.name = id
+        root.containerNode.addChildNode(root.pageGeometryNode)
 
         for line in allLines {
             let line = line.scnNode
@@ -154,12 +127,24 @@ struct WireNode: Codable {
         self.bitMask = bitMask
     }
 
-    public static func from(_ node: SCNNode) -> WireNode {
+    /*
+     If a WireNode is a container (isContainer = true), it means
+     it should be created *without* recording all of its children.
+     This is needed on the other end of reification, since the
+     CodeSheet structure technically duplicates the scene hierarchy with its
+     allLines[] and children[] construct. By ignoring these, we can use those
+     constructs to accurately re-render the original sheet by iterating over
+     allLines and children.containerNodes and adding them directly to
+     containerNode directly, respectively.
+     */
+    public static func from(_ node: SCNNode,
+                            isContainer: Bool = false) -> WireNode {
         WireNode(
             name: node.name,
-            children: node.childNodes.map {
-                WireNode.from($0)
-            },
+            children: isContainer
+                ? []
+                : node.childNodes.map { WireNode.from($0) }
+            ,
             transform: node.transform.wireMatrix,
             pivot: node.pivot.wireMatrix,
             box: (node.geometry as? SCNBox)?.wireBox,
@@ -172,18 +157,6 @@ struct WireNode: Codable {
         let node = SCNNode()
         node.name = name
         children.forEach{ node.addChildNode($0.scnNode) }
-        node.geometry = box?.scnBox ?? text?.scnText
-        node.transform = transform.scnMatrix
-        node.pivot = pivot.scnMatrix
-        node.categoryBitMask = bitMask
-        return node
-    }
-
-    // TODO: Should maybe have 'wire root' and 'wire child'..
-    // TODO: or a better algorithm
-    var scnNodeAsContainer: SCNNode {
-        let node = SCNNode()
-        node.name = name
         node.geometry = box?.scnBox ?? text?.scnText
         node.transform = transform.scnMatrix
         node.pivot = pivot.scnMatrix
