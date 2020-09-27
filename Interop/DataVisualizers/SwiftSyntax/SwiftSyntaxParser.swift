@@ -12,12 +12,15 @@ class SwiftSyntaxParser {
 }
 
 extension SwiftSyntaxParser {
-
     func prepareRendering(source fileUrl: URL) {
         print("\(#function) not implemented")
     }
 
     func render(in sceneState: SceneState) {
+        print("\(#function) not implemented")
+    }
+
+    func renderAndDuplicate(in sceneState: SceneState) {
         print("\(#function) not implemented")
     }
 }
@@ -53,7 +56,7 @@ extension SwiftSyntaxParser {
 }
 #elseif os(OSX)
 import SwiftSyntax
-// SwiftSyntax
+
 class SwiftSyntaxParser: SyntaxRewriter {
     var preparedSourceFile: URL?
     var sourceFileSyntax: SourceFileSyntax?
@@ -79,27 +82,22 @@ class SwiftSyntaxParser: SyntaxRewriter {
     }
 
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
-//        resultInfo.functions[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
-//        resultInfo.enums[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
-//        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
-//        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
         return super.visit(node)
     }
 
     override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
-//        resultInfo.structs[node.identifier.alltext].append(node)
         return super.visit(node)
     }
 }

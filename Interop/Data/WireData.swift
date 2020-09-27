@@ -168,12 +168,21 @@ struct WireNode: Codable {
 struct WireColor: Codable, Equatable {
     var red, green, blue, alpha: CGFloat
     var make: NSUIColor {
+        #if os(OSX)
         return NSUIColor(
             calibratedRed: red,
             green: green,
             blue: blue,
             alpha: alpha
         )
+        #elseif os(iOS)
+        return NSUIColor(
+            red: red,
+            green: green,
+            blue: blue,
+            alpha: alpha
+        )
+        #endif
     }
 }
 
@@ -264,6 +273,7 @@ struct WireMatrix4: Codable, Equatable {
  https://stackoverflow.com/questions/15682923/convert-nscolor-to-rgb/15682981#15682981
  */
 extension NSUIColor {
+    #if os(OSX)
     var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)? {
         if let calibratedColor = usingColorSpace(.genericRGB) {
             var redComponent = CGFloat(0)
@@ -273,12 +283,24 @@ extension NSUIColor {
             calibratedColor.getRed(&redComponent,
                                    green: &greenComponent,
                                    blue: &blueComponent,
-                                   alpha: &alphaComponent
-            )
+                                   alpha: &alphaComponent)
             return (redComponent, greenComponent, blueComponent, alphaComponent)
         }
         return nil
     }
+    #elseif os(iOS)
+    var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)? {
+        var redComponent = CGFloat(0)
+        var greenComponent = CGFloat(0)
+        var blueComponent = CGFloat(0)
+        var alphaComponent = CGFloat(0)
+        getRed(&redComponent,
+               green: &greenComponent,
+               blue: &blueComponent,
+               alpha: &alphaComponent)
+        return (redComponent, greenComponent, blueComponent, alphaComponent)
+    }
+    #endif
 
     var wireColor: WireColor {
         let rgba = self.rgba!

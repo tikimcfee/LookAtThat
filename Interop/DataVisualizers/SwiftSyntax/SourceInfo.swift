@@ -1,5 +1,4 @@
 import Foundation
-import SwiftSyntax
 
 public class SourceInfo {
     var tokenTypes = [String]()
