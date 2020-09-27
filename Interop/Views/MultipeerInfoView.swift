@@ -41,7 +41,7 @@ struct MultipeerStateView: View {
             ChangeNameView(
                 isChangingName: $isChangingName,
                 originalDisplayName: manager.currentConnection.myPeerId.displayName
-            )
+            ).environmentObject(MultipeerConnectionManager.shared)
         }
         .onReceive(
             manager.stateStream

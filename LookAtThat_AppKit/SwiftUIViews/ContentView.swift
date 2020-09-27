@@ -16,6 +16,8 @@ struct ContentView: View {
                 }
             case .source:
                 HStack(alignment: .bottom) {
+                    MultipeerInfoView()
+                        .frame(maxHeight: 512.0)
                     TestButtons_Debugging()
                     Spacer()
                     SourceInfoGrid()
