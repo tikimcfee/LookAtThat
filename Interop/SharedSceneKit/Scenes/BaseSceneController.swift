@@ -163,15 +163,21 @@ extension SceneControls {
     }
 }
 
-private final class WorkerPool {
+final class WorkerPool {
 
-    fileprivate static let shared = WorkerPool()
+    static let shared = WorkerPool()
 
     private lazy var allWorkers =
         (0..<8).map { DispatchQueue(label: "Q\($0)", qos: .userInteractive) }
 
+    private lazy var concurrentWorkers =
+        (0..<8).map { DispatchQueue(label: "QC\($0)", qos: .userInteractive, attributes: .concurrent) }
+
     private lazy var workerIterator =
         allWorkers.makeIterator()
+
+    private lazy var concurrentWorkerIterator =
+        concurrentWorkers.makeIterator()
 
     private init() {}
 
@@ -182,10 +188,17 @@ private final class WorkerPool {
             return next
         }()
     }
+
+    func nextConcurrentWorker() -> DispatchQueue {
+        return concurrentWorkerIterator.next() ?? {
+            concurrentWorkerIterator = concurrentWorkers.makeIterator()
+            let next = concurrentWorkerIterator.next()!
+            return next
+        }()
+    }
 }
 
 class SceneState {
-    // Geometry
     var rootGeometryNode: SCNNode = SCNNode()
 }
 
