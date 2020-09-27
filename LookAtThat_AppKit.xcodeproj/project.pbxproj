@@ -32,6 +32,7 @@
 		F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		F057D20125201AEB0094BD83 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D20025201AEB0094BD83 /* Collections.swift */; };
 		F057D20225201AEB0094BD83 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D20025201AEB0094BD83 /* Collections.swift */; };
+		F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F057D2092520328C0094BD83 /* LaunchScreen.storyboard */; };
 		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
 		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
@@ -133,6 +134,7 @@
 		F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Interactions.swift"; sourceTree = "<group>"; };
 		F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBundle.swift; sourceTree = "<group>"; };
 		F057D20025201AEB0094BD83 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
 				F07C49F4251C5AE900F28173 /* Info.plist */,
 				F07C49F1251C5AE900F28173 /* Preview Content */,
+				F057D2092520328C0094BD83 /* LaunchScreen.storyboard */,
 			);
 			path = LookAtThatMobile;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */,
 				F0E3F425251D327600FC02ED /* dict.json in Resources */,
 				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
+				F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */,
 				F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

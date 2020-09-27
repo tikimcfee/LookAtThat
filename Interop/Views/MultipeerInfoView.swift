@@ -25,7 +25,7 @@ struct MultipeerStateViewModel {
 struct MultipeerStateView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
     var viewModel: MultipeerStateViewModel { manager.peerDiscoveryState }
-    @State var isChangingName = true
+    @State var isChangingName = false
 
     var body: some View {
         return VStack {
