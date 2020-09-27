@@ -1,6 +1,8 @@
 import Foundation
 
+#if os(OSX)
 import AppKit
+#endif
 
 
 typealias FileResult = Result<URL, FileError>
@@ -18,6 +20,7 @@ enum FileError: Error {
     case noSwiftSource
 }
 
+#if os(OSX)
 func openFile(_ receiver: @escaping FileReceiver) {
     DispatchQueue.main.async {
         let panel = NSOpenPanel()
@@ -66,3 +69,12 @@ func openDirectory(_ receiver: @escaping DirectoryReceiver) {
         }
     }
 }
+#elseif os(iOS)
+func openFile(_ receiver: @escaping FileReceiver) {
+    print("Open file not implemented", #file)
+}
+
+func openDirectory(_ receiver: @escaping DirectoryReceiver) {
+    print("Open directory not implemented", #file)
+}
+#endif

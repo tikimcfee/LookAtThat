@@ -8,12 +8,6 @@ public class SourceInfo {
     var strings = Set<String>()
     var numbers = Set<String>()
 
-    var functions = AutoListValueDict<String, FunctionDeclSyntax>()
-    var enums = AutoListValueDict<String, EnumDeclSyntax>()
-    var closures = AutoListValueDict<String, ClosureExprSyntax>()
-    var extensions = AutoListValueDict<String, ExtensionDeclSyntax>()
-    var structs = AutoListValueDict<String, StructDeclSyntax>()
-
     var functionSheets = AutoListValueDict<String, CodeSheet>()
     var enumSheets = AutoListValueDict<String, CodeSheet>()
     var extensionSheets = AutoListValueDict<String, CodeSheet>()

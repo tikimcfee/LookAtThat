@@ -41,7 +41,7 @@ extension DictionarySceneController {
             var lastNode: SCNNode!
             let definitionLength =
                 definitionWords.reduce(into: CGFloat(0)) { length, node in
-                    length += node.boundingBox.max.x
+                    length += node.boundingBox.max.x.cg
                     defer { lastNode = node }
                     guard let target = lastNode else { return }
                     node.chainLinkTo(to: target)
@@ -49,7 +49,7 @@ extension DictionarySceneController {
 
             sceneCameraNode.position =
                 nextPosition.translated(
-                    dX: definitionLength / 2.0,
+                    dX: definitionLength.vector / 2.0,
                     dZ: 75
                 )
 

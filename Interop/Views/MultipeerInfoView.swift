@@ -146,6 +146,7 @@ struct ChangeNameView: View {
 
             Text("New name")
                 .underline()
+            #if os(iOS)
             TextField("Enter a new name here", text: $displayName)
                 .keyboardType(.namePhonePad)
                 .font(.footnote)
@@ -156,6 +157,15 @@ struct ChangeNameView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(Color.gray)
                 )
+            #elseif os(OSX)
+            TextField("Enter a new name here", text: $displayName)
+                .lineLimit(0)
+                .padding(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color.gray)
+                )
+            #endif
 
             Spacer()
             Button(action: saveDisplayName) {
@@ -206,7 +216,7 @@ struct PeerListView: View {
                             .italic()
                             .fontWeight(.light)
                     }
-                }.frame(maxWidth: UIScreen.main.bounds.width, alignment: .leading)
+                }.frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(8)
             .overlay(
@@ -214,7 +224,7 @@ struct PeerListView: View {
                     .stroke(Color.gray)
             )
         }
-        .frame(maxWidth: UIScreen.main.bounds.width, minHeight: 128, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 128, alignment: .topLeading)
         .padding(8)
         .onReceive(
             manager.peerStream

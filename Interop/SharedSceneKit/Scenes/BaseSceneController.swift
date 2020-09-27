@@ -10,7 +10,10 @@ protocol SceneControls {
 
     var sceneState: SceneState { get set }
     var touchState: TouchState { get set }
+
+    #if os(OSX)
     var panGestureShim: GestureShim { get set }
+    #endif
 
     var workerQueue: DispatchQueue { get }
 
@@ -30,10 +33,13 @@ open class BaseSceneController: SceneControls {
 
     lazy var sceneState: SceneState = SceneState()
     lazy var touchState = TouchState()
+
+    #if os(OSX)
     lazy var panGestureShim: GestureShim = GestureShim(
         { self.pan($0) },
         { self.magnify($0) }
     )
+    #endif
 
     var workerQueue: DispatchQueue {
         return WorkerPool.shared.nextWorker()

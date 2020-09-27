@@ -51,7 +51,7 @@ extension CodeSheet {
     private func setNewLine() {
         let newLine = SCNNode()
         newLine.position = lastLine.position.translated(
-            dY: -iteratorY.linesPerBlock
+            dY: -iteratorY.linesPerBlock.vector
         )
         allLines.append(newLine)
         lastLine = newLine
@@ -59,13 +59,13 @@ extension CodeSheet {
     }
 
     func sizePageToContainerNode() {
-        pageGeometry.width = containerNode.lengthX
-        pageGeometry.height = containerNode.lengthY
-        let centerY = -pageGeometry.height / 2
-        let centerX = pageGeometry.width / 2
-        pageGeometryNode.position.y = centerY
-        pageGeometryNode.position.x = centerX
-        containerNode.pivot = SCNMatrix4MakeTranslation(centerX, centerY, 0);
+        pageGeometry.width = containerNode.lengthX.cg
+        pageGeometry.height = containerNode.lengthY.cg
+        let centerY = -pageGeometry.height / 2.0
+        let centerX = pageGeometry.width / 2.0
+        pageGeometryNode.position.y = centerY.vector
+        pageGeometryNode.position.x = centerX.vector
+        containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0);
     }
 
     func spawnChild() -> CodeSheet {

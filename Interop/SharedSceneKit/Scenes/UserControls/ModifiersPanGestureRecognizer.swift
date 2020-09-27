@@ -2,6 +2,7 @@ import Foundation
 import SceneKit
 import SwiftUI
 
+#if os(OSX)
 class ModifierStore {
     var modifierFlags = NSEvent.ModifierFlags()
     var positionsForFlagChanges = [NSEvent.ModifierFlags: CGPoint]()
@@ -67,3 +68,4 @@ extension NSEvent.ModifierFlags: Hashable {
         return rawValue.hashValue
     }
 }
+#endif

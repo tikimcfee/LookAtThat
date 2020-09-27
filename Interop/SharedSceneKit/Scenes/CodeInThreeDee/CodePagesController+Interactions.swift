@@ -3,6 +3,7 @@ import Foundation
 import Combine
 
 extension CodePagesController {
+    #if os(OSX)
     func newScrollEvent(_ event: NSEvent) {
         sceneTransaction(0) {
             let sensitivity = CGFloat(1.5)
@@ -49,4 +50,5 @@ extension CodePagesController {
 //            }
 //        }
     }
+    #endif
 }

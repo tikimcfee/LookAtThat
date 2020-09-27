@@ -13,7 +13,7 @@ extension SwiftSyntaxParser {
 
         parentCodeSheet.containerNode.position =
             parentCodeSheet.containerNode.position
-                .translated(dY: -100, dZ: nextZ - 200)
+                .translated(dY: -100.0, dZ: nextZ - 200)
 
         for node in rootSyntaxNode!.children {
             print("At node \(node.syntaxNodeType)")
@@ -41,9 +41,9 @@ extension SwiftSyntaxParser {
 
             childSheet.sizePageToContainerNode()
             childSheet.containerNode.position.x +=
-                childSheet.containerNode.lengthX / 2.0
+                childSheet.containerNode.lengthX.vector / 2.0
             childSheet.containerNode.position.y -=
-                childSheet.containerNode.lengthY / 2.0
+                childSheet.containerNode.lengthY.vector / 2.0
 
             parentCodeSheet.arrangeLastChild()
         }

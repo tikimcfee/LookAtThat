@@ -44,7 +44,7 @@ class WordNodeBuilder {
                 rootContainerNode.addChildNode(definitionWordNode)
                 definitionWordNode.chainLinkTo(to: lastNode)
                 lastNode = definitionWordNode
-                definitionWordPosition.x += lastNode.boundingBox.max.x + POINTS_BETWEEN_WORDS
+                definitionWordPosition.x += lastNode.boundingBox.max.x + POINTS_BETWEEN_WORDS.vector
             }
         return rootContainerNode
     }
@@ -58,7 +58,7 @@ class WordNodeBuilder {
             containerNode.addChildNode(letterNode)
             letterNode.position = lastPosition
             letterNode.geometry = sizedText.0
-            lastPosition.x += sizedText.1.width + WORD_CHARACTER_SPACING
+            lastPosition.x += sizedText.1.width.vector + WORD_CHARACTER_SPACING.vector
             maxHeight = max(sizedText.1.height, maxHeight)
         }
         switch buildMode {
@@ -69,7 +69,7 @@ class WordNodeBuilder {
         }
         containerNode.boundingBox = (
             SCNVector3Zero,
-            SCNVector3(x: lastPosition.x, y: maxHeight, z: WORD_EXTRUSION_SIZE)
+            SCNVector3(x: lastPosition.x.vector, y: maxHeight.vector, z: WORD_EXTRUSION_SIZE.vector)
         )
         return containerNode
     }
@@ -95,7 +95,7 @@ class WordNodeBuilder {
 }
 
 //let kDefaultSCNTextFont = NSUIFont.systemFont(ofSize: WORD_FONT_POINT_SIZE)
-let kDefaultSCNTextFont = NSFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
+let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
 
 extension String {
     var fontedSize: CGSize {

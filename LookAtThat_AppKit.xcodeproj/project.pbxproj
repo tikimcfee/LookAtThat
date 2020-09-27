@@ -33,6 +33,34 @@
 		F057D20125201AEB0094BD83 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D20025201AEB0094BD83 /* Collections.swift */; };
 		F057D20225201AEB0094BD83 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D20025201AEB0094BD83 /* Collections.swift */; };
 		F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F057D2092520328C0094BD83 /* LaunchScreen.storyboard */; };
+		F057D214252042D90094BD83 /* CodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49D4251C469D00F28173 /* CodeSheet.swift */; };
+		F057D217252042F80094BD83 /* WordPositionIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D325185D8500B94E7A /* WordPositionIterator.swift */; };
+		F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
+		F057D222252043910094BD83 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
+		F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
+		F057D228252044430094BD83 /* WordNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC745250C53820092AFF9 /* WordNodes.swift */; };
+		F057D22E252044730094BD83 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
+		F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
+		F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */; };
+		F057D24B252045400094BD83 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
+		F057D24D252045400094BD83 /* CodePagesController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */; };
+		F057D252252045BB0094BD83 /* WordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC743250C53820092AFF9 /* WordParser.swift */; };
+		F057D255252045BF0094BD83 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
+		F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
+		F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
+		F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
+		F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D125180A9200B94E7A /* BaseSceneController.swift */; };
+		F057D27C252046B90094BD83 /* SceneControllerInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* SceneControllerInteractions.swift */; };
+		F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
+		F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
+		F057D27F252046BB0094BD83 /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
+		F057D282252048500094BD83 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
+		F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
+		F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */; };
+		F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
+		F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
+		F057D29B252052B60094BD83 /* SwiftSyntaxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */; };
+		F057D29E2520530F0094BD83 /* SourceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49DA251C477500F28173 /* SourceInfo.swift */; };
 		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
 		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
@@ -75,7 +103,6 @@
 		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F679D0251047AC00426059 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitView.swift */; };
-		F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,7 +151,7 @@
 		F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipeerManager+SessionDelegate.swift"; sourceTree = "<group>"; };
 		F02E1110251EEF240052D993 /* MultipeerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerData.swift; sourceTree = "<group>"; };
 		F02E1115251EEFE40052D993 /* MultipeerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerControls.swift; sourceTree = "<group>"; };
-		F030B8D125180A9200B94E7A /* BaseSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseSceneController.swift; path = CodePages/BaseSceneController.swift; sourceTree = "<group>"; };
+		F030B8D125180A9200B94E7A /* BaseSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSceneController.swift; sourceTree = "<group>"; };
 		F030B8D325185D8500B94E7A /* WordPositionIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPositionIterator.swift; sourceTree = "<group>"; };
 		F030B8D72518741E00B94E7A /* SceneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLibrary.swift; sourceTree = "<group>"; };
 		F030B8DA251903B400B94E7A /* TestButtonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonViews.swift; sourceTree = "<group>"; };
@@ -135,6 +162,7 @@
 		F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBundle.swift; sourceTree = "<group>"; };
 		F057D20025201AEB0094BD83 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityGlobalsAndExtensions.swift; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
@@ -174,7 +202,6 @@
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
-		F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePageDrawerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,13 +267,9 @@
 				F04D816C250C9210008210C1 /* dict.json */,
 				F00FC738250C53470092AFF9 /* Main.storyboard */,
 				F00FC735250C53470092AFF9 /* Preview Content */,
-				F092E5B625101B0600B18894 /* SceneUtils */,
-				F0341048250C7D3700031147 /* Scenes */,
-				F00FC742250C53820092AFF9 /* Data */,
-				F00FC744250C53820092AFF9 /* DataVisualizers */,
+				F09A529E25157F7800F5082A /* Visitors */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
 				F030B8D92519039A00B94E7A /* SwiftUIViews */,
-				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
 			);
 			path = LookAtThat_AppKit;
 			sourceTree = "<group>";
@@ -262,12 +285,8 @@
 		F00FC742250C53820092AFF9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F09A529E25157F7800F5082A /* Visitors */,
-				F043BB0F2515369000FB1EF6 /* Caches */,
 				F00FC743250C53820092AFF9 /* WordParser.swift */,
-				F030B8D325185D8500B94E7A /* WordPositionIterator.swift */,
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
-				F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */,
 				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
 			);
 			path = Data;
@@ -277,8 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				F09A52A025157F9300F5082A /* SwiftSyntax */,
-				F092E5C025101B9200B18894 /* CustomAnimations.swift */,
-				F00FC745250C53820092AFF9 /* WordNodes.swift */,
 			);
 			path = DataVisualizers;
 			sourceTree = "<group>";
@@ -307,7 +324,6 @@
 				F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */,
 				F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */,
 				F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */,
-				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -323,9 +339,38 @@
 		F057D1FF25201AD20094BD83 /* Structures */ = {
 			isa = PBXGroup;
 			children = (
+				F07C49D4251C469D00F28173 /* CodeSheet.swift */,
 				F057D20025201AEB0094BD83 /* Collections.swift */,
 			);
 			path = Structures;
+			sourceTree = "<group>";
+		};
+		F057D2132520428B0094BD83 /* MultipeerConnectivity */ = {
+			isa = PBXGroup;
+			children = (
+				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
+				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
+				F02E1110251EEF240052D993 /* MultipeerData.swift */,
+				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
+				F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */,
+			);
+			path = MultipeerConnectivity;
+			sourceTree = "<group>";
+		};
+		F057D22B2520444B0094BD83 /* SharedSceneKit */ = {
+			isa = PBXGroup;
+			children = (
+				F092E5B625101B0600B18894 /* SceneUtils */,
+				F0341048250C7D3700031147 /* Scenes */,
+				F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */,
+				F00FC745250C53820092AFF9 /* WordNodes.swift */,
+				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
+				F0F679CF251047AC00426059 /* SceneKitView.swift */,
+				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
+				F030B8D325185D8500B94E7A /* WordPositionIterator.swift */,
+				F092E5C025101B9200B18894 /* CustomAnimations.swift */,
+			);
+			path = SharedSceneKit;
 			sourceTree = "<group>";
 		};
 		F075BE46251445FC00DEB06F /* Libraries */ = {
@@ -373,8 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				F092E5B725101B0600B18894 /* SCNBezier */,
-				F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */,
-				F0F679CF251047AC00426059 /* SceneKitView.swift */,
 			);
 			path = SceneUtils;
 			sourceTree = "<group>";
@@ -410,10 +453,10 @@
 		F09A52A025157F9300F5082A /* SwiftSyntax */ = {
 			isa = PBXGroup;
 			children = (
+				F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */,
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 				F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */,
 				F07C49D1251C29F900F28173 /* SwiftSyntaxParser+Tests.swift */,
-				F07C49D4251C469D00F28173 /* CodeSheet.swift */,
 				F07C49DA251C477500F28173 /* SourceInfo.swift */,
 			);
 			path = SwiftSyntax;
@@ -422,13 +465,14 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */,
+				F00FC742250C53820092AFF9 /* Data */,
+				F00FC744250C53820092AFF9 /* DataVisualizers */,
+				F043BB0F2515369000FB1EF6 /* Caches */,
+				F057D22B2520444B0094BD83 /* SharedSceneKit */,
 				F057D1FF25201AD20094BD83 /* Structures */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
-				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
-				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
-				F02E1110251EEF240052D993 /* MultipeerData.swift */,
-				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
-				F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */,
+				F057D2132520428B0094BD83 /* MultipeerConnectivity */,
 			);
 			path = Interop;
 			sourceTree = "<group>";
@@ -456,7 +500,6 @@
 			children = (
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
 				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
-				F0F6BCFD25199DFB0073A4ED /* CodePageDrawerController.swift */,
 			);
 			path = CodeInThreeDee;
 			sourceTree = "<group>";
@@ -610,6 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
@@ -637,7 +681,6 @@
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
-				F0F6BCFE25199DFB0073A4ED /* CodePageDrawerController.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
@@ -667,16 +710,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F057D217252042F80094BD83 /* WordPositionIterator.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* ContentView.swift in Sources */,
+				F057D222252043910094BD83 /* SceneKitView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
+				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
+				F057D27F252046BB0094BD83 /* CustomTextParser.swift in Sources */,
+				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
+				F057D24D252045400094BD83 /* CodePagesController+Interactions.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
+				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
+				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
+				F057D22E252044730094BD83 /* LockingCache.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
+				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
 				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
+				F057D214252042D90094BD83 /* CodeSheet.swift in Sources */,
+				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
+				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
+				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
+				F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */,
 				F057D20225201AEB0094BD83 /* Collections.swift in Sources */,
+				F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */,
+				F057D29E2520530F0094BD83 /* SourceInfo.swift in Sources */,
+				F057D255252045BF0094BD83 /* String+Extensions.swift in Sources */,
+				F057D27C252046B90094BD83 /* SceneControllerInteractions.swift in Sources */,
+				F057D29B252052B60094BD83 /* SwiftSyntaxParser.swift in Sources */,
+				F057D252252045BB0094BD83 /* WordParser.swift in Sources */,
+				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
+				F057D228252044430094BD83 /* WordNodes.swift in Sources */,
+				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
+				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
+				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
+				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

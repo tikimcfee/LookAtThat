@@ -3,8 +3,8 @@ import SceneKit
 import SwiftSyntax
 import Combine
 
-var z = CGFloat(0)
-var nextZ: CGFloat {
+var z = VectorFloat(0)
+var nextZ: VectorFloat {
     z -= 15
     return z
 }
@@ -28,6 +28,7 @@ class CodePagesController: BaseSceneController {
     }
 
     func attachMouseSink() {
+        #if os(OSX)
         SceneLibrary.global.sharedMouse
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [weak self] mousePosition in
@@ -41,6 +42,7 @@ class CodePagesController: BaseSceneController {
                 self?.newScrollEvent(scrollEvent)
             }
             .store(in: &cancellables)
+        #endif
     }
 
     override func sceneActive() {
@@ -166,7 +168,7 @@ extension Array where Element == SCNNode {
                 let lastWordSize =
                     lastNode.boundingBox.max.x -
                     lastNode.boundingBox.min.x
-                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
+                lastWordPosition = lastNode.position.translated(dX: lastWordSize.vector)
             } else {
                 lastWordPosition = SCNVector3Zero
             }

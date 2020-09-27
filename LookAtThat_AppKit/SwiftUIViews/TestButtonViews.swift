@@ -9,18 +9,6 @@ struct SourceInfoGrid: View {
     var body: some View {
         return VStack(alignment: .leading) {
             if let info = sourceInfo {
-                identifiers(named: "Function Declarations",
-                            with: info.functions.map.map{ $0.key })
-
-                identifiers(named: "Enum Declarations",
-                            with: info.enums.map.map{ $0.key })
-
-                identifiers(named: "Closures",
-                            with: info.closures.map.map{ $0.key })
-
-                identifiers(named: "Extensions",
-                            with: info.extensions.map.map{ $0.key })
-
                 identifiers(named: "All Identifiers",
                             with: info.allTokens.map.map{ $0.key })
             } else {
@@ -152,11 +140,6 @@ struct SourceInfo_Previews: PreviewProvider {
     static var sourceInfo = WrappedBinding<SourceInfo?>(
         {
             let info = SourceInfo()
-            info.functions["append"].append(FunctionDeclSyntax.init({ _ in }))
-            info.functions["slice"].append(FunctionDeclSyntax.init({ _ in }))
-            info.functions["add"].append(FunctionDeclSyntax.init({ _ in }))
-            info.functions["multiple"].append(FunctionDeclSyntax.init({ _ in }))
-
             return info
         }()
     )

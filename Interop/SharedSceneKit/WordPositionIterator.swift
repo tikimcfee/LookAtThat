@@ -16,7 +16,7 @@ class WordPositionIterator {
     }
 
     func nextPosition() -> SCNVector3 {
-        return SCNVector3(x: -100, y: nextLineY(), z: -25)
+        return SCNVector3(x: -100, y: nextLineY().vector, z: -25)
     }
 
     func wordIndicesForWordCount(_ words: Int) -> [SCNVector3] {

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import SceneKit
 
+#if os(OSX)
 typealias PanReceiver = (ModifiersPanGestureRecognizer) -> Void
 typealias MagnificationReceiver = (ModifiersMagnificationGestureRecognizer) -> Void
 
@@ -50,12 +51,16 @@ extension NSGestureRecognizer.State: CustomStringConvertible {
         }
     }
 }
+#endif
 
 extension BaseSceneController {
     func attachMagnificationRecognizer() {
+        #if os(OSX)
         sceneView.addGestureRecognizer(panGestureShim.magnificationRecognizer)
+        #endif
     }
 
+    #if os(OSX)
     func magnify(_ receiver: ModifiersMagnificationGestureRecognizer) {
         switch receiver.state {
         case .began:
@@ -73,6 +78,7 @@ extension BaseSceneController {
             break
         }
     }
+    #endif
 }
 
 extension CGPoint {
@@ -88,9 +94,12 @@ extension CGPoint {
 // Adapted from https://stackoverflow.com/questions/48970111/rotating-scnnode-on-y-axis-based-on-pan-gesture
 extension BaseSceneController {
     func attachPanRecognizer() {
+        #if os(OSX)
         sceneView.addGestureRecognizer(panGestureShim.panRecognizer)
+        #endif
     }
 
+    #if os(OSX)
     func pan(_ receiver: ModifiersPanGestureRecognizer) {
         if receiver.state == .began {
             panBegan(receiver)
@@ -196,9 +205,9 @@ extension BaseSceneController {
         return CGPoint(x: newAngleX, y: newAngleY)
     }
 
-    func setPositionOf(_ node: SCNNode,
-                       to position: SCNVector3,
-                       relativeTo referenceNode: SCNNode) {
+    private func setPositionOf(_ node: SCNNode,
+                               to position: SCNVector3,
+                               relativeTo referenceNode: SCNNode) {
         let referenceNodeTransform = matrix_float4x4(referenceNode.transform)
 
         // Setup a translation matrix with the desired position
@@ -211,6 +220,7 @@ extension BaseSceneController {
         let updatedTransform = matrix_multiply(referenceNodeTransform, translationMatrix)
         node.transform = SCNMatrix4(updatedTransform)
     }
+    #endif
 }
 
 class TouchState {
@@ -243,9 +253,9 @@ class TouchStart {
     func computeStartUnprojection(in scene: SCNView) {
         computedStartUnprojection = scene.unprojectPoint(
             SCNVector3(
-                x: gesturePoint.x,
-                y: gesturePoint.y,
-                z: projectionDepthPosition.z
+                x: gesturePoint.x.vector,
+                y: gesturePoint.y.vector,
+                z: projectionDepthPosition.z.vector
             )
         )
     }
@@ -253,9 +263,9 @@ class TouchStart {
     func computedEndUnprojection(with location: CGPoint, in scene: SCNView) -> SCNVector3 {
         return scene.unprojectPoint(
             SCNVector3(
-                x: location.x,
-                y: location.y,
-                z: projectionDepthPosition.z
+                x: location.x.vector,
+                y: location.y.vector,
+                z: projectionDepthPosition.z.vector
             )
         )
     }

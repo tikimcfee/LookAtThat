@@ -7,6 +7,16 @@ enum SceneType {
     case dictionary
 }
 
+#if os(iOS)
+protocol MousePositionReceiver: class {
+    var mousePosition: CGPoint { get set }
+    var scrollEvent: UIEvent { get set }
+}
+
+class CustomSceneView: SCNView {
+    weak var positionReceiver: MousePositionReceiver?
+}
+#elseif os(OSX)
 protocol MousePositionReceiver: class {
     var mousePosition: CGPoint { get set }
     var scrollEvent: NSEvent { get set }
@@ -46,6 +56,8 @@ class CustomSceneView: SCNView {
         receiver.mousePosition = convertedPosition
     }
 }
+#endif
+
 
 class SceneLibrary: ObservableObject, MousePositionReceiver {
     public static let global = SceneLibrary()
@@ -63,6 +75,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     @Published var currentMode: SceneType
     var currentController: SceneControls
 
+    #if os(OSX)
     private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
     private let scrollSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
     let sharedMouse: AnyPublisher<CGPoint, Never>
@@ -73,6 +86,14 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     var scrollEvent: NSEvent = NSEvent() {
         didSet { scrollSubject.send(scrollEvent) }
     }
+    #elseif os(iOS)
+    var mousePosition: CGPoint = CGPoint.zero {
+        didSet { }
+    }
+    var scrollEvent: UIEvent = UIEvent() {
+        didSet { }
+    }
+    #endif
 
     private init() {
         self.customTextController =
@@ -86,8 +107,10 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
                                       wordNodeBuilder: wordNodeBuilder)
 
         // Unsafe initialization from .global ... more refactoring inc?
+        #if os(OSX)
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
         self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
+        #endif
         self.currentController = codePagesController
         self.currentMode = .source
         self.sharedSceneView.positionReceiver = self
