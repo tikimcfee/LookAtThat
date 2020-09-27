@@ -11,7 +11,6 @@ extension MultipeerConnectionManager: MCSessionDelegate {
         let newState = PeerConnectionState.forState(state)
         print("State changed to \(newState): \(connection)")
         connection.state = newState
-        sendUpdate()
     }
 
     // Received data from remote peer.
@@ -22,7 +21,6 @@ extension MultipeerConnectionManager: MCSessionDelegate {
             return
         }
         print("Got new data", messageData)
-        sendUpdate()
     }
 
     // Received a byte stream from remote peer.

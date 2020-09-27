@@ -2,29 +2,61 @@ import MultipeerConnectivity
 import Foundation
 
 extension MultipeerConnectionManager {
+
     func startBrowser() {
-        serviceBrowser.startBrowsingForPeers()
+        workerQueue.async {
+            self.currentConnection.startBrowsing()
+        }
     }
 
     func startAdvertiser() {
-        serviceAdvertiser.startAdvertisingPeer()
+        workerQueue.async {
+            self.currentConnection.startAdvertising()
+        }
     }
 
     func send(message: String, to peer: MCPeerID) {
-        let currentConnection = peerConnections
         workerQueue.async {
-            guard currentConnection[peer] != nil else {
-                print("Stop making up peer ids", peer)
-                return
-            }
+            self.onQueueSendMessage(message, peer)
+        }
+    }
 
-            let quickMessage = ConnectionData.message(message).toData
+    func setDisplayName(to newName: String) {
+        workerQueue.async {
+            self.onQueueSetDisplayName(newName)
+        }
+    }
 
-            do {
-                try self.globalSession.send(quickMessage, toPeers: [peer], with: .reliable)
-            } catch {
-                print("Send failed", error)
-            }
+    private func onQueueSendMessage(_ message: String, _ peer: MCPeerID) {
+        guard peerConnections[peer] != nil else {
+            print("Stop making up peer ids", peer)
+            return
+        }
+
+        let quickMessage = ConnectionData.message(message).toData
+        currentConnection.send(quickMessage, to: peer)
+    }
+
+    private func onQueueSetDisplayName(_ newName: String) {
+        let oldConnection = currentConnection
+        oldConnection.shutdown()
+        currentConnection = ConnectionBundle(newName)
+        currentConnection.delegate = self
+        if oldConnection.isAdvertising {
+            currentConnection.startAdvertising()
+        }
+        if oldConnection.isBrowsing {
+            currentConnection.startBrowsing()
+        }
+    }
+}
+
+extension ConnectionBundle {
+    func send(_ data: Data, to peer: MCPeerID) {
+        do {
+            try globalSession.send(data, toPeers: [peer], with: .reliable)
+        } catch {
+            print("Failed to send to \(peer)", error)
         }
     }
 }
