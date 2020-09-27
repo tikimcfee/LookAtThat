@@ -26,20 +26,26 @@ extension SCNGeometry {
 }
 
 extension CodeSheet {
-    var wireSheet: WireSheet { WireSheet.from(self) }
+    var wireSheet: WireSheet {
+        WireSheet.from(self)
+    }
 }
 
 struct WireSheet: Codable {
     //    var parent: WireSheet?  : TODO: need to reset these at the end
     let id: String
-    var parentId: String?
+    var containerNode: WireNode
+    var pageGeometryNode: WireNode
+    var pageGeometry: WireBox
     let allLines: [WireNode]
     let children: [WireSheet]
 
     static func from(_ sheet: CodeSheet) -> WireSheet {
-        WireSheet(
+        let newSheet = WireSheet(
             id: sheet.id,
-            parentId: sheet.parent?.id,
+            containerNode: sheet.containerNode.wireNode,
+            pageGeometryNode: sheet.pageGeometryNode.wireNode,
+            pageGeometry: sheet.pageGeometry.wireBox,
             allLines: sheet.allLines.map {
                 WireNode.from($0)
             },
@@ -47,30 +53,63 @@ struct WireSheet: Codable {
                 WireSheet.from($0)
             }
         )
+        return newSheet
     }
 
-    private func makeCodeSheet(_ parent: WireSheet? = nil) -> CodeSheet {
-        let root = CodeSheet(id, parent: nil)
-        for child in children {
-            root.children.append(child.makeCodeSheet(self))
-        }
-        for line in allLines {
-            root.allLines.append(line.scnNode)
-        }
-        if root.allLines.count > 0 {
-            root.lastLine = root.allLines.last!
-        }
-        root.sizePageToContainerNode()
-        return root
-    }
+    func makeCodeSheet(_ parent: CodeSheet? = nil) -> CodeSheet {
+        let root = CodeSheet(id)
 
-    var codeSheet: CodeSheet {
-        let root = CodeSheet(id, parent: nil)
-        for child in children {
-            root.children.append(child.codeSheet)
-        }
+        // xxx -- TODO, make this better! -- xxx
+        /* Right now, the root node contains all the other nodes...
+         which means when we serialize it, we serialize it, every code
+         sheet, and every code sheet's child.
+         That's not very efficient. It also causes problems.
+         If we just draw all the children, we'll end up with duplicates
+         of everything - nodes that aren't tracked by a code sheet (as
+         reified from the WireNode) and the nodes that are (as reified from WireSheet).
+         Options:
+         - Make CodeSheet smart about parsing through a node hierarchy
+         -- that sounds dangerous, especially since the allLines lines is meh..
+         - Serialize more clever-er-ly
+         -- I mention 'wirechild' and 'wireroot'. maybe CodeSheet can have a
+         -- 'myNodes' set (or lookup by name) to separate the two
+         - Completely change 'allLines' and 'containerNode'
+         -- allLines is weird, especially since the node hierarchy is always there
+         -- it's a structure around line breaks, which means we could tag those
+         -- nodes as 'lineContainers'.
+         -*** remove containers somewhere in the process
+         -- below is a stopgap fix for rendering, although it definitely has bugs
+         with respects to child code sheets. At the moment, this removes
+         all containers from the root hierarchy which effectively leaves
+         just the lines in tact. Even that's weird though, 'cause this whole
+         thing is recursive and... ugh I'm confused.
+        */
+        root.containerNode = containerNode.scnNode
+        root.containerNode.childNodes(passingTest: { node, stop in
+            if node.parent == root.containerNode
+                && node.name == kContainerName {
+                return true
+            }
+            return false
+        }).forEach{ $0.removeFromParentNode() }
+        root.pageGeometryNode = pageGeometryNode.scnNode
+        root.containerNode.addChildNode(root.pageGeometryNode)
+
+        root.pageGeometry = pageGeometry.scnBox
+        root.pageGeometryNode.categoryBitMask = HitTestType.codeSheet
+        root.pageGeometryNode.geometry = root.pageGeometry
+        root.pageGeometryNode.name = id
+
         for line in allLines {
-            root.allLines.append(line.scnNode)
+            let line = line.scnNode
+            root.allLines.append(line)
+            root.containerNode.addChildNode(line)
+        }
+        for child in children {
+            let sheet = child.makeCodeSheet(root)
+            root.children.append(sheet)
+            root.containerNode.addChildNode(sheet.containerNode)
+            sheet.sizePageToContainerNode()
         }
         if root.allLines.count > 0 {
             root.lastLine = root.allLines.last!
@@ -87,6 +126,7 @@ struct WireNode: Codable {
     let pivot: WireMatrix4
     let box: WireBox?
     let text: WireText?
+    let bitMask: Int
 
     enum Keys: CodingKey {
         case name
@@ -95,6 +135,7 @@ struct WireNode: Codable {
         case pivot
         case box
         case text
+        case bitMask
     }
 
     public init(name: String?,
@@ -102,33 +143,15 @@ struct WireNode: Codable {
                 transform: WireMatrix4,
                 pivot: WireMatrix4,
                 box: WireBox?,
-                text: WireText?) {
+                text: WireText?,
+                bitMask: Int) {
         self.name = name
         self.children = children
         self.transform = transform
         self.pivot = pivot
         self.box = box
         self.text = text
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try! decoder.container(keyedBy: Keys.self)
-        self.name = try? container.decode(String?.self, forKey: .name)
-        self.children = try! container.decode(Array<WireNode>.self, forKey: .children)
-        self.box = try? container.decode(WireBox?.self, forKey: .box)
-        self.text = try? container.decode(WireText?.self, forKey: .text)
-        self.transform = try! container.decode(WireMatrix4.self, forKey: .transform)
-        self.pivot = try! container.decode(WireMatrix4.self, forKey: .pivot)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Keys.self)
-        try! container.encode(self.name, forKey: .name)
-        try! container.encode(self.children, forKey: .children)
-        try? container.encode(self.box, forKey: .box)
-        try? container.encode(self.text, forKey: .text)
-        try! container.encode(self.transform, forKey: .transform)
-        try! container.encode(self.pivot, forKey: .pivot)
+        self.bitMask = bitMask
     }
 
     public static func from(_ node: SCNNode) -> WireNode {
@@ -140,7 +163,8 @@ struct WireNode: Codable {
             transform: node.transform.wireMatrix,
             pivot: node.pivot.wireMatrix,
             box: (node.geometry as? SCNBox)?.wireBox,
-            text: (node.geometry as? SCNText)?.wireText
+            text: (node.geometry as? SCNText)?.wireText,
+            bitMask: node.categoryBitMask
         )
     }
 
@@ -148,9 +172,22 @@ struct WireNode: Codable {
         let node = SCNNode()
         node.name = name
         children.forEach{ node.addChildNode($0.scnNode) }
-        node.geometry = box?.scnGeometry ?? text?.scnGeometry
+        node.geometry = box?.scnBox ?? text?.scnText
         node.transform = transform.scnMatrix
         node.pivot = pivot.scnMatrix
+        node.categoryBitMask = bitMask
+        return node
+    }
+
+    // TODO: Should maybe have 'wire root' and 'wire child'..
+    // TODO: or a better algorithm
+    var scnNodeAsContainer: SCNNode {
+        let node = SCNNode()
+        node.name = name
+        node.geometry = box?.scnBox ?? text?.scnText
+        node.transform = transform.scnMatrix
+        node.pivot = pivot.scnMatrix
+        node.categoryBitMask = bitMask
         return node
     }
 }
@@ -182,9 +219,9 @@ struct WireBox: Codable, Equatable {
         )
     }
 
-    var scnGeometry: SCNGeometry {
+    var scnBox: SCNBox {
         let box = SCNBox(width: width, height: height, length: length, chamferRadius: chamfer)
-        box.firstMaterial?.diffuse.contents = color
+        box.firstMaterial?.diffuse.contents = color?.make
         return box
     }
 }
@@ -202,9 +239,10 @@ struct WireText: Codable, Equatable {
         )
     }
 
-    var scnGeometry: SCNGeometry {
+    var scnText: SCNText {
         let text = SCNText(string: string, extrusionDepth: extrusion)
-        text.firstMaterial?.diffuse.contents = color
+        text.font = kDefaultSCNTextFont
+        text.firstMaterial?.diffuse.contents = color?.make
         return text
     }
 }

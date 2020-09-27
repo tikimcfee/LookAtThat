@@ -136,11 +136,14 @@ extension SwiftSyntaxParser {
             return
         }
 
-        let parentCodeSheet = makeCodeSheet()
-        let wireSheet = parentCodeSheet.wireSheet
-
         sceneTransaction {
+            let parentCodeSheet = makeCodeSheet()
+            let wireSheet = parentCodeSheet.wireSheet
+            let backConverted = wireSheet.makeCodeSheet()
+            backConverted.containerNode.position.x += 100
+
             sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
+            sceneState.rootGeometryNode.addChildNode(backConverted.containerNode)
         }
     }
 }

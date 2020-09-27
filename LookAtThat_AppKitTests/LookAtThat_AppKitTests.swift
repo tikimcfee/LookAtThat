@@ -43,6 +43,37 @@ class LookAtThat_AppKitTests: XCTestCase {
         printEnd()
     }
 
+    func test_backAndForth() throws {
+        printStart()
+
+        let parentCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let wireSheet = parentCodeSheet.wireSheet
+        let backConverted = wireSheet.makeCodeSheet()
+
+        var parentIterator = parentCodeSheet.children.makeIterator()
+        var backIterator = backConverted.children.makeIterator()
+        while let parentLine = parentIterator.next(),
+              let backLine = backIterator.next() {
+            print("\(parentLine) | \(backLine)")
+            print("\(parentLine.children.count) | \(backLine.children.count)")
+            var parentIterator2 = parentLine.allLines.makeIterator()
+            var backIterator2 = backLine.allLines.makeIterator()
+            while let parentLine2 = parentIterator2.next(),
+                  let backLine2 = backIterator2.next() {
+                var p2Nodes = parentLine2.childNodes.makeIterator()
+                var b2Nodes = backLine2.childNodes.makeIterator()
+                while let p2Node = p2Nodes.next(),
+                      let b2Node = b2Nodes.next() {
+                    print("\(p2Node) | \(b2Node) | \(p2Node == b2Node)")
+                }
+            }
+        }
+
+        print("Did I make equal sheets?", backConverted == parentCodeSheet)
+
+        printEnd()
+    }
+
     func test_ManySheets() throws {
         printStart()
 

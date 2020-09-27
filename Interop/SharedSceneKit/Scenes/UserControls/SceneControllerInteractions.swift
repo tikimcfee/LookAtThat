@@ -105,7 +105,6 @@ extension BaseSceneController {
             panBegan(receiver)
         }
 
-
         if receiver.pressingCommand {
             // Can always rotate the camera
             panHoldingCommand(receiver)

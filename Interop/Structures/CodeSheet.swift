@@ -1,9 +1,8 @@
 import Foundation
 import SceneKit
 
-class CodeSheet: Identifiable {
-    weak var parent: CodeSheet?
-
+let kContainerName = "kContainerName"
+class CodeSheet: Identifiable, Equatable {
     var id = UUID().uuidString
     var allLines = [SCNNode]()
     var iteratorY = WordPositionIterator()
@@ -14,16 +13,22 @@ class CodeSheet: Identifiable {
     lazy var pageGeometry: SCNBox = makePageGeometry()
     lazy var lastLine: SCNNode = makeLineNode()
 
-    init(_ id: String? = nil,
-         parent: CodeSheet? = nil) {
-        self.parent = parent
+    init(_ id: String? = nil) {
         self.id = id ?? self.id
+    }
+
+    public static func == (_ left: CodeSheet, _ right: CodeSheet) -> Bool {
+        return left.id == right.id
+            && left.allLines.elementsEqual(right.allLines)
+            && left.children.elementsEqual(right.children)
+//            && left.parent?.id == right.parent?.id
     }
 }
 
 extension CodeSheet {
     func makeContainerNode() -> SCNNode {
         let container = SCNNode()
+        container.name = kContainerName
         container.addChildNode(pageGeometryNode)
         pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
@@ -76,7 +81,7 @@ extension CodeSheet {
     }
 
     func spawnChild() -> CodeSheet {
-        let codeSheet = CodeSheet(parent: self)
+        let codeSheet = CodeSheet()
         containerNode.addChildNode(codeSheet.containerNode)
         children.append(codeSheet)
         return codeSheet
