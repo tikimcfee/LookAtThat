@@ -129,6 +129,20 @@ extension SwiftSyntaxParser {
             sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
         }
     }
+
+    func renderAndDuplicate(in sceneState: SceneState) {
+        guard rootSyntaxNode != nil else {
+            print("No syntax to render for \(String(describing: preparedSourceFile))")
+            return
+        }
+
+        let parentCodeSheet = makeCodeSheet()
+        let wireSheet = parentCodeSheet.wireSheet
+
+        sceneTransaction {
+            sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
+        }
+    }
 }
 
 // File loading

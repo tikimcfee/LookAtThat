@@ -33,11 +33,9 @@ extension SwiftSyntaxParser {
             childSheet.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.gray
             childSheet.containerNode.position.z += 25
 
-
             for token in syntaxChild.tokens {
                 add(token, to: childSheet)
             }
-
 
             childSheet.sizePageToContainerNode()
             childSheet.containerNode.position.x +=

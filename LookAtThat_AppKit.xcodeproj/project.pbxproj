@@ -28,6 +28,8 @@
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */; };
+		F056927A252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
+		F056927B252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
 		F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		F057D20125201AEB0094BD83 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D20025201AEB0094BD83 /* Collections.swift */; };
@@ -159,6 +161,7 @@
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
 		F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Interactions.swift"; sourceTree = "<group>"; };
+		F0569279252081CF006A10C9 /* WireData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WireData.swift; path = Interop/Data/WireData.swift; sourceTree = SOURCE_ROOT; };
 		F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBundle.swift; sourceTree = "<group>"; };
 		F057D20025201AEB0094BD83 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -285,6 +288,7 @@
 		F00FC742250C53820092AFF9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F0569279252081CF006A10C9 /* WireData.swift */,
 				F00FC743250C53820092AFF9 /* WordParser.swift */,
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
 				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
@@ -561,6 +565,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F09048872520634700D4FF5B /* PBXTargetDependency */,
 			);
 			name = LookAtThatMobile;
 			packageProductDependencies = (
@@ -673,6 +678,7 @@
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
 				F00FC732250C53460092AFF9 /* ContentView.swift in Sources */,
+				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
@@ -734,6 +740,7 @@
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */,
+				F056927B252081CF006A10C9 /* WireData.swift in Sources */,
 				F057D20225201AEB0094BD83 /* Collections.swift in Sources */,
 				F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */,
 				F057D29E2520530F0094BD83 /* SourceInfo.swift in Sources */,
@@ -757,6 +764,10 @@
 			isa = PBXTargetDependency;
 			target = F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */;
 			targetProxy = F07C49CA251C095200F28173 /* PBXContainerItemProxy */;
+		};
+		F09048872520634700D4FF5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = F09048862520634700D4FF5B /* SwiftSyntax */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1102,6 +1113,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F09048862520634700D4FF5B /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftSyntax;
+		};
 		F09B4F212514511F004110D8 /* SwiftSyntax */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftSyntax;

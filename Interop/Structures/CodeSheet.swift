@@ -9,35 +9,42 @@ class CodeSheet: Identifiable {
     var iteratorY = WordPositionIterator()
     var children = [CodeSheet]()
 
-    lazy var containerNode: SCNNode = {
+    lazy var containerNode: SCNNode = makeContainerNode()
+    lazy var pageGeometryNode: SCNNode = SCNNode()
+    lazy var pageGeometry: SCNBox = makePageGeometry()
+    lazy var lastLine: SCNNode = makeLineNode()
+
+    init(_ id: String? = nil,
+         parent: CodeSheet? = nil) {
+        self.parent = parent
+        self.id = id ?? self.id
+    }
+}
+
+extension CodeSheet {
+    func makeContainerNode() -> SCNNode {
         let container = SCNNode()
         container.addChildNode(pageGeometryNode)
         pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
         pageGeometryNode.name = id
         return container
-    }()
+    }
 
-    lazy var pageGeometryNode = SCNNode()
-
-    lazy var pageGeometry: SCNBox = {
+    func makePageGeometry() -> SCNBox {
         let sheetGeometry = SCNBox()
         sheetGeometry.chamferRadius = 4.0
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
         sheetGeometry.length = PAGE_EXTRUSION_DEPTH
         return sheetGeometry
-    }()
+    }
 
-    lazy var lastLine: SCNNode = {
+    func makeLineNode() -> SCNNode {
         // The scene geometry at the end is off by a line. This will probably be an issue at some point.
         let line = SCNNode()
         line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
         containerNode.addChildNode(line)
         return line
-    }()
-
-    init(parent: CodeSheet? = nil) {
-        self.parent = parent
     }
 }
 
