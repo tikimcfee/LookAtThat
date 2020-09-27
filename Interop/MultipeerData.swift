@@ -25,6 +25,7 @@ enum PeerConnectionState: String, CustomStringConvertible {
     case connecting
     case connected
     case notConnected
+    case lost
     case unknownState
 
     var description: String { return rawValue }

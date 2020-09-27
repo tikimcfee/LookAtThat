@@ -14,42 +14,72 @@ struct MultipeerInfoView: View {
     }
 }
 
-struct MultipeerStateView: View {
-    var body: some View {
-        return VStack(alignment: .trailing) {
-            Button(action: startBrowser) {
-                Text("Start browser")
-            }.padding(8).overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color.gray)
-            )
+struct MultipeerStateViewModel {
+    var displayName: String = UserKeys.peerDisplayName.safeValue(using: "")
+    var isBrowsing: Bool = false
+    var isAdvertising: Bool = false
+    var startBrowsing: () -> Void = { }
+    var startAdvertising: () -> Void = { }
+}
 
-            Button(action: startAdvertiser) {
-                Text("Start advertiser")
-            }.padding(8).overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color.gray)
-            )
+struct MultipeerStateView: View {
+    @EnvironmentObject var manager: MultipeerConnectionManager
+    var viewModel: MultipeerStateViewModel { manager.peerDiscoveryState }
+
+    var body: some View {
+        return HStack {
+            displayName
+            Spacer()
+            startBrowsingButton
+            startAdvertisingButton
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(8)
     }
 
-    func startBrowser() {
-        MultipeerConnectionManager.shared.startBrowser()
+    var displayName: some View {
+        Text(viewModel.displayName)
+            .fontWeight(.heavy)
     }
 
-    func startAdvertiser() {
-        MultipeerConnectionManager.shared.startAdvertiser()
+    var startBrowsingButton: some View {
+        Button(action: viewModel.startBrowsing) {
+            Text(
+                viewModel.isBrowsing
+                    ? "Browsing..."
+                    : "Start browsing"
+            )
+        }
+        .disabled(viewModel.isAdvertising)
+        .padding(8).overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.gray)
+        )
+    }
+
+    var startAdvertisingButton: some View {
+        Button(action: viewModel.startAdvertising) {
+            Text(
+                viewModel.isAdvertising
+                    ? "Advertising..."
+                    : "Start advertising"
+            )
+        }
+        .disabled(viewModel.isBrowsing)
+        .padding(8).overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.gray)
+        )
     }
 }
 
 struct PeerListView: View {
+    @EnvironmentObject var manager: MultipeerConnectionManager
     @Binding var selectedPeer: PeerConnection?
     @State var currentPeers = [PeerConnection]()
 
     var body: some View {
-        return VStack(alignment: .leading) {
+        return List {
             Text("Peers").underline()
             ForEach(currentPeers, id:\.targetPeerId.displayName) { peer in
                 Button(action: { selectPeer(peer) }) {
@@ -72,7 +102,7 @@ struct PeerListView: View {
         .frame(maxWidth: UIScreen.main.bounds.width, minHeight: 128, alignment: .topLeading)
         .padding(8)
         .onReceive(
-            MultipeerConnectionManager.shared.sharedConnectionStream
+            manager.peerStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: RunLoop.main)
         ) { currentPeers = Array($0.values) }
@@ -84,6 +114,7 @@ struct PeerListView: View {
 }
 
 struct MessageSendView: View {
+    @EnvironmentObject var manager: MultipeerConnectionManager
     @Binding var selectedPeer: PeerConnection?
     @State var message: String = ""
 
@@ -101,7 +132,8 @@ struct MessageSendView: View {
                     .padding(8)
                 Button(action: sendMessageToPeers) {
                     Text("Send").padding(8)
-                }.overlay(
+                }.disabled(selectedPeer == nil)
+                .overlay(
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(Color.gray)
                 ).padding(8)
@@ -109,6 +141,7 @@ struct MessageSendView: View {
             if let peer = selectedPeer {
                 VStack {
                     Text("Sending a message to '\(peer.targetPeerId.displayName)'")
+                        .font(.footnote)
                         .fontWeight(.light)
                         .italic()
                 }.padding(8)
@@ -118,9 +151,10 @@ struct MessageSendView: View {
 
     func sendMessageToPeers() {
         guard let peer = selectedPeer else {
-            fatalError("HOW DID THIS HAPPEN!?")
+            print("Well so much for the disabled state")
+            return
         }
-        MultipeerConnectionManager.shared.send(message: message, to: peer.targetPeerId)
+        manager.send(message: message, to: peer.targetPeerId)
     }
 }
 

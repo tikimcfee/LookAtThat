@@ -6,12 +6,14 @@ extension MultipeerConnectionManager {
     func startBrowser() {
         workerQueue.async {
             self.currentConnection.startBrowsing()
+            self.peerDiscoveryState.isBrowsing = true
         }
     }
 
     func startAdvertiser() {
         workerQueue.async {
             self.currentConnection.startAdvertising()
+            self.peerDiscoveryState.isAdvertising = true
         }
     }
 
@@ -28,13 +30,14 @@ extension MultipeerConnectionManager {
     }
 
     private func onQueueSendMessage(_ message: String, _ peer: MCPeerID) {
-        guard peerConnections[peer] != nil else {
+        guard currentPeers[peer] != nil else {
             print("Stop making up peer ids", peer)
             return
         }
 
         let quickMessage = ConnectionData.message(message).toData
         currentConnection.send(quickMessage, to: peer)
+        sentMessages[peer].append(message)
     }
 
     private func onQueueSetDisplayName(_ newName: String) {
@@ -42,11 +45,15 @@ extension MultipeerConnectionManager {
         oldConnection.shutdown()
         currentConnection = ConnectionBundle(newName)
         currentConnection.delegate = self
+
+        currentPeers = [MCPeerID: PeerConnection]()
+        peerDiscoveryState = MultipeerStateViewModel()
+
         if oldConnection.isAdvertising {
-            currentConnection.startAdvertising()
+            startAdvertiser()
         }
         if oldConnection.isBrowsing {
-            currentConnection.startBrowsing()
+            startBrowser()
         }
     }
 }
