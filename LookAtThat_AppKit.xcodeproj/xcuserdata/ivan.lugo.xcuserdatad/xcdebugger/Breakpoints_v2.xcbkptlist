@@ -15,11 +15,11 @@
             moduleName = "">
             <Locations>
                <Location
-                  uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8 - cc86abe8c9557793"
+                  uuid = "8EF0A8B3-1F9B-4B85-A849-F490A3E9D1A8 - 7af2f92ae775233c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "AG::Graph::print_cycle(AG::data::ptr&lt;AG::Node&gt;) const"
+                  symbolName = "AG::Graph::print_cycle(unsigned int) const"
                   moduleName = "AttributeGraph"
                   usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">

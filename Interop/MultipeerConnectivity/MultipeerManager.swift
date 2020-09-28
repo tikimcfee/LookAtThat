@@ -19,9 +19,11 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
 
     @Published var currentPeers = [MCPeerID: PeerConnection]()
     @Published var peerDiscoveryState = MultipeerStateViewModel()
+    @Published var receivedCodeSheets = [CodeSheet]()
 
     lazy var peerStream = $currentPeers.share().eraseToAnyPublisher()
     lazy var stateStream = $peerDiscoveryState.share().eraseToAnyPublisher()
+    lazy var codeSheetStream = $receivedCodeSheets.share().eraseToAnyPublisher()
 
     private override init() {
         super.init()

@@ -82,6 +82,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
 
     @Published var currentMode: SceneType
     var currentController: SceneControls
+    var cancellables = Set<AnyCancellable>()
 
     #if os(OSX)
     private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
@@ -133,6 +134,30 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
         self.sharedSceneView.positionReceiver = self
 
         codePages()
+        attachSheetStream()
+    }
+
+    func attachSheetStream() {
+        #if os(iOS)
+        MultipeerConnectionManager.shared.codeSheetStream
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: RunLoop.main)
+            .sink{ [weak self] codeSheets in
+                print("Updating code sheets...")
+                guard let newSheet = codeSheets.last else {
+                    print("It was empty... but why?")
+                    return
+                }
+                sceneTransaction {
+                    let sheetNode = newSheet.containerNode
+                    sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
+                    sheetNode.position = SCNVector3Make(0.0, 1.0, -0.1)
+                    self?.currentController.scene.rootNode.addChildNode(sheetNode)
+                    print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)
+                }
+            }
+            .store(in: &cancellables)
+        #endif
     }
 
     func customText() {

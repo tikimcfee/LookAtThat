@@ -9,9 +9,17 @@ import SwiftUI
 import ARKit
 
 struct ContentView : View {
+    @State var showInfoView = false
     var body: some View {
-        return MultipeerInfoView()
-//        return ARViewContainer().edgesIgnoringSafeArea(.all)
+        return ZStack(alignment: .bottomTrailing) {
+            ARViewContainer()
+                .edgesIgnoringSafeArea(.all)
+            Button(action: { showInfoView = true }) {
+                Text("📶").padding()
+            }
+        }.sheet(isPresented: $showInfoView) {
+            MultipeerInfoView().environmentObject(MultipeerConnectionManager.shared)
+        }
     }
 }
 
@@ -31,11 +39,10 @@ class ARViewDelegate: NSObject, ARSCNViewDelegate {
 
 struct ARViewContainer: UIViewRepresentable {
 
-    let scene = SCNScene()
     let delegate = ARViewDelegate()
     
     func makeUIView(context: Context) -> ARSCNView {
-        
+
         let arView = ARSCNView(frame: .zero)
 
         let config = ARWorldTrackingConfiguration()
@@ -44,23 +51,25 @@ struct ARViewContainer: UIViewRepresentable {
                                ARSCNDebugOptions.showWorldOrigin]
         arView.autoenablesDefaultLighting  = true
         arView.delegate = delegate
-        arView.scene = scene
+        arView.scene = SceneLibrary.global.currentController.scene
         arView.session.run(config)
 
-        let scnBox = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.025)
+        let scnBox = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0.00125)
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.red
         scnBox.materials = [material]
 
         let scnNode = SCNNode(geometry: scnBox)
         scnNode.position = SCNVector3Make(0, 0, -0.2)
-        scene.rootNode.addChildNode(scnNode)
+        arView.scene.rootNode.addChildNode(scnNode)
         
         return arView
         
     }
     
-    func updateUIView(_ uiView: ARSCNView, context: Context) {}
+    func updateUIView(_ uiView: ARSCNView, context: Context) {
+
+    }
     
 }
 

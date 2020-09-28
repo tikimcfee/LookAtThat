@@ -27,10 +27,12 @@ extension MultipeerConnectionManager: MCSessionDelegate {
             print("Message: ", messageData)
         case let .sheet(sheet):
             print("Sheet: ", sheet)
+            mainQueue.async {
+                self.objectWillChange.send()
+                self.receivedCodeSheets.append(sheet)
+            }
         }
-        mainQueue.async {
-            self.objectWillChange.send()
-        }
+
     }
 
     // Received a byte stream from remote peer.
