@@ -109,6 +109,7 @@
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205822522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
+		F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -640,6 +641,7 @@
 				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
 				F04D816D250C9210008210C1 /* dict.json in Resources */,
 				F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */,
+				F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

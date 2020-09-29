@@ -48,14 +48,21 @@ extension MultipeerConnectionManager {
             self.peerDiscoveryState = self.makeNewDiscoveryState()
         }
     }
+}
 
+// MARK: - Work implementations
+extension MultipeerConnectionManager {
     private func onQueueSendSheet(_ sheet: CodeSheet, _ peer: MCPeerID) {
         guard currentPeers[peer] != nil else {
             print("Stop making up peer ids", peer)
             return
         }
 
-        let sheetData = ConnectionData.sheet(sheet).toData
+        guard let sheetData = sheetDataTransformer.data(from: sheet) else {
+            print("Sheet data failed to send: \(sheet.id)")
+            return
+        }
+
         currentConnection.send(sheetData, to: peer)
     }
 

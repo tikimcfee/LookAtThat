@@ -1,16 +1,6 @@
 import Foundation
 import SceneKit
 
-extension Data {
-    var kb: Float { return Float(count) / 1024 }
-    var mb: Float { return kb / 1024 }
-}
-
-extension NSData {
-    var kb: Float { return Float(count) / 1024 }
-    var mb: Float { return kb / 1024 }
-}
-
 extension SCNNode {
     var wireNode: WireNode { WireNode.from(self, isContainer: false) }
     var containerWireNode: WireNode { WireNode.from(self, isContainer: true) }

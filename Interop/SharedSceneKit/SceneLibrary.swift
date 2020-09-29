@@ -91,7 +91,9 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
                 sceneTransaction {
                     let sheetNode = newSheet.containerNode
                     sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
-                    sheetNode.position = SCNVector3Make(0.0, 0.0, -0.5)
+                    sheetNode.position =
+                        self?.currentController.sceneView.pointOfView?.position.translated(dZ: -0.5)
+                        ?? SCNVector3Make(0.0, 0.0, -0.5)
                     self?.currentController.scene.rootNode.addChildNode(sheetNode)
                     print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)
                 }

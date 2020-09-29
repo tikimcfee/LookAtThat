@@ -5,6 +5,11 @@ import SceneKit
 
 class LookAtThat_AppKitTests: XCTestCase {
 
+    let testFiles = [
+        "WordNodeIntrospect",
+        "RidiculousFile"
+    ]
+
     var wordNodeBuilder: WordNodeBuilder!
     var swiftSyntaxParser: SwiftSyntaxParser!
 
@@ -13,7 +18,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-        let fileUrl = Bundle.main.url(forResource: "WordNodeIntrospect", withExtension: "")
+        let fileUrl = Bundle.main.url(forResource: testFiles[1], withExtension: "")
         swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
@@ -65,7 +70,6 @@ class LookAtThat_AppKitTests: XCTestCase {
 
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .withoutEscapingSlashes
-        let jsonDecoder = JSONDecoder()
 
         let wireSheet = testCodeSheet.wireSheet
         let encodedSheet = try jsonEncoder.encode(wireSheet)
