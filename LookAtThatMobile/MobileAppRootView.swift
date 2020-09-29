@@ -55,7 +55,6 @@ struct ARKitRepresentableView: UIViewRepresentable {
         arView.scene = SceneLibrary.global.currentController.scene
         arView.session.run(config)
 
-//        let testBox = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0.00125)
         let testBox = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.25)
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.red

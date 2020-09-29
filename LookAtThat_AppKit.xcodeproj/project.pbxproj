@@ -107,6 +107,8 @@
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
+		F0F205822522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
+		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -209,6 +211,7 @@
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
+		F0F205812522EB35009B6D2C /* RidiculousFile */ = {isa = PBXFileReference; lastKnownFileType = text; path = RidiculousFile; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitRepresentableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -268,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				F0BA5F8A25107925009A726C /* WordNodeIntrospect */,
+				F0F205812522EB35009B6D2C /* RidiculousFile */,
 				F075BE46251445FC00DEB06F /* Libraries */,
 				F00FC73C250C53470092AFF9 /* LookAtThat_AppKit.entitlements */,
 				F00FC73B250C53470092AFF9 /* Info.plist */,
@@ -699,6 +703,7 @@
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
+				F0F205822522EB35009B6D2C /* RidiculousFile in Sources */,
 				F07C49D2251C29F900F28173 /* SwiftSyntaxParser+Tests.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				F057D20125201AEB0094BD83 /* Collections.swift in Sources */,
@@ -759,6 +764,7 @@
 				F057D252252045BB0094BD83 /* WordParser.swift in Sources */,
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
 				F057D228252044430094BD83 /* WordNodes.swift in Sources */,
+				F0F205832522EB35009B6D2C /* RidiculousFile in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
