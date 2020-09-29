@@ -55,9 +55,14 @@ class ModifierStore {
         modifierFlags.contains(.command)
     }
 
+    var pressingControl: Bool {
+        modifierFlags.contains(.control)
+    }
+
     func computePositions(_ currentLocation: CGPoint) {
         positionsForFlagChanges[.option] = pressingOption ? currentLocation : nil
         positionsForFlagChanges[.command] = pressingCommand ? currentLocation : nil
+        positionsForFlagChanges[.control] = pressingControl ? currentLocation : nil
     }
 }
 
@@ -88,6 +93,7 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
     private var store = ModifierStore()
     var pressingOption: Bool { store.pressingOption }
     var pressingCommand: Bool { store.pressingCommand }
+    var pressingControl: Bool { store.pressingControl }
 
     override func flagsChanged(with event: NSEvent) {
         super.flagsChanged(with: event)
@@ -110,7 +116,9 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
             state: state.translated,
             currentLocation: currentLocation,
             commandStart: self[.command],
-            optionStart: self[.option])
+            optionStart: self[.option],
+            controlStart: self[.control]
+        )
     }
 }
 

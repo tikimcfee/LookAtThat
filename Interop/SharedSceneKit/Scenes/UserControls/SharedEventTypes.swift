@@ -22,8 +22,13 @@ struct PanEvent {
     let state: EventState?
 
     let currentLocation: CGPoint
+
     var commandStart: CGPoint?
     var pressingCommand: Bool { commandStart != nil }
+
     var optionStart: CGPoint?
     var pressingOption: Bool { optionStart != nil }
+
+    var controlStart: CGPoint?
+    var pressingControl: Bool { controlStart != nil }
 }
