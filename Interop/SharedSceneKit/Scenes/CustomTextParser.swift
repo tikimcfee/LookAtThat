@@ -8,7 +8,7 @@ class CustomTextParser: BaseSceneController {
     let iteratorY = WordPositionIterator()
     let wordNodeBuilder: WordNodeBuilder
 
-    init(sceneView: SCNView,
+    init(sceneView: CustomSceneView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
         super.init(sceneView: sceneView)

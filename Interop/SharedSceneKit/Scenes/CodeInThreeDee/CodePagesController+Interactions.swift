@@ -28,12 +28,9 @@ extension CodePagesController {
     }
 
     func newMouseDown(_ event: NSEvent) {
-        guard let view = sceneView as? CustomSceneView
-            else { return }
-
         var safePoint: CGPoint?
         DispatchQueue.main.sync {
-            safePoint = view.convert(event.locationInWindow, to: nil)
+            safePoint = sceneView.convert(event.locationInWindow, to: nil)
         }
         guard let point = safePoint else { return }
 
@@ -41,7 +38,7 @@ extension CodePagesController {
             else { return }
 
         let maybeSheet = syntaxNodeParser.nodesToSheets[clickedSheet]
-        print("Clicked \(maybeSheet?.id)")
+        print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
         touchState.mouse.currentClickedSheet = maybeSheet
     }
 

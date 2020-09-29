@@ -13,7 +13,7 @@ struct AppDelegate: App {
 
     var body: some Scene {
          WindowGroup {
-            ContentView()
+            MobileAppRootView()
          }
      }
 }

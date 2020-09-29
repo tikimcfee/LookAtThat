@@ -1,13 +1,14 @@
 import SwiftUI
 import SceneKit
 
-struct ContentView: View {
+struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
 
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
-            SceneKitView(sceneView: library.sharedSceneView,
-                         currentScene: library.currentMode)
+            SceneKitRepresentableView(
+                sceneView: library.sharedSceneView
+            )
             switch library.currentMode {
             case .dictionary:
                 VStack(spacing: 0) {

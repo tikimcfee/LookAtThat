@@ -2,9 +2,10 @@ import Foundation
 import SwiftUI
 import SceneKit
 
+typealias PanReceiver = (PanEvent) -> Void
+typealias MagnificationReceiver = (MagnificationEvent) -> Void
+
 #if os(OSX)
-typealias PanReceiver = (ModifiersPanGestureRecognizer) -> Void
-typealias MagnificationReceiver = (ModifiersMagnificationGestureRecognizer) -> Void
 
 class GestureShim {
     lazy var panRecognizer =
@@ -22,55 +23,57 @@ class GestureShim {
     }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
-        onPan(receiver)
+        onPan(receiver.makePanEvent)
     }
 
     @objc func magnify(_ receiver: ModifiersMagnificationGestureRecognizer) {
-        onMagnify(receiver)
+        onMagnify(receiver.makeMagnificationEvent)
     }
 }
 
-extension NSGestureRecognizer.State: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .began:
-            return "began"
-        case .cancelled:
-            return "cancelled"
-        case .changed:
-            return "changed"
-        case .ended:
-            return "ended"
-        case .failed:
-            return "failed"
-        case .possible:
-            return "possible"
-        @unknown default:
-            print("Uknown gesture type: \(self)")
-            return "unknown_new_type"
-        }
+#elseif os(iOS)
+
+class GestureShim {
+    lazy var panRecognizer =
+        PanGestureRecognizer(target: self, action: #selector(pan))
+    let onPan: PanReceiver
+
+    lazy var magnificationRecognizer =
+        MagnificationGestureRecognizer(target: self, action: #selector(magnify))
+    let onMagnify: MagnificationReceiver
+
+    init(_ onPan: @escaping PanReceiver,
+         _ onMagnify: @escaping MagnificationReceiver) {
+        self.onPan = onPan
+        self.onMagnify = onMagnify
+    }
+
+    @objc func pan(_ receiver: PanGestureRecognizer) {
+        onPan(receiver.makePanEvent)
+    }
+
+    @objc func magnify(_ receiver: MagnificationGestureRecognizer) {
+        onMagnify(receiver.makeMagnificationEvent)
     }
 }
+
 #endif
 
 extension BaseSceneController {
     func attachMagnificationRecognizer() {
-        #if os(OSX)
         sceneView.addGestureRecognizer(panGestureShim.magnificationRecognizer)
-        #endif
     }
 
-    #if os(OSX)
-    func magnify(_ receiver: ModifiersMagnificationGestureRecognizer) {
-        switch receiver.state {
+    func magnify(_ event: MagnificationEvent) {
+        switch event.state {
         case .began:
-            touchState.magnify.lastScaleZ = sceneCameraNode.scale.z
+            touchState.magnify.lastScaleZ = sceneCameraNode.scale.z.cg
         case .changed:
-            let magnification = receiver.magnification + 1.0;
+            let magnification = event.magnification
             let newScaleZ = max(
                 touchState.magnify.lastScaleZ * magnification,
                 CGFloat(0.25)
-            )
+            ).vector
             sceneTransaction(0) {
                 self.sceneCameraNode.scale = SCNVector3Make(1, 1, newScaleZ);
             }
@@ -78,7 +81,6 @@ extension BaseSceneController {
             break
         }
     }
-    #endif
 }
 
 extension CGPoint {
@@ -94,38 +96,35 @@ extension CGPoint {
 // Adapted from https://stackoverflow.com/questions/48970111/rotating-scnnode-on-y-axis-based-on-pan-gesture
 extension BaseSceneController {
     func attachPanRecognizer() {
-        #if os(OSX)
         sceneView.addGestureRecognizer(panGestureShim.panRecognizer)
-        #endif
     }
 
-    #if os(OSX)
-    func pan(_ receiver: ModifiersPanGestureRecognizer) {
-        if receiver.state == .began {
-            panBegan(receiver)
+    func pan(_ panEvent: PanEvent) {
+        if panEvent.state == .began {
+            panBegan(panEvent)
         }
 
-        if receiver.pressingCommand {
+        if panEvent.pressingCommand, let start = panEvent.commandStart {
             // Can always rotate the camera
-            panHoldingCommand(receiver)
+            panHoldingCommand(panEvent, start)
         } else if touchState.pan.valid {
-            if receiver.pressingOption {
-                panHoldingOption(receiver)
+            if panEvent.pressingOption, let start = panEvent.optionStart {
+                panHoldingOption(panEvent, start)
             } else {
-                panOnNode(receiver)
+                panOnNode(panEvent)
             }
         }
 
-        if receiver.state == .ended {
+        if panEvent.state == .ended {
             touchState.pan = TouchStart()
             touchState.pan.valid = false
             print("-- Ended pan")
         }
     }
 
-    private func panBegan(_ receiver: ModifiersPanGestureRecognizer) {
+    private func panBegan(_ event: PanEvent) {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
-        let currentTouchLocation = receiver.currentLocation
+        let currentTouchLocation = event.currentLocation
         let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
         guard let firstResult = hitTestResults.first,
               let positioningNode = firstResult.node.parent else {
@@ -141,8 +140,8 @@ extension BaseSceneController {
         print("-- Found a node; touch valid")
     }
 
-    private func panOnNode(_ receiver: ModifiersPanGestureRecognizer) {
-        let currentTouchLocation = receiver.location(in: sceneView)
+    private func panOnNode(_ event: PanEvent) {
+        let currentTouchLocation = event.currentLocation
         let newLocationProjection = touchState.pan.computedEndUnprojection(with: currentTouchLocation, in: sceneView)
         let dX = newLocationProjection.x - touchState.pan.computedStartUnprojection.x
         let dY = newLocationProjection.y - touchState.pan.computedStartUnprojection.y
@@ -155,39 +154,37 @@ extension BaseSceneController {
         }
     }
 
-    private func panHoldingOption(_ receiver: ModifiersPanGestureRecognizer) {
-        let start = receiver[.option]!
-        let end = receiver.currentLocation
+    private func panHoldingOption(_ event: PanEvent, _ start: CGPoint) {
+        let end = event.currentLocation
         let rotation = rotationBetween(start, end, using: touchState.pan.positioningNodeEulers)
         guard rotation.x != 0.0 || rotation.y != 0 else { return }
         sceneTransaction(0) {
-            touchState.pan.positioningNode.eulerAngles.y = rotation.y
-            touchState.pan.positioningNode.eulerAngles.x = rotation.x
+            touchState.pan.positioningNode.eulerAngles.y = rotation.y.vector
+            touchState.pan.positioningNode.eulerAngles.x = rotation.x.vector
         }
 
         // Reset position 'start' position after rotation
-        touchState.pan.gesturePoint = receiver.currentLocation
+        touchState.pan.gesturePoint = event.currentLocation
         touchState.pan.positioningNodeStart = touchState.pan.positioningNode.position
         touchState.pan.projectionDepthPosition = sceneView.projectPoint(touchState.pan.positioningNode.position)
         touchState.pan.computeStartUnprojection(in: sceneView)
     }
 
-    private func panHoldingCommand(_ receiver: ModifiersPanGestureRecognizer) {
-        let start = receiver[.command]!.scaled(0.33)
-        let end = receiver.currentLocation.scaled(0.33)
-        if start == end  {
+    private func panHoldingCommand(_ event: PanEvent, _ start: CGPoint) {
+        let scaledStart = start.scaled(0.33)
+        let end = event.currentLocation.scaled(0.33)
+        if scaledStart == end  {
             touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
             return
         }
 
         // reverse start and end to reverse camera control style
-        let rotation = rotationBetween(end, start, using: touchState.pan.cameraNodeEulers)
-
+        let rotation = rotationBetween(end, scaledStart, using: touchState.pan.cameraNodeEulers)
         guard rotation.x != 0.0 || rotation.y != 0 else { return }
 
         sceneTransaction(0) {
-            sceneCameraNode.eulerAngles.y = rotation.y
-            sceneCameraNode.eulerAngles.x = rotation.x
+            sceneCameraNode.eulerAngles.y = rotation.y.vector
+            sceneCameraNode.eulerAngles.x = rotation.x.vector
         }
     }
 
@@ -199,8 +196,8 @@ extension BaseSceneController {
         guard translation.x != 0.0 || translation.y != 0.0 else { return CGPoint.zero }
         var newAngleY = translation.x * CGFloat(Double.pi/180.0)
         var newAngleX = -translation.y * CGFloat(Double.pi/180.0)
-        newAngleY += currentAngles.y
-        newAngleX += currentAngles.x
+        newAngleY += currentAngles.y.cg
+        newAngleX += currentAngles.x.cg
         return CGPoint(x: newAngleX, y: newAngleY)
     }
 
@@ -219,7 +216,6 @@ extension BaseSceneController {
         let updatedTransform = matrix_multiply(referenceNodeTransform, translationMatrix)
         node.transform = SCNMatrix4(updatedTransform)
     }
-    #endif
 }
 
 class TouchState {

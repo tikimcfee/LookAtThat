@@ -3,8 +3,7 @@ import SwiftUI
 import SceneKit
 
 #if os(OSX)
-public typealias NSUIRepresentable = NSViewRepresentable
-public typealias NSUIPreview = NSViewRepresentableContext<SceneKitView>
+public typealias NSUIPreview = NSViewRepresentableContext<SceneKitRepresentableView>
 public typealias NSUIColor = NSColor
 public typealias GestureRecognizer = NSGestureRecognizer
 public typealias PanGestureRecognizer = NSPanGestureRecognizer
@@ -17,8 +16,6 @@ public typealias OSEvent = NSEvent
 public typealias VectorFloat = CGFloat
 public typealias OSScreen = NSScreen
 #elseif os(iOS)
-public typealias NSUIRepresentable = UIViewRepresentable
-public typealias NSUIPreview = UIViewRepresentableContext<SceneKitView>
 public typealias NSUIColor = UIColor
 public typealias GestureRecognizer = UIGestureRecognizer
 public typealias PanGestureRecognizer = UIPanGestureRecognizer

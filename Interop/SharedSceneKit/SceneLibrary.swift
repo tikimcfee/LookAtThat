@@ -7,66 +7,6 @@ enum SceneType {
     case dictionary
 }
 
-#if os(iOS)
-protocol MousePositionReceiver: class {
-    var mousePosition: CGPoint { get set }
-    var scrollEvent: UIEvent { get set }
-    var mouseDownEvent: UIEvent { get set }
-}
-
-class CustomSceneView: SCNView {
-    weak var positionReceiver: MousePositionReceiver?
-}
-#elseif os(OSX)
-protocol MousePositionReceiver: class {
-    var mousePosition: CGPoint { get set }
-    var scrollEvent: NSEvent { get set }
-    var mouseDownEvent: NSEvent { get set }
-}
-
-class CustomSceneView: SCNView {
-    weak var positionReceiver: MousePositionReceiver?
-    var trackingArea : NSTrackingArea?
-
-    override func scrollWheel(with event: NSEvent) {
-        super.scrollWheel(with: event)
-        guard let receiver = positionReceiver,
-              event.type == .scrollWheel else { return }
-        receiver.scrollEvent = event
-    }
-
-    override func updateTrackingAreas() {
-        if let trackingArea = trackingArea {
-            removeTrackingArea(trackingArea)
-        }
-        trackingArea = NSTrackingArea(
-            rect: bounds,
-            options: [.mouseEnteredAndExited,
-                      .mouseMoved,
-                      .activeInKeyWindow,
-                      .activeAlways],
-            owner: self,
-            userInfo: nil
-        )
-        self.addTrackingArea(trackingArea!)
-    }
-
-    override func mouseMoved(with event: NSEvent) {
-        super.mouseMoved(with: event)
-        guard let receiver = positionReceiver else { return }
-        let convertedPosition = convert(event.locationInWindow, from: nil)
-        receiver.mousePosition = convertedPosition
-    }
-
-    override func mouseDown(with event: NSEvent) {
-        super.mouseDown(with: event)
-        guard let receiver = positionReceiver else { return }
-        receiver.mouseDownEvent = event
-    }
-}
-#endif
-
-
 class SceneLibrary: ObservableObject, MousePositionReceiver {
     public static let global = SceneLibrary()
 
@@ -151,7 +91,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
                 sceneTransaction {
                     let sheetNode = newSheet.containerNode
                     sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
-                    sheetNode.position = SCNVector3Make(0.0, 1.0, -0.1)
+                    sheetNode.position = SCNVector3Make(0.0, 0.0, -0.5)
                     self?.currentController.scene.rootNode.addChildNode(sheetNode)
                     print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)
                 }

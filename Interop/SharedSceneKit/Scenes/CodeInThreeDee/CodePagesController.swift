@@ -20,7 +20,7 @@ class CodePagesController: BaseSceneController {
 
     var cancellables = Set<AnyCancellable>()
 
-    init(sceneView: SCNView,
+    init(sceneView: CustomSceneView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
         self.syntaxNodeParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)

@@ -8,12 +8,14 @@
 import SwiftUI
 import ARKit
 
-struct ContentView : View {
+struct MobileAppRootView : View {
     @State var showInfoView = false
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
-            ARViewContainer()
-                .edgesIgnoringSafeArea(.all)
+            ARKitRepresentableView(
+                arView: SceneLibrary.global.sharedSceneView
+            ).edgesIgnoringSafeArea(.all)
+
             Button(action: { showInfoView = true }) {
                 Text("📶").padding()
             }
@@ -37,13 +39,12 @@ class ARViewDelegate: NSObject, ARSCNViewDelegate {
     }
 }
 
-struct ARViewContainer: UIViewRepresentable {
+struct ARKitRepresentableView: UIViewRepresentable {
 
+    let arView: ARSCNView
     let delegate = ARViewDelegate()
     
     func makeUIView(context: Context) -> ARSCNView {
-
-        let arView = ARSCNView(frame: .zero)
 
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = .horizontal
@@ -54,14 +55,19 @@ struct ARViewContainer: UIViewRepresentable {
         arView.scene = SceneLibrary.global.currentController.scene
         arView.session.run(config)
 
-        let scnBox = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0.00125)
+//        let testBox = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0.00125)
+        let testBox = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.25)
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.red
-        scnBox.materials = [material]
+        testBox.materials = [material]
+        let testBoxNode = SCNNode(geometry: testBox)
+        testBoxNode.categoryBitMask = HitTestType.codeSheet
 
-        let scnNode = SCNNode(geometry: scnBox)
-        scnNode.position = SCNVector3Make(0, 0, -0.2)
-        arView.scene.rootNode.addChildNode(scnNode)
+        let parentNode = SCNNode()
+        parentNode.addChildNode(testBoxNode)
+        parentNode.position = SCNVector3Make(0, 0, -0.2)
+
+        arView.scene.rootNode.addChildNode(parentNode)
         
         return arView
         
@@ -76,7 +82,7 @@ struct ARViewContainer: UIViewRepresentable {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MobileAppRootView()
     }
 }
 #endif

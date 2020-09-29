@@ -2,7 +2,47 @@ import Foundation
 import SceneKit
 import SwiftUI
 
-#if os(OSX)
+extension GestureRecognizer {
+    var currentLocation: CGPoint { return location(in: view!) }
+}
+
+#if os(iOS)
+extension UIPanGestureRecognizer {
+    var makePanEvent: PanEvent {
+        return PanEvent(
+            state: state.translated,
+            currentLocation: currentLocation,
+            commandStart: nil,
+            optionStart: nil
+        )
+    }
+}
+extension UIPinchGestureRecognizer {
+    var makeMagnificationEvent: MagnificationEvent {
+        return MagnificationEvent(
+            state: state.translated,
+            rawMagnification: scale
+        )
+    }
+}
+
+extension UIGestureRecognizer.State {
+    var translated: EventState? {
+        switch self {
+        case .began:
+            return .began
+        case .ended:
+            return .ended
+        case .changed:
+            return .changed
+        case .cancelled, .failed, .possible:
+            return nil
+        @unknown default:
+            return nil
+        }
+    }
+}
+#elseif os(OSX)
 class ModifierStore {
     var modifierFlags = NSEvent.ModifierFlags()
     var positionsForFlagChanges = [NSEvent.ModifierFlags: CGPoint]()
@@ -21,10 +61,6 @@ class ModifierStore {
     }
 }
 
-extension GestureRecognizer {
-    var currentLocation: CGPoint { return location(in: view!) }
-}
-
 class ModifiersMagnificationGestureRecognizer: MagnificationGestureRecognizer {
     private var store = ModifierStore()
     var pressingOption: Bool { store.pressingOption }
@@ -38,6 +74,13 @@ class ModifiersMagnificationGestureRecognizer: MagnificationGestureRecognizer {
 
     subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
         return store.positionsForFlagChanges[index]
+    }
+
+    var makeMagnificationEvent: MagnificationEvent {
+        return MagnificationEvent(
+            state: state.translated,
+            rawMagnification: magnification
+        )
     }
 }
 
@@ -60,6 +103,53 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
 
     subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
         return store.positionsForFlagChanges[index]
+    }
+
+    var makePanEvent: PanEvent {
+        return PanEvent(
+            state: state.translated,
+            currentLocation: currentLocation,
+            commandStart: self[.command],
+            optionStart: self[.option])
+    }
+}
+
+extension NSGestureRecognizer.State {
+    var translated: EventState? {
+        switch self {
+        case .began:
+            return .began
+        case .ended:
+            return .ended
+        case .changed:
+            return .changed
+        case .cancelled, .failed, .possible:
+            return nil
+        @unknown default:
+            return nil
+        }
+    }
+}
+
+extension NSGestureRecognizer.State: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .began:
+            return "began"
+        case .cancelled:
+            return "cancelled"
+        case .changed:
+            return "changed"
+        case .ended:
+            return "ended"
+        case .failed:
+            return "failed"
+        case .possible:
+            return "possible"
+        @unknown default:
+            print("Uknown gesture type: \(self)")
+            return "unknown_new_type"
+        }
     }
 }
 

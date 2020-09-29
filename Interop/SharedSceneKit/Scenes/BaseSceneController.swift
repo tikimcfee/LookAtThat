@@ -3,17 +3,14 @@ import Foundation
 
 protocol SceneControls {
     var scene: SCNScene { get }
-    var sceneView: SCNView { get }
+    var sceneView: CustomSceneView { get }
     var sceneCamera: SCNCamera { get }
     var sceneCameraNode: SCNNode { get }
     var sceneCameraPlacementNode: SCNNode { get }
 
     var sceneState: SceneState { get set }
     var touchState: TouchState { get set }
-
-    #if os(OSX)
     var panGestureShim: GestureShim { get set }
-    #endif
 
     var workerQueue: DispatchQueue { get }
 
@@ -25,7 +22,7 @@ protocol SceneControls {
 }
 
 open class BaseSceneController: SceneControls {
-    var sceneView: SCNView
+    var sceneView: CustomSceneView
     lazy var scene: SCNScene = makeScene()
     lazy var sceneCamera: SCNCamera = makeSceneCamera()
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
@@ -34,12 +31,10 @@ open class BaseSceneController: SceneControls {
     lazy var sceneState: SceneState = SceneState()
     lazy var touchState = TouchState()
 
-    #if os(OSX)
     lazy var panGestureShim: GestureShim = GestureShim(
         { self.pan($0) },
         { self.magnify($0) }
     )
-    #endif
 
     var workerQueue: DispatchQueue {
         return WorkerPool.shared.nextWorker()
@@ -52,7 +47,7 @@ open class BaseSceneController: SceneControls {
     // this is even more fragile. find a way to lock out subclasses
     private var awaitingInitialSetup = true
 
-    init(sceneView: SCNView) {
+    init(sceneView: CustomSceneView) {
         self.sceneView = sceneView
     }
 
@@ -98,25 +93,11 @@ open class BaseSceneController: SceneControls {
     }
 
     private func setupDefaultScene() {
-        sceneView.backgroundColor = NSUIColor.gray
-
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = SCNLight.LightType.ambient
-        ambientLightNode.light!.color = NSUIColor(white: 0.67, alpha: 1.0)
-        scene.rootNode.addChildNode(ambientLightNode)
-
-        let omniLightNode = SCNNode()
-        omniLightNode.light = SCNLight()
-        omniLightNode.light!.type = SCNLight.LightType.omni
-        omniLightNode.light!.color = NSUIColor(white: 0.75, alpha: 1.0)
-        omniLightNode.position = SCNVector3Make(0, 50, 50)
-        scene.rootNode.addChildNode(omniLightNode)
+        sceneView.setupDefaultLighting()
 
         scene.rootNode.addChildNode(sceneState.rootGeometryNode)
-
-        //        sceneView.allowsCameraControl = true
         scene.rootNode.addChildNode(sceneCameraNode)
+
         attachPanRecognizer()
         attachMagnificationRecognizer()
 
