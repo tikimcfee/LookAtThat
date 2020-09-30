@@ -11,7 +11,11 @@ class CodeSheet: Identifiable, Equatable {
     lazy var containerNode: SCNNode = makeContainerNode()
     lazy var pageGeometryNode: SCNNode = SCNNode()
     lazy var pageGeometry: SCNBox = makePageGeometry()
-    lazy var lastLine: SCNNode = makeLineNode()
+    var lastLine: SCNNode {
+        return allLines.last ?? {
+            return makeLineNode()
+        }()
+    }
 
     init(_ id: String? = nil) {
         self.id = id ?? self.id
@@ -46,7 +50,7 @@ extension CodeSheet {
 
     func makeLineNode() -> SCNNode {
         let line = SCNNode()
-        line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
+        line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH)
         containerNode.addChildNode(line)
         allLines.append(line)
         return line
@@ -61,13 +65,10 @@ extension CodeSheet {
     }
 
     private func setNewLine() {
-        let newLine = SCNNode()
-        newLine.position = lastLine.position.translated(
-            dY: -iteratorY.linesPerBlock.vector
-        )
-        allLines.append(newLine)
-        lastLine = newLine
-        containerNode.addChildNode(newLine)
+        let positioningLine = children.last?.lastLine ?? lastLine
+        let newLine = makeLineNode()
+        newLine.position =
+            positioningLine.position.translated(dY: -positioningLine.lengthY)
     }
 
     func sizePageToContainerNode() {
@@ -87,22 +88,37 @@ extension CodeSheet {
         return codeSheet
     }
 
-    func arrangeLastChild() {
-        let lastChildren = children.suffix(2)
-        guard lastChildren.count > 1
-            else { return }
-        let previousChild = lastChildren.first!
-        let currentChild = lastChildren.last!
+    func layoutChildren() {
+        for (index, element) in children.enumerated() {
+            guard index != children.endIndex - 1 else { return }
+            let first = element
+            let next = children[index + 1]
 
-        let previousLinePositionInParent =
-            containerNode.convertPosition(
-                previousChild.lastLine.position,
-                from: previousChild.containerNode
-            )
+            let previousPosition =
+                containerNode.convertPosition(
+                    first.lastLine.position,
+                    from: first.containerNode
+                )
 
-        currentChild.containerNode.position.y =
-            previousLinePositionInParent.y -
-                previousChild.lastLine.lengthY / 2.0 -
-                    currentChild.containerNode.lengthY / 2.0
+            var nextPosition =
+                containerNode.convertPosition(
+                    next.containerNode.position,
+                    from: next.containerNode
+                )
+
+            nextPosition.y =
+                previousPosition.y
+                    - first.lastLine.lengthY
+                        - next.containerNode.lengthY / 2.0
+                            - 2
+
+            let endPosition =
+                containerNode.convertPosition(
+                    nextPosition,
+                    to: next.containerNode
+                )
+            
+            next.containerNode.position = endPosition
+        }
     }
 }

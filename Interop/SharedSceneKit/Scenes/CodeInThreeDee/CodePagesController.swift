@@ -149,21 +149,20 @@ extension CodePagesController {
 extension Array where Element == SCNNode {
     func arrangeInLine(on node: SCNNode) {
         var lastNode: SCNNode?
-        forEach {
+        forEach { wordNode in
             let lastWordPosition: SCNVector3
             if let lastNode = lastNode {
-                let lastWordSize = lastNode.lengthX
-                lastWordPosition = lastNode.position.translated(dX: lastWordSize)
+                lastWordPosition = lastNode.position.translated(dX: lastNode.lengthX)
             } else {
                 if let lastChild = node.childNodes.last {
                     lastWordPosition = lastChild.position.translated(dX: lastChild.lengthX)
                 } else {
-                    lastWordPosition = SCNVector3Zero
+                    lastWordPosition = SCNVector3Zero.translated(dY: -wordNode.lengthY)
                 }
             }
-            $0.position = lastWordPosition
-            node.addChildNode($0)
-            lastNode = $0
+            wordNode.position = lastWordPosition
+            node.addChildNode(wordNode)
+            lastNode = wordNode
         }
     }
 

@@ -78,15 +78,14 @@ struct WireSheet: Codable {
             root.allLines.append(line)
             root.containerNode.addChildNode(line)
         }
+        
         for child in children {
             let sheet = child.makeCodeSheet(root)
             root.children.append(sheet)
             root.containerNode.addChildNode(sheet.containerNode)
             sheet.sizePageToContainerNode()
         }
-        if root.allLines.count > 0 {
-            root.lastLine = root.allLines.last!
-        }
+
         root.sizePageToContainerNode()
         return root
     }

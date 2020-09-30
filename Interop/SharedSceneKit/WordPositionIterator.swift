@@ -11,8 +11,9 @@ class WordPositionIterator {
     }
 
     func nextLineY() -> CGFloat {
+        let next = wordY
         wordY -= linesPerBlock
-        return wordY
+        return next
     }
 
     func nextPosition() -> SCNVector3 {

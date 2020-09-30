@@ -107,9 +107,10 @@
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		F0F205822522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
+		F0F2058C25239DC8009B6D2C /* RENDERME.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F2058B25239DC8009B6D2C /* RENDERME.swift */; };
+		F0F2058D25239DC8009B6D2C /* RENDERME.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F2058B25239DC8009B6D2C /* RENDERME.swift */; };
 		F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -213,6 +214,7 @@
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
 		F0F205812522EB35009B6D2C /* RidiculousFile */ = {isa = PBXFileReference; lastKnownFileType = text; path = RidiculousFile; sourceTree = "<group>"; };
+		F0F2058B25239DC8009B6D2C /* RENDERME.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RENDERME.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitRepresentableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				F0569279252081CF006A10C9 /* WireData.swift */,
+				F0F2058B25239DC8009B6D2C /* RENDERME.swift */,
 				F00FC743250C53820092AFF9 /* WordParser.swift */,
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
 				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
@@ -674,6 +677,7 @@
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */,
+				F0F2058C25239DC8009B6D2C /* RENDERME.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
@@ -705,7 +709,6 @@
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
-				F0F205822522EB35009B6D2C /* RidiculousFile in Sources */,
 				F07C49D2251C29F900F28173 /* SwiftSyntaxParser+Tests.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				F057D20125201AEB0094BD83 /* Collections.swift in Sources */,
@@ -772,6 +775,7 @@
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
+				F0F2058D25239DC8009B6D2C /* RENDERME.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

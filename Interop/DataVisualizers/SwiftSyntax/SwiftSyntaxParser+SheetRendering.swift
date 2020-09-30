@@ -9,13 +9,14 @@ extension SwiftSyntaxParser {
 
         parentCodeSheet.containerNode.position =
             parentCodeSheet.containerNode.position
-                .translated(dY: -100.0, dZ: nextZ - 200)
+                .translated(dY: -00.0, dZ: nextZ - 50)
 
         for node in rootSyntaxNode!.children {
             print("At node \(node.syntaxNodeType)")
             visitChildrenOf(node, parentCodeSheet)
         }
 
+        parentCodeSheet.layoutChildren()
         parentCodeSheet.sizePageToContainerNode()
 
         // Save node to be looked up later
@@ -26,14 +27,35 @@ extension SwiftSyntaxParser {
 
     private func visitChildrenOf(_ childSyntaxNode: SyntaxChildren.Element,
                                  _ parentCodeSheet: CodeSheet) {
+//        print("Visiting '\(childSyntaxNode.syntaxNodeType)', '\(childSyntaxNode.firstToken?.tokenKind)'")
 
         for syntaxChild in childSyntaxNode.children {
-            let childSheet = parentCodeSheet.spawnChild()
-            childSheet.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.gray
-            childSheet.containerNode.position.z += 25
+//            print("-- Inner '\(syntaxChild.syntaxNodeType)', '\(syntaxChild.firstToken?.tokenKind)'")
 
-            for token in syntaxChild.tokens {
-                add(token, to: childSheet)
+            let childSheet = parentCodeSheet.spawnChild()
+            childSheet.containerNode.position.z += 5
+
+            childSheet.pageGeometry.firstMaterial?.diffuse.contents =
+                backgroundColor(for: syntaxChild)
+
+            for innerChild in syntaxChild.children {
+                let type = innerChild.syntaxNodeType
+                let isRecurseType =
+                    type == StructDeclSyntax.self
+                    || type == ClassDeclSyntax.self
+                    || type == FunctionDeclSyntax.self
+                    || type == EnumDeclSyntax.self
+                    || type == ExtensionDeclSyntax.self
+//                    || type == CodeBlockItemListSyntax.self
+//                    || type == CodeBlockItemSyntax.self
+                if isRecurseType {
+//                    print("Found recurse, '\(innerChild.syntaxNodeType)'")
+                    visitChildrenOf(syntaxChild, parentCodeSheet)
+                } else {
+                    for token in innerChild.tokens {
+                        add(token, to: childSheet)
+                    }
+                }
             }
 
             childSheet.sizePageToContainerNode()
@@ -41,9 +63,18 @@ extension SwiftSyntaxParser {
                 childSheet.containerNode.lengthX.vector / 2.0
             childSheet.containerNode.position.y -=
                 childSheet.containerNode.lengthY.vector / 2.0
-
-            parentCodeSheet.arrangeLastChild()
         }
+    }
+
+    func backgroundColor(for syntax: SyntaxChildren.Element) -> NSUIColor {
+        let type = syntax.syntaxNodeType
+        print("For color: \(type)")
+        if type == StructDeclSyntax.self { return NSUIColor.systemTeal }
+        if type == ClassDeclSyntax.self { return NSUIColor.systemGreen }
+        if type == FunctionDeclSyntax.self { return NSUIColor.systemPink }
+        if type == EnumDeclSyntax.self { return NSUIColor.systemOrange }
+        if type == ExtensionDeclSyntax.self { return NSUIColor.systemBrown }
+        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 0.85)
     }
 }
 
