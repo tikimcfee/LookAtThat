@@ -93,24 +93,27 @@ extension CodeSheet {
             guard index != children.endIndex - 1 else { return }
             let nextChild = children[index + 1]
 
-            let firstChildLastLine = lastLine(in: firstChild)
-            var nextChildContainer = containerPosition(of: nextChild)
+            let firstChildLastLine = lastLinePosition(in: firstChild)
+            var nextChildContainerPosition = containerPosition(of: nextChild)
 
-            nextChildContainer.y = firstChildLastLine.y
+            nextChildContainerPosition.y = firstChildLastLine.y
                 - firstChild.lastLine.lengthY
                 - nextChild.containerNode.lengthY / 2.0
                 - 2
 
-            let final = containerNode.convertPosition(
-                nextChildContainer,
-                to: nextChild.containerNode
-            )
-
-            nextChild.containerNode.position = final
+            set(nextChildContainerPosition, for: nextChild)
         }
     }
 
-    private func lastLine(in sheet: CodeSheet) -> SCNVector3 {
+    private func set(_ position: SCNVector3, for child: CodeSheet) {
+        let final = containerNode.convertPosition(
+            position,
+            to: child.containerNode
+        )
+        child.containerNode.position = final
+    }
+
+    private func lastLinePosition(in sheet: CodeSheet) -> SCNVector3 {
         return containerNode.convertPosition(
             sheet.lastLine.position,
             from: sheet.containerNode
