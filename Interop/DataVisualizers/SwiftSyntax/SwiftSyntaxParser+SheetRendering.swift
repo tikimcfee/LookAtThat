@@ -4,7 +4,7 @@ import SwiftSyntax
 
 extension SwiftSyntaxParser {
 
-    func makeCodeSheet() -> CodeSheet {
+    func makeRootCodeSheet() -> CodeSheet {
         let parentCodeSheet = CodeSheet()
 
         parentCodeSheet.containerNode.position =
@@ -67,8 +67,10 @@ extension SwiftSyntaxParser {
     }
 
     func backgroundColor(for syntax: SyntaxChildren.Element) -> NSUIColor {
-        let type = syntax.syntaxNodeType
-        print("For color: \(type)")
+        return typeColor(for: syntax.syntaxNodeType)
+    }
+
+    func typeColor(for type: SyntaxProtocol.Type) -> NSUIColor {
         if type == StructDeclSyntax.self { return NSUIColor.systemTeal }
         if type == ClassDeclSyntax.self { return NSUIColor.systemGreen }
         if type == FunctionDeclSyntax.self { return NSUIColor.systemPink }

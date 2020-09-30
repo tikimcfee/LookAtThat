@@ -18,7 +18,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-        let fileUrl = Bundle.main.url(forResource: testFiles[1], withExtension: "")
+        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
         swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
@@ -29,8 +29,12 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_JustFunctions() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
+
+        for (key, value) in swiftSyntaxParser.resultInfo.functionSheets.map {
+            print(key, value.map{$0.allLines})
+        }
 
         printEnd()
     }
@@ -38,7 +42,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_singleSheet() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         measure {
@@ -51,7 +55,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_backAndForth() throws {
         printStart()
 
-        let parentCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let parentCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         let wireSheet = parentCodeSheet.wireSheet
         let backConverted = wireSheet.makeCodeSheet()
 
@@ -65,7 +69,7 @@ class LookAtThat_AppKitTests: XCTestCase {
 
         let compressionFormat = NSData.CompressionAlgorithm.lzma
 
-        let testCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         let jsonEncoder = JSONEncoder()
@@ -96,7 +100,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_ManySheets() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         let list = Array.init(repeating: 0, count: 100)

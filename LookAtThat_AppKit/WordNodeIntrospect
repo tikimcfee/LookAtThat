@@ -1,259 +1,58 @@
 import Foundation
-import SwiftSyntax
 import SceneKit
 
-public class SourceInfo {
-    var tokenTypes = [String]()
+let kContainerName = "kContainerName"
+class CodeSheet: Identifiable, Equatable {
+    var id = UUID().uuidString
+    var allLines = [SCNNode]()
+    var iteratorY = WordPositionIterator()
+    var children = [CodeSheet]()
 
-    var identifiers = Set<String>()
-    var strings = Set<String>()
-    var numbers = Set<String>()
+    lazy var containerNode: SCNNode = makeContainerNode()
+    lazy var pageGeometryNode: SCNNode = SCNNode()
+    lazy var pageGeometry: SCNBox = makePageGeometry()
+    var lastLine: SCNNode {
+        return allLines.last ?? {
+            return makeLineNode()
+        }()
+    }
 
-    var functions = AutoListValueDict<String, FunctionDeclSyntax>()
-    var enums = AutoListValueDict<String, EnumDeclSyntax>()
-    var closures = AutoListValueDict<String, ClosureExprSyntax>()
-    var extensions = AutoListValueDict<String, ExtensionDeclSyntax>()
-    var structs = AutoListValueDict<String, StructDeclSyntax>()
+    init(_ id: String? = nil) {
+        self.id = id ?? self.id
+    }
 
-    var allTokens = AutoListValueDict<String, String>()
-    var sortedTokens: [(String, [String])] {
-        return allTokens.map.sorted { leftPair, rightPair in
-            return leftPair.key <= rightPair.key
-        }
+    public static func == (_ left: CodeSheet, _ right: CodeSheet) -> Bool {
+        return left.id == right.id
+            && left.allLines.elementsEqual(right.allLines)
+            && left.children.elementsEqual(right.children)
+//            && left.parent?.id == right.parent?.id
     }
 }
 
-// SwiftSyntax
-class SwiftSyntaxParser: SyntaxRewriter {
-    var preparedSourceFile: URL?
-    var sourceFileSyntax: SourceFileSyntax?
-    var rootSyntaxNode: Syntax?
-    var resultInfo = SourceInfo()
-
-    var textNodeBuilder: WordNodeBuilder
-
-    init(wordNodeBuilder: WordNodeBuilder) {
-        self.textNodeBuilder = wordNodeBuilder
-        super.init()
-    }
-
-    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
-        resultInfo.functions[node.identifier.alltext].append(node)
-        return super.visit(node)
-    }
-
-    override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
-        resultInfo.enums[node.identifier.alltext].append(node)
-        return super.visit(node)
-    }
-
-    override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
-        resultInfo.closures[node.firstToken?.alltext ?? "Closure \(node.id.hashValue)"].append(node)
-        return super.visit(node)
-    }
-
-    override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
-        resultInfo.extensions[node.extendedType.firstToken!.alltext].append(node)
-        return super.visit(node)
-    }
-
-    override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
-        resultInfo.structs[node.identifier.alltext].append(node)
-        return super.visit(node)
-    }
-}
-
-// Node building
-extension SwiftSyntaxParser {
-
-    func prepareRendering(source fileUrl: URL) {
-        preparedSourceFile = fileUrl
-        guard let loadedFile = loadSourceUrl(fileUrl) else {
-            print("Couldn't load \(fileUrl)")
-            return
-        }
-        sourceFileSyntax = loadedFile
-        rootSyntaxNode = visit(loadedFile)
-    }
-
-    func render(in sceneState: SceneState) {
-        guard let rootSyntaxNode = rootSyntaxNode else {
-            print("Rendering failed, no root syntax for \(String(describing: preparedSourceFile))")
-            return
-        }
-
-        let rootSheet = CodeSheet()
-        rootSheet.containerNode.position =
-            rootSheet.containerNode.position.translated(dZ: nextZ - 100)
-
-        for childSyntaxNode in rootSyntaxNode.children {
-            if childSyntaxNode.syntaxNodeType.self is FunctionDeclSyntax.Type {
-                let functionChild = rootSheet.spawnChild()
-                functionChild.pageGeometry.firstMaterial?.diffuse.contents = NSUIColor.darkGray
-                functionChild.containerNode.position.y = rootSheet.lastLine.position.y
-                childSyntaxNode.tokens.forEach { token in
-                    iterateTrivia(token.leadingTrivia, token, functionChild)
-                    arrange(token.text, token, functionChild)
-                    iterateTrivia(token.trailingTrivia, token, functionChild)
-                }
-                functionChild.sizePageToContainerNode()
-                functionChild.containerNode.position.z += 5
-                functionChild.containerNode.position.x +=
-                    functionChild.containerNode.lengthX / 2.0
-            } else {
-                for token in childSyntaxNode.tokens {
-                    iterateTrivia(token.leadingTrivia, token, rootSheet)
-                    arrange(token.text, token, rootSheet)
-                    iterateTrivia(token.trailingTrivia, token, rootSheet)
-                }
-            }
-        }
-
-        rootSheet.sizePageToContainerNode()
-
-        sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(rootSheet.containerNode)
-        }
-    }
-
-    func renderTokenSection() {
-
-    }
-
-    private func arrange(_ text: String,
-                         _ token: TokenSyntax,
-                         _ codeSheet: CodeSheet) {
-        let newNode = textNodeBuilder.node(for: text)
-        newNode.name = token.registeredName(in: &resultInfo)
-        [newNode].arrangeInLine(on: codeSheet.lastLine)
-    }
-
-    private func iterateTrivia(_ trivia: Trivia,
-                               _ token: TokenSyntax,
-                               _ codeSheet: CodeSheet) {
-        for triviaPiece in trivia {
-            switch triviaPiece {
-            case let .newlines(count):
-                codeSheet.newlines(count)
-            case let .lineComment(comment),
-                 let .blockComment(comment),
-                 let .docLineComment(comment),
-                 let .docBlockComment(comment):
-                comment
-                    .split(whereSeparator: { $0.isNewline })
-                    .forEach{
-                        arrange(String($0), token, codeSheet)
-                        codeSheet.newlines(1)
-                    }
-            default:
-                arrange(triviaPiece.stringify, token, codeSheet)
-            }
-        }
-    }
-}
-
-class CodeSheet {
-
-    weak var parent: CodeSheet?
-
-    lazy var sheetName = UUID().uuidString
-    lazy var allLines = [SCNNode]()
-    lazy var iteratorY = WordPositionIterator()
-
-    lazy var pageGeometry: SCNBox = {
-        let sheetGeometry = SCNBox()
-        sheetGeometry.chamferRadius = 4.0
-//        sheetGeometry.firstMaterial?.metalness.contents = 0.5
-//        sheetGeometry.firstMaterial?.roughness.contents = NSUIColor.darkGray
-//        sheetGeometry.firstMaterial?.lightingModel = .physicallyBased
-        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
-        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
-        return sheetGeometry
-    }()
-
-    lazy var pageGeometryNode = SCNNode()
-
-    lazy var containerNode: SCNNode = {
+extension CodeSheet {
+    func makeContainerNode() -> SCNNode {
         let container = SCNNode()
+        container.name = kContainerName
         container.addChildNode(pageGeometryNode)
         pageGeometryNode.categoryBitMask = HitTestType.codeSheet
         pageGeometryNode.geometry = pageGeometry
+        pageGeometryNode.name = id
         return container
-    }()
+    }
 
-    lazy var lastLine: SCNNode = {
-        // The scene geometry at the end is off by a line. This will probably be an issue at some point.
+    func makePageGeometry() -> SCNBox {
+        let sheetGeometry = SCNBox()
+        sheetGeometry.chamferRadius = 4.0
+        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
+        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
+        return sheetGeometry
+    }
+
+    func makeLineNode() -> SCNNode {
         let line = SCNNode()
-        line.position = SCNVector3(0, iteratorY.nextLineY(), PAGE_EXTRUSION_DEPTH)
+        line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH)
         containerNode.addChildNode(line)
+        allLines.append(line)
         return line
-    }()
-
-    func newlines(_ count: Int) {
-        for _ in 0..<count {
-            setNewLine()
-            parent?.setNewLine()
-        }
-    }
-
-    func sizePageToContainerNode() {
-        pageGeometry.width = containerNode.lengthX
-        pageGeometry.height = containerNode.lengthY
-        let centerY = -pageGeometry.height / 2
-        let centerX = pageGeometry.width / 2
-        pageGeometryNode.position.y = centerY
-        pageGeometryNode.position.x = centerX
-        containerNode.pivot = SCNMatrix4MakeTranslation(centerX, centerY, 0);
-    }
-
-    private func setNewLine() {
-        let newLine = SCNNode()
-        newLine.position = lastLine.position.translated(
-            dY: -iteratorY.linesPerBlock
-        )
-        allLines.append(newLine)
-        lastLine = newLine
-        containerNode.addChildNode(newLine)
-    }
-
-    func spawnChild() -> CodeSheet {
-        let codeSheet = CodeSheet()
-        codeSheet.parent = self
-        containerNode.addChildNode(codeSheet.containerNode)
-        return codeSheet
-    }
-}
-
-// File loading
-extension SwiftSyntaxParser {
-    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
-        openDirectory { directoryResult in
-            switch directoryResult {
-            case let .success(directory):
-                receiver(directory)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
-        openFile { fileReslt in
-            switch fileReslt {
-            case let .success(url):
-                receiver(url)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    private func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
-        do {
-            return try SyntaxParser.parse(url)
-        } catch {
-            print("|\(url)| failed to load > \(error)")
-            return nil
-        }
     }
 }

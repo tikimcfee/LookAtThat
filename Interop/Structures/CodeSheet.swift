@@ -101,7 +101,12 @@ extension CodeSheet {
                 - nextChild.containerNode.lengthY / 2.0
                 - 2
 
-            nextChild.containerNode.position = nextChildContainer
+            let final = containerNode.convertPosition(
+                nextChildContainer,
+                to: nextChild.containerNode
+            )
+
+            nextChild.containerNode.position = final
         }
     }
 

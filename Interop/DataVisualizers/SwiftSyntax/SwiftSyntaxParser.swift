@@ -72,35 +72,42 @@ class SwiftSyntaxParser: SyntaxRewriter {
         super.init()
     }
 
-    override func visit(_ node: CodeBlockItemListSyntax) -> Syntax {
-//        for codeBlock in node.children {
-//            print("----------- Code block -----------")
-//            let thisBlock = codeBlock.tokens.reduce(into: "") {
-//                $0.append($1.alltext)
-//            }
-//            print(thisBlock)
-//        }
-        return super.visit(node)
-    }
-
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+        resultInfo.functionSheets[node.identifier.text]
+            .append(makeSheet(from: node))
+
         return super.visit(node)
     }
 
     override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
-        return super.visit(node)
-    }
+        resultInfo.enumSheets[node.identifier.text]
+            .append(makeSheet(from: node))
 
-    override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
         return super.visit(node)
     }
 
     override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
+        resultInfo.extensionSheets[node.extendedType.firstToken!.text]
+            .append(makeSheet(from: node))
+
         return super.visit(node)
     }
 
     override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
+        resultInfo.structSheets[node.identifier.text]
+            .append(makeSheet(from: node))
+
         return super.visit(node)
+    }
+
+    private func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
+        let newSheet = CodeSheet()
+
+        newSheet.pageGeometry.firstMaterial?.diffuse.contents
+            = typeColor(for: node.syntaxNodeType)
+
+        node.tokens.forEach{ add($0, to: newSheet)}
+        return newSheet
     }
 }
 
@@ -123,10 +130,37 @@ extension SwiftSyntaxParser {
             return
         }
 
-        let parentCodeSheet = makeCodeSheet()
+//        let parentCodeSheet = makeRootCodeSheet()
+
+        let rootSheet = CodeSheet()
+
+        var functionSheets = resultInfo.functionSheets.map.values.makeIterator()
+        var enumSheets = resultInfo.enumSheets.map.values.makeIterator()
+        var extensionSheets = resultInfo.extensionSheets.map.values.makeIterator()
+        var structSheets = resultInfo.structSheets.map.values.makeIterator()
+
+        while let sheets = functionSheets.next()
+                ?? enumSheets.next()
+                ?? extensionSheets.next()
+                ?? structSheets.next() {
+            rootSheet.children.append(contentsOf: sheets)
+            sheets.forEach { resultSheet in
+                resultSheet.containerNode.position =
+                    resultSheet.containerNode.position.translated(dZ: 5.0)
+
+                rootSheet.containerNode.addChildNode(resultSheet.containerNode)
+                resultSheet.sizePageToContainerNode()
+                resultSheet.containerNode.position.x +=
+                    resultSheet.containerNode.lengthX.vector / 2.0
+                resultSheet.containerNode.position.y -=
+                    resultSheet.containerNode.lengthY.vector / 2.0
+            }
+        }
+        rootSheet.layoutChildren()
+        rootSheet.sizePageToContainerNode()
 
         sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
+            sceneState.rootGeometryNode.addChildNode(rootSheet.containerNode)
         }
     }
 
@@ -137,7 +171,7 @@ extension SwiftSyntaxParser {
         }
 
         sceneTransaction {
-            let parentCodeSheet = makeCodeSheet()
+            let parentCodeSheet = makeRootCodeSheet()
             let wireSheet = parentCodeSheet.wireSheet
             let backConverted = wireSheet.makeCodeSheet()
             backConverted.containerNode.position.x += 100
