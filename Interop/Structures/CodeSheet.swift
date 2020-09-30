@@ -89,36 +89,33 @@ extension CodeSheet {
     }
 
     func layoutChildren() {
-        for (index, element) in children.enumerated() {
+        for (index, firstChild) in children.enumerated() {
             guard index != children.endIndex - 1 else { return }
-            let first = element
-            let next = children[index + 1]
+            let nextChild = children[index + 1]
 
-            let previousPosition =
-                containerNode.convertPosition(
-                    first.lastLine.position,
-                    from: first.containerNode
-                )
+            let firstChildLastLine = lastLine(in: firstChild)
+            var nextChildContainer = containerPosition(of: nextChild)
 
-            var nextPosition =
-                containerNode.convertPosition(
-                    next.containerNode.position,
-                    from: next.containerNode
-                )
+            nextChildContainer.y = firstChildLastLine.y
+                - firstChild.lastLine.lengthY
+                - nextChild.containerNode.lengthY / 2.0
+                - 2
 
-            nextPosition.y =
-                previousPosition.y
-                    - first.lastLine.lengthY
-                        - next.containerNode.lengthY / 2.0
-                            - 2
-
-            let endPosition =
-                containerNode.convertPosition(
-                    nextPosition,
-                    to: next.containerNode
-                )
-            
-            next.containerNode.position = endPosition
+            nextChild.containerNode.position = nextChildContainer
         }
+    }
+
+    private func lastLine(in sheet: CodeSheet) -> SCNVector3 {
+        return containerNode.convertPosition(
+            sheet.lastLine.position,
+            from: sheet.containerNode
+        )
+    }
+
+    private func containerPosition(of sheet: CodeSheet) -> SCNVector3 {
+        return containerNode.convertPosition(
+            sheet.containerNode.position,
+            from: sheet.containerNode
+        )
     }
 }

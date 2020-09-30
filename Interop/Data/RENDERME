@@ -1,0 +1,30 @@
+import Foundation
+import SceneKit
+
+let kContainerName = "kContainerName"
+class CodeSheet: Identifiable, Equatable {
+    var id = UUID().uuidString
+    var allLines = [SCNNode]()
+    var iteratorY = WordPositionIterator()
+    var children = [CodeSheet]()
+
+    lazy var containerNode: SCNNode = makeContainerNode()
+    lazy var pageGeometryNode: SCNNode = SCNNode()
+    lazy var pageGeometry: SCNBox = makePageGeometry()
+    var lastLine: SCNNode {
+        return allLines.last ?? {
+            return makeLineNode()
+        }()
+    }
+
+    init(_ id: String? = nil) {
+        self.id = id ?? self.id
+    }
+
+    public static func == (_ left: CodeSheet, _ right: CodeSheet) -> Bool {
+        return left.id == right.id
+            && left.allLines.elementsEqual(right.allLines)
+            && left.children.elementsEqual(right.children)
+//            && left.parent?.id == right.parent?.id
+    }
+}
