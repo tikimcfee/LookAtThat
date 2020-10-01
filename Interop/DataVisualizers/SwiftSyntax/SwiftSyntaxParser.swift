@@ -130,37 +130,37 @@ extension SwiftSyntaxParser {
             return
         }
 
-//        let parentCodeSheet = makeRootCodeSheet()
+        let parentCodeSheet = makeRootCodeSheet()
 
-        let rootSheet = CodeSheet()
-
-        var functionSheets = resultInfo.functionSheets.map.values.makeIterator()
-        var enumSheets = resultInfo.enumSheets.map.values.makeIterator()
-        var extensionSheets = resultInfo.extensionSheets.map.values.makeIterator()
-        var structSheets = resultInfo.structSheets.map.values.makeIterator()
-
-        while let sheets = functionSheets.next()
-                ?? enumSheets.next()
-                ?? extensionSheets.next()
-                ?? structSheets.next() {
-            rootSheet.children.append(contentsOf: sheets)
-            sheets.forEach { resultSheet in
-                resultSheet.containerNode.position =
-                    resultSheet.containerNode.position.translated(dZ: 5.0)
-
-                rootSheet.containerNode.addChildNode(resultSheet.containerNode)
-                resultSheet.sizePageToContainerNode()
-                resultSheet.containerNode.position.x +=
-                    resultSheet.containerNode.lengthX.vector / 2.0
-                resultSheet.containerNode.position.y -=
-                    resultSheet.containerNode.lengthY.vector / 2.0
-            }
-        }
-        rootSheet.layoutChildren()
-        rootSheet.sizePageToContainerNode()
+//        let rootSheet = CodeSheet()
+//
+//        var functionSheets = resultInfo.functionSheets.map.values.makeIterator()
+//        var enumSheets = resultInfo.enumSheets.map.values.makeIterator()
+//        var extensionSheets = resultInfo.extensionSheets.map.values.makeIterator()
+//        var structSheets = resultInfo.structSheets.map.values.makeIterator()
+//
+//        while let sheets = functionSheets.next()
+//                ?? enumSheets.next()
+//                ?? extensionSheets.next()
+//                ?? structSheets.next() {
+//            rootSheet.children.append(contentsOf: sheets)
+//            sheets.forEach { resultSheet in
+//                resultSheet.containerNode.position =
+//                    resultSheet.containerNode.position.translated(dZ: 5.0)
+//
+//                rootSheet.containerNode.addChildNode(resultSheet.containerNode)
+//                resultSheet.sizePageToContainerNode()
+//                resultSheet.containerNode.position.x +=
+//                    resultSheet.containerNode.lengthX.vector / 2.0
+//                resultSheet.containerNode.position.y -=
+//                    resultSheet.containerNode.lengthY.vector / 2.0
+//            }
+//        }
+//        rootSheet.layoutChildren()
+//        rootSheet.sizePageToContainerNode()
 
         sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(rootSheet.containerNode)
+            sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
         }
     }
 

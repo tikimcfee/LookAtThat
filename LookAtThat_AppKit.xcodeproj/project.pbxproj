@@ -105,6 +105,9 @@
 		F0E3F425251D327600FC02ED /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
+		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
+		F0F0D8D9252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */; };
+		F0F0D8DA252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
@@ -211,6 +214,7 @@
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
+		F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetDataTransformer.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
 		F0F205812522EB35009B6D2C /* RidiculousFile */ = {isa = PBXFileReference; lastKnownFileType = text; path = RidiculousFile; sourceTree = "<group>"; };
 		F0F2058B25239DC8009B6D2C /* RENDERME */ = {isa = PBXFileReference; lastKnownFileType = text; path = RENDERME; sourceTree = "<group>"; };
@@ -226,6 +230,7 @@
 				F09B4F242514511F004110D8 /* SwiftSyntaxBuilder in Frameworks */,
 				F09B4F1E25144BA6004110D8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F0CA74462514021200978111 /* SwiftAST in Frameworks */,
+				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				F09B4F222514511F004110D8 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +375,7 @@
 				F02E1110251EEF240052D993 /* MultipeerData.swift */,
 				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
 				F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */,
+				F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */,
 			);
 			path = MultipeerConnectivity;
 			sourceTree = "<group>";
@@ -545,6 +551,7 @@
 				F0CA74452514021200978111 /* SwiftAST */,
 				F09B4F212514511F004110D8 /* SwiftSyntax */,
 				F09B4F232514511F004110D8 /* SwiftSyntaxBuilder */,
+				F0F0D8D42526897E00EC8E75 /* Brotli */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -621,6 +628,7 @@
 			mainGroup = F00FC723250C53460092AFF9;
 			packageReferences = (
 				F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */,
+				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -714,6 +722,7 @@
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
+				F0F0D8D9252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
@@ -754,6 +763,7 @@
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
+				F0F0D8DA252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */,
@@ -1130,6 +1140,14 @@
 				minimumVersion = 0.19.9;
 			};
 		};
+		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/karlvr/Brotli";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1154,6 +1172,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */;
 			productName = SwiftAST;
+		};
+		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
+			productName = Brotli;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

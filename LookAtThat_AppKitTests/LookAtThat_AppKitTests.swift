@@ -18,7 +18,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
+        let fileUrl = Bundle.main.url(forResource: testFiles[1], withExtension: "")
         swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
@@ -64,35 +64,34 @@ class LookAtThat_AppKitTests: XCTestCase {
         printEnd()
     }
 
-    func test_compressSheet() throws {
+    func test_sheetDataTransformer() throws {
         printStart()
 
-        let compressionFormat = NSData.CompressionAlgorithm.lzma
 
         let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .withoutEscapingSlashes
+        func transformer(_ mode: SheetDataTransformer.Mode) {
+            print("++++ Start compression with \(mode)\n")
 
-        let wireSheet = testCodeSheet.wireSheet
-        let encodedSheet = try jsonEncoder.encode(wireSheet)
-        print("Encoded sheet size: \(encodedSheet.mb)mb (\(encodedSheet.kb)kb)")
+            let transformer = SheetDataTransformer()
+            transformer.mode = mode
 
-        let compressedData = try (encodedSheet as NSData).compressed(using: compressionFormat)
-        print("Comressed sheet size: \(compressedData.mb)mb (\(compressedData.kb)kb)")
+            guard let compressedData = transformer.data(from: testCodeSheet) else {
+                XCTFail("Failed to compress code sheet")
+                return
+            }
 
-        let compressionRatio = (Float(compressedData.count) / Float(encodedSheet.count)) * 100
-        print("Compression ratio: \(compressionRatio)")
+            guard let reifiedSheet = transformer.sheet(from: compressedData) else {
+                XCTFail("Failed to recreate code sheet")
+                return
+            }
 
-        let decompressedData = try compressedData.decompressed(using: compressionFormat)
-        print("Decompressed size: \(decompressedData.mb)mb (\(decompressedData.kb)kb)")
-
-        guard case let ConnectionData.sheet(sheet) = ConnectionData.fromData(decompressedData as Data) else {
-            fatalError("Well, a data sheet didn't come back.")
+            print("\n+++Round trip succeeded: \(reifiedSheet)")
         }
 
-        print("Decompression succeeded: \(sheet)")
+        transformer(.standard)
+        transformer(.brotli)
 
         printEnd()
     }

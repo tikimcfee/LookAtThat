@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Brotli",
+        "repositoryURL": "https://github.com/karlvr/Brotli",
+        "state": {
+          "branch": "master",
+          "revision": "0d59ff8edef57eb7b1d167bf950e42826cf1f54a",
+          "version": null
+        }
+      },
+      {
         "package": "swift-ast",
         "repositoryURL": "https://github.com/yanagiba/swift-ast.git",
         "state": {
