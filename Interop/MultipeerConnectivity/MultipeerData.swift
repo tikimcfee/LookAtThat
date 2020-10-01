@@ -47,11 +47,9 @@ enum PeerConnectionState: String, CustomStringConvertible {
 enum ConnectionData: CustomStringConvertible {
     static let messageName = "message::"
     static let errorName = "error::"
-    static let sheetName = "sheet::"
     static let encoding = String.Encoding.utf8
 
     case message(String)
-    case sheet(CodeSheet)
     case error
 
     var name: String {
@@ -60,8 +58,6 @@ enum ConnectionData: CustomStringConvertible {
             return Self.messageName
         case .error:
             return Self.errorName
-        case .sheet:
-            return Self.sheetName
         }
     }
 
@@ -70,8 +66,6 @@ enum ConnectionData: CustomStringConvertible {
         case let .message(message):
             return name.appending(message)
         case .error:
-            return name
-        case .sheet:
             return name
         }
     }
@@ -83,30 +77,22 @@ enum ConnectionData: CustomStringConvertible {
                 print("!! Failed to encode !!", description)
                 return Data()
             }()
-        case .sheet(let sheet):
-            let encoder = JSONEncoder()
-            return try! encoder.encode(sheet.wireSheet)
         }
     }
 
     static func fromData(_ data: Data) -> ConnectionData {
-        if let maybeSheet = try? JSONDecoder().decode(WireSheet.self, from: data) {
-            let rootSheet = maybeSheet.makeCodeSheet()
-            return ConnectionData.sheet(rootSheet)
-        } else {
-            guard let messageData = String(data: data, encoding: Self.encoding) else {
+        guard let messageData = String(data: data, encoding: Self.encoding) else {
+            return .error
+        }
+        switch messageData {
+        case ConnectionData.error.name:
+            return .error
+        default:
+            if messageData.starts(with: messageName) {
+                let parsedMessage = messageData.replacingOccurrences(of: messageName, with: "")
+                return .message(parsedMessage)
+            } else {
                 return .error
-            }
-            switch messageData {
-            case ConnectionData.error.name:
-                return .error
-            default:
-                if messageData.starts(with: messageName) {
-                    let parsedMessage = messageData.replacingOccurrences(of: messageName, with: "")
-                    return .message(parsedMessage)
-                } else {
-                    return .error
-                }
             }
         }
     }

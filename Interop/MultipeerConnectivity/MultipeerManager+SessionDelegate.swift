@@ -33,8 +33,6 @@ extension MultipeerConnectionManager: MCSessionDelegate {
             print("Failed to parse data; got an error")
         case let .message(messageData):
             print("Message: ", messageData)
-        default:
-            break
         }
 
     }
