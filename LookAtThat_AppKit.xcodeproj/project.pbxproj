@@ -108,6 +108,7 @@
 		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
 		F0F0D8D9252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */; };
 		F0F0D8DA252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* SheetDataTransformer.swift */; };
+		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
@@ -246,6 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +592,7 @@
 			);
 			name = LookAtThatMobile;
 			packageProductDependencies = (
+				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1174,6 +1177,11 @@
 			productName = SwiftAST;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
+			productName = Brotli;
+		};
+		F0F0DAA42527BE1600EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;

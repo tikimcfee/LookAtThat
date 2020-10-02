@@ -18,7 +18,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-        let fileUrl = Bundle.main.url(forResource: testFiles[1], withExtension: "")
+        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
         swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
@@ -32,9 +32,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
-        for (key, value) in swiftSyntaxParser.resultInfo.functionSheets.map {
-            print(key, value.map{$0.allLines})
-        }
+        swiftSyntaxParser.organizedInfo.dump()
 
         printEnd()
     }

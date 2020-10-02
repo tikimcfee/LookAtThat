@@ -14,6 +14,14 @@ extension Trivia {
     }
 }
 
+extension Syntax {
+    var allText: String {
+        return tokens.reduce(into: "") { result, token in
+            result.append(token.alltext)
+        }
+    }
+}
+
 extension TokenSyntax {
 
     var typeName: String { return String(describing: tokenKind) }

@@ -65,10 +65,19 @@ extension CodeSheet {
     }
 
     private func setNewLine() {
-        let positioningLine = children.last?.lastLine ?? lastLine
+        var (startPosition, height): (SCNVector3, VectorFloat)
+        if let last = children.last  {
+            startPosition = lastLinePosition(in: last)
+            startPosition.z = lastLine.position.z
+            height = last.lastLine.lengthY
+        } else {
+            startPosition = lastLine.position
+            height = lastLine.lengthY
+        }
+
         let newLine = makeLineNode()
-        newLine.position =
-            positioningLine.position.translated(dY: -positioningLine.lengthY)
+        let newPosition = startPosition.translated(dY: -height)
+        newLine.position = newPosition
     }
 
     func sizePageToContainerNode() {
@@ -88,6 +97,28 @@ extension CodeSheet {
         return codeSheet
     }
 
+    func addChildAtLastLine(_ sheet: CodeSheet) {
+        children.append(sheet)
+        containerNode.addChildNode(sheet.containerNode)
+
+        sheet.containerNode.position =
+            sheet.containerNode.position.translated(dZ: WORD_EXTRUSION_SIZE)
+        sheet.containerNode.position.x +=
+            sheet.containerNode.lengthX.vector / 2.0
+
+        let myLastLinePosition = lastLinePosition(in: self)
+        var sheetPosition = containerPosition(of: sheet)
+
+        sheetPosition.y =
+            myLastLinePosition.y
+            - lastLine.lengthY
+            - sheet.containerNode.lengthY / 2.0
+            - 0.5
+
+        sheet.containerNode.position = sheetPosition
+        newlines(sheet.allLines.count - 1)
+    }
+
     func layoutChildren() {
         for (index, firstChild) in children.enumerated() {
             guard index != children.endIndex - 1 else { return }
@@ -96,21 +127,26 @@ extension CodeSheet {
             let firstChildLastLine = lastLinePosition(in: firstChild)
             var nextChildContainerPosition = containerPosition(of: nextChild)
 
-            nextChildContainerPosition.y = firstChildLastLine.y
-                - firstChild.lastLine.lengthY
-                - nextChild.containerNode.lengthY / 2.0
-                - 2
+            nextChildContainerPosition.y =
+                firstChildLastLine.y
+                    - firstChild.lastLine.lengthY
+                    - nextChild.containerNode.lengthY / 2.0
+                    - 2
 
             set(nextChildContainerPosition, for: nextChild)
         }
     }
 
     private func set(_ position: SCNVector3, for child: CodeSheet) {
+        set(position, for: child.containerNode)
+    }
+
+    private func set(_ position: SCNVector3, for node: SCNNode) {
         let final = containerNode.convertPosition(
             position,
-            to: child.containerNode
+            to: node
         )
-        child.containerNode.position = final
+        node.position = final
     }
 
     private func lastLinePosition(in sheet: CodeSheet) -> SCNVector3 {
