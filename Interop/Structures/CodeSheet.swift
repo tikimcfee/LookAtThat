@@ -5,7 +5,6 @@ let kContainerName = "kContainerName"
 class CodeSheet: Identifiable, Equatable {
     var id = UUID().uuidString
     var allLines = [SCNNode]()
-    var iteratorY = WordPositionIterator()
     var children = [CodeSheet]()
 
     lazy var containerNode: SCNNode = makeContainerNode()
@@ -25,7 +24,6 @@ class CodeSheet: Identifiable, Equatable {
         return left.id == right.id
             && left.allLines.elementsEqual(right.allLines)
             && left.children.elementsEqual(right.children)
-//            && left.parent?.id == right.parent?.id
     }
 }
 
@@ -103,39 +101,25 @@ extension CodeSheet {
 
         sheet.containerNode.position =
             sheet.containerNode.position.translated(dZ: WORD_EXTRUSION_SIZE)
-        sheet.containerNode.position.x +=
-            sheet.containerNode.lengthX.vector / 2.0
+        sheet.containerNode.position.x += sheet.halfLengthX
 
         let myLastLinePosition = lastLinePosition(in: self)
         var sheetPosition = containerPosition(of: sheet)
 
-        sheetPosition.y =
-            myLastLinePosition.y
+        sheetPosition.y = myLastLinePosition.y
             - lastLine.lengthY
-            - sheet.containerNode.lengthY / 2.0
-            - 0.5
+            - sheet.halfLengthY
+//            - 0.5
 
         sheet.containerNode.position = sheetPosition
         newlines(sheet.allLines.count)
     }
+}
 
-    func layoutChildren() {
-        for (index, firstChild) in children.enumerated() {
-            guard index != children.endIndex - 1 else { return }
-            let nextChild = children[index + 1]
+extension CodeSheet {
 
-            let firstChildLastLine = lastLinePosition(in: firstChild)
-            var nextChildContainerPosition = containerPosition(of: nextChild)
-
-            nextChildContainerPosition.y =
-                firstChildLastLine.y
-                    - firstChild.lastLine.lengthY
-                    - nextChild.containerNode.lengthY / 2.0
-                    - 2
-
-            set(nextChildContainerPosition, for: nextChild)
-        }
-    }
+    var halfLengthY: VectorFloat { containerNode.lengthY / 2.0 }
+    var halfLengthX: VectorFloat { containerNode.lengthX / 2.0 }
 
     private func set(_ position: SCNVector3, for child: CodeSheet) {
         set(position, for: child.containerNode)
