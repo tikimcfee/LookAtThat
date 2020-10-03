@@ -116,7 +116,7 @@ extension CodeSheet {
             - 0.5
 
         sheet.containerNode.position = sheetPosition
-        newlines(sheet.allLines.count - 1)
+        newlines(sheet.allLines.count)
     }
 
     func layoutChildren() {

@@ -32,7 +32,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
-        swiftSyntaxParser.organizedInfo.dump()
+//        swiftSyntaxParser.organizedInfo.dump()
 
         printEnd()
     }

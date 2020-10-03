@@ -120,30 +120,6 @@ extension OrganizedSourceInfo {
 
         return false
     }
-
-    func isGroupNode(_ syntax: Syntax) -> Bool {
-        let declarationType = syntax.asProtocol(DeclSyntaxProtocol.self)
-        switch declarationType {
-        case is ClassDeclSyntax,
-             is DeinitializerDeclSyntax,
-             is EnumDeclSyntax,
-             is ExtensionDeclSyntax,
-             is FunctionDeclSyntax,
-             is ImportDeclSyntax,
-             is InitializerDeclSyntax,
-             is ProtocolDeclSyntax,
-             is StructDeclSyntax,
-             is SubscriptDeclSyntax,
-             is TypealiasDeclSyntax,
-             is VariableDeclSyntax:
-//            print("Render: \(String(describing: type)) as group; \n---\(syntax.allText)\n---")
-            return true
-        default:
-            break
-        }
-
-        return false
-    }
 }
 
 class SwiftSyntaxParser: SyntaxRewriter {
@@ -177,7 +153,7 @@ class SwiftSyntaxParser: SyntaxRewriter {
         organizedInfo[node] = newSheet
     }
 
-    private func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
+    func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
         let newSheet = CodeSheet()
 
         newSheet.pageGeometry.firstMaterial?.diffuse.contents

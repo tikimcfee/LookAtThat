@@ -122,8 +122,7 @@ extension CodePagesController {
             self.workerQueue.async {
                 // todo: make a presenter or something oof
                 self.syntaxNodeParser.prepareRendering(source: fileUrl)
-//                self.syntaxNodeParser.render(in: self.sceneState)
-                self.syntaxNodeParser.testInfoRender(in: self.sceneState)
+                self.syntaxNodeParser.render(in: self.sceneState)
                 self.main.async {
                     handler(self.syntaxNodeParser.resultInfo)
                 }

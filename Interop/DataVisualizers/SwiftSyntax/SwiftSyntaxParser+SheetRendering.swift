@@ -22,37 +22,7 @@ extension SwiftSyntaxParser {
             return
         }
 
-        let parentCodeSheet = makeRootCodeSheet()
-
-        sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(parentCodeSheet.containerNode)
-        }
-    }
-
-    func testInfoRender(in sceneState: SceneState) {
-        let rootSheet = CodeSheet()
-        rootSheet.containerNode.position =
-            rootSheet.containerNode.position.translated(dZ: -100)
-
-//        var extensionSheets = organizedInfo.extensions
-//        var structSheets = organizedInfo.structs
-        var classSheets = organizedInfo.classes
-
-        [classSheets]
-            .forEach {
-                var iterator = $0.makeIterator()
-                while let sheet = iterator.next() {
-                    rootSheet.children.append(sheet.value)
-                    rootSheet.containerNode.addChildNode(sheet.value.containerNode)
-
-                    sheet.value.containerNode.position =
-                        sheet.value.containerNode.position.translated(dZ: 5.0)
-                }
-            }
-
-//        rootSheet.layoutChildren()
-        rootSheet.sizePageToContainerNode()
-
+        let rootSheet = makeSheetFromInfo()
 
         sceneTransaction {
             sceneState.rootGeometryNode.addChildNode(rootSheet.containerNode)
@@ -66,7 +36,7 @@ extension SwiftSyntaxParser {
         }
 
         sceneTransaction {
-            let parentCodeSheet = makeRootCodeSheet()
+            let parentCodeSheet = makeSheetFromInfo()
             let wireSheet = parentCodeSheet.wireSheet
             let backConverted = wireSheet.makeCodeSheet()
             backConverted.containerNode.position.x += 100
@@ -114,66 +84,20 @@ extension SwiftSyntaxParser {
 
 extension SwiftSyntaxParser {
 
-    func makeRootCodeSheet() -> CodeSheet {
-        let parentCodeSheet = CodeSheet()
+    func makeSheetFromInfo() -> CodeSheet {
+        print(#function, "Starting")
+
+        let parentCodeSheet = makeSheet(from: rootSyntaxNode!)
+        parentCodeSheet.sizePageToContainerNode()
 
         parentCodeSheet.containerNode.position =
             parentCodeSheet.containerNode.position
-                .translated(dY: -00.0, dZ: nextZ - 50)
-
-        for node in rootSyntaxNode!.children {
-            print("At node \(node.syntaxNodeType)")
-            visitChildrenOf(node, parentCodeSheet)
-        }
-
-        parentCodeSheet.layoutChildren()
-        parentCodeSheet.sizePageToContainerNode()
+                .translated(dZ: nextZ - 50)
 
         // Save node to be looked up later
         nodesToSheets[parentCodeSheet.containerNode] = parentCodeSheet
 
         return parentCodeSheet
-    }
-
-    private func visitChildrenOf(_ childSyntaxNode: SyntaxChildren.Element,
-                                 _ parentCodeSheet: CodeSheet) {
-//        print("Visiting '\(childSyntaxNode.syntaxNodeType)', '\(childSyntaxNode.firstToken?.tokenKind)'")
-
-        for syntaxChild in childSyntaxNode.children {
-//            print("-- Inner '\(syntaxChild.syntaxNodeType)', '\(syntaxChild.firstToken?.tokenKind)'")
-
-            let childSheet = parentCodeSheet.spawnChild()
-            childSheet.containerNode.position.z += 5
-
-            childSheet.pageGeometry.firstMaterial?.diffuse.contents =
-                backgroundColor(for: syntaxChild)
-
-            for innerChild in syntaxChild.children {
-                let type = innerChild.syntaxNodeType
-                let isRecurseType =
-                    type == StructDeclSyntax.self
-                    || type == ClassDeclSyntax.self
-                    || type == FunctionDeclSyntax.self
-                    || type == EnumDeclSyntax.self
-                    || type == ExtensionDeclSyntax.self
-//                    || type == CodeBlockItemListSyntax.self
-//                    || type == CodeBlockItemSyntax.self
-                if isRecurseType {
-//                    print("Found recurse, '\(innerChild.syntaxNodeType)'")
-                    visitChildrenOf(syntaxChild, parentCodeSheet)
-                } else {
-                    for token in innerChild.tokens {
-                        childSheet.add(token, textNodeBuilder)
-                    }
-                }
-            }
-
-            childSheet.sizePageToContainerNode()
-            childSheet.containerNode.position.x +=
-                childSheet.containerNode.lengthX.vector / 2.0
-            childSheet.containerNode.position.y -=
-                childSheet.containerNode.lengthY.vector / 2.0
-        }
     }
 
     func backgroundColor(for syntax: SyntaxChildren.Element) -> NSUIColor {
@@ -193,10 +117,6 @@ extension SwiftSyntaxParser {
 }
 
 // CodeSheet operations
-extension SwiftSyntaxParser {
-
-}
-
 extension CodeSheet {
     func add(_ token: TokenSyntax,
              _ builder: WordNodeBuilder) {
