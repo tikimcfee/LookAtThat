@@ -54,19 +54,6 @@ struct ARKitRepresentableView: UIViewRepresentable {
         arView.delegate = delegate
         arView.scene = SceneLibrary.global.currentController.scene
         arView.session.run(config)
-
-        let testBox = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.25)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
-        testBox.materials = [material]
-        let testBoxNode = SCNNode(geometry: testBox)
-        testBoxNode.categoryBitMask = HitTestType.codeSheet
-
-        let parentNode = SCNNode()
-        parentNode.addChildNode(testBoxNode)
-        parentNode.position = SCNVector3Make(0, 0, -0.2)
-
-        arView.scene.rootNode.addChildNode(parentNode)
         
         return arView
         

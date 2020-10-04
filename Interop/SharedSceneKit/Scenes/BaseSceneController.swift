@@ -65,8 +65,8 @@ open class BaseSceneController: SceneControls {
     open func makeSceneCameraPlacementNode() -> SCNNode {
         let node = SCNNode()
         node.position.z = -150
-        node.geometry = SCNBox(width: 5, height: 5, length: 5, chamferRadius: 2)
-        node.geometry?.firstMaterial?.diffuse.contents = NSUIColor.red
+//        node.geometry = SCNBox(width: 5, height: 5, length: 5, chamferRadius: 2)
+//        node.geometry?.firstMaterial?.diffuse.contents = NSUIColor.red
         return node
     }
 

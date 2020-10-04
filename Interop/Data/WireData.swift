@@ -98,26 +98,18 @@ struct WireNode: Codable {
     let children: [WireNode]
     let transform: WireMatrix4
     let pivot: WireMatrix4
+    let eulers: WireVector3
     let box: WireBox?
     let text: WireText?
     let boundingMin: WireVector3
     let boundingMax: WireVector3
     let bitMask: Int
 
-    enum Keys: CodingKey {
-        case name
-        case children
-        case transform
-        case pivot
-        case box
-        case text
-        case bitMask
-    }
-
     public init(name: String?,
                 children: [WireNode],
                 transform: WireMatrix4,
                 pivot: WireMatrix4,
+                eulers: WireVector3,
                 box: WireBox?,
                 text: WireText?,
                 boundingMin: WireVector3,
@@ -127,6 +119,7 @@ struct WireNode: Codable {
         self.children = children
         self.transform = transform
         self.pivot = pivot
+        self.eulers = eulers
         self.box = box
         self.text = text
         self.boundingMin = boundingMin
@@ -154,6 +147,7 @@ struct WireNode: Codable {
             ,
             transform: node.transform.wireMatrix,
             pivot: node.pivot.wireMatrix,
+            eulers: node.eulerAngles.wireVector,
             box: (node.geometry as? SCNBox)?.wireBox,
             text: (node.geometry as? SCNText)?.wireText,
             boundingMin: node.boundingBox.min.wireVector,
@@ -169,6 +163,7 @@ struct WireNode: Codable {
         node.geometry = box?.scnBox ?? text?.scnText
         node.transform = transform.scnMatrix
         node.pivot = pivot.scnMatrix
+        node.eulerAngles = eulers.scnVector
         node.categoryBitMask = bitMask
         node.boundingBox = (boundingMin.scnVector, boundingMax.scnVector)
         return node
