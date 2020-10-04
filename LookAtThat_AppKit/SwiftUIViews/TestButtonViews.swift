@@ -9,8 +9,7 @@ struct SourceInfoGrid: View {
     var body: some View {
         return VStack(alignment: .leading) {
             if let info = sourceInfo {
-                identifiers(named: "All Identifiers",
-                            with: info.allTokens.map.map{ $0.key })
+                Text("TBD")
             } else {
                 Text("No source info to display")
                     .padding()

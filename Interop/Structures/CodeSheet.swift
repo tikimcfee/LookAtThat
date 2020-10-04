@@ -2,19 +2,29 @@ import Foundation
 import SceneKit
 
 let kContainerName = "kContainerName"
-class CodeSheet: Identifiable, Equatable {
-    var id = UUID().uuidString
-    var allLines = [SCNNode]()
-    var children = [CodeSheet]()
 
+// I want to find all the functions
+// I want to find all the functions that take strings
+// I want to find all the functions that take strings and return strings
+
+struct IndexData: Hashable, Identifiable {
+    var id: String { return parentSheetId }
+    var parentSheetId: CodeSheet.ID
+
+    var syntaxType: String
+    var name: String
+
+}
+
+class CodeSheet: Identifiable, Equatable {
+    lazy var id = UUID().uuidString
     lazy var containerNode: SCNNode = makeContainerNode()
-    lazy var pageGeometryNode: SCNNode = SCNNode()
-    lazy var pageGeometry: SCNBox = makePageGeometry()
-    var lastLine: SCNNode {
-        return allLines.last ?? {
-            return makeLineNode()
-        }()
-    }
+    lazy var backgroundGeometryNode: SCNNode = SCNNode()
+    lazy var backgroundGeometry: SCNBox = makePageGeometry()
+
+    var children = [CodeSheet]()
+    var allLines = [SCNNode]()
+    var lastLine: SCNNode { allLines.last ?? { makeLineNode() }() }
 
     init(_ id: String? = nil) {
         self.id = id ?? self.id
@@ -31,10 +41,10 @@ extension CodeSheet {
     func makeContainerNode() -> SCNNode {
         let container = SCNNode()
         container.name = kContainerName
-        container.addChildNode(pageGeometryNode)
-        pageGeometryNode.categoryBitMask = HitTestType.codeSheet
-        pageGeometryNode.geometry = pageGeometry
-        pageGeometryNode.name = id
+        container.addChildNode(backgroundGeometryNode)
+        backgroundGeometryNode.categoryBitMask = HitTestType.codeSheet
+        backgroundGeometryNode.geometry = backgroundGeometry
+        backgroundGeometryNode.name = id
         return container
     }
 
@@ -48,7 +58,7 @@ extension CodeSheet {
 
     func makeLineNode() -> SCNNode {
         let line = SCNNode()
-        line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH)
+        line.position = SCNVector3(Self.childPadding, -Self.childPadding, PAGE_EXTRUSION_DEPTH)
         containerNode.addChildNode(line)
         allLines.append(line)
         return line
@@ -56,6 +66,8 @@ extension CodeSheet {
 }
 
 extension CodeSheet {
+    static let childPadding: VectorFloat = 0.5
+
     func newlines(_ count: Int) {
         for _ in 0..<count {
             setNewLine()
@@ -66,6 +78,7 @@ extension CodeSheet {
         var (startPosition, height): (SCNVector3, VectorFloat)
         if let last = children.last  {
             startPosition = lastLinePosition(in: last)
+            startPosition.x = Self.childPadding
             startPosition.z = lastLine.position.z
             height = last.lastLine.lengthY
         } else {
@@ -79,29 +92,24 @@ extension CodeSheet {
     }
 
     func sizePageToContainerNode() {
-        pageGeometry.width = containerNode.lengthX.cg
-        pageGeometry.height = containerNode.lengthY.cg
-        let centerY = -pageGeometry.height / 2.0
-        let centerX = pageGeometry.width / 2.0
-        pageGeometryNode.position.y = centerY.vector
-        pageGeometryNode.position.x = centerX.vector
-        containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0);
+        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding
+        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding
+        let centerY = -backgroundGeometry.height / 2.0
+        let centerX = backgroundGeometry.width / 2.0
+        backgroundGeometryNode.position.y = centerY.vector
+        backgroundGeometryNode.position.x = centerX.vector
+        containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
     }
-
-    func spawnChild() -> CodeSheet {
-        let codeSheet = CodeSheet()
-        containerNode.addChildNode(codeSheet.containerNode)
-        children.append(codeSheet)
-        return codeSheet
-    }
-
-    func addChildAtLastLine(_ sheet: CodeSheet) {
+ 
+    func appendChild(_ sheet: CodeSheet) {
         children.append(sheet)
         containerNode.addChildNode(sheet.containerNode)
 
         sheet.containerNode.position =
-            sheet.containerNode.position.translated(dZ: WORD_EXTRUSION_SIZE)
-        sheet.containerNode.position.x += sheet.halfLengthX
+            SCNVector3Zero.translated(
+                dX: sheet.halfLengthX + Self.childPadding,
+                dZ: WORD_EXTRUSION_SIZE.vector
+            )
 
         let myLastLinePosition = lastLinePosition(in: self)
         var sheetPosition = containerPosition(of: sheet)
@@ -109,7 +117,7 @@ extension CodeSheet {
         sheetPosition.y = myLastLinePosition.y
             - lastLine.lengthY
             - sheet.halfLengthY
-//            - 0.5
+//            - Self.childPadding
 
         sheet.containerNode.position = sheetPosition
         newlines(sheet.allLines.count)

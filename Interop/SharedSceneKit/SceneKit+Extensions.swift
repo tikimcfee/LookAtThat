@@ -35,16 +35,15 @@ public extension SCNGeometry {
 }
 
 public extension SCNNode {
-    var lengthX: VectorFloat {
-        return boundingBox.max.x - boundingBox.min.x
-    }
+    var lengthX: VectorFloat { boundingBox.max.x - boundingBox.min.x }
+    var lengthY: VectorFloat { boundingBox.max.y - boundingBox.min.y }
+    var lengthZ: VectorFloat { boundingBox.max.z - boundingBox.min.z }
 
-    var lengthY: VectorFloat {
-        return boundingBox.max.y - boundingBox.min.y
-    }
-
-    var lengthZ: VectorFloat {
-        return boundingBox.max.z - boundingBox.min.z
+    func padBoundingbox(_ pad: VectorFloat) {
+        boundingBox.min.x -= pad / 2.0
+        boundingBox.max.x += pad / 2.0
+        boundingBox.max.y += pad / 2.0
+        boundingBox.min.y -= pad / 2.0
     }
 
     func chainLinkTo(to target: SCNNode) {

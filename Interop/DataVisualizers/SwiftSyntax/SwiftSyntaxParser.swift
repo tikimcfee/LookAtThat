@@ -59,10 +59,10 @@ import SwiftSyntax
 
 extension OrganizedSourceInfo {
     subscript(_ syntax: Syntax) -> CodeSheet? {
-        get { allDeclarations[syntax.id.hashValue] }
+        get { allSheets[syntax.id.hashValue] }
         set {
             let hash = syntax.id.hashValue
-            allDeclarations[hash] = newValue
+            allSheets[hash] = newValue
             groupedBlocks(for: syntax) { $0[hash] = newValue }
         }
     }
@@ -107,6 +107,7 @@ extension OrganizedSourceInfo {
 
         if syntax.as(CodeBlockItemListSyntax.self) != nil
         || syntax.as(CodeBlockItemSyntax.self) != nil
+        || syntax.as(CodeBlockSyntax.self) != nil
         {
             return true
         }
@@ -156,15 +157,25 @@ class SwiftSyntaxParser: SyntaxRewriter {
     func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
         let newSheet = CodeSheet()
 
-        newSheet.pageGeometry.firstMaterial?.diffuse.contents
+        newSheet.backgroundGeometry.firstMaterial?.diffuse.contents
             = typeColor(for: node.syntaxNodeType)
 
 //        print("Making sheet for '\(node.syntaxNodeType)'")
         for nodeChildSyntax in node.children {
 //            print("Looking for a '\(nodeChildSyntax.syntaxNodeType)'")
-            if let existingSheet = organizedInfo.allDeclarations[nodeChildSyntax.id.hashValue] {
+            if let existingSheet = organizedInfo.allSheets[nodeChildSyntax.id.hashValue] {
 //                print("+ Using existing sheet")
-                newSheet.addChildAtLastLine(existingSheet)
+                if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
+                    newSheet.add(block.leftBrace, textNodeBuilder)
+                    for statement in block.statements {
+                        if let childSheet = organizedInfo.allSheets[statement.id.hashValue] {
+                            newSheet.appendChild(childSheet)
+                        }
+                    }
+                    newSheet.add(block.rightBrace, textNodeBuilder)
+                } else {
+                    newSheet.appendChild(existingSheet)
+                }
             } else {
 //                print("! Adding tokens")
                 for token in nodeChildSyntax.tokens {

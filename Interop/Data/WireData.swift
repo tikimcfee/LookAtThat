@@ -36,8 +36,8 @@ struct WireSheet: Codable {
     //    var parent: WireSheet?  : TODO: need to reset these at the end
     let id: String
     var containerNode: WireNode
-    var pageGeometryNode: WireNode
-    var pageGeometry: WireBox
+    var backgroundGeometryNode: WireNode
+    var backgroundGeometry: WireBox
     let allLines: [WireNode]
     let children: [WireSheet]
 
@@ -45,8 +45,8 @@ struct WireSheet: Codable {
         let newSheet = WireSheet(
             id: sheet.id,
             containerNode: sheet.containerNode.containerWireNode,
-            pageGeometryNode: sheet.pageGeometryNode.containerWireNode,
-            pageGeometry: sheet.pageGeometry.wireBox,
+            backgroundGeometryNode: sheet.backgroundGeometryNode.containerWireNode,
+            backgroundGeometry: sheet.backgroundGeometry.wireBox,
             allLines: sheet.allLines.map {
                 WireNode.from($0)
             },
@@ -67,11 +67,11 @@ struct WireSheet: Codable {
          exactly what we want.
          */
         root.containerNode = containerNode.scnNode
-        root.pageGeometry = pageGeometry.scnBox
+        root.backgroundGeometry = backgroundGeometry.scnBox
 
-        root.pageGeometryNode = pageGeometryNode.scnNode
-        root.pageGeometryNode.geometry = root.pageGeometry
-        root.containerNode.addChildNode(root.pageGeometryNode)
+        root.backgroundGeometryNode = backgroundGeometryNode.scnNode
+        root.backgroundGeometryNode.geometry = root.backgroundGeometry
+        root.containerNode.addChildNode(root.backgroundGeometryNode)
 
         for line in allLines {
             let line = line.scnNode
