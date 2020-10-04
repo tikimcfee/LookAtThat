@@ -1,6 +1,10 @@
 import Foundation
 import SceneKit
 
+extension CodeSheet {
+    var wireSheet: WireSheet { WireSheet.from(self) }
+}
+
 extension SCNNode {
     var wireNode: WireNode { WireNode.from(self, isContainer: false) }
     var containerWireNode: WireNode { WireNode.from(self, isContainer: true) }
@@ -26,12 +30,6 @@ extension SCNGeometry {
     }
 }
 
-extension CodeSheet {
-    var wireSheet: WireSheet {
-        WireSheet.from(self)
-    }
-}
-
 struct WireSheet: Codable {
     //    var parent: WireSheet?  : TODO: need to reset these at the end
     let id: String
@@ -47,12 +45,8 @@ struct WireSheet: Codable {
             containerNode: sheet.containerNode.containerWireNode,
             backgroundGeometryNode: sheet.backgroundGeometryNode.containerWireNode,
             backgroundGeometry: sheet.backgroundGeometry.wireBox,
-            allLines: sheet.allLines.map {
-                WireNode.from($0)
-            },
-            children: sheet.children.map {
-                WireSheet.from($0)
-            }
+            allLines: sheet.allLines.map { $0.wireNode },
+            children: sheet.children.map { $0.wireSheet }
         )
         return newSheet
     }
