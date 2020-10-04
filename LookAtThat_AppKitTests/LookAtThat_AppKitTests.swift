@@ -26,10 +26,30 @@ class LookAtThat_AppKitTests: XCTestCase {
 
     }
 
+    func test_RawSource() throws {
+        printStart()
+
+        let source =
+"""
+extension String {
+    var hello: String
+}
+"""
+        let sourceSyntax = swiftSyntaxParser.parse(source)
+        let rootNode = swiftSyntaxParser.visit(sourceSyntax!)
+        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+        print("CodeSheet created with children: \(testCodeSheet.children.count)")
+
+//        swiftSyntaxParser.organizedInfo.dump()
+
+        printEnd()
+    }
+
+
     func test_JustFunctions() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
 //        swiftSyntaxParser.organizedInfo.dump()
@@ -40,7 +60,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_singleSheet() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         measure {
@@ -53,7 +73,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_backAndForth() throws {
         printStart()
 
-        let parentCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
+        let parentCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         let wireSheet = parentCodeSheet.wireSheet
         let backConverted = wireSheet.makeCodeSheet()
 
@@ -66,7 +86,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         printStart()
 
 
-        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         func transformer(_ mode: SheetDataTransformer.Mode) {
@@ -97,7 +117,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func test_ManySheets() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeRootCodeSheet()
+        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         let list = Array.init(repeating: 0, count: 100)

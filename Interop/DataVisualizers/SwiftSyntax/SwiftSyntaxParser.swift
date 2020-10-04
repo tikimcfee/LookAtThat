@@ -160,11 +160,15 @@ class SwiftSyntaxParser: SyntaxRewriter {
         newSheet.backgroundGeometry.firstMaterial?.diffuse.contents
             = typeColor(for: node.syntaxNodeType)
 
-//        print("Making sheet for '\(node.syntaxNodeType)'")
+        print("Making sheet for '\(node.syntaxNodeType)'")
         for nodeChildSyntax in node.children {
-//            print("Looking for a '\(nodeChildSyntax.syntaxNodeType)'")
+            print("Looking for a '\(nodeChildSyntax.syntaxNodeType)'")
             if let existingSheet = organizedInfo.allSheets[nodeChildSyntax.id.hashValue] {
 //                print("+ Using existing sheet")
+
+                if let b2 = nodeChildSyntax.as(MemberDeclBlockSyntax.self) { {
+                    
+                }
                 if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
                     newSheet.add(block.leftBrace, textNodeBuilder)
                     for statement in block.statements {

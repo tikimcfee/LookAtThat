@@ -71,6 +71,15 @@ extension SwiftSyntaxParser {
         }
     }
 
+    func parse(_ source: String) -> SourceFileSyntax? {
+        do {
+            return try SyntaxParser.parse(source: source)
+        } catch {
+            print("|InvalidRawSource| failed to load > \(error)")
+            return nil
+        }
+    }
+
     private func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
         do {
             return try SyntaxParser.parse(url)
@@ -85,8 +94,6 @@ extension SwiftSyntaxParser {
 extension SwiftSyntaxParser {
 
     func makeSheetFromInfo() -> CodeSheet {
-        print(#function, "Starting")
-
         let parentCodeSheet = makeSheet(from: rootSyntaxNode!)
         parentCodeSheet.sizePageToContainerNode()
 
