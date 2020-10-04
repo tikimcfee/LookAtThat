@@ -111,9 +111,7 @@
 		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		F0F205832522EB35009B6D2C /* RidiculousFile in Sources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
-		F0F2058D25239DC8009B6D2C /* RENDERME in Sources */ = {isa = PBXBuildFile; fileRef = F0F2058B25239DC8009B6D2C /* RENDERME */; };
 		F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -780,13 +778,11 @@
 				F057D252252045BB0094BD83 /* WordParser.swift in Sources */,
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
 				F057D228252044430094BD83 /* WordNodes.swift in Sources */,
-				F0F205832522EB35009B6D2C /* RidiculousFile in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
-				F0F2058D25239DC8009B6D2C /* RENDERME in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

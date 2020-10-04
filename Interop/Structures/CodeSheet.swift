@@ -58,7 +58,7 @@ extension CodeSheet {
 
     func makeLineNode() -> SCNNode {
         let line = SCNNode()
-        line.position = SCNVector3(Self.childPadding, -Self.childPadding, PAGE_EXTRUSION_DEPTH)
+        line.position = SCNVector3(Self.childPadding, -Self.childPadding, PAGE_EXTRUSION_DEPTH.vector)
         containerNode.addChildNode(line)
         allLines.append(line)
         return line
@@ -92,8 +92,8 @@ extension CodeSheet {
     }
 
     func sizePageToContainerNode() {
-        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding
-        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding
+        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding.cg
+        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding.cg
         let centerY = -backgroundGeometry.height / 2.0
         let centerX = backgroundGeometry.width / 2.0
         backgroundGeometryNode.position.y = centerY.vector
