@@ -73,13 +73,15 @@ struct WireSheet: Codable {
         root.backgroundGeometryNode.geometry = root.backgroundGeometry
         root.containerNode.addChildNode(root.backgroundGeometryNode)
 
-        for line in allLines {
+        let linesCopy = allLines
+        for line in linesCopy {
             let line = line.scnNode
             root.allLines.append(line)
             root.containerNode.addChildNode(line)
         }
-        
-        for child in children {
+
+        let childrenCopy = children
+        for child in childrenCopy {
             let sheet = child.makeCodeSheet(root)
             root.children.append(sheet)
             root.containerNode.addChildNode(sheet.containerNode)
@@ -98,6 +100,8 @@ struct WireNode: Codable {
     let pivot: WireMatrix4
     let box: WireBox?
     let text: WireText?
+    let boundingMin: WireVector3
+    let boundingMax: WireVector3
     let bitMask: Int
 
     enum Keys: CodingKey {
@@ -116,6 +120,8 @@ struct WireNode: Codable {
                 pivot: WireMatrix4,
                 box: WireBox?,
                 text: WireText?,
+                boundingMin: WireVector3,
+                boundingMax: WireVector3,
                 bitMask: Int) {
         self.name = name
         self.children = children
@@ -123,6 +129,8 @@ struct WireNode: Codable {
         self.pivot = pivot
         self.box = box
         self.text = text
+        self.boundingMin = boundingMin
+        self.boundingMax = boundingMax
         self.bitMask = bitMask
     }
 
@@ -148,6 +156,8 @@ struct WireNode: Codable {
             pivot: node.pivot.wireMatrix,
             box: (node.geometry as? SCNBox)?.wireBox,
             text: (node.geometry as? SCNText)?.wireText,
+            boundingMin: node.boundingBox.min.wireVector,
+            boundingMax: node.boundingBox.max.wireVector,
             bitMask: node.categoryBitMask
         )
     }
@@ -160,6 +170,7 @@ struct WireNode: Codable {
         node.transform = transform.scnMatrix
         node.pivot = pivot.scnMatrix
         node.categoryBitMask = bitMask
+        node.boundingBox = (boundingMin.scnVector, boundingMax.scnVector)
         return node
     }
 }

@@ -9,7 +9,8 @@ func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.unlock()
 }
 
-func sceneTransaction(_ duration: Int? = nil, _ operation: () -> Void) {
+func sceneTransaction(_ duration: Int? = nil,
+                      _ operation: () -> Void) {
     SCNTransaction.begin()
     SCNTransaction.animationDuration =
         duration.map{ CFTimeInterval($0) }
@@ -35,15 +36,19 @@ public extension SCNGeometry {
 }
 
 public extension SCNNode {
-    var lengthX: VectorFloat { boundingBox.max.x - boundingBox.min.x }
-    var lengthY: VectorFloat { boundingBox.max.y - boundingBox.min.y }
-    var lengthZ: VectorFloat { boundingBox.max.z - boundingBox.min.z }
+    var lengthX: VectorFloat {
+        let (min, max) = boundingBox
+        return max.x.vector - min.x.vector
+    }
+    var lengthY: VectorFloat {
+        let (min, max) = boundingBox
+        return max.y.vector - min.y.vector
 
-    func padBoundingbox(_ pad: VectorFloat) {
-        boundingBox.min.x -= pad / 2.0
-        boundingBox.max.x += pad / 2.0
-        boundingBox.max.y += pad / 2.0
-        boundingBox.min.y -= pad / 2.0
+    }
+    var lengthZ: VectorFloat {
+        let (min, max) = boundingBox
+        return max.z.vector - min.z.vector
+
     }
 
     func chainLinkTo(to target: SCNNode) {

@@ -83,23 +83,32 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
             .subscribe(on: DispatchQueue.global())
             .receive(on: RunLoop.main)
             .sink{ [weak self] codeSheets in
-                print("Updating code sheets...")
-                guard let newSheet = codeSheets.last else {
-                    print("It was empty... but why?")
-                    return
-                }
-                sceneTransaction {
-                    let sheetNode = newSheet.containerNode
-                    sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
-                    sheetNode.position =
-                        self?.currentController.sceneView.pointOfView?.position.translated(dZ: -0.5)
-                        ?? SCNVector3Make(0.0, 0.0, -0.5)
-                    self?.currentController.scene.rootNode.addChildNode(sheetNode)
-                    print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)
-                }
+                self?.receiveSheets(codeSheets)
             }
             .store(in: &cancellables)
         #endif
+    }
+
+    private func receiveSheets(_ codeSheets: [CodeSheet]) {
+        print("Updating code sheets...")
+        guard let newSheet = codeSheets.last else {
+            print("It was empty... but why?")
+            return
+        }
+
+        let sheetNode = newSheet.containerNode
+        sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
+        sheetNode.position =
+            currentController.sceneView.pointOfView?.position.translated(dZ: -0.5)
+            ?? SCNVector3Make(0.0, 0.0, -0.5)
+
+        DispatchQueue.main.async {
+            print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)
+            sceneTransaction(0) {
+                self.currentController.scene.rootNode.addChildNode(sheetNode)
+            }
+        }
+
     }
 
     func customText() {

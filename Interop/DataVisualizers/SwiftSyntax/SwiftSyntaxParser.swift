@@ -165,10 +165,15 @@ class SwiftSyntaxParser: SyntaxRewriter {
             print("Looking for a '\(nodeChildSyntax.syntaxNodeType)'")
             if let existingSheet = organizedInfo.allSheets[nodeChildSyntax.id.hashValue] {
 //                print("+ Using existing sheet")
-
-                if let b2 = nodeChildSyntax.as(MemberDeclBlockSyntax.self) { {
-                    
-                }
+                if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
+                    newSheet.add(declBlock.leftBrace, textNodeBuilder)
+                    for statement in declBlock.members {
+                        if let childSheet = organizedInfo.allSheets[statement.id.hashValue] {
+                            newSheet.appendChild(childSheet)
+                        }
+                    }
+                    newSheet.add(declBlock.rightBrace, textNodeBuilder)
+                } else
                 if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
                     newSheet.add(block.leftBrace, textNodeBuilder)
                     for statement in block.statements {
