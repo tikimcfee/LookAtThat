@@ -24,7 +24,7 @@ class WordNodeBuilder {
     let wordStringCache = WordStringCache()
     let wordLayerCache = WordLayerCache()
 
-    let buildMode = BuildMode.layers
+    let buildMode = BuildMode.words
 
     func definitionNode(_ rootWordPosition: SCNVector3,
                         _ rootWord: String,
