@@ -80,3 +80,48 @@ class WordStringCache: LockingCache<String, SizedText> {
         return sizedText
     }
 }
+
+class WordLayerCache: LockingCache<String, SizedText> {
+    let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated)
+    let backgroundColor = NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 0.95).cgColor
+    let foregroundColor = NSUIColor.white.cgColor
+
+    override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
+        let wordSize = String(key).fontedSize
+
+        print("WordSize - \(wordSize)")
+        let SCALE_FACTOR: CGFloat = 16.0
+        let layerSize = (width: wordSize.width * SCALE_FACTOR,
+                         height: wordSize.height * SCALE_FACTOR)
+
+        let layer = CALayer()
+        let textLayer = CATextLayer()
+        let box = SCNBox(width: wordSize.width,
+                         height: wordSize.height,
+                         length: 0.0,
+                         chamferRadius: 0.25)
+
+        layoutQueue.sync {
+            layer.backgroundColor = backgroundColor
+            layer.frame = CGRect(x: 0, y: 0,
+                                 width: layerSize.width,
+                                 height: layerSize.height)
+
+
+            textLayer.string = "\(key)"
+            textLayer.font = kDefaultSCNTextFont
+            textLayer.fontSize = kDefaultSCNTextFont.pointSize * SCALE_FACTOR
+            textLayer.alignmentMode = .left
+            textLayer.foregroundColor = foregroundColor
+            textLayer.frame = layer.bounds
+
+            textLayer.display()
+            layer.addSublayer(textLayer)
+
+            box.firstMaterial?.locksAmbientWithDiffuse = true
+            box.firstMaterial?.diffuse.contents = layer
+        }
+
+        return (box, wordSize)
+    }
+}

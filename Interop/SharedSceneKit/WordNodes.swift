@@ -14,6 +14,7 @@ public typealias SizedText = (SCNGeometry, CGSize)
 enum BuildMode {
     case words
     case characters
+    case layers
 }
 
 class WordNodeBuilder {
@@ -21,8 +22,9 @@ class WordNodeBuilder {
 
     let wordCharacterCache = WordGeometryCache()
     let wordStringCache = WordStringCache()
+    let wordLayerCache = WordLayerCache()
 
-    let buildMode = BuildMode.words
+    let buildMode = BuildMode.layers
 
     func definitionNode(_ rootWordPosition: SCNVector3,
                         _ rootWord: String,
@@ -66,6 +68,8 @@ class WordNodeBuilder {
             makeDecomposedGeometry(word).forEach(mapSizedText)
         case .words:
             makeFullStringTextGeometry(word).forEach(mapSizedText)
+        case .layers:
+            makeLayerTextGeometry(word).forEach(mapSizedText)
         }
         containerNode.boundingBox = (
             SCNVector3Zero,
@@ -81,6 +85,11 @@ class WordNodeBuilder {
         wordNode.name = word
         TEXT_NODE_COUNT += 1
         return wordNode
+    }
+
+    func makeLayerTextGeometry(_ word: String) -> [SizedText] {
+        let wordText = wordLayerCache[word]
+        return [wordText]
     }
 
     private func makeFullStringTextGeometry(_ word: String) -> [SizedText] {
