@@ -83,7 +83,7 @@ class WordStringCache: LockingCache<String, SizedText> {
 
 class WordLayerCache: LockingCache<String, SizedText> {
     let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated)
-    let backgroundColor = NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 0.95).cgColor
+    let backgroundColor = NSUIColor.black.cgColor
     let foregroundColor = NSUIColor.white.cgColor
 
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
