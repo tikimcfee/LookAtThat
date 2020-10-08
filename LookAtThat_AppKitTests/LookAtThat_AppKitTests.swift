@@ -18,8 +18,8 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
-        swiftSyntaxParser.prepareRendering(source: fileUrl!)
+//        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
+//        swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
     override func tearDownWithError() throws {
@@ -146,6 +146,64 @@ extension String {
 
         waitForExpectations(timeout: 10)
 
+        printEnd()
+    }
+
+    func test_runningAWorker() throws {
+        printStart()
+        let expectation = XCTestExpectation(description: "The worker runs")
+
+        let worker = BackgroundWorker()
+        worker.run {
+            print("Hey there folks, I'm '\(Thread.current)'.")
+            expectation.fulfill()
+            print("What a funny thing to code against. 'Fulfill expectation'. Heh.")
+            worker.stop()
+        }
+
+        wait(for: [expectation], timeout: 3)
+        printEnd()
+    }
+
+    func test_writingStreams() throws {
+        printStart()
+
+        let worker = BackgroundWorker()
+
+        let dataDecoded = XCTestExpectation(description: "Data decoded")
+        let decodeData = { (data: Data) in
+            let inputStream = InputStream(data: data)
+            inputStream.schedule(in: .current, forMode: .default)
+            inputStream.open()
+
+            let reader = InputStreamReader(stream: inputStream)
+            let outputData = try! reader.readData()
+            let outputString = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(outputData) as? String
+
+            print("So what did we write?:\n\t", outputString as Any)
+
+            inputStream.close()
+            dataDecoded.fulfill()
+        }
+
+        let dataEncoded = XCTestExpectation(description: "Data encoded")
+        worker.run {
+            let outputStream = OutputStream.toMemory()
+            outputStream.schedule(in: .current, forMode: .default)
+            outputStream.open()
+
+            let message = "Thanks, internet person: https://gist.github.com/lucasecf/bde1d9bd3492f29b7534"
+            let data = try! NSKeyedArchiver.archivedData(withRootObject: message, requiringSecureCoding: false)
+            let writtenData = outputStream.writeDataWithBoundPointer(data)
+            print("Well. It wrote: \(writtenData)")
+
+            decodeData(data)
+
+            outputStream.close()
+            dataEncoded.fulfill()
+        }
+
+        wait(for: [dataEncoded, dataDecoded], timeout: 10)
         printEnd()
     }
 

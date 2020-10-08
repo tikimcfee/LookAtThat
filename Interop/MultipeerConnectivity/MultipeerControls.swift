@@ -1,8 +1,8 @@
 import MultipeerConnectivity
 import Foundation
 
+// MARK: - Connection setup
 extension MultipeerConnectionManager {
-
     func startBrowser() {
         workerQueue.async {
             self.currentConnection.startBrowsing()
@@ -13,25 +13,6 @@ extension MultipeerConnectionManager {
     func startAdvertiser() {
         workerQueue.async {
             self.currentConnection.startAdvertising()
-            self.updatePeerState()
-        }
-    }
-
-    func sendCodeSheet(to peer: MCPeerID) {
-        workerQueue.async {
-            // Lol look at that dependency chain....
-            guard let clickedSheet =
-                    SceneLibrary.global.codePagesController
-                        .touchState.mouse.currentClickedSheet
-            else { return }
-            self.onQueueSendSheet(clickedSheet, peer)
-            self.updatePeerState()
-        }
-    }
-
-    func send(message: String, to peer: MCPeerID) {
-        workerQueue.async {
-            self.onQueueSendMessage(message, peer)
             self.updatePeerState()
         }
     }
@@ -50,7 +31,30 @@ extension MultipeerConnectionManager {
     }
 }
 
-// MARK: - Work implementations
+
+// MARK: - Communication
+extension MultipeerConnectionManager {
+    func sendCodeSheet(to peer: MCPeerID) {
+        workerQueue.async {
+            // Lol look at that dependency chain....
+            guard let clickedSheet =
+                    SceneLibrary.global.codePagesController
+                        .touchState.mouse.currentClickedSheet
+            else { return }
+            self.onQueueSendSheet(clickedSheet, peer)
+            self.updatePeerState()
+        }
+    }
+
+    func send(message: String, to peer: MCPeerID) {
+        workerQueue.async {
+            self.onQueueSendMessage(message, peer)
+            self.updatePeerState()
+        }
+    }
+}
+
+// MARK: - Block implementations
 extension MultipeerConnectionManager {
     private func onQueueSendSheet(_ sheet: CodeSheet, _ peer: MCPeerID) {
         guard currentPeers[peer] != nil else {
@@ -94,16 +98,6 @@ extension MultipeerConnectionManager {
             if oldConnection.isBrowsing {
                 self.startBrowser()
             }
-        }
-    }
-}
-
-extension ConnectionBundle {
-    func send(_ data: Data, to peer: MCPeerID) {
-        do {
-            try globalSession.send(data, toPeers: [peer], with: .reliable)
-        } catch {
-            print("Failed to send to \(peer)", error)
         }
     }
 }

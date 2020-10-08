@@ -1,5 +1,6 @@
 import Foundation
 import MultipeerConnectivity
+import SystemConfiguration
 
 typealias BundledDelegate = NSObject
     & MCSessionDelegate
@@ -13,6 +14,7 @@ class ConnectionBundle {
     var serviceAdvertiser: MCNearbyServiceAdvertiser
     var isBrowsing = false
     var isAdvertising = false
+    let streamWorker = BackgroundWorker()
 
     weak var delegate: BundledDelegate? {
         didSet {
@@ -39,6 +41,15 @@ class ConnectionBundle {
         serviceBrowser.startBrowsingForPeers()
     }
 
+    func stopBrowsing() {
+        guard isBrowsing else {
+            print("Not browsing")
+            return
+        }
+        isBrowsing = false
+        serviceBrowser.stopBrowsingForPeers()
+    }
+
     func startAdvertising() {
         guard !isAdvertising else {
             print("Already advertising")
@@ -48,11 +59,31 @@ class ConnectionBundle {
         serviceAdvertiser.startAdvertisingPeer()
     }
 
+    func stopAdvertising() {
+        guard isAdvertising else {
+            print("Not advertising")
+            return
+        }
+        isAdvertising = false
+        serviceAdvertiser.stopAdvertisingPeer()
+    }
+
+    func send(_ data: Data, to peer: MCPeerID) {
+        do {
+            try globalSession.send(data, toPeers: [peer], with: .reliable)
+        } catch {
+            print("Failed to send to \(peer)", error)
+        }
+    }
+
     func shutdown() {
+        streamWorker.stop()
         serviceAdvertiser.stopAdvertisingPeer()
         serviceAdvertiser.delegate = nil
+        isAdvertising = false
         serviceBrowser.stopBrowsingForPeers()
         serviceBrowser.delegate = nil
+        isBrowsing = false
 
         // If things start getting screwy again, bust this out
         // (screwy = ghost sessions and peers, neverending connections, 'weird states')
@@ -104,9 +135,13 @@ class ConnectionBundle {
     private static let kServiceName = "latmacconn"
     private static var defaultDeviceName: String {
         #if os(OSX)
-        return "macOS-App-".appending(UUID().uuidString)
+        let cfComputerName = SCDynamicStoreCopyComputerName(nil, nil)
+        let name = (cfComputerName as String? ?? "unknown-macOS-App")
+            .appending("-")
+            .appending(UUID().uuidString)
+        return name
         #elseif os(iOS)
-        return "iOS-App-".appending(UUID().uuidString)
+        return "\(UIDevice.current.name)-".appending(UUID().uuidString)
         #endif
     }
 }

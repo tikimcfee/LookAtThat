@@ -24,6 +24,12 @@
 		F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D325185D8500B94E7A /* WordPositionIterator.swift */; };
 		F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
 		F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8DA251903B400B94E7A /* TestButtonViews.swift */; };
+		F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */; };
+		F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */; };
+		F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */; };
+		F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */; };
+		F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
+		F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
@@ -165,6 +171,10 @@
 		F030B8D325185D8500B94E7A /* WordPositionIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPositionIterator.swift; sourceTree = "<group>"; };
 		F030B8D72518741E00B94E7A /* SceneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLibrary.swift; sourceTree = "<group>"; };
 		F030B8DA251903B400B94E7A /* TestButtonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonViews.swift; sourceTree = "<group>"; };
+		F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCP-Bridging-Header.h"; sourceTree = "<group>"; };
+		F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundWorker.swift; sourceTree = "<group>"; };
+		F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConnectionBundle+Streams.swift"; sourceTree = "<group>"; };
+		F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerStreamController.swift; sourceTree = "<group>"; };
 		F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Extensions.swift"; sourceTree = "<group>"; };
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
@@ -288,6 +298,7 @@
 				F00FC735250C53470092AFF9 /* Preview Content */,
 				F09A529E25157F7800F5082A /* Visitors */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
+				F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */,
 				F030B8D92519039A00B94E7A /* SwiftUIViews */,
 			);
 			path = LookAtThat_AppKit;
@@ -350,6 +361,16 @@
 			path = Scenes;
 			sourceTree = "<group>";
 		};
+		F038D91A252EB7D500A9E6BC /* Streams */ = {
+			isa = PBXGroup;
+			children = (
+				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
+				F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */,
+				F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */,
+			);
+			path = Streams;
+			sourceTree = "<group>";
+		};
 		F043BB0F2515369000FB1EF6 /* Caches */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +391,7 @@
 		F057D2132520428B0094BD83 /* MultipeerConnectivity */ = {
 			isa = PBXGroup;
 			children = (
+				F038D91A252EB7D500A9E6BC /* Streams */,
 				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
 				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
 				F02E1110251EEF240052D993 /* MultipeerData.swift */,
@@ -684,6 +706,7 @@
 			files = (
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
+				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
@@ -726,6 +749,8 @@
 				F0F0D8D9252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */,
+				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
+				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */,
 			);
@@ -743,6 +768,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
+				F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				F057D217252042F80094BD83 /* WordPositionIterator.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
@@ -763,6 +790,7 @@
 				F057D214252042D90094BD83 /* CodeSheet.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
+				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* SheetDataTransformer.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
@@ -944,7 +972,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = " ${SRCROOT}/**";
+				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -977,7 +1005,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = " ${SRCROOT}/**";
+				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
