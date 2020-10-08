@@ -13,6 +13,7 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
 
     // Multipeer API setup
     var currentConnection = ConnectionBundle()
+    lazy var multipeerStreamController = MultipeerStreamController(currentConnection, self)
 
     // Our models and streams
     @Published var sentMessages = MessageHistory()
@@ -21,10 +22,14 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     @Published var currentPeers = [MCPeerID: PeerConnection]()
     @Published var peerDiscoveryState = MultipeerStateViewModel()
     @Published var receivedCodeSheets = [CodeSheet]()
+    @Published var outputStreamBiMap = BiMap<PreparedOutputStream, Stream>()
+    @Published var inputStreamBiMap = BiMap<ReceivedInputStream, Stream>()
 
     lazy var peerStream = $currentPeers.share().eraseToAnyPublisher()
     lazy var stateStream = $peerDiscoveryState.share().eraseToAnyPublisher()
     lazy var codeSheetStream = $receivedCodeSheets.share().eraseToAnyPublisher()
+    lazy var outputStreams = $outputStreamBiMap.share().eraseToAnyPublisher()
+    lazy var inputStreams = $inputStreamBiMap.share().eraseToAnyPublisher()
 
     private override init() {
         super.init()

@@ -3,14 +3,52 @@ import SwiftUI
 import Foundation
 
 struct MultipeerInfoView: View {
+    @EnvironmentObject var manager: MultipeerConnectionManager
+
     @State var selectedPeer: PeerConnection?
+    @State var isChangingName = false
+    @State var displayName = UserKeys.peerDisplayName.safeValue(using: "")
     
     var body: some View {
-        VStack(spacing: 0) {
+        let baseView = VStack(spacing: 0) {
+            displayNameView
             PeerListView(selectedPeer: $selectedPeer)
             MessageSendView(selectedPeer: $selectedPeer)
             MultipeerStateView(selectedPeer: $selectedPeer)
         }.background(Color.gray.opacity(0.3))
+        .onReceive(
+            manager.stateStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: RunLoop.main)
+        ) { item in
+            displayName = item.displayName
+        }
+        .sheet(isPresented: $isChangingName) {
+            ChangeNameView(
+                isChangingName: $isChangingName,
+                originalDisplayName: manager.currentConnection.myPeerId.displayName
+            ).environmentObject(MultipeerConnectionManager.shared)
+        }
+        #if os(OSX)
+        return baseView.frame(maxWidth: 512, minHeight: 128, alignment: .topLeading)
+        #else
+        return baseView
+        #endif
+
+    }
+
+    var displayNameView: some View {
+        Button(action: { isChangingName = true }) {
+            VStack(alignment: .leading) {
+                Text("My display name (tap to change)")
+                    .font(.caption)
+                    .fontWeight(.heavy)
+                Text(displayName)
+                    .font(.footnote)
+            }
+        }
+        .buttonStyle(FitButtonLabelStyle())
+        .padding(.top, 8)
     }
 }
 
@@ -20,31 +58,37 @@ struct MultipeerStateViewModel {
     var isAdvertising: Bool = false
 }
 
+struct FitButtonLabelStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding(4)
+            .foregroundColor(configuration.isPressed ? Color.blue : Color.white)
+            .background(configuration.isPressed ? Color.gray : Color.gray)
+            .cornerRadius(4)
+    }
+}
+
 struct MultipeerStateView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
     @State var viewModel: MultipeerStateViewModel = MultipeerStateViewModel()
-    @State var isChangingName = false
     @Binding var selectedPeer: PeerConnection?
 
     var body: some View {
-        return VStack {
-            displayName
+        return VStack(alignment: .leading, spacing: 8) {
             HStack {
+                Text("Finding Peers")
                 startBrowsingButton
                 startAdvertisingButton
-            }
+            }.padding(8).overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.gray)
+            )
             HStack {
                 sendCodeSheetButton
+                startStreamButton
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(8)
-        .sheet(isPresented: $isChangingName) {
-            ChangeNameView(
-                isChangingName: $isChangingName,
-                originalDisplayName: manager.currentConnection.myPeerId.displayName
-            ).environmentObject(MultipeerConnectionManager.shared)
-        }
         .onReceive(
             manager.stateStream
                 .subscribe(on: DispatchQueue.global())
@@ -52,51 +96,46 @@ struct MultipeerStateView: View {
         ) { item in
             viewModel = item
         }
-
-    }
-
-    var displayName: some View {
-        Button(action: { isChangingName = true }) {
-            VStack(alignment: .leading) {
-                Text("My display name (tap to change)")
-                    .font(.caption)
-                    .fontWeight(.heavy)
-                Text(viewModel.displayName)
-                    .font(.footnote)
-            }
-        }
-        .foregroundColor(Color.purple)
-        .padding(8)
     }
 
     var startBrowsingButton: some View {
-        Button(action: { manager.startBrowser() }) {
-            Text(
-                viewModel.isBrowsing
-                    ? "Browsing..."
-                    : "Start browsing"
-            )
+        VStack(spacing: 4) {
+            Button(action: { manager.startBrowser() }) {
+                Text(
+                    viewModel.isBrowsing
+                        ? "Stop browsing"
+                        : "Start browsing"
+                )
+            }
+            .buttonStyle(FitButtonLabelStyle())
+            Circle()
+                .foregroundColor(
+                    viewModel.isBrowsing
+                        ? .green
+                        : .red
+                )
+                .frame(width: 10, height: 10)
         }
-        .disabled(viewModel.isBrowsing)
-        .padding(8).overlay(
-            RoundedRectangle(cornerRadius: 4)
-                .stroke(Color.gray)
-        )
     }
 
     var startAdvertisingButton: some View {
-        Button(action: { manager.startAdvertiser() }) {
-            Text(
-                viewModel.isAdvertising
-                    ? "Advertising..."
-                    : "Start advertising"
-            )
+        VStack(spacing: 4) {
+            Button(action: { manager.startAdvertiser() }) {
+                Text(
+                    viewModel.isAdvertising
+                        ? "Stop advertising"
+                        : "Start advertising"
+                )
+            }
+            .buttonStyle(FitButtonLabelStyle())
+            Circle()
+                .foregroundColor(
+                    viewModel.isAdvertising
+                        ? .green
+                        : .red
+                )
+                .frame(width: 10, height: 10)
         }
-        .disabled(viewModel.isAdvertising)
-        .padding(8).overlay(
-            RoundedRectangle(cornerRadius: 4)
-                .stroke(Color.gray)
-        )
     }
 
     var sendCodeSheetButton: some View {
@@ -105,6 +144,19 @@ struct MultipeerStateView: View {
             manager.sendCodeSheet(to: selectedPeer.targetPeerId)
         }) {
             Text("Send code sheet")
+        }
+        .padding(8).overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.gray)
+        )
+    }
+
+    var startStreamButton: some View {
+        Button(action: {
+            guard let selectedPeer = selectedPeer else { return }
+            manager.openStream(to: selectedPeer.targetPeerId)
+        }) {
+            Text("Open stream")
         }
         .padding(8).overlay(
             RoundedRectangle(cornerRadius: 4)
@@ -231,7 +283,7 @@ struct PeerListView: View {
                             .italic()
                             .fontWeight(.light)
                     }
-                }.frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
             .padding(8)
             .overlay(
@@ -239,7 +291,6 @@ struct PeerListView: View {
                     .stroke(Color.gray)
             )
         }
-        .frame(maxWidth: .infinity, minHeight: 128, alignment: .topLeading)
         .padding(8)
         .onReceive(
             manager.peerStream
@@ -260,7 +311,7 @@ struct MessageSendView: View {
 
     var body: some View {
         return VStack(alignment: .trailing, spacing: 0) {
-            HStack {
+            HStack(spacing: 8) {
                 TextField("Type a message", text: $message)
                     .lineLimit(0)
                     .multilineTextAlignment(.leading)
@@ -269,15 +320,13 @@ struct MessageSendView: View {
                         RoundedRectangle(cornerRadius: 4)
                             .stroke(Color.gray)
                     )
-                    .padding(8)
                 Button(action: sendMessageToPeers) {
                     Text("Send").padding(8)
-                }.disabled(selectedPeer == nil)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color.gray)
-                ).padding(8)
-            }
+                }
+                .buttonStyle(FitButtonLabelStyle())
+                .disabled(selectedPeer == nil)
+            }.padding(4)
+
             if let peer = selectedPeer {
                 VStack {
                     Text("Sending a message to '\(peer.targetPeerId.displayName)'")
@@ -294,7 +343,8 @@ struct MessageSendView: View {
             print("Well so much for the disabled state")
             return
         }
-        manager.send(message: message, to: peer.targetPeerId)
+//        manager.send(message: message, to: peer.targetPeerId)
+        manager.multipeerStreamController.streamMessage(to: peer.targetPeerId, message)
     }
 }
 

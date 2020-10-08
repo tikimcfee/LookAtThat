@@ -39,7 +39,7 @@ extension MultipeerConnectionManager: MCSessionDelegate {
 
     // Received a byte stream from remote peer.
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-
+        multipeerStreamController.prepareInputStream(from: peerID, in: stream)
     }
 
     // Start receiving a resource from remote peer.

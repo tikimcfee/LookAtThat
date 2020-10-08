@@ -6,26 +6,54 @@ enum StreamError: Error {
     case readError(error: Error?, partialData: [UInt8])
 }
 
-struct PreparedOutputStream {
+struct ReceivedInputStream: Identifiable, Hashable {
+    let stream: InputStream
+    let target: MCPeerID
+    let id = UUID().uuidString
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(target)
+    }
+}
+
+struct PreparedOutputStream: Identifiable, Hashable {
     let stream: OutputStream
+    let target: MCPeerID
+    let id = UUID().uuidString
+    
     func send(_ data: Data) {
         let streamedBytes = stream.writeDataWithBoundPointer(data)
         print("Stream finished with written bytes [\(streamedBytes)]")
     }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(target)
+    }
 }
 
-typealias PreparedStreamReceiver = (PreparedOutputStream) -> Void
+typealias OutputStreamReceiver = (PreparedOutputStream) -> Void
+typealias InputStreamReceiver = (ReceivedInputStream) -> Void
 
 extension ConnectionBundle {
 
-    func makeOutputStream(for peer: MCPeerID, _ receiver: @escaping PreparedStreamReceiver) {
+    func prepareInputStream(for peer: MCPeerID, _ stream: InputStream, _ receiver: @escaping InputStreamReceiver) {
+        streamWorker.run {
+            stream.schedule(in: .current, forMode: .default)
+            receiver(
+                ReceivedInputStream(stream: stream, target: peer)
+            )
+        }
+    }
+
+    func makeOutputStream(for peer: MCPeerID, _ receiver: @escaping OutputStreamReceiver) {
         streamWorker.run {
             guard let newOutputStream = self.createStream(for: peer) else { return }
-            print("Stream created '\(newOutputStream.description)' - scheduling in \(Thread.current)-\(RunLoop.current)")
+            print("Stream created '\(newOutputStream.description)' - scheduling in \(Thread.current)")
             newOutputStream.schedule(in: .current, forMode: .default)
-            newOutputStream.open()
             receiver(
-                PreparedOutputStream(stream: newOutputStream)
+                PreparedOutputStream(stream: newOutputStream, target: peer)
             )
         }
     }

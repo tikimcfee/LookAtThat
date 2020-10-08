@@ -52,10 +52,23 @@ extension MultipeerConnectionManager {
             self.updatePeerState()
         }
     }
+
+    func openStream(to peer: MCPeerID) {
+        workerQueue.async {
+            self.onQueueStartStream(peer)
+            self.updatePeerState()
+        }
+    }
 }
 
 // MARK: - Block implementations
 extension MultipeerConnectionManager {
+    private func onQueueStartStream(_ peer: MCPeerID) {
+        multipeerStreamController.openStream(to: peer) { openStream in
+            print("Opened!")
+        }
+    }
+
     private func onQueueSendSheet(_ sheet: CodeSheet, _ peer: MCPeerID) {
         guard currentPeers[peer] != nil else {
             print("Stop making up peer ids", peer)

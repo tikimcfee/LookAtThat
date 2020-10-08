@@ -36,7 +36,7 @@ extension String {
 }
 """
         let sourceSyntax = swiftSyntaxParser.parse(source)
-        let rootNode = swiftSyntaxParser.visit(sourceSyntax!)
+        let _ = swiftSyntaxParser.visit(sourceSyntax!)
         let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 

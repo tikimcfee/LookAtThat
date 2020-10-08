@@ -69,6 +69,8 @@
 		F057D29B252052B60094BD83 /* SwiftSyntaxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */; };
 		F057D29E2520530F0094BD83 /* SourceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49DA251C477500F28173 /* SourceInfo.swift */; };
 		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
+		F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
+		F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
@@ -186,6 +188,7 @@
 		F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityGlobalsAndExtensions.swift; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
+		F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidirectionalMap.swift; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextParser.swift; sourceTree = "<group>"; };
 		F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAliases.swift; sourceTree = "<group>"; };
@@ -367,6 +370,7 @@
 				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
 				F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */,
 				F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */,
+				F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -718,6 +722,7 @@
 				F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
 				F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */,
+				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
@@ -768,6 +773,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				F057D217252042F80094BD83 /* WordPositionIterator.swift in Sources */,
