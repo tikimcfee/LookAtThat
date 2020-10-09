@@ -119,7 +119,7 @@ extension SwiftSyntaxParser {
         if type == ExtensionDeclSyntax.self { return NSUIColor.systemBrown }
         if type == VariableDeclSyntax.self { return NSUIColor.systemGreen }
         if type == TypealiasDeclSyntax.self { return NSUIColor.systemPurple }
-        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 0.95)
+        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 1.0)
     }
 }
 

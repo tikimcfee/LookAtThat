@@ -63,12 +63,23 @@ extension OrganizedSourceInfo {
         set {
             let hash = syntax.id.hashValue
             allSheets[hash] = newValue
-            groupedBlocks(for: syntax) { $0[hash] = newValue }
         }
     }
 
-    func groupedBlocks(for syntax: Syntax, _ action: (inout InfoCollection) -> Void) {
-        switch syntax.asProtocol(DeclSyntaxProtocol.self) {
+    subscript(_ syntax: DeclSyntaxProtocol) -> CodeSheet? {
+        get { allSheets[syntax.id.hashValue] }
+        set {
+            let hash = syntax.id.hashValue
+            allSheets[hash] = newValue
+            groupedBlocks(for: syntax) {
+                $0[hash] = newValue
+            }
+        }
+    }
+
+    func groupedBlocks(for syntax: DeclSyntaxProtocol,
+                       _ action: (inout InfoCollection) -> Void) {
+        switch syntax {
         case is ClassDeclSyntax:
             action(&classes)
         case is EnumDeclSyntax:
@@ -83,46 +94,9 @@ extension OrganizedSourceInfo {
             break
         }
     }
-
-    func nodeIsRenderedAsGroup(_ syntax: Syntax) -> Bool {
-        let declarationType = syntax.asProtocol(DeclSyntaxProtocol.self)
-        switch declarationType {
-        case is ClassDeclSyntax,
-             is DeinitializerDeclSyntax,
-             is EnumDeclSyntax,
-             is ExtensionDeclSyntax,
-             is FunctionDeclSyntax,
-             is ImportDeclSyntax,
-             is InitializerDeclSyntax,
-             is ProtocolDeclSyntax,
-             is StructDeclSyntax,
-             is SubscriptDeclSyntax,
-             is TypealiasDeclSyntax,
-             is VariableDeclSyntax:
-//            print("Render: \(String(describing: type)) as group; \n---\(syntax.allText)\n---")
-            return true
-        default:
-            break
-        }
-
-        if syntax.as(CodeBlockItemListSyntax.self) != nil
-        || syntax.as(CodeBlockItemSyntax.self) != nil
-        || syntax.as(CodeBlockSyntax.self) != nil
-        {
-            return true
-        }
-
-        if syntax.as(MemberDeclBlockSyntax.self) != nil
-        || syntax.as(MemberDeclListSyntax.self) != nil
-        || syntax.as(MemberDeclListItemSyntax.self) != nil
-        {
-            return true
-        }
-
-        return false
-    }
 }
 
+// MARK: - Node visiting
 class SwiftSyntaxParser: SyntaxRewriter {
     // Dependencies
     let textNodeBuilder: WordNodeBuilder
@@ -142,53 +116,164 @@ class SwiftSyntaxParser: SyntaxRewriter {
         super.init()
     }
 
-    override func visitPost(_ node: Syntax) {
-        guard organizedInfo.nodeIsRenderedAsGroup(node) else {
-            // only make sheets out of high-level, readable 'groups'.
-            // this will need a lot of tweaking, and could benefit from
-            // external configuration
-            return
-        }
-        
-        let newSheet = makeSheet(from: node)
-        organizedInfo[node] = newSheet
+    private subscript(_ index: Int) -> CodeSheet? {
+        return organizedInfo.allSheets[index]
     }
 
-    func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
+    private func sheet(for type: SyntaxProtocol.Type) -> CodeSheet {
         let newSheet = CodeSheet()
-
         newSheet.backgroundGeometry.firstMaterial?.diffuse.contents
-            = typeColor(for: node.syntaxNodeType)
+            = typeColor(for: type)
+        return newSheet
+    }
 
-        print("Making sheet for '\(node.syntaxNodeType)'")
+    // MARK: - Blocks
+
+    override func visit(_ node: CodeBlockItemListSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: CodeBlockItemSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: MemberDeclListItemSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: MemberDeclListSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: CodeBlockSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: MemberDeclBlockSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    // MARK: - Declarations
+
+    override func visit(_ node: ClassDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: DeinitializerDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: ImportDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: InitializerDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: ProtocolDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: SubscriptDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: TypealiasDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(from: node)
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+}
+
+// MARK: - Sheet building
+extension SwiftSyntaxParser {
+    func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
+        let newSheet = sheet(for: node.syntaxNodeType)
+
         for nodeChildSyntax in node.children {
-            print("Looking for a '\(nodeChildSyntax.syntaxNodeType)'")
-            if let existingSheet = organizedInfo.allSheets[nodeChildSyntax.id.hashValue] {
-//                print("+ Using existing sheet")
+            if let existingSheet = self[nodeChildSyntax.id.hashValue] {
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
-                    newSheet.add(declBlock.leftBrace, textNodeBuilder)
-                    for statement in declBlock.members {
-                        if let childSheet = organizedInfo.allSheets[statement.id.hashValue] {
-                            newSheet.appendChild(childSheet)
-                        }
-                    }
-                    newSheet.add(declBlock.rightBrace, textNodeBuilder)
-                } else
-                if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
-                    newSheet.add(block.leftBrace, textNodeBuilder)
-                    for statement in block.statements {
-                        if let childSheet = organizedInfo.allSheets[statement.id.hashValue] {
-                            newSheet.appendChild(childSheet)
-                        }
-                    }
-                    newSheet.add(block.rightBrace, textNodeBuilder)
+                    add(declBlock, to:  newSheet)
+                } else if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
+                    add(block, to:  newSheet)
                 } else {
                     newSheet.appendChild(existingSheet)
                 }
             } else {
-//                print("! Adding tokens")
                 for token in nodeChildSyntax.tokens {
-//                    print("\t--\n", "\t\(token.alltext)", "\n\t--")
                     newSheet.add(token, textNodeBuilder)
                 }
             }
@@ -198,6 +283,25 @@ class SwiftSyntaxParser: SyntaxRewriter {
         return newSheet
     }
 
+    func add(_ declBlock: MemberDeclBlockSyntax, to parent: CodeSheet){
+        parent.add(declBlock.leftBrace, textNodeBuilder)
+        for statement in declBlock.members {
+            if let childSheet = self[statement.id.hashValue] {
+                parent.appendChild(childSheet)
+            }
+        }
+        parent.add(declBlock.rightBrace, textNodeBuilder)
+    }
 
+    func add(_ block: CodeBlockSyntax, to parent: CodeSheet) {
+        parent.add(block.leftBrace, textNodeBuilder)
+        for statement in block.statements {
+            if let childSheet = self[statement.id.hashValue] {
+                parent.appendChild(childSheet)
+            }
+        }
+        parent.add(block.rightBrace, textNodeBuilder)
+    }
 }
 #endif
+
