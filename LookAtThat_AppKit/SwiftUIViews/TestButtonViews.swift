@@ -9,7 +9,32 @@ struct SourceInfoGrid: View {
     var body: some View {
         return VStack(alignment: .leading) {
             if let info = sourceInfo {
-                Text("TBD")
+                VStack {
+                    identifiers(
+                        named: "Functions",
+                        with: info.functions.compactMap {
+                            return $0.value.semanticInfo?.referenceName
+                        }.sorted()
+                    )
+                    identifiers(
+                        named: "Variables",
+                        with: info.variables.compactMap {
+                            return $0.value.semanticInfo?.referenceName
+                        }.sorted()
+                    )
+                    identifiers(
+                        named: "Structs",
+                        with: info.structs.compactMap {
+                            return $0.value.semanticInfo?.referenceName
+                        }.sorted()
+                    )
+                    identifiers(
+                        named: "Enumerations",
+                        with: info.enumerations.compactMap {
+                            return $0.value.semanticInfo?.referenceName
+                        }.sorted()
+                    )
+                }
             } else {
                 Text("No source info to display")
                     .padding()

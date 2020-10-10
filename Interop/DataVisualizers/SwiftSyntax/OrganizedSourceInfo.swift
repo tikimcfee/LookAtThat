@@ -40,22 +40,22 @@ extension OrganizedSourceInfo {
 
     func groupedBlocks(for syntax: DeclSyntaxProtocol,
                        _ action: (inout InfoCollection) -> Void) {
-        switch syntax {
-        case is ProtocolDeclSyntax:
+        switch syntax.syntaxNodeType {
+        case is ProtocolDeclSyntax.Type:
             action(&protocols)
-        case is TypealiasDeclSyntax:
+        case is TypealiasDeclSyntax.Type:
             action(&typeAliases)
-        case is VariableDeclSyntax:
+        case is VariableDeclSyntax.Type:
             action(&variables)
-        case is ClassDeclSyntax:
+        case is ClassDeclSyntax.Type:
             action(&classes)
-        case is EnumDeclSyntax:
+        case is EnumDeclSyntax.Type:
             action(&enumerations)
-        case is ExtensionDeclSyntax:
+        case is ExtensionDeclSyntax.Type:
             action(&extensions)
-        case is FunctionDeclSyntax:
+        case is FunctionDeclSyntax.Type:
             action(&functions)
-        case is StructDeclSyntax:
+        case is StructDeclSyntax.Type:
             action(&structs)
         default:
             break

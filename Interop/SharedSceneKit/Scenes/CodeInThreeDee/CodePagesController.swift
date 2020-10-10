@@ -124,7 +124,7 @@ extension CodePagesController {
                 self.syntaxNodeParser.prepareRendering(source: fileUrl)
                 self.syntaxNodeParser.render(in: self.sceneState)
                 self.main.async {
-                    handler(self.syntaxNodeParser.resultInfo)
+                    handler(self.syntaxNodeParser.organizedInfo)
                 }
             }
         }
@@ -139,7 +139,7 @@ extension CodePagesController {
                     self.syntaxNodeParser.render(in: self.sceneState)
                 }
                 self.main.async {
-                    handler(self.syntaxNodeParser.resultInfo)
+                    handler(self.syntaxNodeParser.organizedInfo)
                 }
             }
         }
