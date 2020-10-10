@@ -18,8 +18,8 @@ class LookAtThat_AppKitTests: XCTestCase {
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
 
-//        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
-//        swiftSyntaxParser.prepareRendering(source: fileUrl!)
+        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
+        swiftSyntaxParser.prepareRendering(source: fileUrl!)
     }
 
     override func tearDownWithError() throws {

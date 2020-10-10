@@ -96,6 +96,21 @@ extension OrganizedSourceInfo {
     }
 }
 
+extension SyntaxChildren {
+    func listOfChildren() -> String {
+        reduce(into: "") { result, element in
+            let elementList = element.children.listOfChildren()
+            result.append(
+                String(describing: element.syntaxNodeType)
+            )
+            result.append(
+                "\n\t\t\(elementList)"
+            )
+            if element != last { result.append("\n\t") }
+        }
+    }
+}
+
 // MARK: - Node visiting
 class SwiftSyntaxParser: SyntaxRewriter {
     // Dependencies
@@ -146,11 +161,15 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
     override func visit(_ node: CodeBlockItemSyntax) -> Syntax {
         let syntax = super.visit(node)
+        // When we come across a block, want the one item it creates.
+        // Rather than look for it in makeSheet, we pass the item itself
+        // and then set *this* node as pointing to its child's one sheet.
         let newSheet = makeSheet(
-            from: node,
-            semantics: defaultSemanticInfo(for: node)
+            from: node.item,
+            semantics: defaultSemanticInfo(for: node.item)
         )
         organizedInfo[syntax] = newSheet
+
         return syntax
     }
 
@@ -343,14 +362,14 @@ extension SwiftSyntaxParser {
         for nodeChildSyntax in node.children {
             if let existingSheet = self[nodeChildSyntax.id] {
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
-                    add(declBlock, to:  newSheet)
+                    addMemberDeclBlock(declBlock, to: newSheet)
                 }
                 else if let codeBlock = nodeChildSyntax.as(CodeBlockSyntax.self) {
-                    add(codeBlock, to:  newSheet)
+                    addCodeBlock(codeBlock, to: newSheet)
                 }
-//                else if let codeBlockItem = nodeChildSyntax.as(CodeBlockItemSyntax.self) {
-//                    add(codeBlockItem, to:  newSheet)
-//                }
+                else if let clodeBlockItemList = nodeChildSyntax.as(CodeBlockItemListSyntax.self) {
+                    addCodeBlockItemList(clodeBlockItemList, to: newSheet)
+                }
                 else {
                     newSheet.appendChild(existingSheet)
                 }
@@ -365,28 +384,17 @@ extension SwiftSyntaxParser {
         return newSheet
     }
 
-    func add(_ declBlock: MemberDeclBlockSyntax, to parent: CodeSheet){
-        parent.add(declBlock.leftBrace, textNodeBuilder)
-        for listItem in declBlock.members {
+    func addMemberDeclBlock(_ block: MemberDeclBlockSyntax, to parent: CodeSheet) {
+        parent.add(block.leftBrace, textNodeBuilder)
+        for listItem in block.members {
             if let childSheet = self[listItem.decl.id] {
                 parent.appendChild(childSheet)
             }
         }
-        parent.add(declBlock.rightBrace, textNodeBuilder)
+        parent.add(block.rightBrace, textNodeBuilder)
     }
 
-    func add(_ codeBlockItem: CodeBlockItemSyntax, to parent: CodeSheet){
-        for itemChild in codeBlockItem.item.children {
-            if let childSheet = self[itemChild.id] {
-                parent.appendChild(childSheet)
-            }
-        }
-//        if let childSheet = self[codeBlockItem.item.id] {
-//            parent.appendChild(childSheet)
-//        }
-    }
-
-    func add(_ block: CodeBlockSyntax, to parent: CodeSheet) {
+    func addCodeBlock(_ block: CodeBlockSyntax, to parent: CodeSheet) {
         parent.add(block.leftBrace, textNodeBuilder)
         for statement in block.statements {
             if let childSheet = self[statement.id] {
@@ -394,6 +402,14 @@ extension SwiftSyntaxParser {
             }
         }
         parent.add(block.rightBrace, textNodeBuilder)
+    }
+
+    func addCodeBlockItemList(_ list: CodeBlockItemListSyntax, to parent: CodeSheet) {
+        for blockItemChild in list {
+            if let childSheet = self[blockItemChild.id] {
+                parent.appendChild(childSheet)
+            }
+        }
     }
 
     private subscript(_ index: SyntaxIdentifier) -> CodeSheet? {

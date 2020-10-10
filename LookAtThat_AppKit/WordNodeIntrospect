@@ -1,58 +1,48 @@
 import Foundation
-import SceneKit
 
-let kContainerName = "kContainerName"
-class CodeSheet: Identifiable, Equatable {
-    var id = UUID().uuidString
-    var allLines = [SCNNode]()
-    var iteratorY = WordPositionIterator()
-    var children = [CodeSheet]()
+class WordParser {
 
-    lazy var containerNode: SCNNode = makeContainerNode()
-    lazy var pageGeometryNode: SCNNode = SCNNode()
-    lazy var pageGeometry: SCNBox = makePageGeometry()
-    var lastLine: SCNNode {
-        return allLines.last ?? {
-            return makeLineNode()
-        }()
+    let sliceSize = 100
+    var sliceCount: Int { sortedDictionary.count / sliceSize }
+    lazy var jsonDecoder = JSONDecoder()
+
+    lazy var testDictionary = [
+        "Hello" : "A simple greeting when you meet someone",
+        "Goodbye" : "Said to someone you said hello to as you leave",
+        "Wut" : "x a 11 22 -- ss /? ?? ;;ss; dasd"
+    ]
+
+    lazy var testSourceFileLines: [Substring] = {
+        let sourceData = fileData("WordNodeIntrospect")
+        guard sourceData.count > 0 else { return [] }
+        let sourceText = String(data: sourceData, encoding: .utf8) ?? ""
+        let sourceLines = sourceText.split(whereSeparator: { $0.isNewline })
+        return sourceLines
+    }()
+
+    lazy var dictionary: [String:String] = {
+        let dictionary = try? jsonDecoder.decode(
+            Dictionary<String, String>.self,
+            from: fileData("dict", "json")
+        )
+        return dictionary ?? [:]
+    }()
+
+    lazy var sortedDictionary: [(String, String)] = {
+        return dictionary.sorted(by: { $0.key <= $1.key })
+    }()
+
+    typealias DefinitionSlice = ArraySlice<(String, String)>
+    lazy var definitionSliceIterator: IndexingIterator<[DefinitionSlice]> = {
+        return sortedDictionary.slices(sliceSize: sliceSize).makeIterator()
+    }()
+
+    func wordStream(_ handler: (String, String) -> Void) {
+        dictionary
+            .sorted { $0.key <= $1.key }
+            .forEach{ word, definition in
+                handler(word, definition)
+            }
     }
 
-    init(_ id: String? = nil) {
-        self.id = id ?? self.id
-    }
-
-    public static func == (_ left: CodeSheet, _ right: CodeSheet) -> Bool {
-        return left.id == right.id
-            && left.allLines.elementsEqual(right.allLines)
-            && left.children.elementsEqual(right.children)
-//            && left.parent?.id == right.parent?.id
-    }
-}
-
-extension CodeSheet {
-    func makeContainerNode() -> SCNNode {
-        let container = SCNNode()
-        container.name = kContainerName
-        container.addChildNode(pageGeometryNode)
-        pageGeometryNode.categoryBitMask = HitTestType.codeSheet
-        pageGeometryNode.geometry = pageGeometry
-        pageGeometryNode.name = id
-        return container
-    }
-
-    func makePageGeometry() -> SCNBox {
-        let sheetGeometry = SCNBox()
-        sheetGeometry.chamferRadius = 4.0
-        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
-        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
-        return sheetGeometry
-    }
-
-    func makeLineNode() -> SCNNode {
-        let line = SCNNode()
-        line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH)
-        containerNode.addChildNode(line)
-        allLines.append(line)
-        return line
-    }
 }
