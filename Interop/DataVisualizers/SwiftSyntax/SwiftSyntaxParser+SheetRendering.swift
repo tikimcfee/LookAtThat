@@ -98,7 +98,8 @@ extension SwiftSyntaxParser {
             from: rootSyntaxNode!,
             semantics: SemanticInfo(
                 syntaxId: rootSyntaxNode!.id,
-                referenceName: preparedSourceFile!.lastPathComponent.absolutePath
+                referenceName: preparedSourceFile!.lastPathComponent,
+                syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
             )
         )
 

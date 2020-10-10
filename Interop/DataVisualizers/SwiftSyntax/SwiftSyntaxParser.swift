@@ -134,7 +134,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
     func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
         return SemanticInfo(
             syntaxId: node.id,
-            referenceName: String(describing: node.syntaxNodeType)
+            referenceName: String(describing: node.syntaxNodeType),
+            syntaxTypeName: String(describing: node.syntaxNodeType)
         )
     }
 
@@ -211,7 +212,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.identifier.text
+                referenceName: node.identifier.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -224,7 +226,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.identifier.text
+                referenceName: node.identifier.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -247,7 +250,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.extendedType.description
+                referenceName: node.extendedType.description,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -260,7 +264,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.identifier.text
+                referenceName: node.identifier.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -273,7 +278,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.path.description
+                referenceName: node.path.description,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -296,7 +302,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.identifier.text
+                referenceName: node.identifier.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -309,7 +316,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.identifier.text
+                referenceName: node.identifier.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -342,7 +350,8 @@ class SwiftSyntaxParser: SyntaxRewriter {
             from: node,
             semantics: SemanticInfo(
                 syntaxId: node.id,
-                referenceName: node.letOrVarKeyword.nextToken!.text
+                referenceName: node.letOrVarKeyword.nextToken!.text,
+                syntaxTypeName: String(describing: node.syntaxNodeType)
             )
         )
         organizedInfo[syntax] = newSheet
@@ -427,4 +436,5 @@ struct SemanticInfo: Hashable {
 
     // Refer to this semantic info by this name; it's displayable
     let referenceName: String
+    let syntaxTypeName: String
 }
