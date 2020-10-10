@@ -116,46 +116,70 @@ class SwiftSyntaxParser: SyntaxRewriter {
         super.init()
     }
 
+    func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
+        return SemanticInfo(
+            syntaxId: node.id,
+            referenceName: String(describing: node.syntaxNodeType)
+        )
+    }
+
     // MARK: - Blocks
+    override func visit(_ node: CodeBlockSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
 
     override func visit(_ node: CodeBlockItemListSyntax) -> Syntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: CodeBlockItemSyntax) -> Syntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
-        organizedInfo[syntax] = newSheet
-        return syntax
-    }
-
-    override func visit(_ node: MemberDeclListItemSyntax) -> Syntax {
-        let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
-        organizedInfo[syntax] = newSheet
-        return syntax
-    }
-
-    override func visit(_ node: MemberDeclListSyntax) -> Syntax {
-        let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
-        organizedInfo[syntax] = newSheet
-        return syntax
-    }
-
-    override func visit(_ node: CodeBlockSyntax) -> Syntax {
-        let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: MemberDeclBlockSyntax) -> Syntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: MemberDeclListSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
+        organizedInfo[syntax] = newSheet
+        return syntax
+    }
+
+    override func visit(_ node: MemberDeclListItemSyntax) -> Syntax {
+        let syntax = super.visit(node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
@@ -164,84 +188,144 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
     override func visit(_ node: ClassDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.identifier.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.identifier.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: DeinitializerDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: ExtensionDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.extendedType.description
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.identifier.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: ImportDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.path.description
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: InitializerDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: ProtocolDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.identifier.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.identifier.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: SubscriptDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: TypealiasDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: defaultSemanticInfo(for: node)
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
 
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
         let syntax = super.visit(node)
-        let newSheet = makeSheet(from: node)
+        let newSheet = makeSheet(
+            from: node,
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: node.letOrVarKeyword.nextToken!.text
+            )
+        )
         organizedInfo[syntax] = newSheet
         return syntax
     }
@@ -250,20 +334,24 @@ class SwiftSyntaxParser: SyntaxRewriter {
 // MARK: - Sheet building
 extension SwiftSyntaxParser {
 
-    private func sheet(for type: SyntaxProtocol.Type) -> CodeSheet {
-        return CodeSheet().backgroundColor(typeColor(for: type))
-    }
-
-    func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
-        let newSheet = sheet(for: node.syntaxNodeType)
+    func makeSheet(from node: SyntaxProtocol,
+                   semantics: SemanticInfo? = nil) -> CodeSheet {
+        let newSheet = CodeSheet()
+            .backgroundColor(typeColor(for: node.syntaxNodeType))
+            .semantics(semantics)
 
         for nodeChildSyntax in node.children {
             if let existingSheet = self[nodeChildSyntax.id] {
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
                     add(declBlock, to:  newSheet)
-                } else if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
-                    add(block, to:  newSheet)
-                } else {
+                }
+                else if let codeBlock = nodeChildSyntax.as(CodeBlockSyntax.self) {
+                    add(codeBlock, to:  newSheet)
+                }
+//                else if let codeBlockItem = nodeChildSyntax.as(CodeBlockItemSyntax.self) {
+//                    add(codeBlockItem, to:  newSheet)
+//                }
+                else {
                     newSheet.appendChild(existingSheet)
                 }
             } else {
@@ -279,12 +367,23 @@ extension SwiftSyntaxParser {
 
     func add(_ declBlock: MemberDeclBlockSyntax, to parent: CodeSheet){
         parent.add(declBlock.leftBrace, textNodeBuilder)
-        for statement in declBlock.members {
-            if let childSheet = self[statement.id] {
+        for listItem in declBlock.members {
+            if let childSheet = self[listItem.decl.id] {
                 parent.appendChild(childSheet)
             }
         }
         parent.add(declBlock.rightBrace, textNodeBuilder)
+    }
+
+    func add(_ codeBlockItem: CodeBlockItemSyntax, to parent: CodeSheet){
+        for itemChild in codeBlockItem.item.children {
+            if let childSheet = self[itemChild.id] {
+                parent.appendChild(childSheet)
+            }
+        }
+//        if let childSheet = self[codeBlockItem.item.id] {
+//            parent.appendChild(childSheet)
+//        }
     }
 
     func add(_ block: CodeBlockSyntax, to parent: CodeSheet) {
@@ -307,16 +406,9 @@ extension SwiftSyntaxParser {
 // I want to find all the functions that take strings
 // I want to find all the functions that take strings and return strings
 
-struct SemanticInfo: Hashable, Identifiable {
-    var sheetId: CodeSheet.ID
-    var syntaxId: Int
-    var id: String { sheetId }
+struct SemanticInfo: Hashable {
+    let syntaxId: SyntaxIdentifier
 
     // Refer to this semantic info by this name; it's displayable
     let referenceName: String
-
-    // Here's an idea: parent and child references.
-    // If this thing has
-    var references: [SemanticInfo]
-
 }

@@ -94,8 +94,16 @@ extension SwiftSyntaxParser {
 extension SwiftSyntaxParser {
 
     func makeSheetFromInfo() -> CodeSheet {
-        let parentCodeSheet = makeSheet(from: rootSyntaxNode!)
+        let parentCodeSheet = makeSheet(
+            from: rootSyntaxNode!,
+            semantics: SemanticInfo(
+                syntaxId: rootSyntaxNode!.id,
+                referenceName: preparedSourceFile!.lastPathComponent.absolutePath
+            )
+        )
+
         parentCodeSheet.sizePageToContainerNode()
+        parentCodeSheet.arrangeSemanticInfo(textNodeBuilder)
 
         parentCodeSheet.containerNode.position =
             parentCodeSheet.containerNode.position
@@ -127,20 +135,18 @@ extension SwiftSyntaxParser {
 extension CodeSheet {
     func add(_ token: TokenSyntax,
              _ builder: WordNodeBuilder) {
-        iterateTrivia(token.leadingTrivia, token, builder)
-        arrange(token.text, token, builder)
-        iterateTrivia(token.trailingTrivia, token, builder)
+        iterateTrivia(token.leadingTrivia, builder)
+        arrange(token.text, builder)
+        iterateTrivia(token.trailingTrivia, builder)
     }
 
     func arrange(_ text: String,
-                 _ token: TokenSyntax,
                  _ builder: WordNodeBuilder) {
         let newNode = builder.node(for: text)
         [newNode].arrangeInLine(on: lastLine)
     }
 
     func iterateTrivia(_ trivia: Trivia,
-                       _ token: TokenSyntax,
                        _ builder: WordNodeBuilder) {
         for triviaPiece in trivia {
             switch triviaPiece {
@@ -152,13 +158,13 @@ extension CodeSheet {
                  let .docBlockComment(comment):
                 let lines = comment.split(whereSeparator: { $0.isNewline })
                 for piece in lines {
-                    arrange(String(piece), token, builder)
+                    arrange(String(piece), builder)
                     if piece != lines.last {
                         newlines(1)
                     }
                 }
             default:
-                arrange(triviaPiece.stringify, token, builder)
+                arrange(triviaPiece.stringify, builder)
             }
         }
     }

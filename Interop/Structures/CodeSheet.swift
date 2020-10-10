@@ -13,6 +13,8 @@ class CodeSheet: Identifiable, Equatable {
     var allLines = [SCNNode]()
     var lastLine: SCNNode { allLines.last ?? { makeLineNode() }() }
 
+    var semanticInfo: SemanticInfo?
+
     init(_ id: String? = nil) {
         self.id = id ?? self.id
     }
@@ -25,6 +27,12 @@ class CodeSheet: Identifiable, Equatable {
 }
 
 extension CodeSheet {
+    @discardableResult
+    func semantics(_ semantics: SemanticInfo?) -> CodeSheet {
+        semanticInfo = semantics
+        return self
+    }
+
     @discardableResult
     func backgroundColor(_ color: NSUIColor) -> CodeSheet {
         backgroundGeometry.firstMaterial?.diffuse.contents = color
@@ -94,6 +102,24 @@ extension CodeSheet {
         backgroundGeometryNode.position.y = centerY.vector
         backgroundGeometryNode.position.x = centerX.vector
         containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
+    }
+
+    func arrangeSemanticInfo(_ builder: WordNodeBuilder) {
+        children.forEach{ $0.arrangeSemanticInfo(builder) }
+        guard let semantics = semanticInfo else { return }
+        let semanticSheet = CodeSheet().backgroundColor(NSUIColor.black)
+        semanticSheet.arrange(semantics.referenceName, builder)
+//        semanticSheet.newlines(1)
+//        semanticSheet.arrange(id, builder)
+        semanticSheet.sizePageToContainerNode()
+
+        semanticSheet.containerNode.position =
+            SCNVector3Zero.translated(
+                dX: -semanticSheet.halfLengthX,
+                dY: -semanticSheet.halfLengthY
+            )
+
+        containerNode.addChildNode(semanticSheet.containerNode)
     }
  
     func appendChild(_ sheet: CodeSheet) {
