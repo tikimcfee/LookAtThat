@@ -57,45 +57,6 @@ extension SwiftSyntaxParser {
 #elseif os(OSX)
 import SwiftSyntax
 
-extension OrganizedSourceInfo {
-    subscript(_ syntax: Syntax) -> CodeSheet? {
-        get { allSheets[syntax.id] }
-        set {
-            let hash = syntax.id
-            allSheets[hash] = newValue
-        }
-    }
-
-    subscript(_ syntax: DeclSyntaxProtocol) -> CodeSheet? {
-        get { allSheets[syntax.id] }
-        set {
-            let hash = syntax.id
-            allSheets[hash] = newValue
-            groupedBlocks(for: syntax) {
-                $0[hash] = newValue
-            }
-        }
-    }
-
-    func groupedBlocks(for syntax: DeclSyntaxProtocol,
-                       _ action: (inout InfoCollection) -> Void) {
-        switch syntax {
-        case is ClassDeclSyntax:
-            action(&classes)
-        case is EnumDeclSyntax:
-            action(&enumerations)
-        case is ExtensionDeclSyntax:
-            action(&extensions)
-        case is FunctionDeclSyntax:
-            action(&functions)
-        case is StructDeclSyntax:
-            action(&structs)
-        default:
-            break
-        }
-    }
-}
-
 extension SyntaxChildren {
     func listOfChildren() -> String {
         reduce(into: "") { result, element in
@@ -122,7 +83,7 @@ class SwiftSyntaxParser: SyntaxRewriter {
     var rootSyntaxNode: Syntax?
 
     // One of these ideas will net me 'blocks of code' to '3d sheets'
-    var resultInfo = SourceInfo()
+    var resultInfo = OrganizedSourceInfo()
     var organizedInfo = OrganizedSourceInfo()
     var nodesToSheets = [SCNNode: CodeSheet]()
 

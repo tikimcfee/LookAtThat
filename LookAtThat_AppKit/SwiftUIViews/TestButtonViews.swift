@@ -4,7 +4,7 @@ import SwiftUI
 
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
-    @State var sourceInfo: SourceInfo?
+    @State var sourceInfo: OrganizedSourceInfo?
 
     var body: some View {
         return VStack(alignment: .leading) {
@@ -136,9 +136,9 @@ struct TestButtons_Dictionary: View {
 #if DEBUG
 import SwiftSyntax
 struct SourceInfo_Previews: PreviewProvider {
-    static var sourceInfo = WrappedBinding<SourceInfo?>(
+    static var sourceInfo = WrappedBinding<OrganizedSourceInfo?>(
         {
-            let info = SourceInfo()
+            let info = OrganizedSourceInfo()
             return info
         }()
     )

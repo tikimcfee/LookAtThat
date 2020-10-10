@@ -117,7 +117,7 @@ extension CodePagesController {
         }
     }
 
-    func renderSyntax(_ handler: @escaping (SourceInfo) -> Void) {
+    func renderSyntax(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         syntaxNodeParser.requestSourceFile { fileUrl in
             self.workerQueue.async {
                 // todo: make a presenter or something oof
@@ -130,7 +130,7 @@ extension CodePagesController {
         }
     }
 
-    func renderDirectory(_ handler: @escaping (SourceInfo) -> Void) {
+    func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         syntaxNodeParser.requestSourceDirectory{ directory in
             self.workerQueue.async {
                 // todo: make a presenter or something oof
