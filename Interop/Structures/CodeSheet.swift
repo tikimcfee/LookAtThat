@@ -3,19 +3,6 @@ import SceneKit
 
 let kContainerName = "kContainerName"
 
-// I want to find all the functions
-// I want to find all the functions that take strings
-// I want to find all the functions that take strings and return strings
-
-struct IndexData: Hashable, Identifiable {
-    var id: String { return parentSheetId }
-    var parentSheetId: CodeSheet.ID
-
-    var syntaxType: String
-    var name: String
-
-}
-
 class CodeSheet: Identifiable, Equatable {
     lazy var id = UUID().uuidString
     lazy var containerNode: SCNNode = makeContainerNode()
@@ -34,6 +21,14 @@ class CodeSheet: Identifiable, Equatable {
         return left.id == right.id
             && left.allLines.elementsEqual(right.allLines)
             && left.children.elementsEqual(right.children)
+    }
+}
+
+extension CodeSheet {
+    @discardableResult
+    func backgroundColor(_ color: NSUIColor) -> CodeSheet {
+        backgroundGeometry.firstMaterial?.diffuse.contents = color
+        return self
     }
 }
 

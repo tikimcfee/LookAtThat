@@ -59,17 +59,17 @@ import SwiftSyntax
 
 extension OrganizedSourceInfo {
     subscript(_ syntax: Syntax) -> CodeSheet? {
-        get { allSheets[syntax.id.hashValue] }
+        get { allSheets[syntax.id] }
         set {
-            let hash = syntax.id.hashValue
+            let hash = syntax.id
             allSheets[hash] = newValue
         }
     }
 
     subscript(_ syntax: DeclSyntaxProtocol) -> CodeSheet? {
-        get { allSheets[syntax.id.hashValue] }
+        get { allSheets[syntax.id] }
         set {
-            let hash = syntax.id.hashValue
+            let hash = syntax.id
             allSheets[hash] = newValue
             groupedBlocks(for: syntax) {
                 $0[hash] = newValue
@@ -114,17 +114,6 @@ class SwiftSyntaxParser: SyntaxRewriter {
     init(wordNodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = wordNodeBuilder
         super.init()
-    }
-
-    private subscript(_ index: Int) -> CodeSheet? {
-        return organizedInfo.allSheets[index]
-    }
-
-    private func sheet(for type: SyntaxProtocol.Type) -> CodeSheet {
-        let newSheet = CodeSheet()
-        newSheet.backgroundGeometry.firstMaterial?.diffuse.contents
-            = typeColor(for: type)
-        return newSheet
     }
 
     // MARK: - Blocks
@@ -260,11 +249,16 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
 // MARK: - Sheet building
 extension SwiftSyntaxParser {
+
+    private func sheet(for type: SyntaxProtocol.Type) -> CodeSheet {
+        return CodeSheet().backgroundColor(typeColor(for: type))
+    }
+
     func makeSheet(from node: SyntaxProtocol) -> CodeSheet {
         let newSheet = sheet(for: node.syntaxNodeType)
 
         for nodeChildSyntax in node.children {
-            if let existingSheet = self[nodeChildSyntax.id.hashValue] {
+            if let existingSheet = self[nodeChildSyntax.id] {
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
                     add(declBlock, to:  newSheet)
                 } else if let block = nodeChildSyntax.as(CodeBlockSyntax.self) {
@@ -286,7 +280,7 @@ extension SwiftSyntaxParser {
     func add(_ declBlock: MemberDeclBlockSyntax, to parent: CodeSheet){
         parent.add(declBlock.leftBrace, textNodeBuilder)
         for statement in declBlock.members {
-            if let childSheet = self[statement.id.hashValue] {
+            if let childSheet = self[statement.id] {
                 parent.appendChild(childSheet)
             }
         }
@@ -296,12 +290,33 @@ extension SwiftSyntaxParser {
     func add(_ block: CodeBlockSyntax, to parent: CodeSheet) {
         parent.add(block.leftBrace, textNodeBuilder)
         for statement in block.statements {
-            if let childSheet = self[statement.id.hashValue] {
+            if let childSheet = self[statement.id] {
                 parent.appendChild(childSheet)
             }
         }
         parent.add(block.rightBrace, textNodeBuilder)
     }
+
+    private subscript(_ index: SyntaxIdentifier) -> CodeSheet? {
+        return organizedInfo.allSheets[index]
+    }
 }
 #endif
 
+// I want to find all the functions
+// I want to find all the functions that take strings
+// I want to find all the functions that take strings and return strings
+
+struct SemanticInfo: Hashable, Identifiable {
+    var sheetId: CodeSheet.ID
+    var syntaxId: Int
+    var id: String { sheetId }
+
+    // Refer to this semantic info by this name; it's displayable
+    let referenceName: String
+
+    // Here's an idea: parent and child references.
+    // If this thing has
+    var references: [SemanticInfo]
+
+}

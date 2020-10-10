@@ -1,9 +1,10 @@
 import Foundation
+import SwiftSyntax
 
 typealias SourceInfo = OrganizedSourceInfo
 
 typealias SourceGroups = [Int: CodeSheet]
-typealias InfoCollection = [Int: CodeSheet]
+typealias InfoCollection = [SyntaxIdentifier: CodeSheet]
 
 public class OrganizedSourceInfo {
     var structs = InfoCollection()
@@ -17,7 +18,7 @@ public class OrganizedSourceInfo {
     var deinitializers = InfoCollection()
     var extensions = InfoCollection()
 
-    var allSheets = [Int: CodeSheet]()
+    var allSheets = InfoCollection()
 }
 
 extension OrganizedSourceInfo {
