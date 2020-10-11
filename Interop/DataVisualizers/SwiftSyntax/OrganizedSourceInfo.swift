@@ -19,6 +19,10 @@ public class OrganizedSourceInfo {
 }
 
 extension OrganizedSourceInfo {
+    subscript(_ syntaxId: SyntaxIdentifier) -> CodeSheet? {
+        get { allSheets[syntaxId] }
+    }
+
     subscript(_ syntax: Syntax) -> CodeSheet? {
         get { allSheets[syntax.id] }
         set {

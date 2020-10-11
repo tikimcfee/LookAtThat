@@ -127,9 +127,16 @@ class SwiftSyntaxParser: SyntaxRewriter {
         // and then set *this* node as pointing to its child's one sheet.
         let newSheet = makeSheet(
             from: node.item,
-            semantics: defaultSemanticInfo(for: node.item)
+            semantics: SemanticInfo(
+                syntaxId: node.id,
+                referenceName: String(describing: node.item.syntaxNodeType),
+                syntaxTypeName: String(describing: node.item.syntaxNodeType)
+            )
         )
+        // Both the BlockItem and the Item itself are represented
+        // by the above new sheet.
         organizedInfo[syntax] = newSheet
+        organizedInfo[node.item] = newSheet
 
         return syntax
     }

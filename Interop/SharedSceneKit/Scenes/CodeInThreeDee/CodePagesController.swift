@@ -13,6 +13,7 @@ class CodePagesController: BaseSceneController {
 
     let iteratorY = WordPositionIterator()
     var bumped = Set<Int>()
+    var selectedSheets = Set<SyntaxIdentifier>()
     let highlightCache = HighlightCache()
 
     let wordNodeBuilder: WordNodeBuilder
@@ -71,6 +72,17 @@ class CodePagesController: BaseSceneController {
     }
 }
 
+extension Set where Element == SyntaxIdentifier {
+    mutating func toggle(_ id: SyntaxIdentifier) -> Bool {
+        if contains(id) {
+            remove(id)
+            return false
+        } else {
+            insert(id)
+            return true
+        }
+    }
+}
 
 extension CodePagesController {
 
@@ -78,6 +90,23 @@ extension CodePagesController {
         bumpNodes(
             allTokensWith(name: name)
         )
+    }
+
+    func selected(id: SyntaxIdentifier) {
+        guard let sheet = syntaxNodeParser.organizedInfo[id],
+              let semanticInfo = sheet.semanticInfo else {
+            print("Missing sheet or semantic info for \(id)")
+            return
+        }
+
+        let isSelected = selectedSheets.toggle(id)
+        sceneTransaction {
+
+            sheet.containerNode.position =
+                sheet.containerNode.position.translated(
+                    dZ: isSelected ? 25 : -25
+                )
+        }
     }
 
     func toggleNodeHighlight(_ node: SCNNode) {

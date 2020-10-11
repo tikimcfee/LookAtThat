@@ -130,9 +130,13 @@ extension BaseSceneController {
               var positioningNode = firstResult.node.parent else {
             return
         }
+
         if HitTestType.semanticTab.rawValue == firstResult.node.categoryBitMask {
+            // SemanticInfo is setup as a child of the container.
+            // we want to position the parent itself when dragged, so move up the hierarchy.
             positioningNode = positioningNode.parent!
         }
+
         touchState.pan.gesturePoint = currentTouchLocation
         touchState.pan.positioningNode = positioningNode
         touchState.pan.positioningNodeStart = positioningNode.position

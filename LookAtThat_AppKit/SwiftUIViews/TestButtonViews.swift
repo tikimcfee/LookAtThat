@@ -10,30 +10,12 @@ struct SourceInfoGrid: View {
         return VStack(alignment: .leading) {
             if let info = sourceInfo {
                 VStack {
-                    identifiers(
-                        named: "Functions",
-                        with: info.functions.compactMap {
-                            return $0.value.semanticInfo?.referenceName
-                        }.sorted()
-                    )
-                    identifiers(
-                        named: "Variables",
-                        with: info.variables.compactMap {
-                            return $0.value.semanticInfo?.referenceName
-                        }.sorted()
-                    )
-                    identifiers(
-                        named: "Structs",
-                        with: info.structs.compactMap {
-                            return $0.value.semanticInfo?.referenceName
-                        }.sorted()
-                    )
-                    identifiers(
-                        named: "Enumerations",
-                        with: info.enumerations.compactMap {
-                            return $0.value.semanticInfo?.referenceName
-                        }.sorted()
-                    )
+                    infoRows(named: "Structs", from: info.structs)
+                    infoRows(named: "Classes", from: info.classes)
+                    infoRows(named: "Enumerations", from: info.enumerations)
+                    infoRows(named: "Extensions", from: info.extensions)
+                    infoRows(named: "Functions", from: info.functions)
+                    infoRows(named: "Variables", from: info.variables)
                 }
             } else {
                 Text("No source info to display")
@@ -66,7 +48,32 @@ struct SourceInfoGrid: View {
                         selected(name: name)
                     }
             }
-        }.frame(minHeight: 128)
+        }.frame(minHeight: 64)
+    }
+
+    @ViewBuilder
+    func infoRows(named: String, from pair: InfoCollection) -> some View {
+        Text(named).underline().padding(.top, 8)
+        List {
+            ForEach(Array(pair.values), id:\.id) { codeSheet in
+                VStack {
+                    if let semantics = codeSheet.semanticInfo {
+                        Text(semantics.referenceName)
+                            .frame(minWidth: 232, alignment: .leading)
+                            .padding(4)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(Color.gray)
+                            )
+                            .onTapGesture {
+                                selected(id: semantics.syntaxId)
+                            }
+                    } else {
+                        Text("No SemanticInfo")
+                    }
+                }
+            }
+        }.frame(minHeight: 64)
     }
 
     func grid(for stringSlices: [ArraySlice<String>]) -> some View {
@@ -89,6 +96,10 @@ struct SourceInfoGrid: View {
 
     func selected(name: String) {
         SceneLibrary.global.codePagesController.selected(name: name)
+    }
+
+    func selected(id: SyntaxIdentifier) {
+        SceneLibrary.global.codePagesController.selected(id: id)
     }
 
     var buttons: some View {
