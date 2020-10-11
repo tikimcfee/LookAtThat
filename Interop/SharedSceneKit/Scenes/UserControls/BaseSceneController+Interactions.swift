@@ -127,8 +127,11 @@ extension BaseSceneController {
         let currentTouchLocation = event.currentLocation
         let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
         guard let firstResult = hitTestResults.first,
-              let positioningNode = firstResult.node.parent else {
+              var positioningNode = firstResult.node.parent else {
             return
+        }
+        if HitTestType.semanticTab.rawValue == firstResult.node.categoryBitMask {
+            positioningNode = positioningNode.parent!
         }
         touchState.pan.gesturePoint = currentTouchLocation
         touchState.pan.positioningNode = positioningNode

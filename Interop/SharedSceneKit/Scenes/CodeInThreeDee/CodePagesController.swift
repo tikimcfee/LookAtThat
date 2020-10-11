@@ -80,7 +80,7 @@ extension CodePagesController {
         )
     }
 
-    func highlightNode(_ node: SCNNode) {
+    func toggleNodeHighlight(_ node: SCNNode) {
         for letter in node.childNodes {
             letter.geometry = highlightCache[letter.geometry!]
         }
@@ -93,11 +93,11 @@ extension CodePagesController {
                 if bumped.contains(hash) {
                     bumped.remove(hash)
                     node.position = node.position.translated(dZ: -50)
-                    highlightNode(node)
+                    toggleNodeHighlight(node)
                 } else {
                     bumped.insert(hash)
                     node.position = node.position.translated(dZ: 50)
-                    highlightNode(node)
+                    toggleNodeHighlight(node)
                 }
             }
         }

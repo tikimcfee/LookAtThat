@@ -10,13 +10,19 @@ extension SCNView {
                 SCNHitTestOption.boundingBoxOnly: true,
                 SCNHitTestOption.backFaceCulling: true,
                 SCNHitTestOption.clipToZRange: true,
-                SCNHitTestOption.categoryBitMask: HitTestType.codeSheet,
+                SCNHitTestOption.ignoreChildNodes: false,
+                SCNHitTestOption.categoryBitMask: HitTestType.all.rawValue,
                 SCNHitTestOption.searchMode: mode.rawValue
             ]
         )
     }
 }
 
-struct HitTestType  {
-    static let codeSheet: Int = 0x1 << 1
+struct HitTestType: OptionSet {
+    let rawValue: Int
+
+    static let codeSheet    = HitTestType(rawValue: 1 << 2)
+    static let semanticTab  = HitTestType(rawValue: 1 << 3)
+
+    static let all: HitTestType = [.codeSheet, .semanticTab]
 }

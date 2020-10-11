@@ -45,7 +45,7 @@ extension CodeSheet {
         let container = SCNNode()
         container.name = kContainerName
         container.addChildNode(backgroundGeometryNode)
-        backgroundGeometryNode.categoryBitMask = HitTestType.codeSheet
+        backgroundGeometryNode.categoryBitMask = HitTestType.codeSheet.rawValue
         backgroundGeometryNode.geometry = backgroundGeometry
         backgroundGeometryNode.name = id
         return container
@@ -108,6 +108,10 @@ extension CodeSheet {
         children.forEach{ $0.arrangeSemanticInfo(builder) }
         guard let semantics = semanticInfo else { return }
         let semanticSheet = CodeSheet().backgroundColor(NSUIColor.black)
+        // I DON'T UNDERSTAND THIS AT ALL.
+        // The container node needs the same bitmask as the geometry.. but not in the original root case??
+        semanticSheet.containerNode.categoryBitMask = HitTestType.semanticTab.rawValue
+        semanticSheet.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
         semanticSheet.arrange(semantics.referenceName, builder)
 //        semanticSheet.newlines(1)
 //        semanticSheet.arrange(id, builder)
