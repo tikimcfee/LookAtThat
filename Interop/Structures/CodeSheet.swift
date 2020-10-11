@@ -104,17 +104,17 @@ extension CodeSheet {
         containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
     }
 
-    func arrangeSemanticInfo(_ builder: WordNodeBuilder) {
-        children.forEach{ $0.arrangeSemanticInfo(builder) }
-        guard let semantics = semanticInfo else { return }
+    @discardableResult
+    func arrangeSemanticInfo(_ builder: WordNodeBuilder) -> CodeSheet? {
+//        children.forEach{ $0.arrangeSemanticInfo(builder) }
+        guard let semantics = semanticInfo else { return nil }
         let semanticSheet = CodeSheet().backgroundColor(NSUIColor.black)
+
         // I DON'T UNDERSTAND THIS AT ALL.
         // The container node needs the same bitmask as the geometry.. but not in the original root case??
         semanticSheet.containerNode.categoryBitMask = HitTestType.semanticTab.rawValue
         semanticSheet.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
         semanticSheet.arrange(semantics.referenceName, builder)
-//        semanticSheet.newlines(1)
-//        semanticSheet.arrange(id, builder)
         semanticSheet.sizePageToContainerNode()
 
         semanticSheet.containerNode.position =
@@ -124,6 +124,8 @@ extension CodeSheet {
             )
 
         containerNode.addChildNode(semanticSheet.containerNode)
+
+        return semanticSheet
     }
  
     func appendChild(_ sheet: CodeSheet) {

@@ -101,7 +101,6 @@ extension CodePagesController {
 
         let isSelected = selectedSheets.toggle(id)
         sceneTransaction {
-
             sheet.containerNode.position =
                 sheet.containerNode.position.translated(
                     dZ: isSelected ? 25 : -25
@@ -162,14 +161,9 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         syntaxNodeParser.requestSourceDirectory{ directory in
             self.workerQueue.async {
-                // todo: make a presenter or something oof
-                for url in directory.swiftUrls {
-                    self.syntaxNodeParser.prepareRendering(source: url)
-                    self.syntaxNodeParser.render(in: self.sceneState)
-                }
-                self.main.async {
-                    handler(self.syntaxNodeParser.organizedInfo)
-                }
+                let info = self.syntaxNodeParser.renderDirectory(
+                    directory, in: self.sceneState
+                )
             }
         }
     }

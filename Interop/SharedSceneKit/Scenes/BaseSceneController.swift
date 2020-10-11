@@ -28,7 +28,7 @@ open class BaseSceneController: SceneControls {
     lazy var sceneCameraNode: SCNNode = makeSceneCameraNode()
     lazy var sceneCameraPlacementNode: SCNNode = makeSceneCameraPlacementNode()
 
-    lazy var sceneState: SceneState = SceneState()
+    lazy var sceneState: SceneState = SceneState(cameraNode: sceneCameraNode)
     lazy var touchState = TouchState()
 
     lazy var panGestureShim: GestureShim = GestureShim(
@@ -181,6 +181,10 @@ final class WorkerPool {
 
 class SceneState {
     var rootGeometryNode: SCNNode = SCNNode()
+    var cameraNode: SCNNode
+    init(cameraNode: SCNNode) {
+        self.cameraNode = cameraNode
+    }
 }
 
 enum SceneControllerError: Error, Identifiable {

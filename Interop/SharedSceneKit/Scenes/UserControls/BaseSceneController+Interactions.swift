@@ -117,7 +117,6 @@ extension BaseSceneController {
 
         if panEvent.state == .ended {
             touchState.pan = TouchStart()
-            touchState.pan.valid = false
             print("-- Ended pan")
         }
     }
