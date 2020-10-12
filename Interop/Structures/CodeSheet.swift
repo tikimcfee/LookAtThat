@@ -94,13 +94,13 @@ extension CodeSheet {
         newLine.position = newPosition
     }
 
-    func sizePageToContainerNode() {
-        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding.cg
-        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding.cg
-        let centerY = -backgroundGeometry.height / 2.0
+    func sizePageToContainerNode(pad: VectorFloat = 0) {
+        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding.cg + pad
+        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding.cg + pad
         let centerX = backgroundGeometry.width / 2.0
-        backgroundGeometryNode.position.y = centerY.vector
-        backgroundGeometryNode.position.x = centerX.vector
+        let centerY = -backgroundGeometry.height / 2.0
+        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
+        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
     }
 

@@ -35,26 +35,40 @@ extension SwiftSyntaxParser {
             prepareRendering(source: url)
             results.append((organizedInfo, makeSheetFromInfo()))
         }
-        let groupNode = SCNNode()
+
+        let directorySheet = CodeSheet().backgroundColor(NSUIColor.black)
+        directorySheet.containerNode.position.z = -150
+
+        var y = VectorFloat(0.0)
+        var nextY: VectorFloat {
+            y += 25.0
+            return y
+        }
+
+        var z = VectorFloat(0.0)
+        var nextZ: VectorFloat {
+            z += 10
+            return z
+        }
+
         results.forEach { pair in
-            groupNode.addChildNode(pair.1.containerNode)
+            directorySheet.containerNode.addChildNode(pair.1.containerNode)
+
 //            let lookAtCamera = SCNLookAtConstraint(target: sceneState.cameraNode)
 //            lookAtCamera.localFront = SCNVector3Zero.translated(dZ: 1.0)
 //            pair.1.containerNode.constraints = [lookAtCamera]
 
-            pair.1.containerNode.position.x = 0
-            pair.1.containerNode.position.y = 0
             pair.1.containerNode.position =
-                pair.1.containerNode.position.translated(
-//                    dX: pair.1.halfLengthX,
-//                    dY: -pair.1.halfLengthY,
-                    dZ: -40
+                SCNVector3Zero.translated(
+                    dX: pair.1.halfLengthX,
+                    dY: -pair.1.halfLengthY - nextY,
+                    dZ: nextZ
                 )
-            groupNode.eulerAngles.y += 0.5
         }
+        directorySheet.sizePageToContainerNode(pad: 32.0)
 
         sceneTransaction {
-            sceneState.rootGeometryNode.addChildNode(groupNode)
+            sceneState.rootGeometryNode.addChildNode(directorySheet.containerNode)
         }
 
         return results.map{ $0.0 }
@@ -72,7 +86,7 @@ extension SwiftSyntaxParser {
 
         var count: Float = 0
 
-        var One_Radian = (180.0 / Float.pi) // 57.2958...°
+        let One_Radian = (180.0 / Float.pi) // 57.2958...°
         let ninetyInRadians = 90.0 / One_Radian
 
         for node in nodes {
@@ -173,11 +187,8 @@ extension SwiftSyntaxParser {
                     dX: semanticSheet.containerNode.lengthX,
                     dY: semanticSheet.containerNode.lengthY
                 )
+            semanticSheet.backgroundColor(NSUIColor.systemBlue)
         }
-
-        parentCodeSheet.containerNode.position =
-            parentCodeSheet.containerNode.position
-                .translated(dZ: nextZ - 50)
 
         // Save node to be looked up later
         nodesToSheets[parentCodeSheet.containerNode] = parentCodeSheet
@@ -190,13 +201,27 @@ extension SwiftSyntaxParser {
     }
 
     func typeColor(for type: SyntaxProtocol.Type) -> NSUIColor {
-        if type == StructDeclSyntax.self { return NSUIColor.systemTeal }
-        if type == ClassDeclSyntax.self { return NSUIColor.systemIndigo }
-        if type == FunctionDeclSyntax.self { return NSUIColor.systemPink }
-        if type == EnumDeclSyntax.self { return NSUIColor.systemOrange }
-        if type == ExtensionDeclSyntax.self { return NSUIColor.systemBrown }
-        if type == VariableDeclSyntax.self { return NSUIColor.systemGreen }
-        if type == TypealiasDeclSyntax.self { return NSUIColor.systemPurple }
+        if type == StructDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.3, green: 0.2, blue: 0.3, alpha: 1.0)
+        }
+        if type == ClassDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 1.0)
+        }
+        if type == FunctionDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.5, alpha: 1.0)
+        }
+        if type == EnumDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.1, green: 0.3, blue: 0.4, alpha: 1.0)
+        }
+        if type == ExtensionDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.2, green: 0.4, blue: 0.4, alpha: 1.0)
+        }
+        if type == VariableDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
+        }
+        if type == TypealiasDeclSyntax.self {
+            return NSUIColor.init(deviceRed: 0.5, green: 0.3, blue: 0.5, alpha: 1.0)
+        }
         return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 1.0)
     }
 }
