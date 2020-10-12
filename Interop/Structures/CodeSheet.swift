@@ -38,6 +38,12 @@ extension CodeSheet {
         backgroundGeometry.firstMaterial?.diffuse.contents = color
         return self
     }
+
+    @discardableResult
+    func categoryMask(_ mask: HitTestType) -> CodeSheet {
+        backgroundGeometryNode.categoryBitMask = mask.rawValue
+        return self
+    }
 }
 
 extension CodeSheet {
@@ -94,7 +100,8 @@ extension CodeSheet {
         newLine.position = newPosition
     }
 
-    func sizePageToContainerNode(pad: VectorFloat = 0) {
+    @discardableResult
+    func sizePageToContainerNode(pad: VectorFloat = 0) -> CodeSheet {
         backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding.cg + pad
         backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding.cg + pad
         let centerX = backgroundGeometry.width / 2.0
@@ -102,6 +109,7 @@ extension CodeSheet {
         backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
         backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
+        return self
     }
 
     @discardableResult

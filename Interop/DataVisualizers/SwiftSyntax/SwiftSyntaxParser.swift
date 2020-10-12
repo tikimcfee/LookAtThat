@@ -84,7 +84,7 @@ class SwiftSyntaxParser: SyntaxRewriter {
 
     // One of these ideas will net me 'blocks of code' to '3d sheets'
     var organizedInfo = OrganizedSourceInfo()
-    var nodesToSheets = [SCNNode: CodeSheet]()
+    var allRootContainerNodes = [SCNNode: CodeSheet]()
 
     init(wordNodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = wordNodeBuilder

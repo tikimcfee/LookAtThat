@@ -37,33 +37,33 @@ extension CodePagesController {
         guard let clickedSheet = sceneView.hitTestCodeSheet(with: point).first?.node.parent
             else { return }
 
-        let maybeSheet = syntaxNodeParser.nodesToSheets[clickedSheet]
+        let maybeSheet = syntaxNodeParser.allRootContainerNodes[clickedSheet]
         print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
         touchState.mouse.currentClickedSheet = maybeSheet
     }
 
     func newMousePosition(_ point: CGPoint) {
-//        let hoverTranslationY = CGFloat(50)
-//
-        let hoveredSheet =
-            sceneView.hitTestCodeSheet(with: point).first?.node.parent
-        touchState.mouse.currentHoveredSheet = hoveredSheet
+        let hoverTranslationY = CGFloat(50)
 
-//        let currentHoveredSheet =
-//            touchState.mouse.currentHoveredSheet
-//
-//        if currentHoveredSheet == nil, let newSheet = hoveredSheet {
-//            touchState.mouse.currentHoveredSheet = newSheet
-//            sceneTransaction {
-//                newSheet.position.y += hoverTranslationY
-//            }
-//        } else if let currentSheet = currentHoveredSheet, currentSheet != hoveredSheet {
-//            touchState.mouse.currentHoveredSheet = hoveredSheet
-//            sceneTransaction {
-//                currentSheet.position.y -= hoverTranslationY
-//                hoveredSheet?.position.y += hoverTranslationY
-//            }
-//        }
+        let newHoveredSheet = sceneView.hitTestCodeSheet(
+            with: point, .all, .rootCodeSheet
+        ).first?.node.parent
+
+        let currentHoveredSheet =
+            touchState.mouse.currentHoveredSheet
+
+        if currentHoveredSheet == nil, let newSheet = newHoveredSheet {
+            touchState.mouse.currentHoveredSheet = newSheet
+            sceneTransaction {
+                newSheet.position.y += hoverTranslationY
+            }
+        } else if let currentSheet = currentHoveredSheet, currentSheet != newHoveredSheet {
+            touchState.mouse.currentHoveredSheet = newHoveredSheet
+            sceneTransaction {
+                currentSheet.position.y -= hoverTranslationY
+                newHoveredSheet?.position.y += hoverTranslationY
+            }
+        }
     }
     #endif
 }

@@ -170,18 +170,19 @@ extension SwiftSyntaxParser {
 extension SwiftSyntaxParser {
 
     func makeSheetFromInfo() -> CodeSheet {
-
-        let parentCodeSheet = makeSheet(
-            from: rootSyntaxNode!,
-            semantics: SemanticInfo(
-                syntaxId: rootSyntaxNode!.id,
-                referenceName: preparedSourceFile!.lastPathComponent,
-                syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
-            )
+        let rootSemanticInfo = SemanticInfo(
+            syntaxId: rootSyntaxNode!.id,
+            referenceName: preparedSourceFile!.lastPathComponent,
+            syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
         )
 
-        parentCodeSheet.sizePageToContainerNode()
-        if let semanticSheet = parentCodeSheet.arrangeSemanticInfo(textNodeBuilder) {
+        let rootCodeSheet = makeSheet(
+            from: rootSyntaxNode!,
+            semantics:rootSemanticInfo
+        ).categoryMask(.rootCodeSheet)
+        .sizePageToContainerNode()
+
+        if let semanticSheet = rootCodeSheet.arrangeSemanticInfo(textNodeBuilder) {
             semanticSheet.containerNode.position =
                 semanticSheet.containerNode.position.translated(
                     dX: semanticSheet.containerNode.lengthX,
@@ -191,9 +192,9 @@ extension SwiftSyntaxParser {
         }
 
         // Save node to be looked up later
-        nodesToSheets[parentCodeSheet.containerNode] = parentCodeSheet
+        allRootContainerNodes[rootCodeSheet.containerNode] = rootCodeSheet
 
-        return parentCodeSheet
+        return rootCodeSheet
     }
 
     func backgroundColor(for syntax: SyntaxChildren.Element) -> NSUIColor {
