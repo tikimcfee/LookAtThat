@@ -120,8 +120,10 @@ class SwiftSyntaxParser: SyntaxRewriter {
         return syntax
     }
 
+    //MARK: - Tricky CodeBlockItemSyntax
     override func visit(_ node: CodeBlockItemSyntax) -> Syntax {
         let syntax = super.visit(node)
+
         // When we come across a block, want the one item it creates.
         // Rather than look for it in makeSheet, we pass the item itself
         // and then set *this* node as pointing to its child's one sheet.

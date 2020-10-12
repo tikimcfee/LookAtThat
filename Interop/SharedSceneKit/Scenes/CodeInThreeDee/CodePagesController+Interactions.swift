@@ -34,36 +34,36 @@ extension CodePagesController {
         }
         guard let point = safePoint else { return }
 
-        guard let clickedSheet = sceneView.hitTestCodeSheet(with: point).first?.node.parent
-            else { return }
+        guard let clickedSheet = sceneView.hitTestCodeSheet(
+            with: point, .all, .rootCodeSheet
+        ).first?.node.parent else { return }
 
         let maybeSheet = syntaxNodeParser.allRootContainerNodes[clickedSheet]
         print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
         touchState.mouse.currentClickedSheet = maybeSheet
+        codeSheetSelected(maybeSheet)
     }
 
     func newMousePosition(_ point: CGPoint) {
         let hoverTranslationY = CGFloat(50)
 
-        let newHoveredSheet = sceneView.hitTestCodeSheet(
+        let newHitTestedSheet = sceneView.hitTestCodeSheet(
             with: point, .all, .rootCodeSheet
         ).first?.node.parent
 
-        let currentHoveredSheet =
-            touchState.mouse.currentHoveredSheet
-
-        if currentHoveredSheet == nil, let newSheet = newHoveredSheet {
-            touchState.mouse.currentHoveredSheet = newSheet
-            sceneTransaction {
-                newSheet.position.y += hoverTranslationY
-            }
-        } else if let currentSheet = currentHoveredSheet, currentSheet != newHoveredSheet {
-            touchState.mouse.currentHoveredSheet = newHoveredSheet
-            sceneTransaction {
-                currentSheet.position.y -= hoverTranslationY
-                newHoveredSheet?.position.y += hoverTranslationY
+        sceneTransaction {
+            let lastSheet = touchState.mouse.currentHoveredSheet
+            if lastSheet != newHitTestedSheet {
+                lastSheet?.position.y -= hoverTranslationY
+                newHitTestedSheet?.position.y += hoverTranslationY
             }
         }
+        touchState.mouse.currentHoveredSheet = newHitTestedSheet
+
+    }
+
+    func codeSheetSelected(_ sheet: CodeSheet?) {
+        
     }
     #endif
 }

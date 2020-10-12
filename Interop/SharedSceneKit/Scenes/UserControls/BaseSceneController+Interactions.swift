@@ -107,6 +107,7 @@ extension BaseSceneController {
         if panEvent.pressingCommand, let start = panEvent.commandStart {
             // Can always rotate the camera
             panHoldingCommand(panEvent, start)
+            panOnNode(panEvent)
         } else if touchState.pan.valid {
             if panEvent.pressingOption, let start = panEvent.optionStart {
                 panHoldingOption(panEvent, start)
@@ -138,9 +139,9 @@ extension BaseSceneController {
 
         touchState.pan.gesturePoint = currentTouchLocation
         touchState.pan.positioningNode = positioningNode
-        touchState.pan.positioningNodeStart = positioningNode.position
-        touchState.pan.positioningNodeEulers = positioningNode.eulerAngles
-        touchState.pan.projectionDepthPosition = sceneView.projectPoint(positioningNode.position)
+        touchState.pan.computeStartPosition()
+        touchState.pan.computeStartEulers()
+        touchState.pan.computeProjectedDepthPosition(in: sceneView)
         touchState.pan.computeStartUnprojection(in: sceneView)
         touchState.pan.valid = true
         print("-- Found a node; touch valid")
@@ -151,12 +152,12 @@ extension BaseSceneController {
         let newLocationProjection = touchState.pan.computedEndUnprojection(with: currentTouchLocation, in: sceneView)
         let dX = newLocationProjection.x - touchState.pan.computedStartUnprojection.x
         let dY = newLocationProjection.y - touchState.pan.computedStartUnprojection.y
+        let dZ = newLocationProjection.z - touchState.pan.computedStartUnprojection.z
 
-        touchState.pan.positioningNodeEulers = touchState.pan.positioningNode.eulerAngles
+        touchState.pan.computeStartEulers()
 
         sceneTransaction(0) {
-            touchState.pan.positioningNode.position =
-                touchState.pan.positioningNodeStart.translated(dX: dX, dY: dY)
+            touchState.pan.setTranslatedPosition(dX, dY, dZ)
         }
     }
 
@@ -165,14 +166,14 @@ extension BaseSceneController {
         let rotation = rotationBetween(start, end, using: touchState.pan.positioningNodeEulers)
         guard rotation.x != 0.0 || rotation.y != 0 else { return }
         sceneTransaction(0) {
-            touchState.pan.positioningNode.eulerAngles.y = rotation.y.vector
             touchState.pan.positioningNode.eulerAngles.x = rotation.x.vector
+            touchState.pan.positioningNode.eulerAngles.y = rotation.y.vector
         }
 
         // Reset position 'start' position after rotation
         touchState.pan.gesturePoint = event.currentLocation
-        touchState.pan.positioningNodeStart = touchState.pan.positioningNode.position
-        touchState.pan.projectionDepthPosition = sceneView.projectPoint(touchState.pan.positioningNode.position)
+        touchState.pan.computeStartPosition()
+        touchState.pan.computeProjectedDepthPosition(in: sceneView)
         touchState.pan.computeStartUnprojection(in: sceneView)
     }
 
@@ -252,6 +253,19 @@ class TouchStart {
 
     var cameraNodeEulers = SCNVector3Zero
 
+    // Starting values
+    func computeStartPosition() {
+        positioningNodeStart = positioningNode.position
+    }
+
+    func computeStartEulers() {
+        positioningNodeEulers = positioningNode.eulerAngles
+    }
+
+    func computeProjectedDepthPosition(in scene: SCNView) {
+        projectionDepthPosition = scene.projectPoint(positioningNode.position)
+    }
+
     func computeStartUnprojection(in scene: SCNView) {
         computedStartUnprojection = scene.unprojectPoint(
             SCNVector3(
@@ -262,6 +276,7 @@ class TouchStart {
         )
     }
 
+    // End values
     func computedEndUnprojection(with location: CGPoint, in scene: SCNView) -> SCNVector3 {
         return scene.unprojectPoint(
             SCNVector3(
@@ -270,5 +285,13 @@ class TouchStart {
                 z: projectionDepthPosition.z.vector
             )
         )
+    }
+
+    // Setting values
+    func setTranslatedPosition(_ dX: VectorFloat,
+                               _ dY: VectorFloat,
+                               _ dZ: VectorFloat) {
+        positioningNode.position =
+            positioningNodeStart.translated(dX: dX, dY: dY, dZ: dZ)
     }
 }
