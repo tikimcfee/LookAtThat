@@ -14,6 +14,7 @@ class CodeSheet: Identifiable, Equatable {
     var lastLine: SCNNode { allLines.last ?? { makeLineNode() }() }
 
     var semanticInfo: SemanticInfo?
+    var sourceInfo: OrganizedSourceInfo?
 
     init(_ id: String? = nil) {
         self.id = id ?? self.id
@@ -27,6 +28,12 @@ class CodeSheet: Identifiable, Equatable {
 }
 
 extension CodeSheet {
+    @discardableResult
+    func sourceInfo(_ info: OrganizedSourceInfo) -> CodeSheet {
+        sourceInfo = info
+        return self
+    }
+
     @discardableResult
     func semantics(_ semantics: SemanticInfo?) -> CodeSheet {
         semanticInfo = semantics
@@ -74,6 +81,21 @@ extension CodeSheet {
     }
 }
 
+class OccludingMaterial : SCNMaterial {
+    override init() {
+        super.init()
+        isDoubleSided = true
+        lightingModel = .constant
+        writesToDepthBuffer = true
+        colorBufferWriteMask = []
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
 extension CodeSheet {
     static let childPadding: VectorFloat = 0.5
 
@@ -113,10 +135,13 @@ extension CodeSheet {
     }
 
     @discardableResult
-    func arrangeSemanticInfo(_ builder: WordNodeBuilder) -> CodeSheet? {
+    func arrangeSemanticInfo(_ builder: WordNodeBuilder,
+                             asTitle: Bool = false) -> CodeSheet {
 //        children.forEach{ $0.arrangeSemanticInfo(builder) }
-        guard let semantics = semanticInfo else { return nil }
-        let semanticSheet = CodeSheet().backgroundColor(NSUIColor.black)
+        guard let semantics = semanticInfo else { return self }
+        let semanticSheet = CodeSheet().backgroundColor(
+            asTitle ? NSUIColor.systemBlue : NSUIColor.black
+        )
 
         // I DON'T UNDERSTAND THIS AT ALL.
         // The container node needs the same bitmask as the geometry.. but not in the original root case??
@@ -124,16 +149,15 @@ extension CodeSheet {
         semanticSheet.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
         semanticSheet.arrange(semantics.referenceName, builder)
         semanticSheet.sizePageToContainerNode()
-
         semanticSheet.containerNode.position =
             SCNVector3Zero.translated(
-                dX: -semanticSheet.halfLengthX,
-                dY: -semanticSheet.halfLengthY
+                dX: asTitle ? semanticSheet.halfLengthX : -semanticSheet.halfLengthX,
+                dY: asTitle ? semanticSheet.halfLengthY : -semanticSheet.halfLengthY
             )
 
         containerNode.addChildNode(semanticSheet.containerNode)
 
-        return semanticSheet
+        return self
     }
  
     func appendChild(_ sheet: CodeSheet) {

@@ -36,7 +36,8 @@ extension SwiftSyntaxParser {
             results.append((organizedInfo, makeSheetFromInfo()))
         }
 
-        let directorySheet = CodeSheet().backgroundColor(NSUIColor.black)
+        let directorySheet = CodeSheet()
+            .backgroundColor(NSUIColor.black)
         directorySheet.containerNode.position.z = -150
 
         var y = VectorFloat(0.0)
@@ -65,7 +66,7 @@ extension SwiftSyntaxParser {
                     dZ: nextZ
                 )
         }
-        directorySheet.sizePageToContainerNode(pad: 32.0)
+        directorySheet.sizePageToContainerNode(pad: 20.0)
 
         sceneTransaction {
             sceneState.rootGeometryNode.addChildNode(directorySheet.containerNode)
@@ -170,26 +171,19 @@ extension SwiftSyntaxParser {
 extension SwiftSyntaxParser {
 
     func makeSheetFromInfo() -> CodeSheet {
-        let rootSemanticInfo = SemanticInfo(
-            syntaxId: rootSyntaxNode!.id,
-            referenceName: preparedSourceFile!.lastPathComponent,
-            syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
-        )
 
         let rootCodeSheet = makeSheet(
             from: rootSyntaxNode!,
-            semantics:rootSemanticInfo
-        ).categoryMask(.rootCodeSheet)
+            semantics: SemanticInfo(
+                syntaxId: rootSyntaxNode!.id,
+                referenceName: preparedSourceFile!.lastPathComponent,
+                syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
+            )
+        )
+        .categoryMask(.rootCodeSheet)
         .sizePageToContainerNode()
-
-        if let semanticSheet = rootCodeSheet.arrangeSemanticInfo(textNodeBuilder) {
-            semanticSheet.containerNode.position =
-                semanticSheet.containerNode.position.translated(
-                    dX: semanticSheet.containerNode.lengthX,
-                    dY: semanticSheet.containerNode.lengthY
-                )
-            semanticSheet.backgroundColor(NSUIColor.systemBlue)
-        }
+        .sourceInfo(organizedInfo)
+        .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
 
         // Save node to be looked up later
         allRootContainerNodes[rootCodeSheet.containerNode] = rootCodeSheet

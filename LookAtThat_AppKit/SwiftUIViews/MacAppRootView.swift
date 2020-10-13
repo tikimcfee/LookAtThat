@@ -14,7 +14,7 @@ struct MacAppRootView: View {
                 VStack(spacing: 0) {
                     TestButtons_Dictionary()
                     TestButtons_Debugging()
-                }
+                }.padding(.bottom, 16.0)
             case .source:
                 HStack(alignment: .bottom) {
                     MultipeerInfoView()
@@ -22,7 +22,7 @@ struct MacAppRootView: View {
                     TestButtons_Debugging()
                     Spacer()
                     SourceInfoGrid()
-                }
+                }.padding(.bottom, 16.0)
             }
         }
     }

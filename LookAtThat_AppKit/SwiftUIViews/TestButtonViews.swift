@@ -30,6 +30,13 @@ struct SourceInfoGrid: View {
                 .stroke(Color.gray)
         )
         .padding(8)
+        .onReceive(
+            SceneLibrary.global.codePagesController.sheetStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+        ) { selectedSheet in
+            self.sourceInfo = selectedSheet?.sourceInfo
+        }
     }
 
     @ViewBuilder
@@ -99,7 +106,8 @@ struct SourceInfoGrid: View {
     }
 
     func selected(id: SyntaxIdentifier) {
-        SceneLibrary.global.codePagesController.selected(id: id)
+        guard let sourceInfo = self.sourceInfo else { return }
+        SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
     }
 
     var buttons: some View {

@@ -31,6 +31,8 @@ class CustomSceneView: SCNView {
     var trackingArea : NSTrackingArea?
 
     func setupDefaultLighting() {
+        showsStatistics = true
+
         backgroundColor = NSUIColor.gray
 
         let ambientLightNode = SCNNode()

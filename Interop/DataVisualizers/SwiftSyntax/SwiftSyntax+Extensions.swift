@@ -22,6 +22,21 @@ extension Syntax {
     }
 }
 
+extension SyntaxChildren {
+    func listOfChildren() -> String {
+        reduce(into: "") { result, element in
+            let elementList = element.children.listOfChildren()
+            result.append(
+                String(describing: element.syntaxNodeType)
+            )
+            result.append(
+                "\n\t\t\(elementList)"
+            )
+            if element != last { result.append("\n\t") }
+        }
+    }
+}
+
 extension TokenSyntax {
     var typeName: String { return String(describing: tokenKind) }
 

@@ -25,6 +25,7 @@ struct HitTestType: OptionSet {
     static let codeSheet        = HitTestType(rawValue: 1 << 2)
     static let rootCodeSheet    = HitTestType(rawValue: 1 << 3)
     static let semanticTab      = HitTestType(rawValue: 1 << 4)
+    static let directoryGroup   = HitTestType(rawValue: 1 << 5)
 
-    static let all: HitTestType = [.codeSheet, .semanticTab, .rootCodeSheet]
+    static let all: HitTestType = [.codeSheet, .semanticTab, .rootCodeSheet, .directoryGroup]
 }

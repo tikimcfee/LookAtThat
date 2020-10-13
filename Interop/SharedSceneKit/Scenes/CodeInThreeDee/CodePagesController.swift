@@ -9,7 +9,7 @@ var nextZ: VectorFloat {
     return z
 }
 
-class CodePagesController: BaseSceneController {
+class CodePagesController: BaseSceneController, ObservableObject {
 
     let iteratorY = WordPositionIterator()
     var bumped = Set<Int>()
@@ -18,6 +18,9 @@ class CodePagesController: BaseSceneController {
 
     let wordNodeBuilder: WordNodeBuilder
     let syntaxNodeParser: SwiftSyntaxParser
+
+    @Published var selectedSheet: CodeSheet?
+    lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
 
     var cancellables = Set<AnyCancellable>()
 
@@ -92,9 +95,8 @@ extension CodePagesController {
         )
     }
 
-    func selected(id: SyntaxIdentifier) {
-        guard let sheet = syntaxNodeParser.organizedInfo[id],
-              let semanticInfo = sheet.semanticInfo else {
+    func selected(id: SyntaxIdentifier, in source: OrganizedSourceInfo) {
+        guard let sheet = source[id] else {
             print("Missing sheet or semantic info for \(id)")
             return
         }
@@ -159,8 +161,9 @@ extension CodePagesController {
     }
 
     func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
+        let thisWorker = self.workerQueue
         syntaxNodeParser.requestSourceDirectory{ directory in
-            self.workerQueue.async {
+            thisWorker.async {
                 let info = self.syntaxNodeParser.renderDirectory(
                     directory, in: self.sceneState
                 )

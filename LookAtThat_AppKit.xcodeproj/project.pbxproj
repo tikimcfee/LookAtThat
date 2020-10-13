@@ -68,7 +68,7 @@
 		F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
 		F057D29B252052B60094BD83 /* SwiftSyntaxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */; };
 		F057D29E2520530F0094BD83 /* OrganizedSourceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49DA251C477500F28173 /* OrganizedSourceInfo.swift */; };
-		F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */; };
+		F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */; };
@@ -187,7 +187,7 @@
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityGlobalsAndExtensions.swift; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
-		F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Extensions.swift"; sourceTree = "<group>"; };
+		F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+Extensions.swift"; sourceTree = "<group>"; };
 		F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidirectionalMap.swift; sourceTree = "<group>"; };
 		F075BE47251445FC00DEB06F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F07C12A9250F1A9700B08C7D /* CustomTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextParser.swift; sourceTree = "<group>"; };
@@ -502,7 +502,7 @@
 		F09A52A025157F9300F5082A /* SwiftSyntax */ = {
 			isa = PBXGroup;
 			children = (
-				F06CD5F8251479C400C94B84 /* TokenSyntax+Extensions.swift */,
+				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 				F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */,
 				F07C49D1251C29F900F28173 /* SwiftSyntaxParser+Tests.swift */,
@@ -757,7 +757,7 @@
 				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
-				F06CD5F9251479C400C94B84 /* TokenSyntax+Extensions.swift in Sources */,
+				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

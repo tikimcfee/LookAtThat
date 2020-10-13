@@ -57,21 +57,6 @@ extension SwiftSyntaxParser {
 #elseif os(OSX)
 import SwiftSyntax
 
-extension SyntaxChildren {
-    func listOfChildren() -> String {
-        reduce(into: "") { result, element in
-            let elementList = element.children.listOfChildren()
-            result.append(
-                String(describing: element.syntaxNodeType)
-            )
-            result.append(
-                "\n\t\t\(elementList)"
-            )
-            if element != last { result.append("\n\t") }
-        }
-    }
-}
-
 // MARK: - Node visiting
 class SwiftSyntaxParser: SyntaxRewriter {
     // Dependencies
