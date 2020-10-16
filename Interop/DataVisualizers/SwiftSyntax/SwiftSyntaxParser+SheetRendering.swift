@@ -2,6 +2,8 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
+private let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
+
 #if os(OSX)
 // Node building
 extension SwiftSyntaxParser {
@@ -196,6 +198,11 @@ extension SwiftSyntaxParser {
         .sourceInfo(organizedInfo)
         .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
 
+        rootCodeSheet.containerNode.enumerateChildNodes { node, _ in
+            guard node.name == kWhitespaceNodeName else { return }
+            node.removeFromParentNode()
+        }
+
         // Save node to be looked up later
         allRootContainerNodes[rootCodeSheet.containerNode] = rootCodeSheet
 
@@ -246,10 +253,12 @@ extension CodeSheet {
         iterateTrivia(token.trailingTrivia, builder)
     }
 
+    @discardableResult
     func arrange(_ text: String,
-                 _ builder: WordNodeBuilder) {
+                 _ builder: WordNodeBuilder) -> SCNNode {
         let newNode = builder.node(for: text)
         builder.arrange([newNode], on: lastLine)
+        return newNode
     }
 
     func iterateTrivia(_ trivia: Trivia,
@@ -270,6 +279,9 @@ extension CodeSheet {
                         }
                         newlines(1)
                     }
+            case .spaces:
+                let spaceNode = arrange(triviaPiece.stringify, builder)
+                spaceNode.name = kWhitespaceNodeName
             default:
                 arrange(triviaPiece.stringify, builder)
             }
