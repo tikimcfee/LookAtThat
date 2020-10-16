@@ -1,5 +1,6 @@
 import Foundation
 import SceneKit
+import SwiftSyntax
 
 let kContainerName = "kContainerName"
 
@@ -124,8 +125,8 @@ extension CodeSheet {
 
     @discardableResult
     func sizePageToContainerNode(pad: VectorFloat = 0) -> CodeSheet {
-        backgroundGeometry.width = containerNode.lengthX.cg + pad
-        backgroundGeometry.height = containerNode.lengthY.cg + pad
+        backgroundGeometry.width = containerNode.lengthX.cg + pad.cg
+        backgroundGeometry.height = containerNode.lengthY.cg + pad.cg
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
         backgroundGeometryNode.position.x = centerX.vector
@@ -137,7 +138,6 @@ extension CodeSheet {
     @discardableResult
     func arrangeSemanticInfo(_ builder: WordNodeBuilder,
                              asTitle: Bool = false) -> CodeSheet {
-//        children.forEach{ $0.arrangeSemanticInfo(builder) }
         guard let semantics = semanticInfo else { return self }
         let semanticSheet = CodeSheet().backgroundColor(
             asTitle ? NSUIColor.systemBlue : NSUIColor.black
@@ -212,5 +212,55 @@ extension CodeSheet {
             sheet.containerNode.position,
             from: sheet.containerNode
         )
+    }
+}
+
+// CodeSheet operations
+extension CodeSheet {
+    func add(_ token: TokenSyntax,
+             _ builder: WordNodeBuilder) {
+        iterateTrivia(token.leadingTrivia, builder)
+        let lines = token.splitText
+        lines.forEach { line in
+            arrange(line, builder)
+            guard line != lines.last else { return }
+            newlines(1)
+        }
+        iterateTrivia(token.trailingTrivia, builder)
+    }
+
+    @discardableResult
+    func arrange(_ text: String,
+                 _ builder: WordNodeBuilder) -> SCNNode {
+        let newNode = builder.node(for: text)
+        builder.arrange([newNode], on: lastLine)
+        return newNode
+    }
+
+    func iterateTrivia(_ trivia: Trivia,
+                       _ builder: WordNodeBuilder) {
+        for triviaPiece in trivia {
+            switch triviaPiece {
+            case let .newlines(count):
+                newlines(count)
+            case let .lineComment(comment),
+                 let .blockComment(comment),
+                 let .docLineComment(comment),
+                 let .docBlockComment(comment):
+                comment.substringLines
+                    .map { $0.splitToWordsAndSpaces }
+                    .forEach { lines in
+                        lines.forEach {
+                            arrange(String($0), builder)
+                        }
+                        newlines(1)
+                    }
+            case .spaces:
+                let spaceNode = arrange(triviaPiece.stringify, builder)
+                spaceNode.name = kWhitespaceNodeName
+            default:
+                arrange(triviaPiece.stringify, builder)
+            }
+        }
     }
 }

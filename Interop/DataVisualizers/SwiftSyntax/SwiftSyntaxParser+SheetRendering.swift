@@ -2,9 +2,8 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-private let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
+let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
-#if os(OSX)
 // Node building
 extension SwiftSyntaxParser {
 
@@ -46,7 +45,7 @@ extension SwiftSyntaxParser {
         var lastChildLengthX: VectorFloat { lastChild?.lengthX ?? 0.0 }
         var lastChildLengthY: VectorFloat { lastChild?.lengthY ?? 0.0 }
 
-        var x = VectorFloat(0.0)
+        var x = VectorFloat(-16.0)
         var nextX: VectorFloat {
             x += lastChildLengthX + 16
             return x
@@ -104,7 +103,7 @@ extension SwiftSyntaxParser {
         let ninetyInRadians = 90.0 / One_Radian
 
         for node in nodes {
-            let radius: CGFloat = node.lengthX / 2.0
+            let radius: CGFloat = node.lengthX.cg / 2.0
             let angleStep: Float = 2.0 * Float.pi / Float(nodes.count)
 
             let xPos = focalX + cosf(angleStep * count).cg * radius
@@ -112,7 +111,7 @@ extension SwiftSyntaxParser {
             node.position = SCNVector3(xPos, 0, zPos)
 
             if count.truncatingRemainder(dividingBy: 2.0) == 0 {
-                node.eulerAngles.y = ninetyInRadians.cg
+                node.eulerAngles.y = ninetyInRadians.vector
             }
 
             count = count + 1.0
@@ -179,7 +178,6 @@ extension SwiftSyntaxParser {
         }
     }
 }
-#endif
 
 extension SwiftSyntaxParser {
 
@@ -215,76 +213,32 @@ extension SwiftSyntaxParser {
 
     func typeColor(for type: SyntaxProtocol.Type) -> NSUIColor {
         if type == StructDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.3, green: 0.2, blue: 0.3, alpha: 1.0)
+            return color(0.3, 0.2, 0.3, 1.0)
         }
         if type == ClassDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 1.0)
+            return color(0.2, 0.2, 0.4, 1.0)
         }
         if type == FunctionDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.5, alpha: 1.0)
+            return color(0.2, 0.2, 0.5, 1.0)
         }
         if type == EnumDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.1, green: 0.3, blue: 0.4, alpha: 1.0)
+            return color(0.1, 0.3, 0.4, 1.0)
         }
         if type == ExtensionDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.2, green: 0.4, blue: 0.4, alpha: 1.0)
+            return color(0.2, 0.4, 0.4, 1.0)
         }
         if type == VariableDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
+            return color(0.3, 0.3, 0.3, 1.0)
         }
         if type == TypealiasDeclSyntax.self {
-            return NSUIColor.init(deviceRed: 0.5, green: 0.3, blue: 0.5, alpha: 1.0)
+            return color(0.5, 0.3, 0.5, 1.0)
         }
-        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
-    }
-}
-
-// CodeSheet operations
-extension CodeSheet {
-    func add(_ token: TokenSyntax,
-             _ builder: WordNodeBuilder) {
-        iterateTrivia(token.leadingTrivia, builder)
-        let lines = token.splitText
-        lines.forEach { line in
-            arrange(line, builder)
-            guard line != lines.last else { return }
-            newlines(1)
+        else {
+            return color(0.2, 0.2, 0.2, 1.0)
         }
-        iterateTrivia(token.trailingTrivia, builder)
     }
 
-    @discardableResult
-    func arrange(_ text: String,
-                 _ builder: WordNodeBuilder) -> SCNNode {
-        let newNode = builder.node(for: text)
-        builder.arrange([newNode], on: lastLine)
-        return newNode
-    }
-
-    func iterateTrivia(_ trivia: Trivia,
-                       _ builder: WordNodeBuilder) {
-        for triviaPiece in trivia {
-            switch triviaPiece {
-            case let .newlines(count):
-                newlines(count)
-            case let .lineComment(comment),
-                 let .blockComment(comment),
-                 let .docLineComment(comment),
-                 let .docBlockComment(comment):
-                comment.substringLines
-                    .map { $0.splitToWordsAndSpaces }
-                    .forEach { lines in
-                        lines.forEach {
-                            arrange(String($0), builder)
-                        }
-                        newlines(1)
-                    }
-            case .spaces:
-                let spaceNode = arrange(triviaPiece.stringify, builder)
-                spaceNode.name = kWhitespaceNodeName
-            default:
-                arrange(triviaPiece.stringify, builder)
-            }
-        }
+    private func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
+        return NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
     }
 }

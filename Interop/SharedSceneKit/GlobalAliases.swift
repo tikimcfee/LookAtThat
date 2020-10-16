@@ -15,6 +15,7 @@ public typealias NSUIBezierPath = NSBezierPath
 public typealias OSEvent = NSEvent
 public typealias VectorFloat = CGFloat
 public typealias OSScreen = NSScreen
+public typealias NSUIImage = NSImage
 #elseif os(iOS)
 public typealias NSUIColor = UIColor
 public typealias GestureRecognizer = UIGestureRecognizer
@@ -27,6 +28,7 @@ public typealias NSUIBezierPath = UIBezierPath
 public typealias OSEvent = UIEvent
 public typealias VectorFloat = Float
 public typealias OSScreen = UIScreen
+public typealias NSUIImage = UIImage
 #endif
 
 extension CGFloat {

@@ -98,6 +98,12 @@
 		F0A2199E2511BADF00D71C98 /* SwiftAST+Tooling in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2199D2511BADF00D71C98 /* SwiftAST+Tooling */; };
 		F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */; };
 		F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */; };
+		F0A29E8325395741009108C4 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F0A29E8225395741009108C4 /* SwiftSyntax */; };
+		F0A29E8525395741009108C4 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = F0A29E8425395741009108C4 /* SwiftSyntaxBuilder */; };
+		F0A29E872539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		F0A29E8D253957A8009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		F0A29E902539592B009108C4 /* SwiftSyntaxParser+SheetRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */; };
+		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
 		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */; };
@@ -151,6 +157,17 @@
 			dstSubfolderSpec = 6;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0A29E8E253957A8009108C4 /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F0A29E8D253957A8009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -217,6 +234,7 @@
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitor.swift; sourceTree = "<group>"; };
 		F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitorMuxer.swift; sourceTree = "<group>"; };
+		F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = lib_InternalSwiftSyntaxParser.dylib; path = LookAtThatMobile/Libraries/lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
 		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
 		F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySceneController.swift; sourceTree = "<group>"; };
@@ -258,7 +276,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0A29E872539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
+				F0A29E8525395741009108C4 /* SwiftSyntaxBuilder in Frameworks */,
+				F0A29E8325395741009108C4 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +359,7 @@
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -608,15 +630,17 @@
 				F07C49E3251C5AE800F28173 /* Sources */,
 				F07C49E4251C5AE800F28173 /* Frameworks */,
 				F07C49E5251C5AE800F28173 /* Resources */,
+				F0A29E8E253957A8009108C4 /* Embed Libraries */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F09048872520634700D4FF5B /* PBXTargetDependency */,
 			);
 			name = LookAtThatMobile;
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
+				F0A29E8225395741009108C4 /* SwiftSyntax */,
+				F0A29E8425395741009108C4 /* SwiftSyntaxBuilder */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -793,6 +817,7 @@
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
 				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
+				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				F057D214252042D90094BD83 /* CodeSheet.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
@@ -816,6 +841,7 @@
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
+				F0A29E902539592B009108C4 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -827,10 +853,6 @@
 			isa = PBXTargetDependency;
 			target = F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */;
 			targetProxy = F07C49CA251C095200F28173 /* PBXContainerItemProxy */;
-		};
-		F09048872520634700D4FF5B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = F09048862520634700D4FF5B /* SwiftSyntax */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1080,12 +1102,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1106,12 +1133,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1184,10 +1216,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F09048862520634700D4FF5B /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftSyntax;
-		};
 		F09B4F212514511F004110D8 /* SwiftSyntax */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftSyntax;
@@ -1200,6 +1228,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0A2199A2511BADF00D71C98 /* XCRemoteSwiftPackageReference "swift-ast" */;
 			productName = "SwiftAST+Tooling";
+		};
+		F0A29E8225395741009108C4 /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftSyntax;
+		};
+		F0A29E8425395741009108C4 /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftSyntaxBuilder;
 		};
 		F0CA74452514021200978111 /* SwiftAST */ = {
 			isa = XCSwiftPackageProductDependency;

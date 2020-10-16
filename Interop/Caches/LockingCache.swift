@@ -128,21 +128,20 @@ class WordLayerCache: LockingCache<String, SizedText> {
 }
 
 private extension CALayer {
+    #if os(iOS)
+    func getBitmapImage() -> NSUIImage? {
+        defer { UIGraphicsEndImageContext() }
+        UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
 
-    func getBitmapImage() -> NSImage? {
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        render(in: context)
+        let outputImage = UIGraphicsGetImageFromCurrentImageContext()
 
-        guard let representation = NSBitmapImageRep(
-            bitmapDataPlanes: nil,
-            pixelsWide: Int(frame.width),
-            pixelsHigh: Int(frame.height),
-            bitsPerSample: 8,
-            samplesPerPixel: 4,
-            hasAlpha: true,
-            isPlanar: false,
-            colorSpaceName: .deviceRGB,
-            bytesPerRow: 0,
-            bitsPerPixel: 32
-        ) else {
+        return outputImage
+    }
+    #elseif os(OSX)
+    func getBitmapImage() -> NSUIImage? {
+        guard let representation = defaultRepresentation() else {
             print("Failed to make bitmap representation")
             return nil
         }
@@ -165,7 +164,23 @@ private extension CALayer {
 
         return NSImage(
             cgImage: cgImage,
-            size: CGSize(width: frame.width,height: frame.height)
+            size: CGSize(width: frame.width, height: frame.height)
         )
     }
+
+    func defaultRepresentation() -> NSBitmapImageRep? {
+        return NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: Int(frame.width),
+            pixelsHigh: Int(frame.height),
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 32
+        )
+    }
+    #endif
 }

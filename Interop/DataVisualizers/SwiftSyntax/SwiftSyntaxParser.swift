@@ -1,60 +1,5 @@
 import Foundation
 import SceneKit
-
-#if os(iOS)
-class SwiftSyntaxParser {
-    var textNodeBuilder: WordNodeBuilder
-    var resultInfo = SourceInfo()
-
-    init(wordNodeBuilder: WordNodeBuilder) {
-        self.textNodeBuilder = wordNodeBuilder
-    }
-}
-
-extension SwiftSyntaxParser {
-    func prepareRendering(source fileUrl: URL) {
-        print("\(#function) not implemented")
-    }
-
-    func render(in sceneState: SceneState) {
-        print("\(#function) not implemented")
-    }
-
-    func renderAndDuplicate(in sceneState: SceneState) {
-        print("\(#function) not implemented")
-    }
-}
-
-// File loading
-extension SwiftSyntaxParser {
-    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
-        openDirectory { directoryResult in
-            switch directoryResult {
-            case let .success(directory):
-                receiver(directory)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
-        openFile { fileReslt in
-            switch fileReslt {
-            case let .success(url):
-                receiver(url)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
-
-    private func loadSourceUrl(_ url: URL) -> Any? {
-        print("\(#function) not implemented")
-        return nil
-    }
-}
-#elseif os(OSX)
 import SwiftSyntax
 
 // MARK: - Node visiting
@@ -379,7 +324,6 @@ extension SwiftSyntaxParser {
         return organizedInfo.allSheets[index]
     }
 }
-#endif
 
 // I want to find all the functions
 // I want to find all the functions that take strings
