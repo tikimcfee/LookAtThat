@@ -17,7 +17,7 @@ extension Trivia {
 extension Syntax {
     var allText: String {
         return tokens.reduce(into: "") { result, token in
-            result.append(token.alltext)
+            result.append(token.triviaAndText)
         }
     }
 }
@@ -40,9 +40,20 @@ extension SyntaxChildren {
 extension TokenSyntax {
     var typeName: String { return String(describing: tokenKind) }
 
-    var alltext: String {
+    var triviaAndText: String {
         leadingTrivia.stringified
         .appending(text)
         .appending(trailingTrivia.stringified)
+    }
+
+    var splitText: [String] {
+        switch tokenKind {
+        case let .stringSegment(literal):
+            return literal.stringLines
+        case let .stringLiteral(literal):
+            return literal.stringLines
+        default:
+            return [text]
+        }
     }
 }

@@ -38,33 +38,44 @@ extension SwiftSyntaxParser {
 
         let directorySheet = CodeSheet()
             .backgroundColor(NSUIColor.black)
-        directorySheet.containerNode.position.z = -150
+        directorySheet.containerNode.position.z = -300
+
+        var lastChild: SCNNode? { directorySheet.containerNode.childNodes.last }
+        var lastChildLengthX: VectorFloat { lastChild?.lengthX ?? 0.0 }
+        var lastChildLengthY: VectorFloat { lastChild?.lengthY ?? 0.0 }
+
+        var x = VectorFloat(0.0)
+        var nextX: VectorFloat {
+            x += lastChildLengthX + 16
+            return x
+        }
 
         var y = VectorFloat(0.0)
         var nextY: VectorFloat {
-            y += 25.0
+            y += 0
             return y
         }
 
-        var z = VectorFloat(0.0)
+        var z = VectorFloat(15.0)
         var nextZ: VectorFloat {
-            z += 10
+            z += 0
             return z
         }
 
         results.forEach { pair in
-            directorySheet.containerNode.addChildNode(pair.1.containerNode)
-
 //            let lookAtCamera = SCNLookAtConstraint(target: sceneState.cameraNode)
 //            lookAtCamera.localFront = SCNVector3Zero.translated(dZ: 1.0)
 //            pair.1.containerNode.constraints = [lookAtCamera]
 
             pair.1.containerNode.position =
                 SCNVector3Zero.translated(
-                    dX: pair.1.halfLengthX,
-                    dY: -pair.1.halfLengthY - nextY,
+                    dX: nextX + pair.1.halfLengthX,
+//                    dY: -pair.1.halfLengthY - nextY,
+                    dY: nextY - pair.1.halfLengthY,
                     dZ: nextZ
                 )
+
+            directorySheet.containerNode.addChildNode(pair.1.containerNode)
         }
         directorySheet.sizePageToContainerNode(pad: 20.0)
 
@@ -217,7 +228,7 @@ extension SwiftSyntaxParser {
         if type == TypealiasDeclSyntax.self {
             return NSUIColor.init(deviceRed: 0.5, green: 0.3, blue: 0.5, alpha: 1.0)
         }
-        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.4, alpha: 1.0)
+        return NSUIColor.init(deviceRed: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
     }
 }
 
@@ -226,14 +237,19 @@ extension CodeSheet {
     func add(_ token: TokenSyntax,
              _ builder: WordNodeBuilder) {
         iterateTrivia(token.leadingTrivia, builder)
-        arrange(token.text, builder)
+        let lines = token.splitText
+        lines.forEach { line in
+            arrange(line, builder)
+            guard line != lines.last else { return }
+            newlines(1)
+        }
         iterateTrivia(token.trailingTrivia, builder)
     }
 
     func arrange(_ text: String,
                  _ builder: WordNodeBuilder) {
         let newNode = builder.node(for: text)
-        [newNode].arrangeInLine(on: lastLine)
+        builder.arrange([newNode], on: lastLine)
     }
 
     func iterateTrivia(_ trivia: Trivia,
@@ -246,13 +262,14 @@ extension CodeSheet {
                  let .blockComment(comment),
                  let .docLineComment(comment),
                  let .docBlockComment(comment):
-                let lines = comment.split(whereSeparator: { $0.isNewline })
-                for piece in lines {
-                    arrange(String(piece), builder)
-                    if piece != lines.last {
+                comment.substringLines
+                    .map { $0.splitToWordsAndSpaces }
+                    .forEach { lines in
+                        lines.forEach {
+                            arrange(String($0), builder)
+                        }
                         newlines(1)
                     }
-                }
             default:
                 arrange(triviaPiece.stringify, builder)
             }

@@ -22,9 +22,9 @@ class CustomTextParser: BaseSceneController {
         wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"
             let lineNode = SCNNode()
             lineNode.position = iteratorY.nextPosition()
-            sourceLine.splitToWordsAndSpaces
+            let lines = sourceLine.splitToWordsAndSpaces
                 .map{ wordNodeBuilder.node(for: $0) }
-                .arrangeInLine(on: lineNode)
+            wordNodeBuilder.arrange(lines, on: lineNode)
 
             sceneTransaction {
                 self.sceneState.rootGeometryNode.addChildNode(lineNode)

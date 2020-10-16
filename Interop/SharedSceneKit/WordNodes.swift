@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import SceneKit
 
-let WORD_FONT_POINT_SIZE = CGFloat(3)
+let WORD_FONT_POINT_SIZE = CGFloat(1)
 let WORD_CHARACTER_SPACING = CGFloat(0.0)
 let WORD_EXTRUSION_SIZE = CGFloat(0.5)
 let PAGE_EXTRUSION_DEPTH = CGFloat(0.75)
@@ -24,7 +24,7 @@ class WordNodeBuilder {
     let wordStringCache = WordStringCache()
     let wordLayerCache = WordLayerCache()
 
-    let buildMode = BuildMode.words
+    let buildMode = BuildMode.layers
 
     func definitionNode(_ rootWordPosition: SCNVector3,
                         _ rootWord: String,
@@ -81,7 +81,6 @@ class WordNodeBuilder {
     var TEXT_NODE_COUNT = 0
     private func makeTextNode(_ word: String) -> SCNNode {
         let wordNode = SCNNode()
-//        wordNode.name = word.appending("[>]\(TEXT_NODE_COUNT)")
         wordNode.name = word
         TEXT_NODE_COUNT += 1
         return wordNode
@@ -100,6 +99,43 @@ class WordNodeBuilder {
     private func makeDecomposedGeometry(_ word: String) -> [SizedText] {
         let geometry = word.map{ wordCharacterCache[$0] }
         return geometry
+    }
+}
+
+extension WordNodeBuilder {
+    func arrange(_ nodes: [SCNNode], on node: SCNNode) {
+        var lastNode: SCNNode? = node.childNodes.last
+
+        switch buildMode {
+        case .characters, .words:
+            nodes.forEach { wordNode in
+                let lastWordPosition: SCNVector3
+                if let lastNode = lastNode {
+                    let dX = lastNode.lengthX
+                    lastWordPosition = lastNode.position.translated(dX: dX)
+                } else {
+                    let dY = -wordNode.lengthY
+                    lastWordPosition = SCNVector3Zero.translated(dY: dY)
+                }
+                wordNode.position = lastWordPosition
+                node.addChildNode(wordNode)
+                lastNode = wordNode
+            }
+        case .layers:
+            nodes.forEach { wordNode in
+                let lastWordPosition: SCNVector3
+                if let lastNode = lastNode {
+                    let dX = lastNode.lengthX / 2.0 + wordNode.lengthX / 2.0
+                    lastWordPosition = lastNode.position.translated(dX: dX)
+                } else {
+                    let dX = wordNode.lengthX / 2.0
+                    lastWordPosition = SCNVector3Zero.translated(dX: dX)
+                }
+                wordNode.position = lastWordPosition
+                node.addChildNode(wordNode)
+                lastNode = wordNode
+            }
+        }
     }
 }
 

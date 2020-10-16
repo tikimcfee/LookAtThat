@@ -27,6 +27,13 @@ func whitespaces(in line: String) -> [Match] {
 }
 
 extension String {
+    var stringLines: [String] {
+        substringLines.map { String($0) }
+    }
+    var substringLines: [Substring] {
+        split(omittingEmptySubsequences: false, whereSeparator: { $0.isNewline } )
+    }
+
     var whitespaceMatches: [Match] { whitespaces(in: self) }
     var splitToWordsAndSpaces: [String] {
         return whitespaceMatches.reduce(into: [String]()) { result, match in
@@ -36,6 +43,13 @@ extension String {
 }
 
 extension Substring {
+    var stringLines: [String] {
+        substringLines.map { String($0) }
+    }
+    var substringLines: [Substring] {
+        split(omittingEmptySubsequences: false, whereSeparator: { $0.isNewline } )
+    }
+
     var whitespaceMatches: [Match] { whitespaces(in: String(self)) }
     var splitToWordsAndSpaces: [String] {
         return whitespaceMatches.reduce(into: [String]()) { result, match in
