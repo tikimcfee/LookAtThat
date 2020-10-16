@@ -129,7 +129,8 @@ extension WordNodeBuilder {
                     lastWordPosition = lastNode.position.translated(dX: dX)
                 } else {
                     let dX = wordNode.lengthX / 2.0
-                    lastWordPosition = SCNVector3Zero.translated(dX: dX)
+                    let dY = -wordNode.lengthY / 2.0
+                    lastWordPosition = SCNVector3Zero.translated(dX: dX, dY: dY)
                 }
                 wordNode.position = lastWordPosition
                 node.addChildNode(wordNode)

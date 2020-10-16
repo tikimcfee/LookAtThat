@@ -74,7 +74,7 @@ extension CodeSheet {
 
     func makeLineNode() -> SCNNode {
         let line = SCNNode()
-        line.position = SCNVector3(Self.childPadding, -Self.childPadding, PAGE_EXTRUSION_DEPTH.vector)
+        line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH.vector)
         containerNode.addChildNode(line)
         allLines.append(line)
         return line
@@ -124,12 +124,12 @@ extension CodeSheet {
 
     @discardableResult
     func sizePageToContainerNode(pad: VectorFloat = 0) -> CodeSheet {
-        backgroundGeometry.width = containerNode.lengthX.cg + Self.childPadding.cg + pad
-        backgroundGeometry.height = containerNode.lengthY.cg - Self.childPadding.cg + pad
+        backgroundGeometry.width = containerNode.lengthX.cg + pad
+        backgroundGeometry.height = containerNode.lengthY.cg + pad
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
-        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
+        backgroundGeometryNode.position.x = centerX.vector
+        backgroundGeometryNode.position.y = centerY.vector
         containerNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
         return self
     }
