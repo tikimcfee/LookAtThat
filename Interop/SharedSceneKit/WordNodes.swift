@@ -73,7 +73,9 @@ class WordNodeBuilder {
         }
         containerNode.boundingBox = (
             SCNVector3Zero,
-            SCNVector3(x: lastPosition.x.vector, y: maxHeight.vector, z: WORD_EXTRUSION_SIZE.vector)
+            SCNVector3(x: lastPosition.x.vector,
+                       y: maxHeight.vector,
+                       z: WORD_EXTRUSION_SIZE.vector)
         )
         return containerNode
     }

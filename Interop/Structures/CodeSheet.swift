@@ -109,10 +109,12 @@ extension CodeSheet {
     private func setNewLine() {
         var (startPosition, height): (SCNVector3, VectorFloat)
         if let last = children.last  {
-            startPosition = lastLinePosition(in: last)
+            startPosition = last.containerNode.position
+//            startPosition = lastLinePosition(in: last)
             startPosition.x = Self.childPadding
             startPosition.z = lastLine.position.z
-            height = last.lastLine.lengthY
+//            height = last.lastLine.lengthY
+            height = last.halfLengthY
         } else {
             startPosition = lastLine.position
             height = lastLine.lengthY
@@ -138,6 +140,7 @@ extension CodeSheet {
     @discardableResult
     func arrangeSemanticInfo(_ builder: WordNodeBuilder,
                              asTitle: Bool = false) -> CodeSheet {
+        children.forEach { $0.arrangeSemanticInfo(builder) }
         guard let semantics = semanticInfo else { return self }
         let semanticSheet = CodeSheet().backgroundColor(
             asTitle ? NSUIColor.systemBlue : NSUIColor.black
@@ -180,6 +183,7 @@ extension CodeSheet {
 
         sheet.containerNode.position = sheetPosition
         newlines(sheet.allLines.count)
+
     }
 }
 
@@ -187,6 +191,8 @@ extension CodeSheet {
 
     var halfLengthY: VectorFloat { containerNode.lengthY / 2.0 }
     var halfLengthX: VectorFloat { containerNode.lengthX / 2.0 }
+
+    var bottomPositionY: VectorFloat { containerNode.position.y - halfLengthY }
 
     private func set(_ position: SCNVector3, for child: CodeSheet) {
         set(position, for: child.containerNode)

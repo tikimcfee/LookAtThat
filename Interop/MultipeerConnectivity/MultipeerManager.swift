@@ -9,7 +9,7 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     public static let shared = MultipeerConnectionManager()
     let workerQueue = DispatchQueue(label: "MultipeerManager", qos: .userInitiated)
     let mainQueue = DispatchQueue.main
-    let sheetDataTransformer = SheetDataTransformer()
+    let sheetDataTransformer = WireDataTransformer()
 
     // Multipeer API setup
     var currentConnection = ConnectionBundle()

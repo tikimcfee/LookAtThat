@@ -1,6 +1,10 @@
 import Foundation
 import SceneKit
 
+struct WireCode: Codable {
+    let sourceFile: String
+}
+
 extension CodeSheet {
     var wireSheet: WireSheet { WireSheet.from(self) }
 }
@@ -30,7 +34,7 @@ extension SCNGeometry {
     }
 }
 
-struct WireSheet: Codable {
+struct WireSheet: Codable, Identifiable {
     //    var parent: WireSheet?  : TODO: need to reset these at the end
     let id: String
     var containerNode: WireNode

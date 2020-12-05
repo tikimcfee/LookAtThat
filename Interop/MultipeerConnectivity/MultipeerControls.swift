@@ -34,6 +34,15 @@ extension MultipeerConnectionManager {
 
 // MARK: - Communication
 extension MultipeerConnectionManager {
+    func sendCode(to peer: MCPeerID) {
+        workerQueue.async {
+            guard let clickedSheet =
+                    SceneLibrary.global.codePagesController
+                        .syntaxNodeParser.preparedSourceFile
+            else { return }
+        }
+    }
+
     func sendCodeSheet(to peer: MCPeerID) {
         workerQueue.async {
             // Lol look at that dependency chain....

@@ -72,12 +72,12 @@ class CustomSceneView: SCNView {
         self.addTrackingArea(trackingArea!)
     }
 
-    override func mouseMoved(with event: NSEvent) {
-        super.mouseMoved(with: event)
-        guard let receiver = positionReceiver else { return }
-        let convertedPosition = convert(event.locationInWindow, from: nil)
-        receiver.mousePosition = convertedPosition
-    }
+//    override func mouseMoved(with event: NSEvent) {
+//        super.mouseMoved(with: event)
+//        guard let receiver = positionReceiver else { return }
+//        let convertedPosition = convert(event.locationInWindow, from: nil)
+//        receiver.mousePosition = convertedPosition
+//    }
 
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)

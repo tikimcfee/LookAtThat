@@ -100,6 +100,14 @@ extension OrganizedSourceInfo {
         }
     }
 
+    subscript(_ syntax: ExprSyntaxProtocol) -> CodeSheet? {
+        get { allSheets[syntax.id] }
+        set {
+            let hash = syntax.id
+            allSheets[hash] = newValue
+        }
+    }
+
     func groupedBlocks(for syntax: DeclSyntaxProtocol,
                        _ action: (inout InfoCollection) -> Void) {
         switch syntax.syntaxNodeType {

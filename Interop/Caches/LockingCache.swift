@@ -81,6 +81,11 @@ class WordStringCache: LockingCache<String, SizedText> {
     }
 }
 
+struct LayerCacheKey: Hashable, Equatable {
+    let word: String
+    let foreground: NSUIColor
+}
+
 class WordLayerCache: LockingCache<String, SizedText> {
     let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated)
     let backgroundColor = NSUIColor.black.cgColor

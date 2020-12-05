@@ -242,3 +242,130 @@ extension SwiftSyntaxParser {
         return NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
     }
 }
+
+// MARK: - Sheet building
+extension SwiftSyntaxParser {
+
+    func makeSheet(from node: SyntaxProtocol,
+                   semantics: SemanticInfo? = nil) -> CodeSheet {
+        let newSheet = CodeSheet()
+            .backgroundColor(typeColor(for: node.syntaxNodeType))
+            .semantics(semantics)
+
+        print("--------")
+        print("Making sheet for '\(node.syntaxNodeType)', \(node.id)")
+        for nodeChildSyntax in node.children {
+            print("\tChild '\(nodeChildSyntax.syntaxNodeType)', \(nodeChildSyntax.id)")
+            if let existingSheet = self[nodeChildSyntax.id] {
+                print("\tExists")
+                if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
+                    addMemberDeclBlock(declBlock, to: newSheet)
+                }
+                else if let codeBlock = nodeChildSyntax.as(CodeBlockSyntax.self) {
+                    addCodeBlock(codeBlock, to: newSheet)
+                }
+                else if let clodeBlockItemList = nodeChildSyntax.as(CodeBlockItemListSyntax.self) {
+                    addCodeBlockItemList(clodeBlockItemList, to: newSheet)
+                }
+//                else if let functionCall = nodeChildSyntax.as(FunctionCallExprSyntax.self) {
+//                    addFuncCall(functionCall, to: newSheet)
+//                }
+                else if let memberList = nodeChildSyntax.as(MemberDeclListSyntax.self) {
+                    addMemberList(memberList, to: newSheet)
+                }
+                else if let ifConfigList = nodeChildSyntax.as(IfConfigClauseListSyntax.self) {
+                    addPoundList(ifConfigList, to: newSheet)
+                }
+                else if let poundIf = nodeChildSyntax.as(IfConfigDeclSyntax.self) {
+                    addPoundIf(poundIf, to: newSheet)
+                }
+                else {
+                    print("\t\tUnhandled type, appending")
+                    newSheet.appendChild(existingSheet)
+                }
+            } else {
+                print("\tNo sheet, tokenizing")
+                for token in nodeChildSyntax.tokens {
+                    newSheet.add(token, textNodeBuilder)
+                }
+            }
+        }
+        print("--------")
+
+        newSheet.sizePageToContainerNode()
+        return newSheet
+    }
+
+    func addMemberList(_ list: MemberDeclListSyntax, to parent: CodeSheet) {
+        for child in list.children {
+            if let sheet = self[child.id] {
+                parent.appendChild(sheet)
+            }
+        }
+    }
+
+    func addPoundList(_ poundList: IfConfigClauseListSyntax, to parent: CodeSheet) {
+        for child in poundList.children {
+            if let sheet = self[child.id] {
+                parent.appendChild(sheet)
+            }
+        }
+    }
+
+    func addPoundIf(_ pound: IfConfigDeclSyntax, to parent: CodeSheet) {
+        for clause in pound.clauses {
+            parent.add(clause.poundKeyword, textNodeBuilder)
+            if let condition = clause.condition {
+                for token in condition.tokens {
+                    parent.add(token, textNodeBuilder)
+                }
+            }
+            for child in clause.elements.children {
+                if let sheet = self[child.id] {
+                    parent.appendChild(sheet)
+                }
+            }
+        }
+        parent.add(pound.poundEndif, textNodeBuilder)
+    }
+
+    func addFuncCall(_ call: FunctionCallExprSyntax, to parent: CodeSheet) {
+        for child in call.children {
+            if let childSheet = self[child.id] {
+                parent.appendChild(childSheet)
+            }
+        }
+    }
+
+    func addMemberDeclBlock(_ block: MemberDeclBlockSyntax, to parent: CodeSheet) {
+        parent.add(block.leftBrace, textNodeBuilder)
+        for listItem in block.members {
+            if let childSheet = self[listItem.decl.id] {
+                parent.appendChild(childSheet)
+            }
+        }
+        parent.add(block.rightBrace, textNodeBuilder)
+    }
+
+    func addCodeBlock(_ block: CodeBlockSyntax, to parent: CodeSheet) {
+        parent.add(block.leftBrace, textNodeBuilder)
+        for statement in block.statements {
+            if let childSheet = self[statement.id] {
+                parent.appendChild(childSheet)
+            }
+        }
+        parent.add(block.rightBrace, textNodeBuilder)
+    }
+
+    func addCodeBlockItemList(_ list: CodeBlockItemListSyntax, to parent: CodeSheet) {
+        for blockItemChild in list {
+            if let childSheet = self[blockItemChild.id] {
+                parent.appendChild(childSheet)
+            }
+        }
+    }
+
+    internal subscript(_ index: SyntaxIdentifier) -> CodeSheet? {
+        return organizedInfo.allSheets[index]
+    }
+}

@@ -1,7 +1,7 @@
 import Foundation
 import Brotli
 
-final class SheetDataTransformer {
+final class WireDataTransformer {
     enum Mode { case brotli, standard }
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
@@ -12,6 +12,24 @@ final class SheetDataTransformer {
         jsonEncoder.outputFormatting = .withoutEscapingSlashes
     }
 
+
+}
+
+// MARK: - CodeSheets
+extension WireDataTransformer {
+    func data(from source: WireCode) -> Data? {
+        guard let data = try? jsonEncoder.encode(source) else { return nil }
+        return compress(data)
+    }
+
+    func source(from source: Data) -> WireCode? {
+        guard let decompressed = decompress(source) else { return nil }
+        return try? jsonDecoder.decode(WireCode.self, from: decompressed)
+    }
+}
+
+// MARK: - CodeSheets
+extension WireDataTransformer {
     func data(from sheet: CodeSheet) -> Data? {
         print("Converting sheet \(sheet.id) for transfer")
         let wireSheet = sheet.wireSheet
@@ -40,12 +58,15 @@ final class SheetDataTransformer {
 
         return finalSheet
     }
+}
 
-    private func encode(_ sheet: WireSheet) -> Data? {
+// MARK: - Encoding, Decoding
+extension WireDataTransformer {
+    private func encode<T: Codable & Identifiable>(_ codable: T) -> Data? {
         do {
-            return try jsonEncoder.encode(sheet)
+            return try jsonEncoder.encode(codable)
         } catch {
-            print("Failed to encode \(sheet.id)", error)
+            print("Failed to encode \(codable.id)", error)
             return nil
         }
     }
@@ -58,7 +79,10 @@ final class SheetDataTransformer {
             return nil
         }
     }
+}
 
+// MARK: Compression
+extension WireDataTransformer {
     private func compress(_ data: Data) -> Data? {
         switch mode {
         case .brotli:
@@ -79,7 +103,7 @@ final class SheetDataTransformer {
 }
 
 // Brotli compression
-extension SheetDataTransformer {
+extension WireDataTransformer {
     private func compressBrotli(_ data: Data) -> Data? {
         return data.nsData.brotliCompressed()
     }
@@ -90,7 +114,7 @@ extension SheetDataTransformer {
 }
 
 // OS provided compression
-extension SheetDataTransformer {
+extension WireDataTransformer {
     private func compressStandard(_ data: Data) -> Data? {
         do {
             return try data.nsData.compressed(using: compressionFormat).swiftData
