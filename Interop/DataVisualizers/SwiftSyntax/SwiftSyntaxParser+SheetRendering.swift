@@ -252,12 +252,13 @@ extension SwiftSyntaxParser {
             .backgroundColor(typeColor(for: node.syntaxNodeType))
             .semantics(semantics)
 
-        print("--------")
-        print("Making sheet for '\(node.syntaxNodeType)', \(node.id)")
+//        print("--------")
+//        print("Making sheet for '\(node.syntaxNodeType)', \(node.id)")
+        
         for nodeChildSyntax in node.children {
-            print("\tChild '\(nodeChildSyntax.syntaxNodeType)', \(nodeChildSyntax.id)")
+//            print("\tChild '\(nodeChildSyntax.syntaxNodeType)', \(nodeChildSyntax.id)")
             if let existingSheet = self[nodeChildSyntax.id] {
-                print("\tExists")
+//                print("\tExists")
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
                     addMemberDeclBlock(declBlock, to: newSheet)
                 }
@@ -280,17 +281,17 @@ extension SwiftSyntaxParser {
                     addPoundIf(poundIf, to: newSheet)
                 }
                 else {
-                    print("\t\tUnhandled type, appending")
+//                    print("\t\tUnhandled type, appending")
                     newSheet.appendChild(existingSheet)
                 }
             } else {
-                print("\tNo sheet, tokenizing")
+//                print("\tNo sheet, tokenizing")
                 for token in nodeChildSyntax.tokens {
                     newSheet.add(token, textNodeBuilder)
                 }
             }
         }
-        print("--------")
+//        print("--------")
 
         newSheet.sizePageToContainerNode()
         return newSheet

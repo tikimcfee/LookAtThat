@@ -35,20 +35,51 @@ public extension SCNGeometry {
     }
 }
 
+
 public extension SCNNode {
+    private typealias Bounds = (min: SCNVector3, max: SCNVector3)
+    private static var boundsCache: [Int: Bounds] = [:]
+    private static func makeNewBounds() -> Bounds { (min: SCNVector3(), max: SCNVector3()) }
+    
+    private var manualBoundingBox: Bounds {
+        if childNodes.count == 0 {
+            return boundingBox
+        }
+        
+        if let bounds = Self.boundsCache[hashValue] {
+            return bounds
+        }
+        
+        let computedBox = childNodes.reduce(into: Self.makeNewBounds()) { result, node in
+            var safeBox = node.manualBoundingBox
+            safeBox.min = convertPosition(safeBox.min, from: node)
+            safeBox.max = convertPosition(safeBox.max, from: node)
+            
+            result.min.x = min(safeBox.min.x, result.min.x)
+            result.min.y = min(safeBox.min.y, result.min.y)
+
+            result.max.x = max(safeBox.max.x, result.max.x)
+            result.max.y = max(safeBox.max.y, result.max.y)
+        }
+        
+        Self.boundsCache[hashValue] = computedBox
+        
+        return computedBox
+    }
+    
     var lengthX: VectorFloat {
-        let (min, max) = boundingBox
-        return max.x.vector - min.x.vector
+        let box = manualBoundingBox
+        return box.max.x - box.min.x
     }
+    
     var lengthY: VectorFloat {
-        let (min, max) = boundingBox
-        return max.y.vector - min.y.vector
-
+        let box = manualBoundingBox
+        return box.max.y - box.min.y
     }
+    
     var lengthZ: VectorFloat {
-        let (min, max) = boundingBox
-        return max.z.vector - min.z.vector
-
+        let box = manualBoundingBox
+        return box.max.z - box.min.z
     }
 
     func chainLinkTo(to target: SCNNode) {

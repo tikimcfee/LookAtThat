@@ -35,7 +35,7 @@ class WordNodeBuilder {
         rootContainerNode.position = rootWordPosition
         rootContainerNode.addChildNode(rootWordNode)
 
-        var definitionWordPosition = SCNVector3(x: 0, y: -rootContainerNode.boundingBox.max.y, z: 0)
+        var definitionWordPosition = SCNVector3(x: 0, y: -rootWordNode.boundingBox.max.y, z: 0)
         var lastNode = rootWordNode
 
         definitionText
