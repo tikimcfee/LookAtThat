@@ -35,11 +35,37 @@ public extension SCNGeometry {
     }
 }
 
+private typealias Bounds = (min: SCNVector3, max: SCNVector3)
+
+private class BoundsComputing {
+    var minX: VectorFloat = 0
+    var minY: VectorFloat = 0
+    var minZ: VectorFloat = 0
+    
+    var maxX: VectorFloat = 0
+    var maxY: VectorFloat = 0
+    var maxZ: VectorFloat = 0
+    
+    func consumeBounds(_ bounds: Bounds) {
+        minX = min(bounds.min.x, minX)
+        minY = min(bounds.min.y, minY)
+        minZ = min(bounds.min.z, minZ)
+        
+        maxX = max(bounds.max.x, maxX)
+        maxY = max(bounds.max.y, maxY)
+        maxZ = max(bounds.max.z, maxZ)
+    }
+    
+    var bounds: Bounds {
+        return (
+            min: SCNVector3(x: minX, y: minY, z: minZ),
+            max: SCNVector3(x: maxX, y: maxY, z: maxZ)
+        )
+    }
+}
 
 public extension SCNNode {
-    private typealias Bounds = (min: SCNVector3, max: SCNVector3)
     private static var boundsCache: [Int: Bounds] = [:]
-    private static func makeNewBounds() -> Bounds { (min: SCNVector3(), max: SCNVector3()) }
     
     private var manualBoundingBox: Bounds {
         if childNodes.count == 0 {
@@ -50,17 +76,12 @@ public extension SCNNode {
             return bounds
         }
         
-        let computedBox = childNodes.reduce(into: Self.makeNewBounds()) { result, node in
+        let computedBox = childNodes.reduce(into: BoundsComputing()) { result, node in
             var safeBox = node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
             safeBox.max = convertPosition(safeBox.max, from: node)
-            
-            result.min.x = min(safeBox.min.x, result.min.x)
-            result.min.y = min(safeBox.min.y, result.min.y)
-
-            result.max.x = max(safeBox.max.x, result.max.x)
-            result.max.y = max(safeBox.max.y, result.max.y)
-        }
+            result.consumeBounds(safeBox)
+        }.bounds
         
         Self.boundsCache[hashValue] = computedBox
         
