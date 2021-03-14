@@ -44,7 +44,9 @@ extension DictionarySceneController {
                     length += node.boundingBox.max.x.cg
                     defer { lastNode = node }
                     guard let target = lastNode else { return }
-                    node.chainLinkTo(to: target)
+                    
+                    let dX = target.lengthX / 2 + node.lengthX / 2
+                    node.position = target.position.translated(dX: dX, dY: 0, dZ: 0)
                 }
 
             sceneCameraNode.position =
@@ -54,7 +56,6 @@ extension DictionarySceneController {
                 )
 
             sceneState.rootGeometryNode.addChildNode(nodeToAdd)
-            self.animateRootAsDragon(rootWordNode)
         }
     }
 
@@ -97,10 +98,8 @@ extension DictionarySceneController {
                 self.sceneState.rootGeometryNode.addChildNode(containerNode)
                 // TODO: make a struct that reaches into the node hiearchy and exposes things like:
                 // "the list of containers that have a root word and definition words"
-                for childNode in containerNode.childNodes {
-                    self.animateRootAsDragon(childNode.childNodes.first!)
-                }
-                print("Completed \(wordSlice.startIndex)..<\(wordSlice.endIndex); last word == \(wordSlice.last!.0)")
+                
+//                print("Completed \(wordSlice.startIndex)..<\(wordSlice.endIndex); last word == \(wordSlice.last!.0)")
                 renderFinished()
             }
         }

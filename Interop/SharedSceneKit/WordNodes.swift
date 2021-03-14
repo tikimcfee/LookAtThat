@@ -44,7 +44,11 @@ class WordNodeBuilder {
             .forEach{ definitionWordNode in
                 definitionWordNode.position = definitionWordPosition
                 rootContainerNode.addChildNode(definitionWordNode)
-                definitionWordNode.chainLinkTo(to: lastNode)
+                
+                let dX = lastNode.lengthX / 2 + definitionWordNode.lengthX / 2
+                definitionWordNode.position = lastNode.position.translated(dX: dX, dY: 0, dZ: 0)
+//                definitionWordNode.chainLinkTo(to: lastNode)
+                
                 lastNode = definitionWordNode
                 definitionWordPosition.x += lastNode.boundingBox.max.x + POINTS_BETWEEN_WORDS.vector
             }

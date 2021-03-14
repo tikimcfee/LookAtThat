@@ -89,10 +89,10 @@ extension String {
         let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
-        func transformer(_ mode: SheetDataTransformer.Mode) {
+        func transformer(_ mode: WireDataTransformer.Mode) {
             print("++++ Start compression with \(mode)\n")
 
-            let transformer = SheetDataTransformer()
+            let transformer = WireDataTransformer()
             transformer.mode = mode
 
             guard let compressedData = transformer.data(from: testCodeSheet) else {

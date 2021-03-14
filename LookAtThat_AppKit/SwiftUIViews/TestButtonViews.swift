@@ -172,6 +172,7 @@ struct TestButtons_Dictionary: View {
         do {
             try SceneLibrary.global.dictionaryController.add(word: currentInput)
         } catch {
+            print(error)
             self.error = error as? SceneControllerError
         }
     }
