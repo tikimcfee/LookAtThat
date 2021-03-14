@@ -65,14 +65,17 @@ private class BoundsComputing {
 }
 
 public extension SCNNode {
+    
     private static var boundsCache: [Int: Bounds] = [:]
+    private var cacheKey: Int { hashValue + childNodes.hashValue }
     
     private var manualBoundingBox: Bounds {
         if childNodes.count == 0 {
             return boundingBox
         }
         
-        if let bounds = Self.boundsCache[hashValue] {
+        let thisCacheKey = cacheKey
+        if let bounds = Self.boundsCache[thisCacheKey] {
             return bounds
         }
         
@@ -83,7 +86,7 @@ public extension SCNNode {
             result.consumeBounds(safeBox)
         }.bounds
         
-        Self.boundsCache[hashValue] = computedBox
+        Self.boundsCache[thisCacheKey] = computedBox
         
         return computedBox
     }
