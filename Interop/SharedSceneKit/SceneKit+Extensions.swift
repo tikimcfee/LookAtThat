@@ -66,6 +66,7 @@ class BoundsComputing {
 
 typealias BoundsKey = Int
 
+// MARK: Bounds caching
 public extension SCNNode {
     private var cacheKey: BoundsKey { hashValue % childNodes.hashValue }
     
@@ -87,12 +88,6 @@ public extension SCNNode {
         }
     }
     
-    private var manualBoundingBox: Bounds {
-        childNodes.isEmpty
-            ? boundingBox
-            : BoundsCaching.getOrUpdate(self)
-    }
-    
     internal func computeBoundingBox() -> Bounds {
         childNodes.reduce(into: BoundsComputing()) { result, node in
             var safeBox = node.manualBoundingBox
@@ -100,6 +95,14 @@ public extension SCNNode {
             safeBox.max = convertPosition(safeBox.max, from: node)
             result.consumeBounds(safeBox)
         }.bounds
+    }
+}
+
+public extension SCNNode {
+    private var manualBoundingBox: Bounds {
+        childNodes.isEmpty
+            ? boundingBox
+            : BoundsCaching.getOrUpdate(self)
     }
     
     var lengthX: VectorFloat {
