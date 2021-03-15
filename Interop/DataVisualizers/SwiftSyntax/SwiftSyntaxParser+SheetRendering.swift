@@ -194,12 +194,8 @@ extension SwiftSyntaxParser {
         .categoryMask(.rootCodeSheet)
         .sizePageToContainerNode()
         .sourceInfo(organizedInfo)
-        .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
-
-        rootCodeSheet.containerNode.enumerateChildNodes { node, _ in
-            guard node.name == kWhitespaceNodeName else { return }
-            node.removeFromParentNode()
-        }
+        .removingWhitespace()
+//        .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
 
         // Save node to be looked up later
         allRootContainerNodes[rootCodeSheet.containerNode] = rootCodeSheet

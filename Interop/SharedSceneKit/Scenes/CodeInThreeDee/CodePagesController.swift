@@ -17,7 +17,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let highlightCache = HighlightCache()
 
     let wordNodeBuilder: WordNodeBuilder
-    let syntaxNodeParser: SwiftSyntaxParser
+//    let syntaxNodeParser: SwiftSyntaxParser
+    let codeSheetParser: CodeSheetParser
 
     @Published var selectedSheet: CodeSheet?
     lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
@@ -27,7 +28,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     init(sceneView: CustomSceneView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
-        self.syntaxNodeParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
+        self.codeSheetParser = CodeSheetParser(wordNodeBuilder: wordNodeBuilder)
         super.init(sceneView: sceneView)
     }
 
@@ -148,25 +149,48 @@ extension CodePagesController {
     }
 
     func renderSyntax(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
-        syntaxNodeParser.requestSourceFile { fileUrl in
+        requestSourceFile { fileUrl in
             self.workerQueue.async {
-                // todo: make a presenter or something oof
-                self.syntaxNodeParser.prepareRendering(source: fileUrl)
-                self.syntaxNodeParser.render(in: self.sceneState)
-                self.main.async {
-                    handler(self.syntaxNodeParser.organizedInfo)
+                guard let sheet = self.codeSheetParser.parseFile(fileUrl) else { return }
+                sceneTransaction {
+                    self.sceneState.rootGeometryNode.addChildNode(sheet.containerNode)
                 }
             }
         }
     }
 
     func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
-        let thisWorker = self.workerQueue
-        syntaxNodeParser.requestSourceDirectory{ directory in
-            thisWorker.async {
-                let info = self.syntaxNodeParser.renderDirectory(
-                    directory, in: self.sceneState
-                )
+        requestSourceDirectory{ directory in
+            self.workerQueue.async {
+                for url in directory.swiftUrls {
+                    _ = self.codeSheetParser.parseFile(url)
+                    print("TODO: Make directories work again")
+                }
+            }
+        }
+    }
+}
+
+// MARK: File loading
+extension CodePagesController {
+    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+        openDirectory { directoryResult in
+            switch directoryResult {
+            case let .success(directory):
+                receiver(directory)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+    
+    func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
+        openFile { fileReslt in
+            switch fileReslt {
+            case let .success(url):
+                receiver(url)
+            case let .failure(error):
+                print(error)
             }
         }
     }

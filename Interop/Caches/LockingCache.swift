@@ -86,7 +86,7 @@ struct LayerCacheKey: Hashable, Equatable {
     let foreground: NSUIColor
 }
 
-class WordLayerCache: LockingCache<String, SizedText> {
+class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
     let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated)
     let backgroundColor = NSUIColor.black.cgColor
     let foregroundColor = NSUIColor.white.cgColor
@@ -98,15 +98,15 @@ class WordLayerCache: LockingCache<String, SizedText> {
         // HYPOTHESIS: The font size is used to determine the size of a bitmap
         //              or canvas to which the layer is drawn
         let SCALE_FACTOR: CGFloat = 16
-        let wordSize = String(key).fontedSize
+        let wordSize = String(key.word).fontedSize
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
                                     height: wordSize.height * SCALE_FACTOR)
 
         // Create and configure text layer
         let textLayer = CATextLayer()
-        textLayer.foregroundColor = self.foregroundColor
+        textLayer.foregroundColor = key.foreground.cgColor
         textLayer.alignmentMode = .left
-        textLayer.string = "\(key)"
+        textLayer.string = "\(key.word)"
         textLayer.font = kDefaultSCNTextFont
         textLayer.fontSize = wordSizeScaled.height
         textLayer.frame.size = textLayer.preferredFrameSize()

@@ -35,9 +35,9 @@ public extension SCNGeometry {
     }
 }
 
-private typealias Bounds = (min: SCNVector3, max: SCNVector3)
+typealias Bounds = (min: SCNVector3, max: SCNVector3)
 
-private class BoundsComputing {
+class BoundsComputing {
     var minX: VectorFloat = 0
     var minY: VectorFloat = 0
     var minZ: VectorFloat = 0
@@ -64,31 +64,42 @@ private class BoundsComputing {
     }
 }
 
+typealias BoundsKey = Int
+
 public extension SCNNode {
+    private var cacheKey: BoundsKey { hashValue % childNodes.hashValue }
     
-    private static var boundsCache: [Int: Bounds] = [:]
-    private var cacheKey: Int { hashValue + childNodes.hashValue }
+    class BoundsCaching {
+        private static var boundsCache: [BoundsKey: Bounds] = [:]
+        
+        public static func Clear() {
+            boundsCache.removeAll()
+        }
+        
+        internal static func getOrUpdate(_ node: SCNNode) -> Bounds {
+            boundsCache[node.cacheKey] ?? Update(node)
+        }
+        
+        internal static func Update(_ node: SCNNode) -> Bounds {
+            let box = node.computeBoundingBox()
+            boundsCache[node.cacheKey] = box
+            return box
+        }
+    }
     
     private var manualBoundingBox: Bounds {
-        if childNodes.count == 0 {
-            return boundingBox
-        }
-        
-        let thisCacheKey = cacheKey
-        if let bounds = Self.boundsCache[thisCacheKey] {
-            return bounds
-        }
-        
-        let computedBox = childNodes.reduce(into: BoundsComputing()) { result, node in
+        childNodes.isEmpty
+            ? boundingBox
+            : BoundsCaching.getOrUpdate(self)
+    }
+    
+    internal func computeBoundingBox() -> Bounds {
+        childNodes.reduce(into: BoundsComputing()) { result, node in
             var safeBox = node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
             safeBox.max = convertPosition(safeBox.max, from: node)
             result.consumeBounds(safeBox)
         }.bounds
-        
-        Self.boundsCache[thisCacheKey] = computedBox
-        
-        return computedBox
     }
     
     var lengthX: VectorFloat {

@@ -183,7 +183,14 @@ extension CodeSheet {
 
         sheet.containerNode.position = sheetPosition
         newlines(sheet.allLines.count)
-
+    }
+    
+    func removingWhitespace() -> CodeSheet {
+        containerNode.enumerateChildNodes { node, _ in
+            guard node.name == kWhitespaceNodeName else { return }
+            node.removeFromParentNode()
+        }
+        return self
     }
 }
 
@@ -228,7 +235,7 @@ extension CodeSheet {
         iterateTrivia(token.leadingTrivia, builder)
         let lines = token.splitText
         lines.forEach { line in
-            arrange(line, builder)
+            arrange(line, builder, .init(word: line, foreground: token.defaultColor))
             guard line != lines.last else { return }
             newlines(1)
         }
@@ -237,8 +244,14 @@ extension CodeSheet {
 
     @discardableResult
     func arrange(_ text: String,
-                 _ builder: WordNodeBuilder) -> SCNNode {
-        let newNode = builder.node(for: text)
+                 _ builder: WordNodeBuilder,
+                 _ key: LayerCacheKey? = nil) -> SCNNode {
+        let newNode: SCNNode
+        if let key = key {
+            newNode = builder.colorizedNode(with: key)
+        } else {
+            newNode = builder.node(for: text)
+        }
         builder.arrange([newNode], on: lastLine)
         return newNode
     }

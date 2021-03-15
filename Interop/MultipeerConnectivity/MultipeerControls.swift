@@ -38,7 +38,8 @@ extension MultipeerConnectionManager {
         workerQueue.async {
             guard let clickedSheet =
                     SceneLibrary.global.codePagesController
-                        .syntaxNodeParser.preparedSourceFile
+//                        .syntaxNodeParser.preparedSourceFile
+                    .codeSheetParser.parseContainer?.sheet
             else { return }
         }
     }

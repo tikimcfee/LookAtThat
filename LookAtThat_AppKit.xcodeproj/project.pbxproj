@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B73F428925FEC0FD00F4F581 /* CodeSheetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */; };
 		B7C9167E25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B7C9168025FC487A003B158F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
@@ -170,6 +171,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParser.swift; sourceTree = "<group>"; };
 		B7C9167425FC46A0003B158F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = lib_InternalSwiftSyntaxParser.dylib; path = LookAtThat_AppKit/Libraries/parserDylib5_3/lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -280,6 +282,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B73F428725FEC0D500F4F581 /* CodeSheetsV2 */ = {
+			isa = PBXGroup;
+			children = (
+				B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */,
+			);
+			path = CodeSheetsV2;
+			sourceTree = "<group>";
+		};
 		B7C9167B25FC483B003B158F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +536,7 @@
 		F09A52A025157F9300F5082A /* SwiftSyntax */ = {
 			isa = PBXGroup;
 			children = (
+				B73F428725FEC0D500F4F581 /* CodeSheetsV2 */,
 				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 				F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */,
@@ -773,6 +784,7 @@
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
+				B73F428925FEC0FD00F4F581 /* CodeSheetParser.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,

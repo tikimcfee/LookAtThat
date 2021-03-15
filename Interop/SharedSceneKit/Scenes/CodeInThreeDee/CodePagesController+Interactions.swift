@@ -44,7 +44,8 @@ extension CodePagesController {
             with: point, .all, .rootCodeSheet
         ).first?.node.parent else { return }
 
-        let maybeSheet = syntaxNodeParser.allRootContainerNodes[clickedSheet]
+//        let maybeSheet = syntaxNodeParser.allRootContainerNodes[clickedSheet]
+        let maybeSheet = codeSheetParser.allRootContainerNodes[clickedSheet]
         print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
         touchState.mouse.currentClickedSheet = maybeSheet
         codeSheetSelected(maybeSheet)
