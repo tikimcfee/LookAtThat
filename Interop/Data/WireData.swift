@@ -137,7 +137,8 @@ struct WireNode: Codable {
      */
     public static func from(_ node: SCNNode,
                             isContainer: Bool = false) -> WireNode {
-        WireNode(
+        let safeBox = node.safeBox
+        return WireNode(
             name: node.name,
             children: isContainer
                 ? []
@@ -148,8 +149,8 @@ struct WireNode: Codable {
             eulers: node.eulerAngles.wireVector,
             box: (node.geometry as? SCNBox)?.wireBox,
             text: (node.geometry as? SCNText)?.wireText,
-            boundingMin: node.boundingBox.min.wireVector,
-            boundingMax: node.boundingBox.max.wireVector,
+            boundingMin: safeBox.min.wireVector,
+            boundingMax: safeBox.max.wireVector,
             bitMask: node.categoryBitMask
         )
     }

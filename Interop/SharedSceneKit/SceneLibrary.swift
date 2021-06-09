@@ -100,7 +100,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
         sheetNode.scale = SCNVector3Make(0.001, 0.001, 0.001)
         sheetNode.position =
             currentController.sceneView.pointOfView?.position.translated(dZ: -0.5)
-            ?? SCNVector3Make(0.0, 0.0, -0.5)
+            ?? SCNVector3Make(0.0, 0.0, -0.05)
 
         DispatchQueue.main.async {
             print("Adding sheet to ", sheetNode.position, "|", sheetNode.lengthX)

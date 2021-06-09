@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B775C78A26714E2600414972 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B775C78926714E2600414972 /* SwiftSyntax */; };
+		B775C78C26714E2600414972 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B775C78B26714E2600414972 /* SwiftSyntaxBuilder */; };
 		B7C9167E25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B7C9168025FC487A003B158F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
@@ -273,6 +275,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0A29E872539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B775C78C26714E2600414972 /* SwiftSyntaxBuilder in Frameworks */,
+				B775C78A26714E2600414972 /* SwiftSyntax in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,6 +644,8 @@
 			name = LookAtThatMobile;
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
+				B775C78926714E2600414972 /* SwiftSyntax */,
+				B775C78B26714E2600414972 /* SwiftSyntaxBuilder */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1227,6 +1233,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B775C78926714E2600414972 /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntax;
+		};
+		B775C78B26714E2600414972 /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxBuilder;
+		};
 		F029F641255A4D67006D4E03 /* SwiftSyntax */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;

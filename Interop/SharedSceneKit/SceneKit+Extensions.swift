@@ -67,7 +67,11 @@ private class BoundsComputing {
 public extension SCNNode {
     
     private static var boundsCache: [Int: Bounds] = [:]
-    private var cacheKey: Int { hashValue + childNodes.hashValue }
+    private var cacheKey: Int { hashValue % childNodes.hashValue }
+    
+    var safeBox: (min: SCNVector3, max: SCNVector3) {
+        manualBoundingBox
+    }
     
     private var manualBoundingBox: Bounds {
         if childNodes.count == 0 {
