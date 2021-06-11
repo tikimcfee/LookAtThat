@@ -102,7 +102,7 @@ class WordNodeBuilder {
 
     private func makeTextNode(_ word: String) -> SCNNode {
         let wordNode = SCNNode()
-        wordNode.name = word
+        wordNode.name = UUID().uuidString
         TEXT_NODE_COUNT += 1
         return wordNode
     }

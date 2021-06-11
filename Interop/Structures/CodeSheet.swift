@@ -57,7 +57,7 @@ extension CodeSheet {
 extension CodeSheet {
     func makeContainerNode() -> SCNNode {
         let container = SCNNode()
-        container.name = kContainerName
+        container.name = kContainerName + UUID().uuidString
         container.addChildNode(backgroundGeometryNode)
         backgroundGeometryNode.categoryBitMask = HitTestType.codeSheet.rawValue
         backgroundGeometryNode.geometry = backgroundGeometry
@@ -187,7 +187,7 @@ extension CodeSheet {
     
     func removingWhitespace() -> CodeSheet {
         containerNode.enumerateChildNodes { node, _ in
-            guard node.name == kWhitespaceNodeName else { return }
+            guard node.name?.contains(kWhitespaceNodeName) == true else { return }
             node.removeFromParentNode()
         }
         return self
@@ -276,7 +276,7 @@ extension CodeSheet {
                     }
             case .spaces:
                 let spaceNode = arrange(triviaPiece.stringify, builder)
-                spaceNode.name = kWhitespaceNodeName
+                spaceNode.name = kWhitespaceNodeName + UUID().uuidString
             default:
                 arrange(triviaPiece.stringify, builder)
             }

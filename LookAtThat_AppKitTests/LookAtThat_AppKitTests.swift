@@ -3,11 +3,11 @@ import SwiftSyntax
 import SceneKit
 @testable import LookAtThat_AppKit
 
-extension TEST_CodeSheetVisitor {
+extension CodeSheetVisitor {
     static func run() throws {
-        let visitor = TEST_CodeSheetVisitor()
+        let visitor = CodeSheetVisitor()
         guard let loaded = visitor.loadSourceUrl(
-            LookAtThat_AppKitTests.testFileResourceURLs[0]
+            LookAtThat_AppKitTests.testFileResourceURLs[2]
         )
         else { throw NSError(domain: "file-not-loaded", code: 1, userInfo: nil) }
         visitor.walk(loaded)
@@ -38,6 +38,12 @@ class LookAtThat_AppKitTests: XCTestCase {
 
     override func tearDownWithError() throws {
 
+    }
+    
+    func testParserV2() throws {
+        printStart()
+        try CodeSheetVisitor.run()
+        printEnd()
     }
 
     func test_RawSource() throws {

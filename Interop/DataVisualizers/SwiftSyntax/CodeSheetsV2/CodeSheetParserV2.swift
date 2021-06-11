@@ -10,33 +10,44 @@ import SwiftSyntax
 import SceneKit
 
 public class CodeSheetParserV2 {
-    static let codeSheetVisitor: TEST_CodeSheetVisitor = {
-        TEST_CodeSheetVisitor()
-    }()
+    var textNodeBuilder: WordNodeBuilder
+    let codeSheetVisitor: CodeSheetVisitor
+    
+    init(_ nodeBuilder: WordNodeBuilder) {
+        self.textNodeBuilder = nodeBuilder
+        self.codeSheetVisitor = CodeSheetVisitor(nodeBuilder)
+    }
     
     func parseFile(_ url: URL) -> CodeSheet? {
         SCNNode.BoundsCaching.Clear()
-        return Self.codeSheetVisitor.makeFileSheet(url)
+        return codeSheetVisitor.makeFileSheet(url)
     }
 }
 
-enum TEST_CodeSheetVisitorLoadError: Error {
+enum CodeSheetVisitorLoadError: Error {
     case failedToWalk
 }
-public class TEST_CodeSheetVisitor:
+
+public class CodeSheetVisitor:
     SyntaxAnyVisitor,
     SwiftSyntaxFileLoadable,
     SwiftSyntaxCodeSheetBuildable
 {
     
-    var organizedInfo: OrganizedSourceInfo = OrganizedSourceInfo()
-    var textNodeBuilder: WordNodeBuilder = WordNodeBuilder()
+    lazy var organizedInfo = OrganizedSourceInfo()
+    var allRootContainerNodes = [SCNNode: CodeSheet]()
     lazy var rootSheet = CodeSheet()
+    
+    var textNodeBuilder: WordNodeBuilder
+    
+    init(_ nodeBuilder: WordNodeBuilder) {
+        self.textNodeBuilder = nodeBuilder
+    }
     
     func makeFileSheet(_ url: URL) -> CodeSheet? {
         do {
             guard let syntax = loadSourceUrl(url) else {
-                throw TEST_CodeSheetVisitorLoadError.failedToWalk
+                throw CodeSheetVisitorLoadError.failedToWalk
             }
             rootSheet = CodeSheet()
             walk(syntax)
@@ -58,94 +69,83 @@ public class TEST_CodeSheetVisitor:
         )
     }
     
-    // TODO:
-    // if there's already a sheet for me, I'm a parent.
-    // problem is, I have syntax too. So what do I do
-    // when I have visited all variables in a class,
-    // and I am now at the class node which already has a sheet.
-    // In fact, the child/parent thing is weird because every child
-    // would have to append itself to its parent, or the parent
-    // would have to find a way to iterate its children that were
-    // already rendered, and those that weren't.
-    // Sheet does not support moving stuff around, only appending.
-    // Maybe we say:
-    // If I have parent, append to it
-    // If I don't write to a new sheet
-    // If I *AM* a parent...
-    //   - make a new sheet
-    //   - for each child,
-    //            if let parentOfNode = syntax.parent,
-    //               let parentSheet = organizedInfo[parentOfNode] {
-    //                // I have a parent with a sheet, so I'll append to it
-    //                appendTarget = parentSheet
-    //            } else {
-    //                // I don't have a sheet, I have no parent sheet yet, so I'll
-    //                // be the one to make that container sheet
-    //                appendTarget = CodeSheet()
-    //            }
     public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        func appendNode(_ syntax: SyntaxProtocol) {
-            var appendTarget: CodeSheet
-            
-            let newSheet = makeSheet(from: node)
-                .semantics(defaultSemanticInfo(for: node))
-                .arrangeSemanticInfo(textNodeBuilder)
-            
-            organizedInfo[node] = newSheet
-        }
-        
-        // I want a node to be owned by its contextual parent.
-        // look at a node
-        //  if it has a parent, see if there's an existing sheet for it
-        //  - if there isn't, make it, and then append yourself to it
-        //  - if there is, just append yourself to it
-        // if there is no parent, you are the root.
-        
-        switch node.as(SyntaxEnum.self) {
-        //        case .codeBlockItem(let item):
-        //            print("Code block:\n\(node.allText)")
-        //            break
-        //        case .codeBlock(let block):
-        //            break
-        //        case .codeBlockItemList(let list):
-        //            break
-        case let .variableDecl(decl):
-            appendNode(decl)
-        case let .extensionDecl(syntax):
-            appendNode(syntax)
-        case let .structDecl(syntax):
-            appendNode(syntax)
-        case let .enumDecl(syntax):
-            appendNode(syntax)
-        case let .protocolDecl(syntax):
-            appendNode(syntax)
-        case let .initializerDecl(syntax):
-            appendNode(syntax)
-        case let .classDecl(syntax):
-            appendNode(syntax)
-        case let .functionDecl(syntax):
-            appendNode(syntax)
-        default:
-            break
-        }
-        
+        cacheNewSheet(for: node)
         return .visitChildren
     }
     
     public override func visitAnyPost(_ node: Syntax) {
-        
+        switch node.as(SyntaxEnum.self) {
+        case .structDecl, .enumDecl, .protocolDecl, .classDecl, .extensionDecl,
+             .codeBlockItemList, .codeBlockItem, .codeBlock,
+             .ifConfigClauseList, .ifConfigDecl, .ifConfigClause,
+             .memberDeclBlock, .memberDeclList, .memberDeclListItem:
+            collectChildrenPostVisit(of: node)
+        case .sourceFile:
+            collectChildrenPostVisit(of: node)
+            if let sourceSheet = organizedInfo[node] {
+                rootSheet.appendChild(sourceSheet)
+            } else {
+                print("<!> At source node, but root sheet not found ")
+            }
+        default:
+            break
+        }
     }
     
     public override func visit(_ node: TokenSyntax) -> SyntaxVisitorContinueKind {
         return .visitChildren
     }
     
+    private func collectChildrenPostVisit(of syntax: Syntax) {
+        let newCollectedSheet = CodeSheet()
+        
+        print("Finding children of: \(syntax.syntaxNodeType)")
+        
+        syntax.children.forEach { childNode in
+            let text = childNode.children.isEmpty ? childNode.strippedText : ""
+            
+            print("\t\(childNode.syntaxNodeType) | \(childNode.children.count) children > \(text)")
+            
+            if let child = organizedInfo[childNode] {
+                newCollectedSheet.appendChild(child)
+                
+                // Make all children are interactable by stuffing it into the index
+//                allRootContainerNodes[child.containerNode] = child
+            }
+            else if childNode.isToken, let token = childNode.as(TokenSyntax.self) {
+                newCollectedSheet.add(token, textNodeBuilder)
+            }
+            else {
+                print("\t<!> \(childNode.syntaxNodeType) missing")
+            }
+        }
+        
+        organizedInfo[syntax] = newCollectedSheet
+            .sizePageToContainerNode()
+            .semantics(defaultSemanticInfo(for: syntax))
+            .arrangeSemanticInfo(textNodeBuilder)
+        
+        allRootContainerNodes[newCollectedSheet.containerNode] = newCollectedSheet
+    }
+    
+    private func cacheNewSheet(for syntax: Syntax) {
+        let newSheet = CodeSheet()
+            .consume(syntax: syntax, nodeBuilder: textNodeBuilder)
+            .sizePageToContainerNode()
+//            .semantics(defaultSemanticInfo(for: syntax))
+//            .arrangeSemanticInfo(textNodeBuilder)
+        
+        organizedInfo[syntax] = newSheet
+    }
+    
 }
 
 extension CodeSheet {
-    func consume(syntax: Syntax, nodeBuilder: WordNodeBuilder) {
+    func consume(syntax: Syntax, nodeBuilder: WordNodeBuilder) -> Self {
         for token in syntax.tokens {
             add(token, nodeBuilder)
         }
+        return self
     }
 }

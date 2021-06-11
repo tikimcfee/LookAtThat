@@ -20,6 +20,12 @@ extension Syntax {
             result.append(token.triviaAndText)
         }
     }
+    
+    var strippedText: String {
+        return tokens.reduce(into: "") { result, token in
+            result.append(token.text)
+        }
+    }
 }
 
 extension SyntaxChildren {

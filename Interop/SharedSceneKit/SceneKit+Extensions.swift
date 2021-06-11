@@ -64,11 +64,29 @@ class BoundsComputing {
     }
 }
 
-typealias BoundsKey = Int
+typealias BoundsKey = String
+let uuidLength = UUID().uuidString.count
 
 // MARK: Bounds caching
 public extension SCNNode {
-    private var cacheKey: BoundsKey { hashValue % childNodes.hashValue }
+    
+    private var cacheKey: BoundsKey {
+        /*
+        This is pretty dangerous, but I need something more unique than an Int, apparently.
+        The String gives me a chance to use a UUID, but the code also uses it to store
+        info for looking up across SceneKit. Soo... we just stick a UUID.string into the name
+        if there isn't already one, or append one to make it unique. This also means if someone
+        updates the name, we lose the UUID, and the only guard is a length check.
+        */
+        if let hasName = name {
+            if hasName.count < uuidLength {
+                name = hasName + UUID().uuidString
+            }
+        } else {
+            name = UUID().uuidString
+        }
+        return name!
+    }
     
     class BoundsCaching {
         private static var boundsCache: [BoundsKey: Bounds] = [:]

@@ -17,8 +17,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let highlightCache = HighlightCache()
 
     let wordNodeBuilder: WordNodeBuilder
-//    let syntaxNodeParser: SwiftSyntaxParser
-    let codeSheetParser: CodeSheetParser
+    let codeSheetParser: CodeSheetParserV2
 
     @Published var selectedSheet: CodeSheet?
     lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
@@ -28,7 +27,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     init(sceneView: CustomSceneView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
-        self.codeSheetParser = CodeSheetParser(wordNodeBuilder: wordNodeBuilder)
+        self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
     }
 
