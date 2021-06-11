@@ -37,7 +37,7 @@ extension SyntaxChildren {
     }
 }
 
-extension TokenSyntax {
+public extension TokenSyntax {
     var typeName: String { return String(describing: tokenKind) }
 
     var triviaAndText: String {

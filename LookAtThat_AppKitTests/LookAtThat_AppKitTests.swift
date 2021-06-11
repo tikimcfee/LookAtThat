@@ -3,12 +3,28 @@ import SwiftSyntax
 import SceneKit
 @testable import LookAtThat_AppKit
 
+extension TEST_CodeSheetVisitor {
+    static func run() throws {
+        let visitor = TEST_CodeSheetVisitor()
+        guard let loaded = visitor.loadSourceUrl(
+            LookAtThat_AppKitTests.testFileResourceURLs[0]
+        )
+        else { throw NSError(domain: "file-not-loaded", code: 1, userInfo: nil) }
+        visitor.walk(loaded)
+    }
+}
+
 class LookAtThat_AppKitTests: XCTestCase {
 
-    let testFiles = [
+    static let testFileNames = [
         "WordNodeIntrospect",
-        "RidiculousFile"
+        "RidiculousFile",
+        "SmallFile"
     ]
+    
+    static let testFileResourceURLs = testFileNames.compactMap {
+        Bundle.main.url(forResource: $0, withExtension: "")
+    }
 
     var wordNodeBuilder: WordNodeBuilder!
     var swiftSyntaxParser: SwiftSyntaxParser!
@@ -17,9 +33,7 @@ class LookAtThat_AppKitTests: XCTestCase {
         // Fields reset on each test!
         wordNodeBuilder = WordNodeBuilder()
         swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
-
-        let fileUrl = Bundle.main.url(forResource: testFiles[0], withExtension: "")
-        swiftSyntaxParser.prepareRendering(source: fileUrl!)
+        swiftSyntaxParser.prepareRendering(source: Self.testFileResourceURLs[0])
     }
 
     override func tearDownWithError() throws {

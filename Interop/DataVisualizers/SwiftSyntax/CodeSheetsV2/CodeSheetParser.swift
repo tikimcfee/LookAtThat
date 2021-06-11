@@ -2,18 +2,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-struct ParsingState {
-    var sheet: CodeSheet = CodeSheet()
-    
-    var sourceFile: URL
-    var sourceFileSyntax: SourceFileSyntax
-    
-    init(sourceFile: URL, sourceFileSyntax: SourceFileSyntax) {
-        self.sourceFile = sourceFile
-        self.sourceFileSyntax = sourceFileSyntax
-    }
-}
-
 class CodeSheetParser: SyntaxRewriter {
     let textNodeBuilder: WordNodeBuilder
     var parseContainer: ParsingState?

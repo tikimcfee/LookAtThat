@@ -136,8 +136,7 @@ extension SwiftSyntaxParser {
     }
 }
 
-// File loading
-extension SwiftSyntaxParser {
+extension SwiftSyntaxParser: SwiftSyntaxFileLoadable {
     func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
         openDirectory { directoryResult in
             switch directoryResult {
@@ -157,24 +156,6 @@ extension SwiftSyntaxParser {
             case let .failure(error):
                 print(error)
             }
-        }
-    }
-
-    func parse(_ source: String) -> SourceFileSyntax? {
-        do {
-            return try SyntaxParser.parse(source: source)
-        } catch {
-            print("|InvalidRawSource| failed to load > \(error)")
-            return nil
-        }
-    }
-
-    private func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
-        do {
-            return try SyntaxParser.parse(url)
-        } catch {
-            print("|\(url)| failed to load > \(error)")
-            return nil
         }
     }
 }
@@ -239,22 +220,23 @@ extension SwiftSyntaxParser {
     }
 }
 
-// MARK: - Sheet building
-extension SwiftSyntaxParser {
+extension SwiftSyntaxParser: SwiftSyntaxCodeSheetBuildable { }
 
+protocol SwiftSyntaxCodeSheetBuildable {
+    var organizedInfo: OrganizedSourceInfo { get set }
+    var textNodeBuilder: WordNodeBuilder { get }
+    func makeSheet(from node: SyntaxProtocol, semantics: SemanticInfo?) -> CodeSheet
+}
+
+extension SwiftSyntaxCodeSheetBuildable {
+    
     func makeSheet(from node: SyntaxProtocol,
                    semantics: SemanticInfo? = nil) -> CodeSheet {
         let newSheet = CodeSheet()
-            .backgroundColor(typeColor(for: node.syntaxNodeType))
             .semantics(semantics)
-
-//        print("--------")
-//        print("Making sheet for '\(node.syntaxNodeType)', \(node.id)")
         
         for nodeChildSyntax in node.children {
-//            print("\tChild '\(nodeChildSyntax.syntaxNodeType)', \(nodeChildSyntax.id)")
             if let existingSheet = self[nodeChildSyntax.id] {
-//                print("\tExists")
                 if let declBlock = nodeChildSyntax.as(MemberDeclBlockSyntax.self) {
                     addMemberDeclBlock(declBlock, to: newSheet)
                 }
@@ -277,17 +259,14 @@ extension SwiftSyntaxParser {
                     addPoundIf(poundIf, to: newSheet)
                 }
                 else {
-//                    print("\t\tUnhandled type, appending")
                     newSheet.appendChild(existingSheet)
                 }
             } else {
-//                print("\tNo sheet, tokenizing")
                 for token in nodeChildSyntax.tokens {
                     newSheet.add(token, textNodeBuilder)
                 }
             }
         }
-//        print("--------")
 
         newSheet.sizePageToContainerNode()
         return newSheet
