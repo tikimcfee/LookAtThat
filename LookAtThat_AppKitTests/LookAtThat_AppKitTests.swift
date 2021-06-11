@@ -5,7 +5,7 @@ import SceneKit
 
 extension CodeSheetVisitor {
     static func run() throws {
-        let visitor = CodeSheetVisitor()
+        let visitor = CodeSheetVisitor(WordNodeBuilder())
         guard let loaded = visitor.loadSourceUrl(
             LookAtThat_AppKitTests.testFileResourceURLs[2]
         )

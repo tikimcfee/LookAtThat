@@ -161,10 +161,7 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         requestSourceDirectory{ directory in
             self.workerQueue.async {
-                for url in directory.swiftUrls {
-                    _ = self.codeSheetParser.parseFile(url)
-                    print("TODO: Make directories work again")
-                }
+                self.codeSheetParser.parseDirectory(directory, in: self.sceneState)
             }
         }
     }

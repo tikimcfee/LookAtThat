@@ -22,6 +22,74 @@ public class CodeSheetParserV2 {
         SCNNode.BoundsCaching.Clear()
         return codeSheetVisitor.makeFileSheet(url)
     }
+    
+    func parseDirectory(_ directory: Directory, in scene: SceneState) {
+        SCNNode.BoundsCaching.Clear()
+        print("TODO: bring this info back into swiftui info sections")
+        codeSheetVisitor.renderDirectory(directory, in: scene)
+    }
+}
+
+extension CodeSheetVisitor {
+    func renderDirectory(_ directory: Directory, in sceneState: SceneState) -> [OrganizedSourceInfo] {
+        var results = [(OrganizedSourceInfo, CodeSheet)]()
+        for url in directory.swiftUrls {
+            guard let sheet = makeFileSheet(url) else {
+                print("Failed to load code file: \(url.lastPathComponent)")
+                continue
+            }
+            results.append((organizedInfo, sheet))
+        }
+        
+        let directorySheet = CodeSheet()
+            .backgroundColor(NSUIColor.black)
+        directorySheet.containerNode.position.z = -300
+        
+        var lastChild: SCNNode? { directorySheet.containerNode.childNodes.last }
+        var lastChildLengthX: VectorFloat { lastChild?.lengthX ?? 0.0 }
+        var lastChildLengthY: VectorFloat { lastChild?.lengthY ?? 0.0 }
+        
+        var x = VectorFloat(-16.0)
+        var nextX: VectorFloat {
+            x += lastChildLengthX + 16
+            return x
+        }
+        
+        var y = VectorFloat(0.0)
+        var nextY: VectorFloat {
+            y += 0
+            return y
+        }
+        
+        var z = VectorFloat(15.0)
+        var nextZ: VectorFloat {
+            z += 0
+            return z
+        }
+        
+        results.forEach { pair in
+            //            let lookAtCamera = SCNLookAtConstraint(target: sceneState.cameraNode)
+            //            lookAtCamera.localFront = SCNVector3Zero.translated(dZ: 1.0)
+            //            pair.1.containerNode.constraints = [lookAtCamera]
+            
+            pair.1.containerNode.position =
+                SCNVector3Zero.translated(
+                    dX: nextX + pair.1.halfLengthX,
+                    //                    dY: -pair.1.halfLengthY - nextY,
+                    dY: nextY - pair.1.halfLengthY,
+                    dZ: nextZ
+                )
+            
+            directorySheet.containerNode.addChildNode(pair.1.containerNode)
+        }
+        directorySheet.sizePageToContainerNode(pad: 20.0)
+        
+        sceneTransaction {
+            sceneState.rootGeometryNode.addChildNode(directorySheet.containerNode)
+        }
+        
+        return results.map { $0.0 }
+    }
 }
 
 enum CodeSheetVisitorLoadError: Error {
@@ -30,17 +98,16 @@ enum CodeSheetVisitorLoadError: Error {
 
 public class CodeSheetVisitor:
     SyntaxAnyVisitor,
-    SwiftSyntaxFileLoadable,
-    SwiftSyntaxCodeSheetBuildable
+    SwiftSyntaxFileLoadable
 {
     
-    lazy var organizedInfo = OrganizedSourceInfo()
     var allRootContainerNodes = [SCNNode: CodeSheet]()
-    lazy var rootSheet = CodeSheet()
+    var organizedInfo = OrganizedSourceInfo()
+    var rootSheet = CodeSheet()
     
     var textNodeBuilder: WordNodeBuilder
     let colorizer = CodeSheetColorizing()
-    
+
     init(_ nodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = nodeBuilder
     }
@@ -51,6 +118,7 @@ public class CodeSheetVisitor:
                 throw CodeSheetVisitorLoadError.failedToWalk
             }
             rootSheet = CodeSheet()
+            organizedInfo = OrganizedSourceInfo()
             walk(syntax)
             return rootSheet
                 .categoryMask(.rootCodeSheet)
