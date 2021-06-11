@@ -39,6 +39,7 @@ public class CodeSheetVisitor:
     lazy var rootSheet = CodeSheet()
     
     var textNodeBuilder: WordNodeBuilder
+    let colorizer = CodeSheetColorizing()
     
     init(_ nodeBuilder: WordNodeBuilder) {
         self.textNodeBuilder = nodeBuilder
@@ -100,24 +101,15 @@ public class CodeSheetVisitor:
     private func collectChildrenPostVisit(of syntax: Syntax) {
         let newCollectedSheet = CodeSheet()
         
-        print("Finding children of: \(syntax.syntaxNodeType)")
-        
         syntax.children.forEach { childNode in
-            let text = childNode.children.isEmpty ? childNode.strippedText : ""
-            
-            print("\t\(childNode.syntaxNodeType) | \(childNode.children.count) children > \(text)")
-            
             if let child = organizedInfo[childNode] {
                 newCollectedSheet.appendChild(child)
-                
-                // Make all children are interactable by stuffing it into the index
-//                allRootContainerNodes[child.containerNode] = child
             }
-            else if childNode.isToken, let token = childNode.as(TokenSyntax.self) {
+            else if let token = childNode.as(TokenSyntax.self) {
                 newCollectedSheet.add(token, textNodeBuilder)
             }
             else {
-                print("\t<!> \(childNode.syntaxNodeType) missing")
+                print("Missing syntax child node, \(childNode.syntaxNodeType) in \(syntax.syntaxNodeType)")
             }
         }
         
@@ -125,6 +117,7 @@ public class CodeSheetVisitor:
             .sizePageToContainerNode()
             .semantics(defaultSemanticInfo(for: syntax))
             .arrangeSemanticInfo(textNodeBuilder)
+            .backgroundColor(colorizer.backgroundColor(for: syntax))
         
         allRootContainerNodes[newCollectedSheet.containerNode] = newCollectedSheet
     }
@@ -133,6 +126,7 @@ public class CodeSheetVisitor:
         let newSheet = CodeSheet()
             .consume(syntax: syntax, nodeBuilder: textNodeBuilder)
             .sizePageToContainerNode()
+            .backgroundColor(colorizer.backgroundColor(for: syntax))
 //            .semantics(defaultSemanticInfo(for: syntax))
 //            .arrangeSemanticInfo(textNodeBuilder)
         
@@ -147,5 +141,42 @@ extension CodeSheet {
             add(token, nodeBuilder)
         }
         return self
+    }
+}
+
+class CodeSheetColorizing {
+    func backgroundColor(for syntax: Syntax) -> NSUIColor {
+        return typeColor(for: syntax.syntaxNodeType)
+    }
+    
+    func typeColor(for type: SyntaxProtocol.Type) -> NSUIColor {
+        if type == StructDeclSyntax.self {
+            return color(0.3, 0.2, 0.3, 1.0)
+        }
+        if type == ClassDeclSyntax.self {
+            return color(0.2, 0.2, 0.4, 1.0)
+        }
+        if type == FunctionDeclSyntax.self {
+            return color(0.15, 0.15, 0.3, 1.0)
+        }
+        if type == EnumDeclSyntax.self {
+            return color(0.1, 0.3, 0.4, 1.0)
+        }
+        if type == ExtensionDeclSyntax.self {
+            return color(0.2, 0.4, 0.4, 1.0)
+        }
+        if type == VariableDeclSyntax.self {
+            return color(0.3, 0.3, 0.3, 1.0)
+        }
+        if type == TypealiasDeclSyntax.self {
+            return color(0.5, 0.3, 0.5, 1.0)
+        }
+        else {
+            return color(0.2, 0.2, 0.2, 1.0)
+        }
+    }
+    
+    private func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
+        return NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
     }
 }
