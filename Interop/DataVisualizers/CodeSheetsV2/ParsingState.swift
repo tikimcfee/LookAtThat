@@ -9,7 +9,8 @@ import Foundation
 import SwiftSyntax
 
 struct ParsingState {
-    var sheet: CodeSheet = CodeSheet()
+    var sheet = CodeSheet()
+    var organizedSourceInfo = OrganizedSourceInfo()
     
     var sourceFile: URL
     var sourceFileSyntax: SourceFileSyntax

@@ -185,6 +185,7 @@ extension CodeSheet {
         newlines(sheet.allLines.count)
     }
     
+    @discardableResult
     func removingWhitespace() -> CodeSheet {
         containerNode.enumerateChildNodes { node, _ in
             guard node.name?.contains(kWhitespaceNodeName) == true else { return }
@@ -230,6 +231,14 @@ extension CodeSheet {
 
 // CodeSheet operations
 extension CodeSheet {
+    func consume(syntax: Syntax,
+                 _ nodeBuilder: WordNodeBuilder) -> Self {
+        for token in syntax.tokens {
+            add(token, nodeBuilder)
+        }
+        return self
+    }
+    
     func add(_ token: TokenSyntax,
              _ builder: WordNodeBuilder) {
         iterateTrivia(token.leadingTrivia, builder)

@@ -20,7 +20,6 @@ class CodeSheetParser: SyntaxRewriter {
     
     override func visit(_ token: TokenSyntax) -> Syntax {
         parseContainer?.sheet.add(token, textNodeBuilder)
-        
         return token._syntaxNode
     }
     

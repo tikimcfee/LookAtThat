@@ -161,7 +161,7 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         requestSourceDirectory{ directory in
             self.workerQueue.async {
-                self.codeSheetParser.parseDirectory(directory, in: self.sceneState)
+                self.codeSheetParser.parseDirectory(directory, in: self.sceneState, handler)
             }
         }
     }

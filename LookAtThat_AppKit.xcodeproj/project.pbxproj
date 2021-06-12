@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
 		B73F428925FEC0FD00F4F581 /* CodeSheetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */; };
 		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
-		B775C7952671A61600414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7972671AD1200414972 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B775C7992672800E00414972 /* CodeSheetParserV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7982672800E00414972 /* CodeSheetParserV2.swift */; };
@@ -179,6 +179,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
 		B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParser.swift; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
@@ -300,6 +301,7 @@
 				B775C79B2672803F00414972 /* ParsingState.swift */,
 				B73F428825FEC0FD00F4F581 /* CodeSheetParser.swift */,
 				B775C7982672800E00414972 /* CodeSheetParserV2.swift */,
+				B71944402674661D002ADC74 /* CodeSheetColorizing.swift */,
 			);
 			path = CodeSheetsV2;
 			sourceTree = "<group>";
@@ -386,7 +388,11 @@
 		F00FC744250C53820092AFF9 /* DataVisualizers */ = {
 			isa = PBXGroup;
 			children = (
-				F09A52A025157F9300F5082A /* SwiftSyntax */,
+				F07C49DA251C477500F28173 /* OrganizedSourceInfo.swift */,
+				B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */,
+				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
+				F09A52A025157F9300F5082A /* V1 */,
+				B73F428725FEC0D500F4F581 /* CodeSheetsV2 */,
 			);
 			path = DataVisualizers;
 			sourceTree = "<group>";
@@ -548,17 +554,13 @@
 			path = AST;
 			sourceTree = "<group>";
 		};
-		F09A52A025157F9300F5082A /* SwiftSyntax */ = {
+		F09A52A025157F9300F5082A /* V1 */ = {
 			isa = PBXGroup;
 			children = (
-				B73F428725FEC0D500F4F581 /* CodeSheetsV2 */,
-				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
 				F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */,
 				F07C49D7251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift */,
-				F07C49DA251C477500F28173 /* OrganizedSourceInfo.swift */,
-				B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */,
 			);
-			path = SwiftSyntax;
+			path = V1;
 			sourceTree = "<group>";
 		};
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
@@ -807,6 +809,7 @@
 				B73F428925FEC0FD00F4F581 /* CodeSheetParser.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
+				B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */,
 				B775C7992672800E00414972 /* CodeSheetParserV2.swift in Sources */,
@@ -821,7 +824,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B775C7952671A61600414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B775C7972671AD1200414972 /* String+Extensions.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
 			);
