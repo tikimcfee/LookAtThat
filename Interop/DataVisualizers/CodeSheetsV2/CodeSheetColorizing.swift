@@ -9,33 +9,28 @@ import Foundation
 import SwiftSyntax
 
 class CodeSheetColorizing {
-    func backgroundColor(for syntax: Syntax) -> NSUIColor {
-        return typeColor(for: syntax.syntaxNodeType)
+    
+    func backgroundColor(for type: Syntax) -> NSUIColor {
+        return typeColor(for: type.cachedType)
     }
     
-    func typeColor(for type: SyntaxProtocol.Type) -> NSUIColor {
-        if type == StructDeclSyntax.self {
+    func typeColor(for type: SyntaxEnum) -> NSUIColor {
+        switch type {
+        case .structDecl:
             return color(0.3, 0.2, 0.3, 1.0)
-        }
-        if type == ClassDeclSyntax.self {
+        case .classDecl:
             return color(0.2, 0.2, 0.4, 1.0)
-        }
-        if type == FunctionDeclSyntax.self {
+        case .functionDecl:
             return color(0.15, 0.15, 0.3, 1.0)
-        }
-        if type == EnumDeclSyntax.self {
+        case .enumDecl:
             return color(0.1, 0.3, 0.4, 1.0)
-        }
-        if type == ExtensionDeclSyntax.self {
+        case .extensionDecl:
             return color(0.2, 0.4, 0.4, 1.0)
-        }
-        if type == VariableDeclSyntax.self {
+        case .variableDecl:
             return color(0.3, 0.3, 0.3, 1.0)
-        }
-        if type == TypealiasDeclSyntax.self {
+        case .typealiasDecl:
             return color(0.5, 0.3, 0.5, 1.0)
-        }
-        else {
+        default:
             return color(0.2, 0.2, 0.2, 1.0)
         }
     }

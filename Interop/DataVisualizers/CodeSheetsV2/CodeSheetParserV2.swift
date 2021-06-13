@@ -92,7 +92,7 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
     }
     
     private func onVisitAnyPost(_ node: Syntax, state: ParsingState) {
-        switch node.as(SyntaxEnum.self) {
+        switch node.cachedType {
         case .structDecl, .enumDecl, .protocolDecl, .classDecl, .extensionDecl,
              .codeBlockItemList, .codeBlockItem, .codeBlock,
              .ifConfigClauseList, .ifConfigDecl, .ifConfigClause,
