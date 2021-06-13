@@ -25,12 +25,10 @@ public class CodeSheetParserV2 {
     
     func parseDirectory(_ directory: Directory,
                         in scene: SceneState,
-                        _ handler: @escaping (OrganizedSourceInfo) -> Void) {
+                        _ handler: @escaping RenderDirectoryHandler) {
         SCNNode.BoundsCaching.Clear()
-        
-        guard let results = codeSheetVisitor.renderDirectory(directory, in: scene).first
-        else { return }
-        handler(results.organizedSourceInfo)
+        let results = codeSheetVisitor.renderDirectory(directory, in: scene)
+        handler(results)
     }
 }
 
@@ -101,7 +99,7 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
                 .semantics(defaultSemanticInfo(for: node))
                 .arrangeSemanticInfo(textNodeBuilder)
             
-        case .sourceFile:
+        case .sourceFile(let syntax):
             let sourceSheet = collectChildrenPostVisit(of: node, into: state)
                 .semantics(SemanticInfo(
                     syntaxId: node.id,

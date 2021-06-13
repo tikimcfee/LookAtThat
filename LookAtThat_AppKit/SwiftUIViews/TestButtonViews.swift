@@ -131,8 +131,8 @@ struct SourceInfoGrid: View {
     }
 
     private func renderDirectory() {
-        SceneLibrary.global.codePagesController.renderDirectory{ info in
-            sourceInfo = info
+        SceneLibrary.global.codePagesController.renderDirectory{ states in
+            sourceInfo = states.first?.organizedSourceInfo
         }
     }
 }

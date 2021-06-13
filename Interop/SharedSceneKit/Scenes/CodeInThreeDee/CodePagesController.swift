@@ -87,6 +87,8 @@ extension Set where Element == SyntaxIdentifier {
     }
 }
 
+typealias RenderDirectoryHandler = ([ParsingState]) -> Void
+
 extension CodePagesController {
 
     func selected(name: String) {
@@ -158,7 +160,7 @@ extension CodePagesController {
         }
     }
 
-    func renderDirectory(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
+    func renderDirectory(_ handler: @escaping RenderDirectoryHandler) {
         requestSourceDirectory{ directory in
             self.workerQueue.async {
                 self.codeSheetParser.parseDirectory(directory, in: self.sceneState, handler)
