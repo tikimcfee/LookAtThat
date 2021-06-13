@@ -14,12 +14,11 @@ struct LayerCacheKey: Hashable, Equatable {
 }
 
 class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
-    let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated)
+    let layoutQueue = DispatchQueue(label: "WordLayerCache", qos: .userInitiated, attributes: [.concurrent])
     let backgroundColor = NSUIColor.black.cgColor
     let foregroundColor = NSUIColor.white.cgColor
     
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
-        
         // SCALE_FACTOR changes the requested font size for the new layer.
         // OBSERVATION: Setting this value higher creates a smoother font image
         // HYPOTHESIS: The font size is used to determine the size of a bitmap

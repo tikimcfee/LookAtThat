@@ -19,4 +19,8 @@ struct ParsingState {
         self.sourceFile = sourceFile
         self.sourceFileSyntax = sourceFileSyntax
     }
+    
+    func appendRoot(_ codeSheet: CodeSheet) {
+        sheet.appendChild(codeSheet)
+    }
 }

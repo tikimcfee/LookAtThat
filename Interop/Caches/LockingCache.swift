@@ -19,17 +19,17 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     }
 
     subscript(key: Key) -> Value {
-        get {
-            return cache[key] ?? {
-                // Wait and recheck cache, last lock may have already set
-                semaphore.wait(); defer { semaphore.signal() }
-                if let cached = cache[key] { return cached }
-
-                // Create and set, default result as cache value
-                let new = make(key, &cache)
-                cache[key] = new
-                return new
-            }()
-        }
+        get { cache[key] ?? lockAndMake(key: key) }
+    }
+    
+    private func lockAndMake(key: Key) -> Value {
+        // Wait and recheck cache, last lock may have already set
+        semaphore.wait(); defer { semaphore.signal() }
+        if let cached = cache[key] { return cached }
+        
+        // Create and set, default result as cache value
+        let new = make(key, &cache)
+        cache[key] = new
+        return new
     }
 }

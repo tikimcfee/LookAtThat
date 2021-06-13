@@ -98,24 +98,28 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
              .ifConfigClauseList, .ifConfigDecl, .ifConfigClause,
              .memberDeclBlock, .memberDeclList, .memberDeclListItem:
             collectChildrenPostVisit(of: node, into: state)
+                .semantics(defaultSemanticInfo(for: node))
+                .arrangeSemanticInfo(textNodeBuilder)
             
         case .sourceFile:
-            collectChildrenPostVisit(of: node, into: state)
-            if let sourceSheet = state.organizedSourceInfo[node] {
-                state.sheet.appendChild(sourceSheet)
-            } else {
-                print("<!> At source node, but root sheet not found ")
-            }
-            
+            let sourceSheet = collectChildrenPostVisit(of: node, into: state)
+                .semantics(SemanticInfo(
+                    syntaxId: node.id,
+                    referenceName: state.sourceFile.lastPathComponent,
+                    syntaxTypeName: String(describing: node.cachedType)
+                ))
+                .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
+            state.appendRoot(sourceSheet)
+
         default:
             break
         }
     }
     
-    private func collectChildrenPostVisit(of syntax: Syntax, into state: ParsingState) {
+    private func collectChildrenPostVisit(of node: Syntax, into state: ParsingState) -> CodeSheet {
         let newCollectedSheet = CodeSheet()
         
-        syntax.children.forEach { childNode in
+        node.children.forEach { childNode in
             if let child = state.organizedSourceInfo[childNode] {
                 newCollectedSheet.appendChild(child)
             }
@@ -128,13 +132,16 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
             }
         }
         
-        state.organizedSourceInfo[syntax] = newCollectedSheet
+        // Don't arrange semantic or add info by default.
+        // Add and arrange in visitPost() to get the desired
+        // custom positioning.
+        state.organizedSourceInfo[node] = newCollectedSheet
             .sizePageToContainerNode()
-            .semantics(defaultSemanticInfo(for: syntax))
-            .arrangeSemanticInfo(textNodeBuilder)
-            .backgroundColor(colorizer.backgroundColor(for: syntax))
+            .backgroundColor(colorizer.backgroundColor(for: node))
         
         allRootContainerNodes[newCollectedSheet.containerNode] = newCollectedSheet
+        
+        return newCollectedSheet
     }
     
     private func cacheNewSheet(for syntax: Syntax, into state: ParsingState) {
