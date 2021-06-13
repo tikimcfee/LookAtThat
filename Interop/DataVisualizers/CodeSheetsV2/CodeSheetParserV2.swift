@@ -109,7 +109,7 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
                     syntaxTypeName: String(describing: node.cachedType)
                 ))
                 .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
-            state.appendRoot(sourceSheet)
+            state.setAsRoot(sourceSheet)
 
         default:
             break

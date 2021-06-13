@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-struct ParsingState {
+class ParsingState {
     var sheet = CodeSheet()
     var organizedSourceInfo = OrganizedSourceInfo()
     
@@ -20,7 +20,11 @@ struct ParsingState {
         self.sourceFileSyntax = sourceFileSyntax
     }
     
-    func appendRoot(_ codeSheet: CodeSheet) {
+    func appendToRoot(_ codeSheet: CodeSheet) {
         sheet.appendChild(codeSheet)
+    }
+    
+    func setAsRoot(_ codeSheet: CodeSheet) {
+        sheet = codeSheet
     }
 }
