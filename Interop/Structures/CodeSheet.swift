@@ -52,6 +52,11 @@ extension CodeSheet {
         backgroundGeometryNode.categoryBitMask = mask.rawValue
         return self
     }
+    
+    func apply(_ modifier: (CodeSheet) -> Void) -> CodeSheet {
+        modifier(self)
+        return self
+    }
 }
 
 extension CodeSheet {
