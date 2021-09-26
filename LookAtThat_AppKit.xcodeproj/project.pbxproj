@@ -1290,8 +1290,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-syntax";
 			requirement = {
-				kind = revision;
-				revision = ce9020568227504e792d07839b91c5de18ed291a;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.50500.0;
 			};
 		};
 		F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */ = {
