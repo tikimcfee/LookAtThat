@@ -1,6 +1,10 @@
+#mac junk
+.DS_Store
+
 # Ignore lib_*.dylibs
 LookAtThat_AppKit/Libraries/**
 LookAtThat_AppKit/ExternalFiles/**
+LookAtThat_AppKit/.DS_Store
 
 # Xcode: https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore
 

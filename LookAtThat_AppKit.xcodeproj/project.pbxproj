@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45D42A662700D400000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D42A652700D3FF000340FB /* lib_InternalSwiftSyntaxParser.dylib */; };
+		45D42A6F2700D7CD000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D42A6C2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */; };
+		45D42A702700D7CD000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D42A6E2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */; };
+		45D42A712700D832000340FB /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D42A6C2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
 		B735A9E52676AA5400F351B4 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E62676AAAB00F351B4 /* WordStringCache.swift */; };
@@ -26,8 +30,6 @@
 		B775C7972671AD1200414972 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B775C7992672800E00414972 /* CodeSheetParserV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7982672800E00414972 /* CodeSheetParserV2.swift */; };
 		B775C79C2672803F00414972 /* ParsingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C79B2672803F00414972 /* ParsingState.swift */; };
-		45D42A622700D3EB000340FB /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D42A612700D3EB000340FB /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		45D42A662700D400000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D42A652700D3FF000340FB /* lib_InternalSwiftSyntaxParser.dylib */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -162,7 +164,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				45D42A622700D3EB000340FB /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				45D42A712700D832000340FB /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +191,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		45D42A652700D3FF000340FB /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		45D42A6C2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		45D42A6E2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
 		B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B735A9E62676AAAB00F351B4 /* WordStringCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStringCache.swift; sourceTree = "<group>"; };
@@ -205,8 +210,6 @@
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B775C7982672800E00414972 /* CodeSheetParserV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParserV2.swift; sourceTree = "<group>"; };
 		B775C79B2672803F00414972 /* ParsingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingState.swift; sourceTree = "<group>"; };
-		45D42A612700D3EB000340FB /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = lib_InternalSwiftSyntaxParser.dylib; path = "LookAtThat_AppKit/Libraries/toolchain_copies/xcode 13.0/lib_InternalSwiftSyntaxParser.dylib"; sourceTree = "<group>"; };
-		45D42A652700D3FF000340FB /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -288,7 +291,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F029F649255A4E1C006D4E03 /* SwiftAST in Frameworks */,
+				45D42A702700D7CD000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				45D42A662700D400000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				45D42A6F2700D7CD000340FB /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F029F644255A4D67006D4E03 /* SwiftSyntaxBuilder in Frameworks */,
 				F029F642255A4D67006D4E03 /* SwiftSyntax in Frameworks */,
 				F029F64B255A4E1C006D4E03 /* SwiftAST+Tooling in Frameworks */,
@@ -315,20 +320,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45D42A632700D3FF000340FB /* toolchain_copies */ = {
-			isa = PBXGroup;
-			children = (
-				45D42A642700D3FF000340FB /* xcode 13.0 */,
-			);
-			path = toolchain_copies;
-			sourceTree = "<group>";
-		};
-		45D42A642700D3FF000340FB /* xcode 13.0 */ = {
+		45D42A682700D778000340FB /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				45D42A652700D3FF000340FB /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		45D42A692700D7CC000340FB /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				45D42A6A2700D7CC000340FB /* toolchain_copies */,
+				45D42A6D2700D7CC000340FB /* manual_builds */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		45D42A6A2700D7CC000340FB /* toolchain_copies */ = {
+			isa = PBXGroup;
+			children = (
+				45D42A6B2700D7CC000340FB /* xcode 13.0 */,
+			);
+			path = toolchain_copies;
+			sourceTree = "<group>";
+		};
+		45D42A6B2700D7CC000340FB /* xcode 13.0 */ = {
+			isa = PBXGroup;
+			children = (
+				45D42A6C2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */,
+			);
 			path = "xcode 13.0";
+			sourceTree = "<group>";
+		};
+		45D42A6D2700D7CC000340FB /* manual_builds */ = {
+			isa = PBXGroup;
+			children = (
+				45D42A6E2700D7CC000340FB /* lib_InternalSwiftSyntaxParser.dylib */,
+			);
+			path = manual_builds;
 			sourceTree = "<group>";
 		};
 		B73F428725FEC0D500F4F581 /* CodeSheetsV2 */ = {
@@ -357,13 +387,13 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
-				45D42A612700D3EB000340FB /* lib_InternalSwiftSyntaxParser.dylib */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
+				45D42A682700D778000340FB /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -380,6 +410,7 @@
 		F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXGroup;
 			children = (
+				45D42A692700D7CC000340FB /* Libraries */,
 				F0BA5F8A25107925009A726C /* WordNodeIntrospect */,
 				B775C78D2671A1BE00414972 /* SmallFile */,
 				F0F205812522EB35009B6D2C /* RidiculousFile */,
@@ -388,7 +419,6 @@
 				F00FC733250C53470092AFF9 /* Assets.xcassets */,
 				F04D816C250C9210008210C1 /* dict.json */,
 				F00FC738250C53470092AFF9 /* Main.storyboard */,
-				B7C9167B25FC483B003B158F /* Libraries */,
 				F00FC735250C53470092AFF9 /* Preview Content */,
 				F09A529E25157F7800F5082A /* Visitors */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
@@ -433,7 +463,6 @@
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7C9167425FC46A0003B158F /* lib_InternalSwiftSyntaxParser.dylib */,
 				F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
 			name = Frameworks;
@@ -523,14 +552,6 @@
 				F0F205702522D6D3009B6D2C /* CustomSceneView.swift */,
 			);
 			path = SharedSceneKit;
-			sourceTree = "<group>";
-		};
-		F075BE46251445FC00DEB06F /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				45D42A632700D3FF000340FB /* toolchain_copies */,
-			);
-			path = Libraries;
 			sourceTree = "<group>";
 		};
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
@@ -1106,6 +1127,8 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -1141,6 +1164,8 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
