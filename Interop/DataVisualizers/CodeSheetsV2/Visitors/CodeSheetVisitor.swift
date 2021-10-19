@@ -9,6 +9,8 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
+import SwiftTrace
+
 public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
     var allRootContainerNodes = [SCNNode: CodeSheet]()
     
@@ -52,7 +54,7 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
             collectChildrenPostVisit(of: node, into: state)
                 .semantics(defaultSemanticInfo(for: node))
                 .arrangeSemanticInfo(textNodeBuilder)
-            
+
         case .sourceFile:
             let sourceSheet = collectChildrenPostVisit(of: node, into: state)
                 .semantics(SemanticInfo(

@@ -3,16 +3,7 @@ import SwiftSyntax
 import SceneKit
 @testable import LookAtThat_AppKit
 
-extension CodeSheetVisitor {
-    static func run() throws {
-        let visitor = CodeSheetVisitor(WordNodeBuilder())
-        guard let loaded = visitor.loadSourceUrl(
-            LookAtThat_AppKitTests.testFileResourceURLs[2]
-        )
-        else { throw NSError(domain: "file-not-loaded", code: 1, userInfo: nil) }
-        visitor.walk(loaded)
-    }
-}
+import SwiftTrace
 
 class LookAtThat_AppKitTests: XCTestCase {
 
@@ -42,7 +33,19 @@ class LookAtThat_AppKitTests: XCTestCase {
     
     func testParserV2() throws {
         printStart()
-        try CodeSheetVisitor.run()
+        
+        let testFile = LookAtThat_AppKitTests.testFileResourceURLs[2]
+        let visitor = CodeSheetVisitor(WordNodeBuilder())
+        let tracer = OutputTracer(trace: CodeSheetVisitor.self)
+        
+        let sheet = try visitor.makeFileSheet(testFile)
+        
+        tracer.logOutput.forEach {
+            print(String(repeating: "-", count: 10))
+            print($0)
+        }
+        
+        XCTAssertNotNil(sheet)
         printEnd()
     }
 

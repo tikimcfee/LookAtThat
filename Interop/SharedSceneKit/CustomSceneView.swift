@@ -20,7 +20,7 @@ class CustomSceneView: ARSCNView {
 
 #elseif os(OSX)
 
-protocol MousePositionReceiver: class {
+protocol MousePositionReceiver: AnyObject {
     var mousePosition: CGPoint { get set }
     var scrollEvent: NSEvent { get set }
     var mouseDownEvent: NSEvent { get set }

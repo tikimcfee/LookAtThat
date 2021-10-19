@@ -24,7 +24,16 @@
         "repositoryURL": "https://github.com/apple/swift-syntax",
         "state": {
           "branch": null,
-          "revision": "ce9020568227504e792d07839b91c5de18ed291a",
+          "revision": "75e60475d9d8fd5bbc16a12e0eaa2cb01b0c322e",
+          "version": "0.50500.0"
+        }
+      },
+      {
+        "package": "SwiftTrace",
+        "repositoryURL": "https://github.com/tikimcfee/SwiftTrace",
+        "state": {
+          "branch": "main",
+          "revision": "8c9d8c0f7b43f52f7c6884e15af16fbd7a60f76a",
           "version": null
         }
       }
