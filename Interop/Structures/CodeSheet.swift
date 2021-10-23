@@ -79,10 +79,7 @@ extension CodeSheet {
     }
 
     func makeLineNode() -> SCNNode {
-//        let box = SCNBox()
-//        box.firstMaterial?.diffuse.contents = NSUIColor.lightGray
         let line = SCNNode()
-//        line.geometry = box
         line.position = SCNVector3(0, 0, PAGE_EXTRUSION_DEPTH.vector)
         containerNode.addChildNode(line)
         allLines.append(line)
