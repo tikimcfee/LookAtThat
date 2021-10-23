@@ -411,6 +411,7 @@
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
+				45D42A682700D778000340FB /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -427,6 +428,7 @@
 		F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXGroup;
 			children = (
+				45D42A692700D7CC000340FB /* Libraries */,
 				F0BA5F8A25107925009A726C /* WordNodeIntrospect */,
 				B775C78D2671A1BE00414972 /* SmallFile */,
 				F0F205812522EB35009B6D2C /* RidiculousFile */,
@@ -435,7 +437,6 @@
 				F00FC733250C53470092AFF9 /* Assets.xcassets */,
 				F04D816C250C9210008210C1 /* dict.json */,
 				F00FC738250C53470092AFF9 /* Main.storyboard */,
-				B7C9167B25FC483B003B158F /* Libraries */,
 				F00FC735250C53470092AFF9 /* Preview Content */,
 				F09A529E25157F7800F5082A /* Visitors */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
@@ -482,7 +483,6 @@
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7C9167425FC46A0003B158F /* lib_InternalSwiftSyntaxParser.dylib */,
 				F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
 			name = Frameworks;
