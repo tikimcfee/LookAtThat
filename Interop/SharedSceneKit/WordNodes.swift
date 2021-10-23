@@ -25,6 +25,7 @@ class WordNodeBuilder {
     let wordCharacterCache = WordGeometryCache()
     let wordStringCache = WordStringCache()
     let wordLayerCache = WordLayerCache()
+    let glyphLayerCache = GlyphLayerCache()
 
     let buildMode = BuildMode.layers
 

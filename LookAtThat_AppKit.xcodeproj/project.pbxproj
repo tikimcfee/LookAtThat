@@ -31,6 +31,9 @@
 		B77DCAB426781E4F002DF299 /* CallStackAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
+		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
+		B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -223,6 +226,9 @@
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
 		B7C9167425FC46A0003B158F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = lib_InternalSwiftSyntaxParser.dylib; path = LookAtThat_AppKit/Libraries/parserDylib5_3/lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B7C9167D25FC483B003B158F /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
+		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
+		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -388,6 +394,14 @@
 			path = parserDylib5_3;
 			sourceTree = "<group>";
 		};
+		B7EA8835272394AB0098541C /* CodeGrid */ = {
+			isa = PBXGroup;
+			children = (
+				B7EA88362723955E0098541C /* CodeGridParser.swift */,
+			);
+			path = CodeGrid;
+			sourceTree = "<group>";
+		};
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +473,7 @@
 				B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */,
 				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
 				F09A52A025157F9300F5082A /* V1 */,
+				B7EA8835272394AB0098541C /* CodeGrid */,
 				B73F428725FEC0D500F4F581 /* CodeSheetsV2 */,
 			);
 			path = DataVisualizers;
@@ -515,6 +530,7 @@
 				B735A9EC2676AB4500F351B4 /* WordColorCache.swift */,
 				B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */,
 				B735A9E82676AAE400F351B4 /* WordLayerCache.swift */,
+				B7EA883127238C1E0098541C /* GlyphLayerCache.swift */,
 			);
 			path = Caches;
 			sourceTree = "<group>";
@@ -524,6 +540,7 @@
 			children = (
 				F07C49D4251C469D00F28173 /* CodeSheet.swift */,
 				F057D20025201AEB0094BD83 /* Collections.swift */,
+				B7EA88332723938C0098541C /* CodeGrid.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -852,9 +869,11 @@
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				F07C49DB251C477500F28173 /* OrganizedSourceInfo.swift in Sources */,
 				F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */,
+				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				F0BA5F8D2510802C009A726C /* DictionarySceneController.swift in Sources */,
 				B735A9EB2676AB1D00F351B4 /* WordGeometryCache.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
+				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				F07C12AA250F1A9700B08C7D /* CustomTextParser.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */,
@@ -884,6 +903,7 @@
 				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
+				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,

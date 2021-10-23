@@ -18,6 +18,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
 
     let wordNodeBuilder: WordNodeBuilder
     let codeSheetParser: CodeSheetParserV2
+    let codeGridParser: CodeGridParser
 
     @Published var selectedSheet: CodeSheet?
     lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
@@ -27,6 +28,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     init(sceneView: CustomSceneView,
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
+        self.codeGridParser = CodeGridParser()
         self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
     }
@@ -152,9 +154,14 @@ extension CodePagesController {
     func renderSyntax(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
         requestSourceFile { fileUrl in
             self.workerQueue.async {
-                guard let sheet = self.codeSheetParser.parseFile(fileUrl) else { return }
+//                guard let sheet = self.codeSheetParser.parseFile(fileUrl) else { return }
+//                sceneTransaction {
+//                    self.sceneState.rootGeometryNode.addChildNode(sheet.containerNode)
+//                }
+                guard let grid = self.codeGridParser.renderGrid(fileUrl) else { return }
+                
                 sceneTransaction {
-                    self.sceneState.rootGeometryNode.addChildNode(sheet.containerNode)
+                    self.sceneState.rootGeometryNode.addChildNode(grid.rootNode)
                 }
             }
         }

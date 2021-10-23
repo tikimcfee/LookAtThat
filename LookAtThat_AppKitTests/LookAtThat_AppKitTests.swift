@@ -31,6 +31,26 @@ class LookAtThat_AppKitTests: XCTestCase {
 
     }
     
+    func testSwiftSyntax() throws {
+        let testFile = LookAtThat_AppKitTests.testFileResourceURLs[2]
+        let glyphs = GlyphLayerCache()
+        let gridParser = CodeGridParser()
+        let grids = CodeGrid()
+        
+        gridParser.loadSourceUrl(testFile)?.tokens.forEach {
+            print($0.triviaAndText)
+            $0.triviaAndText.forEach {
+                let (geometry, size) = glyphs[
+                    GlyphCacheKey("\($0)", NSUIColor.white)
+                ]
+                
+                print(size, "--", geometry.lengthX, geometry.lengthY, geometry.lengthZ)
+                XCTAssertEqual(size.width, geometry.lengthX, accuracy: 0.0)
+                XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)
+            }
+        }
+    }
+    
     func testParserV2() throws {
         printStart()
         

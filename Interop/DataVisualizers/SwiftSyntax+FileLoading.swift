@@ -11,6 +11,7 @@ import SwiftSyntax
 // File loading
 public protocol SwiftSyntaxFileLoadable {
     func parse(_ source: String) -> SourceFileSyntax?
+    func loadSourceUrl(_ url: URL) -> SourceFileSyntax?
 }
 
 public extension SwiftSyntaxFileLoadable {
