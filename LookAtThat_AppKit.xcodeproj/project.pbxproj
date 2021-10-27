@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45A5E5572729071700A94FCE /* GridInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* GridInfo.swift */; };
+		45A5E5582729071700A94FCE /* GridInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* GridInfo.swift */; };
 		45BF82D82728E48000B2024A /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		45BF82D92728E48D00B2024A /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
@@ -206,6 +208,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		45A5E5562729071700A94FCE /* GridInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridInfo.swift; sourceTree = "<group>"; };
 		45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		45BF82D22728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
@@ -482,6 +485,7 @@
 				F09A52A025157F9300F5082A /* V1 */,
 				B7EA8835272394AB0098541C /* CodeGrid */,
 				B73F428725FEC0D500F4F581 /* CodeSheetsV2 */,
+				45A5E5562729071700A94FCE /* GridInfo.swift */,
 			);
 			path = DataVisualizers;
 			sourceTree = "<group>";
@@ -899,6 +903,7 @@
 				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				B74E7A7D26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift in Sources */,
+				45A5E5572729071700A94FCE /* GridInfo.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				B775C79C2672803F00414972 /* ParsingState.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
@@ -959,6 +964,7 @@
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F057D27F252046BB0094BD83 /* CustomTextParser.swift in Sources */,
 				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
+				45A5E5582729071700A94FCE /* GridInfo.swift in Sources */,
 				F057D24D252045400094BD83 /* CodePagesController+Interactions.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,

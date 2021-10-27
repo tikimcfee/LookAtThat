@@ -9,7 +9,7 @@ import Foundation
 import SwiftSyntax
 
 class CodeGridParser: SwiftSyntaxFileLoadable {
-    lazy var glyphCache: GlyphLayerCache = {
+	lazy var glyphCache: GlyphLayerCache = {
         GlyphLayerCache()
     }()
 	

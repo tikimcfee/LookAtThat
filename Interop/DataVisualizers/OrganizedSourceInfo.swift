@@ -1,7 +1,8 @@
 import Foundation
 import SwiftSyntax
 
-typealias InfoCollection = [SyntaxIdentifier: CodeSheet]
+typealias InfoType = CodeSheet
+typealias InfoCollection = [SyntaxIdentifier: InfoType]
 
 public class OrganizedSourceInfo {
     var allSheets = InfoCollection()
@@ -77,11 +78,11 @@ public class OrganizedSourceInfo {
 }
 
 extension OrganizedSourceInfo {
-    subscript(_ syntaxId: SyntaxIdentifier) -> CodeSheet? {
+    subscript(_ syntaxId: SyntaxIdentifier) -> InfoType? {
         get { allSheets[syntaxId] }
     }
 
-    subscript(_ syntax: Syntax) -> CodeSheet? {
+    subscript(_ syntax: Syntax) -> InfoType? {
         get { allSheets[syntax.id] }
         set {
             let hash = syntax.id
@@ -89,7 +90,7 @@ extension OrganizedSourceInfo {
         }
     }
 
-    subscript(_ syntax: DeclSyntaxProtocol) -> CodeSheet? {
+    subscript(_ syntax: DeclSyntaxProtocol) -> InfoType? {
         get { allSheets[syntax.id] }
         set {
             let hash = syntax.id
@@ -100,7 +101,7 @@ extension OrganizedSourceInfo {
         }
     }
 
-    subscript(_ syntax: ExprSyntaxProtocol) -> CodeSheet? {
+    subscript(_ syntax: ExprSyntaxProtocol) -> InfoType? {
         get { allSheets[syntax.id] }
         set {
             let hash = syntax.id
@@ -133,20 +134,3 @@ extension OrganizedSourceInfo {
     }
 }
 
-extension OrganizedSourceInfo {
-    func dump() {
-        [(functions,"functions"),
-         (enumerations,"enums"),
-         (extensions,"extensions"),
-         (structs,"structs"),
-         (classes,"classes")
-        ].forEach {
-            var iterator = $0.0.makeIterator()
-            while let (id, sheet) = iterator.next() {
-                print("\($0.1) | \(id) --> \(sheet.id); \(sheet.allLines.count) lines, \(sheet.children.count) children")
-            }
-        }
-
-
-    }
-}

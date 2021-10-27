@@ -44,16 +44,12 @@ extension CodePagesController {
             with: point, .all, .rootCodeSheet
         ).first?.node.parent else { return }
 
-//        let maybeSheet = syntaxNodeParser.allRootContainerNodes[clickedSheet]
-//        let maybeSheet = codeSheetParser.allRootContainerNodes[clickedSheet]
         let maybeSheet = codeSheetParser.codeSheetVisitor.allRootContainerNodes[clickedSheet]
         print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
         touchState.mouse.currentClickedSheet = maybeSheet
         codeSheetSelected(maybeSheet)
     }
 	
-	
-
     func newMousePosition(_ point: CGPoint) {
 		let codeTokens = sceneView.hitTestCodeGridTokens(with: point)
 		

@@ -83,8 +83,6 @@ extension String {
         let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
-//        swiftSyntaxParser.organizedInfo.dump()
-
         printEnd()
     }
 
@@ -94,8 +92,6 @@ extension String {
 
         let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
-
-//        swiftSyntaxParser.organizedInfo.dump()
 
         printEnd()
     }

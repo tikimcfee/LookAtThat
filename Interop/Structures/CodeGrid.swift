@@ -35,7 +35,9 @@ class CodeGrid: Identifiable, Equatable {
     }
     
     let pointer = Pointer()
-	let tokenCache: CodeGridTokenCache 
+	let tokenIdToNodeSetCache: CodeGridTokenCache
+	let syntaxNodeAssociationCache: SyntaxNodeAssociationCache = SyntaxNodeAssociationCache()
+	let codeGridInfo: CodeGridAssociations = CodeGridAssociations()
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -47,7 +49,7 @@ class CodeGrid: Identifiable, Equatable {
          glyphCache: GlyphLayerCache,
 		 tokenCache: CodeGridTokenCache) {
         self.glyphCache = glyphCache
-		self.tokenCache = tokenCache
+		self.tokenIdToNodeSetCache = tokenCache
         self.id = id ?? self.id
     }
     
@@ -100,21 +102,43 @@ extension CodeGrid {
         for token in syntax.tokens {
 			let fullText = token.triviaAndText
 			let tokenId = token.id.stringIdentifier
-			var tokenNodeset = Nodeset()
+			var tokenNodeset = CodeGridNodes()
 			
-//			var associationId = 0
+//			for textCharacter in token.leadingTrivia {
+//				
+//			}
+//			
+//			for textCharacter in token.text {
+//				
+//			}
+//			
+//			for textCharacter in token.trailingTrivia {
+//				
+//			}
+			
 			for textCharacter in fullText {
 				let (letterNode, size) = createNodeFor(textCharacter)
-//				letterNode.name = "\(tokenId)-\(associationId)"
 				letterNode.name = tokenId
-				pointerAddToGrid(textCharacter, letterNode, size)
-				
-//				associationId += 1
 				tokenNodeset.insert(letterNode)
+				pointerAddToGrid(textCharacter, letterNode, size)
             }
 
-			tokenCache[tokenId] = tokenNodeset
+			tokenIdToNodeSetCache[tokenId] = tokenNodeset
+			
+			var parent = token.parent
+			while parent != nil {
+				if let parent = parent {
+					if let decl = parent.asProtocol(DeclSyntaxProtocol.self) {
+						codeGridInfo[decl] = tokenNodeset
+					} else {
+						codeGridInfo[parent] = tokenNodeset
+					}
+				}
+				parent = parent?.parent
+			}
+			
         }
+				
         return self
     }
 	
@@ -163,14 +187,24 @@ extension CodeGrid {
 // - given a token, return the nodes that represent it
 // - use that set to highlight, move, do stuff to
 
-typealias Nodeset = Set<SCNNode>
-
-class CodeGridTokenCache: LockingCache<String, Nodeset> {
+typealias CodeGridNodes = Set<SCNNode>
+class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
 	override func make(
 		_ key: String, 
-		_ store: inout [String : Nodeset]
-	) -> Nodeset {
-		let set = Nodeset()
+		_ store: inout [String : CodeGridNodes]
+	) -> CodeGridNodes {
+		let set = CodeGridNodes()
+		return set
+	}
+}
+
+typealias AssociationKey = SyntaxIdentifier
+class SyntaxNodeAssociationCache: LockingCache<AssociationKey, CodeGridNodes> {
+	override func make(
+		_ key: AssociationKey, 
+		_ store: inout [AssociationKey : CodeGridNodes]
+	) -> CodeGridNodes {
+		let set = CodeGridNodes()
 		return set
 	}
 }
