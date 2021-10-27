@@ -113,6 +113,22 @@ extension CodePagesController {
                 )
         }
     }
+	
+	func selected(id: SyntaxIdentifier, in source: CodeGridAssociations) {
+		guard let sheet = source[id] else {
+			print("Missing sheet or semantic info for \(id)")
+			return
+		}
+		
+		let isSelected = selectedSheets.toggle(id)
+		sceneTransaction {
+			sheet.forEach { node in
+				node.position = node.position.translated(
+					dZ: isSelected ? 25 : -25
+				)
+			}
+		}
+	}
 
     func toggleNodeHighlight(_ node: SCNNode) {
         for letter in node.childNodes {
@@ -151,14 +167,12 @@ extension CodePagesController {
         }
     }
 
-    func renderSyntax(_ handler: @escaping (OrganizedSourceInfo) -> Void) {
+    func renderSyntax(_ handler: @escaping (CodeGridAssociations) -> Void) {
         requestSourceFile { fileUrl in
             self.workerQueue.async {
-//                guard let sheet = self.codeSheetParser.parseFile(fileUrl) else { return }
-//                sceneTransaction {
-//                    self.sceneState.rootGeometryNode.addChildNode(sheet.containerNode)
-//                }
                 guard let grid = self.codeGridParser.renderGrid(fileUrl) else { return }
+				
+				handler(grid.codeGridInfo)
                 
                 sceneTransaction {
                     self.sceneState.rootGeometryNode.addChildNode(grid.rootNode)

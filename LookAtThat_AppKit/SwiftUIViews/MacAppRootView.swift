@@ -17,8 +17,8 @@ struct MacAppRootView: View {
                 }.padding(.bottom, 16.0)
             case .source:
                 HStack(alignment: .bottom) {
-                    MultipeerInfoView()
-                        .frame(maxHeight: 512.0)
+//                    MultipeerInfoView()
+//                        .frame(maxHeight: 512.0)
                     TestButtons_Debugging()
                     Spacer()
                     SourceInfoGrid()

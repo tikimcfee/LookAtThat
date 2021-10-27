@@ -103,19 +103,7 @@ extension CodeGrid {
 			let fullText = token.triviaAndText
 			let tokenId = token.id.stringIdentifier
 			var tokenNodeset = CodeGridNodes()
-			
-//			for textCharacter in token.leadingTrivia {
-//				
-//			}
-//			
-//			for textCharacter in token.text {
-//				
-//			}
-//			
-//			for textCharacter in token.trailingTrivia {
-//				
-//			}
-			
+
 			for textCharacter in fullText {
 				let (letterNode, size) = createNodeFor(textCharacter)
 				letterNode.name = tokenId
@@ -125,16 +113,11 @@ extension CodeGrid {
 
 			tokenIdToNodeSetCache[tokenId] = tokenNodeset
 			
-			var parent = token.parent
-			while parent != nil {
-				if let parent = parent {
-					if let decl = parent.asProtocol(DeclSyntaxProtocol.self) {
-						codeGridInfo[decl] = tokenNodeset
-					} else {
-						codeGridInfo[parent] = tokenNodeset
-					}
-				}
-				parent = parent?.parent
+			var tokenParent = token.parent
+			while tokenParent != nil {
+				guard let parent = tokenParent else { continue }
+				codeGridInfo[parent] = tokenNodeset
+				tokenParent = parent.parent
 			}
 			
         }

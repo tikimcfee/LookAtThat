@@ -4,23 +4,18 @@ import SwiftUI
 
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
-    @State var sourceInfo: OrganizedSourceInfo?
+	@State var sourceInfo: CodeGridAssociations = CodeGridAssociations() 
 
     var body: some View {
         return VStack(alignment: .leading) {
-            if let info = sourceInfo {
-                VStack {
-                    infoRows(named: "Structs", from: info.structs)
-                    infoRows(named: "Classes", from: info.classes)
-                    infoRows(named: "Enumerations", from: info.enumerations)
-                    infoRows(named: "Extensions", from: info.extensions)
-                    infoRows(named: "Functions", from: info.functions)
-                    infoRows(named: "Variables", from: info.variables)
-                }
-            } else {
-                Text("No source info to display")
-                    .padding()
-            }
+			VStack {
+				infoRows(named: "Structs", from: sourceInfo.structs)
+				infoRows(named: "Classes", from: sourceInfo.classes)
+				infoRows(named: "Enumerations", from: sourceInfo.enumerations)
+				infoRows(named: "Extensions", from: sourceInfo.extensions)
+				infoRows(named: "Functions", from: sourceInfo.functions)
+				infoRows(named: "Variables", from: sourceInfo.variables)
+			}
             buttons
         }
         .frame(width: 296, alignment: .leading)
@@ -35,7 +30,7 @@ struct SourceInfoGrid: View {
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
         ) { selectedSheet in
-            self.sourceInfo = selectedSheet?.sourceInfo
+//            self.sourceInfo = selectedSheet?.sourceInfo
         }
     }
 
@@ -59,13 +54,13 @@ struct SourceInfoGrid: View {
     }
 
     @ViewBuilder
-    func infoRows(named: String, from pair: InfoCollection) -> some View {
+    func infoRows(named: String, from pair: GridCollection) -> some View {
         Text(named).underline().padding(.top, 8)
         List {
-            ForEach(Array(pair.values), id:\.id) { codeSheet in
+			ForEach(Array(pair.keys), id:\.self) { id in
                 VStack {
-                    if let semantics = codeSheet.semanticInfo {
-                        Text(semantics.referenceName)
+					if let rowName = sourceInfo.textCache[id] {
+                        Text(rowName)
                             .frame(minWidth: 232, alignment: .leading)
                             .padding(4)
                             .overlay(
@@ -73,7 +68,7 @@ struct SourceInfoGrid: View {
                                     .stroke(Color.gray)
                             )
                             .onTapGesture {
-                                selected(id: semantics.syntaxId)
+                                selected(id: id)
                             }
                     } else {
                         Text("No SemanticInfo")
@@ -106,7 +101,6 @@ struct SourceInfoGrid: View {
     }
 
     func selected(id: SyntaxIdentifier) {
-        guard let sourceInfo = self.sourceInfo else { return }
         SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
     }
 
@@ -132,7 +126,7 @@ struct SourceInfoGrid: View {
 
     private func renderDirectory() {
         SceneLibrary.global.codePagesController.renderDirectory{ states in
-            sourceInfo = states.first?.organizedSourceInfo
+//            sourceInfo = states.first?.organizedSourceInfo
         }
     }
 }
@@ -181,9 +175,9 @@ struct TestButtons_Dictionary: View {
 #if DEBUG
 import SwiftSyntax
 struct SourceInfo_Previews: PreviewProvider {
-    static var sourceInfo = WrappedBinding<OrganizedSourceInfo?>(
+    static var sourceInfo = WrappedBinding<CodeGridAssociations>(
         {
-            let info = OrganizedSourceInfo()
+            let info = CodeGridAssociations()
             return info
         }()
     )

@@ -9,10 +9,11 @@ import Foundation
 import SwiftSyntax
 import SceneKit
 
-typealias GridType = Set<SCNNode>
-typealias GridCollection = [SyntaxIdentifier: GridType]
+typealias GridAssociationType = Set<SCNNode>
+typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
 
 public class CodeGridAssociations {
+	var textCache = [SyntaxIdentifier: String]() 
 	var allSheets = GridCollection()
 	var structs = GridCollection()
 	var classes = GridCollection()
@@ -86,37 +87,42 @@ public class CodeGridAssociations {
 }
 
 extension CodeGridAssociations {
-	subscript(_ syntaxId: SyntaxIdentifier) -> GridType? {
+	subscript(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
 		get { allSheets[syntaxId] }
 	}
 	
-	subscript(_ syntax: Syntax) -> GridType? {
+	subscript(_ syntax: Syntax) -> GridAssociationType? {
 		get { allSheets[syntax.id] }
 		set {
 			let hash = syntax.id
 			let existing = allSheets[hash] ?? []
 			allSheets[hash] = existing.union(newValue ?? [])
-		}
-	}
-	
-	subscript(_ syntax: DeclSyntaxProtocol) -> GridType? {
-		get { allSheets[syntax.id] }
-		set {
-			let hash = syntax.id
-			let existing = allSheets[hash] ?? []
-			allSheets[hash] = existing.union(newValue ?? [])
-			groupedBlocks(for: syntax) {
-				let existing = $0[hash] ?? []
-				$0[hash] = existing.union(newValue ?? [])
+			
+			switch syntax.cachedType {
+				case .structDecl(let decl):
+					textCache[syntax.id] = decl.identifier.text
+				case .classDecl(let  decl):
+					textCache[syntax.id] = decl.identifier.text
+				case .functionDecl(let  decl):
+					textCache[syntax.id] = decl.identifier.text
+				case .enumDecl(let  decl):
+					textCache[syntax.id] = decl.identifier.text
+//				case .extensionDecl(let  decl):
+//					textCache[syntax.id] = decl.extendedType.
+//				case .variableDecl(let  decl):
+//					textCache[syntax.id] = decl.identifier.text
+				case .typealiasDecl(let  decl):
+					textCache[syntax.id] = decl.identifier.text
+				default:
+					break
 			}
-		}
-	}
-	
-	subscript(_ syntax: ExprSyntaxProtocol) -> GridType? {
-		get { allSheets[syntax.id] }
-		set {
-			let hash = syntax.id
-			allSheets[hash] = newValue
+			
+			if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
+				groupedBlocks(for: decl) {
+					let existing = $0[hash] ?? []
+					$0[hash] = existing.union(newValue ?? [])
+				}
+			}
 		}
 	}
 	
