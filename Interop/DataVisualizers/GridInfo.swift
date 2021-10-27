@@ -13,8 +13,10 @@ typealias GridAssociationType = Set<SCNNode>
 typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
 
 public class CodeGridAssociations {
-	var textCache = [SyntaxIdentifier: String]() 
-	var allSheets = GridCollection()
+	var infoCache = [SyntaxIdentifier: SemanticInfo]()
+	
+	var allGrids = GridCollection()
+	
 	var structs = GridCollection()
 	var classes = GridCollection()
 	var enumerations = GridCollection()
@@ -27,7 +29,7 @@ public class CodeGridAssociations {
 	var extensions = GridCollection()
 	
 	static func + (left: CodeGridAssociations, right: CodeGridAssociations) -> CodeGridAssociations {
-		left.allSheets.merge(right.allSheets) { left, right in
+		left.allGrids.merge(right.allGrids) { left, right in
 //			print("Duplicated 'allSheets' key -> \(left.id), \(right.id)")
 			return left
 		}
@@ -88,39 +90,20 @@ public class CodeGridAssociations {
 
 extension CodeGridAssociations {
 	subscript(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
-		get { allSheets[syntaxId] }
+		get { allGrids[syntaxId] }
 	}
-	
+		
 	subscript(_ syntax: Syntax) -> GridAssociationType? {
-		get { allSheets[syntax.id] }
+		get { allGrids[syntax.id] }
 		set {
-			let hash = syntax.id
-			let existing = allSheets[hash] ?? []
-			allSheets[hash] = existing.union(newValue ?? [])
-			
-			switch syntax.cachedType {
-				case .structDecl(let decl):
-					textCache[syntax.id] = decl.identifier.text
-				case .classDecl(let  decl):
-					textCache[syntax.id] = decl.identifier.text
-				case .functionDecl(let  decl):
-					textCache[syntax.id] = decl.identifier.text
-				case .enumDecl(let  decl):
-					textCache[syntax.id] = decl.identifier.text
-//				case .extensionDecl(let  decl):
-//					textCache[syntax.id] = decl.extendedType.
-//				case .variableDecl(let  decl):
-//					textCache[syntax.id] = decl.identifier.text
-				case .typealiasDecl(let  decl):
-					textCache[syntax.id] = decl.identifier.text
-				default:
-					break
-			}
+			let id = syntax.id
+			let existing = allGrids[id] ?? []
+			allGrids[id] = existing.union(newValue ?? [])
 			
 			if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
 				groupedBlocks(for: decl) {
-					let existing = $0[hash] ?? []
-					$0[hash] = existing.union(newValue ?? [])
+					let existing = $0[id] ?? []
+					$0[id] = existing.union(newValue ?? [])
 				}
 			}
 		}

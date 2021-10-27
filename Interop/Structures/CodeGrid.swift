@@ -10,34 +10,11 @@ import SceneKit
 import SwiftSyntax
 
 class CodeGrid: Identifiable, Equatable {
-    struct GlyphPosition: Hashable, Equatable {
-        let xColumn: VectorFloat
-        let yRow: VectorFloat
-        let zDepth: VectorFloat
-        
-        func transformed(dX: VectorFloat = 0,
-                         dY: VectorFloat = 0,
-                         dZ: VectorFloat = 0) -> GlyphPosition {
-            GlyphPosition(xColumn: xColumn + dX, yRow: yRow + dY, zDepth: zDepth + dZ)
-        }
-        
-        lazy var vector: SCNVector3 = { SCNVector3(xColumn, yRow, zDepth) }()
-    }
-    
-    class Pointer {
-        var position: GlyphPosition = GlyphPosition(xColumn: 0, yRow: 0, zDepth: 0)
-        
-        func right(_ dX: VectorFloat) { position = position.transformed(dX: dX) }
-        func left(_ dX: VectorFloat) { position = position.transformed(dX: -dX) }
-        func up(_ dY: VectorFloat) { position = position.transformed(dY: dY) }
-        func down(_ dY: VectorFloat) { position = position.transformed(dY: -dY) }
-        func move(to position: GlyphPosition) { self.position = position }
-    }
-    
-    let pointer = Pointer()
-	let tokenIdToNodeSetCache: CodeGridTokenCache
-	let syntaxNodeAssociationCache: SyntaxNodeAssociationCache = SyntaxNodeAssociationCache()
+    let tokenIdToNodeSetCache: CodeGridTokenCache
+	
+	let pointer = Pointer()
 	let codeGridInfo: CodeGridAssociations = CodeGridAssociations()
+	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -91,44 +68,100 @@ extension CodeGrid {
     }
 }
 
-extension SyntaxIdentifier {
-	var stringIdentifier: String { "\(hashValue)" }
+extension CodeGrid {
+	struct GlyphPosition: Hashable, Equatable {
+		let xColumn: VectorFloat
+		let yRow: VectorFloat
+		let zDepth: VectorFloat
+		
+		func transformed(dX: VectorFloat = 0,
+						 dY: VectorFloat = 0,
+						 dZ: VectorFloat = 0) -> GlyphPosition {
+			GlyphPosition(xColumn: xColumn + dX, yRow: yRow + dY, zDepth: zDepth + dZ)
+		}
+		
+		lazy var vector: SCNVector3 = { SCNVector3(xColumn, yRow, zDepth) }()
+	}
+	
+	class Pointer {
+		var position: GlyphPosition = GlyphPosition(xColumn: 0, yRow: 0, zDepth: 0)
+		
+		func right(_ dX: VectorFloat) { position = position.transformed(dX: dX) }
+		func left(_ dX: VectorFloat) { position = position.transformed(dX: -dX) }
+		func up(_ dY: VectorFloat) { position = position.transformed(dY: dY) }
+		func down(_ dY: VectorFloat) { position = position.transformed(dY: -dY) }
+		func move(to newPosition: GlyphPosition) { position = newPosition }
+	}
+}
+
+class SemanticInfoBuilder {
+	func semanticInfo(for node: Syntax) -> SemanticInfo {
+		switch node.cachedType {
+			case .functionDecl(let funcl):
+				return SemanticInfo(
+					syntaxId: node.id, 
+					referenceName: "\(funcl.identifier)::\(funcl.signature.description)", 
+					syntaxTypeName: String(describing: funcl.syntaxNodeType)
+				)
+			default:
+				return defaultSemanticInfo(for: node)
+		}
+	}
+	
+	private func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
+		return SemanticInfo(
+			syntaxId: node.id,
+			referenceName: String(describing: node.syntaxNodeType),
+			syntaxTypeName: String(describing: node.syntaxNodeType)
+		)
+	}
 }
 
 // CodeSheet operations
+private extension SyntaxIdentifier {
+	var stringIdentifier: String { "\(hashValue)" }
+}
+
 extension CodeGrid {
     @discardableResult
     func consume(syntax: Syntax) -> Self {
         for token in syntax.tokens {
 			let fullText = token.triviaAndText
-			let tokenId = token.id.stringIdentifier
+			let tokenIdNodeName = token.id.stringIdentifier
 			var tokenNodeset = CodeGridNodes()
 
 			for textCharacter in fullText {
 				let (letterNode, size) = createNodeFor(textCharacter)
-				letterNode.name = tokenId
+				letterNode.name = tokenIdNodeName
 				tokenNodeset.insert(letterNode)
 				pointerAddToGrid(textCharacter, letterNode, size)
             }
 
-			tokenIdToNodeSetCache[tokenId] = tokenNodeset
+			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
 			
+			// Walk the parenty hierarchy and associate these nodes with that parent.
+			// Add semantic info to lookup for each parent node found
+			// NOTE: tokens have no entry in the info set; only their parents are ever added.
 			var tokenParent = token.parent
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
+				codeGridSetSemanticInfo(parent)
 				codeGridInfo[parent] = tokenNodeset
 				tokenParent = parent.parent
 			}
-			
         }
-				
+		
         return self
     }
+	
+	private func codeGridSetSemanticInfo(_ syntax: Syntax) {
+		guard codeGridInfo.infoCache[syntax.id] == nil else { return } 
+		codeGridInfo.infoCache[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
+	}
 	
 	private func createNodeFor(_ syntaxTokenCharacter: Character) -> (SCNNode, CGSize) {
 		let key = GlyphCacheKey("\(syntaxTokenCharacter)", NSUIColor.white) // TODO: colorizer fits in here somewhere
 		let (geometry, size) = glyphCache[key]
-		
 		
 		let centerX = size.width / 2.0
 		let centerY = -size.height / 2.0

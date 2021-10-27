@@ -59,8 +59,8 @@ struct SourceInfoGrid: View {
         List {
 			ForEach(Array(pair.keys), id:\.self) { id in
                 VStack {
-					if let rowName = sourceInfo.textCache[id] {
-                        Text(rowName)
+					if let info = sourceInfo.infoCache[id] {
+						Text(info.referenceName)
                             .frame(minWidth: 232, alignment: .leading)
                             .padding(4)
                             .overlay(
@@ -68,7 +68,7 @@ struct SourceInfoGrid: View {
                                     .stroke(Color.gray)
                             )
                             .onTapGesture {
-                                selected(id: id)
+								selected(id: info.syntaxId)
                             }
                     } else {
                         Text("No SemanticInfo")
