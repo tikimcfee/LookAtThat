@@ -32,8 +32,8 @@ extension DictionarySceneController {
             let nodeToAdd =
                 wordNodeBuilder.definitionNode(nextPosition, word, definition)
 
-            let rootWordNode =
-                nodeToAdd.childNodes.first!
+//            let rootWordNode =
+//                nodeToAdd.childNodes.first!
 
             let definitionWords =
                 nodeToAdd.childNodes.dropFirst()

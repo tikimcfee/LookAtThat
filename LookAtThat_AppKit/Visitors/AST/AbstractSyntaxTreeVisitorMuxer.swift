@@ -22,7 +22,7 @@ typealias SourceTree = [SourceTreeKey:SourceTreeValue]
 typealias SourceTreePair = (SourceTreeKey, SourceTreeValue)
 typealias SourceTreeList = [(SourceTreeKey, SourceTreeValue)]
 
-protocol VisitorDelegate: class {
+protocol VisitorDelegate: AnyObject {
     func didVisit(_ node: ASTNode)
 }
 

@@ -40,7 +40,7 @@ class CodeGrid: Identifiable, Equatable {
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
-    lazy var gridGeometry: SCNBox = makePageGeometry()
+    lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
     let glyphCache: GlyphLayerCache
     
@@ -66,7 +66,7 @@ extension CodeGrid {
         return container
     }
     
-    private func makePageGeometry() -> SCNBox {
+    private func makeGridGeometry() -> SCNBox {
         let sheetGeometry = SCNBox()
         sheetGeometry.chamferRadius = 4.0
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
@@ -101,28 +101,53 @@ extension CodeGrid {
         return self
     }
     
-    private func onConsumeLayoutGlyph(_ textCharacter: Character) {
-        let key = GlyphCacheKey("\(textCharacter)", NSUIColor.white)
-        let (geometry, size) = glyphCache[key]
+    private func onConsumeLayoutGlyph(_ syntaxTokenCharacter: Character) {
+        let (letterNode, size) = createNodeFor(syntaxTokenCharacter)
         
-        let letterNode = SCNNode()
-        letterNode.position = pointer.position.vector
-        letterNode.geometry = geometry
+		// add node directly to root container grid
+		letterNode.position = pointer.position.vector
+		rootNode.addChildNode(letterNode)
         
-        let centerX = size.width / 2.0
-        let centerY = -size.height / 2.0
-        let pivotCenterToLeadingTop = SCNMatrix4MakeTranslation(-centerX.vector, -centerY.vector, 0)
-        letterNode.pivot = pivotCenterToLeadingTop
-        
-        rootNode.addChildNode(letterNode)
-        pointer.right(size.width)
-        if textCharacter.isNewline {
+		// we're writing left-to-right. 
+		// Letter spacing is implicit to layer size.
+		pointer.right(size.width)
+        if syntaxTokenCharacter.isNewline {
             pointerNewLine(size)
         }
     }
+	
+	private func createNodeFor(_ syntaxTokenCharacter: Character) -> (SCNNode, CGSize) {
+		let key = GlyphCacheKey("\(syntaxTokenCharacter)", NSUIColor.white) // TODO: colorizer fits in here somewhere
+		let (geometry, size) = glyphCache[key]
+		
+		let centerX = size.width / 2.0
+		let centerY = -size.height / 2.0
+		let pivotCenterToLeadingTop = SCNMatrix4MakeTranslation(-centerX.vector, -centerY.vector, 0)
+		
+		let letterNode = SCNNode()
+		letterNode.geometry = geometry
+		letterNode.pivot = pivotCenterToLeadingTop
+		
+		return (letterNode, size)
+	}
     
     private func pointerNewLine(_ size: CGSize) {
         pointer.down(size.height)
         pointer.left(pointer.position.xColumn)
     }
+}
+
+// associate tokens to sets of nodes.
+// { let nodesToUpdate = tracker[someToken] }
+// - given a token, return the nodes that represent it
+// - use that set to highlight, move, do stuff to
+
+typealias Nodeset = Set<SCNNode>
+
+class CodeGridTokenTracker {
+	var tokenToNodeMap: [SyntaxIdentifier: Nodeset] = [:]
+}
+
+class CodeGridCache: LockingCache<SyntaxIdentifier, Nodeset> {
+	
 }
