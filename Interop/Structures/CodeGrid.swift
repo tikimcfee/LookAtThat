@@ -35,7 +35,7 @@ class CodeGrid: Identifiable, Equatable {
     }
     
     let pointer = Pointer()
-	let tokenCache = CodeGridTokenCache()
+	let tokenCache: CodeGridTokenCache 
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -44,8 +44,10 @@ class CodeGrid: Identifiable, Equatable {
     let glyphCache: GlyphLayerCache
     
     init(_ id: String? = nil,
-         glyphCache: GlyphLayerCache) {
+         glyphCache: GlyphLayerCache,
+		 tokenCache: CodeGridTokenCache) {
         self.glyphCache = glyphCache
+		self.tokenCache = tokenCache
         self.id = id ?? self.id
     }
     
@@ -100,17 +102,18 @@ extension CodeGrid {
 			let tokenId = token.id.stringIdentifier
 			var tokenNodeset = Nodeset()
 			
-			var associationId = 0
+//			var associationId = 0
 			for textCharacter in fullText {
 				let (letterNode, size) = createNodeFor(textCharacter)
-				letterNode.name = "\(tokenId)-\(associationId)"
+//				letterNode.name = "\(tokenId)-\(associationId)"
+				letterNode.name = tokenId
 				pointerAddToGrid(textCharacter, letterNode, size)
 				
-				associationId += 1
+//				associationId += 1
 				tokenNodeset.insert(letterNode)
             }
 
-			tokenCache[token.id] = tokenNodeset
+			tokenCache[tokenId] = tokenNodeset
         }
         return self
     }
@@ -162,10 +165,10 @@ extension CodeGrid {
 
 typealias Nodeset = Set<SCNNode>
 
-class CodeGridTokenCache: LockingCache<SyntaxIdentifier, Nodeset> {
+class CodeGridTokenCache: LockingCache<String, Nodeset> {
 	override func make(
-		_ key: SyntaxIdentifier, 
-		_ store: inout [SyntaxIdentifier : Nodeset]
+		_ key: String, 
+		_ store: inout [String : Nodeset]
 	) -> Nodeset {
 		let set = Nodeset()
 		return set

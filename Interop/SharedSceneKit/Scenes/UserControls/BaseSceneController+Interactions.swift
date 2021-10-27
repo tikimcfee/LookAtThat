@@ -232,7 +232,9 @@ class TouchState {
 }
 
 class Mouse {
-    var currentHoveredSheet: SCNNode?
+	let hoverTracker = TokenHoverInteractionTracker()
+	
+	var currentHoveredSheet: SCNNode?
     var currentClickedSheet: CodeSheet?
 }
 

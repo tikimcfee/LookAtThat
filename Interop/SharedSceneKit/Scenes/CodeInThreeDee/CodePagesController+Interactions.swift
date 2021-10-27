@@ -51,14 +51,18 @@ extension CodePagesController {
         touchState.mouse.currentClickedSheet = maybeSheet
         codeSheetSelected(maybeSheet)
     }
+	
+	
 
     func newMousePosition(_ point: CGPoint) {
-
-
 		let codeTokens = sceneView.hitTestCodeGridTokens(with: point)
-		codeTokens.forEach { hitResult in
-			print(hitResult.node.name)
-		}
+		
+		guard let firstHoveredToken = codeTokens.first,
+			  let nodeName = firstHoveredToken.node.name
+		else { return }
+		
+		let nodeSet = codeGridParser.tokenCache[nodeName]
+		touchState.mouse.hoverTracker.newSetHovered(nodeSet)
     }
 
     func codeSheetSelected(_ sheet: CodeSheet?) {
@@ -67,4 +71,31 @@ extension CodePagesController {
         }
     }
     #endif
+}
+
+class TokenHoverInteractionTracker {
+	typealias Key = SCNNode
+	var currentHoveredSet: Set<Key> = []
+	
+	func newSetHovered(_ results: Set<Key>) {
+		let newlyHovered = results.subtracting(currentHoveredSet)
+		let toRemove = currentHoveredSet.subtracting(results)
+		
+		newlyHovered.forEach { focusNode($0) }
+		toRemove.forEach { unfocusNode($0) }
+	}
+	
+	private func focusNode(_ result: Key) {
+		guard !currentHoveredSet.contains(result) else { return }
+		currentHoveredSet.insert(result)
+		
+		result.position.z += 5.0
+	}
+	
+	private func unfocusNode(_ result: Key) {
+		guard currentHoveredSet.contains(result) else { return }
+		currentHoveredSet.remove(result)
+		
+		result.position.z -= 5.0
+	}
 }

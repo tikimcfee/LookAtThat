@@ -12,6 +12,10 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     lazy var glyphCache: GlyphLayerCache = {
         GlyphLayerCache()
     }()
+	
+	lazy var tokenCache: CodeGridTokenCache = {
+		CodeGridTokenCache()
+	}()
     
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else {
@@ -24,7 +28,8 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     }
     
     private func renderGrid(_ syntax: SourceFileSyntax) -> CodeGrid {
-        let grid = CodeGrid(glyphCache: glyphCache)
+        let grid = CodeGrid(glyphCache: glyphCache,
+							tokenCache: tokenCache)
             .consume(syntax: Syntax(syntax))
             .sizeGridToContainerNode()
         return grid
