@@ -53,20 +53,12 @@ extension CodePagesController {
     }
 
     func newMousePosition(_ point: CGPoint) {
-//        let hoverTranslationY = CGFloat(50)
 
-//        let newHitTestedSheet = sceneView.hitTestCodeSheet(
-//            with: point, .all, .rootCodeSheet
-//        ).first?.node.parent
 
-//        sceneTransaction {
-//            let lastSheet = touchState.mouse.currentHoveredSheet
-//            if lastSheet != newHitTestedSheet {
-//                lastSheet?.position.y -= hoverTranslationY
-//                newHitTestedSheet?.position.y += hoverTranslationY
-//            }
-//        }
-//        touchState.mouse.currentHoveredSheet = newHitTestedSheet
+		let codeTokens = sceneView.hitTestCodeGridTokens(with: point)
+		codeTokens.forEach { hitResult in
+			print(hitResult.node.name)
+		}
     }
 
     func codeSheetSelected(_ sheet: CodeSheet?) {

@@ -60,7 +60,7 @@ extension CodeGrid {
         container.name = kContainerName + UUID().uuidString
         container.addChildNode(backgroundGeometryNode)
         backgroundGeometryNode.geometry = gridGeometry
-        backgroundGeometryNode.categoryBitMask = HitTestType.codeSheet.rawValue
+		backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         backgroundGeometryNode.name = id
         return container
     }
@@ -119,6 +119,7 @@ extension CodeGrid {
 		let key = GlyphCacheKey("\(syntaxTokenCharacter)", NSUIColor.white) // TODO: colorizer fits in here somewhere
 		let (geometry, size) = glyphCache[key]
 		
+		
 		let centerX = size.width / 2.0
 		let centerY = -size.height / 2.0
 		let pivotCenterToLeadingTop = SCNMatrix4MakeTranslation(-centerX.vector, -centerY.vector, 0)
@@ -126,6 +127,7 @@ extension CodeGrid {
 		let letterNode = SCNNode()
 		letterNode.geometry = geometry
 		letterNode.pivot = pivotCenterToLeadingTop
+		letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
 		
 		return (letterNode, size)
 	}
