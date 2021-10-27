@@ -35,8 +35,7 @@ class CodeGrid: Identifiable, Equatable {
     }
     
     let pointer = Pointer()
-    var nodes = [GlyphPosition: SCNNode]()
-    var size = GlyphPosition(xColumn: 100, yRow: 100, zDepth: 0)
+	let tokenCache = CodeGridTokenCache()
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -93,27 +92,19 @@ extension CodeGrid {
     @discardableResult
     func consume(syntax: Syntax) -> Self {
         for token in syntax.tokens {
-            let fullText = token.triviaAndText
-            for textCharacter in fullText {
-                onConsumeLayoutGlyph(textCharacter)
+			let fullText = token.triviaAndText
+			var tokenNodeset = Nodeset()
+            
+			for textCharacter in fullText {
+				let (letterNode, size) = createNodeFor(textCharacter)
+				pointerAddToGrid(textCharacter, letterNode, size)
+				
+
+				
+				
             }
         }
         return self
-    }
-    
-    private func onConsumeLayoutGlyph(_ syntaxTokenCharacter: Character) {
-        let (letterNode, size) = createNodeFor(syntaxTokenCharacter)
-        
-		// add node directly to root container grid
-		letterNode.position = pointer.position.vector
-		rootNode.addChildNode(letterNode)
-        
-		// we're writing left-to-right. 
-		// Letter spacing is implicit to layer size.
-		pointer.right(size.width)
-        if syntaxTokenCharacter.isNewline {
-            pointerNewLine(size)
-        }
     }
 	
 	private func createNodeFor(_ syntaxTokenCharacter: Character) -> (SCNNode, CGSize) {
@@ -130,6 +121,23 @@ extension CodeGrid {
 		
 		return (letterNode, size)
 	}
+	
+	private func pointerAddToGrid(
+		_ syntaxTokenCharacter: Character,
+		_ letterNode: SCNNode, 
+		_ size: CGSize
+	) {
+		// add node directly to root container grid
+		letterNode.position = pointer.position.vector
+		rootNode.addChildNode(letterNode)
+		
+		// we're writing left-to-right. 
+		// Letter spacing is implicit to layer size.
+		pointer.right(size.width)
+		if syntaxTokenCharacter.isNewline {
+			pointerNewLine(size)
+		}
+	}
     
     private func pointerNewLine(_ size: CGSize) {
         pointer.down(size.height)
@@ -144,10 +152,12 @@ extension CodeGrid {
 
 typealias Nodeset = Set<SCNNode>
 
-class CodeGridTokenTracker {
-	var tokenToNodeMap: [SyntaxIdentifier: Nodeset] = [:]
-}
-
-class CodeGridCache: LockingCache<SyntaxIdentifier, Nodeset> {
-	
+class CodeGridTokenCache: LockingCache<SyntaxIdentifier, Nodeset> {
+	override func make(
+		_ key: SyntaxIdentifier, 
+		_ store: inout [SyntaxIdentifier : Nodeset]
+	) -> Nodeset {
+		let set = Nodeset()
+		return set
+	}
 }
