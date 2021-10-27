@@ -20,7 +20,13 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
 
     subscript(key: Key) -> Value {
         get { cache[key] ?? lockAndMake(key: key) }
+		set { lockAndSet(key: key, value: newValue) }
     }
+	
+	private func lockAndSet(key: Key, value: Value) {
+		semaphore.wait(); defer { semaphore.signal() }
+		cache[key] = value
+	}
     
     private func lockAndMake(key: Key) -> Value {
         // Wait and recheck cache, last lock may have already set

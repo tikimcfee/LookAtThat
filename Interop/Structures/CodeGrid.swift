@@ -87,22 +87,30 @@ extension CodeGrid {
     }
 }
 
+extension SyntaxIdentifier {
+	var stringIdentifier: String { "\(hashValue)" }
+}
+
 // CodeSheet operations
 extension CodeGrid {
     @discardableResult
     func consume(syntax: Syntax) -> Self {
         for token in syntax.tokens {
 			let fullText = token.triviaAndText
+			let tokenId = token.id.stringIdentifier
 			var tokenNodeset = Nodeset()
-            
+			
+			var associationId = 0
 			for textCharacter in fullText {
 				let (letterNode, size) = createNodeFor(textCharacter)
+				letterNode.name = "\(tokenId)-\(associationId)"
 				pointerAddToGrid(textCharacter, letterNode, size)
 				
-
-				
-				
+				associationId += 1
+				tokenNodeset.insert(letterNode)
             }
+
+			tokenCache[token.id] = tokenNodeset
         }
         return self
     }
