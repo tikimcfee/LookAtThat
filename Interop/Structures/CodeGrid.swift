@@ -122,7 +122,7 @@ extension CodeGrid {
 			var tokenParent = token.parent
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
-				codeGridSetSemanticInfo(parent)
+				setCodeGridSetSemanticInfo(parent)
 				codeGridInfo[parent] = tokenNodeset
 				tokenParent = parent.parent
 			}
@@ -131,7 +131,7 @@ extension CodeGrid {
         return self
     }
 	
-	private func codeGridSetSemanticInfo(_ syntax: Syntax) {
+	private func setCodeGridSetSemanticInfo(_ syntax: Syntax) {
 		guard codeGridInfo.infoCache[syntax.id] == nil else { return } 
 		codeGridInfo.infoCache[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
 	}

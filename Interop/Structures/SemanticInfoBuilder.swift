@@ -9,8 +9,10 @@ import Foundation
 import SwiftSyntax
 
 class SemanticInfoBuilder {
+	private let localSemanticCache = SyntaxCache()
+	
 	func semanticInfo(for node: Syntax) -> SemanticInfo {
-		switch node.cachedType {
+		switch self[node] {
 			case .variableDecl(let varl):
 				var name = "(unsupported syntax: \(varl.id)"
 				if let firstBinding = varl.bindings.first {
@@ -58,6 +60,10 @@ class SemanticInfoBuilder {
 			referenceName: String(describing: node.syntaxNodeType),
 			syntaxTypeName: String(describing: node.syntaxNodeType)
 		)
+	}
+	
+	private subscript(_ node: Syntax) -> SyntaxEnum {
+		get { localSemanticCache[node].nodeEnum }
 	}
 }
 

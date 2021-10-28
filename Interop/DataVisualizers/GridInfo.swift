@@ -15,7 +15,7 @@ typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
 public class CodeGridAssociations {
 	var infoCache = [SyntaxIdentifier: SemanticInfo]()
 	
-	var allGrids = GridCollection()
+	var syntaxToGridAssociation = GridCollection()
 	
 	var structs = GridCollection()
 	var classes = GridCollection()
@@ -29,60 +29,24 @@ public class CodeGridAssociations {
 	var extensions = GridCollection()
 	
 	static func + (left: CodeGridAssociations, right: CodeGridAssociations) -> CodeGridAssociations {
-		left.allGrids.merge(right.allGrids) { left, right in
-//			print("Duplicated 'allSheets' key -> \(left.id), \(right.id)")
+		
+		func takeLeft(_ left: GridAssociationType, 
+					  _ right: GridAssociationType) -> GridAssociationType {
+			print("<!> Duplicated gridAssociations key -> \(left.map { $0.name }), \(right.map { $0.name })")
 			return left
 		}
 		
-		left.structs.merge(right.structs) { left, right in
-//			print("Duplicated 'structs' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.classes.merge(right.classes) { left, right in
-//			print("Duplicated 'classes' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.enumerations.merge(right.enumerations) { left, right in
-//			print("Duplicated 'enumerations' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.functions.merge(right.functions) { left, right in
-//			print("Duplicated 'functions' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.variables.merge(right.variables) { left, right in
-//			print("Duplicated 'variables' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.typeAliases.merge(right.typeAliases) { left, right in
-//			print("Duplicated 'typeAliases' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.protocols.merge(right.protocols) { left, right in
-//			print("Duplicated 'protocols' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.initializers.merge(right.initializers) { left, right in
-//			print("Duplicated 'initializers' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.deinitializers.merge(right.deinitializers) { left, right in
-//			print("Duplicated 'deinitializers' key -> \(left.id), \(right.id)")
-			return left
-		}
-		
-		left.extensions.merge(right.extensions) { left, right in
-//			print("Duplicated 'extensions' key -> \(left.id), \(right.id)")
-			return left
-		}
+		left.syntaxToGridAssociation.merge(right.syntaxToGridAssociation, uniquingKeysWith: takeLeft)
+		left.structs.merge(right.structs, uniquingKeysWith: takeLeft)
+		left.classes.merge(right.classes, uniquingKeysWith: takeLeft)
+		left.enumerations.merge(right.enumerations, uniquingKeysWith: takeLeft)
+		left.functions.merge(right.functions, uniquingKeysWith: takeLeft)
+		left.variables.merge(right.variables, uniquingKeysWith: takeLeft)
+		left.typeAliases.merge(right.typeAliases, uniquingKeysWith: takeLeft)
+		left.protocols.merge(right.protocols, uniquingKeysWith: takeLeft)
+		left.initializers.merge(right.initializers, uniquingKeysWith: takeLeft)
+		left.deinitializers.merge(right.deinitializers, uniquingKeysWith: takeLeft)
+		left.extensions.merge(right.extensions, uniquingKeysWith: takeLeft)
 		
 		return left
 	}
@@ -90,26 +54,28 @@ public class CodeGridAssociations {
 
 extension CodeGridAssociations {
 	subscript(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
-		get { allGrids[syntaxId] }
+		get { syntaxToGridAssociation[syntaxId] }
 	}
 		
 	subscript(_ syntax: Syntax) -> GridAssociationType? {
-		get { allGrids[syntax.id] }
-		set {
-			let id = syntax.id
-			let existing = allGrids[id] ?? []
-			allGrids[id] = existing.union(newValue ?? [])
-			
-			if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
-				groupedBlocks(for: decl) {
-					let existing = $0[id] ?? []
-					$0[id] = existing.union(newValue ?? [])
-				}
+		get { syntaxToGridAssociation[syntax.id] }
+		set { mergeSyntaxAssociations(syntax, newValue) }
+	}
+	
+	private func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {
+		let syntaxId = syntax.id
+		let existingSyntaxAssociations = syntaxToGridAssociation[syntaxId] ?? []
+		syntaxToGridAssociation[syntaxId] = existingSyntaxAssociations.union(newValue ?? [])
+		
+		if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
+			category(for: decl) { category in
+				let existing = category[syntaxId] ?? [] 
+				category[syntaxId] = existing.union(newValue ?? [])
 			}
 		}
 	}
 	
-	func groupedBlocks(for syntax: DeclSyntaxProtocol,
+	func category(for syntax: DeclSyntaxProtocol,
 					   _ action: (inout GridCollection) -> Void) {
 		switch syntax.syntaxNodeType {
 			case is ProtocolDeclSyntax.Type:
