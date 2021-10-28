@@ -7,40 +7,23 @@ import SwiftTrace
 
 class LookAtThat_AppKitTests: XCTestCase {
 
-    static let testFileNames = [
-        "WordNodeIntrospect",
-        "RidiculousFile",
-        "SmallFile"
-    ]
-    
-    static let testFileResourceURLs = testFileNames.compactMap {
-        Bundle.main.url(forResource: $0, withExtension: "")
-    }
-
-    var wordNodeBuilder: WordNodeBuilder!
-    var swiftSyntaxParser: SwiftSyntaxParser!
+	var bundle: TestBundle!
 
     override func setUpWithError() throws {
         // Fields reset on each test!
-        wordNodeBuilder = WordNodeBuilder()
-        swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
-        swiftSyntaxParser.prepareRendering(source: Self.testFileResourceURLs[0])
+        bundle = TestBundle()
+		try bundle.setUpWithError()
     }
 
     override func tearDownWithError() throws {
-
+		try bundle.tearDownWithError()
     }
     
     func testSwiftSyntax() throws {
-        let testFile = LookAtThat_AppKitTests.testFileResourceURLs[2]
-        let glyphs = GlyphLayerCache()
-        let gridParser = CodeGridParser()
-        let grids = CodeGrid()
-        
-        gridParser.loadSourceUrl(testFile)?.tokens.forEach {
+		bundle.gridParser.loadSourceUrl(bundle.testFile)?.tokens.forEach {
             print($0.triviaAndText)
             $0.triviaAndText.forEach {
-                let (geometry, size) = glyphs[
+				let (geometry, size) = bundle.glyphs[
                     GlyphCacheKey("\($0)", NSUIColor.white)
                 ]
                 
@@ -54,7 +37,7 @@ class LookAtThat_AppKitTests: XCTestCase {
     func testParserV2() throws {
         printStart()
         
-        let testFile = LookAtThat_AppKitTests.testFileResourceURLs[2]
+		let testFile = bundle.testFile
         let visitor = CodeSheetVisitor(WordNodeBuilder())
         let tracer = OutputTracer(trace: CodeSheetVisitor.self)
         
@@ -71,16 +54,16 @@ class LookAtThat_AppKitTests: XCTestCase {
 
     func test_RawSource() throws {
         printStart()
-
+		
         let source =
 """
 extension String {
     var hello: String
 }
 """
-        let sourceSyntax = swiftSyntaxParser.parse(source)
-        let _ = swiftSyntaxParser.visit(sourceSyntax!)
-        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let sourceSyntax = bundle.swiftSyntaxParser.parse(source)
+		let _ = bundle.swiftSyntaxParser.visit(sourceSyntax!)
+		let testCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         printEnd()
@@ -90,7 +73,7 @@ extension String {
     func test_JustFunctions() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let testCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         printEnd()
@@ -99,7 +82,7 @@ extension String {
     func test_singleSheet() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let testCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         measure {
@@ -112,7 +95,7 @@ extension String {
     func test_backAndForth() throws {
         printStart()
 
-        let parentCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let parentCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         let wireSheet = parentCodeSheet.wireSheet
         let backConverted = wireSheet.makeCodeSheet()
 
@@ -125,7 +108,7 @@ extension String {
         printStart()
 
 
-        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let testCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         func transformer(_ mode: WireDataTransformer.Mode) {
@@ -156,7 +139,7 @@ extension String {
     func test_ManySheets() throws {
         printStart()
 
-        let testCodeSheet = swiftSyntaxParser.makeSheetFromInfo()
+		let testCodeSheet = bundle.swiftSyntaxParser.makeSheetFromInfo()
         print("CodeSheet created with children: \(testCodeSheet.children.count)")
 
         let list = Array.init(repeating: 0, count: 100)
@@ -245,6 +228,10 @@ extension String {
         wait(for: [dataEncoded, dataDecoded], timeout: 10)
         printEnd()
     }
+	
+	func testSemanticBuilder() {
+		
+	}
 
     func printStart() {
         print("------------------------------- Starting -------------------------------\n\n")
@@ -252,4 +239,108 @@ extension String {
     func printEnd() {
         print("\n\n------------------------------- Done -------------------------------" )
     }
+}
+
+class LookAtThat_AppKitCodeGridTests: XCTestCase {
+	var bundle: TestBundle!
+	
+	override func setUpWithError() throws {
+		// Fields reset on each test!
+		bundle = TestBundle()
+		try bundle.setUpWithError()
+		
+	}
+	
+	override func tearDownWithError() throws {
+		try bundle.tearDownWithError()
+	}
+	
+	func testGridSizing() throws {
+		bundle.gridParser.loadSourceUrl(bundle.testFile)?.tokens.forEach {
+			print($0.triviaAndText)
+			$0.triviaAndText.forEach {
+				let (geometry, size) = bundle.glyphs[
+					GlyphCacheKey("\($0)", NSUIColor.white)
+				]
+				
+				print(size, "--", geometry.lengthX, geometry.lengthY, geometry.lengthZ)
+				XCTAssertEqual(size.width, geometry.lengthX, accuracy: 0.0)
+				XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)
+			}
+		}
+	}
+	
+	func testSemanticInfo() throws {
+		let sourceFile = try bundle.loadTestSource()
+		let sourceSyntax = Syntax(sourceFile)
+//		grids.consume(syntax: sourceSyntax)
+		
+		func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
+			bundle.semanticBuilder.semanticInfo(for: syntax)
+			
+			return .visitChildren
+		}
+		
+		func onVisitPost(_ syntax: Syntax) {
+			
+		}
+		
+		let visitor = StateCapturingVisitor(
+			onVisitAny: onVisit,  
+			onVisitAnyPost: onVisitPost
+		)
+		
+		visitor.walk(sourceSyntax)
+	}
+	
+}
+
+class TestBundle {
+	static let testFileNames = [
+		"WordNodeIntrospect",
+		"RidiculousFile",
+		"SmallFile"
+	]
+	
+	static let testFileResourceURLs = testFileNames.compactMap {
+		Bundle.main.url(forResource: $0, withExtension: "")
+	}
+	
+	lazy var testFile = Self.testFileResourceURLs[0]
+	var glyphs: GlyphLayerCache!
+	var gridParser: CodeGridParser!
+	var tokenCache: CodeGridTokenCache!
+	var semanticBuilder: SemanticInfoBuilder!
+	
+	var wordNodeBuilder: WordNodeBuilder!
+	var swiftSyntaxParser: SwiftSyntaxParser!
+	
+	func setUpWithError() throws {
+		glyphs = GlyphLayerCache()
+		gridParser = CodeGridParser()
+		tokenCache = CodeGridTokenCache()
+		semanticBuilder = SemanticInfoBuilder()
+		
+		wordNodeBuilder = WordNodeBuilder()
+		swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
+		swiftSyntaxParser.prepareRendering(source: testFile)
+	}
+	
+	func tearDownWithError() throws {
+		
+	}
+	
+	func makeGrid() -> CodeGrid {
+		CodeGrid(
+			glyphCache: glyphs, 
+			tokenCache: tokenCache
+		)
+	}
+	
+	func loadTestSource() throws -> SourceFileSyntax {
+		try XCTUnwrap(
+			gridParser.loadSourceUrl(testFile), 
+			"Failed to load test file"
+		)
+	} 
 }

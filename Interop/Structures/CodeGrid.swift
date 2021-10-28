@@ -94,29 +94,6 @@ extension CodeGrid {
 	}
 }
 
-class SemanticInfoBuilder {
-	func semanticInfo(for node: Syntax) -> SemanticInfo {
-		switch node.cachedType {
-			case .functionDecl(let funcl):
-				return SemanticInfo(
-					syntaxId: node.id, 
-					referenceName: "\(funcl.identifier)::\(funcl.signature.description)", 
-					syntaxTypeName: String(describing: funcl.syntaxNodeType)
-				)
-			default:
-				return defaultSemanticInfo(for: node)
-		}
-	}
-	
-	private func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
-		return SemanticInfo(
-			syntaxId: node.id,
-			referenceName: String(describing: node.syntaxNodeType),
-			syntaxTypeName: String(describing: node.syntaxNodeType)
-		)
-	}
-}
-
 // CodeSheet operations
 private extension SyntaxIdentifier {
 	var stringIdentifier: String { "\(hashValue)" }

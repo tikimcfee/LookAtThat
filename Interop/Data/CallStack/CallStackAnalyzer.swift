@@ -9,7 +9,7 @@ class OutputTracer {
         SwiftTrace.swiftDecorateArgs = (onEntry: false, onExit: false)
         SwiftTrace.logOutput = onLogOutput
 //        SwiftTrace.trace(anInstance: instance)
-        SwiftTrace.traceInstances(ofClass: instance)
+//        SwiftTrace.traceInstances(ofClass: instance)
     }
     
     func onLogOutput(_ output: String, _ pointer: UnsafeRawPointer?, _ stackDepth: Int) {

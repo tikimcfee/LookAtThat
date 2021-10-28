@@ -1,5 +1,12 @@
 import Foundation
 
+extension WordParser: LugoProtocol {
+	func doTheThing() {
+		let x = "Hel-loooooooo!"
+		print(x)
+	}
+}
+
 class WordParser {
 
     let sliceSize = 100
