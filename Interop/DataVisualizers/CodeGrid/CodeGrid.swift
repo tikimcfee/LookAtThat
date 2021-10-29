@@ -138,8 +138,9 @@ extension CodeGrid {
 			let tokenIdNodeName = token.id.stringIdentifier
 			var tokenNodeset = CodeGridNodes()
 
+			let tokenColor = token.defaultColor
 			for textCharacter in fullText {
-				let (letterNode, size) = createNodeFor(textCharacter)
+				let (letterNode, size) = createNodeFor(textCharacter, tokenColor)
 				letterNode.name = tokenIdNodeName
 				tokenNodeset.insert(letterNode)
 				renderer.insert(textCharacter, letterNode, size)
@@ -153,7 +154,7 @@ extension CodeGrid {
 			var tokenParent = token.parent
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
-				setCodeGridSetSemanticInfo(parent)
+				setCodeGridSemanticInfo(parent)
 				codeGridInfo[parent] = tokenNodeset
 				tokenParent = parent.parent
 			}
@@ -162,13 +163,16 @@ extension CodeGrid {
         return self
     }
 	
-	private func setCodeGridSetSemanticInfo(_ syntax: Syntax) {
+	private func setCodeGridSemanticInfo(_ syntax: Syntax) {
 		guard codeGridInfo.infoCache[syntax.id] == nil else { return } 
 		codeGridInfo.infoCache[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
 	}
 	
-	private func createNodeFor(_ syntaxTokenCharacter: Character) -> (SCNNode, CGSize) {
-		let key = GlyphCacheKey("\(syntaxTokenCharacter)", NSUIColor.white) // TODO: colorizer fits in here somewhere
+	private func createNodeFor(
+		_ syntaxTokenCharacter: Character,
+		_ color: NSUIColor
+	) -> (SCNNode, CGSize) {
+		let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
 		let (geometry, size) = glyphCache[key]
 		
 		let centerX = size.width / 2.0
@@ -200,13 +204,12 @@ class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
 	}
 }
 
-typealias AssociationKey = SyntaxIdentifier
-class SyntaxNodeAssociationCache: LockingCache<AssociationKey, CodeGridNodes> {
+class CodeGridColorCache: LockingCache<SyntaxIdentifier, NSUIColor> {
 	override func make(
-		_ key: AssociationKey, 
-		_ store: inout [AssociationKey : CodeGridNodes]
-	) -> CodeGridNodes {
-		let set = CodeGridNodes()
-		return set
+		_ key: SyntaxIdentifier, 
+		_ store: inout [SyntaxIdentifier : NSUIColor]
+	) -> NSUIColor {
+		
+		return CodeGridColors.defaultText
 	}
 }
