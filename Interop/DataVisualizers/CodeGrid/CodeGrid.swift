@@ -15,7 +15,7 @@ class CodeGrid: Identifiable, Equatable {
 	let pointer = Pointer()
 	let codeGridInfo: CodeGridNodeMap = CodeGridNodeMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
-	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(grid: self)
+	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -98,8 +98,8 @@ extension CodeGrid {
 			static let newLineSizeRatio: VectorFloat = 0.67
 		}
 		
-		let grid: CodeGrid
-		var currentPosition: GlyphPosition { grid.pointer.position }
+		let targetGrid: CodeGrid
+		private var currentPosition: GlyphPosition { targetGrid.pointer.position }
 		
 		func insert(
 			_ syntaxTokenCharacter: Character,
@@ -108,19 +108,19 @@ extension CodeGrid {
 		) {
 			// add node directly to root container grid
 			letterNode.position = currentPosition.vector
-			grid.rootNode.addChildNode(letterNode)
+			targetGrid.rootNode.addChildNode(letterNode)
 			
 			// we're writing left-to-right. 
 			// Letter spacing is implicit to layer size.
-			grid.pointer.right(size.width)
+			targetGrid.pointer.right(size.width)
 			if syntaxTokenCharacter.isNewline {
 				newLine(size)
 			}
 		}
 		
 		func newLine(_ size: CGSize) {
-			grid.pointer.down(size.height * Config.newLineSizeRatio)
-			grid.pointer.left(currentPosition.xColumn)
+			targetGrid.pointer.down(size.height * Config.newLineSizeRatio)
+			targetGrid.pointer.left(currentPosition.xColumn)
 		}
 	}
 }
