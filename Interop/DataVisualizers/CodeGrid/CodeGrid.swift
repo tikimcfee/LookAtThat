@@ -134,17 +134,31 @@ extension CodeGrid {
     @discardableResult
     func consume(syntax: Syntax) -> Self {
         for token in syntax.tokens {
-			let fullText = token.triviaAndText
 			let tokenIdNodeName = token.id.stringIdentifier
 			var tokenNodeset = CodeGridNodes()
-
+			
+			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
-			for textCharacter in fullText {
-				let (letterNode, size) = createNodeFor(textCharacter, tokenColor)
+			
+			func insertCharacter(_ character: Character,
+								 _ color: NSUIColor) {
+				let (letterNode, size) = createNodeFor(character, color)
 				letterNode.name = tokenIdNodeName
 				tokenNodeset.insert(letterNode)
-				renderer.insert(textCharacter, letterNode, size)
+				renderer.insert(character, letterNode, size)
+			}
+			
+			for trivia in token.leadingTrivia.stringified {
+				insertCharacter(trivia, triviaColor)
+			}
+			
+			for textCharacter in token.text {
+				insertCharacter(textCharacter, tokenColor)
             }
+			
+			for trivia in token.trailingTrivia.stringified {
+				insertCharacter(trivia, triviaColor)
+			}
 
 			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
 			

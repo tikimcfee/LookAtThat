@@ -96,6 +96,8 @@ class CodeGridColors {
 	static let typealiasDecl = color(0.5, 0.3, 0.5, 1.0)
 	static let defaultText = color(0.2, 0.2, 0.2, 1.0)
 	
+	static let trivia = color(0.8, 0.8, 0.8, 0.5)
+	
 	static func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
 		NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
 	}

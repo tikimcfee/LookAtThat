@@ -65,22 +65,30 @@ public extension TokenSyntax {
     
     var defaultColor: NSUIColor {
         switch tokenKind {
-        case .funcKeyword:
-            return .purple
-        case .enumKeyword:
-            return .green
-        case .classKeyword:
-            return .green
-        case .structKeyword:
-            return .brown
-        case .letKeyword:
-            return .orange
-        case .varKeyword:
-            return .red
-        case .forKeyword:
-            return .yellow
-        default:
-            return .white
+			case .selfKeyword:
+				return .magenta
+			case .funcKeyword:
+				return .blue
+			case .extensionKeyword:
+				return NSUIColor.cyan
+			case .enumKeyword:
+				return .green
+			case .classKeyword:
+				return .green
+			case .structKeyword:
+				return .brown
+			case .letKeyword:
+				return .systemPink
+			case .varKeyword:
+				return .red
+			case .contextualKeyword:
+				return .darkGray
+//			case .identifier:
+//				return .systemBlue
+			case .forKeyword:
+				return .yellow
+			default:
+				return .white
         }
     }
 }

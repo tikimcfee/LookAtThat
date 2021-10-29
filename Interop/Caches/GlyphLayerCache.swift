@@ -57,7 +57,7 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         print("--- Caching \(key.glyph) || Size == \(store.count)")
         
 		// Size the glyph from the font using a rendering scale factor
-        let safeString = "\(key.glyph)"
+        let safeString = key.glyph
         let wordSize = fontRenderer.size(safeString)
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
                                     height: wordSize.height * SCALE_FACTOR)
