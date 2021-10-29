@@ -12,7 +12,7 @@ import SceneKit
 typealias GridAssociationType = Set<SCNNode>
 typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
 
-public class CodeGridAssociations {
+public class CodeGridNodeMap {
 	var infoCache = [SyntaxIdentifier: SemanticInfo]()
 	
 	var syntaxToGridAssociation = GridCollection()
@@ -28,7 +28,7 @@ public class CodeGridAssociations {
 	var deinitializers = GridCollection()
 	var extensions = GridCollection()
 	
-	static func + (left: CodeGridAssociations, right: CodeGridAssociations) -> CodeGridAssociations {
+	static func + (left: CodeGridNodeMap, right: CodeGridNodeMap) -> CodeGridNodeMap {
 		
 		func takeLeft(_ left: GridAssociationType, 
 					  _ right: GridAssociationType) -> GridAssociationType {
@@ -52,7 +52,7 @@ public class CodeGridAssociations {
 	}
 }
 
-extension CodeGridAssociations {
+extension CodeGridNodeMap {
 	subscript(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
 		get { syntaxToGridAssociation[syntaxId] }
 	}

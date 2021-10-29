@@ -8,19 +8,27 @@
 import Foundation
 import SwiftSyntax
 
-// I want to find all the functions
-// I want to find all the functions that take strings
-// I want to find all the functions that take strings and return strings
-
 struct SemanticInfo: Hashable, CustomStringConvertible {
 	let syntaxId: SyntaxIdentifier
 	
 	// Refer to this semantic info by this name; it's displayable
 	let referenceName: String
 	let syntaxTypeName: String
+	let color: NSUIColor
 	
 	var description: String {
 		"\(syntaxTypeName)~>[\(referenceName)]"
+	}
+	
+	init(node: Syntax,
+		 referenceName: String? = nil,
+		 typeName: String? = nil,
+		 color: NSUIColor? = nil
+	) {
+		self.syntaxId = node.id
+		self.referenceName = referenceName ?? "\(node.hashValue)"
+		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
+		self.color = color ?? CodeGridColors.defaultText
 	}
 }
 
@@ -37,46 +45,39 @@ class SemanticInfoBuilder {
 					name = "\(varl.letOrVarKeyword.text) \(pattern)\(typeName)"
 				}
 				return SemanticInfo(
-					syntaxId: node.id,
+					node: node,
 					referenceName: name, 
-					syntaxTypeName: String(describing: varl.syntaxNodeType)
+					color: CodeGridColors.variableDecl
 				)
 			case .extensionDecl(let extenl):
 				return SemanticInfo(
-					syntaxId: node.id, 
+					node: node, 
 					referenceName: "\(extenl.extendedType.description)+\(node.id.hashValue)", 
-					syntaxTypeName: String(describing: extenl.syntaxNodeType)
+					color: CodeGridColors.extensionDecl
 				)
 			case .classDecl(let classl):
 				return SemanticInfo(
-					syntaxId: node.id, 
-					referenceName: "\(classl.identifier)", 
-					syntaxTypeName: String(describing: classl.syntaxNodeType)
+					node: node,
+					referenceName: "\(classl.identifier)",
+					color: CodeGridColors.classDecl
 				)
 			case .structDecl(let structl):
 				return SemanticInfo(
-					syntaxId: node.id, 
-					referenceName: "\(structl.identifier)", 
-					syntaxTypeName: String(describing: structl.syntaxNodeType)
+					node: node,
+					referenceName: "\(structl.identifier)",
+					color: CodeGridColors.structDecl 
 				)
 			case .functionDecl(let funcl):
 				return SemanticInfo(
-					syntaxId: node.id, 
+					node: node,
 					referenceName: "\(funcl.identifier)\(funcl.signature)", 
-					syntaxTypeName: String(describing: funcl.syntaxNodeType)
+					color: CodeGridColors.functionDecl
 				)
 			default:
-				return defaultSemanticInfo(for: node)
+				return SemanticInfo(
+					node: node
+				)
 		}
-	}
-	
-	private func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
-		let nodeTypeName = String(describing: node.syntaxNodeType)
-		return SemanticInfo(
-			syntaxId: node.id,
-			referenceName: nodeTypeName,
-			syntaxTypeName: nodeTypeName
-		)
 	}
 	
 	private subscript(_ node: Syntax) -> SyntaxEnum {
@@ -84,3 +85,18 @@ class SemanticInfoBuilder {
 	}
 }
 
+
+class CodeGridColors {
+	static let structDecl = color(0.3, 0.2, 0.3, 1.0)
+	static let classDecl = color(0.2, 0.2, 0.4, 1.0)
+	static let functionDecl = color(0.15, 0.15, 0.3, 1.0)
+	static let enumDecl = color(0.1, 0.3, 0.4, 1.0)
+	static let extensionDecl = color(0.2, 0.4, 0.4, 1.0)
+	static let variableDecl = color(0.3, 0.3, 0.3, 1.0)
+	static let typealiasDecl = color(0.5, 0.3, 0.5, 1.0)
+	static let defaultText = color(0.2, 0.2, 0.2, 1.0)
+	
+	static func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
+		NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
+	}
+}

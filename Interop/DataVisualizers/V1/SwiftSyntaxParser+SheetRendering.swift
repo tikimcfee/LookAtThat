@@ -167,9 +167,7 @@ extension SwiftSyntaxParser {
         let rootCodeSheet = makeSheet(
             from: rootSyntaxNode!,
             semantics: SemanticInfo(
-                syntaxId: rootSyntaxNode!.id,
-                referenceName: preparedSourceFile!.lastPathComponent,
-                syntaxTypeName: String(describing: rootSyntaxNode!.syntaxNodeType)
+				node: rootSyntaxNode!
             )
         )
         .categoryMask(.rootCodeSheet)

@@ -13,7 +13,7 @@ class CodeGrid: Identifiable, Equatable {
     let tokenIdToNodeSetCache: CodeGridTokenCache
 	
 	let pointer = Pointer()
-	let codeGridInfo: CodeGridAssociations = CodeGridAssociations()
+	let codeGridInfo: CodeGridNodeMap = CodeGridNodeMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(grid: self)
     

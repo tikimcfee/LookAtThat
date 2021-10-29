@@ -52,15 +52,14 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
              .ifConfigClauseList, .ifConfigDecl, .ifConfigClause,
              .memberDeclBlock, .memberDeclList, .memberDeclListItem:
             collectChildrenPostVisit(of: node, into: state)
-                .semantics(defaultSemanticInfo(for: node))
+                .semantics(SemanticInfo(node: node))
                 .arrangeSemanticInfo(textNodeBuilder)
 
         case .sourceFile:
             let sourceSheet = collectChildrenPostVisit(of: node, into: state)
                 .semantics(SemanticInfo(
-                    syntaxId: node.id,
-                    referenceName: state.sourceFile.lastPathComponent,
-                    syntaxTypeName: String(describing: node.cachedType)
+					node: node,
+                    referenceName: state.sourceFile.lastPathComponent
                 ))
                 .arrangeSemanticInfo(textNodeBuilder, asTitle: true)
             state.setAsRoot(sourceSheet)
@@ -103,18 +102,9 @@ public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
             .consume(syntax: syntax, textNodeBuilder)
             .sizePageToContainerNode()
             .backgroundColor(colorizer.backgroundColor(for: syntax))
-        //            .semantics(defaultSemanticInfo(for: syntax))
         //            .arrangeSemanticInfo(textNodeBuilder)
         
         state.organizedSourceInfo[syntax] = newSheet
-    }
-    
-    private func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
-        return SemanticInfo(
-            syntaxId: node.id,
-            referenceName: String(describing: node.syntaxNodeType),
-            syntaxTypeName: String(describing: node.syntaxNodeType)
-        )
     }
 }
 

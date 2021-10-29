@@ -114,7 +114,7 @@ extension CodePagesController {
         }
     }
 	
-	func selected(id: SyntaxIdentifier, in source: CodeGridAssociations) {
+	func selected(id: SyntaxIdentifier, in source: CodeGridNodeMap) {
 		guard let sheet = source[id] else {
 			print("Missing sheet or semantic info for \(id)")
 			return
@@ -167,7 +167,7 @@ extension CodePagesController {
         }
     }
 
-    func renderSyntax(_ handler: @escaping (CodeGridAssociations) -> Void) {
+    func renderSyntax(_ handler: @escaping (CodeGridNodeMap) -> Void) {
         requestSourceFile { fileUrl in
             self.workerQueue.async {
                 guard let grid = self.codeGridParser.renderGrid(fileUrl) else { return }

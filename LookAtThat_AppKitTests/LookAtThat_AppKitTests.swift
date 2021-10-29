@@ -276,8 +276,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
 //		grids.consume(syntax: sourceSyntax)
 		
 		func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
-			let info = bundle.semanticBuilder.semanticInfo(for: syntax)
-			print(info)
+//			let info = bundle.semanticBuilder.semanticInfo(for: syntax)
+//			print(info)
 			return .visitChildren
 		}
 		
