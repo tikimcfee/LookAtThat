@@ -15,6 +15,7 @@ class CodeGrid: Identifiable, Equatable {
 	let pointer = Pointer()
 	let codeGridInfo: CodeGridAssociations = CodeGridAssociations()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
+	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(grid: self)
     
     lazy var id = UUID().uuidString
     lazy var rootNode: SCNNode = makeContainerNode()
@@ -73,14 +74,13 @@ extension CodeGrid {
 		let xColumn: VectorFloat
 		let yRow: VectorFloat
 		let zDepth: VectorFloat
+		var vector: SCNVector3 { SCNVector3(xColumn, yRow, zDepth) }
 		
 		func transformed(dX: VectorFloat = 0,
 						 dY: VectorFloat = 0,
 						 dZ: VectorFloat = 0) -> GlyphPosition {
 			GlyphPosition(xColumn: xColumn + dX, yRow: yRow + dY, zDepth: zDepth + dZ)
 		}
-		
-		lazy var vector: SCNVector3 = { SCNVector3(xColumn, yRow, zDepth) }()
 	}
 	
 	class Pointer {
@@ -91,6 +91,37 @@ extension CodeGrid {
 		func up(_ dY: VectorFloat) { position = position.transformed(dY: dY) }
 		func down(_ dY: VectorFloat) { position = position.transformed(dY: -dY) }
 		func move(to newPosition: GlyphPosition) { position = newPosition }
+	}
+	
+	struct Renderer {
+		struct Config {
+			static let newLineSizeRatio: VectorFloat = 0.67
+		}
+		
+		let grid: CodeGrid
+		var currentPosition: GlyphPosition { grid.pointer.position }
+		
+		func insert(
+			_ syntaxTokenCharacter: Character,
+			_ letterNode: SCNNode, 
+			_ size: CGSize
+		) {
+			// add node directly to root container grid
+			letterNode.position = currentPosition.vector
+			grid.rootNode.addChildNode(letterNode)
+			
+			// we're writing left-to-right. 
+			// Letter spacing is implicit to layer size.
+			grid.pointer.right(size.width)
+			if syntaxTokenCharacter.isNewline {
+				newLine(size)
+			}
+		}
+		
+		func newLine(_ size: CGSize) {
+			grid.pointer.down(size.height * Config.newLineSizeRatio)
+			grid.pointer.left(currentPosition.xColumn)
+		}
 	}
 }
 
@@ -111,7 +142,7 @@ extension CodeGrid {
 				let (letterNode, size) = createNodeFor(textCharacter)
 				letterNode.name = tokenIdNodeName
 				tokenNodeset.insert(letterNode)
-				pointerAddToGrid(textCharacter, letterNode, size)
+				renderer.insert(textCharacter, letterNode, size)
             }
 
 			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
@@ -151,28 +182,6 @@ extension CodeGrid {
 		
 		return (letterNode, size)
 	}
-	
-	private func pointerAddToGrid(
-		_ syntaxTokenCharacter: Character,
-		_ letterNode: SCNNode, 
-		_ size: CGSize
-	) {
-		// add node directly to root container grid
-		letterNode.position = pointer.position.vector
-		rootNode.addChildNode(letterNode)
-		
-		// we're writing left-to-right. 
-		// Letter spacing is implicit to layer size.
-		pointer.right(size.width)
-		if syntaxTokenCharacter.isNewline {
-			pointerNewLine(size)
-		}
-	}
-    
-    private func pointerNewLine(_ size: CGSize) {
-        pointer.down(size.height)
-        pointer.left(pointer.position.xColumn)
-    }
 }
 
 // associate tokens to sets of nodes.

@@ -305,28 +305,4 @@ class SwiftSyntaxParser: SyntaxRewriter {
         organizedInfo[syntax] = newSheet
         return syntax
     }
-
-    // MARK: - Expressions
-
-//    override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
-//        let syntax = super.visit(node)
-//        let newSheet = makeSheet(
-//            from: node,
-//            semantics: defaultSemanticInfo(for: node)
-//        )
-//        organizedInfo[syntax] = newSheet
-//        return syntax
-//    }
-}
-
-// I want to find all the functions
-// I want to find all the functions that take strings
-// I want to find all the functions that take strings and return strings
-
-struct SemanticInfo: Hashable {
-    let syntaxId: SyntaxIdentifier
-
-    // Refer to this semantic info by this name; it's displayable
-    let referenceName: String
-    let syntaxTypeName: String
 }

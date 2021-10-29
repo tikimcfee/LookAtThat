@@ -8,6 +8,22 @@
 import Foundation
 import SwiftSyntax
 
+// I want to find all the functions
+// I want to find all the functions that take strings
+// I want to find all the functions that take strings and return strings
+
+struct SemanticInfo: Hashable, CustomStringConvertible {
+	let syntaxId: SyntaxIdentifier
+	
+	// Refer to this semantic info by this name; it's displayable
+	let referenceName: String
+	let syntaxTypeName: String
+	
+	var description: String {
+		"\(syntaxTypeName)~>[\(referenceName)]"
+	}
+}
+
 class SemanticInfoBuilder {
 	private let localSemanticCache = SyntaxCache()
 	
@@ -55,10 +71,11 @@ class SemanticInfoBuilder {
 	}
 	
 	private func defaultSemanticInfo(for node: SyntaxProtocol) -> SemanticInfo {
+		let nodeTypeName = String(describing: node.syntaxNodeType)
 		return SemanticInfo(
 			syntaxId: node.id,
-			referenceName: String(describing: node.syntaxNodeType),
-			syntaxTypeName: String(describing: node.syntaxNodeType)
+			referenceName: nodeTypeName,
+			syntaxTypeName: nodeTypeName
 		)
 	}
 	
