@@ -25,7 +25,9 @@ public struct GlyphCacheKey: Hashable, Equatable {
 }
 
 struct GlyphRender {
-    private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
+	private static let kDefaultFontSize: VectorFloat = 1.0
+	private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: kDefaultFontSize, weight: .regular)
+	
     let font: NSUIFont = kDefaultSCNTextFont
     
     func size(_ target: GlyphCacheKey) -> CGSize {
@@ -36,18 +38,25 @@ struct GlyphRender {
 }
 
 class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
-    let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
+	
+	// SCALE_FACTOR changes the requested font size for the new layer.
+	// OBSERVATION: Setting this value higher creates a smoother font image
+	// HYPOTHESIS: The font size is used to determine the size of a bitmap
+	//              or canvas to which the layer is drawn
+	private let SCALE_FACTOR = 8.0
+	
+	// Recompute descaled size of new layer
+	// DESCALE_FACTOR changes the final rendered size of the layer
+	// This is a straight proportional resize of the original text size.
+	private let DESCALE_FACTOR = 16.0
     
+	let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
     
     override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
         print("--- Caching \(key.glyph) || Size == \(store.count)")
         
-        // SCALE_FACTOR changes the requested font size for the new layer.
-        // OBSERVATION: Setting this value higher creates a smoother font image
-        // HYPOTHESIS: The font size is used to determine the size of a bitmap
-        //              or canvas to which the layer is drawn
-        let SCALE_FACTOR: CGFloat = 16
+		// Size the glyph from the font using a rendering scale factor
         let safeString = "\(key.glyph)"
         let wordSize = fontRenderer.size(safeString)
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
@@ -62,9 +71,9 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         textLayer.fontSize = wordSizeScaled.height
         textLayer.frame.size = textLayer.preferredFrameSize()
         
-        // Recompute descaled size of new layer
-        let descaledWidth = textLayer.frame.size.width / SCALE_FACTOR
-        let descaledHeight = textLayer.frame.size.height / SCALE_FACTOR
+		// Resize the final layer according to descale factor
+        let descaledWidth = textLayer.frame.size.width / DESCALE_FACTOR
+        let descaledHeight = textLayer.frame.size.height / DESCALE_FACTOR
         let descaledSize = CGSize(width: descaledWidth, height: descaledHeight)
         let boxPlane = SCNPlane(width: descaledWidth, height: descaledHeight)
         
