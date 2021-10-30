@@ -194,8 +194,8 @@ extension CodeGrid {
 	
 	private func setCodeGridSemanticInfo(_ syntax: Syntax) {
 		//  #^ optimize the access of this grid's cache by dropping the abstraction layer and having direct memory access to map
-		guard codeGridInfo.infoCache[syntax.id] == nil else { return } 
-		codeGridInfo.infoCache[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
+		guard codeGridInfo.rootSyntaxToGridMap[syntax.id] == nil else { return } 
+		codeGridInfo.rootSyntaxToGridMap[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
 	}
 	
 	private func createNodeFor(

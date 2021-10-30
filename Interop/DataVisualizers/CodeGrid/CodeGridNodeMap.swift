@@ -13,7 +13,8 @@ typealias GridAssociationType = Set<SCNNode>
 typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
 
 public class CodeGridNodeMap {
-	var infoCache = [SyntaxIdentifier: SemanticInfo]()
+	
+	var rootSyntaxToGridMap = [SyntaxIdentifier: SemanticInfo]()
 	
 	var syntaxToGridAssociation = GridCollection()
 	

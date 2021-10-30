@@ -19,7 +19,9 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 	}()
     
     func renderGrid(_ url: URL) -> CodeGrid? {
-        guard let sourceFile = loadSourceUrl(url) else { return nil }
+        guard let sourceFile = loadSourceUrl(url) else {
+            return nil
+        }
         return createGrid(sourceFile)
     }
     

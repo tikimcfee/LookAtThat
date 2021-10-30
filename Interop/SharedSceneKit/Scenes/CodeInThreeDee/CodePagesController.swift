@@ -166,16 +166,85 @@ extension CodePagesController {
             }
         }
     }
-
-    func renderSyntax(_ handler: @escaping (CodeGridNodeMap) -> Void) {
+	
+	// TODO: move this render stuff to a new class:
+	// CodePagesController+RenderDefaults
+	// -> CodePagesController 
+	// -> CodePagesDefaultRenderer
+	
+	typealias LocalState = (
+		userCamera: SCNNode,
+		focusedFile: URL,
+		nodeMap: CodeGridNodeMap
+	)
+	
+	private enum TestFunkRenderState { 
+		private static var funkState: TestFunkRenderState = .initialState
+		
+		enum FunkError: Error  { case none }
+		
+		case initialState
+		case singleFileSingleFocus(URL, LocalState)
+		
+		private static func funkRender(
+			_ staticContextFile: URL, 
+			_ staticContextGrid: CodeGrid,
+			_ staticSceneState: SceneState
+		) {
+			
+			staticSceneState.rootGeometryNode.addChildNode(staticContextGrid.rootNode)
+		}
+		
+		private static func buildTestFunkRenderer() throws -> TestFunkRenderState {
+			throw FunkError.none
+			
+			// ## Decls. Remove the Decls - at your own peril.
+			
+			func updateUserCamera(_ camera: (SCNNode) -> SCNNode ) {
+				
+			}
+			// ## Vardecls. Remove the Vardecls - at your own peril.
+			
+			var renderState: TestFunkRenderState = .initialState
+			let currentRenderedFiles: Set<URL>
+			let renderedFilesToEditingGrids: [URL: CodeGridNodeMap]
+			
+			func tileNewFile(_ url: URL) {
+				switch renderState {
+					case .initialState:
+						break
+					case .singleFileSingleFocus(let url, let localState):
+						var eye = localState.userCamera.position
+						let lastGrid = localState.nodeMap
+						
+					default:
+						print("\(#function): \(url)")
+						break
+				}
+			}
+		}
+	}
+	
+	func renderSyntax(_ handler: @escaping (CodeGridNodeMap) -> Void) {
         requestSourceFile { fileUrl in
             self.workerQueue.async {
-                guard let grid = self.codeGridParser.renderGrid(fileUrl) else { return }
+                guard let newSyntaxGlyphGrid = self.codeGridParser.renderGrid(fileUrl) else { return }
 				
-				handler(grid.codeGridInfo)
-                
+				// this is generally a UI component looking for the current requested syntax glyphs
+				// they're getting the result new file, and it's assumed the total state of the global
+				// underlying parser and controller are known.
+				handler(newSyntaxGlyphGrid.codeGridInfo)
+				
+				// the grid is assumed to be as 0,0,0 at its root inititally. sorry, just makes life easier from here.
+				// past this transaction, you do what ya like.
+				
+				// this lets us do cool tricks like be in 'editor mode'
+				// editor mode assumes that your current perspective is your preferred one, and calling the single
+				// renderSyntax function will apply some layout goodies to add the result root glyph, and make it look really cool. 
+				// when this mode is off, it will do some necessarily sane thing like defaulting to a value that produces
+				// the least known human harm when implemented.
                 sceneTransaction {
-                    self.sceneState.rootGeometryNode.addChildNode(grid.rootNode)
+                    self.sceneState.rootGeometryNode.addChildNode(newSyntaxGlyphGrid.rootNode)
                 }
             }
         }

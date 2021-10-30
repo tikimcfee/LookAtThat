@@ -4,6 +4,7 @@ import SwiftUI
 
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
+	
 	@State var sourceInfo: CodeGridNodeMap = CodeGridNodeMap() 
 
     var body: some View {
@@ -59,7 +60,7 @@ struct SourceInfoGrid: View {
         List {
 			ForEach(Array(pair.keys), id:\.self) { id in
                 VStack {
-					if let info = sourceInfo.infoCache[id] {
+					if let info = sourceInfo.rootSyntaxToGridMap[id] {
 						Text(info.referenceName)
                             .frame(minWidth: 232, alignment: .leading)
                             .padding(4)
