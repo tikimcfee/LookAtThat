@@ -155,8 +155,6 @@ extension CodeGrid {
 			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
 			
-			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
-			
 			func insertCharacter(_ character: Character,
 								 _ color: NSUIColor) {
 				let (letterNode, size) = createNodeFor(character, color)
@@ -176,6 +174,8 @@ extension CodeGrid {
 			for trivia in token.trailingTrivia.stringified {
 				insertCharacter(trivia, triviaColor)
 			}
+			
+			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found

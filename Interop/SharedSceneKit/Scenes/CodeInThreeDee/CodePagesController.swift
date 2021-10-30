@@ -172,38 +172,50 @@ extension CodePagesController {
 	// -> CodePagesController 
 	// -> CodePagesDefaultRenderer
 	
-	typealias LocalState = (
-		userCamera: SCNNode,
-		focusedFile: URL,
-		nodeMap: CodeGridNodeMap
-	)
 	
 	private enum TestFunkRenderState { 
-		private static var funkState: TestFunkRenderState = .initialState
+		// ## Decls. Remove the Decls - at your own peril.
 		
-		enum FunkError: Error  { case none }
-		
-		case initialState
-		case singleFileSingleFocus(URL, LocalState)
-		
-		private static func funkRender(
-			_ staticContextFile: URL, 
-			_ staticContextGrid: CodeGrid,
-			_ staticSceneState: SceneState
-		) {
-			
-			staticSceneState.rootGeometryNode.addChildNode(staticContextGrid.rootNode)
+		enum EditState {
+			case await
+			case newInput(String)
 		}
 		
+		typealias FocusedState = (
+			userCamera: SCNNode,
+			focusedFile: URL,
+			nodeMap: CodeGridNodeMap
+		)
+		
+		case initialState
+		
+		case onUpdateFromInitial(URL, FocusedState)
+		case onSettledFocusedStated(URL, FocusedState)
+		
+		case onUpdateSelectedSyntaxIdentifier(URL, FocusedState, SyntaxIdentifier)
+		case onSettledSelectedSyntaxIdentifier(URL, FocusedState, SyntaxIdentifier)
+		
+		case onUpdateMovetoEditState(URL, FocusedState, SyntaxIdentifier, EditState)
+		case onSettledMovetoEditState(URL, FocusedState, SyntaxIdentifier, EditState)
+		
+		private static var funkState: TestFunkRenderState = .initialState
+		
+		// # -- Builder
+		
 		private static func buildTestFunkRenderer() throws -> TestFunkRenderState {
+			enum FunkError: Error  { case none }
 			throw FunkError.none
 			
-			// ## Decls. Remove the Decls - at your own peril.
-			
-			func updateUserCamera(_ camera: (SCNNode) -> SCNNode ) {
-				
+			func funkRender(
+				_ staticContextFile: URL, 
+				_ staticContextGrid: CodeGrid,
+				_ staticSceneState: SceneState
+			) {
+				func updateUserCamera(_ camera: (FocusedState) -> FocusedState) {
+					
+				}
+				staticSceneState.rootGeometryNode.addChildNode(staticContextGrid.rootNode)
 			}
-			// ## Vardecls. Remove the Vardecls - at your own peril.
 			
 			var renderState: TestFunkRenderState = .initialState
 			let currentRenderedFiles: Set<URL>
@@ -213,9 +225,11 @@ extension CodePagesController {
 				switch renderState {
 					case .initialState:
 						break
-					case .singleFileSingleFocus(let url, let localState):
+					case .onUpdateFromInitial(let url, let localState):
 						var eye = localState.userCamera.position
-						let lastGrid = localState.nodeMap
+						let startGrid = localState.focusedFile
+						let startNode = localState.nodeMap
+						
 						
 					default:
 						print("\(#function): \(url)")
