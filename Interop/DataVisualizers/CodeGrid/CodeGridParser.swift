@@ -9,6 +9,7 @@ import Foundation
 import SwiftSyntax
 
 class CodeGridParser: SwiftSyntaxFileLoadable {
+
 	lazy var glyphCache: GlyphLayerCache = {
         GlyphLayerCache()
     }()
@@ -18,20 +19,16 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 	}()
     
     func renderGrid(_ url: URL) -> CodeGrid? {
-        guard let sourceFile = loadSourceUrl(url) else {
-            return nil
-        }
-        
-        let grid = renderGrid(sourceFile)
-        
-        return grid
+        guard let sourceFile = loadSourceUrl(url) else { return nil }
+        return createGrid(sourceFile)
     }
     
-    private func renderGrid(_ syntax: SourceFileSyntax) -> CodeGrid {
+    private func createGrid(_ syntax: SourceFileSyntax) -> CodeGrid {
         let grid = CodeGrid(glyphCache: glyphCache,
 							tokenCache: tokenCache)
             .consume(syntax: Syntax(syntax))
             .sizeGridToContainerNode()
+		
         return grid
     }
 }

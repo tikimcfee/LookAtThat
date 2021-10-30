@@ -179,10 +179,16 @@ final class WorkerPool {
     }
 }
 
+protocol Actor {
+	func withCurrentSceneState() throws -> SceneState
+}
+
 class SceneState {
-    var rootGeometryNode: SCNNode = SCNNode()
-    var cameraNode: SCNNode
-    init(cameraNode: SCNNode) {
+
+    private var rootGeometryNode: SCNNode = SCNNode()
+	private var cameraNode: SCNNode
+    
+	init(cameraNode: SCNNode) {
         self.cameraNode = cameraNode
     }
 }

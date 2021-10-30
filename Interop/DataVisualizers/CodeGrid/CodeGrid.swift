@@ -10,25 +10,24 @@ import SceneKit
 import SwiftSyntax
 
 class CodeGrid: Identifiable, Equatable {
-    let tokenIdToNodeSetCache: CodeGridTokenCache
+	lazy var id = UUID().uuidString
+	
+	let tokenIdToNodeSetCache: CodeGridTokenCache
+	let glyphCache: GlyphLayerCache
 	
 	let pointer = Pointer()
 	let codeGridInfo: CodeGridNodeMap = CodeGridNodeMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
+	
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
-    
-    lazy var id = UUID().uuidString
-    lazy var rootNode: SCNNode = makeContainerNode()
+
+	lazy var rootNode: SCNNode = makeContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
-	lazy var renderedSyntaxGroups: LockingCache<String, CodeGrid> = .init()
+	
 	lazy var focusedSynaxGroupId: String = id
-	func switchFocusedSyntaxGroup(_ newFocus: String) throws -> {
-		let requestedFocus = renderedSyntaxGroups[newFocus]
-		rootNode
-	} 
-    let glyphCache: GlyphLayerCache
-    
+	lazy var renderedSyntaxGroups: LockingCache<String, CodeGrid> = .init()
+	
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
 		 tokenCache: CodeGridTokenCache) {
@@ -137,9 +136,16 @@ private extension SyntaxIdentifier {
 }
 
 extension CodeGrid {
+	// If you call this, you basically draw text like a typewriter from wherevery you last were.
+	// it adds caches layer glyphs motivated by display requirements inherited by those clients.
+	// 
     @discardableResult
     func consume(syntax: Syntax) -> Self {
-		// // step something other or else: the bits where you tidy up
+		// ## step something other or else: the bits where you tidy up
+		// ## - associate this syntax group with a targetable and movable set of glyphs.
+		//		glyphs are just nodes with text layers that are rendered from some default font,
+		//		otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
+		
 		
 		// ## step something or other: stick the actual letters onto the the screen
         for token in syntax.tokens {
