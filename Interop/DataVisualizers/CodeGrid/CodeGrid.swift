@@ -21,6 +21,12 @@ class CodeGrid: Identifiable, Equatable {
     lazy var rootNode: SCNNode = makeContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
+	lazy var renderedSyntaxGroups: LockingCache<String, CodeGrid> = .init()
+	lazy var focusedSynaxGroupId: String = id
+	func switchFocusedSyntaxGroup(_ newFocus: String) throws -> {
+		let requestedFocus = renderedSyntaxGroups[newFocus]
+		rootNode
+	} 
     let glyphCache: GlyphLayerCache
     
     init(_ id: String? = nil,
@@ -133,12 +139,17 @@ private extension SyntaxIdentifier {
 extension CodeGrid {
     @discardableResult
     func consume(syntax: Syntax) -> Self {
+		// // step something other or else: the bits where you tidy up
+		
+		// ## step something or other: stick the actual letters onto the the screen
         for token in syntax.tokens {
 			let tokenIdNodeName = token.id.stringIdentifier
 			var tokenNodeset = CodeGridNodes()
 			
 			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
+			
+			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
 			
 			func insertCharacter(_ character: Character,
 								 _ color: NSUIColor) {
@@ -159,8 +170,6 @@ extension CodeGrid {
 			for trivia in token.trailingTrivia.stringified {
 				insertCharacter(trivia, triviaColor)
 			}
-
-			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
@@ -178,6 +187,7 @@ extension CodeGrid {
     }
 	
 	private func setCodeGridSemanticInfo(_ syntax: Syntax) {
+		//  #^ optimize the access of this grid's cache by dropping the abstraction layer and having direct memory access to map
 		guard codeGridInfo.infoCache[syntax.id] == nil else { return } 
 		codeGridInfo.infoCache[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
 	}

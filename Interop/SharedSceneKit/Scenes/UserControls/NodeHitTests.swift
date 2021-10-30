@@ -33,6 +33,20 @@ extension SCNView {
 			]
 		)
 	}
+	
+	func hitTest(location: CGPoint, _ mask: HitTestType = .codeGrid) -> [SCNHitTestResult] {
+		return hitTest(
+			location,
+			options: [
+				SCNHitTestOption.boundingBoxOnly: true,
+				SCNHitTestOption.backFaceCulling: true,
+				SCNHitTestOption.clipToZRange: true,
+				SCNHitTestOption.ignoreChildNodes: false,
+				SCNHitTestOption.categoryBitMask: mask.rawValue,
+				SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
+			]
+		)
+	}
 }
 
 struct HitTestType: OptionSet {

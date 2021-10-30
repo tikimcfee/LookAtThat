@@ -198,7 +198,7 @@ public extension TokenSyntax {
 			case .leftParen:
 				return Self.controlFlowKeyword
 			case .rightParen:
-				return Self.standardScopeColor
+				return Self.controlFlowKeyword
 			case .leftBrace:
 				return Self.standardScopeColor
 			case .rightBrace:

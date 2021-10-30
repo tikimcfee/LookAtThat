@@ -51,6 +51,33 @@ extension CodePagesController {
     }
 	
     func newMousePosition(_ point: CGPoint) {
+		doCodeGridTokenHover(point)
+		doCodeGridHover(point)
+    }
+	
+	private func doCodeGridHover(_ point: CGPoint) {
+		let grids = sceneView.hitTest(location: point, [.codeGrid])
+		
+		guard let firstHoveredGrid = grids.first,
+			  let codeGridIdFromNode = firstHoveredGrid.node.name
+		else { return }
+		
+		let nodeSet = codeGridParser.tokenCache[codeGridIdFromNode]
+		
+		// goal: on hover, if there is no file focused, animate to focus by default.
+		//		- when focuses, dY (and possibly dX depending on file size) will scroll a zoomed
+		//			profile of the profile. this top-down representation should have a dY and dX
+		//			acceleration constant to try and make the scroll speed feel a little more natural
+		//		- when finished, 'unfocused' will return the file to its original position in space;
+		//			it will by default resist focus for some period of time to guard against accidental hovers
+		//		- tada
+		
+		
+		
+		touchState.mouse.hoverTracker.newSetHovered(nodeSet)
+	}
+	
+	private func doCodeGridTokenHover(_ point: CGPoint) {
 		let codeTokens = sceneView.hitTestCodeGridTokens(with: point)
 		
 		guard let firstHoveredToken = codeTokens.first,
@@ -59,7 +86,7 @@ extension CodePagesController {
 		
 		let nodeSet = codeGridParser.tokenCache[nodeName]
 		touchState.mouse.hoverTracker.newSetHovered(nodeSet)
-    }
+	}
 
     func codeSheetSelected(_ sheet: CodeSheet?) {
         main.async {
@@ -68,6 +95,8 @@ extension CodePagesController {
     }
     #endif
 }
+
+
 
 class TokenHoverInteractionTracker {
 	typealias Key = SCNNode
