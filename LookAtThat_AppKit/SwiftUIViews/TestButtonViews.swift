@@ -55,12 +55,12 @@ struct SourceInfoGrid: View {
     }
 
     @ViewBuilder
-    func infoRows(named: String, from pair: GridCollection) -> some View {
+    func infoRows(named: String, from pair: GridAssociationSyntaxToNodeType) -> some View {
         Text(named).underline().padding(.top, 8)
         List {
 			ForEach(Array(pair.keys), id:\.self) { id in
                 VStack {
-					if let info = sourceInfo.rootSyntaxToGridMap[id] {
+					if let info = sourceInfo.syntaxIdToSemanticInfo[id] {
 						Text(info.referenceName)
                             .frame(minWidth: 232, alignment: .leading)
                             .padding(4)

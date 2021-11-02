@@ -10,24 +10,35 @@ import SwiftSyntax
 import SceneKit
 
 typealias GridAssociationType = Set<SCNNode>
-typealias GridCollection = [SyntaxIdentifier: GridAssociationType]
+typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationType]
+
+struct RenderedCodeGrid {
+	let sourceFile: URL
+	let semanticInfo: SemanticInfo
+	
+	let associatedNodes: GridAssociationType
+}
 
 public class CodeGridNodeMap {
 	
-	var rootSyntaxToGridMap = [SyntaxIdentifier: SemanticInfo]()
+	class Cache {
+		var syntexIdToSyntaxNodeSetMap: [SyntaxIdentifier: Set<SCNNode>] = [:]
+		var syntexIdToSemanticInf: [SyntaxIdentifier: SemanticInfo] = [:]
+	}
 	
-	var syntaxToGridAssociation = GridCollection()
-	
-	var structs = GridCollection()
-	var classes = GridCollection()
-	var enumerations = GridCollection()
-	var functions = GridCollection()
-	var variables = GridCollection()
-	var typeAliases = GridCollection()
-	var protocols = GridCollection()
-	var initializers = GridCollection()
-	var deinitializers = GridCollection()
-	var extensions = GridCollection()
+	var syntaxIdToSemanticInfo = [SyntaxIdentifier: SemanticInfo]()
+	var syntaxToGridAssociation = GridAssociationSyntaxToNodeType()
+
+	var structs = GridAssociationSyntaxToNodeType()
+	var classes = GridAssociationSyntaxToNodeType()
+	var enumerations = GridAssociationSyntaxToNodeType()
+	var functions = GridAssociationSyntaxToNodeType()
+	var variables = GridAssociationSyntaxToNodeType()
+	var typeAliases = GridAssociationSyntaxToNodeType()
+	var protocols = GridAssociationSyntaxToNodeType()
+	var initializers = GridAssociationSyntaxToNodeType()
+	var deinitializers = GridAssociationSyntaxToNodeType()
+	var extensions = GridAssociationSyntaxToNodeType()
 	
 	static func + (left: CodeGridNodeMap, right: CodeGridNodeMap) -> CodeGridNodeMap {
 		
@@ -77,7 +88,7 @@ extension CodeGridNodeMap {
 	}
 	
 	func category(for syntax: DeclSyntaxProtocol,
-					   _ action: (inout GridCollection) -> Void) {
+					   _ action: (inout GridAssociationSyntaxToNodeType) -> Void) {
 		switch syntax.syntaxNodeType {
 			case is ProtocolDeclSyntax.Type:
 				action(&protocols)

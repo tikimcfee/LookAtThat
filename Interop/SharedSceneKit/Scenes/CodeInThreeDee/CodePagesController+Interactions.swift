@@ -91,13 +91,17 @@ class TokenHoverInteractionTracker {
 		guard !currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.insert(result)
 		
-		result.position.z += 5.0
+		sceneTransaction {
+			result.position.z += 5.0
+		}
 	}
 	
 	private func unfocusNode(_ result: Key) {
 		guard currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.remove(result)
 		
-		result.position.z -= 5.0
+		sceneTransaction {
+			result.position.z -= 5.0
+		}
 	}
 }
