@@ -17,12 +17,16 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 	lazy var tokenCache: CodeGridTokenCache = {
 		CodeGridTokenCache()
 	}()
+	
+	lazy var codeGridCache: [URL: CodeGrid] = {
+		[:]
+	}()
     
     func renderGrid(_ url: URL) -> CodeGrid? {
-        guard let sourceFile = loadSourceUrl(url) else {
-            return nil
-        }
-        return createGrid(sourceFile)
+        guard let sourceFile = loadSourceUrl(url) else { return nil }
+		let newGrid = createGrid(sourceFile)
+		codeGridCache[url] = newGrid
+        return newGrid
     }
     
     private func createGrid(_ syntax: SourceFileSyntax) -> CodeGrid {

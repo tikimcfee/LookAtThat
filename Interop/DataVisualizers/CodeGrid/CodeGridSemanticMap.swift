@@ -12,6 +12,7 @@ import SceneKit
 typealias GridAssociationType = Set<SCNNode>
 typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationType]
 
+// TODO: Maybe use this?
 struct RenderedCodeGrid {
 	let sourceFile: URL
 	let semanticInfo: SemanticInfo
@@ -19,15 +20,16 @@ struct RenderedCodeGrid {
 	let associatedNodes: GridAssociationType
 }
 
-public class CodeGridNodeMap {
+class CodeGridSyntaxCache {
+	var syntexIdToSyntaxNodeSetMap: [SyntaxIdentifier: Set<SCNNode>] = [:]
+	var syntexIdToSemanticInf: [SyntaxIdentifier: SemanticInfo] = [:]
+}
+
+public class CodeGridSemanticMap {
 	
-	class Cache {
-		var syntexIdToSyntaxNodeSetMap: [SyntaxIdentifier: Set<SCNNode>] = [:]
-		var syntexIdToSemanticInf: [SyntaxIdentifier: SemanticInfo] = [:]
-	}
-	
+	// TODO: use CodeGridSyntaxCache
 	var syntaxIdToSemanticInfo = [SyntaxIdentifier: SemanticInfo]()
-	var syntaxToGridAssociation = GridAssociationSyntaxToNodeType()
+	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType()
 
 	var structs = GridAssociationSyntaxToNodeType()
 	var classes = GridAssociationSyntaxToNodeType()
@@ -40,15 +42,9 @@ public class CodeGridNodeMap {
 	var deinitializers = GridAssociationSyntaxToNodeType()
 	var extensions = GridAssociationSyntaxToNodeType()
 	
-	static func + (left: CodeGridNodeMap, right: CodeGridNodeMap) -> CodeGridNodeMap {
+	static func + (left: CodeGridSemanticMap, right: CodeGridSemanticMap) -> CodeGridSemanticMap {
 		
-		func takeLeft(_ left: GridAssociationType, 
-					  _ right: GridAssociationType) -> GridAssociationType {
-			print("<!> Duplicated gridAssociations key -> \(left.map { $0.name }), \(right.map { $0.name })")
-			return left
-		}
-		
-		left.syntaxToGridAssociation.merge(right.syntaxToGridAssociation, uniquingKeysWith: takeLeft)
+		left.syntaxIdToTokenNodes.merge(right.syntaxIdToTokenNodes, uniquingKeysWith: takeLeft)
 		left.structs.merge(right.structs, uniquingKeysWith: takeLeft)
 		left.classes.merge(right.classes, uniquingKeysWith: takeLeft)
 		left.enumerations.merge(right.enumerations, uniquingKeysWith: takeLeft)
@@ -62,22 +58,22 @@ public class CodeGridNodeMap {
 		
 		return left
 	}
+	
+	private static func takeLeft(_ left: GridAssociationType,  _ right: GridAssociationType) -> GridAssociationType {
+		print("<!> Duplicated gridAssociations key -> \(left.map { $0.name }), \(right.map { $0.name })")
+		return left
+	}
 }
 
-extension CodeGridNodeMap {
-	subscript(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
-		get { syntaxToGridAssociation[syntaxId] }
-	}
-		
-	subscript(_ syntax: Syntax) -> GridAssociationType? {
-		get { syntaxToGridAssociation[syntax.id] }
-		set { mergeSyntaxAssociations(syntax, newValue) }
+extension CodeGridSemanticMap {
+	func tokenNodes(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
+		syntaxIdToTokenNodes[syntaxId]
 	}
 	
-	private func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {
+	func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {
 		let syntaxId = syntax.id
-		let existingSyntaxAssociations = syntaxToGridAssociation[syntaxId] ?? []
-		syntaxToGridAssociation[syntaxId] = existingSyntaxAssociations.union(newValue ?? [])
+		let existingSyntaxAssociations = syntaxIdToTokenNodes[syntaxId] ?? []
+		syntaxIdToTokenNodes[syntaxId] = existingSyntaxAssociations.union(newValue ?? [])
 		
 		if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
 			category(for: decl) { category in

@@ -12,11 +12,11 @@ import SwiftSyntax
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	
-	let tokenIdToNodeSetCache: CodeGridTokenCache
+	let tokenCache: CodeGridTokenCache
 	let glyphCache: GlyphLayerCache
 	
 	let pointer = Pointer()
-	let codeGridInfo: CodeGridNodeMap = CodeGridNodeMap()
+	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
 	
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
@@ -32,7 +32,7 @@ class CodeGrid: Identifiable, Equatable {
          glyphCache: GlyphLayerCache,
 		 tokenCache: CodeGridTokenCache) {
         self.glyphCache = glyphCache
-		self.tokenIdToNodeSetCache = tokenCache
+		self.tokenCache = tokenCache
         self.id = id ?? self.id
     }
     
@@ -175,7 +175,7 @@ extension CodeGrid {
 				insertCharacter(trivia, triviaColor)
 			}
 			
-			tokenIdToNodeSetCache[tokenIdNodeName] = tokenNodeset
+			tokenCache[tokenIdNodeName] = tokenNodeset
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
@@ -184,7 +184,7 @@ extension CodeGrid {
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
 				setCodeGridSemanticInfo(parent)
-				codeGridInfo[parent] = tokenNodeset
+				codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenNodeset)
 				tokenParent = parent.parent
 			}
         }
@@ -194,8 +194,8 @@ extension CodeGrid {
 	
 	private func setCodeGridSemanticInfo(_ syntax: Syntax) {
 		//  #^ optimize the access of this grid's cache by dropping the abstraction layer and having direct memory access to map
-		guard codeGridInfo.syntaxIdToSemanticInfo[syntax.id] == nil else { return } 
-		codeGridInfo.syntaxIdToSemanticInfo[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
+		guard codeGridSemanticInfo.syntaxIdToSemanticInfo[syntax.id] == nil else { return } 
+		codeGridSemanticInfo.syntaxIdToSemanticInfo[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
 	}
 	
 	private func createNodeFor(

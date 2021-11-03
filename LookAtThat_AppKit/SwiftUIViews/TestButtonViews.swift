@@ -5,7 +5,7 @@ import SwiftUI
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
 	
-	@State var sourceInfo: CodeGridNodeMap = CodeGridNodeMap() 
+	@State var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap() 
 
     var body: some View {
         return VStack(alignment: .leading) {
@@ -176,9 +176,9 @@ struct TestButtons_Dictionary: View {
 #if DEBUG
 import SwiftSyntax
 struct SourceInfo_Previews: PreviewProvider {
-    static var sourceInfo = WrappedBinding<CodeGridNodeMap>(
+    static var sourceInfo = WrappedBinding<CodeGridSemanticMap>(
         {
-            let info = CodeGridNodeMap()
+            let info = CodeGridSemanticMap()
             return info
         }()
     )

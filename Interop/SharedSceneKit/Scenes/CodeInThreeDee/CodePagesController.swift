@@ -114,8 +114,8 @@ extension CodePagesController {
         }
     }
 	
-	func selected(id: SyntaxIdentifier, in source: CodeGridNodeMap) {
-		guard let sheet = source[id] else {
+	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
+		guard let sheet = source.tokenNodes(id) else {
 			print("Missing sheet or semantic info for \(id)")
 			return
 		}
@@ -184,7 +184,7 @@ extension CodePagesController {
 		typealias FocusedState = (
 			userCamera: SCNNode,
 			focusedFile: URL,
-			nodeMap: CodeGridNodeMap
+			nodeMap: CodeGridSemanticMap
 		)
 		
 		case initialState
@@ -219,7 +219,7 @@ extension CodePagesController {
 			
 			var renderState: TestFunkRenderState = .initialState
 			let currentRenderedFiles: Set<URL>
-			let renderedFilesToEditingGrids: [URL: CodeGridNodeMap]
+			let renderedFilesToEditingGrids: [URL: CodeGridSemanticMap]
 			
 			func tileNewFile(_ url: URL) {
 				switch renderState {
@@ -239,7 +239,7 @@ extension CodePagesController {
 		}
 	}
 	
-	func renderSyntax(_ handler: @escaping (CodeGridNodeMap) -> Void) {
+	func renderSyntax(_ handler: @escaping (CodeGridSemanticMap) -> Void) {
         requestSourceFile { fileUrl in
             self.workerQueue.async {
                 guard let newSyntaxGlyphGrid = self.codeGridParser.renderGrid(fileUrl) else { return }
@@ -247,7 +247,7 @@ extension CodePagesController {
 				// this is generally a UI component looking for the current requested syntax glyphs
 				// they're getting the result new file, and it's assumed the total state of the global
 				// underlying parser and controller are known.
-				handler(newSyntaxGlyphGrid.codeGridInfo)
+				handler(newSyntaxGlyphGrid.codeGridSemanticInfo)
 				
 				// the grid is assumed to be as 0,0,0 at its root inititally. sorry, just makes life easier from here.
 				// past this transaction, you do what ya like.
