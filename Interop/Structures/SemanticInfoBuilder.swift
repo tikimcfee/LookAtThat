@@ -9,6 +9,7 @@ import Foundation
 import SwiftSyntax
 
 struct SemanticInfo: Hashable, CustomStringConvertible {
+	let node: Syntax
 	let syntaxId: SyntaxIdentifier
 	
 	// Refer to this semantic info by this name; it's displayable
@@ -25,6 +26,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 		 typeName: String? = nil,
 		 color: NSUIColor? = nil
 	) {
+		self.node = node
 		self.syntaxId = node.id
 		self.referenceName = referenceName ?? "\(node.hashValue)"
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)

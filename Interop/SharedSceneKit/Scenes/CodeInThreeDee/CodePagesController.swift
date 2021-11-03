@@ -19,6 +19,9 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let wordNodeBuilder: WordNodeBuilder
     let codeSheetParser: CodeSheetParserV2
     let codeGridParser: CodeGridParser
+	
+	@Published var hoveredToken: String?
+	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
 
     @Published var selectedSheet: CodeSheet?
     lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()

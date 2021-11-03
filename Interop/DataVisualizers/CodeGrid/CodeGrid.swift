@@ -148,7 +148,6 @@ extension CodeGrid {
 		//		glyphs are just nodes with text layers that are rendered from some default font,
 		//		otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
 		
-		enum NodeType { case leadingTrivia, trailinTrivia, text }
 		// ## step something or other: stick the actual letters onto the the screen
         for token in syntax.tokens {
 			let tokenIdNodeName = token.id.stringIdentifier
@@ -175,7 +174,7 @@ extension CodeGrid {
 				textNodes.insert(letterNode)
 				renderer.insert(textCharacter, letterNode, size)
             }
-			
+
 			for triviaCharacter in token.trailingTrivia.stringified {
 				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
 				letterNode.name = trailingTriviaNodeName
@@ -190,10 +189,16 @@ extension CodeGrid {
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
 			// NOTE: tokens have no entry in the info set; only their parents are ever added.
-			var tokenParent = token.parent
+//			
+//			var tokenParent = token.parent
+			var tokenParent: Syntax? = Syntax(token)
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
-				setCodeGridSemanticInfo(parent)
+				codeGridSemanticInfo.mergeSemanticInfo(
+					parent.id,
+					token.id.stringIdentifier,
+					semanticInfoBuilder.semanticInfo(for: parent)
+				)
 				codeGridSemanticInfo.mergeSyntaxAssociations(parent, textNodes)
 				codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
 				codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
@@ -203,12 +208,6 @@ extension CodeGrid {
 		
         return self
     }
-	
-	private func setCodeGridSemanticInfo(_ syntax: Syntax) {
-		//  #^ optimize the access of this grid's cache by dropping the abstraction layer and having direct memory access to map
-		guard codeGridSemanticInfo.syntaxIdToSemanticInfo[syntax.id] == nil else { return } 
-		codeGridSemanticInfo.syntaxIdToSemanticInfo[syntax.id] = semanticInfoBuilder.semanticInfo(for: syntax)
-	}
 	
 	private func createNodeFor(
 		_ syntaxTokenCharacter: Character,

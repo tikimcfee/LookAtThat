@@ -9,26 +9,21 @@ import Foundation
 import SwiftSyntax
 import SceneKit
 
+typealias SemanticsLookupType = SemanticInfo
+typealias SemanticsLookupNodeKey = String
+typealias SemanticsLookupSyntaxKey = SyntaxIdentifier
+
 typealias GridAssociationType = Set<SCNNode>
 typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationType]
 
-// TODO: Maybe use this?
-struct RenderedCodeGrid {
-	let sourceFile: URL
-	let semanticInfo: SemanticInfo
-	
-	let associatedNodes: GridAssociationType
-}
-
-class CodeGridSyntaxCache {
-	var syntexIdToSyntaxNodeSetMap: [SyntaxIdentifier: Set<SCNNode>] = [:]
-	var syntexIdToSemanticInf: [SyntaxIdentifier: SemanticInfo] = [:]
-}
-
 public class CodeGridSemanticMap {
 	
-	// TODO: use CodeGridSyntaxCache
-	var syntaxIdToSemanticInfo = [SyntaxIdentifier: SemanticInfo]()
+	// TODO: Having separate caches is kinda lame
+	// I'd like to find a way to use a shared key between node look and syntax lookup.
+	// I may just need to go back and replace all the SyntaxIdentifier's with simple strings.
+	var semanticsLookupBySyntaxId = [SemanticsLookupSyntaxKey: SemanticsLookupType]()
+	var semanticsLookupByNodeId = [SemanticsLookupNodeKey: SemanticsLookupSyntaxKey]()
+	
 	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
 
 	var structs = GridAssociationSyntaxToNodeType()
@@ -68,6 +63,24 @@ public class CodeGridSemanticMap {
 extension CodeGridSemanticMap {
 	func tokenNodes(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
 		syntaxIdToTokenNodes[syntaxId]
+	}
+	
+	func semanticsFromNodeId(_ nodeId: SemanticsLookupNodeKey?) -> SemanticInfo? {
+		guard let nodeId = nodeId,
+			  let syntaxId = semanticsLookupByNodeId[nodeId],
+			  let syntaxSemantics = semanticsLookupBySyntaxId[syntaxId]
+		else { return nil }
+		return syntaxSemantics
+	}
+	
+	func mergeSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey, 
+						   _ nodeId: SemanticsLookupNodeKey,
+						   _ semanticInfo: @autoclosure () -> SemanticInfo) {
+		guard semanticsLookupBySyntaxId[syntaxId] == nil else { return }
+		let newInfo = semanticInfo()
+		
+		semanticsLookupByNodeId[nodeId] = syntaxId
+		semanticsLookupBySyntaxId[syntaxId] = newInfo
 	}
 	
 	func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {

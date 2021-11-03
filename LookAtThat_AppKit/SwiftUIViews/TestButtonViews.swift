@@ -6,16 +6,36 @@ struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
 	
 	@State var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap() 
+	@State var hoveredToken: String?
 
     var body: some View {
         return VStack(alignment: .leading) {
 			VStack {
-				infoRows(named: "Structs", from: sourceInfo.structs)
-				infoRows(named: "Classes", from: sourceInfo.classes)
-				infoRows(named: "Enumerations", from: sourceInfo.enumerations)
-				infoRows(named: "Extensions", from: sourceInfo.extensions)
-				infoRows(named: "Functions", from: sourceInfo.functions)
-				infoRows(named: "Variables", from: sourceInfo.variables)
+				if !sourceInfo.structs.isEmpty {
+					infoRows(named: "Structs", from: sourceInfo.structs)
+				}
+				if !sourceInfo.classes.isEmpty {
+					infoRows(named: "Classes", from: sourceInfo.classes)
+				}
+				if !sourceInfo.enumerations.isEmpty {
+					infoRows(named: "Enumerations", from: sourceInfo.enumerations)	
+				}
+				
+				if !sourceInfo.extensions.isEmpty {
+					infoRows(named: "Extensions", from: sourceInfo.extensions)	
+				}
+				
+				if !sourceInfo.functions.isEmpty {
+					infoRows(named: "Functions", from: sourceInfo.functions)	
+				}
+				
+				if !sourceInfo.variables.isEmpty {
+					infoRows(named: "Variables", from: sourceInfo.variables)	
+				}
+				
+				if let semantics = sourceInfo.semanticsFromNodeId(hoveredToken){
+					hoverInfo(semantics)
+				}
 			}
             buttons
         }
@@ -27,11 +47,11 @@ struct SourceInfoGrid: View {
         )
         .padding(8)
         .onReceive(
-            SceneLibrary.global.codePagesController.sheetStream
+            SceneLibrary.global.codePagesController.hoverStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
-        ) { selectedSheet in
-//            self.sourceInfo = selectedSheet?.sourceInfo
+        ) { hoveredToken in
+			self.hoveredToken = hoveredToken
         }
     }
 
@@ -53,14 +73,22 @@ struct SourceInfoGrid: View {
             }
         }.frame(minHeight: 64)
     }
+	
+	@ViewBuilder
+	func hoverInfo(_ semantics: SemanticsLookupType) -> some View {
+		VStack {
+			Text(semantics.syntaxTypeName).underline().padding(.top, 8)
+			Text(semantics.referenceName).padding(.top, 8)
+		}.frame(minHeight: 64)
+	}
 
     @ViewBuilder
     func infoRows(named: String, from pair: GridAssociationSyntaxToNodeType) -> some View {
         Text(named).underline().padding(.top, 8)
         List {
-			ForEach(Array(pair.keys), id:\.self) { id in
+			ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
                 VStack {
-					if let info = sourceInfo.syntaxIdToSemanticInfo[id] {
+					if let info = sourceInfo.semanticsLookupBySyntaxId[id] {
 						Text(info.referenceName)
                             .frame(minWidth: 232, alignment: .leading)
                             .padding(4)
@@ -117,19 +145,21 @@ struct SourceInfoGrid: View {
                }
            }
         }
-    }
+	}
+}
 
-    private func renderSource() {
-        SceneLibrary.global.codePagesController.renderSyntax{ info in
-            sourceInfo = info
-        }
-    }
-
-    private func renderDirectory() {
-        SceneLibrary.global.codePagesController.renderDirectory{ states in
-//            sourceInfo = states.first?.organizedSourceInfo
-        }
-    }
+extension SourceInfoGrid {
+	private func renderSource() {
+		SceneLibrary.global.codePagesController.renderSyntax{ info in
+			sourceInfo = info
+		}
+	}
+	
+	private func renderDirectory() {
+		SceneLibrary.global.codePagesController.renderDirectory{ states in
+			//            sourceInfo = states.first?.organizedSourceInfo
+		}
+	}
 }
 
 struct TestButtons_Dictionary: View {
@@ -182,9 +212,19 @@ struct SourceInfo_Previews: PreviewProvider {
             return info
         }()
     )
+	
+	static var hoveredString = WrappedBinding<String>(
+		{
+			let hovered = ""
+			return hovered
+		}()
+	)
 
     static var previews: some View {
-        SourceInfoGrid(sourceInfo: Self.sourceInfo.binding.wrappedValue)
+        SourceInfoGrid(
+			sourceInfo: Self.sourceInfo.binding.wrappedValue,
+			hoveredToken: Self.hoveredString.binding.wrappedValue
+		)
     }
 }
 #endif

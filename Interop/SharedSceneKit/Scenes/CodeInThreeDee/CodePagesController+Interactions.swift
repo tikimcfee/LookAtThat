@@ -65,6 +65,7 @@ extension CodePagesController {
 		
 		let nodeSet = codeGridParser.tokenCache[codeGridIdFromNode]
 		touchState.mouse.hoverTracker.newSetHovered(nodeSet)
+		hoveredToken = codeGridIdFromNode
 	}
 
     func codeSheetSelected(_ sheet: CodeSheet?) {
@@ -77,31 +78,32 @@ extension CodePagesController {
  
 class TokenHoverInteractionTracker {
 	typealias Key = SCNNode
+	
 	var currentHoveredSet: Set<Key> = []
 	
 	func newSetHovered(_ results: Set<Key>) {
 		let newlyHovered = results.subtracting(currentHoveredSet)
 		let toRemove = currentHoveredSet.subtracting(results)
 		
-		newlyHovered.forEach { focusNode($0) }
-		toRemove.forEach { unfocusNode($0) }
+		// you can get a fun hover effect by moving each node in a transaction;
+		// sorta a matrix fly-in as each transaction completes.
+		sceneTransaction {
+			newlyHovered.forEach { focusNode($0) }
+			toRemove.forEach { unfocusNode($0) }
+		}
 	}
 	
 	private func focusNode(_ result: Key) {
 		guard !currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.insert(result)
 		
-		sceneTransaction {
-			result.position.z += 5.0
-		}
+		result.position.z += 5.0
 	}
 	
 	private func unfocusNode(_ result: Key) {
 		guard currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.remove(result)
 		
-		sceneTransaction {
-			result.position.z -= 5.0
-		}
+		result.position.z -= 5.0
 	}
 }
