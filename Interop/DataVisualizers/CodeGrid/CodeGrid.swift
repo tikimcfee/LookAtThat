@@ -62,13 +62,13 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func sizeGridToContainerNode(pad: VectorFloat = 0) -> CodeGrid {
+    func sizeGridToContainerNode(pad: VectorFloat = 2) -> CodeGrid {
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = gridGeometry.width / 2.0
         let centerY = -gridGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector
-        backgroundGeometryNode.position.y = centerY.vector
+        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
+        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         backgroundGeometryNode.position.z = -1
         rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
         return self
