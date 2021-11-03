@@ -62,15 +62,22 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func sizeGridToContainerNode(pad: VectorFloat = 2) -> CodeGrid {
+    func sizeGridToContainerNode(
+        pad: VectorFloat = 2,
+        pivotRootNode: Bool = false
+    ) -> CodeGrid {
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = gridGeometry.width / 2.0
         let centerY = -gridGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
-        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
+        backgroundGeometryNode.position.x = centerX.vector - pad
+        backgroundGeometryNode.position.y = centerY.vector + pad
         backgroundGeometryNode.position.z = -1
-        rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
+        // Can help in some layout situations where you want the root node's position
+        // to be at dead-center of background geometry
+        if pivotRootNode {
+            rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
+        }
         return self
     }
 }
@@ -100,14 +107,19 @@ extension CodeGrid {
 		func move(to newPosition: GlyphPosition) { position = newPosition }
 	}
 	
-	struct Renderer {
+	class Renderer {
 		struct Config {
 			static let newLineSizeRatio: VectorFloat = 0.67
 		}
 		
 		let targetGrid: CodeGrid
+        var lineCount = 0
 		private var currentPosition: GlyphPosition { targetGrid.pointer.position }
-		
+        
+        init(targetGrid: CodeGrid) {
+            self.targetGrid = targetGrid
+        }
+
 		func insert(
 			_ syntaxTokenCharacter: Character,
 			_ letterNode: SCNNode, 
@@ -128,6 +140,7 @@ extension CodeGrid {
 		func newLine(_ size: CGSize) {
 			targetGrid.pointer.down(size.height * Config.newLineSizeRatio)
 			targetGrid.pointer.left(currentPosition.xColumn)
+            lineCount += 1
 		}
 	}
 }

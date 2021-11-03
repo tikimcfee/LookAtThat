@@ -34,6 +34,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeGridParser = CodeGridParser()
         self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
+        
+        self.sceneState.rootGeometryNode.addChildNode(codeGridParser.plane.rootContainerNode)
     }
 
     func attachMouseSink() {
@@ -189,7 +191,7 @@ extension CodePagesController {
 				// when this mode is off, it will do some necessarily sane thing like defaulting to a value that produces
 				// the least known human harm when implemented.
                 sceneTransaction {
-                    self.sceneState.rootGeometryNode.addChildNode(newSyntaxGlyphGrid.rootNode)
+                    self.codeGridParser.plane.addGrid(newSyntaxGlyphGrid)
                 }
             }
         }
@@ -198,7 +200,22 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping RenderDirectoryHandler) {
         requestSourceDirectory{ directory in
             self.workerQueue.async {
-                self.codeSheetParser.parseDirectory(directory, in: self.sceneState, handler)
+                directory.swiftUrls.compactMap {
+                    self.codeGridParser.renderGrid($0)
+                }
+                .sorted(by: { $0.renderer.lineCount > $1.renderer.lineCount })
+                .forEach { grid in
+                    sceneTransaction {
+                        self.codeGridParser.plane.addGrid(grid)
+                    }
+                }
+                
+//                for file in directory.swiftUrls {
+//                    guard let newSyntaxGlyphGrid = self.codeGridParser.renderGrid(file) else { return }
+//                    sceneTransaction {
+//                        self.codeGridParser.plane.addGrid(newSyntaxGlyphGrid)
+//                    }
+//                }
             }
         }
     }

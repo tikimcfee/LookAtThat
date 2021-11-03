@@ -1151,9 +1151,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -1189,9 +1186,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;

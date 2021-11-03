@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftSyntax
+import SceneKit
+import SwiftUI
 
 class CodeGridParser: SwiftSyntaxFileLoadable {
 
@@ -17,15 +19,12 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 	lazy var tokenCache: CodeGridTokenCache = {
 		CodeGridTokenCache()
 	}()
-	
-	lazy var codeGridCache: [String: CodeGrid] = {
-		[:]
-	}()
+    
+    let plane = CodeGridPlane()
     
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else { return nil }
 		let newGrid = createGrid(sourceFile)
-		codeGridCache[newGrid.id] = newGrid
         return newGrid
     }
     
@@ -36,5 +35,50 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             .sizeGridToContainerNode()
 		
         return grid
+    }
+}
+
+class CodeGridPlane {
+    var rootContainerNode: SCNNode = SCNNode()
+    
+    private let lastColumnIndex = 3
+    private var columnIndex = 0
+    private var rowIndex = 0
+    
+    var gridCache: [CodeGrid] = []
+    var lastGrid: CodeGrid?
+    
+    private func gridAt(row: Int, col: Int) -> CodeGrid? {
+        let index = (row * lastColumnIndex) + col
+        guard gridCache.indices.contains(index) else { return nil }
+        return gridCache[index]
+    }
+    
+    func addGrid(_ newGrid: CodeGrid) {
+        var isNewLine = false
+        if columnIndex >= lastColumnIndex {
+            columnIndex = 0
+            rowIndex += 1
+            isNewLine.toggle()
+        }
+        
+        let lastGrid = gridAt(row: rowIndex, col: -1 + columnIndex)
+        let lastRowFirstGrid = gridAt(row: rowIndex - 1, col: 0)
+        
+        let lastGridPosition = !isNewLine
+            ? lastGrid?.rootNode.position ?? SCNVector3Zero
+            : lastRowFirstGrid?.rootNode.position ?? SCNVector3Zero
+        
+        let rightmost = !isNewLine
+            ? lastGridPosition.translated(dX: (lastGrid?.rootNode.lengthX ?? 0) + 8.0)
+            : lastGridPosition.translated(dY: -((lastRowFirstGrid?.rootNode.lengthY ?? 0) + 8.0))
+        
+        newGrid.rootNode.position.x = rightmost.x
+        newGrid.rootNode.position.y = rightmost.y
+        newGrid.rootNode.position.z = rightmost.z
+        rootContainerNode.addChildNode(newGrid.rootNode)
+        
+        columnIndex += 1
+        gridCache.append(newGrid)
     }
 }
