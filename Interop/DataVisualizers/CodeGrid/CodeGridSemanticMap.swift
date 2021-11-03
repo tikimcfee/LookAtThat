@@ -29,7 +29,7 @@ public class CodeGridSemanticMap {
 	
 	// TODO: use CodeGridSyntaxCache
 	var syntaxIdToSemanticInfo = [SyntaxIdentifier: SemanticInfo]()
-	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType()
+	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
 
 	var structs = GridAssociationSyntaxToNodeType()
 	var classes = GridAssociationSyntaxToNodeType()

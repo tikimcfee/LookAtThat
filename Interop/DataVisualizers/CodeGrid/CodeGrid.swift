@@ -41,6 +41,7 @@ class CodeGrid: Identifiable, Equatable {
     }
 }
 
+// MARK: -- Builders for lazy properties
 extension CodeGrid {
     private func makeContainerNode() -> SCNNode {
         let container = SCNNode()
@@ -74,6 +75,7 @@ extension CodeGrid {
     }
 }
 
+// MARK: -- Renderer and glyph position
 extension CodeGrid {
 	struct GlyphPosition: Hashable, Equatable {
 		let xColumn: VectorFloat
@@ -146,36 +148,44 @@ extension CodeGrid {
 		//		glyphs are just nodes with text layers that are rendered from some default font,
 		//		otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
 		
-		
+		enum NodeType { case leadingTrivia, trailinTrivia, text }
 		// ## step something or other: stick the actual letters onto the the screen
         for token in syntax.tokens {
 			let tokenIdNodeName = token.id.stringIdentifier
-			var tokenNodeset = CodeGridNodes()
+			let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
+			let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
+			
+			var leadingTriviaNodes = CodeGridNodes()
+			var textNodes = CodeGridNodes()
+			var trailingTriviaNodes = CodeGridNodes()
 			
 			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
 			
-			func insertCharacter(_ character: Character,
-								 _ color: NSUIColor) {
-				let (letterNode, size) = createNodeFor(character, color)
-				letterNode.name = tokenIdNodeName
-				tokenNodeset.insert(letterNode)
-				renderer.insert(character, letterNode, size)
-			}
-			
-			for trivia in token.leadingTrivia.stringified {
-				insertCharacter(trivia, triviaColor)
+			for triviaCharacter in token.leadingTrivia.stringified {
+				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
+				letterNode.name = leadingTriviaNodeName
+				leadingTriviaNodes.insert(letterNode)
+				renderer.insert(triviaCharacter, letterNode, size)
 			}
 			
 			for textCharacter in token.text {
-				insertCharacter(textCharacter, tokenColor)
+				let (letterNode, size) = createNodeFor(textCharacter, tokenColor)
+				letterNode.name = tokenIdNodeName
+				textNodes.insert(letterNode)
+				renderer.insert(textCharacter, letterNode, size)
             }
 			
-			for trivia in token.trailingTrivia.stringified {
-				insertCharacter(trivia, triviaColor)
+			for triviaCharacter in token.trailingTrivia.stringified {
+				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
+				letterNode.name = trailingTriviaNodeName
+				trailingTriviaNodes.insert(letterNode)
+				renderer.insert(triviaCharacter, letterNode, size)
 			}
 			
-			tokenCache[tokenIdNodeName] = tokenNodeset
+			tokenCache[tokenIdNodeName] = textNodes
+			tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
+			tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
@@ -184,7 +194,9 @@ extension CodeGrid {
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
 				setCodeGridSemanticInfo(parent)
-				codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenNodeset)
+				codeGridSemanticInfo.mergeSyntaxAssociations(parent, textNodes)
+				codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
+				codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
 				tokenParent = parent.parent
 			}
         }
@@ -234,12 +246,9 @@ class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
 	}
 }
 
-class CodeGridColorCache: LockingCache<SyntaxIdentifier, NSUIColor> {
-	override func make(
-		_ key: SyntaxIdentifier, 
-		_ store: inout [SyntaxIdentifier : NSUIColor]
-	) -> NSUIColor {
-		
-		return CodeGridColors.defaultText
+extension SCNNode {
+	func apply(_ modifier: (SCNNode) -> Void) -> SCNNode {
+		modifier(self)
+		return self
 	}
 }

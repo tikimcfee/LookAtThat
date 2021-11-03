@@ -1,4 +1,5 @@
 import SwiftSyntax
+import Parser
 
 extension SwiftSyntax.TriviaPiece {
     var stringify: String {
@@ -10,6 +11,7 @@ extension SwiftSyntax.TriviaPiece {
 
 extension Trivia {
     var stringified: String {
+		// #^ check if write(to:) appends or overwrites to avoid this map and join
         return map { $0.stringify }.joined()
     }
 }
