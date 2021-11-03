@@ -9,37 +9,37 @@ struct SourceInfoGrid: View {
 	@State var hoveredToken: String?
 
     var body: some View {
-        return VStack(alignment: .leading) {
-			VStack {
-				if !sourceInfo.structs.isEmpty {
-					infoRows(named: "Structs", from: sourceInfo.structs)
-				}
-				if !sourceInfo.classes.isEmpty {
-					infoRows(named: "Classes", from: sourceInfo.classes)
-				}
-				if !sourceInfo.enumerations.isEmpty {
-					infoRows(named: "Enumerations", from: sourceInfo.enumerations)	
-				}
-				
-				if !sourceInfo.extensions.isEmpty {
-					infoRows(named: "Extensions", from: sourceInfo.extensions)	
-				}
-				
-				if !sourceInfo.functions.isEmpty {
-					infoRows(named: "Functions", from: sourceInfo.functions)	
-				}
-				
-				if !sourceInfo.variables.isEmpty {
-					infoRows(named: "Variables", from: sourceInfo.variables)	
-				}
-				
-				if let semantics = sourceInfo.semanticsFromNodeId(hoveredToken){
-					hoverInfo(semantics)
-				}
-			}
+        return VStack(alignment: .trailing) {
+            HStack(alignment: .bottom) {
+                hoverInfo(hoveredToken)
+                    .frame(width: 256, height: 256)
+                VStack {
+                    if !sourceInfo.structs.isEmpty {
+                        infoRows(named: "Structs", from: sourceInfo.structs)
+                    }
+                    if !sourceInfo.classes.isEmpty {
+                        infoRows(named: "Classes", from: sourceInfo.classes)
+                    }
+                    if !sourceInfo.enumerations.isEmpty {
+                        infoRows(named: "Enumerations", from: sourceInfo.enumerations)
+                    }
+                    
+                    if !sourceInfo.extensions.isEmpty {
+                        infoRows(named: "Extensions", from: sourceInfo.extensions)
+                    }
+                    
+                    if !sourceInfo.functions.isEmpty {
+                        infoRows(named: "Functions", from: sourceInfo.functions)
+                    }
+                    
+                    if !sourceInfo.variables.isEmpty {
+                        infoRows(named: "Variables", from: sourceInfo.variables)
+                    }
+                }
+            }
             buttons
         }
-        .frame(width: 296, alignment: .leading)
+        .frame(alignment: .trailing)
         .padding(8)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
@@ -75,11 +75,25 @@ struct SourceInfoGrid: View {
     }
 	
 	@ViewBuilder
-	func hoverInfo(_ semantics: SemanticsLookupType) -> some View {
-		VStack {
-			Text(semantics.syntaxTypeName).underline().padding(.top, 8)
-			Text(semantics.referenceName).padding(.top, 8)
-		}.frame(minHeight: 64)
+	func hoverInfo(_ hoveredId: String?) -> some View {
+        if let hoveredId = hoveredId {
+            List {
+                ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
+                    VStack(alignment: .leading) {
+                        Text(semantics.syntaxTypeName)
+                            .font(.caption)
+                            .underline()
+                        Text(semantics.referenceName)
+                            .font(.caption)
+                    }
+                    .onTapGesture {
+                        selected(id: semantics.syntaxId)
+                    }
+                }
+            }.frame(minHeight: 64)
+        } else {
+            EmptyView()
+        }
 	}
 
     @ViewBuilder
@@ -104,7 +118,8 @@ struct SourceInfoGrid: View {
                     }
                 }
             }
-        }.frame(minHeight: 64)
+        }
+        .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
     }
 
     func grid(for stringSlices: [ArraySlice<String>]) -> some View {

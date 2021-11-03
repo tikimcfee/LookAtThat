@@ -61,7 +61,7 @@ public class CodeGridSemanticMap {
 }
 
 extension CodeGridSemanticMap {
-	func tokenNodes(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
+    func tokenNodes(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
 		syntaxIdToTokenNodes[syntaxId]
 	}
 	
@@ -72,6 +72,31 @@ extension CodeGridSemanticMap {
 		else { return nil }
 		return syntaxSemantics
 	}
+    
+    func parentList(_ nodeId: SemanticsLookupNodeKey) -> [SemanticInfo] {
+        var parentList = [SemanticInfo]()
+        walkToRootFrom(nodeId) { info in
+            parentList.append(info)
+        }
+        return parentList
+    }
+    
+    func walkToRootFrom(_ nodeId: SemanticsLookupNodeKey?, _ walker: (SemanticInfo) -> Void) {
+        guard let nodeId = nodeId,
+              let syntaxId = semanticsLookupByNodeId[nodeId]else {
+            return
+        }
+        
+        var maybeSemantics: SemanticInfo? = semanticsLookupBySyntaxId[syntaxId]
+        while let semantics = maybeSemantics {
+            walker(semantics)
+            if let maybeParentId = semantics.node.parent?.id {
+                maybeSemantics = semanticsLookupBySyntaxId[maybeParentId]
+            } else {
+                maybeSemantics = nil
+            }
+        }
+    }
 	
 	func mergeSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey, 
 						   _ nodeId: SemanticsLookupNodeKey,

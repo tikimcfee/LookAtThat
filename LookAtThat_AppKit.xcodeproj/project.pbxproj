@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
-		45BF82D82728E48000B2024A /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		45BF82D92728E48D00B2024A /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
 		B735A9E52676AA5400F351B4 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E62676AAAB00F351B4 /* WordStringCache.swift */; };
@@ -31,6 +29,8 @@
 		B775C7992672800E00414972 /* CodeSheetParserV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7982672800E00414972 /* CodeSheetParserV2.swift */; };
 		B775C79C2672803F00414972 /* ParsingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C79B2672803F00414972 /* ParsingState.swift */; };
 		B77DCAB426781E4F002DF299 /* CallStackAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */; };
+		B7919F7D2732363A00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7919F7E2732363F00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
@@ -180,7 +180,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */,
-				45BF82D82728E48000B2024A /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B7919F7D2732363A00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,8 +209,6 @@
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
-		45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		45BF82D22728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
 		B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B735A9E62676AAAB00F351B4 /* WordStringCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStringCache.swift; sourceTree = "<group>"; };
@@ -228,6 +226,7 @@
 		B775C7982672800E00414972 /* CodeSheetParserV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParserV2.swift; sourceTree = "<group>"; };
 		B775C79B2672803F00414972 /* ParsingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingState.swift; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
+		B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
@@ -311,7 +310,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45BF82D92728E48D00B2024A /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7919F7E2732363F00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */,
 				F029F649255A4E1C006D4E03 /* SwiftAST in Frameworks */,
 				F029F644255A4D67006D4E03 /* SwiftSyntaxBuilder in Frameworks */,
@@ -343,34 +342,9 @@
 		45BF82CD2728E29700B2024A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				45BF82CE2728E29700B2024A /* toolchain_copies */,
-				45BF82D12728E29700B2024A /* manual_builds */,
+				B7919F7A2732362E00FE62BD /* parserDylib5_5 */,
 			);
 			path = Libraries;
-			sourceTree = "<group>";
-		};
-		45BF82CE2728E29700B2024A /* toolchain_copies */ = {
-			isa = PBXGroup;
-			children = (
-				45BF82CF2728E29700B2024A /* xcode 13.0 */,
-			);
-			path = toolchain_copies;
-			sourceTree = "<group>";
-		};
-		45BF82CF2728E29700B2024A /* xcode 13.0 */ = {
-			isa = PBXGroup;
-			children = (
-				45BF82D02728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */,
-			);
-			path = "xcode 13.0";
-			sourceTree = "<group>";
-		};
-		45BF82D12728E29700B2024A /* manual_builds */ = {
-			isa = PBXGroup;
-			children = (
-				45BF82D22728E29700B2024A /* lib_InternalSwiftSyntaxParser.dylib */,
-			);
-			path = manual_builds;
 			sourceTree = "<group>";
 		};
 		B73F428725FEC0D500F4F581 /* CodeSheetsV2 */ = {
@@ -403,6 +377,14 @@
 				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
 			);
 			path = CallStack;
+			sourceTree = "<group>";
+		};
+		B7919F7A2732362E00FE62BD /* parserDylib5_5 */ = {
+			isa = PBXGroup;
+			children = (
+				B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */,
+			);
+			path = parserDylib5_5;
 			sourceTree = "<group>";
 		};
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
@@ -1172,6 +1154,7 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -1209,6 +1192,7 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/manual_builds",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/toolchain_copies/xcode\\ 13.0",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";

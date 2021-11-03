@@ -32,7 +32,7 @@ class CodeGrid: Identifiable, Equatable {
          glyphCache: GlyphLayerCache,
 		 tokenCache: CodeGridTokenCache) {
         self.glyphCache = glyphCache
-		self.tokenCache = tokenCache
+        self.tokenCache = tokenCache
         self.id = id ?? self.id
     }
     
