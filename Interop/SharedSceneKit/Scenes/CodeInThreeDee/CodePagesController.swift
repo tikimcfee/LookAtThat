@@ -20,6 +20,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let codeSheetParser: CodeSheetParserV2
     let codeGridParser: CodeGridParser
     let fileBrowser = FileBrowser()
+    
+    lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
 	
 	@Published var hoveredToken: String?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()

@@ -7,19 +7,27 @@ struct SourceInfoGrid: View {
 	
 	@State var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap() 
 	@State var hoveredToken: String?
+    
+    typealias RowType = [FileBrowser.Scope]
+    @State var files: RowType = []
 
     var body: some View {
         return VStack(alignment: .trailing) {
             HStack(alignment: .bottom) {
+                fileRows(files)
+                    .frame(width: 300)
+                Spacer()
                 hoverInfo(hoveredToken)
                     .frame(width: 256, height: 256)
                 VStack {
                     if !sourceInfo.structs.isEmpty {
                         infoRows(named: "Structs", from: sourceInfo.structs)
                     }
+                    
                     if !sourceInfo.classes.isEmpty {
                         infoRows(named: "Classes", from: sourceInfo.classes)
                     }
+                    
                     if !sourceInfo.enumerations.isEmpty {
                         infoRows(named: "Enumerations", from: sourceInfo.enumerations)
                     }
@@ -47,11 +55,41 @@ struct SourceInfoGrid: View {
         )
         .padding(8)
         .onReceive(
+            SceneLibrary.global.codePagesController.fileStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+        ) { scopes in
+            self.files = scopes
+        }
+        .onReceive(
             SceneLibrary.global.codePagesController.hoverStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
         ) { hoveredToken in
 			self.hoveredToken = hoveredToken
+        }
+    }
+    
+    
+    func fileRows(_ rows: RowType) -> some View {
+        VStack(alignment: .leading) {
+            ForEach(rows, id: \.id) { scope in
+                switch scope {
+                case let .file(path):
+                    Text(path.components.last?.rawValue ?? "")
+                        .fontWeight(.light)
+                        .onTapGesture { fileScopeSelected(scope) }
+                case let .directory(path):
+                    Text(path.components.last?.rawValue ?? "")
+                        .fontWeight(.medium)
+                        .onTapGesture { fileScopeSelected(scope) }
+                case let .expandedDirectory(path):
+                    Text(path.components.last?.rawValue ?? "")
+                        .underline()
+                        .fontWeight(.heavy)
+                        .onTapGesture { fileScopeSelected(scope) }
+                }
+            }
         }
     }
 
@@ -121,23 +159,9 @@ struct SourceInfoGrid: View {
         }
         .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
     }
-
-    func grid(for stringSlices: [ArraySlice<String>]) -> some View {
-        return List {
-            ForEach(0..<stringSlices.count, id:\.self) { row in
-                HStack {
-                    ForEach(0..<stringSlices[row].count, id:\.self) { column in
-                        Button(action: {
-                            selected(name: Array(stringSlices[row])[column])
-                        }) {
-                            Text("\(Array(stringSlices[row])[column])")
-                                .lineLimit(0)
-                        }.padding(0)
-                        .frame(width: 44, height: 44, alignment: .center)
-                    }
-                }
-            }
-        }
+    
+    func fileScopeSelected(_ scope: FileBrowser.Scope) {
+        SceneLibrary.global.codePagesController.fileBrowser.onScopeSelected(scope)
     }
 
     func selected(name: String) {
