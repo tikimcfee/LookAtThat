@@ -70,6 +70,18 @@ extension FileBrowser {
     }
     
     func onScopeSelected(_ scope: Scope) {
+        /* This is a bit gross in terms of side effects, but the idea is that it toggles or selects.
+         
+         When a 'Scope' (a file) is selected, it has a direct UI interaction associated. If selecting a file scope,
+         something should be emitted stating as much.
+         
+         If it's a `.directory`, I know the user has selected something to 'expand' - that's the assumption.
+         So, we switch the instance to `expanded` at that path, and then just add the subpaths as direct linear children.
+         --> NOTE! This is EXTREMELY fragile if we start working with sorting this. The idea is just to explore files in a standard hierarchy to get something working
+         If already expanded, we switch it back to `directory` and remove the children from the same root paths. That's the dangerous part. Ideally, we'd track what paths
+         produced what files, but uh.. I was a little not sobre and tired and the sun was in my eyes and such.
+         */
+        
         guard let index = scopes.firstIndex(of: scope) else {
             print("invalid select scope \(scope) in \(scopes)")
             return
@@ -80,55 +92,35 @@ extension FileBrowser {
             // on file selected; call render()
             break
         case let .directory(path):
-            let expandedChildren = path.children().map(Scope.from)
             scopes[index] = .expandedDirectory(path)
-            scopes.insert(contentsOf: expandedChildren, at: index + 1)
+            expandCollapsedDirectory(rootIndex: index, path)
         case let .expandedDirectory(path):
             scopes[index] = .directory(path)
-            // Remove starting from the largest offset.
-            // Stop at 1 to leave the new .directory() in place.
-            // Needs to be inclusive because the count is equivalent
-            // to an offset from the index already.
-            
-            // It gets worse. The files are flat so I have offsets to deal with.
-            // Going to use a SLOW AS HELL firstWhere to get the indices and remove them.
-            // Gross.
-            (1...path.children().count).reversed().forEach { offset in
-                let removeIndex = index + offset
-                let removeScope = scopes[removeIndex]
-                if case .expandedDirectory = removeScope {
-                    onScopeSelected(removeScope)
-                }
-                scopes.remove(at: removeIndex)
+            collapseExpandedDirectory(rootIndex: index, path)
+        }
+    }
+    
+    private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
+        let expandedChildren = path.children().map(Scope.from)
+        scopes.insert(contentsOf: expandedChildren, at: rootIndex + 1)
+    }
+    
+    private func collapseExpandedDirectory(rootIndex: Array.Index, _ path: Path) {
+        // Remove starting from the largest offset.
+        // Stop at 1 to leave the new .directory() in place.
+        // Needs to be inclusive because the count is equivalent
+        // to an offset from the index already.
+        
+        // It gets worse. The files are flat so I have offsets to deal with.
+        // Going to use a SLOW AS HELL firstWhere to get the indices and remove them.
+        // Gross.
+        (1...path.children().count).reversed().forEach { offset in
+            let removeIndex = rootIndex + offset
+            let removeScope = scopes[removeIndex]
+            if case .expandedDirectory = removeScope {
+                onScopeSelected(removeScope)
             }
+            scopes.remove(at: removeIndex)
         }
-    }
-    
-    func expand(_ index: Int) {
-        guard scopes.indices.contains(index) else {
-            print("invalid expand index \(index) in \(scopes.indices)")
-            return
-        }
-        
-        guard case let Scope.directory(path) = scopes[index] else {
-            print("scope not a directory: \(scopes[index])")
-            return
-        }
-        
-        scopes[index] = .expandedDirectory(path)
-    }
-    
-    func collapse(_ index: Int) {
-        guard scopes.indices.contains(index) else {
-            print("invalid collapse index \(index) in \(scopes.indices)")
-            return
-        }
-
-        guard case let Scope.expandedDirectory(path) = scopes[index] else {
-            print("scope not an expanded directory: \(scopes[index])")
-            return
-        }
-        
-        scopes[index] = .directory(path)
     }
 }
