@@ -11,6 +11,7 @@
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
+		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9E52676AA5400F351B4 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E62676AAAB00F351B4 /* WordStringCache.swift */; };
 		B735A9E92676AAE400F351B4 /* WordLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E82676AAE400F351B4 /* WordLayerCache.swift */; };
@@ -211,6 +212,7 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
+		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B735A9E62676AAAB00F351B4 /* WordStringCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStringCache.swift; sourceTree = "<group>"; };
 		B735A9E82676AAE400F351B4 /* WordLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordLayerCache.swift; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 			children = (
 				F057D20025201AEB0094BD83 /* Collections.swift */,
 				453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */,
+				B73286A62733833C00C9C82A /* FileBrowser.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F00FC746250C53820092AFF9 /* WordParser.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
+				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				F07C49DB251C477500F28173 /* OrganizedSourceInfo.swift in Sources */,
 				F030B8DB251903B400B94E7A /* TestButtonViews.swift in Sources */,
