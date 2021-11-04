@@ -19,6 +19,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let wordNodeBuilder: WordNodeBuilder
     let codeSheetParser: CodeSheetParserV2
     let codeGridParser: CodeGridParser
+    let fileBrowser = FileBrowser()
 	
 	@Published var hoveredToken: String?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
@@ -223,18 +224,19 @@ extension CodePagesController {
 }
 
 // MARK: File loading
+import FileKit
 extension CodePagesController {
     func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
-//        openDirectory { directoryResult in
-        fileKitTests()
-//        selectDirectory { directoryResult in
-//            switch directoryResult {
-//            case let .success(directory):
-//                receiver(directory)
-//            case let .failure(error):
-//                print(error)
-//            }
-//        }
+        selectDirectory { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                
+            case .success(let directory):
+                let path: Path = Path(directory.parent.path)
+                self.fileBrowser.setRootScope(path)
+            }
+        }
     }
     
     func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
