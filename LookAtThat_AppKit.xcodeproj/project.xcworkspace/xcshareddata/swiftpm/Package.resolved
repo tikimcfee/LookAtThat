@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "FileKit",
+        "repositoryURL": "https://github.com/nvzqz/FileKit",
+        "state": {
+          "branch": null,
+          "revision": "8b023fb42c2afd8a9ca00d2e587e1619a4ce8b5c",
+          "version": "5.3.0"
+        }
+      },
+      {
         "package": "swift-ast",
         "repositoryURL": "https://github.com/yanagiba/swift-ast",
         "state": {

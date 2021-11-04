@@ -10,6 +10,7 @@
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
+		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
 		B735A9E52676AA5400F351B4 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E62676AAAB00F351B4 /* WordStringCache.swift */; };
 		B735A9E92676AAE400F351B4 /* WordLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E82676AAE400F351B4 /* WordLayerCache.swift */; };
@@ -317,6 +318,7 @@
 				F029F642255A4D67006D4E03 /* SwiftSyntax in Frameworks */,
 				F029F64B255A4E1C006D4E03 /* SwiftAST+Tooling in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
+				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,6 +716,7 @@
 				F029F648255A4E1C006D4E03 /* SwiftAST */,
 				F029F64A255A4E1C006D4E03 /* SwiftAST+Tooling */,
 				B7E499C5268E80E6002956D7 /* SwiftTrace */,
+				B73286A4273367B400C9C82A /* FileKit */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -797,6 +800,7 @@
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */,
 				B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
+				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1343,6 +1347,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nvzqz/FileKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
@@ -1378,6 +1390,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B73286A4273367B400C9C82A /* FileKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */;
+			productName = FileKit;
+		};
 		B7E499C5268E80E6002956D7 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;

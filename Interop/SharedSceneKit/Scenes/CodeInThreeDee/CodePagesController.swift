@@ -200,6 +200,7 @@ extension CodePagesController {
     func renderDirectory(_ handler: @escaping RenderDirectoryHandler) {
         requestSourceDirectory{ directory in
             self.workerQueue.async {
+                
                 directory.swiftUrls.compactMap {
                     self.codeGridParser.renderGrid($0)
                 }
@@ -224,14 +225,16 @@ extension CodePagesController {
 // MARK: File loading
 extension CodePagesController {
     func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
-        openDirectory { directoryResult in
-            switch directoryResult {
-            case let .success(directory):
-                receiver(directory)
-            case let .failure(error):
-                print(error)
-            }
-        }
+//        openDirectory { directoryResult in
+        fileKitTests()
+//        selectDirectory { directoryResult in
+//            switch directoryResult {
+//            case let .success(directory):
+//                receiver(directory)
+//            case let .failure(error):
+//                print(error)
+//            }
+//        }
     }
     
     func requestSourceFile(_ receiver: @escaping (URL) -> Void) {
