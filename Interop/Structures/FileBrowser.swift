@@ -123,7 +123,7 @@ extension FileBrowser {
     }
     
     private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
-        let subpaths = path.children()
+        let subpaths = path.filterdChildren(fileIsObserved)
         let expandedChildren = subpaths
             .reduce(into: [Scope]()) { result, path in
                 setPathDepth(path)
@@ -141,7 +141,10 @@ extension FileBrowser {
         // It gets worse. The files are flat so I have offsets to deal with.
         // Going to use a SLOW AS HELL firstWhere to get the indices and remove them.
         // Gross.
-        (1...path.children().count).reversed().forEach { offset in
+        let subpathCount = path.filterdChildren(fileIsObserved).count
+        guard subpathCount >= 1 else { return }
+        let subpathRange = (1...subpathCount).reversed()
+        subpathRange.forEach { offset in
             let removeIndex = rootIndex + offset
             let removeScope = scopes[removeIndex]
             if case .expandedDirectory = removeScope {
@@ -149,5 +152,16 @@ extension FileBrowser {
             }
             scopes.remove(at: removeIndex)
         }
+    }
+    
+    // This is fragile. Both collapse/expand need to filter repeatedly.
+    private func fileIsObserved(_ path: Path) -> Bool {
+        return path.isDirectoryFile || path.pathExtension == "swift"
+    }
+}
+
+private extension Path {
+    func filterdChildren(_ filter: (Path) -> Bool) -> [Path] {
+        children().filter(filter)
     }
 }

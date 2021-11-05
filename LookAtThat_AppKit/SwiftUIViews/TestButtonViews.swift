@@ -93,7 +93,6 @@ struct SourceInfoGrid: View {
     
     func fileRows(_ rows: RowType) -> some View {
         ScrollView {
-//        VStack(alignment: .leading) {
             ForEach(rows, id: \.id) { scope in
                 switch scope {
                 case let .file(path):
@@ -124,12 +123,15 @@ struct SourceInfoGrid: View {
                     }.onTapGesture { fileScopeSelected(scope) }
                 }
             }
-        }.frame(
+        }
+        .padding(4.0)
+        .frame(
             minWidth: 256.0,
             maxWidth: 384.0,
             maxHeight: 1024.0,
             alignment: .leading
         )
+        .border(.black, width: 2.0)
     }
     
     // MARK: RectangleDivider
