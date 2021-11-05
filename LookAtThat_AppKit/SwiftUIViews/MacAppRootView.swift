@@ -18,11 +18,12 @@ struct MacAppRootView: View {
                 }.padding(.bottom, 16.0)
             case .source:
                 VStack {
-                    HStack(alignment: .bottom) {
+                    HStack(alignment: .top) {
                         //                    MultipeerInfoView()
                         //                        .frame(maxHeight: 512.0)
                         SourceInfoGrid()
-                    }.padding(.bottom, 16.0)
+                    }.padding(.bottom, 4.0)
+                    Spacer()
                     TestButtons_Debugging()
                 }
             }

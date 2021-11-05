@@ -9,9 +9,14 @@ import Foundation
 import FileKit
 import Combine
 
+// TODO: FileKit.Path vs SwiftUI.Path
+// find a better way to disambiguate
+typealias FileKitPath = Path
+
 class FileBrowser: ObservableObject {
     @Published private(set) var scopes: [Scope] = []
     @Published private(set) var fileSeletionEvents: FileBrowser.Event = .noSelection
+    @Published private(set) var pathDepths: [FileKitPath: Int] = [:]
     
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
         case file(Path)
@@ -68,6 +73,8 @@ extension FileBrowser {
     
     func setRootScope(_ path: Path) {
         scopes.removeAll()
+        pathDepths.removeAll()
+        setPathDepth(path)
         if path.isDirectory {
             scopes.append(.directory(path))
         } else {
@@ -105,8 +112,23 @@ extension FileBrowser {
         }
     }
     
+    private func setPathDepth(_ path: Path) {
+        guard pathDepths[path] == nil else { return }
+        
+        if let parentDepth = pathDepths[path.parent] {
+            pathDepths[path] = parentDepth + 1
+        } else {
+            pathDepths[path] = 0
+        }
+    }
+    
     private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
-        let expandedChildren = path.children().map(Scope.from)
+        let subpaths = path.children()
+        let expandedChildren = subpaths
+            .reduce(into: [Scope]()) { result, path in
+                setPathDepth(path)
+                result.append(Scope.from(path))
+            }
         scopes.insert(contentsOf: expandedChildren, at: rootIndex + 1)
     }
     

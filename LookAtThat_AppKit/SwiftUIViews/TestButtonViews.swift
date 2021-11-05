@@ -1,6 +1,7 @@
 import Foundation
 import SceneKit
 import SwiftUI
+import FileKit
 
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?
@@ -10,12 +11,13 @@ struct SourceInfoGrid: View {
     
     typealias RowType = [FileBrowser.Scope]
     @State var files: RowType = []
+    @State var pathDepths: [FileKitPath: Int] = [:]
 
     var body: some View {
-        return VStack(alignment: .trailing) {
-            HStack(alignment: .bottom) {
+        return VStack(alignment: .leading) {
+            buttons
+            HStack(alignment: .top) {
                 fileRows(files)
-                    .frame(width: 300)
                 Spacer()
                 hoverInfo(hoveredToken)
                     .frame(width: 256, height: 256)
@@ -45,7 +47,6 @@ struct SourceInfoGrid: View {
                     }
                 }
             }
-            buttons
         }
         .frame(alignment: .trailing)
         .padding(8)
@@ -69,6 +70,13 @@ struct SourceInfoGrid: View {
 			self.hoveredToken = hoveredToken
         }
         .onReceive(
+            SceneLibrary.global.codePagesController.pathDepthStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+        ) { depths in
+            self.pathDepths = depths
+        }
+        .onReceive(
             SceneLibrary.global.codePagesController.parsedFileStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
@@ -88,21 +96,57 @@ struct SourceInfoGrid: View {
             ForEach(rows, id: \.id) { scope in
                 switch scope {
                 case let .file(path):
-                    Text(path.components.last?.rawValue ?? "")
-                        .fontWeight(.light)
-                        .onTapGesture { fileScopeSelected(scope) }
+                    HStack {
+                        makeSpacer(pathDepths[path])
+                        Text("📜")
+                            .font(.caption)
+                        Text(path.components.last?.rawValue ?? "")
+                            .fontWeight(.light)
+                    }.onTapGesture { fileScopeSelected(scope) }
                 case let .directory(path):
-                    Text(path.components.last?.rawValue ?? "")
-                        .fontWeight(.medium)
-                        .onTapGesture { fileScopeSelected(scope) }
+                    HStack {
+                        makeSpacer(pathDepths[path])
+                        Text("►")
+                        Text(path.components.last?.rawValue ?? "")
+                            .fontWeight(.medium)
+                    }.onTapGesture { fileScopeSelected(scope) }
                 case let .expandedDirectory(path):
-                    Text(path.components.last?.rawValue ?? "")
-                        .underline()
-                        .fontWeight(.heavy)
-                        .onTapGesture { fileScopeSelected(scope) }
+                    HStack {
+                        makeSpacer(pathDepths[path])
+                        Text("▼")
+                        Text(path.components.last?.rawValue ?? "")
+                            .underline()
+                            .fontWeight(.heavy)
+                    }.onTapGesture { fileScopeSelected(scope) }
                 }
             }
         }
+//        .border(.black, width: 1.0)
+//        .cornerRadius(4.0)
+    }
+    
+    // MARK: RectangleDivider
+    struct RectangleDivider: View {
+        let color: Color = .secondary
+        let height: CGFloat = 8.0
+        let width: CGFloat = 1.0
+        var body: some View {
+            Rectangle()
+                .fill(color)
+                .frame(width: width)
+                .edgesIgnoringSafeArea(.horizontal)
+        }
+    }
+    
+    @ViewBuilder
+    func makeSpacer(_ depth: Int?) -> some View {
+        HStack(spacing: 2.0) {
+            Spacer()
+            RectangleDivider()
+        }.frame(
+            width: 16.0 * CGFloat(depth ?? 1),
+            height: 16.0
+        )
     }
 
     @ViewBuilder

@@ -23,6 +23,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
+    lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
     lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
         switch event {
         case .noSelection:
