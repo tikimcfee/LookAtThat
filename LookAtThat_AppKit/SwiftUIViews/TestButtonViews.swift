@@ -68,6 +68,18 @@ struct SourceInfoGrid: View {
         ) { hoveredToken in
 			self.hoveredToken = hoveredToken
         }
+        .onReceive(
+            SceneLibrary.global.codePagesController.parsedFileStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+        ) { eventTuple in
+            switch (eventTuple.0, eventTuple.1) {
+            case (_, .some(let grid)):
+                self.sourceInfo = grid.codeGridSemanticInfo
+            default:
+                break
+            }
+        }
     }
     
     

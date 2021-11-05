@@ -11,6 +11,7 @@ import Combine
 
 class FileBrowser: ObservableObject {
     @Published private(set) var scopes: [Scope] = []
+    @Published private(set) var fileSeletionEvents: FileBrowser.Event = .noSelection
     
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
         case file(Path)
@@ -60,6 +61,11 @@ class FileBrowser: ObservableObject {
 }
 
 extension FileBrowser {
+    enum Event {
+        case noSelection
+        case newSinglePath(Path)
+    }
+    
     func setRootScope(_ path: Path) {
         scopes.removeAll()
         if path.isDirectory {
@@ -88,9 +94,8 @@ extension FileBrowser {
         }
         
         switch scopes[index] {
-        case let .file(path):
-            // on file selected; call render()
-            break
+        case let .file(newPathSelection):
+            fileSeletionEvents = .newSinglePath(newPathSelection)
         case let .directory(path):
             scopes[index] = .expandedDirectory(path)
             expandCollapsedDirectory(rootIndex: index, path)

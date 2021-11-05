@@ -9,6 +9,7 @@ struct MacAppRootView: View {
             SceneKitRepresentableView(
                 sceneView: library.sharedSceneView
             )
+            
             switch library.currentMode {
             case .dictionary:
                 VStack(spacing: 0) {
@@ -16,13 +17,14 @@ struct MacAppRootView: View {
                     TestButtons_Debugging()
                 }.padding(.bottom, 16.0)
             case .source:
-                HStack(alignment: .bottom) {
-//                    MultipeerInfoView()
-//                        .frame(maxHeight: 512.0)
+                VStack {
+                    HStack(alignment: .bottom) {
+                        //                    MultipeerInfoView()
+                        //                        .frame(maxHeight: 512.0)
+                        SourceInfoGrid()
+                    }.padding(.bottom, 16.0)
                     TestButtons_Debugging()
-                    Spacer()
-                    SourceInfoGrid()
-                }.padding(.bottom, 16.0)
+                }
             }
         }
     }

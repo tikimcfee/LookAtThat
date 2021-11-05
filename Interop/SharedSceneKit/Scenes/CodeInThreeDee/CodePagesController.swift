@@ -22,6 +22,19 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let fileBrowser = FileBrowser()
     
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
+    lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
+    lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
+        switch event {
+        case .noSelection:
+            return (event, nil)
+        case .newSinglePath(let path):
+            guard let newGrid = self.codeGridParser.renderGrid(path.url) else {
+                return (event, nil)
+            }
+            sceneTransaction { self.codeGridParser.plane.addGrid(newGrid) }
+            return (event, newGrid)
+        }
+    }.eraseToAnyPublisher()
 	
 	@Published var hoveredToken: String?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
