@@ -19,8 +19,6 @@ struct SourceInfoGrid: View {
             HStack(alignment: .top) {
                 fileRows(files)
                 Spacer()
-                hoverInfo(hoveredToken)
-                    .frame(width: 256, height: 256)
                 VStack {
                     if !sourceInfo.structs.isEmpty {
                         infoRows(named: "Structs", from: sourceInfo.structs)
@@ -45,6 +43,8 @@ struct SourceInfoGrid: View {
                     if !sourceInfo.variables.isEmpty {
                         infoRows(named: "Variables", from: sourceInfo.variables)
                     }
+                    hoverInfo(hoveredToken)
+                        .frame(width: 256, height: 256)
                 }
             }
         }
