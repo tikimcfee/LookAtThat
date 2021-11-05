@@ -92,16 +92,18 @@ struct SourceInfoGrid: View {
     
     
     func fileRows(_ rows: RowType) -> some View {
-        VStack(alignment: .leading) {
+        ScrollView {
+//        VStack(alignment: .leading) {
             ForEach(rows, id: \.id) { scope in
                 switch scope {
                 case let .file(path):
                     HStack {
                         makeSpacer(pathDepths[path])
                         Text("📜")
-                            .font(.caption)
+                            .font(.footnote)
                         Text(path.components.last?.rawValue ?? "")
                             .fontWeight(.light)
+                        Spacer()
                     }.onTapGesture { fileScopeSelected(scope) }
                 case let .directory(path):
                     HStack {
@@ -109,6 +111,7 @@ struct SourceInfoGrid: View {
                         Text("►")
                         Text(path.components.last?.rawValue ?? "")
                             .fontWeight(.medium)
+                        Spacer()
                     }.onTapGesture { fileScopeSelected(scope) }
                 case let .expandedDirectory(path):
                     HStack {
@@ -117,12 +120,16 @@ struct SourceInfoGrid: View {
                         Text(path.components.last?.rawValue ?? "")
                             .underline()
                             .fontWeight(.heavy)
+                        Spacer()
                     }.onTapGesture { fileScopeSelected(scope) }
                 }
             }
-        }
-//        .border(.black, width: 1.0)
-//        .cornerRadius(4.0)
+        }.frame(
+            minWidth: 256.0,
+            maxWidth: 384.0,
+            maxHeight: 1024.0,
+            alignment: .leading
+        )
     }
     
     // MARK: RectangleDivider
