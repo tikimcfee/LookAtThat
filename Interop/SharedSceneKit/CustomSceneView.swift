@@ -26,8 +26,31 @@ protocol MousePositionReceiver: AnyObject {
     var mouseDownEvent: NSEvent { get set }
 }
 
+enum KeyEvent {
+    case none
+    case event(_ event: NSEvent)
+}
+
+protocol KeyDownReceiver: AnyObject {
+    var lastEvent: KeyEvent { get set }
+}
+
+extension KeyDownReceiver {
+    private var event: NSEvent? {
+        switch lastEvent {
+        case .none: return nil
+        case .event(let event): return event
+        }
+    }
+    
+    var lastFullString: String { event?.characters ?? "" }
+    var lastString: String { event?.charactersIgnoringModifiers ?? "" }
+    
+}
+
 class CustomSceneView: SCNView {
     weak var positionReceiver: MousePositionReceiver?
+    weak var keyDownReceiver: KeyDownReceiver?
     var trackingArea : NSTrackingArea?
 
     func setupDefaultLighting() {
@@ -86,7 +109,8 @@ class CustomSceneView: SCNView {
     }
     
     override func keyDown(with event: NSEvent) {
-        print(">> key \(event.charactersIgnoringModifiers ?? "")")
+        let keyEvent = KeyEvent.event(event)
+        keyDownReceiver?.lastEvent = keyEvent
     }
     
     override var acceptsFirstResponder: Bool {

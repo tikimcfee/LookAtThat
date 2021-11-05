@@ -7,6 +7,21 @@ enum SceneType {
     case dictionary
 }
 
+extension SceneLibrary: KeyDownReceiver {
+    var lastEvent: KeyEvent {
+        get { lastKeyEvent }
+        set {
+            lastKeyEvent = newValue
+            switch lastEvent {
+            case .none:
+                break
+            case .event(let event):
+                break
+            }
+        }
+    }
+}
+
 class SceneLibrary: ObservableObject, MousePositionReceiver {
     public static let global = SceneLibrary()
 
@@ -15,6 +30,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     let codePagesController: CodePagesController
     let dictionaryController: DictionarySceneController
 
+    var lastKeyEvent: KeyEvent = .none
     let sharedSceneView: CustomSceneView = {
         let sceneView = CustomSceneView()
         return sceneView
@@ -72,6 +88,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
         self.currentController = codePagesController
         self.currentMode = .source
         self.sharedSceneView.positionReceiver = self
+        self.sharedSceneView.keyDownReceiver = self
 
         codePages()
         attachSheetStream()
