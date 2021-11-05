@@ -42,6 +42,10 @@ class CodePagesController: BaseSceneController, ObservableObject {
 
     @Published var selectedSheet: CodeSheet?
     lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
+    
+    lazy var keyboardCameraControls = KeyboardCameraControls(
+        targetCameraNode: sceneCameraNode
+    )
 
     var cancellables = Set<AnyCancellable>()
 
@@ -79,6 +83,25 @@ class CodePagesController: BaseSceneController, ObservableObject {
             .store(in: &cancellables)
         #endif
     }
+    
+    func attachKeyInputSink() {
+        #if os(OSX)
+        SceneLibrary.global.sharedKeyDownEvent
+            .merge(with: SceneLibrary.global.sharedKeyUpEvent)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [weak self] event in
+                self?.newKeyEvent(event)
+            }
+            .store(in: &cancellables)
+//        SceneLibrary.global.sharedKeyEvent
+//            .receive(on: DispatchQueue.global(qos: .userInteractive))
+//            .sink { [weak self] event in
+//                self?.newKeyEvent(event)
+//            }
+//            .store(in: &cancellables)
+        #endif
+        
+    }
 
     override func sceneActive() {
         // This is pretty dumb. I have the scene library global, and it automatically inits this.
@@ -87,6 +110,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         // Anyway, dispatch for now with no guarantee of success.
         DispatchQueue.main.async {
             self.attachMouseSink()
+            self.attachKeyInputSink()
         }
     }
 

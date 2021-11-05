@@ -26,26 +26,10 @@ protocol MousePositionReceiver: AnyObject {
     var mouseDownEvent: NSEvent { get set }
 }
 
-enum KeyEvent {
-    case none
-    case event(_ event: NSEvent)
-}
-
 protocol KeyDownReceiver: AnyObject {
-    var lastEvent: KeyEvent { get set }
-}
-
-extension KeyDownReceiver {
-    private var event: NSEvent? {
-        switch lastEvent {
-        case .none: return nil
-        case .event(let event): return event
-        }
-    }
-    
-    var lastFullString: String { event?.characters ?? "" }
-    var lastString: String { event?.charactersIgnoringModifiers ?? "" }
-    
+    var lastKeyEvent: NSEvent { get set }
+    var lastKeyDownEvent: NSEvent { get set }
+    var lastKeyUpEvent: NSEvent { get set }
 }
 
 class CustomSceneView: SCNView {
@@ -54,6 +38,9 @@ class CustomSceneView: SCNView {
     var trackingArea : NSTrackingArea?
 
     func setupDefaultLighting() {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
         showsStatistics = true
 
         backgroundColor = NSUIColor.gray
@@ -73,6 +60,9 @@ class CustomSceneView: SCNView {
     }
 
     override func scrollWheel(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
         super.scrollWheel(with: event)
         guard let receiver = positionReceiver,
               event.type == .scrollWheel else { return }
@@ -80,6 +70,9 @@ class CustomSceneView: SCNView {
     }
 
     override func updateTrackingAreas() {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
         if let trackingArea = trackingArea {
             removeTrackingArea(trackingArea)
         }
@@ -96,6 +89,9 @@ class CustomSceneView: SCNView {
     }
 
     override func mouseMoved(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
         super.mouseMoved(with: event)
         guard let receiver = positionReceiver else { return }
         let convertedPosition = convert(event.locationInWindow, from: nil)
@@ -103,14 +99,26 @@ class CustomSceneView: SCNView {
     }
 
     override func mouseDown(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
         super.mouseDown(with: event)
         guard let receiver = positionReceiver else { return }
         receiver.mouseDownEvent = event
     }
     
     override func keyDown(with event: NSEvent) {
-        let keyEvent = KeyEvent.event(event)
-        keyDownReceiver?.lastEvent = keyEvent
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyDownEvent = event.copy() as! NSEvent
+    }
+    
+    override func keyUp(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyUpEvent = event.copy() as! NSEvent
     }
     
     override var acceptsFirstResponder: Bool {

@@ -7,22 +7,7 @@ enum SceneType {
     case dictionary
 }
 
-extension SceneLibrary: KeyDownReceiver {
-    var lastEvent: KeyEvent {
-        get { lastKeyEvent }
-        set {
-            lastKeyEvent = newValue
-            switch lastEvent {
-            case .none:
-                break
-            case .event(let event):
-                break
-            }
-        }
-    }
-}
-
-class SceneLibrary: ObservableObject, MousePositionReceiver {
+class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
     public static let global = SceneLibrary()
 
     let wordNodeBuilder = WordNodeBuilder()
@@ -30,7 +15,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     let codePagesController: CodePagesController
     let dictionaryController: DictionarySceneController
 
-    var lastKeyEvent: KeyEvent = .none
     let sharedSceneView: CustomSceneView = {
         let sceneView = CustomSceneView()
         return sceneView
@@ -44,6 +28,10 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
     private let scrollSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
     private let mouseDownSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    private let keyEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    private let keyDownEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    private let keyUpEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    
     let sharedMouse: AnyPublisher<CGPoint, Never>
     let sharedScroll: AnyPublisher<NSEvent, Never>
     let sharedMouseDown: AnyPublisher<NSEvent, Never>
@@ -56,6 +44,19 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
     var mouseDownEvent: NSEvent = NSEvent() {
         didSet { mouseDownSubject.send(mouseDownEvent) }
     }
+    
+    let sharedKeyEvent: AnyPublisher<NSEvent, Never>
+    let sharedKeyUpEvent: AnyPublisher<NSEvent, Never>
+    let sharedKeyDownEvent: AnyPublisher<NSEvent, Never>
+    var lastKeyDownEvent: NSEvent = NSEvent() {
+        didSet { keyDownEventSubject.send(lastKeyDownEvent) }
+    }
+    var lastKeyUpEvent: NSEvent = NSEvent() {
+        didSet { keyUpEventSubject.send(lastKeyUpEvent) }
+    }
+    var lastKeyEvent: NSEvent = NSEvent() {
+        didSet { keyEventSubject.send(lastKeyEvent) }
+    }
     #elseif os(iOS)
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { }
@@ -64,6 +65,9 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
         didSet { }
     }
     var mouseDownEvent: UIEvent = UIEvent() {
+        didSet { }
+    }
+    var lastKeyEvent: KeyEvent = .none {
         didSet { }
     }
     #endif
@@ -80,11 +84,25 @@ class SceneLibrary: ObservableObject, MousePositionReceiver {
                                       wordNodeBuilder: wordNodeBuilder)
 
         // Unsafe initialization from .global ... more refactoring inc?
+        
         #if os(OSX)
+        // Mouse movement
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
         self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
         self.sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
+        
+        // Keyboard events
+        self.sharedKeyEvent = keyEventSubject
+            .filter { event in event.type == .keyDown || event.type == .keyUp }
+            .share().eraseToAnyPublisher()
+        self.sharedKeyDownEvent = keyDownEventSubject
+            .filter { event in event.type == .keyDown }
+            .share().eraseToAnyPublisher()
+        self.sharedKeyUpEvent = keyUpEventSubject
+            .filter { event in event.type == .keyUp }
+            .share().eraseToAnyPublisher()
         #endif
+        
         self.currentController = codePagesController
         self.currentMode = .source
         self.sharedSceneView.positionReceiver = self
