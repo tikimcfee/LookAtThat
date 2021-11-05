@@ -43,6 +43,7 @@ struct SourceInfoGrid: View {
                     if !sourceInfo.variables.isEmpty {
                         infoRows(named: "Variables", from: sourceInfo.variables)
                     }
+                    
                     hoverInfo(hoveredToken)
                         .frame(width: 256, height: 256)
                 }

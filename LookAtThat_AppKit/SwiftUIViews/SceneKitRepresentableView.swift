@@ -8,6 +8,9 @@ public struct SceneKitRepresentableView: NSViewRepresentable {
 
     public func makeNSView(context: Context) -> SCNView {
 //        print("==== Returning SceneKitView ====")
+        DispatchQueue.main.async { // wait till next event cycle
+            sceneView.window?.makeFirstResponder(sceneView)
+        }
         return sceneView
     }
 

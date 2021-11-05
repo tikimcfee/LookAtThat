@@ -84,6 +84,14 @@ class CustomSceneView: SCNView {
         guard let receiver = positionReceiver else { return }
         receiver.mouseDownEvent = event
     }
+    
+    override func keyDown(with event: NSEvent) {
+        print(">> key \(event.charactersIgnoringModifiers ?? "")")
+    }
+    
+    override var acceptsFirstResponder: Bool {
+        true
+    }
 }
 
 #endif

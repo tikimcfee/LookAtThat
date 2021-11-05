@@ -6,9 +6,11 @@ struct MacAppRootView: View {
 
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
+            
             SceneKitRepresentableView(
                 sceneView: library.sharedSceneView
-            )
+            ).focusable() // set focusable to work around a nil focus error
+                          // "This would eventually crash when the view is freed. The first responder will be set to nil"
             
             switch library.currentMode {
             case .dictionary:
