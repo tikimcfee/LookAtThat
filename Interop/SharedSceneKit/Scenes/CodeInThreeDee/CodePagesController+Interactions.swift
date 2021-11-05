@@ -11,7 +11,7 @@ extension CodePagesController {
         let scaledX = -event.deltaX * sensitivity
         let scaledY = event.deltaY * sensitivity
         
-        moveCamera(scaledX: scaledX, scaledY: scaledY)
+        moveCamera(scaledX: scaledX, scaledY: scaledY, event)
     }
     
     private func moveCamera(scaledX: CGFloat, scaledY: CGFloat, _ event: NSEvent? = nil) {
@@ -57,90 +57,7 @@ extension CodePagesController {
     }
     
     func newKeyEvent(_ event: NSEvent) {
-        switch (event.type, event.characters) {
-        case (.keyUp, .some(let characters)):
-            print("up \(characters)")
-            break
-        case (.keyDown, .some(let characters)):
-            print("down \(characters)")
-            break
-        case (.keyUp, .none),
-            (.keyDown, .none):
-            print("up / down no text BUT HOW")
-            break
-        default:
-            break
-        }
-    }
-    
-    class KeyboardCameraControls {
-        enum SelfRelativeDirection: Hashable {
-            case forward(_ velocity: Int)
-            case backward(_ velocity: Int)
-            case left(_ velocity: Int)
-            case right(_ velocity: Int)
-            case up(_ velocity: Int)
-            case down(_ velocity: Int)
-            
-            var velocity: Int {
-                switch self {
-                case let .forward(velocity),
-                    let .backward(velocity),
-                    let .left(velocity),
-                    let .right(velocity),
-                    let .up(velocity),
-                    let .down(velocity):
-                    return velocity
-                }
-            }
-        }
-        
-        private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
-        private var movementDirections: Set<SelfRelativeDirection> = []
-        private var defaultMovementSpeed: Int = 5
-        var targetCameraNode: SCNNode
-        
-        init(targetCameraNode: SCNNode) {
-            self.targetCameraNode = targetCameraNode
-        }
-        
-        func startForwardMovement() {
-            movementDirections.insert(.forward(defaultMovementSpeed))
-            enqueueRunLoop()
-        }
-        
-        func stopForwardMovement() {
-            movementDirections.remove(.forward(defaultMovementSpeed))
-            enqueueRunLoop()
-        }
-        
-        private func enqueueRunLoop() {
-            movementQueue.async {
-                guard !self.movementDirections.isEmpty else { return }
-                self.movementDirections.forEach { direction in
-                    self.doDirectionDelta(direction)
-                }
-                guard !self.movementDirections.isEmpty else { return }
-                self.enqueueRunLoop()
-            }
-        }
-        
-        private func doDirectionDelta(_ direction: SelfRelativeDirection) {
-            switch direction {
-            case .forward(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dZ: VectorFloat(velocity))
-            case .backward(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dZ: VectorFloat(-velocity))
-            case .left(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dX: VectorFloat(-velocity))
-            case .right(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dX: VectorFloat(velocity))
-            case .up(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dY: VectorFloat(velocity))
-            case .down(let velocity):
-                targetCameraNode.position = targetCameraNode.position.translated(dY: VectorFloat(-velocity))
-            }
-        }
+        keyboardCameraControls.onNewKeyEvent(event)
     }
 	
     func newMousePosition(_ point: CGPoint) {

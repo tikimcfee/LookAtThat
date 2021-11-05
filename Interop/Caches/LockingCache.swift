@@ -22,6 +22,28 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
         get { cache[key] ?? lockAndMake(key: key) }
 		set { lockAndSet(key: key, value: newValue) }
     }
+    
+    func isEmpty() -> Bool {
+        cache.isEmpty
+    }
+    
+    @discardableResult
+    func remove(_ key: Key) -> Value? {
+        semaphore.wait(); defer { semaphore.signal() }
+        return cache.removeValue(forKey: key)
+    }
+    
+    func doOnEach(_ action: (Key, Value) -> Void) {
+        semaphore.wait(); defer { semaphore.signal() }
+        cache.forEach {
+            action($0.key, $0.value)
+        }
+    }
+    
+    func contains(_ key: Key) -> Bool {
+        semaphore.wait(); defer { semaphore.signal() }
+        return cache[key] != nil
+    }
 	
 	private func lockAndSet(key: Key, value: Value) {
 		semaphore.wait(); defer { semaphore.signal() }

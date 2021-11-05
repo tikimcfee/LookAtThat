@@ -66,7 +66,7 @@ class CustomSceneView: SCNView {
         super.scrollWheel(with: event)
         guard let receiver = positionReceiver,
               event.type == .scrollWheel else { return }
-        receiver.scrollEvent = event
+        receiver.scrollEvent = event.copy() as! NSEvent
     }
 
     override func updateTrackingAreas() {
@@ -104,7 +104,7 @@ class CustomSceneView: SCNView {
         // It is NOT SAFE to access these objects outside of this call scope.
         super.mouseDown(with: event)
         guard let receiver = positionReceiver else { return }
-        receiver.mouseDownEvent = event
+        receiver.mouseDownEvent = event.copy() as! NSEvent
     }
     
     override func keyDown(with event: NSEvent) {
