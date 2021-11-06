@@ -25,8 +25,6 @@ struct MacAppRootView: View {
                         //                        .frame(maxHeight: 512.0)
                         SourceInfoGrid()
                     }.padding(.bottom, 4.0)
-                    Spacer()
-                    TestButtons_Debugging()
                 }
             }
         }
@@ -35,9 +33,11 @@ struct MacAppRootView: View {
 
 struct TestButtons_Debugging: View {
     var body: some View {
-        VStack() {
-            Text("Debugging").padding()
+//        VStack() {
+//            Text("Debugging").padding()
             HStack {
+                Spacer()
+                Text("Debugging").padding()
                 Button(action: toggleBoundingBoxes) {
                     Text("Toggle bounds")
                 }
@@ -51,7 +51,7 @@ struct TestButtons_Debugging: View {
                     Text("Source demo")
                 }
             }
-        }.padding()
+//        }.padding()
     }
 
     private func dictionaryDemo() {

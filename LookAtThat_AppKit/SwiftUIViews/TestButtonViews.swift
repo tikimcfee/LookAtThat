@@ -133,6 +133,7 @@ struct SourceInfoGrid: View {
             alignment: .leading
         )
         .border(.black, width: 2.0)
+        .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
     }
     
     // MARK: RectangleDivider
@@ -241,14 +242,14 @@ struct SourceInfoGrid: View {
     var buttons: some View {
         return VStack {
             HStack {
-               Button(action: renderSource) {
-                   Text("Load source")
-               }
-               Spacer()
-               Button(action: renderDirectory) {
-                   Text("Load directory")
-               }
-           }
+                Button(action: renderSource) {
+                    Text("Load source")
+                }
+                Button(action: renderDirectory) {
+                    Text("Load directory")
+                }
+                TestButtons_Debugging()
+            }
         }
 	}
 }

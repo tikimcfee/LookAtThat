@@ -52,7 +52,7 @@ class KeyboardCameraControls {
     private var running: Bool = false
     
     private var defaultMovementSpeed: Int = 2
-    private let updateDeltaMillis = 33
+    private let updateDeltaMillis = 16
     
     private var dispatchTimeNext: DispatchTime {
         let next = DispatchTime.now() + .milliseconds(updateDeltaMillis)
@@ -82,6 +82,8 @@ class KeyboardCameraControls {
             case "s", "S": startMovement(.backward(defaultMovementSpeed))
             case "a", "A": startMovement(.left(defaultMovementSpeed))
             case "d", "D": startMovement(.right(defaultMovementSpeed))
+            case "j", "J": startMovement(.down(defaultMovementSpeed))
+            case "k", "K": startMovement(.up(defaultMovementSpeed))
             default: break
             }
         case (.keyUp, .some(let characters)):
@@ -90,6 +92,8 @@ class KeyboardCameraControls {
             case "s", "S": stopMovement(.backward(defaultMovementSpeed))
             case "a", "A": stopMovement(.left(defaultMovementSpeed))
             case "d", "D": stopMovement(.right(defaultMovementSpeed))
+            case "j", "J": stopMovement(.down(defaultMovementSpeed))
+            case "k", "K": stopMovement(.up(defaultMovementSpeed))
             default: break
             }
         default:
@@ -149,10 +153,10 @@ class KeyboardCameraControls {
             final.z += direction.relativeVelocity * 0.8
             
         case .left, .right:
-            final.x += direction.relativeVelocity
+            final.x += direction.relativeVelocity * 0.8
             
         case .up, .down:
-            final.y += direction.relativeVelocity
+            final.y += direction.relativeVelocity * 0.8
         }
         
         targetCameraNode.position = final
