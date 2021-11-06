@@ -97,13 +97,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
     
     func attachKeyInputSink() {
         #if os(OSX)
-//        SceneLibrary.global.sharedKeyDownEvent
-//            .merge(with: SceneLibrary.global.sharedKeyUpEvent)
-//            .receive(on: DispatchQueue.global(qos: .userInteractive))
-//            .sink { [weak self] event in
-//                self?.newKeyEvent(event)
-//            }
-//            .store(in: &cancellables)
         SceneLibrary.global.sharedKeyEvent
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [weak self] event in
@@ -262,13 +255,6 @@ extension CodePagesController {
                         self.codeGridParser.plane.addGrid(grid)
                     }
                 }
-                
-//                for file in directory.swiftUrls {
-//                    guard let newSyntaxGlyphGrid = self.codeGridParser.renderGrid(file) else { return }
-//                    sceneTransaction {
-//                        self.codeGridParser.plane.addGrid(newSyntaxGlyphGrid)
-//                    }
-//                }
             }
         }
     }
