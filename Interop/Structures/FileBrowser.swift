@@ -76,7 +76,7 @@ extension FileBrowser {
         pathDepths.removeAll()
         setPathDepth(path)
         if path.isDirectory {
-            scopes.append(.directory(path))
+            scopes.append(.expandedDirectory(path))
             expandCollapsedDirectory(rootIndex: 0, path)
         } else {
             scopes.append(.file(path))
