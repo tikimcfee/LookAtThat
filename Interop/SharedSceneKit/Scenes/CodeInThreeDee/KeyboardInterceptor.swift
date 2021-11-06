@@ -8,21 +8,23 @@
 import Foundation
 import SceneKit
 
+private var defaultMovementSpeed: Int = 2
+private let updateDeltaMillis = 16
+
 typealias FileOperationReceiver = (FileOperation) -> Void
 enum FileOperation {
     case openDirectory
 }
 
-
 class KeyboardInterceptor {
     
-    private let lockingKeyCache: DirectionLock
+//    private let lockingKeyCache: DirectionLock
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
+    private let cacheQueue = DispatchQueue(label: "KeyboardCamera-Cache", qos: .userInteractive)
+    private var _directionCache: Set<SelfRelativeDirection>
+    
     private var movementDirections: Set<SelfRelativeDirection> = []
     private var running: Bool = false
-    
-    private var defaultMovementSpeed: Int = 2
-    private let updateDeltaMillis = 16
     
     var targetCameraNode: SCNNode
     var onNewFileOperation: FileOperationReceiver?
@@ -31,7 +33,7 @@ class KeyboardInterceptor {
         onNewFileOperation: FileOperationReceiver? = nil) {
         self.targetCameraNode = targetCameraNode
         self.onNewFileOperation = onNewFileOperation
-        self.lockingKeyCache = DirectionLock()
+        self._directionCache = []
     }
     
     private var dispatchTimeNext: DispatchTime {
@@ -39,16 +41,20 @@ class KeyboardInterceptor {
         return next
     }
     
+    private func synchronizedDirectionCache(_ receiver: (inout Set<SelfRelativeDirection>) -> Void) {
+        cacheQueue.sync { receiver(&_directionCache) }
+    }
+    
     func onNewKeyEvent(_ event: NSEvent) {
         switch (event.type, event.characters) {
         case (.keyDown, .some(let characters)):
             switch characters {
-            case "w", "W": startMovement(.forward(defaultMovementSpeed))
-            case "s", "S": startMovement(.backward(defaultMovementSpeed))
-            case "a", "A": startMovement(.left(defaultMovementSpeed))
-            case "d", "D": startMovement(.right(defaultMovementSpeed))
-            case "j", "J": startMovement(.down(defaultMovementSpeed))
-            case "k", "K": startMovement(.up(defaultMovementSpeed))
+            case "w", "W": startMovement(.forward(modifiedSpeed(event)))
+            case "s", "S": startMovement(.backward(modifiedSpeed(event)))
+            case "a", "A": startMovement(.left(modifiedSpeed(event)))
+            case "d", "D": startMovement(.right(modifiedSpeed(event)))
+            case "j", "J": startMovement(.down(modifiedSpeed(event)))
+            case "k", "K": startMovement(.up(modifiedSpeed(event)))
             case "o" where event.modifierFlags.contains(.command):
                 onNewFileOperation?(.openDirectory)
                 break
@@ -56,12 +62,12 @@ class KeyboardInterceptor {
             }
         case (.keyUp, .some(let characters)):
             switch characters {
-            case "w", "W": stopMovement(.forward(defaultMovementSpeed))
-            case "s", "S": stopMovement(.backward(defaultMovementSpeed))
-            case "a", "A": stopMovement(.left(defaultMovementSpeed))
-            case "d", "D": stopMovement(.right(defaultMovementSpeed))
-            case "j", "J": stopMovement(.down(defaultMovementSpeed))
-            case "k", "K": stopMovement(.up(defaultMovementSpeed))
+            case "w", "W": stopMovement(.forward(modifiedSpeed(event)))
+            case "s", "S": stopMovement(.backward(modifiedSpeed(event)))
+            case "a", "A": stopMovement(.left(modifiedSpeed(event)))
+            case "d", "D": stopMovement(.right(modifiedSpeed(event)))
+            case "j", "J": stopMovement(.down(modifiedSpeed(event)))
+            case "k", "K": stopMovement(.up(modifiedSpeed(event)))
             default: break
             }
         default:
@@ -69,20 +75,33 @@ class KeyboardInterceptor {
         }
     }
     
+    private func modifiedSpeed(_ event: NSEvent) -> Int {
+        if event.modifierFlags.contains(.shift) {
+            return Int(ceil(Double(defaultMovementSpeed) * 2.5))
+        } else {
+            return defaultMovementSpeed
+        }
+    }
+    
     private func startMovement(_ direction: SelfRelativeDirection) {
-        guard !lockingKeyCache.contains(direction) else { return }
-        print("start", direction)
-        lockingKeyCache[direction] = direction
-        guard !running else { return }
-        enqueueRunLoop()
+        synchronizedDirectionCache { lockingKeyCache in
+            guard !lockingKeyCache.contains(direction) else { return }
+            print("start", direction)
+            lockingKeyCache.insert(direction)
+            guard !running else { return }
+            enqueueRunLoop()
+        }
     }
     
     private func stopMovement(_ direction: SelfRelativeDirection) {
-        guard lockingKeyCache.contains(direction) else { return }
-        print("stop", direction)
-        lockingKeyCache.remove(direction)
-        guard !running else { return }
-        enqueueRunLoop()
+        synchronizedDirectionCache { lockingKeyCache in
+            guard lockingKeyCache.contains(direction) else { return }
+            print("stop", direction)
+            lockingKeyCache.remove(direction)
+            guard !running else { return }
+            enqueueRunLoop()
+        }
+        
     }
     
     private func enqueueRunLoop() {
@@ -94,21 +113,20 @@ class KeyboardInterceptor {
 //                    self.doDirectionDelta(direction)
 //                }
 //            }
-            
-            DispatchQueue.main.async {
-                self.lockingKeyCache.doOnEach { direction, _ in
+            self.synchronizedDirectionCache { lockingKeyCache in
+                lockingKeyCache.forEach { direction in
                     print(direction)
                     self.doDirectionDelta(direction)
                 }
-            }
-
-            guard !self.lockingKeyCache.isEmpty() else {
-                self.running = false
-                return
-            }
-            
-            self.movementQueue.asyncAfter(deadline: self.dispatchTimeNext) {
-                self.enqueueRunLoop()
+                
+                guard !lockingKeyCache.isEmpty else {
+                    self.running = false
+                    return
+                }
+                
+                self.movementQueue.asyncAfter(deadline: self.dispatchTimeNext) {
+                    self.enqueueRunLoop()
+                }       
             }
         }
     }
@@ -127,7 +145,9 @@ class KeyboardInterceptor {
             final.y += direction.relativeVelocity * 0.8
         }
         
-        targetCameraNode.position = final
+        DispatchQueue.main.async {
+            self.targetCameraNode.position = final
+        }
     }
 }
 
@@ -155,13 +175,23 @@ enum SelfRelativeDirection: Hashable {
     
     var key: String {
         switch self {
-        case .forward: return "forward"
-        case .backward: return "backward"
-        case .left: return "left"
-        case .right: return "right"
-        case .up: return "up"
-        case .down: return "down"
+        case .forward: return "forward\(keySuffix)"
+        case .backward: return "backward\(keySuffix)"
+        case .left: return "left\(keySuffix)"
+        case .right: return "right\(keySuffix)"
+        case .up: return "up\(keySuffix)"
+        case .down: return "down\(keySuffix)"
         }
+    }
+    
+    var keySuffix: String {
+        isModifiedVelocity
+            ? "-modified"
+            : ""
+    }
+    
+    var isModifiedVelocity: Bool {
+        abs(relativeVelocity) != abs(VectorFloat(defaultMovementSpeed))
     }
     
     func hash(into hasher: inout Hasher) {
