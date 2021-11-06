@@ -232,6 +232,10 @@ extension String {
 	func testSemanticBuilder() {
 		
 	}
+    
+    func testKeyboardInterecptor() {
+        KeyboardInterceptor()
+    }
 
     func printStart() {
         print("------------------------------- Starting -------------------------------\n\n")

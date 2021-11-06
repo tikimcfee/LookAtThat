@@ -97,19 +97,19 @@ class CodePagesController: BaseSceneController, ObservableObject {
     
     func attachKeyInputSink() {
         #if os(OSX)
-        SceneLibrary.global.sharedKeyDownEvent
-            .merge(with: SceneLibrary.global.sharedKeyUpEvent)
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [weak self] event in
-                self?.newKeyEvent(event)
-            }
-            .store(in: &cancellables)
-//        SceneLibrary.global.sharedKeyEvent
+//        SceneLibrary.global.sharedKeyDownEvent
+//            .merge(with: SceneLibrary.global.sharedKeyUpEvent)
 //            .receive(on: DispatchQueue.global(qos: .userInteractive))
 //            .sink { [weak self] event in
 //                self?.newKeyEvent(event)
 //            }
 //            .store(in: &cancellables)
+        SceneLibrary.global.sharedKeyEvent
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [weak self] event in
+                self?.newKeyEvent(event)
+            }
+            .store(in: &cancellables)
         #endif
         
     }

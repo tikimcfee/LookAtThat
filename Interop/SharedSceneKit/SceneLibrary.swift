@@ -25,38 +25,32 @@ class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
     var cancellables = Set<AnyCancellable>()
 
     #if os(OSX)
-    private let mouseSubject = CurrentValueSubject<CGPoint, Never>(CGPoint.zero)
-    private let scrollSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
-    private let mouseDownSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
-    private let keyEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
-    private let keyDownEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
-    private let keyUpEventSubject = CurrentValueSubject<NSEvent, Never>(NSEvent())
+    private let mouseSubject = PassthroughSubject<CGPoint, Never>()
+    private let scrollSubject = PassthroughSubject<NSEvent, Never>()
+    private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()
+    private let keyEventSubject = PassthroughSubject<NSEvent, Never>()
     
     let sharedMouse: AnyPublisher<CGPoint, Never>
     let sharedScroll: AnyPublisher<NSEvent, Never>
     let sharedMouseDown: AnyPublisher<NSEvent, Never>
+    let sharedKeyEvent: AnyPublisher<NSEvent, Never>
+    
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { mouseSubject.send(mousePosition) }
     }
+    
     var scrollEvent: NSEvent = NSEvent() {
         didSet { scrollSubject.send(scrollEvent) }
     }
+    
     var mouseDownEvent: NSEvent = NSEvent() {
         didSet { mouseDownSubject.send(mouseDownEvent) }
     }
     
-    let sharedKeyEvent: AnyPublisher<NSEvent, Never>
-    let sharedKeyUpEvent: AnyPublisher<NSEvent, Never>
-    let sharedKeyDownEvent: AnyPublisher<NSEvent, Never>
-    var lastKeyDownEvent: NSEvent = NSEvent() {
-        didSet { keyDownEventSubject.send(lastKeyDownEvent) }
-    }
-    var lastKeyUpEvent: NSEvent = NSEvent() {
-        didSet { keyUpEventSubject.send(lastKeyUpEvent) }
-    }
     var lastKeyEvent: NSEvent = NSEvent() {
         didSet { keyEventSubject.send(lastKeyEvent) }
     }
+    
     #elseif os(iOS)
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { }
@@ -92,15 +86,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
         self.sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
         
         // Keyboard events
-        self.sharedKeyEvent = keyEventSubject
-            .filter { event in event.type == .keyDown || event.type == .keyUp }
-            .share().eraseToAnyPublisher()
-        self.sharedKeyDownEvent = keyDownEventSubject
-            .filter { event in event.type == .keyDown }
-            .share().eraseToAnyPublisher()
-        self.sharedKeyUpEvent = keyUpEventSubject
-            .filter { event in event.type == .keyUp }
-            .share().eraseToAnyPublisher()
+        self.sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
         #endif
         
         self.currentController = codePagesController

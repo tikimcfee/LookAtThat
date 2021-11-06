@@ -28,8 +28,6 @@ protocol MousePositionReceiver: AnyObject {
 
 protocol KeyDownReceiver: AnyObject {
     var lastKeyEvent: NSEvent { get set }
-    var lastKeyDownEvent: NSEvent { get set }
-    var lastKeyUpEvent: NSEvent { get set }
 }
 
 class CustomSceneView: SCNView {
@@ -111,14 +109,21 @@ class CustomSceneView: SCNView {
         // WARNING
         // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
         // It is NOT SAFE to access these objects outside of this call scope.
-        keyDownReceiver?.lastKeyDownEvent = event.copy() as! NSEvent
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
     }
     
     override func keyUp(with event: NSEvent) {
         // WARNING
         // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
         // It is NOT SAFE to access these objects outside of this call scope.
-        keyDownReceiver?.lastKeyUpEvent = event.copy() as! NSEvent
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
+    }
+    
+    override func flagsChanged(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
     }
     
     override var acceptsFirstResponder: Bool {
