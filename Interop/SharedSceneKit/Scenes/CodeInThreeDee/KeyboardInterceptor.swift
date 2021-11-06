@@ -144,6 +144,10 @@ enum SelfRelativeDirection: Hashable {
 
 private extension KeyboardInterceptor {
     
+    // Accessing fields from incorrect NSEvent types is incredibly unsafe.
+    //  You must check type before access, and ensure any fields are expected to be returned.
+    //  E.g., `event.characters` results in an immediate fatal exception thrown if the type is NOT .keyDown or .keyUp
+    // We break up the fields on type to make slightly safer assumptions in the implementation
     func enqueuedKeyConsume(_ event: NSEvent) {
         switch event.type {
         case .keyDown:

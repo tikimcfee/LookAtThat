@@ -33,25 +33,22 @@ struct MacAppRootView: View {
 
 struct TestButtons_Debugging: View {
     var body: some View {
-//        VStack() {
-//            Text("Debugging").padding()
-            HStack {
-                Spacer()
-                Text("Debugging").padding()
-                Button(action: toggleBoundingBoxes) {
-                    Text("Toggle bounds")
-                }
-                Button(action: resetScene) {
-                    Text("Reset scene")
-                }
-                Button(action: dictionaryDemo) {
-                    Text("Dictionary demo")
-                }
-                Button(action: sourceDemo) {
-                    Text("Source demo")
-                }
+        HStack {
+            Spacer()
+            Text("Debugging").padding()
+            Button(action: toggleBoundingBoxes) {
+                Text("Toggle bounds")
             }
-//        }.padding()
+            Button(action: resetScene) {
+                Text("Reset scene")
+            }
+            Button(action: dictionaryDemo) {
+                Text("Dictionary demo")
+            }
+            Button(action: sourceDemo) {
+                Text("Source demo")
+            }
+        }
     }
 
     private func dictionaryDemo() {

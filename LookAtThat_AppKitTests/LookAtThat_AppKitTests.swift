@@ -234,7 +234,7 @@ extension String {
 	}
     
     func testKeyboardInterecptor() {
-        KeyboardInterceptor()
+        
     }
 
     func printStart() {
