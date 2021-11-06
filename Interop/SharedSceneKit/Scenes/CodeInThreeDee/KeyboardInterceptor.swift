@@ -8,8 +8,8 @@
 import Foundation
 import SceneKit
 
-private var default_MovementSpeed: Int = 2
-private var default_ModifiedMovementSpeed: Int = Int(ceil(Double(default_MovementSpeed) * 2.5))
+private var default_MovementSpeed: VectorFloat = 2.0
+private var default_ModifiedMovementSpeed: VectorFloat = default_MovementSpeed * 2.5
 private let default_UpdateDeltaMillis = 16
 
 typealias FileOperationReceiver = (FileOperation) -> Void
@@ -18,13 +18,13 @@ enum FileOperation {
 }
 
 class KeyboardInterceptor {
-    
-//    private let lockingKeyCache: DirectionLock
+
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
     private let cacheQueue = DispatchQueue(label: "KeyboardCamera-Cache", qos: .userInteractive)
     private var _directionCache: Set<SelfRelativeDirection>
     
     private var movementDirections: Set<SelfRelativeDirection> = []
+    private var currentModifiers: NSEvent.ModifierFlags = .init()
     private var running: Bool = false
     
     var targetCameraNode: SCNNode
@@ -80,16 +80,13 @@ class KeyboardInterceptor {
     private func enqueueRunLoop() {
         self.running = true
         movementQueue.async() {
-//            sceneTransaction {
-//                self.lockingKeyCache.doOnEach { direction, _ in
-//                    print(direction)
-//                    self.doDirectionDelta(direction)
-//                }
-//            }
             self.synchronizedDirectionCache { lockingKeyCache in
+                let finalDelta = self.currentModifiers.contains(.shift)
+                    ? default_ModifiedMovementSpeed
+                    : default_MovementSpeed
+                
                 lockingKeyCache.forEach { direction in
-//                    print(direction)
-                    self.doDirectionDelta(direction)
+                    self.doDirectionDelta(direction, finalDelta)
                 }
                 
                 guard !lockingKeyCache.isEmpty else {
@@ -104,22 +101,21 @@ class KeyboardInterceptor {
         }
     }
     
-    private func doDirectionDelta(_ direction: SelfRelativeDirection) {
+    private func doDirectionDelta(
+        _ direction: SelfRelativeDirection,
+        _ finalDelta: VectorFloat
+    ) {
         var finalGet: SCNVector3 {
-            var final = targetCameraNode.position.translated()
+            var updatedNode = targetCameraNode.position.translated()
+            let finalVelocity = direction.relativeVelocity(finalDelta)
             
             switch direction {
-            case .forward, .backward, .forwardModified, .backwardModified:
-                final.z += direction.relativeVelocity * 0.8
-                
-            case .left, .right, .leftModified, .rightModified:
-                final.x += direction.relativeVelocity * 0.8
-                
-            case .up, .down, .upModified, .downModified:
-                final.y += direction.relativeVelocity * 0.8
+            case .forward, .backward: updatedNode.z += finalVelocity
+            case .left, .right: updatedNode.x += finalVelocity
+            case .up, .down: updatedNode.y += finalVelocity
             }
             
-            return final
+            return updatedNode
         }
         DispatchQueue.main.async {
             self.targetCameraNode.position = finalGet
@@ -128,131 +124,69 @@ class KeyboardInterceptor {
 }
 
 enum SelfRelativeDirection: Hashable {
-    case forward(_ velocity: Int)
-    case forwardModified(_ velocity: Int)
+    case forward
+    case backward
+    case left
+    case right
+    case up
+    case down
     
-    case backward(_ velocity: Int)
-    case backwardModified(_ velocity: Int)
-    
-    case left(_ velocity: Int)
-    case leftModified(_ velocity: Int)
-    
-    case right(_ velocity: Int)
-    case rightModified(_ velocity: Int)
-    
-    case up(_ velocity: Int)
-    case upModified(_ velocity: Int)
-    
-    case down(_ velocity: Int)
-    case downModified(_ velocity: Int)
-    
-    var relativeVelocity: VectorFloat {
+    func relativeVelocity(_ velocity: VectorFloat) -> VectorFloat {
         switch self {
-        case let .left(velocity), let .leftModified(velocity),
-            let .down(velocity), let .downModified(velocity),
-            let .forward(velocity), let .forwardModified(velocity):
+        case .left, .down, .forward:
             return -VectorFloat(velocity)
             
-        case let .backward(velocity), let .backwardModified(velocity),
-            let .right(velocity), let .rightModified(velocity),
-            let .up(velocity), let .upModified(velocity):
+        case .backward, .right, .up:
             return VectorFloat(velocity)
         }
     }
 }
 
-private class DirectionLock: LockingCache<SelfRelativeDirection, SelfRelativeDirection> {
-    override func make(_ key: Key, _ store: inout [Key: Value]) -> SelfRelativeDirection {
-        return key
-    }
-}
-
-
 private extension KeyboardInterceptor {
+    
     func enqueuedKeyConsume(_ event: NSEvent) {
-        switch (event.type) {
-        
-            
-            // vvvv Key down
-        case (.keyDown) where !event.modifierFlags.contains(.shift) && !event.isARepeat:
-            let characters = event.characters
-            switch characters {
-            case "w", "W": startMovement(.forward(default_MovementSpeed))
-            case "s", "S": startMovement(.backward(default_MovementSpeed))
-            case "a", "A": startMovement(.left(default_MovementSpeed))
-            case "d", "D": startMovement(.right(default_MovementSpeed))
-            case "j", "J": startMovement(.down(default_MovementSpeed))
-            case "k", "K": startMovement(.up(default_MovementSpeed))
-            case "o" where event.modifierFlags.contains(.command):
-                onNewFileOperation?(.openDirectory)
-            default: break
-            }
-            
-        case (.keyDown) where event.modifierFlags.contains(.shift) && !event.isARepeat:
-            let characters = event.characters
-            switch characters {
-            case "w", "W": startMovement(.forwardModified(modifiedSpeed(event)))
-            case "s", "S": startMovement(.backwardModified(modifiedSpeed(event)))
-            case "a", "A": startMovement(.leftModified(modifiedSpeed(event)))
-            case "d", "D": startMovement(.rightModified(modifiedSpeed(event)))
-            case "j", "J": startMovement(.downModified(modifiedSpeed(event)))
-            case "k", "K": startMovement(.upModified(modifiedSpeed(event)))
-            case "o" where event.modifierFlags.contains(.command):
-                onNewFileOperation?(.openDirectory)
-            default: break
-            }
-            
-            // ^^^^ Key up
-        case (.keyUp) where !event.isARepeat:
-            let characters = event.characters
-            switch characters {
-            case "w", "W":
-                stopMovement(.forwardModified(modifiedSpeed(event)))
-                stopMovement(.forward(modifiedSpeed(event)))
-            case "s", "S":
-                stopMovement(.backwardModified(modifiedSpeed(event)))
-                stopMovement(.backward(modifiedSpeed(event)))
-            case "a", "A":
-                stopMovement(.leftModified(modifiedSpeed(event)))
-                stopMovement(.left(modifiedSpeed(event)))
-            case "d", "D":
-                stopMovement(.rightModified(modifiedSpeed(event)))
-                stopMovement(.right(modifiedSpeed(event)))
-            case "j", "J":
-                stopMovement(.downModified(modifiedSpeed(event)))
-                stopMovement(.down(modifiedSpeed(event)))
-            case "k", "K":
-                stopMovement(.upModified(modifiedSpeed(event)))
-                stopMovement(.up(modifiedSpeed(event)))
-            default:
-                break
-            }
-            
-        case (.flagsChanged):
-            
-            stopMovement(.forwardModified(modifiedSpeed(event)))
-            stopMovement(.backwardModified(modifiedSpeed(event)))
-            stopMovement(.leftModified(modifiedSpeed(event)))
-            stopMovement(.rightModified(modifiedSpeed(event)))
-            stopMovement(.downModified(modifiedSpeed(event)))
-            stopMovement(.upModified(modifiedSpeed(event)))
-            
+        switch event.type {
+        case .keyDown:
+            onKeyDown(event.characters ?? "", event)
+        case .keyUp:
+            onKeyUp(event.characters ?? "", event)
+        case .flagsChanged:
+            onFlagsChanged(event.modifierFlags, event)
         default:
-//            print(event)
             break
         }
-        
     }
     
-    func modifiedSpeed(_ event: NSEvent) -> Int {
-        switch (
-            event.modifierFlags.contains(.shift),
-            event.modifierFlags.contains(.command)
-        ) {
-        case (true, _):
-            return default_ModifiedMovementSpeed
-        case (false, _):
-            return default_MovementSpeed
+    private func onKeyDown(_ characters: String, _ event: NSEvent) {
+        switch characters {
+        case "w", "W": startMovement(.forward)
+        case "s", "S": startMovement(.backward)
+        case "a", "A": startMovement(.left)
+        case "d", "D": startMovement(.right)
+        case "j", "J": startMovement(.down)
+        case "k", "K": startMovement(.up)
+        case "o" where event.modifierFlags.contains(.command):
+            onNewFileOperation?(.openDirectory)
+        default: break
+        }
+    }
+    
+    private func onKeyUp(_ characters: String, _ event: NSEvent) {
+        switch characters {
+        case "w", "W": stopMovement(.forward)
+        case "s", "S": stopMovement(.backward)
+        case "a", "A": stopMovement(.left)
+        case "d", "D": stopMovement(.right)
+        case "j", "J": stopMovement(.down)
+        case "k", "K": stopMovement(.up)
+        default:
+            break
+        }
+    }
+    
+    private func onFlagsChanged(_ flags: NSEvent.ModifierFlags, _ event: NSEvent) {
+        synchronizedDirectionCache { _ in
+            currentModifiers = flags
         }
     }
 }
