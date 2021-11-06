@@ -33,8 +33,8 @@
 		B77DCAB426781E4F002DF299 /* CallStackAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */; };
 		B7919F7D2732363A00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7919F7E2732363F00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; };
-		B7E0E2A92734F556007B95D5 /* KeyboardCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardCameraController.swift */; };
-		B7E0E2AA2734F556007B95D5 /* KeyboardCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardCameraController.swift */; };
+		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
+		B7E0E2AA2734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
@@ -232,7 +232,7 @@
 		B775C79B2672803F00414972 /* ParsingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingState.swift; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
 		B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B7E0E2A82734F556007B95D5 /* KeyboardCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCameraController.swift; sourceTree = "<group>"; };
+		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
@@ -693,7 +693,7 @@
 			children = (
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
 				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
-				B7E0E2A82734F556007B95D5 /* KeyboardCameraController.swift */,
+				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
 			);
 			path = CodeInThreeDee;
 			sourceTree = "<group>";
@@ -933,7 +933,7 @@
 				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
-				B7E0E2A92734F556007B95D5 /* KeyboardCameraController.swift in Sources */,
+				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,7 +973,7 @@
 				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
-				B7E0E2AA2734F556007B95D5 /* KeyboardCameraController.swift in Sources */,
+				B7E0E2AA2734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,

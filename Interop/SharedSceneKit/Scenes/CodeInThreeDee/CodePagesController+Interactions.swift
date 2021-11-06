@@ -57,7 +57,7 @@ extension CodePagesController {
     }
     
     func newKeyEvent(_ event: NSEvent) {
-        keyboardCameraControls.onNewKeyEvent(event)
+        keyboardInterceptor.onNewKeyEvent(event)
     }
 	
     func newMousePosition(_ point: CGPoint) {

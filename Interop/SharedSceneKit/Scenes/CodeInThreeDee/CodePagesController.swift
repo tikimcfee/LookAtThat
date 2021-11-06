@@ -24,6 +24,39 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
     lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
+	
+	@Published var hoveredToken: String?
+	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
+
+    @Published var selectedSheet: CodeSheet?
+    lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
+    
+    var cancellables = Set<AnyCancellable>()
+
+    init(sceneView: CustomSceneView,
+         wordNodeBuilder: WordNodeBuilder) {
+        self.wordNodeBuilder = wordNodeBuilder
+        self.codeGridParser = CodeGridParser()
+        self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
+        super.init(sceneView: sceneView)
+        
+        self.sceneState.rootGeometryNode.addChildNode(codeGridParser.plane.rootContainerNode)
+    }
+    
+    lazy var keyboardInterceptor: KeyboardInterceptor = {
+        let interceptor = KeyboardInterceptor(targetCameraNode: sceneCameraNode)
+        interceptor.onNewFileOperation = { op in
+            switch op {
+            case .openDirectory:
+                self.renderDirectory { onDirectory in
+                    print(onDirectory, " rendered")
+                }
+                break
+            }
+        }
+        return interceptor
+    }()
+    
     lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
         switch event {
         case .noSelection:
@@ -36,28 +69,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
             return (event, newGrid)
         }
     }.eraseToAnyPublisher()
-	
-	@Published var hoveredToken: String?
-	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
-
-    @Published var selectedSheet: CodeSheet?
-    lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
-    
-    lazy var keyboardCameraControls = KeyboardCameraControls(
-        targetCameraNode: sceneCameraNode
-    )
-
-    var cancellables = Set<AnyCancellable>()
-
-    init(sceneView: CustomSceneView,
-         wordNodeBuilder: WordNodeBuilder) {
-        self.wordNodeBuilder = wordNodeBuilder
-        self.codeGridParser = CodeGridParser()
-        self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
-        super.init(sceneView: sceneView)
-        
-        self.sceneState.rootGeometryNode.addChildNode(codeGridParser.plane.rootContainerNode)
-    }
 
     func attachMouseSink() {
         #if os(OSX)

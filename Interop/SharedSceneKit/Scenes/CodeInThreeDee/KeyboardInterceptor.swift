@@ -8,45 +8,15 @@
 import Foundation
 import SceneKit
 
-class KeyboardCameraControls {
-    enum SelfRelativeDirection: Hashable {
-        case forward(_ velocity: Int)
-        case backward(_ velocity: Int)
-        case left(_ velocity: Int)
-        case right(_ velocity: Int)
-        case up(_ velocity: Int)
-        case down(_ velocity: Int)
-        
-        var relativeVelocity: VectorFloat {
-            switch self {
-            case let .left(velocity),
-                let .down(velocity),
-                let .forward(velocity):
-                return -VectorFloat(velocity)
-                
-            case let .backward(velocity),
-                let .right(velocity),
-                let .up(velocity):
-                return VectorFloat(velocity)
-            }
-        }
-        
-        var key: String {
-            switch self {
-            case .forward: return "forward"
-            case .backward: return "backward"
-            case .left: return "left"
-            case .right: return "right"
-            case .up: return "up"
-            case .down: return "down"
-            }
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(key)
-        }
-    }
+typealias FileOperationReceiver = (FileOperation) -> Void
+enum FileOperation {
+    case openDirectory
+}
+
+
+class KeyboardInterceptor {
     
+    private let lockingKeyCache: DirectionLock
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
     private var movementDirections: Set<SelfRelativeDirection> = []
     private var running: Bool = false
@@ -54,24 +24,19 @@ class KeyboardCameraControls {
     private var defaultMovementSpeed: Int = 2
     private let updateDeltaMillis = 16
     
+    var targetCameraNode: SCNNode
+    var onNewFileOperation: FileOperationReceiver?
+    
+    init(targetCameraNode: SCNNode,
+        onNewFileOperation: FileOperationReceiver? = nil) {
+        self.targetCameraNode = targetCameraNode
+        self.onNewFileOperation = onNewFileOperation
+        self.lockingKeyCache = DirectionLock()
+    }
+    
     private var dispatchTimeNext: DispatchTime {
         let next = DispatchTime.now() + .milliseconds(updateDeltaMillis)
         return next
-        
-    }
-    private let lockingKeyCache: DirectionLock
-    
-    private class DirectionLock: LockingCache<SelfRelativeDirection, SelfRelativeDirection> {
-        override func make(_ key: Key, _ store: inout [Key: Value]) -> SelfRelativeDirection {
-            return key
-        }
-    }
-    
-    var targetCameraNode: SCNNode
-    
-    init(targetCameraNode: SCNNode) {
-        self.targetCameraNode = targetCameraNode
-        self.lockingKeyCache = DirectionLock()
     }
     
     func onNewKeyEvent(_ event: NSEvent) {
@@ -84,6 +49,9 @@ class KeyboardCameraControls {
             case "d", "D": startMovement(.right(defaultMovementSpeed))
             case "j", "J": startMovement(.down(defaultMovementSpeed))
             case "k", "K": startMovement(.up(defaultMovementSpeed))
+            case "o" where event.modifierFlags.contains(.command):
+                onNewFileOperation?(.openDirectory)
+                break
             default: break
             }
         case (.keyUp, .some(let characters)):
@@ -160,5 +128,49 @@ class KeyboardCameraControls {
         }
         
         targetCameraNode.position = final
+    }
+}
+
+enum SelfRelativeDirection: Hashable {
+    case forward(_ velocity: Int)
+    case backward(_ velocity: Int)
+    case left(_ velocity: Int)
+    case right(_ velocity: Int)
+    case up(_ velocity: Int)
+    case down(_ velocity: Int)
+    
+    var relativeVelocity: VectorFloat {
+        switch self {
+        case let .left(velocity),
+            let .down(velocity),
+            let .forward(velocity):
+            return -VectorFloat(velocity)
+            
+        case let .backward(velocity),
+            let .right(velocity),
+            let .up(velocity):
+            return VectorFloat(velocity)
+        }
+    }
+    
+    var key: String {
+        switch self {
+        case .forward: return "forward"
+        case .backward: return "backward"
+        case .left: return "left"
+        case .right: return "right"
+        case .up: return "up"
+        case .down: return "down"
+        }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(key)
+    }
+}
+
+private class DirectionLock: LockingCache<SelfRelativeDirection, SelfRelativeDirection> {
+    override func make(_ key: Key, _ store: inout [Key: Value]) -> SelfRelativeDirection {
+        return key
     }
 }
