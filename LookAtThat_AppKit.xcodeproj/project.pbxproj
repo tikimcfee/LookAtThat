@@ -10,6 +10,7 @@
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
+		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9E52676AA5400F351B4 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
@@ -214,6 +215,7 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
+		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B735A9E62676AAAB00F351B4 /* WordStringCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStringCache.swift; sourceTree = "<group>"; };
@@ -352,6 +354,14 @@
 				B7919F7A2732362E00FE62BD /* parserDylib5_5 */,
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		B72197242737428B00E1CB60 /* VirtualGrid */ = {
+			isa = PBXGroup;
+			children = (
+				B7219725273742B400E1CB60 /* WorldGrid.swift */,
+			);
+			path = VirtualGrid;
 			sourceTree = "<group>";
 		};
 		B73F428725FEC0D500F4F581 /* CodeSheetsV2 */ = {
@@ -691,6 +701,7 @@
 		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
 			isa = PBXGroup;
 			children = (
+				B72197242737428B00E1CB60 /* VirtualGrid */,
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
 				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
 				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
@@ -891,6 +902,7 @@
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */,
+				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
 				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
