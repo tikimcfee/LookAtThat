@@ -13,7 +13,7 @@ typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
 class WorldGridEditor {
-    private lazy var cache = WorldGrid()
+    private var cache = WorldGrid()
     
     init() {
         let bigBangRow = [CodeGrid]()
@@ -41,7 +41,7 @@ class WorldGridEditor {
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
         switch style {
         case .trailingFromLastGrid(let codeGrid):
-            updateRow(z: planeCount, y: lastPlaneRowCount) { row in
+            updateRow(z: planeCount - 1, y: lastPlaneRowCount - 1) { row in
                 let lastDimensions = lastGridDimensions
                 
                 row.append(codeGrid)
@@ -52,7 +52,7 @@ class WorldGridEditor {
             }
 
         case .inNextRow(let codeGrid):
-            updatePlane(z: lastPlaneRowCount) { plane in
+            updatePlane(z: planeCount - 1) { plane in
                 let lastDimensions = lastGridDimensions
                 
                 var newRow = WorldGridRow()
@@ -135,9 +135,9 @@ extension WorldGridEditor {
 }
 
 extension WorldGridEditor {
-    var lastRowCount: Int {
+    var lastRowGridCount: Int {
         var count: Int = 0
-        updateRow(z: planeCount, y: lastPlaneRowCount) {
+        updateRow(z: planeCount - 1, y: lastPlaneRowCount - 1) {
             count = $0.count
         }
         return count
@@ -145,7 +145,7 @@ extension WorldGridEditor {
     
     var lastPlaneRowCount: Int {
         var count: Int = 0
-        updatePlane(z: planeCount) {
+        updatePlane(z: planeCount - 1) {
             count = $0.count
         }
         return count
@@ -180,7 +180,11 @@ extension WorldGridEditor {
         size: (lengthX: VectorFloat, lengthY: VectorFloat, lengthZ: VectorFloat)
     ) {
         var lastKnownGrid: CodeGrid?
-        gridAt(z: planeCount - 1, y: lastPlaneRowCount - 1, x: lastRowCount - 1) {
+        gridAt(
+            z: max(0, planeCount - 1),
+            y: max(0, lastPlaneRowCount - 1),
+            x: max(0, lastRowGridCount - 1)
+        ) {
             lastKnownGrid = $0
         }
         return (
