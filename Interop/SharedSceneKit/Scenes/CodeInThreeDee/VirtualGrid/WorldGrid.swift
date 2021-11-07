@@ -8,14 +8,14 @@
 import Foundation
 import SceneKit
 
-private var default_PlaneSpacing: VectorFloat = 256.0
-private var default_CameraSpacingFromPlaneOnShift: VectorFloat = 128.0
+var default__PlaneSpacing: VectorFloat = 256.0
+var default__CameraSpacingFromPlaneOnShift: VectorFloat = 128.0
 
 typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-class FocusPosition {
+class FocusPosition: CustomStringConvertible {
     var x: Int {
         didSet { pfocus() }
     }
@@ -27,7 +27,11 @@ class FocusPosition {
     }
     
     func pfocus() {
-        print("\(x), \(y), \(z)")
+//        print("\(x), \(y), \(z)")
+    }
+    
+    var description: String {
+        "(\(x), \(y), \(z))"
     }
     
     init(x: Int = 0, y: Int = 0, z: Int = 0) {
@@ -147,7 +151,7 @@ class WorldGridEditor {
             codeGrid.rootNode.position = SCNVector3(
                 x: 0.0,
                 y: 0.0,
-                z: lastDimensions.position.z - default_PlaneSpacing
+                z: lastDimensions.position.z - default__PlaneSpacing
             )
             
             focusPosition.x = 0

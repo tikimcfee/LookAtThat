@@ -180,7 +180,7 @@ private extension KeyboardInterceptor {
         case "k", "K": changeFocus(.up)
             
         case "n", "N": changeFocus(.backward)
-        case ",", "<": changeFocus(.forward)
+        case "m", "M": changeFocus(.forward)
             
         case "o" where event.modifierFlags.contains(.command):
             onNewFileOperation?(.openDirectory)
@@ -196,7 +196,7 @@ private extension KeyboardInterceptor {
         case "d", "D": stopMovement(.right)
             
         case "z", "Z": stopMovement(.down)
-        case "x", "Xx": stopMovement(.up)
+        case "x", "X": stopMovement(.up)
         default:
             break
         }
