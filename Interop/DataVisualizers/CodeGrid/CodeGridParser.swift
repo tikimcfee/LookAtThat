@@ -43,10 +43,38 @@ lazy var glyphCache: GlyphLayerCache = {
     }
 }
 
+typealias FocusPosition = (Int, Int, Int)
+
+private func left(_ focusPosition: FocusPosition) -> FocusPosition {
+    (max(0, focusPosition.0 - 1), focusPosition.1, focusPosition.2)
+}
+
+private func down(_ focusPosition: FocusPosition) -> FocusPosition {
+    (focusPosition.0, max(0, focusPosition.1 - 1), focusPosition.2)
+}
+
+private func backward(_ focusPosition: FocusPosition) -> FocusPosition {
+    (focusPosition.0, focusPosition.1, max(0, focusPosition.2 - 1))
+}
+
+private func right(_ focusPosition: FocusPosition) -> FocusPosition {
+    (max(0, focusPosition.0 + 1), focusPosition.1, focusPosition.2)
+}
+
+private func up(_ focusPosition: FocusPosition) -> FocusPosition {
+    (focusPosition.0, max(0, focusPosition.1 + 1), focusPosition.2)
+}
+
+private func forward(_ focusPosition: FocusPosition) -> FocusPosition {
+    (focusPosition.0, focusPosition.1, max(0, focusPosition.2 + 1))
+}
+
 class CodeGridWorld {
     var rootContainerNode: SCNNode = SCNNode()
     var worldGrid = WorldGridEditor()
-    var focusPosition: (Int, Int, Int) = (0, 0, 0)
+    
+    var focusPosition: FocusPosition = (-1, -1, -1)
+    var lastFocusedGrid: CodeGrid?
     
     private let default_gridWidth = 3
     private var columnIndex = 0
@@ -65,83 +93,67 @@ class CodeGridWorld {
     }
     
     func updateFocus(_ direction: SelfRelativeDirection, _ cameraNode: SCNNode) {
-        let lastFocusPosition = focusPosition
         switch direction {
         case .left:
-            focusPosition = (
-                max(0, focusPosition.0 - 1),
-                focusPosition.1,
-                focusPosition.2
-            )
+            focusPosition = left(focusPosition)
         case .down:
-            focusPosition = (
-                focusPosition.0,
-                max(0, focusPosition.1 - 1),
-                focusPosition.2
-            )
+            focusPosition = down(focusPosition)
         case .backward:
-            focusPosition = (
-                focusPosition.0,
-                focusPosition.1,
-                max(0, focusPosition.2 - 1)
-            )
+            focusPosition = backward(focusPosition)
         case .right:
-            focusPosition = (
-//                min(focusPosition.0 + 1, worldGrid.lastRowGridIndex),
-                focusPosition.0 + 1,
-                focusPosition.1,
-                focusPosition.2
-            )
+            focusPosition = right(focusPosition)
         case .up:
-            focusPosition = (
-                focusPosition.0,
-//                min(focusPosition.1 + 1, worldGrid.lastPlaneRowIndex),
-                focusPosition.1 + 1,
-                focusPosition.2
-            )
+            focusPosition = up(focusPosition)
         case .forward:
-            focusPosition = (
-                focusPosition.0,
-                focusPosition.1,
-//                min(focusPosition.2 + 1, worldGrid.lastPlaneIndex)
-                focusPosition.2 + 1
-            )
+            focusPosition = forward(focusPosition)
         }
         
+        if let lastFocusedGrid = lastFocusedGrid {
+            sceneTransaction {
+//                let gridX = lastFocusedGrid.rootNode.lengthX
+                let gridY = lastFocusedGrid.rootNode.lengthY
+                lastFocusedGrid.rootNode.position =
+                    lastFocusedGrid.rootNode.position.translated(
+                        dX: 0.0,
+                        dY: -gridY / 2.0,
+                        dZ: 0.0
+                    )
+            }
+        }
+        lastFocusedGrid = nil
+        
         worldGrid.gridAt(
-            z: focusPosition.2,
-            y: focusPosition.1,
-            x: focusPosition.0
+            z: max(0, focusPosition.2),
+            y: max(0, focusPosition.1),
+            x: max(0, focusPosition.0)
         ) { grid in
+            if grid == lastFocusedGrid { return }
+            lastFocusedGrid = grid
+            
             sceneTransaction {
                 let gridX = grid.rootNode.lengthX
                 let gridY = grid.rootNode.lengthY
+                
                 grid.rootNode.position = grid.rootNode.position.translated(
                     dX: 0.0,
                     dY: gridY / 2.0,
                     dZ: 0.0
                 )
+                
                 cameraNode.position = grid.rootNode.position.translated(
                     dX: gridX / 2.0,
                     dY: -gridY / 4.0,
                     dZ: 128.0
                 )
+                
+                cameraNode.look(at: grid.rootNode.position.translated(
+                    dX: gridX / 2.0,
+                    dY: -gridY / 4.0,
+                    dZ: 0
+                ))
+                
             }
         }
-        worldGrid.gridAt(
-            z: lastFocusPosition.2,
-            y: lastFocusPosition.1,
-            x: lastFocusPosition.0
-        ) { grid in
-            sceneTransaction {
-                let gridX = grid.rootNode.lengthX
-                let gridY = grid.rootNode.lengthY
-                grid.rootNode.position = grid.rootNode.position.translated(
-                    dX: 0.0,
-                    dY: -gridY / 2.0,
-                    dZ: 0.0
-                )
-            }
-        }
+        
     }
 }

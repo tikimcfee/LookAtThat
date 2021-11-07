@@ -87,9 +87,9 @@ class WorldGridEditor {
             cache.append(newPlane)
             
             codeGrid.rootNode.position = SCNVector3(
-                x: 8.0,
-                y: -8.0,
-                z: lastDimensions.position.z + 16.0
+                x: 0.0,
+                y: 0.0,
+                z: lastDimensions.position.z - 16.0
             )
             
         }
