@@ -65,6 +65,7 @@ class CodeGridWorld {
     }
     
     func updateFocus(_ direction: SelfRelativeDirection, _ cameraNode: SCNNode) {
+        let lastFocusPosition = focusPosition
         switch direction {
         case .left:
             focusPosition = (
@@ -113,13 +114,34 @@ class CodeGridWorld {
             x: focusPosition.0
         ) { grid in
             sceneTransaction {
+                let gridX = grid.rootNode.lengthX
+                let gridY = grid.rootNode.lengthY
+                grid.rootNode.position = grid.rootNode.position.translated(
+                    dX: 0.0,
+                    dY: gridY / 2.0,
+                    dZ: 0.0
+                )
                 cameraNode.position = grid.rootNode.position.translated(
-                    dX: grid.rootNode.lengthX / 2.0,
-                    dY: -grid.rootNode.lengthY / 4.0,
+                    dX: gridX / 2.0,
+                    dY: -gridY / 4.0,
                     dZ: 128.0
                 )
             }
         }
-        
+        worldGrid.gridAt(
+            z: lastFocusPosition.2,
+            y: lastFocusPosition.1,
+            x: lastFocusPosition.0
+        ) { grid in
+            sceneTransaction {
+                let gridX = grid.rootNode.lengthX
+                let gridY = grid.rootNode.lengthY
+                grid.rootNode.position = grid.rootNode.position.translated(
+                    dX: 0.0,
+                    dY: -gridY / 2.0,
+                    dZ: 0.0
+                )
+            }
+        }
     }
 }
