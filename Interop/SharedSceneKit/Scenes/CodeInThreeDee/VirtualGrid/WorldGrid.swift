@@ -116,12 +116,12 @@ class WorldGridEditor {
         case .inNextRow(let codeGrid):
             updatePlane(z: focusPosition.z) { plane in
                 let lastDimensions = lastGridDimensions
+                let lastRow = plane.last ?? []
                 
                 var newRow = WorldGridRow()
                 newRow.append(codeGrid)
                 plane.append(newRow)
                 
-                let lastRow = plane.last ?? []
                 let maxRowHeight = lastRow.reduce(into: VectorFloat(0.0)) { height, grid in
                     height = max(height, grid.rootNode.lengthY)
                 }
@@ -269,7 +269,7 @@ extension WorldGridEditor {
     func shiftFocus(_ direction: SelfRelativeDirection) {
         switch direction {
         case .forward:
-            guard focusPosition.z < countPlanes() else { return }
+            guard focusPosition.z < countPlanes() - 1 else { return }
             focusPosition.forward()
             focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
             focusPosition.y = max(0, min(focusPosition.y, countRowsInPlane(focusPosition.z) - 1))
@@ -288,7 +288,7 @@ extension WorldGridEditor {
             focusPosition.up()
             focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
         case .down:
-            guard focusPosition.y < countRowsInPlane(focusPosition.z) else { return }
+            guard focusPosition.y < countRowsInPlane(focusPosition.z) - 1 else { return }
             focusPosition.down()
             focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
         }
