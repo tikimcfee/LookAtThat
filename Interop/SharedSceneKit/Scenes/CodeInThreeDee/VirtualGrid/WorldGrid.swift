@@ -15,7 +15,7 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-class FocusPosition: CustomStringConvertible {
+struct FocusPosition: CustomStringConvertible {
     var x: Int {
         didSet { pfocus() }
     }
@@ -40,27 +40,27 @@ class FocusPosition: CustomStringConvertible {
         self.z = z
     }
     
-    func left() {
+    mutating func left() {
         x = max(0, x - 1)
     }
     
-    func right() {
+    mutating func right() {
         x = min(x + 1, Int.max - 2)
     }
     
-    func up() {
+    mutating func up() {
         y = max(0, y - 1)
     }
     
-    func down() {
+    mutating func down() {
         y = min(y + 1, Int.max - 2)
     }
     
-    func forward() {
+    mutating func forward() {
         z = min(z + 1, Int.max - 2)
     }
     
-    func backward() {
+    mutating func backward() {
         z = max(0, z - 1)
     }
 }
