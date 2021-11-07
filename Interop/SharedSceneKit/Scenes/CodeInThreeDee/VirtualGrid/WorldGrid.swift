@@ -269,17 +269,28 @@ extension WorldGridEditor {
     func shiftFocus(_ direction: SelfRelativeDirection) {
         switch direction {
         case .forward:
+            guard focusPosition.z < countPlanes() else { return }
             focusPosition.forward()
+            focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
+            focusPosition.y = max(0, min(focusPosition.y, countRowsInPlane(focusPosition.z) - 1))
         case .backward:
             focusPosition.backward()
+            focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
+            focusPosition.y = max(0, min(focusPosition.y, countRowsInPlane(focusPosition.z) - 1))
         case .left:
             focusPosition.left()
+            focusPosition.y = max(0, min(focusPosition.y, countRowsInPlane(focusPosition.z) - 1))
         case .right:
+            guard focusPosition.x < countGridsInRow(focusPosition.z, focusPosition.y) - 1 else { return }
             focusPosition.right()
+            focusPosition.y = max(0, min(focusPosition.y, countRowsInPlane(focusPosition.z) - 1))
         case .up:
             focusPosition.up()
+            focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
         case .down:
+            guard focusPosition.y < countRowsInPlane(focusPosition.z) else { return }
             focusPosition.down()
+            focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
         }
     }
 }
