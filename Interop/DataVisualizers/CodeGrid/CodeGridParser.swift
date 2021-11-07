@@ -11,8 +11,7 @@ import SceneKit
 import SwiftUI
 
 class CodeGridParser: SwiftSyntaxFileLoadable {
-
-	lazy var glyphCache: GlyphLayerCache = {
+lazy var glyphCache: GlyphLayerCache = {
         GlyphLayerCache()
     }()
 	
@@ -20,7 +19,13 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 		CodeGridTokenCache()
 	}()
     
-    let plane = CodeGridPlane()
+    let world = CodeGridWorld()
+    
+    func withNewGrid(_ url: URL, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
+        if let grid = renderGrid(url) {
+            operation(world, grid)
+        }
+    }
     
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else { return nil }
@@ -38,7 +43,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     }
 }
 
-class CodeGridPlane {
+class CodeGridWorld {
     var rootContainerNode: SCNNode = SCNNode()
     var worldGrid = WorldGridEditor()
     
@@ -53,50 +58,8 @@ class CodeGridPlane {
         
     }
     
-    func addGrid__World(_ newGrid: CodeGrid) {
-        sceneTransaction {
-            worldGrid.transformedByAdding(
-                .trailingFromLastGrid(newGrid)
-            )
-            rootContainerNode.addChildNode(newGrid.rootNode)
-        }    
-    }
-    
-    func addGrid(_ newGrid: CodeGrid) {
-        
-        addGrid__World(newGrid)
-        return
-        
-        var isNewLine = false
-        if columnIndex >= default_gridWidth {
-            columnIndex = 0
-            rowIndex += 1
-            isNewLine.toggle()
-        }
-        
-        let lastGrid = gridAt(row: rowIndex, col: -1 + columnIndex)
-        let lastRowFirstGrid = gridAt(row: rowIndex - 1, col: 0)
-        
-        let lastGridPosition = !isNewLine
-            ? lastGrid?.rootNode.position ?? SCNVector3Zero
-            : lastRowFirstGrid?.rootNode.position ?? SCNVector3Zero
-        
-        let rightmost = !isNewLine
-            ? lastGridPosition.translated(dX: (lastGrid?.rootNode.lengthX ?? 0) + 8.0)
-            : lastGridPosition.translated(dY: -((lastRowFirstGrid?.rootNode.lengthY ?? 0) + 8.0))
-        
-        newGrid.rootNode.position.x = rightmost.x
-        newGrid.rootNode.position.y = rightmost.y
-        newGrid.rootNode.position.z = rightmost.z
-        rootContainerNode.addChildNode(newGrid.rootNode)
-        
-        columnIndex += 1
-        gridCache.append(newGrid)
-    }
-    
-    private func gridAt(row: Int, col: Int) -> CodeGrid? {
-        let index = (row * default_gridWidth) + col
-        guard gridCache.indices.contains(index) else { return nil }
-        return gridCache[index]
+    func addGrid(style: WorldGridEditor.AddStyle) {
+        worldGrid.transformedByAdding(style)
+        rootContainerNode.addChildNode(style.grid.rootNode)
     }
 }

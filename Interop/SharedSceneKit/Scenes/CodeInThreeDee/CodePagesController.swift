@@ -40,7 +40,9 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
         
-        self.sceneState.rootGeometryNode.addChildNode(codeGridParser.plane.rootContainerNode)
+        self.sceneState.rootGeometryNode.addChildNode(
+            codeGridParser.world.rootContainerNode
+        )
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {
@@ -62,11 +64,14 @@ class CodePagesController: BaseSceneController, ObservableObject {
         case .noSelection:
             return (event, nil)
         case .newSinglePath(let path):
-            guard let newGrid = self.codeGridParser.renderGrid(path.url) else {
-                return (event, nil)
+            var createdGrid: CodeGrid?
+            sceneTransaction {
+                self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
+                    plane.addGrid(style: .trailingFromLastGrid(newGrid))
+                    createdGrid = newGrid
+                }
             }
-            sceneTransaction { self.codeGridParser.plane.addGrid(newGrid) }
-            return (event, newGrid)
+            return (event, createdGrid)
         }
     }.eraseToAnyPublisher()
 
@@ -236,7 +241,7 @@ extension CodePagesController {
 				// when this mode is off, it will do some necessarily sane thing like defaulting to a value that produces
 				// the least known human harm when implemented.
                 sceneTransaction {
-                    self.codeGridParser.plane.addGrid(newSyntaxGlyphGrid)
+                    self.codeGridParser.world.addGrid(style: .trailingFromLastGrid(newSyntaxGlyphGrid))
                 }
             }
         }
@@ -252,7 +257,7 @@ extension CodePagesController {
                 .sorted(by: { $0.renderer.lineCount > $1.renderer.lineCount })
                 .forEach { grid in
                     sceneTransaction {
-                        self.codeGridParser.plane.addGrid(grid)
+                        self.codeGridParser.world.addGrid(style: .trailingFromLastGrid(grid))
                     }
                 }
             }
