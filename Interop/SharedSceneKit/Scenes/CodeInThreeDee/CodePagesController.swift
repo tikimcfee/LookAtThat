@@ -69,7 +69,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
         switch event {
         case .noSelection:
             return (event, nil)
-        case .newSinglePath(let path):
+            
+        case let .newSinglePath(path):
             var createdGrid: CodeGrid?
             sceneTransaction {
                 self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
@@ -78,12 +79,13 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 }
             }
             return (event, createdGrid)
-        case .newSingleCommand(let path, let style):
+            
+        case let .newSingleCommand(path, style):
             var createdGrid: CodeGrid?
             sceneTransaction {
                 self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
                     switch style {
-                    case .addToRow:
+                    case .addToRow, .allChildrenInRow:
                         plane.addGrid(style: .trailingFromLastGrid(newGrid))
                     case .inNewRow:
                         plane.addGrid(style: .inNextRow(newGrid))
@@ -94,6 +96,23 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 }
             }
             return (event, createdGrid)
+        
+        case let .newMultiCommandImmediateChildren(parent, style):
+            sceneTransaction {
+                parent.children().filter(self.fileBrowser.isFileObserved).forEach { subpath in
+                    self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
+                        switch style {
+                        case .allChildrenInRow, .addToRow:
+                            plane.addGrid(style: .trailingFromLastGrid(newGrid))
+                        case .inNewRow:
+                            plane.addGrid(style: .inNextRow(newGrid))
+                        case .inNewPlane:
+                            plane.addGrid(style: .inNextPlane(newGrid))
+                        }
+                    }
+                }
+            }
+            return (event, nil)
         }
     }.eraseToAnyPublisher()
 

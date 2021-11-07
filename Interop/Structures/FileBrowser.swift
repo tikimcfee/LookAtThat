@@ -71,11 +71,16 @@ extension FileBrowser {
             case addToRow
             case inNewRow
             case inNewPlane
+            
+            case allChildrenInRow
         }
         
         case noSelection
+        
         case newSinglePath(Path)
         case newSingleCommand(Path, SelectType)
+        
+        case newMultiCommandImmediateChildren(Path, SelectType)
     }
     
     func setRootScope(_ path: Path) {
@@ -163,7 +168,7 @@ extension FileBrowser {
     }
     
     // This is fragile. Both collapse/expand need to filter repeatedly.
-    private func isFileObserved(_ path: Path) -> Bool {
+    func isFileObserved(_ path: Path) -> Bool {
         return path.isDirectoryFile || path.pathExtension == "swift"
     }
 }

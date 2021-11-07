@@ -145,8 +145,19 @@ struct SourceInfoGrid: View {
             HStack {
                 makeSpacer(pathDepths[path])
                 Text("►")
+
+                Text("📜᠁")
+                    .font(.callout)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { genericSelection(
+                        .newMultiCommandImmediateChildren(
+                            path, .allChildrenInRow
+                        )
+                    ) }
+                
                 Text(path.components.last?.rawValue ?? "")
                     .fontWeight(.medium)
+                
                 Spacer()
             }
             .padding(2)
@@ -156,9 +167,20 @@ struct SourceInfoGrid: View {
             HStack {
                 makeSpacer(pathDepths[path])
                 Text("▼")
+                
+                Text("📜᠁")
+                    .font(.callout)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { genericSelection(
+                        .newMultiCommandImmediateChildren(
+                            path, .allChildrenInRow
+                        )
+                    ) }
+                
                 Text(path.components.last?.rawValue ?? "")
                     .underline()
                     .fontWeight(.heavy)
+                
                 Spacer()
             }
             .padding(2)
@@ -262,6 +284,12 @@ struct SourceInfoGrid: View {
         SceneLibrary.global.codePagesController
             .fileBrowser
             .fileSeletionEvents = .newSingleCommand(path, selectType)
+    }
+    
+    func genericSelection(_ action: FileBrowser.Event) {
+        SceneLibrary.global.codePagesController
+            .fileBrowser
+            .fileSeletionEvents = action
     }
     
     func fileScopeSelected(_ scope: FileBrowser.Scope) {
