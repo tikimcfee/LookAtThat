@@ -43,11 +43,11 @@ class WorldGridEditor {
         case .trailingFromLastGrid(let codeGrid):
             updateRow(z: planeCount - 1, y: lastPlaneRowCount - 1) { row in
                 let lastDimensions = lastGridDimensions
-                
+                let isFirst = row.isEmpty
                 row.append(codeGrid)
                 
                 codeGrid.rootNode.position = lastDimensions.position.translated(
-                    dX: lastDimensions.size.lengthX + 8.0
+                    dX: lastDimensions.size.lengthX + (isFirst ? 0 : 8.0)
                 )
             }
 
@@ -63,7 +63,7 @@ class WorldGridEditor {
                 let maxRowHeight = lastRow.reduce(into: VectorFloat(0.0)) { height, grid in
                     height = max(height, grid.rootNode.lengthY)
                 }
-                let finalY = maxRowHeight + 16.0
+                let finalY = lastDimensions.position.y - maxRowHeight - 16.0
                 
                 codeGrid.rootNode.position = SCNVector3(
                     x: 0.0,
