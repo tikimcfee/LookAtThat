@@ -66,6 +66,6 @@ class CodeGridWorld {
     }
     
     func changeFocus(_ direction: SelfRelativeDirection) {
-        
+        worldGrid.shiftFocus(direction)
     }
 }

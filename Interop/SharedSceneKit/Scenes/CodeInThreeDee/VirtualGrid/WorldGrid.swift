@@ -8,14 +8,27 @@
 import Foundation
 import SceneKit
 
+private var default_PlaneSpacing: VectorFloat = 256.0
+private var default_CameraSpacingFromPlaneOnShift: VectorFloat = 128.0
+
 typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-struct FocusPosition: Equatable {
-    var x: Int
-    var y: Int
-    var z: Int
+class FocusPosition {
+    var x: Int {
+        didSet { pfocus() }
+    }
+    var y: Int{
+        didSet { pfocus() }
+    }
+    var z: Int{
+        didSet { pfocus() }
+    }
+    
+    func pfocus() {
+        print("\(x), \(y), \(z)")
+    }
     
     init(x: Int = 0, y: Int = 0, z: Int = 0) {
         self.x = x
@@ -23,27 +36,27 @@ struct FocusPosition: Equatable {
         self.z = z
     }
     
-    mutating func left() {
+    func left() {
         x = max(0, x - 1)
     }
     
-    mutating func right() {
+    func right() {
         x = min(x + 1, Int.max - 2)
     }
     
-    mutating func up() {
+    func up() {
         y = max(0, y - 1)
     }
     
-    mutating func down() {
+    func down() {
         y = min(y + 1, Int.max - 2)
     }
     
-    mutating func forward() {
-        z = max(z + 1, Int.max - 2)
+    func forward() {
+        z = min(z + 1, Int.max - 2)
     }
     
-    mutating func backward() {
+    func backward() {
         z = max(0, z - 1)
     }
 }
@@ -90,6 +103,10 @@ class WorldGridEditor {
                 codeGrid.rootNode.position = lastDimensions.position.translated(
                     dX: lastDimensions.size.lengthX + (isFirst ? 0 : 8.0)
                 )
+
+                if !isFirst {
+                    focusPosition.right()
+                }
             }
 
         case .inNextRow(let codeGrid):
@@ -114,6 +131,8 @@ class WorldGridEditor {
                     z: lastDimensions.position.z
                 )
                 
+                focusPosition.x = 0
+                focusPosition.down()
             }
             
         case .inNextPlane(let codeGrid):
@@ -128,9 +147,12 @@ class WorldGridEditor {
             codeGrid.rootNode.position = SCNVector3(
                 x: 0.0,
                 y: 0.0,
-                z: lastDimensions.position.z - 256.0
+                z: lastDimensions.position.z - default_PlaneSpacing
             )
             
+            focusPosition.x = 0
+            focusPosition.y = 0
+            focusPosition.forward()
         }
         return self
     }
@@ -190,28 +212,37 @@ extension WorldGridEditor {
     
     func readPlaneAt(z: Int, _ operation: (WorldGridPlane) -> Void) {
         guard cache.indices.contains(z)
-        else { return }
+        else {
+            print("grid miss at z:\(z)")
+            return
+        }
         operation(cache[z])
     }
     
     func readRowAt(z: Int, y: Int, _ operation: (WorldGridRow) -> Void) {
         guard cache.indices.contains(z),
               cache[z].indices.contains(y)
-        else { return }
+        else {
+            print("grid miss at y:\(y), z:\(z)")
+            return
+        }
         operation(cache[z][y])
     }
     
     func readGridAt(z: Int, y: Int, x: Int) -> CodeGrid? {
         guard cache.indices.contains(z),
               cache[z].indices.contains(y),
-              cache[z][y].indices.contains(z)
-        else { return nil }
+              cache[z][y].indices.contains(x)
+        else {
+            print("grid miss at x:\(x), y:\(y), z:\(z)")
+            return nil
+        }
         return cache[z][y][x]
     }
     
     var gridAtFocusPosition: CodeGrid? {
         print("return grid at \(focusPosition)")
-        return readGridAt(z: focusPosition.z, y: focusPosition.y, x: focusPosition.z)
+        return readGridAt(z: focusPosition.z, y: focusPosition.y, x: focusPosition.x)
     }
     
     var lastGridDimensions: (
