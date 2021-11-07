@@ -13,7 +13,12 @@ typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
 class WorldGridEditor {
+    private var group = DispatchGroup()
+    
     private var cache = WorldGrid()
+//    private var cache: WorldGrid {
+//        group.enter()
+//    }
     
     init() {
         let bigBangRow = [CodeGrid]()
@@ -72,23 +77,21 @@ class WorldGridEditor {
                 )
                 
             }
+            
         case .inNextPlane(let codeGrid):
-            updateWorldGlobal { world in
-                let lastDimensions = lastGridDimensions
-                
-                var newPlane = WorldGridPlane()
-                var newRow = WorldGridRow()
-                newRow.append(codeGrid)
-                newPlane.append(newRow)
-                world.append(newPlane)
-                
-                codeGrid.rootNode.position = SCNVector3(
-                    x: 0,
-                    y: 0,
-                    z: lastDimensions.position.z + 24.0
-                )
-                
-            }
+            let lastDimensions = lastGridDimensions
+            
+            var newPlane = WorldGridPlane()
+            var newRow = WorldGridRow()
+            newRow.append(codeGrid)
+            newPlane.append(newRow)
+            cache.append(newPlane)
+            
+            codeGrid.rootNode.position = SCNVector3(
+                x: 0,
+                y: 0,
+                z: lastDimensions.position.z + 24.0
+            )
             
         }
         return self
@@ -96,12 +99,6 @@ class WorldGridEditor {
 }
 
 extension WorldGridEditor {
-    func updateWorldGlobal(
-        _ operation: (inout WorldGrid) -> Void
-    ) {
-        operation(&cache)
-    }
-    
     func updatePlane(
         z: Int,
         _ operation: (inout WorldGridPlane) -> Void
@@ -152,11 +149,7 @@ extension WorldGridEditor {
     }
     
     var planeCount: Int {
-        var count: Int = 0
-        updateWorldGlobal {
-            count = $0.count
-        }
-        return count
+        return cache.count
     }
     
     func gridAt(

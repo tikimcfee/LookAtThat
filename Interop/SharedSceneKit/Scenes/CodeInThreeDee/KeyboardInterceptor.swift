@@ -123,7 +123,7 @@ class KeyboardInterceptor {
     }
 }
 
-enum SelfRelativeDirection: Hashable {
+enum SelfRelativeDirection: Hashable, CaseIterable {
     case forward
     case backward
     case left
