@@ -17,6 +17,8 @@ enum FileOperation {
     case openDirectory
 }
 
+typealias FocusChangeReceiver = (SelfRelativeDirection) -> Void
+
 class KeyboardInterceptor {
 
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
@@ -29,6 +31,7 @@ class KeyboardInterceptor {
     
     var targetCameraNode: SCNNode
     var onNewFileOperation: FileOperationReceiver?
+    var onNewFocusChange: FocusChangeReceiver?
     
     init(targetCameraNode: SCNNode,
         onNewFileOperation: FileOperationReceiver? = nil) {
@@ -169,6 +172,10 @@ private extension KeyboardInterceptor {
         case "d", "D": startMovement(.right)
         case "j", "J": startMovement(.down)
         case "k", "K": startMovement(.up)
+        case "q", "Q": changeFocus(.left)
+        case "e", "E": changeFocus(.right)
+        case "z", "Z": changeFocus(.backward)
+        case "c", "C": changeFocus(.forward)
         case "o" where event.modifierFlags.contains(.command):
             onNewFileOperation?(.openDirectory)
         default: break
@@ -193,5 +200,9 @@ private extension KeyboardInterceptor {
             currentModifiers = flags
             enqueueRunLoop()
         }
+    }
+    
+    private func changeFocus(_ focusDirection: SelfRelativeDirection) {
+        onNewFocusChange?(focusDirection)
     }
 }

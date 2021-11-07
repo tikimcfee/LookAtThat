@@ -46,6 +46,7 @@ lazy var glyphCache: GlyphLayerCache = {
 class CodeGridWorld {
     var rootContainerNode: SCNNode = SCNNode()
     var worldGrid = WorldGridEditor()
+    var focusPosition: (Int, Int, Int) = (0, 0, 0)
     
     private let default_gridWidth = 3
     private var columnIndex = 0
@@ -61,5 +62,64 @@ class CodeGridWorld {
     func addGrid(style: WorldGridEditor.AddStyle) {
         worldGrid.transformedByAdding(style)
         rootContainerNode.addChildNode(style.grid.rootNode)
+    }
+    
+    func updateFocus(_ direction: SelfRelativeDirection, _ cameraNode: SCNNode) {
+        switch direction {
+        case .left:
+            focusPosition = (
+                max(0, focusPosition.0 - 1),
+                focusPosition.1,
+                focusPosition.2
+            )
+        case .down:
+            focusPosition = (
+                focusPosition.0,
+                max(0, focusPosition.1 - 1),
+                focusPosition.2
+            )
+        case .backward:
+            focusPosition = (
+                focusPosition.0,
+                focusPosition.1,
+                max(0, focusPosition.2 - 1)
+            )
+        case .right:
+            focusPosition = (
+//                min(focusPosition.0 + 1, worldGrid.lastRowGridIndex),
+                focusPosition.0 + 1,
+                focusPosition.1,
+                focusPosition.2
+            )
+        case .up:
+            focusPosition = (
+                focusPosition.0,
+//                min(focusPosition.1 + 1, worldGrid.lastPlaneRowIndex),
+                focusPosition.1 + 1,
+                focusPosition.2
+            )
+        case .forward:
+            focusPosition = (
+                focusPosition.0,
+                focusPosition.1,
+//                min(focusPosition.2 + 1, worldGrid.lastPlaneIndex)
+                focusPosition.2 + 1
+            )
+        }
+        
+        worldGrid.gridAt(
+            z: focusPosition.2,
+            y: focusPosition.1,
+            x: focusPosition.0
+        ) { grid in
+            sceneTransaction {
+                cameraNode.position = grid.rootNode.position.translated(
+                    dX: grid.rootNode.lengthX / 2.0,
+                    dY: -grid.rootNode.lengthY / 4.0,
+                    dZ: 128.0
+                )
+            }
+        }
+        
     }
 }

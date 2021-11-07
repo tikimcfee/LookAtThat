@@ -16,9 +16,6 @@ class WorldGridEditor {
     private var group = DispatchGroup()
     
     private var cache = WorldGrid()
-//    private var cache: WorldGrid {
-//        group.enter()
-//    }
     
     init() {
         let bigBangRow = [CodeGrid]()
@@ -90,9 +87,9 @@ class WorldGridEditor {
             cache.append(newPlane)
             
             codeGrid.rootNode.position = SCNVector3(
-                x: 0,
-                y: 0,
-                z: lastDimensions.position.z - 24.0
+                x: 8.0,
+                y: -8.0,
+                z: lastDimensions.position.z + 16.0
             )
             
         }
@@ -151,8 +148,12 @@ extension WorldGridEditor {
     }
     
     var planeCount: Int {
-        return cache.count
+        cache.count
     }
+    
+    var lastRowGridIndex: Int { lastRowGridCount - 1 }
+    var lastPlaneRowIndex: Int { lastPlaneRowCount - 1 }
+    var lastPlaneIndex: Int { planeCount - 1 }
     
     func gridAt(
         z: Int,
