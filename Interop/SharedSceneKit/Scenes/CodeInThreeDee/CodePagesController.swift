@@ -40,9 +40,10 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
         
-        self.sceneState.rootGeometryNode.addChildNode(
+        sceneState.rootGeometryNode.addChildNode(
             codeGridParser.world.rootContainerNode
         )
+        codeGridParser.cameraNode = sceneCameraNode
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {
@@ -57,7 +58,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
             }
         }
         interceptor.onNewFocusChange = { focus in
-            self.codeGridParser.world.updateFocus(focus, self.sceneCameraNode)
+            self.codeGridParser.world.updateFocus(focus)
         }
         return interceptor
     }()

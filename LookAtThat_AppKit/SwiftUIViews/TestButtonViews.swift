@@ -19,34 +19,7 @@ struct SourceInfoGrid: View {
             HStack(alignment: .top) {
                 fileRows(files)
                 Spacer()
-                VStack {
-                    if !sourceInfo.structs.isEmpty {
-                        infoRows(named: "Structs", from: sourceInfo.structs)
-                    }
-                    
-                    if !sourceInfo.classes.isEmpty {
-                        infoRows(named: "Classes", from: sourceInfo.classes)
-                    }
-                    
-                    if !sourceInfo.enumerations.isEmpty {
-                        infoRows(named: "Enumerations", from: sourceInfo.enumerations)
-                    }
-                    
-                    if !sourceInfo.extensions.isEmpty {
-                        infoRows(named: "Extensions", from: sourceInfo.extensions)
-                    }
-                    
-                    if !sourceInfo.functions.isEmpty {
-                        infoRows(named: "Functions", from: sourceInfo.functions)
-                    }
-                    
-                    if !sourceInfo.variables.isEmpty {
-                        infoRows(named: "Variables", from: sourceInfo.variables)
-                    }
-                    
-                    hoverInfo(hoveredToken)
-                        .frame(width: 256, height: 256)
-                }
+//                semanticInfo()
             }
         }
         .frame(alignment: .trailing)
@@ -107,6 +80,38 @@ struct SourceInfoGrid: View {
         )
         .border(.black, width: 2.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+    }
+    
+    @ViewBuilder
+    func semanticInfo() -> some View {
+        VStack {
+            if !sourceInfo.structs.isEmpty {
+                infoRows(named: "Structs", from: sourceInfo.structs)
+            }
+
+            if !sourceInfo.classes.isEmpty {
+                infoRows(named: "Classes", from: sourceInfo.classes)
+            }
+
+            if !sourceInfo.enumerations.isEmpty {
+                infoRows(named: "Enumerations", from: sourceInfo.enumerations)
+            }
+
+            if !sourceInfo.extensions.isEmpty {
+                infoRows(named: "Extensions", from: sourceInfo.extensions)
+            }
+
+            if !sourceInfo.functions.isEmpty {
+                infoRows(named: "Functions", from: sourceInfo.functions)
+            }
+
+            if !sourceInfo.variables.isEmpty {
+                infoRows(named: "Variables", from: sourceInfo.variables)
+            }
+
+            hoverInfo(hoveredToken)
+                .frame(width: 256, height: 256)
+        }
     }
     
     @ViewBuilder

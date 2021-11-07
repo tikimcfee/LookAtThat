@@ -21,8 +21,7 @@ struct MacAppRootView: View {
             case .source:
                 VStack {
                     HStack(alignment: .top) {
-                        //                    MultipeerInfoView()
-                        //                        .frame(maxHeight: 512.0)
+//                        MultipeerInfoView().frame(maxHeight: 512.0)
                         SourceInfoGrid()
                     }.padding(.bottom, 4.0)
                 }
