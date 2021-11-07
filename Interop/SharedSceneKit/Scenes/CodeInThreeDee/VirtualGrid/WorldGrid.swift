@@ -68,7 +68,9 @@ class WorldGridEditor {
                 let maxRowHeight = lastRow.reduce(into: VectorFloat(0.0)) { height, grid in
                     height = max(height, grid.rootNode.lengthY)
                 }
-                let finalY = lastDimensions.position.y - maxRowHeight - 16.0
+                let finalY = lastDimensions.position.y
+                    - maxRowHeight
+                    - 16.0
                 
                 codeGrid.rootNode.position = SCNVector3(
                     x: 0.0,
@@ -90,7 +92,7 @@ class WorldGridEditor {
             codeGrid.rootNode.position = SCNVector3(
                 x: 0,
                 y: 0,
-                z: lastDimensions.position.z + 24.0
+                z: lastDimensions.position.z - 24.0
             )
             
         }
