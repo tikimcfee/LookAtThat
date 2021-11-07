@@ -296,6 +296,18 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
 		
 		visitor.walk(sourceSyntax)
 	}
+    
+    func testSemanticWordGridEditor() throws {
+        let editor = WorldGridEditor()
+        
+        var expected = FocusPosition()
+        let start = editor.focusPosition
+        XCTAssertEqual(start, expected, "start off from expected origin")
+        
+        expected = FocusPosition(x: expected.x + 1)
+        editor.shiftFocus(.right)
+        XCTAssertEqual(editor.focusPosition, expected, "start off from expected origin")
+    }
 	
 }
 

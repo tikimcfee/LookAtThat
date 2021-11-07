@@ -12,18 +12,56 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-enum AddStyle {
-    case trailingFromLastGrid(CodeGrid)
-    case inNextRow(CodeGrid)
-    case inNextPlane(CodeGrid)
-    var grid: CodeGrid {
-        switch self {
-        case .trailingFromLastGrid(let codeGrid):
-            return codeGrid
-        case .inNextRow(let codeGrid):
-            return codeGrid
-        case .inNextPlane(let codeGrid):
-            return codeGrid
+struct FocusPosition: Equatable {
+    var x: Int
+    var y: Int
+    var z: Int
+    
+    init(x: Int = 0, y: Int = 0, z: Int = 0) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+    
+    mutating func left() {
+        x = max(0, x - 1)
+    }
+    
+    mutating func right() {
+        x = min(x + 1, Int.max - 2)
+    }
+    
+    mutating func up() {
+        y = max(0, y - 1)
+    }
+    
+    mutating func down() {
+        y = min(y + 1, Int.max - 2)
+    }
+    
+    mutating func forward() {
+        z = max(z + 1, Int.max - 2)
+    }
+    
+    mutating func backward() {
+        z = max(0, z - 1)
+    }
+}
+
+extension WorldGridEditor {
+    enum AddStyle {
+        case trailingFromLastGrid(CodeGrid)
+        case inNextRow(CodeGrid)
+        case inNextPlane(CodeGrid)
+        var grid: CodeGrid {
+            switch self {
+            case .trailingFromLastGrid(let codeGrid):
+                return codeGrid
+            case .inNextRow(let codeGrid):
+                return codeGrid
+            case .inNextPlane(let codeGrid):
+                return codeGrid
+            }
         }
     }
 }
@@ -31,7 +69,7 @@ enum AddStyle {
 class WorldGridEditor {
     private var cache = WorldGrid()
     
-    var focusPosition: FocusPosition = (0, 0, 0)
+    var focusPosition: FocusPosition = FocusPosition()
     var lastFocusedGrid: CodeGrid?
     
     init() {
@@ -44,7 +82,7 @@ class WorldGridEditor {
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
         switch style {
         case .trailingFromLastGrid(let codeGrid):
-            updateRow(z: planeCount - 1, y: lastPlaneRowCount - 1) { row in
+            updateRow(z: focusPosition.z, y: focusPosition.y) { row in
                 let lastDimensions = lastGridDimensions
                 let isFirst = row.isEmpty
                 row.append(codeGrid)
@@ -55,7 +93,7 @@ class WorldGridEditor {
             }
 
         case .inNextRow(let codeGrid):
-            updatePlane(z: planeCount - 1) { plane in
+            updatePlane(z: focusPosition.z) { plane in
                 let lastDimensions = lastGridDimensions
                 
                 var newRow = WorldGridRow()
@@ -132,6 +170,7 @@ extension WorldGridEditor {
 }
 
 extension WorldGridEditor {
+    
     func countGridsInRow(_ z: Int, _ y: Int) -> Int {
         guard cache.indices.contains(z),
               cache[z].indices.contains(y)
@@ -162,33 +201,50 @@ extension WorldGridEditor {
         operation(cache[z][y])
     }
     
-    func readGridAt(z: Int, y: Int, x: Int, _ operation: (CodeGrid) -> Void) {
+    func readGridAt(z: Int, y: Int, x: Int) -> CodeGrid? {
         guard cache.indices.contains(z),
               cache[z].indices.contains(y),
               cache[z][y].indices.contains(z)
-        else { return }
-        operation(cache[z][y][x])
+        else { return nil }
+        return cache[z][y][x]
+    }
+    
+    var gridAtFocusPosition: CodeGrid? {
+        print("return grid at \(focusPosition)")
+        return readGridAt(z: focusPosition.z, y: focusPosition.y, x: focusPosition.z)
     }
     
     var lastGridDimensions: (
         position: SCNVector3,
         size: (lengthX: VectorFloat, lengthY: VectorFloat, lengthZ: VectorFloat)
     ) {
-        var lastKnownGrid: CodeGrid?
-        gridAt(
-            z: max(0, planeCount - 1),
-            y: max(0, lastPlaneRowCount - 1),
-            x: max(0, lastRowGridCount - 1)
-        ) {
-            lastKnownGrid = $0
-        }
+        let gridAtFocusPosition = gridAtFocusPosition
         return (
-            lastKnownGrid?.rootNode.position ?? SCNVector3Zero,
+            gridAtFocusPosition?.rootNode.position ?? SCNVector3Zero,
             (
-                lastKnownGrid?.backgroundGeometryNode.lengthX ?? 0.0,
-                lastKnownGrid?.backgroundGeometryNode.lengthX ?? 0.0,
-                lastKnownGrid?.backgroundGeometryNode.lengthX ?? 0.0
+                gridAtFocusPosition?.backgroundGeometryNode.lengthX ?? 0.0,
+                gridAtFocusPosition?.backgroundGeometryNode.lengthY ?? 0.0,
+                gridAtFocusPosition?.backgroundGeometryNode.lengthZ ?? 0.0
             )
         )
+    }
+}
+
+extension WorldGridEditor {
+    func shiftFocus(_ direction: SelfRelativeDirection) {
+        switch direction {
+        case .forward:
+            focusPosition.forward()
+        case .backward:
+            focusPosition.backward()
+        case .left:
+            focusPosition.left()
+        case .right:
+            focusPosition.right()
+        case .up:
+            focusPosition.up()
+        case .down:
+            focusPosition.down()
+        }
     }
 }

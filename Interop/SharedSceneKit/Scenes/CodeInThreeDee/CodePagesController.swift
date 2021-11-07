@@ -58,7 +58,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
             }
         }
         interceptor.onNewFocusChange = { focus in
-            self.codeGridParser.world.updateFocus(focus)
+            self.codeGridParser.world.changeFocus(focus)
         }
         return interceptor
     }()
