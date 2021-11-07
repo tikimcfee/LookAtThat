@@ -146,12 +146,21 @@ struct SourceInfoGrid: View {
                 makeSpacer(pathDepths[path])
                 Text("►")
 
-                Text("📜᠁")
+                Text("📜᠁➡️")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
                         .newMultiCommandImmediateChildren(
                             path, .allChildrenInRow
+                        )
+                    ) }
+                
+                Text("📜᠁⤵️")
+                    .font(.callout)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { genericSelection(
+                        .newMultiCommandImmediateChildren(
+                            path, .allChildrenInNewRow
                         )
                     ) }
                 

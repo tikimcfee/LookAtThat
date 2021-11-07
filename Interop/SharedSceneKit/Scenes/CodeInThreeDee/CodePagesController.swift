@@ -87,7 +87,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     switch style {
                     case .addToRow, .allChildrenInRow:
                         plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                    case .inNewRow:
+                    case .inNewRow, .allChildrenInNewRow:
                         plane.addGrid(style: .inNextRow(newGrid))
                     case .inNewPlane:
                         plane.addGrid(style: .inNextPlane(newGrid))
@@ -99,16 +99,29 @@ class CodePagesController: BaseSceneController, ObservableObject {
         
         case let .newMultiCommandImmediateChildren(parent, style):
             sceneTransaction {
-                parent.children().filter(self.fileBrowser.isFileObserved).forEach { subpath in
-                    self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
-                        switch style {
-                        case .allChildrenInRow, .addToRow:
+                switch style {
+                case .allChildrenInRow, .addToRow:
+                    parent.children().filter(self.fileBrowser.isFileObserved).forEach { subpath in
+                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
                             plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                        case .inNewRow:
-                            plane.addGrid(style: .inNextRow(newGrid))
-                        case .inNewPlane:
-                            plane.addGrid(style: .inNextPlane(newGrid))
                         }
+                    }
+                    
+                case .inNewRow, .allChildrenInNewRow:
+                    parent.children().filter(self.fileBrowser.isFileObserved).enumerated().forEach { index, subpath in
+                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
+                            if index == 0 {
+                                plane.addGrid(style: .inNextRow(newGrid))
+                            } else {
+                                plane.addGrid(style: .trailingFromLastGrid(newGrid))
+                            }
+                            
+                        }
+                    }
+                        
+                case .inNewPlane:
+                    self.codeGridParser.withNewGrid(parent.url) { plane, newGrid in
+                        plane.addGrid(style: .inNextPlane(newGrid))
                     }
                 }
             }

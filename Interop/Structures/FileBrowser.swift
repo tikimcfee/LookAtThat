@@ -73,6 +73,7 @@ extension FileBrowser {
             case inNewPlane
             
             case allChildrenInRow
+            case allChildrenInNewRow
         }
         
         case noSelection
