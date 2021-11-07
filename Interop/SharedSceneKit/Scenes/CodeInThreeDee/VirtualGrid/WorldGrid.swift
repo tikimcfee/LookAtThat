@@ -12,31 +12,32 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
+enum AddStyle {
+    case trailingFromLastGrid(CodeGrid)
+    case inNextRow(CodeGrid)
+    case inNextPlane(CodeGrid)
+    var grid: CodeGrid {
+        switch self {
+        case .trailingFromLastGrid(let codeGrid):
+            return codeGrid
+        case .inNextRow(let codeGrid):
+            return codeGrid
+        case .inNextPlane(let codeGrid):
+            return codeGrid
+        }
+    }
+}
+
 class WorldGridEditor {
-    private var group = DispatchGroup()
-    
     private var cache = WorldGrid()
+    
+    var focusPosition: FocusPosition = (0, 0, 0)
+    var lastFocusedGrid: CodeGrid?
     
     init() {
         let bigBangRow = [CodeGrid]()
         let bigBangPlane = [bigBangRow]
         cache.append(bigBangPlane)
-    }
-    
-    enum AddStyle {
-        case trailingFromLastGrid(CodeGrid)
-        case inNextRow(CodeGrid)
-        case inNextPlane(CodeGrid)
-        var grid: CodeGrid {
-            switch self {
-            case .trailingFromLastGrid(let codeGrid):
-                return codeGrid
-            case .inNextRow(let codeGrid):
-                return codeGrid
-            case .inNextPlane(let codeGrid):
-                return codeGrid
-            }
-        }
     }
     
     @discardableResult
@@ -131,44 +132,42 @@ extension WorldGridEditor {
 }
 
 extension WorldGridEditor {
-    var lastRowGridCount: Int {
-        var count: Int = 0
-        updateRow(z: planeCount - 1, y: lastPlaneRowCount - 1) {
-            count = $0.count
-        }
-        return count
+    func countGridsInRow(_ z: Int, _ y: Int) -> Int {
+        guard cache.indices.contains(z),
+              cache[z].indices.contains(y)
+        else { return 0 }
+        return cache[z][y].count
     }
     
-    var lastPlaneRowCount: Int {
-        var count: Int = 0
-        updatePlane(z: planeCount - 1) {
-            count = $0.count
-        }
-        return count
+    func countRowsInPlane(_ z: Int) -> Int {
+        guard cache.indices.contains(z)
+        else { return 0 }
+        return cache[z].count
     }
     
-    var planeCount: Int {
+    func countPlanes() -> Int {
         cache.count
     }
     
-    var lastRowGridIndex: Int { lastRowGridCount - 1 }
-    var lastPlaneRowIndex: Int { lastPlaneRowCount - 1 }
-    var lastPlaneIndex: Int { planeCount - 1 }
+    func readPlaneAt(z: Int, _ operation: (WorldGridPlane) -> Void) {
+        guard cache.indices.contains(z)
+        else { return }
+        operation(cache[z])
+    }
     
-    func gridAt(
-        z: Int,
-        y: Int,
-        x: Int,
-        _ operation: (CodeGrid) -> Void
-    ) {
-        updateRow(z: z, y: y) { row in
-            guard row.indices.contains(x) else {
-                print("invalid gridAt position: \((x, y, z))")
-                return
-            }
-            let grid = row[x]
-            operation(grid)
-        }
+    func readRowAt(z: Int, y: Int, _ operation: (WorldGridRow) -> Void) {
+        guard cache.indices.contains(z),
+              cache[z].indices.contains(y)
+        else { return }
+        operation(cache[z][y])
+    }
+    
+    func readGridAt(z: Int, y: Int, x: Int, _ operation: (CodeGrid) -> Void) {
+        guard cache.indices.contains(z),
+              cache[z].indices.contains(y),
+              cache[z][y].indices.contains(z)
+        else { return }
+        operation(cache[z][y][x])
     }
     
     var lastGridDimensions: (

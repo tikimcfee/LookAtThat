@@ -51,30 +51,6 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 
 typealias FocusPosition = (Int, Int, Int)
 
-private func left(_ focusPosition: FocusPosition) -> FocusPosition {
-    (max(0, focusPosition.0 - 1), focusPosition.1, focusPosition.2)
-}
-
-private func down(_ focusPosition: FocusPosition) -> FocusPosition {
-    (focusPosition.0, max(0, focusPosition.1 - 1), focusPosition.2)
-}
-
-private func backward(_ focusPosition: FocusPosition) -> FocusPosition {
-    (focusPosition.0, focusPosition.1, max(0, focusPosition.2 - 1))
-}
-
-private func right(_ focusPosition: FocusPosition) -> FocusPosition {
-    (max(0, focusPosition.0 + 1), focusPosition.1, focusPosition.2)
-}
-
-private func up(_ focusPosition: FocusPosition) -> FocusPosition {
-    (focusPosition.0, max(0, focusPosition.1 + 1), focusPosition.2)
-}
-
-private func forward(_ focusPosition: FocusPosition) -> FocusPosition {
-    (focusPosition.0, focusPosition.1, max(0, focusPosition.2 + 1))
-}
-
 class CodeGridWorld {
     var rootContainerNode: SCNNode = SCNNode()
     var worldGrid = WorldGridEditor()
@@ -139,7 +115,7 @@ class CodeGridWorld {
 //            }
 //        }
         
-        worldGrid.gridAt(
+        worldGrid.readGridAt(
             z: max(0, focusPosition.2),
             y: max(0, focusPosition.1),
             x: max(0, focusPosition.0)
@@ -178,5 +154,31 @@ class CodeGridWorld {
     private func focusGrid(_ grid: CodeGrid) {
         if lastFocusedGrid == grid { return }
         
+    }
+}
+
+extension CodeGridWorld {
+    private func left(_ focusPosition: FocusPosition) -> FocusPosition {
+        (max(0, focusPosition.0 - 1), focusPosition.1, focusPosition.2)
+    }
+    
+    private func down(_ focusPosition: FocusPosition) -> FocusPosition {
+        (focusPosition.0, max(0, focusPosition.1 + 1), focusPosition.2)
+    }
+    
+    private func backward(_ focusPosition: FocusPosition) -> FocusPosition {
+        (focusPosition.0, focusPosition.1, max(0, focusPosition.2 - 1))
+    }
+    
+    private func right(_ focusPosition: FocusPosition) -> FocusPosition {
+        (max(0, focusPosition.0 + 1), focusPosition.1, focusPosition.2)
+    }
+    
+    private func up(_ focusPosition: FocusPosition) -> FocusPosition {
+        (focusPosition.0, max(0, focusPosition.1 - 1), focusPosition.2)
+    }
+    
+    private func forward(_ focusPosition: FocusPosition) -> FocusPosition {
+        (focusPosition.0, focusPosition.1, max(0, focusPosition.2 + 1))
     }
 }

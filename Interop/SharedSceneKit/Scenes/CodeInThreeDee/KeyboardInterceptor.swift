@@ -166,18 +166,22 @@ private extension KeyboardInterceptor {
     
     private func onKeyDown(_ characters: String, _ event: NSEvent) {
         switch characters {
-        case "w", "W": startMovement(.forward)
-        case "s", "S": startMovement(.backward)
         case "a", "A": startMovement(.left)
         case "d", "D": startMovement(.right)
-        case "j", "J": startMovement(.down)
-        case "k", "K": startMovement(.up)
-        case "q", "Q": changeFocus(.left)
-        case "e", "E": changeFocus(.right)
-        case "u", "U": changeFocus(.backward)
-        case "i", "I": changeFocus(.forward)
-        case "n", "N": changeFocus(.down)
-        case "m", "M": changeFocus(.up)
+        case "w", "W": startMovement(.forward)
+        case "s", "S": startMovement(.backward)
+        
+        case "z", "Z": startMovement(.down)
+        case "x", "X": startMovement(.up)
+            
+        case "h", "H": changeFocus(.left)
+        case "l", "L": changeFocus(.right)
+        case "j", "J": changeFocus(.down)
+        case "k", "K": changeFocus(.up)
+            
+        case "n", "N": changeFocus(.backward)
+        case ",", "<": changeFocus(.forward)
+            
         case "o" where event.modifierFlags.contains(.command):
             onNewFileOperation?(.openDirectory)
         default: break
@@ -190,8 +194,9 @@ private extension KeyboardInterceptor {
         case "s", "S": stopMovement(.backward)
         case "a", "A": stopMovement(.left)
         case "d", "D": stopMovement(.right)
-        case "j", "J": stopMovement(.down)
-        case "k", "K": stopMovement(.up)
+            
+        case "z", "Z": stopMovement(.down)
+        case "x", "Xx": stopMovement(.up)
         default:
             break
         }
