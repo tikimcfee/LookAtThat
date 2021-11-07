@@ -89,7 +89,7 @@ class WorldGridEditor {
             codeGrid.rootNode.position = SCNVector3(
                 x: 0.0,
                 y: 0.0,
-                z: lastDimensions.position.z - 16.0
+                z: lastDimensions.position.z - 256.0
             )
             
         }

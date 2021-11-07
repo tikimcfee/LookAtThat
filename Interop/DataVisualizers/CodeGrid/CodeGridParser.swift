@@ -100,6 +100,9 @@ class CodeGridWorld {
         case .inNextRow:
             focusPosition = (-1, focusPosition.1 + 1, focusPosition.2)
             updateFocus(.right)
+        case .inNextPlane:
+            focusPosition = (-1, -1, focusPosition.2 + 1)
+            updateFocus(.right)
         default:
             break
         }
