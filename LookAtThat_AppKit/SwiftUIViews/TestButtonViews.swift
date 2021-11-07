@@ -95,34 +95,7 @@ struct SourceInfoGrid: View {
     func fileRows(_ rows: RowType) -> some View {
         ScrollView {
             ForEach(rows, id: \.id) { scope in
-                switch scope {
-                case let .file(path):
-                    HStack {
-                        makeSpacer(pathDepths[path])
-                        Text("📜")
-                            .font(.footnote)
-                        Text(path.components.last?.rawValue ?? "")
-                            .fontWeight(.light)
-                        Spacer()
-                    }.onTapGesture { fileScopeSelected(scope) }
-                case let .directory(path):
-                    HStack {
-                        makeSpacer(pathDepths[path])
-                        Text("►")
-                        Text(path.components.last?.rawValue ?? "")
-                            .fontWeight(.medium)
-                        Spacer()
-                    }.onTapGesture { fileScopeSelected(scope) }
-                case let .expandedDirectory(path):
-                    HStack {
-                        makeSpacer(pathDepths[path])
-                        Text("▼")
-                        Text(path.components.last?.rawValue ?? "")
-                            .underline()
-                            .fontWeight(.heavy)
-                        Spacer()
-                    }.onTapGesture { fileScopeSelected(scope) }
-                }
+                rowForScope(scope)
             }
         }
         .padding(4.0)
@@ -134,6 +107,55 @@ struct SourceInfoGrid: View {
         )
         .border(.black, width: 2.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+    }
+    
+    @ViewBuilder
+    func rowForScope(_ scope: FileBrowser.Scope) -> some View {
+        switch scope {
+        case let .file(path):
+            HStack {
+                makeSpacer(pathDepths[path])
+                Text("📜")
+                    .font(.footnote)
+                Text(path.components.last?.rawValue ?? "")
+                    .fontWeight(.light)
+                
+                Spacer()
+                
+                Text("⮐")
+                    .padding(4.0)
+                    .font(.footnote)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { fileSelected(path, .inNewRow) }
+                
+            }
+            .padding(0.5)
+            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
+            .onTapGesture { fileSelected(path, .addToRow) }
+        case let .directory(path):
+            HStack {
+                makeSpacer(pathDepths[path])
+                Text("►")
+                Text(path.components.last?.rawValue ?? "")
+                    .fontWeight(.medium)
+                Spacer()
+            }
+            .padding(2)
+            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+            .onTapGesture { fileScopeSelected(scope) }
+        case let .expandedDirectory(path):
+            HStack {
+                makeSpacer(pathDepths[path])
+                Text("▼")
+                Text(path.components.last?.rawValue ?? "")
+                    .underline()
+                    .fontWeight(.heavy)
+                Spacer()
+            }
+            .padding(2)
+            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
+            .onTapGesture { fileScopeSelected(scope) }
+        }
     }
     
     // MARK: RectangleDivider
@@ -225,6 +247,12 @@ struct SourceInfoGrid: View {
             }
         }
         .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
+    }
+    
+    func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {
+        SceneLibrary.global.codePagesController
+            .fileBrowser
+            .fileSeletionEvents = .newSingleCommand(path, selectType)
     }
     
     func fileScopeSelected(_ scope: FileBrowser.Scope) {

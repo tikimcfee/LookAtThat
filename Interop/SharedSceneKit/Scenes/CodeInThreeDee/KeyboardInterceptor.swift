@@ -191,6 +191,7 @@ private extension KeyboardInterceptor {
     private func onFlagsChanged(_ flags: NSEvent.ModifierFlags, _ event: NSEvent) {
         synchronizedDirectionCache { _ in
             currentModifiers = flags
+            enqueueRunLoop()
         }
     }
 }

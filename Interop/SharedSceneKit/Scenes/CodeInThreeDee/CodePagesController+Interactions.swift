@@ -22,7 +22,8 @@ extension CodePagesController {
             translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
             targetNode = hoveredSheet
         }
-        else if event?.modifierFlags.contains(.command) == true {
+//        else if event?.modifierFlags.contains(.command) == true {
+        else if event?.modifierFlags.contains(.shift) == true {
             translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
             targetNode = sceneCameraNode
         } else {

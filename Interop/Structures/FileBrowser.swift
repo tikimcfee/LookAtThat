@@ -15,8 +15,8 @@ typealias FileKitPath = Path
 
 class FileBrowser: ObservableObject {
     @Published private(set) var scopes: [Scope] = []
-    @Published private(set) var fileSeletionEvents: FileBrowser.Event = .noSelection
     @Published private(set) var pathDepths: [FileKitPath: Int] = [:]
+    @Published var fileSeletionEvents: FileBrowser.Event = .noSelection
     
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
         case file(Path)
@@ -67,8 +67,15 @@ class FileBrowser: ObservableObject {
 
 extension FileBrowser {
     enum Event {
+        enum SelectType {
+            case addToRow
+            case inNewRow
+            case inNewPlane
+        }
+        
         case noSelection
         case newSinglePath(Path)
+        case newSingleCommand(Path, SelectType)
     }
     
     func setRootScope(_ path: Path) {

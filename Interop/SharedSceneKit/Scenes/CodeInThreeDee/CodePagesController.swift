@@ -72,6 +72,22 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 }
             }
             return (event, createdGrid)
+        case .newSingleCommand(let path, let style):
+            var createdGrid: CodeGrid?
+            sceneTransaction {
+                self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
+                    switch style {
+                    case .addToRow:
+                        plane.addGrid(style: .trailingFromLastGrid(newGrid))
+                    case .inNewRow:
+                        plane.addGrid(style: .inNextRow(newGrid))
+                    case .inNewPlane:
+                        plane.addGrid(style: .inNextPlane(newGrid))
+                    }
+                    createdGrid = newGrid
+                }
+            }
+            return (event, createdGrid)
         }
     }.eraseToAnyPublisher()
 
