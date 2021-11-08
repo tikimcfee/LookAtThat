@@ -145,6 +145,11 @@ struct SourceInfoGrid: View {
             HStack {
                 makeSpacer(pathDepths[path])
                 Text("►")
+                
+                Text(path.components.last?.rawValue ?? "")
+                    .fontWeight(.medium)
+                
+                Spacer()
 
                 Text("📜᠁➡️")
                     .font(.callout)
@@ -163,11 +168,6 @@ struct SourceInfoGrid: View {
                             path, .allChildrenInNewRow
                         )
                     ) }
-                
-                Text(path.components.last?.rawValue ?? "")
-                    .fontWeight(.medium)
-                
-                Spacer()
             }
             .padding(2)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -177,6 +177,12 @@ struct SourceInfoGrid: View {
                 makeSpacer(pathDepths[path])
                 Text("▼")
                 
+                Text(path.components.last?.rawValue ?? "")
+                    .underline()
+                    .fontWeight(.heavy)
+                
+                Spacer()
+                
                 Text("📜᠁")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -185,12 +191,6 @@ struct SourceInfoGrid: View {
                             path, .allChildrenInRow
                         )
                     ) }
-                
-                Text(path.components.last?.rawValue ?? "")
-                    .underline()
-                    .fontWeight(.heavy)
-                
-                Spacer()
             }
             .padding(2)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
