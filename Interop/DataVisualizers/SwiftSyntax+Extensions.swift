@@ -12,7 +12,8 @@ extension SwiftSyntax.TriviaPiece {
 extension Trivia {
     var stringified: String {
 		// #^ check if write(to:) appends or overwrites to avoid this map and join
-        return map { $0.stringify }.joined()
+        return reduce(into: "") { $1.write(to: &$0) }
+//        return map { $0.stringify }.joined()
     }
 }
 

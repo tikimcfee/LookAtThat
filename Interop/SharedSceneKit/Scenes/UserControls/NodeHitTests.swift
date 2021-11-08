@@ -57,8 +57,9 @@ struct HitTestType: OptionSet {
     static let semanticTab      = HitTestType(rawValue: 1 << 4)
     static let directoryGroup   = HitTestType(rawValue: 1 << 5)
 	
-	static let codeGrid		   = HitTestType(rawValue: 1 << 6)
-	static let codeGridToken   = HitTestType(rawValue: 1 << 7)
+	static let codeGrid		    = HitTestType(rawValue: 1 << 6)
+	static let codeGridToken    = HitTestType(rawValue: 1 << 7)
+    static let codeGridSnapshot = HitTestType(rawValue: 1 << 8)
 
-	static let all: HitTestType = [.codeSheet, .semanticTab, .rootCodeSheet, .directoryGroup, .codeGrid, .codeGridToken]
+    static let all: HitTestType = [.codeSheet, .semanticTab, .rootCodeSheet, .directoryGroup, .codeGrid, .codeGridToken, .codeGridSnapshot]
 }

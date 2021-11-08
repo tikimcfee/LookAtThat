@@ -31,7 +31,7 @@ struct GlyphRender {
     let font: NSUIFont = kDefaultSCNTextFont
     
     func size(_ target: GlyphCacheKey) -> CGSize {
-        target.glyph.size(withAttributes: [
+        return target.glyph.size(withAttributes: [
             .font: font
         ])
     }
@@ -92,7 +92,8 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
     }
 }
 
-private extension CALayer {
+
+extension CALayer {
 #if os(iOS)
     func getBitmapImage() -> NSUIImage? {
         defer { UIGraphicsEndImageContext() }

@@ -108,7 +108,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     }
                     
                 case .inNewRow, .allChildrenInNewRow:
-                    parent.children().filter(self.fileBrowser.isFileObserved).enumerated().forEach { index, subpath in
+                    parent.children().filter(self.fileBrowser.isSwiftFile).enumerated().forEach { index, subpath in
                         self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
                             if index == 0 {
                                 plane.addGrid(style: .inNextRow(newGrid))

@@ -40,6 +40,11 @@ extension String {
             match.store(in: &result)
         }
     }
+    
+    var fullNSRange: NSRange {
+        let computedRange = range(of: self)!
+        return NSRange(computedRange, in: self)
+    }
 }
 
 extension Substring {

@@ -22,6 +22,10 @@ struct FontRenderer {
             .font: font
         ])
     }
+    
+    func size(_ target: NSAttributedString) -> CGSize {
+        target.size()
+    }
 }
 
 class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
@@ -70,62 +74,4 @@ class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
         
         return (boxPlane, descaledSize)
     }
-}
-
-private extension CALayer {
-    #if os(iOS)
-    func getBitmapImage() -> NSUIImage? {
-        defer { UIGraphicsEndImageContext() }
-        UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
-        
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        render(in: context)
-        let outputImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-        return outputImage
-    }
-    #elseif os(OSX)
-    func getBitmapImage() -> NSUIImage? {
-        guard let representation = defaultRepresentation() else {
-            print("Failed to make bitmap representation")
-            return nil
-        }
-        
-        guard let nsContext = NSGraphicsContext(
-            bitmapImageRep: representation
-        ) else {
-            print("Failed to create new NSGraphicsContext")
-            return nil
-        }
-        
-        let cgContext = nsContext.cgContext
-        render(in: cgContext)
-        
-        guard let cgImage = cgContext.makeImage()
-        else {
-            print("Failed to retreive cgContext image")
-            return nil
-        }
-        
-        return NSImage(
-            cgImage: cgImage,
-            size: CGSize(width: frame.width, height: frame.height)
-        )
-    }
-    
-    func defaultRepresentation() -> NSBitmapImageRep? {
-        return NSBitmapImageRep(
-            bitmapDataPlanes: nil,
-            pixelsWide: Int(frame.width),
-            pixelsHigh: Int(frame.height),
-            bitsPerSample: 8,
-            samplesPerPixel: 4,
-            hasAlpha: true,
-            isPlanar: false,
-            colorSpaceName: .deviceRGB,
-            bytesPerRow: 0,
-            bitsPerPixel: 32
-        )
-    }
-    #endif
 }

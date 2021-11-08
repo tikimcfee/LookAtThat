@@ -14,6 +14,7 @@ class CodeGrid: Identifiable, Equatable {
 	
 	let tokenCache: CodeGridTokenCache
 	let glyphCache: GlyphLayerCache
+    let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
 	
 	let pointer = Pointer()
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
@@ -162,6 +163,8 @@ extension CodeGrid {
 		//		otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
 		
 		// ## step something or other: stick the actual letters onto the the screen
+        let sourceAttributedString = NSMutableAttributedString()
+        
         for token in syntax.tokens {
 			let tokenIdNodeName = token.id.stringIdentifier
 			let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
@@ -174,21 +177,34 @@ extension CodeGrid {
 			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
 			
-			for triviaCharacter in token.leadingTrivia.stringified {
+            let leadingTrivia = token.leadingTrivia.stringified
+            sourceAttributedString.append(
+                NSAttributedString(string: leadingTrivia, attributes: [.foregroundColor: triviaColor.cgColor])
+            )
+            
+			for triviaCharacter in leadingTrivia {
 				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
 				letterNode.name = leadingTriviaNodeName
 				leadingTriviaNodes.insert(letterNode)
 				renderer.insert(triviaCharacter, letterNode, size)
 			}
 			
-			for textCharacter in token.text {
+            let tokenText = token.text
+            sourceAttributedString.append(
+                NSAttributedString(string: tokenText, attributes: [.foregroundColor: tokenColor.cgColor])
+            )
+			for textCharacter in tokenText {
 				let (letterNode, size) = createNodeFor(textCharacter, tokenColor)
 				letterNode.name = tokenIdNodeName
 				textNodes.insert(letterNode)
 				renderer.insert(textCharacter, letterNode, size)
             }
-
-			for triviaCharacter in token.trailingTrivia.stringified {
+            
+            let trailingTrivia = token.trailingTrivia.stringified
+            sourceAttributedString.append(
+                NSAttributedString(string: trailingTrivia, attributes: [.foregroundColor: triviaColor.cgColor])
+            )
+			for triviaCharacter in trailingTrivia {
 				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
 				letterNode.name = trailingTriviaNodeName
 				trailingTriviaNodes.insert(letterNode)
@@ -201,9 +217,6 @@ extension CodeGrid {
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
-			// NOTE: tokens have no entry in the info set; only their parents are ever added.
-//			
-//			var tokenParent = token.parent
 			var tokenParent: Syntax? = Syntax(token)
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
@@ -218,6 +231,11 @@ extension CodeGrid {
 				tokenParent = parent.parent
 			}
         }
+        
+//        let blitter = CodeGridBlitter("\(syntax.id)", fullTextLayerBuilder, sourceAttributedString)
+//        rootNode.addChildNode(blitter.rootNode)
+//        blitter.rootNode.position.y += blitter.rootNode.lengthY
+//        blitter.rootNode.position.z += 2.0
 		
         return self
     }
