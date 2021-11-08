@@ -125,12 +125,17 @@ extension BaseSceneController {
     private func panBegan(_ event: PanEvent) {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
         let currentTouchLocation = event.currentLocation
-        let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
+        
+//        let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
+        let hitTestResults = sceneView.performHitTest(
+            location: currentTouchLocation,
+            type: .codeGrid
+        )
+        
         guard let firstResult = hitTestResults.first,
               var positioningNode = firstResult.node.parent else {
             return
         }
-
         if HitTestType.semanticTab.rawValue == firstResult.node.categoryBitMask {
             // SemanticInfo is setup as a child of the container.
             // we want to position the parent itself when dragged, so move up the hierarchy.

@@ -61,18 +61,14 @@ class CodeGridWorld {
     func addGrid(style: WorldGridEditor.AddStyle) {
         worldGrid.transformedByAdding(style)
         rootContainerNode.addChildNode(style.grid.rootNode)
-        
-        guard let camera = cameraProvider?() else { return }
-        camera.position = style.grid.rootNode.position.translated(
-            dX: style.grid.rootNode.lengthX / 2.0,
-            dY: -style.grid.rootNode.lengthY / 4.0,
-            dZ: default__CameraSpacingFromPlaneOnShift
-        )
     }
     
     func changeFocus(_ direction: SelfRelativeDirection) {
         worldGrid.shiftFocus(direction)
-        
+        moveCameraToFocus()
+    }
+    
+    private func moveCameraToFocus() {
         guard let camera = cameraProvider?(),
               let grid = worldGrid.gridAtFocusPosition
         else {

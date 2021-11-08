@@ -27,7 +27,7 @@ class CodeGridBlitter {
         container.name = name + UUID().uuidString
         container.addChildNode(backgroundGeometryNode)
         backgroundGeometryNode.geometry = gridGeometry
-        backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
+        backgroundGeometryNode.categoryBitMask = HitTestType.codeGridBlitter.rawValue
         backgroundGeometryNode.name = container.name
         return container
     }
