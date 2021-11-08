@@ -243,7 +243,6 @@ extension CodeGrid {
         
         let blitter = CodeGridBlitter("\(syntax.id)", fullTextLayerBuilder, sourceAttributedString)
         rootNode.addChildNode(blitter.rootNode)
-//        blitter.rootNode.position.y += blitter.rootNode.lengthY
         blitter.rootNode.position.z += 2.0
         
         rootGlyphsNode.isHidden = true

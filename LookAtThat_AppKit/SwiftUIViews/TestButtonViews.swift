@@ -120,19 +120,19 @@ struct SourceInfoGrid: View {
         case let .file(path):
             HStack {
                 makeSpacer(pathDepths[path])
-                Text("📜")
+                Text("􀥨")
                     .font(.footnote)
                 Text(path.components.last?.rawValue ?? "")
                     .fontWeight(.light)
                 
                 Spacer()
                 
-                Text("⮐")
+                Text("􀄴")
                     .padding(4.0)
                     .font(.footnote)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { fileSelected(path, .inNewRow) }
-                Text("📑")
+                Text("􀏨")
                     .padding(4.0)
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -151,7 +151,7 @@ struct SourceInfoGrid: View {
                 
                 Spacer()
 
-                Text("📜᠁➡️")
+                Text("􀥨᠁")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
@@ -160,12 +160,21 @@ struct SourceInfoGrid: View {
                         )
                     ) }
                 
-                Text("📜᠁⤵️")
+                Text("􀄴􀥨᠁")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
                         .newMultiCommandImmediateChildren(
                             path, .allChildrenInNewRow
+                        )
+                    ) }
+                
+                Text("􀄴􀏨᠁")
+                    .font(.callout)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { genericSelection(
+                        .newMultiCommandImmediateChildren(
+                            path, .allChildrenInNewPlane
                         )
                     ) }
             }
@@ -183,7 +192,7 @@ struct SourceInfoGrid: View {
                 
                 Spacer()
                 
-                Text("📜᠁")
+                Text("􀥨᠁")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(

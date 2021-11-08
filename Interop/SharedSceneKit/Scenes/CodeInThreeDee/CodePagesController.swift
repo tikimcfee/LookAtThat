@@ -89,7 +89,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                         plane.addGrid(style: .trailingFromLastGrid(newGrid))
                     case .inNewRow, .allChildrenInNewRow:
                         plane.addGrid(style: .inNextRow(newGrid))
-                    case .inNewPlane:
+                    case .inNewPlane, .allChildrenInNewPlane:
                         plane.addGrid(style: .inNextPlane(newGrid))
                     }
                     createdGrid = newGrid
@@ -119,9 +119,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
                         }
                     }
                         
-                case .inNewPlane:
-                    self.codeGridParser.withNewGrid(parent.url) { plane, newGrid in
-                        plane.addGrid(style: .inNextPlane(newGrid))
+                case .inNewPlane, .allChildrenInNewPlane:
+                    parent.children().filter(self.fileBrowser.isSwiftFile).forEach { subpath in
+                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
+                            plane.addGrid(style: .inNextPlane(newGrid))
+                        }
                     }
                 }
             }
