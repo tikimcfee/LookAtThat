@@ -60,6 +60,11 @@ struct HitTestType: OptionSet {
 	static let codeGrid		    = HitTestType(rawValue: 1 << 6)
 	static let codeGridToken    = HitTestType(rawValue: 1 << 7)
     static let codeGridSnapshot = HitTestType(rawValue: 1 << 8)
+    static let codeGridGlyphs   = HitTestType(rawValue: 1 << 9)
 
-    static let all: HitTestType = [.codeSheet, .semanticTab, .rootCodeSheet, .directoryGroup, .codeGrid, .codeGridToken, .codeGridSnapshot]
+    static let all: HitTestType = [
+        .codeSheet, .semanticTab, .rootCodeSheet,
+        .directoryGroup, .codeGrid, .codeGridToken,
+        .codeGridSnapshot, .codeGridGlyphs
+    ]
 }

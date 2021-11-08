@@ -23,6 +23,7 @@ class CodeGrid: Identifiable, Equatable {
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
 
 	lazy var rootNode: SCNNode = makeContainerNode()
+    lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
 	
@@ -46,11 +47,19 @@ class CodeGrid: Identifiable, Equatable {
 extension CodeGrid {
     private func makeContainerNode() -> SCNNode {
         let container = SCNNode()
-        container.name = kContainerName + UUID().uuidString
+        container.name = kContainerName + id
         container.addChildNode(backgroundGeometryNode)
+        container.addChildNode(rootGlyphsNode)
         backgroundGeometryNode.geometry = gridGeometry
 		backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         backgroundGeometryNode.name = id
+        return container
+    }
+    
+    private func makeGlyphsContainerNode() -> SCNNode {
+        let container = SCNNode()
+        container.name = "\(kContainerName)-glyphs-\(id)"
+        container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
         return container
     }
     
@@ -128,7 +137,7 @@ extension CodeGrid {
 		) {
 			// add node directly to root container grid
 			letterNode.position = currentPosition.vector
-			targetGrid.rootNode.addChildNode(letterNode)
+            targetGrid.rootGlyphsNode.addChildNode(letterNode)
 			
 			// we're writing left-to-right. 
 			// Letter spacing is implicit to layer size.
@@ -232,10 +241,12 @@ extension CodeGrid {
 			}
         }
         
-//        let blitter = CodeGridBlitter("\(syntax.id)", fullTextLayerBuilder, sourceAttributedString)
-//        rootNode.addChildNode(blitter.rootNode)
+        let blitter = CodeGridBlitter("\(syntax.id)", fullTextLayerBuilder, sourceAttributedString)
+        rootNode.addChildNode(blitter.rootNode)
 //        blitter.rootNode.position.y += blitter.rootNode.lengthY
-//        blitter.rootNode.position.z += 2.0
+        blitter.rootNode.position.z += 2.0
+        
+        rootGlyphsNode.isHidden = true
 		
         return self
     }
