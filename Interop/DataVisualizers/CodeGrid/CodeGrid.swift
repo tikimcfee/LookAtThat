@@ -9,26 +9,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-extension CodeGrid {
-    enum DisplayMode {
-        case glyphs
-        case layers
-    }
-    
-    private func willSetDisplayMode(_ mode: DisplayMode) {
-        guard mode != displayMode else { return }
-        print("setting display mode to \(mode)")
-        switch mode {
-        case .glyphs:
-            self.rootGlyphsNode.isHidden = false
-            self.fullTextBlitter.rootNode.isHidden = true
-        case .layers:
-            self.rootGlyphsNode.isHidden = true
-            self.fullTextBlitter.rootNode.isHidden = false
-        }
-    }
-}
-
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	
@@ -69,32 +49,24 @@ class CodeGrid: Identifiable, Equatable {
     }
 }
 
-// MARK: -- Builders for lazy properties
+// MARK: -- Displays configuration
 extension CodeGrid {
-    private func makeContainerNode() -> SCNNode {
-        let container = SCNNode()
-        container.name = kContainerName + id
-        container.addChildNode(backgroundGeometryNode)
-        container.addChildNode(rootGlyphsNode)
-        backgroundGeometryNode.geometry = gridGeometry
-		backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
-        backgroundGeometryNode.name = id
-        return container
+    enum DisplayMode {
+        case glyphs
+        case layers
     }
     
-    private func makeGlyphsContainerNode() -> SCNNode {
-        let container = SCNNode()
-        container.name = "\(kContainerName)-glyphs-\(id)"
-        container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
-        return container
-    }
-    
-    private func makeGridGeometry() -> SCNBox {
-        let sheetGeometry = SCNBox()
-        sheetGeometry.chamferRadius = 4.0
-        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
-        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
-        return sheetGeometry
+    private func willSetDisplayMode(_ mode: DisplayMode) {
+        guard mode != displayMode else { return }
+        print("setting display mode to \(mode)")
+        switch mode {
+        case .glyphs:
+            rootGlyphsNode.isHidden = false
+            fullTextBlitter.rootNode.isHidden = true
+        case .layers:
+            rootGlyphsNode.isHidden = true
+            fullTextBlitter.rootNode.isHidden = false
+        }
     }
     
     @discardableResult
@@ -129,6 +101,35 @@ extension CodeGrid {
     func backgroundColor(_ color: NSUIColor) -> CodeGrid {
         gridGeometry.firstMaterial?.diffuse.contents = color
         return self
+    }
+}
+
+// MARK: -- Builders for lazy properties
+extension CodeGrid {
+    private func makeContainerNode() -> SCNNode {
+        let container = SCNNode()
+        container.name = kContainerName + id
+        container.addChildNode(backgroundGeometryNode)
+        container.addChildNode(rootGlyphsNode)
+        backgroundGeometryNode.geometry = gridGeometry
+		backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
+        backgroundGeometryNode.name = id
+        return container
+    }
+    
+    private func makeGlyphsContainerNode() -> SCNNode {
+        let container = SCNNode()
+        container.name = "\(kContainerName)-glyphs-\(id)"
+        container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
+        return container
+    }
+    
+    private func makeGridGeometry() -> SCNBox {
+        let sheetGeometry = SCNBox()
+        sheetGeometry.chamferRadius = 4.0
+        sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
+        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
+        return sheetGeometry
     }
 }
 
@@ -218,15 +219,18 @@ extension CodeGrid {
 			let tokenIdNodeName = token.id.stringIdentifier
 			let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
 			let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
+            let triviaColor = CodeGridColors.trivia
+            let tokenColor = token.defaultColor
 			
 			var leadingTriviaNodes = CodeGridNodes()
-			var textNodes = CodeGridNodes()
+            let leadingTrivia = token.leadingTrivia.stringified
+            
+            let tokenText = token.text
+            var tokenTextNodes = CodeGridNodes()
+            
+            let trailingTrivia = token.trailingTrivia.stringified
 			var trailingTriviaNodes = CodeGridNodes()
 			
-			let triviaColor = CodeGridColors.trivia
-			let tokenColor = token.defaultColor
-            
-            // Helper to write string directly to grid
             func writeString(_ string: String, _ name: String, _ set: inout CodeGridNodes) {
                 for newCharacter in string {
                     let (letterNode, size) = createNodeFor(newCharacter, triviaColor)
@@ -239,26 +243,29 @@ extension CodeGrid {
             func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
                 NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
             }
-			
-            let leadingTrivia = token.leadingTrivia.stringified
-            sourceAttributedString.append(attributedString(leadingTrivia, triviaColor))
-            writeString(leadingTrivia, leadingTriviaNodeName, &leadingTriviaNodes)
-            tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
             
+            func writeAttributedText() {
+                sourceAttributedString.append(attributedString(leadingTrivia, triviaColor))
+                sourceAttributedString.append(attributedString(tokenText, tokenColor))
+                sourceAttributedString.append(attributedString(trailingTrivia, triviaColor))
+            }
             
-			let tokenText = token.text
-            sourceAttributedString.append(attributedString(tokenText, tokenColor))
-            writeString(tokenText, tokenIdNodeName, &textNodes)
-            tokenCache[tokenIdNodeName] = textNodes
+            func writeGlyphs() {
+                writeString(leadingTrivia, leadingTriviaNodeName, &leadingTriviaNodes)
+                tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
+                writeString(tokenText, tokenIdNodeName, &tokenTextNodes)
+                tokenCache[tokenIdNodeName] = tokenTextNodes
+                writeString(trailingTrivia, trailingTriviaNodeName, &trailingTriviaNodes)
+                tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
+            }
             
-            
-            let trailingTrivia = token.trailingTrivia.stringified
-            sourceAttributedString.append(attributedString(trailingTrivia, triviaColor))
-            writeString(trailingTrivia, trailingTriviaNodeName, &trailingTriviaNodes)
-            tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
+            switch displayMode {
+            case .layers: writeAttributedText()
+            case .glyphs: writeGlyphs()
+            }
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
-			// Add semantic info to lookup for each parent node found
+			// Add semantic info to lookup for each parent node found.
 			var tokenParent: Syntax? = Syntax(token)
 			while tokenParent != nil {
 				guard let parent = tokenParent else { continue }
@@ -267,18 +274,23 @@ extension CodeGrid {
 					token.id.stringIdentifier,
 					semanticInfoBuilder.semanticInfo(for: parent)
 				)
-				codeGridSemanticInfo.mergeSyntaxAssociations(parent, textNodes)
+				codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
 				codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
 				codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
 				tokenParent = parent.parent
 			}
         }
         
-        fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
-        fullTextBlitter.rootNode.position.z += 2.0
-        rootNode.addChildNode(fullTextBlitter.rootNode)
-        self.rootGlyphsNode.isHidden = true
-
+        switch displayMode {
+        case .layers:
+            fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
+            fullTextBlitter.rootNode.position.z += 2.0
+            rootNode.addChildNode(fullTextBlitter.rootNode)
+            rootGlyphsNode.isHidden = true
+        case .glyphs:
+            rootGlyphsNode.isHidden = false
+        }
+        
         return self
     }
 	
