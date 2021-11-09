@@ -77,12 +77,22 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
                 return
             }
 
-            let lastStart = lastVerticalRoot?.rootNode.position.y ?? 0
-            let lastY = lastVerticalRoot?.rootNode.lengthY ?? 0
-            let verticalSpace = index == 0 ? 0.0 : 2.0
-
-            rootGrid.rootNode.addChildNode(newGrid.rootNode)
-            newGrid.translated(dY: lastStart - lastY - verticalSpace)
+            let stackVertical = false
+            if stackVertical {
+                let lastStart = lastVerticalRoot?.rootNode.position.y ?? 0
+                let lastY = lastVerticalRoot?.rootNode.lengthY ?? 0
+                let verticalSpace = index == 0 ? 0.0 : 2.0
+                
+                rootGrid.rootNode.addChildNode(newGrid.rootNode)
+                newGrid.translated(dY: lastStart - lastY - verticalSpace)
+            } else {
+                let lastStart = lastVerticalRoot?.rootNode.position.x ?? 0
+                let lastY = lastVerticalRoot?.rootNode.lengthX ?? 0
+                let verticalSpace = index == 0 ? 0.0 : 4.0
+                
+                rootGrid.rootNode.addChildNode(newGrid.rootNode)
+                newGrid.translated(dX: lastStart + lastY + verticalSpace)
+            }
             
             lastVerticalRoot = newGrid
         }
