@@ -74,42 +74,58 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             .forEach(receiver)
     }
     
+    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
-        let rootGrid = newGrid()
-            .backgroundColor(NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2))
+        let rootGrid = newGrid().backgroundColor(rootGridColor)
         
-        var lastVerticalRoot: CodeGrid?
+        var lastRenderedGrid: CodeGrid?
+        
+        func stackVertical(_ index: Int, _ newGrid: CodeGrid) {
+            let lastStart = lastRenderedGrid?.rootNode.position.y ?? 0
+            let lastLength = lastRenderedGrid?.rootNode.lengthY ?? 0
+            let space = index == 0 ? 0.0 : 2.0
+            
+            rootGrid.rootNode.addChildNode(newGrid.rootNode)
+            newGrid.translated(dY: lastStart - lastLength - space)
+        }
+        
+        func stackHorizontal(_ index: Int, _ newGrid: CodeGrid) {
+            let lastStart = lastRenderedGrid?.rootNode.position.x ?? 0
+            let lastLength = lastRenderedGrid?.rootNode.lengthX ?? 0
+            let space = index == 0 ? 0.0 : 4.0
+            
+            rootGrid.rootNode.addChildNode(newGrid.rootNode)
+            newGrid.translated(dX: lastStart + lastLength + space)
+        }
+        
+        func stackOrthogonal(_ index: Int, _ newGrid: CodeGrid) {
+            let lastStart = lastRenderedGrid?.rootNode.position.z ?? 0
+            let lsatLength = lastRenderedGrid?.rootNode.lengthZ ?? 0
+            let space = index == 0 ? 0.0 : 8.0
+            
+            rootGrid.rootNode.addChildNode(newGrid.rootNode)
+            newGrid.translated(dZ: lastStart + lsatLength + space)
+        }
+        
         forEachChildOf(rootPath) { index, pathChild in
-            let newGrid: CodeGrid
             if pathChild.isDirectory {
-                newGrid = renderDirectoryInLine(pathChild)
-                    .translated(dX: 16.0, dZ: 8.0)
+                let newGrid = renderDirectoryInLine(pathChild)
+                    .translated(dX: 4.0)
+                stackOrthogonal(index, newGrid)
+                lastRenderedGrid = newGrid
+                
             } else if let childGrid = renderGrid(pathChild.url) {
-                newGrid = childGrid
+                let newGrid = childGrid
                     .translated(dZ: 4.0)
+                stackHorizontal(index, newGrid)
+                lastRenderedGrid = newGrid
+                
             } else {
                 print("No grid for \(pathChild)")
                 return
             }
-
-            let stackVertical = false
-            if stackVertical {
-                let lastStart = lastVerticalRoot?.rootNode.position.y ?? 0
-                let lastY = lastVerticalRoot?.rootNode.lengthY ?? 0
-                let verticalSpace = index == 0 ? 0.0 : 2.0
-                
-                rootGrid.rootNode.addChildNode(newGrid.rootNode)
-                newGrid.translated(dY: lastStart - lastY - verticalSpace)
-            } else {
-                let lastStart = lastVerticalRoot?.rootNode.position.x ?? 0
-                let lastY = lastVerticalRoot?.rootNode.lengthX ?? 0
-                let verticalSpace = index == 0 ? 0.0 : 4.0
-                
-                rootGrid.rootNode.addChildNode(newGrid.rootNode)
-                newGrid.translated(dX: lastStart + lastY + verticalSpace)
-            }
             
-            lastVerticalRoot = newGrid
+            
         }
         
         return rootGrid.sizeGridToContainerNode(pad: 2)
