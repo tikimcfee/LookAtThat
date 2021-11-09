@@ -60,7 +60,18 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     }
     
     private func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
-        path.children().filter(FileBrowser.isFileObserved).enumerated().forEach(receiver)
+        path.children()
+            .filter(FileBrowser.isFileObserved)
+            .sorted(by: { l, r in
+                switch (l.isDirectory, r.isDirectory) {
+                case (true, true): return l.url.path < r.url.path
+                case (false, true): return true
+                case (true, false): return false
+                case (false, false): return l.url.path < r.url.path
+                }
+            })
+            .enumerated()
+            .forEach(receiver)
     }
     
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
