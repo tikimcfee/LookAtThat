@@ -109,15 +109,14 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         let newParentGrid = newGrid().backgroundColor(directoryColor)
         var lastChild: CodeGrid?
         
-        let pathChildren = path.children().filter(FileBrowser.isFileObserved)
-        let allChildGrids: [CodeGrid] = pathChildren.compactMap {
-            makeGridFromPathType($0)
-        }
-        for childGrid in allChildGrids {
+        forEachChildOf(path) { _, pathChild in
+            guard let childGrid = makeGridFromPathType(pathChild) else { return }
+            
             let lastLengthX = lastChild?.rootNode.lengthX ?? 0
             let lastPosition = lastChild?.rootNode.position ?? SCNVector3Zero
-            childGrid.rootNode.position = lastPosition
-                .translated(dX: lastLengthX + 8, dZ: 1.0)
+            let translatedPosition = lastPosition.translated(dX: lastLengthX + 8, dZ: 1.0)
+            childGrid.rootNode.position = translatedPosition
+                
             newParentGrid.rootNode.addChildNode(childGrid.rootNode)
             lastChild = childGrid
         }
