@@ -131,7 +131,7 @@ struct SourceInfoGrid: View {
                     .padding(4.0)
                     .font(.footnote)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .inNewRow) }
+                    .onTapGesture { fileSelected(path, .addToRow) }
                 
                 Text("􀄴")
                     .padding(4.0)

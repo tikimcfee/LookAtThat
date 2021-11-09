@@ -59,12 +59,16 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         )
     }
     
+    private func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
+        path.children().filter(FileBrowser.isFileObserved).enumerated().forEach(receiver)
+    }
+    
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
         let rootGrid = newGrid()
             .backgroundColor(NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2))
         
         var lastVerticalRoot: CodeGrid?
-        rootPath.children().filter(FileBrowser.isFileObserved).enumerated().forEach { index, pathChild in
+        forEachChildOf(rootPath) { index, pathChild in
             let newGrid: CodeGrid
             if pathChild.isDirectory {
                 newGrid = renderDirectoryInLine(pathChild)
@@ -100,18 +104,14 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         return rootGrid.sizeGridToContainerNode(pad: 2)
     }
     
+    private let directoryColor: NSUIColor = NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
     private func renderDirectoryInLine(_ path: FileKitPath) -> CodeGrid {
-        let newParentGrid = newGrid()
-            .backgroundColor(NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2))
-        let pathChildren = path.children().filter(FileBrowser.isFileObserved)
-        
+        let newParentGrid = newGrid().backgroundColor(directoryColor)
         var lastChild: CodeGrid?
+        
+        let pathChildren = path.children().filter(FileBrowser.isFileObserved)
         let allChildGrids: [CodeGrid] = pathChildren.compactMap {
-            if $0.isDirectory {
-                return makeGridsForRootDirectory($0)
-            } else {
-                return renderGrid($0.url)
-            }
+            makeGridFromPathType($0)
         }
         for childGrid in allChildGrids {
             let lastLengthX = lastChild?.rootNode.lengthX ?? 0
@@ -123,6 +123,14 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         }
         
         return newParentGrid.sizeGridToContainerNode(pad: 2.0)
+    }
+    
+    private func makeGridFromPathType(_ path: FileKitPath) -> CodeGrid? {
+        if path.isDirectory {
+            return makeGridsForRootDirectory(path)
+        } else {
+            return renderGrid(path.url)
+        }
     }
 }
 
