@@ -61,6 +61,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
         let rootGrid = newGrid()
+            .backgroundColor(NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2))
         
         var lastVerticalRoot: CodeGrid?
         rootPath.children().filter(FileBrowser.isFileObserved).enumerated().forEach { index, pathChild in
@@ -78,7 +79,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 
             let lastStart = lastVerticalRoot?.rootNode.position.y ?? 0
             let lastY = lastVerticalRoot?.rootNode.lengthY ?? 0
-            let verticalSpace = index == 0 ? 0.0 : 8.0
+            let verticalSpace = index == 0 ? 0.0 : 2.0
 
             rootGrid.rootNode.addChildNode(newGrid.rootNode)
             newGrid.translated(dY: lastStart - lastY - verticalSpace)
@@ -91,6 +92,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     
     private func renderDirectoryInLine(_ path: FileKitPath) -> CodeGrid {
         let newParentGrid = newGrid()
+            .backgroundColor(NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2))
         let pathChildren = path.children().filter(FileBrowser.isFileObserved)
         
         var lastChild: CodeGrid?

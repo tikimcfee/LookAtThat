@@ -124,6 +124,12 @@ extension CodeGrid {
         rootNode.position = rootNode.position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
     }
+    
+    @discardableResult
+    func backgroundColor(_ color: NSUIColor) -> CodeGrid {
+        gridGeometry.firstMaterial?.diffuse.contents = color
+        return self
+    }
 }
 
 // MARK: -- Renderer and glyph position
@@ -275,12 +281,11 @@ extension CodeGrid {
 			}
         }
         
-//        fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
-//        fullTextBlitter.rootNode.position.z += 2.0
-//        rootNode.addChildNode(fullTextBlitter.rootNode)
-        
-//        rootGlyphsNode.isHidden = true
-		
+        fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
+        fullTextBlitter.rootNode.position.z += 2.0
+        rootNode.addChildNode(fullTextBlitter.rootNode)
+        self.rootGlyphsNode.isHidden = true
+
         return self
     }
 	
