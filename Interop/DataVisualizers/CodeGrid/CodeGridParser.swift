@@ -39,13 +39,78 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         return newGrid
     }
     
+    func renderDirectory(_ path: FileKitPath) -> CodeGrid? {
+        guard path.isDirectory else { return nil }
+        let newDirectoryRoot = makeGridsForRootDirectory(path)
+        return newDirectoryRoot
+    }
+    
     private func createGrid(_ syntax: SourceFileSyntax) -> CodeGrid {
-        let grid = CodeGrid(glyphCache: glyphCache,
-							tokenCache: tokenCache)
+        let grid = newGrid()
             .consume(syntax: Syntax(syntax))
             .sizeGridToContainerNode()
-		
         return grid
+    }
+    
+    private func newGrid() -> CodeGrid {
+        CodeGrid(
+            glyphCache: glyphCache,
+            tokenCache: tokenCache
+        )
+    }
+    
+    func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
+        let rootGrid = newGrid()
+        
+        var lastVerticalRoot: CodeGrid?
+        rootPath.children().filter(FileBrowser.isFileObserved).enumerated().forEach { index, pathChild in
+            let newGrid: CodeGrid
+            if pathChild.isDirectory {
+                newGrid = renderDirectoryInLine(pathChild)
+                    .translated(dX: 16.0, dZ: 8.0)
+            } else if let childGrid = renderGrid(pathChild.url) {
+                newGrid = childGrid
+                    .translated(dZ: 4.0)
+            } else {
+                print("No grid for \(pathChild)")
+                return
+            }
+
+            let lastStart = lastVerticalRoot?.rootNode.position.y ?? 0
+            let lastY = lastVerticalRoot?.rootNode.lengthY ?? 0
+            let verticalSpace = index == 0 ? 0.0 : 8.0
+
+            rootGrid.rootNode.addChildNode(newGrid.rootNode)
+            newGrid.translated(dY: lastStart - lastY - verticalSpace)
+            
+            lastVerticalRoot = newGrid
+        }
+        
+        return rootGrid.sizeGridToContainerNode(pad: 2)
+    }
+    
+    private func renderDirectoryInLine(_ path: FileKitPath) -> CodeGrid {
+        let newParentGrid = newGrid()
+        let pathChildren = path.children().filter(FileBrowser.isFileObserved)
+        
+        var lastChild: CodeGrid?
+        let allChildGrids: [CodeGrid] = pathChildren.compactMap {
+            if $0.isDirectory {
+                return makeGridsForRootDirectory($0)
+            } else {
+                return renderGrid($0.url)
+            }
+        }
+        for childGrid in allChildGrids {
+            let lastLengthX = lastChild?.rootNode.lengthX ?? 0
+            let lastPosition = lastChild?.rootNode.position ?? SCNVector3Zero
+            childGrid.rootNode.position = lastPosition
+                .translated(dX: lastLengthX + 8, dZ: 1.0)
+            newParentGrid.rootNode.addChildNode(childGrid.rootNode)
+            lastChild = childGrid
+        }
+        
+        return newParentGrid.sizeGridToContainerNode(pad: 2.0)
     }
 }
 
@@ -77,8 +142,26 @@ class CodeGridWorld {
         }
         camera.position = grid.rootNode.position.translated(
             dX: grid.rootNode.lengthX / 2.0,
-            dY: -grid.rootNode.lengthY / 4.0,
+            dY: -min(32, grid.rootNode.lengthY / 4.0),
             dZ: default__CameraSpacingFromPlaneOnShift
         )
+    }
+}
+
+class WorldGridNavigator {
+    var directions: [String: Set<SelfRelativeDirection>] = [:]
+    
+    func isMovementAllowed(_ grid: CodeGrid, _ direction: SelfRelativeDirection) -> Bool {
+        directionsForGrid(grid).contains(direction)
+    }
+    
+    func directionsForGrid(_ grid: CodeGrid) -> Set<SelfRelativeDirection> {
+        directions[grid.id] ?? []
+    }
+    
+    func allowMovement(from grid: CodeGrid, to direction: SelfRelativeDirection) {
+        var toAllow = directions[grid.id] ?? []
+        toAllow.insert(direction)
+        directions[grid.id] = toAllow
     }
 }

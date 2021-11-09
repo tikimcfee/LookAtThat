@@ -15,16 +15,13 @@ class CodeGridBlitter {
     lazy var gridGeometry = makeGridGeometry()
     lazy var rootNode: SCNNode = makeContainerNode(name)
     
-    init(_ name: String,
-         _ fullTextLayerBuilder: FullTextLayerBuilder,
-         _ finalAttributedString: NSMutableAttributedString) {
+    init(_ name: String) {
         self.name = name
-        self.createBackingFlatLayer(fullTextLayerBuilder, finalAttributedString)
     }
     
     private func makeContainerNode(_ name: String) -> SCNNode {
         let container = SCNNode()
-        container.name = name + UUID().uuidString
+        container.name = "\(name)-blitter-\(UUID().uuidString)"
         container.addChildNode(backgroundGeometryNode)
         backgroundGeometryNode.geometry = gridGeometry
         backgroundGeometryNode.categoryBitMask = HitTestType.codeGridBlitter.rawValue
@@ -55,7 +52,7 @@ class CodeGridBlitter {
         }
     }
     
-    private func createBackingFlatLayer(
+    func createBackingFlatLayer(
         _ fullTextLayerBuilder: FullTextLayerBuilder,
         _ finalAttributedString: NSMutableAttributedString
     ) {

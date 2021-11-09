@@ -101,14 +101,14 @@ class CodePagesController: BaseSceneController, ObservableObject {
             sceneTransaction {
                 switch style {
                 case .allChildrenInRow, .addToRow:
-                    parent.children().filter(self.fileBrowser.isFileObserved).forEach { subpath in
+                    parent.children().filter(FileBrowser.isFileObserved).forEach { subpath in
                         self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
                             plane.addGrid(style: .trailingFromLastGrid(newGrid))
                         }
                     }
                     
                 case .inNewRow, .allChildrenInNewRow:
-                    parent.children().filter(self.fileBrowser.isSwiftFile).enumerated().forEach { index, subpath in
+                    parent.children().filter(FileBrowser.isSwiftFile).enumerated().forEach { index, subpath in
                         self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
                             if index == 0 {
                                 plane.addGrid(style: .inNextRow(newGrid))
@@ -120,15 +120,25 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     }
                         
                 case .inNewPlane, .allChildrenInNewPlane:
-                    parent.children().filter(self.fileBrowser.isSwiftFile).forEach { subpath in
+                    parent.children().filter(FileBrowser.isSwiftFile).forEach { subpath in
                         self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
                             plane.addGrid(style: .inNextPlane(newGrid))
                         }
                     }
                 }
             }
+            
+            return (event, nil)
+            
+        case let .newMultiCommandRecursiveAll(parent, _):
+            let newRoot = self.codeGridParser.makeGridsForRootDirectory(parent)
+            sceneTransaction {
+                self.codeGridParser.world.rootContainerNode.addChildNode(newRoot.rootNode)
+            }
+            
             return (event, nil)
         }
+        
     }.eraseToAnyPublisher()
 
     func attachMouseSink() {

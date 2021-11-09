@@ -9,16 +9,42 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
+extension CodeGrid {
+    enum DisplayMode {
+        case glyphs
+        case layers
+    }
+    
+    private func willSetDisplayMode(_ mode: DisplayMode) {
+        guard mode != displayMode else { return }
+        print("setting display mode to \(mode)")
+        switch mode {
+        case .glyphs:
+            self.rootGlyphsNode.isHidden = false
+            self.fullTextBlitter.rootNode.isHidden = true
+        case .layers:
+            self.rootGlyphsNode.isHidden = true
+            self.fullTextBlitter.rootNode.isHidden = false
+        }
+    }
+}
+
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	
 	let tokenCache: CodeGridTokenCache
 	let glyphCache: GlyphLayerCache
+    
+    lazy var fullTextBlitter = CodeGridBlitter(id)
     let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
 	
 	let pointer = Pointer()
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
+    
+    var displayMode: DisplayMode = .layers {
+        willSet { willSetDisplayMode(newValue) }
+    }
 	
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
 
@@ -88,6 +114,14 @@ extension CodeGrid {
         if pivotRootNode {
             rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
         }
+        return self
+    }
+    
+    @discardableResult
+    func translated(dX: VectorFloat = 0,
+                    dY: VectorFloat = 0,
+                    dZ: VectorFloat = 0) -> CodeGrid {
+        rootNode.position = rootNode.position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
     }
 }
@@ -241,11 +275,11 @@ extension CodeGrid {
 			}
         }
         
-        let blitter = CodeGridBlitter("\(syntax.id)", fullTextLayerBuilder, sourceAttributedString)
-        rootNode.addChildNode(blitter.rootNode)
-        blitter.rootNode.position.z += 2.0
+//        fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
+//        fullTextBlitter.rootNode.position.z += 2.0
+//        rootNode.addChildNode(fullTextBlitter.rootNode)
         
-        rootGlyphsNode.isHidden = true
+//        rootGlyphsNode.isHidden = true
 		
         return self
     }

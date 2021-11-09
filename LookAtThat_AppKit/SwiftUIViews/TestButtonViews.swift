@@ -127,11 +127,18 @@ struct SourceInfoGrid: View {
                 
                 Spacer()
                 
+                Text("􀣘")
+                    .padding(4.0)
+                    .font(.footnote)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .onTapGesture { fileSelected(path, .inNewRow) }
+                
                 Text("􀄴")
                     .padding(4.0)
                     .font(.footnote)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { fileSelected(path, .inNewRow) }
+                
                 Text("􀏨")
                     .padding(4.0)
                     .font(.callout)
@@ -150,33 +157,42 @@ struct SourceInfoGrid: View {
                     .fontWeight(.medium)
                 
                 Spacer()
-
-                Text("􀥨᠁")
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandImmediateChildren(
-                            path, .allChildrenInRow
-                        )
-                    ) }
                 
-                Text("􀄴􀥨᠁")
+                Text("􀐙")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
-                        .newMultiCommandImmediateChildren(
-                            path, .allChildrenInNewRow
-                        )
-                    ) }
-                
-                Text("􀄴􀏨᠁")
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandImmediateChildren(
+                        .newMultiCommandRecursiveAll(
                             path, .allChildrenInNewPlane
                         )
                     ) }
+
+//                Text("􀥨᠁")
+//                    .font(.callout)
+//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+//                    .onTapGesture { genericSelection(
+//                        .newMultiCommandImmediateChildren(
+//                            path, .allChildrenInRow
+//                        )
+//                    ) }
+//
+//                Text("􀄴􀥨᠁")
+//                    .font(.callout)
+//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+//                    .onTapGesture { genericSelection(
+//                        .newMultiCommandImmediateChildren(
+//                            path, .allChildrenInNewRow
+//                        )
+//                    ) }
+//
+//                Text("􀄴􀏨᠁")
+//                    .font(.callout)
+//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+//                    .onTapGesture { genericSelection(
+//                        .newMultiCommandImmediateChildren(
+//                            path, .allChildrenInNewPlane
+//                        )
+//                    ) }
             }
             .padding(2)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -192,12 +208,20 @@ struct SourceInfoGrid: View {
                 
                 Spacer()
                 
-                Text("􀥨᠁")
+//                Text("􀥨᠁")
+//                    .font(.callout)
+//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+//                    .onTapGesture { genericSelection(
+//                        .newMultiCommandImmediateChildren(
+//                            path, .allChildrenInRow
+//                        )
+//                    ) }
+                Text("􀐙")
                     .font(.callout)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
-                        .newMultiCommandImmediateChildren(
-                            path, .allChildrenInRow
+                        .newMultiCommandRecursiveAll(
+                            path, .allChildrenInNewPlane
                         )
                     ) }
             }

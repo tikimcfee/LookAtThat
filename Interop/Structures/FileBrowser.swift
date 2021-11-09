@@ -83,6 +83,8 @@ extension FileBrowser {
         case newSingleCommand(Path, SelectType)
         
         case newMultiCommandImmediateChildren(Path, SelectType)
+        
+        case newMultiCommandRecursiveAll(Path, SelectType)
     }
     
     func setRootScope(_ path: Path) {
@@ -138,7 +140,7 @@ extension FileBrowser {
     }
     
     private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
-        let subpaths = path.filterdChildren(isFileObserved)
+        let subpaths = path.filterdChildren(Self.isFileObserved)
         let expandedChildren = subpaths
             .reduce(into: [Scope]()) { result, path in
                 setPathDepth(path)
@@ -156,7 +158,7 @@ extension FileBrowser {
         // It gets worse. The files are flat so I have offsets to deal with.
         // Going to use a SLOW AS HELL firstWhere to get the indices and remove them.
         // Gross.
-        let subpathCount = path.filterdChildren(isFileObserved).count
+        let subpathCount = path.filterdChildren(Self.isFileObserved).count
         guard subpathCount >= 1 else { return }
         let subpathRange = (1...subpathCount).reversed()
         subpathRange.forEach { offset in
@@ -170,11 +172,11 @@ extension FileBrowser {
     }
     
     // This is fragile. Both collapse/expand need to filter repeatedly.
-    func isFileObserved(_ path: Path) -> Bool {
+    static func isFileObserved(_ path: Path) -> Bool {
         path.isDirectoryFile || path.pathExtension == "swift"
     }
     
-    func isSwiftFile(_ path: Path) -> Bool {
+    static func isSwiftFile(_ path: Path) -> Bool {
         path.pathExtension == "swift"
     }
 }

@@ -179,8 +179,8 @@ private extension KeyboardInterceptor {
         case "j", "J": changeFocus(.forward)
         case "k", "K": changeFocus(.backward)
             
-        case "m", "M": changeFocus(.up)
-        case ",", "<": changeFocus(.down)
+        case "n", "N": changeFocus(.up)
+        case "m", "M": changeFocus(.down)
             
         case "o" where event.modifierFlags.contains(.command):
             onNewFileOperation?(.openDirectory)
