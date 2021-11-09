@@ -225,44 +225,37 @@ extension CodeGrid {
 			
 			let triviaColor = CodeGridColors.trivia
 			let tokenColor = token.defaultColor
-			
-            let leadingTrivia = token.leadingTrivia.stringified
-            sourceAttributedString.append(
-                NSAttributedString(string: leadingTrivia, attributes: [.foregroundColor: triviaColor.cgColor])
-            )
             
-			for triviaCharacter in leadingTrivia {
-				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
-				letterNode.name = leadingTriviaNodeName
-				leadingTriviaNodes.insert(letterNode)
-				renderer.insert(triviaCharacter, letterNode, size)
-			}
-			
-            let tokenText = token.text
-            sourceAttributedString.append(
-                NSAttributedString(string: tokenText, attributes: [.foregroundColor: tokenColor.cgColor])
-            )
-			for textCharacter in tokenText {
-				let (letterNode, size) = createNodeFor(textCharacter, tokenColor)
-				letterNode.name = tokenIdNodeName
-				textNodes.insert(letterNode)
-				renderer.insert(textCharacter, letterNode, size)
+            // Helper to write string directly to grid
+            func writeString(_ string: String, _ name: String, _ set: inout CodeGridNodes) {
+                for newCharacter in string {
+                    let (letterNode, size) = createNodeFor(newCharacter, triviaColor)
+                    letterNode.name = name
+                    set.insert(letterNode)
+                    renderer.insert(newCharacter, letterNode, size)
+                }
             }
             
-            let trailingTrivia = token.trailingTrivia.stringified
-            sourceAttributedString.append(
-                NSAttributedString(string: trailingTrivia, attributes: [.foregroundColor: triviaColor.cgColor])
-            )
-			for triviaCharacter in trailingTrivia {
-				let (letterNode, size) = createNodeFor(triviaCharacter, triviaColor)
-				letterNode.name = trailingTriviaNodeName
-				trailingTriviaNodes.insert(letterNode)
-				renderer.insert(triviaCharacter, letterNode, size)
-			}
+            func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
+                NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
+            }
 			
-			tokenCache[tokenIdNodeName] = textNodes
-			tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
-			tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
+            let leadingTrivia = token.leadingTrivia.stringified
+            sourceAttributedString.append(attributedString(leadingTrivia, triviaColor))
+            writeString(leadingTrivia, leadingTriviaNodeName, &leadingTriviaNodes)
+            tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
+            
+            
+			let tokenText = token.text
+            sourceAttributedString.append(attributedString(tokenText, tokenColor))
+            writeString(tokenText, tokenIdNodeName, &textNodes)
+            tokenCache[tokenIdNodeName] = textNodes
+            
+            
+            let trailingTrivia = token.trailingTrivia.stringified
+            sourceAttributedString.append(attributedString(trailingTrivia, triviaColor))
+            writeString(trailingTrivia, trailingTriviaNodeName, &trailingTriviaNodes)
+            tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
 			
 			// Walk the parenty hierarchy and associate these nodes with that parent.
 			// Add semantic info to lookup for each parent node found
