@@ -179,10 +179,21 @@ extension FileBrowser {
     static func isSwiftFile(_ path: Path) -> Bool {
         path.pathExtension == "swift"
     }
+    
+    static func sortedFilesFirst(_ left: Path, _ right: Path) -> Bool {
+        switch (left.isDirectory, right.isDirectory) {
+        case (true, true): return left.url.path < right.url.path
+        case (false, true): return true
+        case (true, false): return false
+        case (false, false): return left.url.path < right.url.path
+        }
+    }
 }
 
 private extension Path {
     func filterdChildren(_ filter: (Path) -> Bool) -> [Path] {
-        children().filter(filter)
+        children()
+            .filter(filter)
+            .sorted(by: FileBrowser.sortedFilesFirst)
     }
 }

@@ -62,14 +62,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     private func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
         path.children()
             .filter(FileBrowser.isFileObserved)
-            .sorted(by: { l, r in
-                switch (l.isDirectory, r.isDirectory) {
-                case (true, true): return l.url.path < r.url.path
-                case (false, true): return true
-                case (true, false): return false
-                case (false, false): return l.url.path < r.url.path
-                }
-            })
+            .sorted(by: FileBrowser.sortedFilesFirst)
             .enumerated()
             .forEach(receiver)
     }
@@ -101,10 +94,10 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         func stackOrthogonal(_ index: Int, _ newGrid: CodeGrid) {
             let lastStart = lastRenderedGrid?.rootNode.position.z ?? 0
             let lsatLength = lastRenderedGrid?.rootNode.lengthZ ?? 0
-            let space = index == 0 ? 0.0 : 8.0
+            let space = index == 0 ? 0.0 : 16.0
             
             rootGrid.rootNode.addChildNode(newGrid.rootNode)
-            newGrid.translated(dZ: lastStart + lsatLength + space)
+            newGrid.translated(dX: 8.0, dZ: lastStart + lsatLength + space)
         }
         
         forEachChildOf(rootPath) { index, pathChild in
@@ -117,7 +110,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             } else if let childGrid = renderGrid(pathChild.url) {
                 let newGrid = childGrid
                     .translated(dZ: 4.0)
-                stackHorizontal(index, newGrid)
+                stackVertical(index, newGrid)
                 lastRenderedGrid = newGrid
                 
             } else {
