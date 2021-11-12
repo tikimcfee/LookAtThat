@@ -100,7 +100,10 @@ class CodeGridColors {
 	
 	static let trivia = color(0.8, 0.8, 0.8, 0.5)
 	
-	static func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
-		NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
+	static func color(_ red: VectorFloat,
+                      _ green: VectorFloat,
+                      _ blue: VectorFloat,
+                      _ alpha: VectorFloat)  -> NSUIColor {
+        NSUIColor(displayP3Red: red.cg, green: green.cg, blue: blue.cg, alpha: alpha.cg)
 	}
 }

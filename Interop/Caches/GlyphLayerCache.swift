@@ -26,7 +26,9 @@ public struct GlyphCacheKey: Hashable, Equatable {
 
 struct GlyphRender {
 	private static let kDefaultFontSize: VectorFloat = 1.0
-	private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: kDefaultFontSize, weight: .regular)
+	private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(
+        ofSize: kDefaultFontSize.cg, weight: .regular
+    )
 	
     let font: NSUIFont = kDefaultSCNTextFont
     

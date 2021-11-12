@@ -4,7 +4,7 @@ import SceneKit
 #if os(iOS)
 import ARKit
 
-protocol MousePositionReceiver: class {
+protocol MousePositionReceiver: AnyObject {
     var mousePosition: CGPoint { get set }
     var scrollEvent: UIEvent { get set }
     var mouseDownEvent: UIEvent { get set }

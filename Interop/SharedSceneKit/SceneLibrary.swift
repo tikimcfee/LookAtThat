@@ -7,7 +7,11 @@ enum SceneType {
     case dictionary
 }
 
-class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
+#if os(OSX)
+extension SceneLibrary: KeyDownReceiver { }
+#endif
+
+class SceneLibrary: ObservableObject, MousePositionReceiver  {
     public static let global = SceneLibrary()
 
     let wordNodeBuilder = WordNodeBuilder()
@@ -61,7 +65,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
     var mouseDownEvent: UIEvent = UIEvent() {
         didSet { }
     }
-    var lastKeyEvent: KeyEvent = .none {
+    var lastKeyEvent: UIEvent = UIEvent() {
         didSet { }
     }
     #endif
@@ -79,6 +83,9 @@ class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
 
         // Unsafe initialization from .global ... more refactoring inc?
         
+        self.currentController = codePagesController
+        self.currentMode = .source
+        
         #if os(OSX)
         // Mouse movement
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
@@ -87,12 +94,10 @@ class SceneLibrary: ObservableObject, MousePositionReceiver, KeyDownReceiver  {
         
         // Keyboard events
         self.sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
-        #endif
-        
-        self.currentController = codePagesController
-        self.currentMode = .source
-        self.sharedSceneView.positionReceiver = self
         self.sharedSceneView.keyDownReceiver = self
+        #endif
+
+        self.sharedSceneView.positionReceiver = self
 
         codePages()
         attachSheetStream()

@@ -9,6 +9,9 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
+let kContainerName = "kContainerName"
+let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
+
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	
@@ -182,14 +185,14 @@ extension CodeGrid {
 			
 			// we're writing left-to-right. 
 			// Letter spacing is implicit to layer size.
-			targetGrid.pointer.right(size.width)
+            targetGrid.pointer.right(size.width.vector)
 			if syntaxTokenCharacter.isNewline {
 				newLine(size)
 			}
 		}
 		
 		func newLine(_ size: CGSize) {
-			targetGrid.pointer.down(size.height * Config.newLineSizeRatio)
+            targetGrid.pointer.down(size.height.vector * Config.newLineSizeRatio)
 			targetGrid.pointer.left(currentPosition.xColumn)
             lineCount += 1
 		}

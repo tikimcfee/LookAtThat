@@ -15,6 +15,15 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
+enum SelfRelativeDirection: Hashable, CaseIterable {
+    case forward
+    case backward
+    case left
+    case right
+    case up
+    case down
+}
+
 struct FocusPosition: CustomStringConvertible, Equatable {
     var x: Int {
         didSet { pfocus() }

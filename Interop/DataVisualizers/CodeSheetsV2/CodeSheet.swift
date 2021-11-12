@@ -2,8 +2,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-let kContainerName = "kContainerName"
-
 class CodeSheet: Identifiable, Equatable {
     lazy var id = UUID().uuidString
     lazy var containerNode: SCNNode = makeContainerNode()

@@ -67,7 +67,9 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             .forEach(receiver)
     }
     
-    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
+//    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
+    let rootGridColor = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
+    
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
         let rootGrid = newGrid().backgroundColor(rootGridColor)
         
@@ -76,7 +78,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         func stackVertical(_ index: Int, _ newGrid: CodeGrid) {
             let lastStart = lastRenderedGrid?.rootNode.position.y ?? 0
             let lastLength = lastRenderedGrid?.rootNode.lengthY ?? 0
-            let space = index == 0 ? 0.0 : 2.0
+            let space = VectorFloat(index == 0 ? 0.0 : 2.0)
             
             rootGrid.rootNode.addChildNode(newGrid.rootNode)
             newGrid.translated(dY: lastStart - lastLength - space)
@@ -85,7 +87,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         func stackHorizontal(_ index: Int, _ newGrid: CodeGrid) {
             let lastStart = lastRenderedGrid?.rootNode.position.x ?? 0
             let lastLength = lastRenderedGrid?.rootNode.lengthX ?? 0
-            let space = index == 0 ? 0.0 : 4.0
+            let space = VectorFloat(index == 0 ? 0.0 : 4.0)
             
             rootGrid.rootNode.addChildNode(newGrid.rootNode)
             newGrid.translated(dX: lastStart + lastLength + space)
@@ -94,7 +96,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         func stackOrthogonal(_ index: Int, _ newGrid: CodeGrid) {
             let lastStart = lastRenderedGrid?.rootNode.position.z ?? 0
             let lsatLength = lastRenderedGrid?.rootNode.lengthZ ?? 0
-            let space = index == 0 ? 0.0 : 16.0
+            let space = VectorFloat(index == 0 ? 0.0 : 16.0)
             
             rootGrid.rootNode.addChildNode(newGrid.rootNode)
             newGrid.translated(dX: 8.0, dZ: lastStart + lsatLength + space)
@@ -123,7 +125,9 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         return rootGrid.sizeGridToContainerNode(pad: 2)
     }
     
-    private let directoryColor: NSUIColor = NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
+//    private let directoryColor: NSUIColor = NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
+    private let directoryColor: NSUIColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
+    
     private func renderDirectoryInLine(_ path: FileKitPath) -> CodeGrid {
         let newParentGrid = newGrid().backgroundColor(directoryColor)
         var lastChild: CodeGrid?

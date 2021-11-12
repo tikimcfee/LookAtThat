@@ -46,6 +46,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         codeGridParser.cameraNode = sceneCameraNode
     }
     
+    #if os(macOS)
     lazy var keyboardInterceptor: KeyboardInterceptor = {
         let interceptor = KeyboardInterceptor(
             targetCamera: sceneCamera,
@@ -67,6 +68,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         }
         return interceptor
     }()
+    #endif
     
     lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
         switch event {
@@ -338,6 +340,7 @@ extension CodePagesController {
 import FileKit
 extension CodePagesController {
     func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+        #if os(OSX)
         selectDirectory { result in
             switch result {
             case .failure(let error):
@@ -348,6 +351,7 @@ extension CodePagesController {
                 self.fileBrowser.setRootScope(path)
             }
         }
+        #endif
     }
     
     func requestSourceFile(_ receiver: @escaping (URL) -> Void) {

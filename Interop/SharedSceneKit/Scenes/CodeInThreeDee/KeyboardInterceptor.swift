@@ -137,15 +137,6 @@ class KeyboardInterceptor {
     }
 }
 
-enum SelfRelativeDirection: Hashable, CaseIterable {
-    case forward
-    case backward
-    case left
-    case right
-    case up
-    case down
-}
-
 private extension KeyboardInterceptor {
     
     // Accessing fields from incorrect NSEvent types is incredibly unsafe.

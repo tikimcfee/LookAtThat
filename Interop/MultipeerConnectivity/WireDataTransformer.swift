@@ -18,8 +18,9 @@ final class WireDataTransformer {
 
 // MARK: - CodeSheets
 extension WireDataTransformer {
-    func encodeAttributedString(_ attributed: NSAttributedString) -> Data? {
-        guard let rtfData = attributed.rtf(from: attributed.string.fullNSRange, documentAttributes: [:])
+    func encodeAttributedString(_ attributed: NSMutableAttributedString) -> Data? {
+        
+        guard let rtfData = try? attributed.data(from: attributed.string.fullNSRange, documentAttributes: [:])
         else { return nil }
         return compress(rtfData)
     }
@@ -32,8 +33,14 @@ extension WireDataTransformer {
             print("Failed to decompress attributed data")
             throw WireDataTransformer.DataError.decompression
         }
+        
         var dict: NSDictionary? = NSDictionary()
+        #if os(iOS)
+        let mutable = try NSMutableAttributedString(data: data, options: [:], documentAttributes: &dict)
+        #elseif os(macOS)
         let mutable = NSMutableAttributedString(rtf: data, documentAttributes: &dict) ?? NSMutableAttributedString()
+        #endif
+        
         mutable.removeAttribute(.paragraphStyle, range: mutable.string.fullNSRange)
         mutable.removeAttribute(.font, range: mutable.string.fullNSRange)
         return (mutable, dict!)

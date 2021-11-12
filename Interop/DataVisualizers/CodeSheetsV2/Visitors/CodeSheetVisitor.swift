@@ -9,8 +9,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-import SwiftTrace
-
 public class CodeSheetVisitor: SwiftSyntaxFileLoadable {
     var allRootContainerNodes = [SCNNode: CodeSheet]()
     

@@ -35,7 +35,10 @@ class CodeSheetColorizing {
         }
     }
     
-    private func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat)  -> NSUIColor {
-        return NSUIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
+    private func color(_ red: VectorFloat,
+                       _ green: VectorFloat,
+                       _ blue: VectorFloat,
+                       _ alpha: VectorFloat)  -> NSUIColor {
+        return NSUIColor(displayP3Red: red.cg, green: green.cg, blue: blue.cg, alpha: alpha.cg)
     }
 }

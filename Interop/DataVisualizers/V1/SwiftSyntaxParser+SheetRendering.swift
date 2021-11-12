@@ -2,8 +2,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
-
 // Node building
 extension SwiftSyntaxParser {
 
