@@ -100,16 +100,14 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             newGrid.translated(dX: 8.0, dZ: lastStart + lsatLength + space)
         }
         
-        forEachChildOf(rootPath) { index, pathChild in
+        func doMainLoop(_ index: Int, _ pathChild: FileKitPath) {
             if pathChild.isDirectory {
-                let newGrid = renderDirectoryInLine(pathChild)
-                    .translated(dX: 4.0)
+                let newGrid = renderDirectoryInLine(pathChild).translated(dX: 4.0)
                 stackOrthogonal(index, newGrid)
                 lastRenderedGrid = newGrid
                 
             } else if let childGrid = renderGrid(pathChild.url) {
-                let newGrid = childGrid
-                    .translated(dZ: 4.0)
+                let newGrid = childGrid.translated(dZ: 4.0)
                 stackVertical(index, newGrid)
                 lastRenderedGrid = newGrid
                 
@@ -117,10 +115,11 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
                 print("No grid for \(pathChild)")
                 return
             }
-            
-            
         }
         
+        forEachChildOf(rootPath) { index, pathChild in
+            doMainLoop(index, pathChild)
+        }
         return rootGrid.sizeGridToContainerNode(pad: 2)
     }
     

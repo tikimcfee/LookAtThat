@@ -30,11 +30,14 @@ class KeyboardInterceptor {
     private var running: Bool = false
     
     var targetCameraNode: SCNNode
+    var targetCamera: SCNCamera
     var onNewFileOperation: FileOperationReceiver?
     var onNewFocusChange: FocusChangeReceiver?
     
-    init(targetCameraNode: SCNNode,
+    init(targetCamera: SCNCamera,
+         targetCameraNode: SCNNode,
         onNewFileOperation: FileOperationReceiver? = nil) {
+        self.targetCamera = targetCamera
         self.targetCameraNode = targetCameraNode
         self.onNewFileOperation = onNewFileOperation
         self._directionCache = []
@@ -84,9 +87,10 @@ class KeyboardInterceptor {
         self.running = true
         movementQueue.async() {
             self.synchronizedDirectionCache { lockingKeyCache in
-                let finalDelta = self.currentModifiers.contains(.shift)
-                    ? default_ModifiedMovementSpeed
-                    : default_MovementSpeed
+//                let finalDelta = self.currentModifiers.contains(.shift)
+//                    ? default_ModifiedMovementSpeed
+//                    : default_MovementSpeed
+                let finalDelta = default_ModifiedMovementSpeed
                 
                 lockingKeyCache.forEach { direction in
                     self.doDirectionDelta(direction, finalDelta)
@@ -108,20 +112,27 @@ class KeyboardInterceptor {
         _ direction: SelfRelativeDirection,
         _ finalDelta: VectorFloat
     ) {
-        var finalGet: SCNVector3 {
-            var updatedNode = targetCameraNode.position.translated()
-            let finalVelocity = direction.relativeVelocity(finalDelta)
-            
+        func update() {
             switch direction {
-            case .forward, .backward: updatedNode.z += finalVelocity
-            case .left, .right: updatedNode.x += finalVelocity
-            case .up, .down: updatedNode.y += finalVelocity
+            case .forward:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldFront * Float(finalDelta)
+            case .backward:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldFront * -Float(finalDelta)
+                
+            case .right:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldRight * Float(finalDelta)
+            case .left:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldRight * -Float(finalDelta)
+                
+            case .up:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldUp * Float(finalDelta)
+            case .down:
+                targetCameraNode.simdPosition += targetCameraNode.simdWorldUp * -Float(finalDelta)
             }
-            
-            return updatedNode
         }
+        
         DispatchQueue.main.async {
-            self.targetCameraNode.position = finalGet
+            update()
         }
     }
 }
@@ -133,16 +144,6 @@ enum SelfRelativeDirection: Hashable, CaseIterable {
     case right
     case up
     case down
-    
-    func relativeVelocity(_ velocity: VectorFloat) -> VectorFloat {
-        switch self {
-        case .left, .down, .forward:
-            return -VectorFloat(velocity)
-            
-        case .backward, .right, .up:
-            return VectorFloat(velocity)
-        }
-    }
 }
 
 private extension KeyboardInterceptor {
@@ -157,8 +158,8 @@ private extension KeyboardInterceptor {
             onKeyDown(event.characters ?? "", event)
         case .keyUp:
             onKeyUp(event.characters ?? "", event)
-        case .flagsChanged:
-            onFlagsChanged(event.modifierFlags, event)
+//        case .flagsChanged:
+//            onFlagsChanged(event.modifierFlags, event)
         default:
             break
         }

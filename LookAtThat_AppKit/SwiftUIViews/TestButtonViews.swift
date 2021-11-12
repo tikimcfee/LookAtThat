@@ -19,7 +19,7 @@ struct SourceInfoGrid: View {
             HStack(alignment: .top) {
                 fileRows(files)
                 Spacer()
-//                semanticInfo()
+                semanticInfo()
             }
         }
         .frame(alignment: .trailing)

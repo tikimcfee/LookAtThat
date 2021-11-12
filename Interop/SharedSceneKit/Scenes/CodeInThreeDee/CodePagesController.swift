@@ -47,7 +47,10 @@ class CodePagesController: BaseSceneController, ObservableObject {
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {
-        let interceptor = KeyboardInterceptor(targetCameraNode: sceneCameraNode)
+        let interceptor = KeyboardInterceptor(
+            targetCamera: sceneCamera,
+            targetCameraNode: sceneCameraNode
+        )
         interceptor.onNewFileOperation = { op in
             switch op {
             case .openDirectory:

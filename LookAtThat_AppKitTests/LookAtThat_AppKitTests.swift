@@ -297,6 +297,28 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
 		visitor.walk(sourceSyntax)
 	}
     
+    func testAttributedWrites() throws {
+        let testFile = bundle.testFile
+        let fileData = try Data(contentsOfPath: FileKitPath(testFile.path))
+        let dataString = try XCTUnwrap(String(data: fileData, encoding: .utf8))
+        
+        let dataStringAttributed = NSMutableAttributedString(
+            string: dataString,
+            attributes: [.foregroundColor: NSUIColor.red]
+        )
+        let appendedTestString = NSMutableAttributedString(
+            string: "yet this is dog",
+            attributes: [.foregroundColor: NSUIColor.blue]
+        )
+        dataStringAttributed.append(appendedTestString)
+        
+        let transformer = WireDataTransformer()
+        let encodedTest = try XCTUnwrap(transformer.encodeAttributedString(dataStringAttributed))
+        let (decodedTest, _) = try transformer.decodeAttributedString(encodedTest)
+        print("Size of encode: \(encodedTest.mb)mb")
+        XCTAssert(decodedTest == dataStringAttributed, "AttributedString write and re-read didn't reeturn same attributes")
+    }
+    
     func testSemanticWordGridEditor() throws {
         let editor = WorldGridEditor()
         

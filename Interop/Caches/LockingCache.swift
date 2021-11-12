@@ -19,7 +19,7 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     }
 
     subscript(key: Key) -> Value {
-        get { cache[key] ?? lockAndMake(key: key) }
+        get { lockAndReturn(key: key) ?? lockAndMake(key: key) }
 		set { lockAndSet(key: key, value: newValue) }
     }
     
@@ -43,6 +43,15 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     func contains(_ key: Key) -> Bool {
         semaphore.wait(); defer { semaphore.signal() }
         return cache[key] != nil
+    }
+    
+    private func lockAndReturn(key: Key) -> Value? {
+        // So sad =(; any time I go async and concurrent, the dictionary wheeps.
+        // Fine. lock it all down.
+        semaphore.wait()
+        let toReturn = cache[key]
+        semaphore.signal()
+        return toReturn
     }
 	
 	private func lockAndSet(key: Key, value: Value) {

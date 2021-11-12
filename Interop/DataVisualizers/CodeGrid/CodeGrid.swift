@@ -204,7 +204,6 @@ private extension SyntaxIdentifier {
 extension CodeGrid {
 	// If you call this, you basically draw text like a typewriter from wherevery you last were.
 	// it adds caches layer glyphs motivated by display requirements inherited by those clients.
-	// 
     @discardableResult
     func consume(syntax: Syntax) -> Self {
 		// ## step something other or else: the bits where you tidy up
@@ -221,19 +220,19 @@ extension CodeGrid {
 			let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
             let triviaColor = CodeGridColors.trivia
             let tokenColor = token.defaultColor
-			
+
 			var leadingTriviaNodes = CodeGridNodes()
             let leadingTrivia = token.leadingTrivia.stringified
-            
+
             let tokenText = token.text
             var tokenTextNodes = CodeGridNodes()
-            
+
             let trailingTrivia = token.trailingTrivia.stringified
 			var trailingTriviaNodes = CodeGridNodes()
 			
-            func writeString(_ string: String, _ name: String, _ set: inout CodeGridNodes) {
+            func writeString(_ string: String, _ name: String, _ color: NSUIColor, _ set: inout CodeGridNodes) {
                 for newCharacter in string {
-                    let (letterNode, size) = createNodeFor(newCharacter, triviaColor)
+                    let (letterNode, size) = createNodeFor(newCharacter, color)
                     letterNode.name = name
                     set.insert(letterNode)
                     renderer.insert(newCharacter, letterNode, size)
@@ -251,11 +250,13 @@ extension CodeGrid {
             }
             
             func writeGlyphs() {
-                writeString(leadingTrivia, leadingTriviaNodeName, &leadingTriviaNodes)
+                writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
                 tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
-                writeString(tokenText, tokenIdNodeName, &tokenTextNodes)
+                
+                writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
                 tokenCache[tokenIdNodeName] = tokenTextNodes
-                writeString(trailingTrivia, trailingTriviaNodeName, &trailingTriviaNodes)
+                
+                writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
                 tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
             }
             

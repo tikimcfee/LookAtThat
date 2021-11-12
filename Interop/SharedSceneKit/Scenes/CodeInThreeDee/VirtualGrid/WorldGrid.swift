@@ -15,14 +15,14 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-struct FocusPosition: CustomStringConvertible {
+struct FocusPosition: CustomStringConvertible, Equatable {
     var x: Int {
         didSet { pfocus() }
     }
-    var y: Int{
+    var y: Int {
         didSet { pfocus() }
     }
-    var z: Int{
+    var z: Int {
         didSet { pfocus() }
     }
     

@@ -2,6 +2,7 @@ import Foundation
 import Brotli
 
 final class WireDataTransformer {
+    enum DataError: Error { case decompression, compression}
     enum Mode { case brotli, standard }
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
@@ -17,6 +18,28 @@ final class WireDataTransformer {
 
 // MARK: - CodeSheets
 extension WireDataTransformer {
+    func encodeAttributedString(_ attributed: NSAttributedString) -> Data? {
+        guard let rtfData = attributed.rtf(from: attributed.string.fullNSRange, documentAttributes: [:])
+        else { return nil }
+        return compress(rtfData)
+    }
+    
+    func decodeAttributedString(_ data: Data) throws -> (NSAttributedString, NSDictionary) {
+        // Apparently the RTF reader automatically decodes some default paragraph and font styles which.. we don't want.
+        // So we just remove then on decode and pass back. We need to retain colorization, but the rest is not needed.
+        // Hopefully different iOS versions don't change this too much.
+        guard let data = decompress(data) else {
+            print("Failed to decompress attributed data")
+            throw WireDataTransformer.DataError.decompression
+        }
+        var dict: NSDictionary? = NSDictionary()
+        let mutable = NSMutableAttributedString(rtf: data, documentAttributes: &dict) ?? NSMutableAttributedString()
+        mutable.removeAttribute(.paragraphStyle, range: mutable.string.fullNSRange)
+        mutable.removeAttribute(.font, range: mutable.string.fullNSRange)
+        return (mutable, dict!)
+    }
+
+    
     func data(from source: WireCode) -> Data? {
         guard let data = try? jsonEncoder.encode(source) else { return nil }
         return compress(data)
