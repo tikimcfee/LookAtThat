@@ -80,15 +80,65 @@ extension OutputStream {
     }
 }
 
+struct QuickLooper {
+    let loop: () -> Void
+    func run(_ stop: @escaping () -> Bool) {
+        guard !stop() else { return }
+        DispatchQueue.main.async {
+            loop()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                run(stop)
+            }
+        }
+    }
+}
+
+extension Stream {
+    var whyIsItBroken: String {
+        let error = streamError?.localizedDescription ?? "nil error"
+        let ioInput = (self as? InputStream)?.hasBytesAvailable
+        let ioOutputSpace = (self as? OutputStream)?.hasSpaceAvailable
+        let ioOut = "\(String(describing: ioInput)) ; \(String(describing: ioOutputSpace))"
+        return "\(streamStatus.name) :: \(error) :: \(ioOut) :: \(self.description)"
+    }
+}
+
+extension Stream.Status {
+    var name: String {
+        switch self {
+        case .notOpen: return "notOpen"
+        case .opening: return "opening"
+        case .open: return "open"
+        case .reading: return "reading"
+        case .writing: return "writing"
+        case .atEnd: return "atEnd"
+        case .closed: return "closed"
+        case .error: return "error"
+        @unknown default: return "unknownDefault"
+        }
+    }
+}
+
 struct InputStreamReader {
     let stream: InputStream
+        
+    func printStream() {
+        print("<> monitor: \(stream.streamStatus) | \(stream.streamError?.localizedDescription ?? "nil err" ) | \(stream.hasBytesAvailable)")
+        
+    }
 
     func readData() throws -> Data {
         let bufferSize = 1024
         var buffer = [UInt8](repeating: 0, count: bufferSize)
         var dataAccumulator: [UInt8] = []
+        var isFinalized: Bool = false
+        var finalizedData: Data {
+            isFinalized = true
+            return Data(dataAccumulator)
+        }
+        QuickLooper(loop: printStream).run { isFinalized }
 
-        while true {
+        while stream.hasBytesAvailable {
             let count = stream.read(&buffer, maxLength: buffer.capacity)
 
             guard count >= 0 else {
@@ -98,10 +148,12 @@ struct InputStreamReader {
 
             guard count != 0 else {
                 stream.close()
-                return Data(dataAccumulator)
+                return finalizedData
             }
 
             dataAccumulator.append(contentsOf: buffer.prefix(count))
         }
+        
+        return finalizedData
     }
 }

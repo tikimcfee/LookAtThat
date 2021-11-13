@@ -233,26 +233,26 @@ extension CodeGrid {
             let trailingTrivia = token.trailingTrivia.stringified
 			var trailingTriviaNodes = CodeGridNodes()
 			
-            func writeString(_ string: String, _ name: String, _ color: NSUIColor, _ set: inout CodeGridNodes) {
-                for newCharacter in string {
-                    let (letterNode, size) = createNodeFor(newCharacter, color)
-                    letterNode.name = name
-                    set.insert(letterNode)
-                    renderer.insert(newCharacter, letterNode, size)
-                }
-            }
-            
-            func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
-                NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
-            }
-            
             func writeAttributedText() {
+                func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
+                    NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
+                }
+                
                 sourceAttributedString.append(attributedString(leadingTrivia, triviaColor))
                 sourceAttributedString.append(attributedString(tokenText, tokenColor))
                 sourceAttributedString.append(attributedString(trailingTrivia, triviaColor))
             }
             
             func writeGlyphs() {
+                func writeString(_ string: String, _ name: String, _ color: NSUIColor, _ set: inout CodeGridNodes) {
+                    for newCharacter in string {
+                        let (letterNode, size) = createNodeFor(newCharacter, color)
+                        letterNode.name = name
+                        set.insert(letterNode)
+                        renderer.insert(newCharacter, letterNode, size)
+                    }
+                }
+                
                 writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
                 tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
                 

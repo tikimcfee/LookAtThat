@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E4577732-B2A1-4129-96CF-689EB865DAEE"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Interop/SharedSceneKit/Scenes/DictionarySceneController.swift"
@@ -40,7 +40,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7A392C0D-E570-420A-BADA-00B5D289AABC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Interop/Data/CallStack/CallStackAnalyzer.swift"
@@ -56,7 +56,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F6DF9C7F-D05B-452C-96C9-7E4154032C85"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../Library/Developer/Xcode/DerivedData/LookAtThat_AppKit-cknqatlzjmsdpwghvnspbgummawg/SourcePackages/checkouts/SwiftTrace/SwiftTrace/SwiftSwizzle.swift"
@@ -72,7 +72,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
@@ -84,12 +84,12 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - 5151ab3ab988ce04"
+                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - 750fd87c49f29c2b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "LookAtThatMobile.CodeSheet.__allocating_init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThatMobile.CodeSheet"
-                  moduleName = "LookAtThatMobile"
+                  symbolName = "LookAtThat_AppKit.CodeSheet.__allocating_init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThat_AppKit.CodeSheet"
+                  moduleName = "LookAtThat_AppKit"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
                   startingColumnNumber = "9223372036854775807"
@@ -99,12 +99,12 @@
                   offsetFromSymbolStart = "44">
                </Location>
                <Location
-                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - d849c8130c6dd8e2"
+                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - b22833bdee8d8097"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "LookAtThatMobile.CodeSheet.init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThatMobile.CodeSheet"
-                  moduleName = "LookAtThatMobile"
+                  symbolName = "LookAtThat_AppKit.CodeSheet.init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThat_AppKit.CodeSheet"
+                  moduleName = "LookAtThat_AppKit"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
                   startingColumnNumber = "9223372036854775807"

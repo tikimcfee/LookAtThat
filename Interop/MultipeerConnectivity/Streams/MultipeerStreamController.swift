@@ -18,6 +18,21 @@ extension MultipeerStreamController {
             print("Well.. it... says it was written. \(written)")
         }
     }
+    
+    func streamRaw(to peer: MCPeerID, _ data: Data) {
+        WorkerPool.shared.nextWorker().async {
+            let maybeStream = self.manager.outputStreamBiMap
+                .keysToValues.keys.first { $0.target == peer }
+            
+            guard let stream = maybeStream?.stream else {
+                      print("No open output stream for \(peer)")
+                      return
+                  }
+            
+            let written = stream.writeDataWithBoundPointer(data)
+            print("Well.. it... says it was written. \(written)")
+        }
+    }
 
     func openStream(to peer: MCPeerID, _ receiver: @escaping OutputStreamReceiver) {
         bundle.makeOutputStream(for: peer) { newOutputStream in
@@ -53,7 +68,7 @@ class MultipeerStreamController: NSObject {
         self.bundle = bundle
         self.manager = manager
     }
-
+    
     private func streamOpened(_ stream: Stream) {
         print("Stream opened - \(stream)")
         stateQueue.async {
@@ -63,6 +78,10 @@ class MultipeerStreamController: NSObject {
                     return
                 }
                 print("InputStream to '\(openStream.target.displayName)' opened")
+                
+                QuickLooper(loop: { print(stream.whyIsItBroken) } )
+                    .run { stream.streamError != nil || stream.streamStatus == .atEnd }
+                
             } else if let outputStream = stream as? OutputStream {
                 guard let openStream = self.manager.outputStreamBiMap[outputStream] else {
                     print("We missed an output stream somehow!")
@@ -70,7 +89,6 @@ class MultipeerStreamController: NSObject {
                 }
                 print("OutputStream to '\(openStream.target.displayName)' opened")
             }
-
         }
     }
 
@@ -93,7 +111,7 @@ class MultipeerStreamController: NSObject {
     }
 
     private func streamReportedHasSpace(_ stream: Stream) {
-//        print("Stream reported space...")
+        print("Stream reported space...")
     }
 
     private func streamEnded(_ stream: Stream) {

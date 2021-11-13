@@ -2,7 +2,7 @@ import Foundation
 import Brotli
 
 final class WireDataTransformer {
-    enum DataError: Error { case decompression, compression}
+    enum DataError: Error { case decompression, compression, decodeString }
     enum Mode { case brotli, standard }
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
@@ -18,8 +18,24 @@ final class WireDataTransformer {
 
 // MARK: - CodeSheets
 extension WireDataTransformer {
+    func encodedString(_ string: String) -> Data? {
+        guard let data = string.data(using: .utf8) else { return nil }
+        return compress(data)
+    }
+    
+    func decodedString(_ data: Data) throws -> String {
+        guard let data = decompress(data) else {
+            print("Failed to decompress string")
+            throw WireDataTransformer.DataError.decompression
+        }
+        guard let result = String(data: data, encoding: .utf8) else {
+            print("Failed to decode .utf8 string")
+            throw WireDataTransformer.DataError.decodeString
+        }
+        return result
+    }
+    
     func encodeAttributedString(_ attributed: NSMutableAttributedString) -> Data? {
-        
         guard let rtfData = try? attributed.data(from: attributed.string.fullNSRange, documentAttributes: [:])
         else { return nil }
         return compress(rtfData)

@@ -10,6 +10,7 @@ import ARKit
 
 struct MobileAppRootView : View {
     @State var showInfoView = false
+    
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
             ARKitRepresentableView(
@@ -20,16 +21,13 @@ struct MobileAppRootView : View {
                 Text("📶").padding()
             }
         }.sheet(isPresented: $showInfoView) {
-            MultipeerInfoView().environmentObject(MultipeerConnectionManager.shared)
+            MultipeerInfoView()
+                .environmentObject(MultipeerConnectionManager.shared)
         }
     }
 }
 
 class ARViewDelegate: NSObject, ARSCNViewDelegate {
-//    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-//        return nil
-//    }
-
     func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
 
     }
@@ -47,7 +45,7 @@ struct ARKitRepresentableView: UIViewRepresentable {
     func makeUIView(context: Context) -> ARSCNView {
 
         let config = ARWorldTrackingConfiguration()
-        config.planeDetection = .horizontal
+        config.planeDetection = [.horizontal, .vertical]
         arView.debugOptions = [ARSCNDebugOptions.showFeaturePoints,
                                ARSCNDebugOptions.showWorldOrigin]
         arView.autoenablesDefaultLighting  = true

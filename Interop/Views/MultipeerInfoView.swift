@@ -30,7 +30,7 @@ struct MultipeerInfoView: View {
             ).environmentObject(MultipeerConnectionManager.shared)
         }
         #if os(OSX)
-        return baseView.frame(maxWidth: 512, minHeight: 128, alignment: .topLeading)
+        return baseView
         #else
         return baseView
         #endif
@@ -213,6 +213,7 @@ struct ChangeNameView: View {
 
             Text("New name")
                 .underline()
+            
             #if os(iOS)
             TextField("Enter a new name here", text: $displayName)
                 .keyboardType(.namePhonePad)
@@ -308,6 +309,7 @@ struct MessageSendView: View {
     @EnvironmentObject var manager: MultipeerConnectionManager
     @Binding var selectedPeer: PeerConnection?
     @State var message: String = ""
+    @State var event: FileBrowser.Event = .noSelection
 
     var body: some View {
         return VStack(alignment: .trailing, spacing: 0) {
@@ -335,6 +337,37 @@ struct MessageSendView: View {
                         .italic()
                 }.padding(8)
             }
+        }.onReceive(
+            SceneLibrary.global.codePagesController.fileEventStream
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+        ) { event in
+            self.event = event
+            sendFileStreamToPeers()
+        }
+    }
+    
+    func sendFileStreamToPeers() {
+        guard let peer = selectedPeer else {
+            print("Well so much for the disabled state")
+            return
+        }
+        
+        switch event {
+        case let .newSingleCommand(path, type):
+            guard let fileData = try? Data(contentsOf: path.url) else {
+                print("No file data it exploded what a shame")
+                return
+            }
+            manager.multipeerStreamController.streamRaw(to: peer.targetPeerId, fileData)
+        case let .newSinglePath(path):
+            guard let fileData = try? Data(contentsOf: path.url) else {
+                print("No file data it exploded what a shame")
+                return
+            }
+            manager.multipeerStreamController.streamRaw(to: peer.targetPeerId, fileData)
+        default:
+            print("Ignoring event: \(event)")
         }
     }
 

@@ -19,9 +19,10 @@ struct MacAppRootView: View {
                     TestButtons_Debugging()
                 }.padding(.bottom, 16.0)
             case .source:
-                VStack {
+                VStack(alignment: .leading) {
+                    MultipeerInfoView()
+                        .frame(width: 256.0)
                     HStack(alignment: .top) {
-//                        MultipeerInfoView().frame(maxHeight: 512.0)
                         SourceInfoGrid()
                     }.padding(.bottom, 4.0)
                 }
