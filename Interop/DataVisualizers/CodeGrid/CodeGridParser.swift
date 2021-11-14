@@ -189,6 +189,8 @@ class CodeGridWorld {
         gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
 //        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
         gridNode.scale = SCNVector3(x: 0.01, y: 0.01, z: 0.01)
+        
+        gridNode.simdPosition += -cam.simdWorldRight * (0.5 * gridNode.lengthX * 0.01)
         rootContainerNode.addChildNode(gridNode)
     }
     
