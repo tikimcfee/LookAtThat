@@ -90,6 +90,7 @@ class ConnectionBundle {
 //        globalSession.connectedPeers.forEach {
 //            globalSession.cancelConnectPeer($0)
 //        }
+        
         globalSession.delegate = nil
     }
 

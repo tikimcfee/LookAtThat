@@ -13,7 +13,11 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
 
     // Multipeer API setup
     var currentConnection = ConnectionBundle()
-    lazy var multipeerStreamController = MultipeerStreamController(currentConnection, self)
+    lazy var multipeerStreamController: MultipeerStreamController = {
+        let streamController = MultipeerStreamController(currentConnection, self)
+        streamController.onStreamDataReady = self.onStreamDataReady(_:)
+        return streamController
+    }()
 
     // Our models and streams
     @Published var sentMessages = MessageHistory()
@@ -22,12 +26,14 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     @Published var currentPeers = [MCPeerID: PeerConnection]()
     @Published var peerDiscoveryState = MultipeerStateViewModel()
     @Published var receivedCodeSheets = [CodeSheet]()
+    @Published var receivedCodeGrids = [Data]()
     @Published var outputStreamBiMap = BiMap<PreparedOutputStream, Stream>()
     @Published var inputStreamBiMap = BiMap<ReceivedInputStream, Stream>()
 
     lazy var peerStream = $currentPeers.share().eraseToAnyPublisher()
     lazy var stateStream = $peerDiscoveryState.share().eraseToAnyPublisher()
     lazy var codeSheetStream = $receivedCodeSheets.share().eraseToAnyPublisher()
+    lazy var codeGridStream = $receivedCodeGrids.share().eraseToAnyPublisher()
     lazy var outputStreams = $outputStreamBiMap.share().eraseToAnyPublisher()
     lazy var inputStreams = $inputStreamBiMap.share().eraseToAnyPublisher()
 
@@ -43,6 +49,20 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
             isBrowsing: currentConnection.isBrowsing,
             isAdvertising: currentConnection.isAdvertising
         )
+    }
+}
+
+// MARK: - CodeGrid Stream Parsing
+extension MultipeerConnectionManager {
+    func onStreamDataReady(_ data: Data) {
+        print("Handling received stream of size \(data.count)")
+        
+        guard let decompressed = sheetDataTransformer.decompress(data) else {
+            print("StreamReady call could not be decompressed. Well that sucks.")
+            return
+        }
+        
+        receivedCodeGrids.append(decompressed)
     }
 }
 

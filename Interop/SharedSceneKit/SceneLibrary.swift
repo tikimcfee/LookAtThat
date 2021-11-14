@@ -112,7 +112,32 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
                 self?.receiveSheets(codeSheets)
             }
             .store(in: &cancellables)
+        
+        MultipeerConnectionManager.shared.codeGridStream
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: RunLoop.main)
+            .sink{ [weak self] codeGrids in
+                self?.receiveGrids(codeGrids)
+            }
+            .store(in: &cancellables)
         #endif
+    }
+    
+    private func receiveGrids(_ codeGrids: [Data]) {
+        print("Updating code grids boop beep...")
+        guard let newGridData = codeGrids.last else {
+            print("It was empty... but why?")
+            return
+        }
+        
+        guard let sourceString = String(data: newGridData, encoding: .utf8) else {
+            print("After all that I didn't get a string? why are computers so hard even when they're easy?")
+            return
+        }
+        
+        codePagesController.codeGridParser.withNewGrid(sourceString) { world, grid in
+            world.addInFrontOfCamera(style: .trailingFromLastGrid(grid))
+        }
     }
 
     private func receiveSheets(_ codeSheets: [CodeSheet]) {

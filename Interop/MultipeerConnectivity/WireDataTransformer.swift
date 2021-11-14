@@ -129,7 +129,7 @@ extension WireDataTransformer {
 
 // MARK: Compression
 extension WireDataTransformer {
-    private func compress(_ data: Data) -> Data? {
+    func compress(_ data: Data) -> Data? {
         switch mode {
         case .brotli:
             return compressBrotli(data)
@@ -138,7 +138,7 @@ extension WireDataTransformer {
         }
     }
 
-    private func decompress(_ data: Data) -> Data? {
+    func decompress(_ data: Data) -> Data? {
         switch mode {
         case .brotli:
             return decompressBrotli(data)

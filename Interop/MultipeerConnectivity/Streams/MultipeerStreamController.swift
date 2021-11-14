@@ -62,6 +62,8 @@ class MultipeerStreamController: NSObject {
     private let stateQueue = DispatchQueue(label: "StreamController")
     let bundle: ConnectionBundle
     let manager: MultipeerConnectionManager
+    
+    var onStreamDataReady: ((Data) -> Void)?
 
     init(_ bundle: ConnectionBundle,
          _ manager: MultipeerConnectionManager) {
@@ -93,8 +95,9 @@ class MultipeerStreamController: NSObject {
     }
 
     private func streamReportedHasBytes(_ stream: Stream) {
+        print("Stream reporting bytes, starting process")
         guard let knownPeer = manager.inputStreamBiMap[stream] else {
-            print("Stream reporting bytes but haven't recorded it")
+            print("Missing input stream source; dropping request")
             return
         }
 
@@ -104,10 +107,11 @@ class MultipeerStreamController: NSObject {
             print("Failed to read streamed data")
             return
         }
-
-        // TODO: C'mon magic...
-        let text = String(data: data, encoding: .utf8) ?? "nil"
-        print("Did we get a message??\n\t ->>> \(text)")
+        
+        print("Stream data read, emitting to delegate")
+        onStreamDataReady?(data)
+//        let text = String(data: data, encoding: .utf8) ?? "nil"
+//        print("Did we get a message??\n\t ->>> \(text)")
     }
 
     private func streamReportedHasSpace(_ stream: Stream) {

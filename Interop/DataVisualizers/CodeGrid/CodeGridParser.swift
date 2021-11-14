@@ -33,9 +33,21 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         }
     }
     
+    func withNewGrid(_ source: String, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
+        if let grid = renderGrid(source) {
+            operation(world, grid)
+        }
+    }
+    
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else { return nil }
 		let newGrid = createGrid(sourceFile)
+        return newGrid
+    }
+    
+    func renderGrid(_ source: String) -> CodeGrid? {
+        guard let sourceFile = parse(source) else { return nil }
+        let newGrid = createGrid(sourceFile)
         return newGrid
     }
     
@@ -163,6 +175,15 @@ class CodeGridWorld {
     
     init(cameraProvider: (() -> SCNNode?)?) {
         self.cameraProvider = cameraProvider
+    }
+    
+    func addInFrontOfCamera(style: WorldGridEditor.AddStyle) {
+        guard let cam = cameraProvider?() else { return }
+        
+        let gridNode = style.grid.rootNode
+        gridNode.position = cam.position
+        gridNode.simdPosition += cam.simdWorldFront * 25
+        rootContainerNode.addChildNode(gridNode)
     }
     
     func addGrid(style: WorldGridEditor.AddStyle) {
