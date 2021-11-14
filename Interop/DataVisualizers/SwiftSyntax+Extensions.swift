@@ -323,6 +323,8 @@ public extension TokenSyntax {
 				return Self.valueToken
 			case .yield:
 				return Self.controlFlowKeyword
-		}
+            case .poundUnavailableKeyword:
+                return Self.actionableTokenColor
+        }
     }
 }

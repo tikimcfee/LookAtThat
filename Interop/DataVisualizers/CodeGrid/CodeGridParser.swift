@@ -181,8 +181,8 @@ class CodeGridWorld {
         guard let cam = cameraProvider?() else { return }
         
         let gridNode = style.grid.rootNode
-        gridNode.position = cam.position
-        gridNode.simdPosition += cam.simdWorldFront * 25
+        gridNode.simdPosition = cam.simdPosition
+        gridNode.simdPosition += cam.simdWorldFront * 5
         rootContainerNode.addChildNode(gridNode)
     }
     

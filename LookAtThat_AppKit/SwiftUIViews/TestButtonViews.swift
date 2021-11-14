@@ -2,6 +2,7 @@ import Foundation
 import SceneKit
 import SwiftUI
 import FileKit
+import SwiftSyntax
 
 struct SourceInfoGrid: View {
     @State var error: SceneControllerError?

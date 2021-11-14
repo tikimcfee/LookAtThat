@@ -10,6 +10,13 @@
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B705935A2738BFC300ABFC61 /* CodeGridBlitterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */; };
+		B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; };
+		B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8222740DAC100303CB8 /* SwiftSyntaxParser */; };
+		B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8242740DB7C00303CB8 /* SwiftSyntax */; };
+		B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */; };
+		B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B71944412674661D002ADC74 /* CodeSheetColorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71944402674661D002ADC74 /* CodeSheetColorizing.swift */; };
 		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
@@ -20,12 +27,12 @@
 		B735A9EB2676AB1D00F351B4 /* WordGeometryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */; };
 		B735A9ED2676AB4500F351B4 /* WordColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EC2676AB4500F351B4 /* WordColorCache.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
-		B73A249D273F321F007F7EB2 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B73A249C273F321F007F7EB2 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A792676F6420021299F /* CodeSheetVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A782676F6420021299F /* CodeSheetVisitor.swift */; };
 		B74E7A7B2676F9C00021299F /* CodeSheetDirectoryRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */; };
 		B74E7A7D26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7C26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift */; };
 		B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
+		B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */; };
 		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -61,8 +68,6 @@
 		B7815A03273E081100212176 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B7815A05273E08C500212176 /* CodeSheetVisitor+DirectoryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7C26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift */; };
 		B7815A06273E08CB00212176 /* CodeSheetDirectoryRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */; };
-		B7919F7D2732363A00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7919F7E2732363F00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -76,10 +81,6 @@
 		F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		F00FC746250C53820092AFF9 /* WordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC743250C53820092AFF9 /* WordParser.swift */; };
 		F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC745250C53820092AFF9 /* WordNodes.swift */; };
-		F029F642255A4D67006D4E03 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = F029F641255A4D67006D4E03 /* SwiftSyntax */; };
-		F029F644255A4D67006D4E03 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = F029F643255A4D67006D4E03 /* SwiftSyntaxBuilder */; };
-		F029F649255A4E1C006D4E03 /* SwiftAST in Frameworks */ = {isa = PBXBuildFile; productRef = F029F648255A4E1C006D4E03 /* SwiftAST */; };
-		F029F64B255A4E1C006D4E03 /* SwiftAST+Tooling in Frameworks */ = {isa = PBXBuildFile; productRef = F029F64A255A4E1C006D4E03 /* SwiftAST+Tooling */; };
 		F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1110251EEF240052D993 /* MultipeerData.swift */; };
@@ -153,9 +154,6 @@
 		F09A52A225157FBD00F5082A /* SwiftSyntaxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */; };
 		F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
-		F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */; };
-		F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */; };
-		F0A29E8D253957A8009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
 		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
@@ -209,16 +207,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */,
-				B7919F7D2732363A00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F09A52B22516A01400F5082A /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 6;
-			files = (
+				B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +217,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F0A29E8D253957A8009108C4 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
+				B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,6 +228,8 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridBlitterBuilder.swift; sourceTree = "<group>"; };
+		B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71944402674661D002ADC74 /* CodeSheetColorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetColorizing.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
@@ -248,7 +239,6 @@
 		B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGeometryCache.swift; sourceTree = "<group>"; };
 		B735A9EC2676AB4500F351B4 /* WordColorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordColorCache.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
-		B73A249C273F321F007F7EB2 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A782676F6420021299F /* CodeSheetVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetDirectoryRenderer.swift; sourceTree = "<group>"; };
@@ -259,7 +249,6 @@
 		B775C7982672800E00414972 /* CodeSheetParserV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParserV2.swift; sourceTree = "<group>"; };
 		B775C79B2672803F00414972 /* ParsingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingState.swift; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
-		B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
@@ -320,9 +309,6 @@
 		F09A52A125157FBD00F5082A /* SwiftSyntaxParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSyntaxParser.swift; sourceTree = "<group>"; };
 		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
-		F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitor.swift; sourceTree = "<group>"; };
-		F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractSyntaxTreeVisitorMuxer.swift; sourceTree = "<group>"; };
-		F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = lib_InternalSwiftSyntaxParser.dylib; path = LookAtThatMobile/Libraries/lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
 		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
 		F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySceneController.swift; sourceTree = "<group>"; };
@@ -344,12 +330,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7919F7E2732363F00FE62BD /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
 				B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */,
-				F029F649255A4E1C006D4E03 /* SwiftAST in Frameworks */,
-				F029F644255A4D67006D4E03 /* SwiftSyntaxBuilder in Frameworks */,
-				F029F642255A4D67006D4E03 /* SwiftSyntax in Frameworks */,
-				F029F64B255A4E1C006D4E03 /* SwiftAST+Tooling in Frameworks */,
+				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
 			);
@@ -366,8 +350,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */,
 				B78159DB273E041B00212176 /* SwiftSyntax in Frameworks */,
-				B73A249D273F321F007F7EB2 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */,
+				B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 				B78159DD273E045000212176 /* FileKit in Frameworks */,
 			);
@@ -379,9 +365,33 @@
 		45BF82CD2728E29700B2024A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				B7919F7A2732362E00FE62BD /* parserDylib5_5 */,
+				B712C8192740D4BD00303CB8 /* parserDylib-RELEASE-5.5 */,
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		B712C8192740D4BD00303CB8 /* parserDylib-RELEASE-5.5 */ = {
+			isa = PBXGroup;
+			children = (
+				B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */,
+			);
+			path = "parserDylib-RELEASE-5.5";
+			sourceTree = "<group>";
+		};
+		B712C81C2740D4D900303CB8 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				B712C81D2740D4D900303CB8 /* swift-RELEASE-5.5 */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		B712C81D2740D4D900303CB8 /* swift-RELEASE-5.5 */ = {
+			isa = PBXGroup;
+			children = (
+				B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */,
+			);
+			path = "swift-RELEASE-5.5";
 			sourceTree = "<group>";
 		};
 		B72197242737428B00E1CB60 /* VirtualGrid */ = {
@@ -390,14 +400,6 @@
 				B7219725273742B400E1CB60 /* WorldGrid.swift */,
 			);
 			path = VirtualGrid;
-			sourceTree = "<group>";
-		};
-		B73A249B273F321F007F7EB2 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				B73A249C273F321F007F7EB2 /* lib_InternalSwiftSyntaxParser.dylib */,
-			);
-			path = Libraries;
 			sourceTree = "<group>";
 		};
 		B73F428725FEC0D500F4F581 /* CodeSheetsV2 */ = {
@@ -430,14 +432,6 @@
 				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
 			);
 			path = CallStack;
-			sourceTree = "<group>";
-		};
-		B7919F7A2732362E00FE62BD /* parserDylib5_5 */ = {
-			isa = PBXGroup;
-			children = (
-				B7919F7B2732362E00FE62BD /* lib_InternalSwiftSyntaxParser.dylib */,
-			);
-			path = parserDylib5_5;
 			sourceTree = "<group>";
 		};
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
@@ -486,7 +480,6 @@
 				F00FC738250C53470092AFF9 /* Main.storyboard */,
 				45BF82CD2728E29700B2024A /* Libraries */,
 				F00FC735250C53470092AFF9 /* Preview Content */,
-				F09A529E25157F7800F5082A /* Visitors */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
 				F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */,
 				F030B8D92519039A00B94E7A /* SwiftUIViews */,
@@ -531,7 +524,6 @@
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F0A29E862539575A009108C4 /* lib_InternalSwiftSyntaxParser.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -636,7 +628,7 @@
 		F07C49E8251C5AE800F28173 /* LookAtThatMobile */ = {
 			isa = PBXGroup;
 			children = (
-				B73A249B273F321F007F7EB2 /* Libraries */,
+				B712C81C2740D4D900303CB8 /* Libraries */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
 				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
@@ -674,23 +666,6 @@
 				F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */,
 			);
 			path = SCNBezier;
-			sourceTree = "<group>";
-		};
-		F09A529E25157F7800F5082A /* Visitors */ = {
-			isa = PBXGroup;
-			children = (
-				F09A529F25157F8C00F5082A /* AST */,
-			);
-			path = Visitors;
-			sourceTree = "<group>";
-		};
-		F09A529F25157F8C00F5082A /* AST */ = {
-			isa = PBXGroup;
-			children = (
-				F0A2199F2511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift */,
-				F0A219A22511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift */,
-			);
-			path = AST;
 			sourceTree = "<group>";
 		};
 		F09A52A025157F9300F5082A /* V1 */ = {
@@ -758,7 +733,6 @@
 				F00FC729250C53460092AFF9 /* Frameworks */,
 				F00FC72A250C53460092AFF9 /* Resources */,
 				F027B18E2512EEB100294F30 /* CopyFiles */,
-				F09A52B22516A01400F5082A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -767,12 +741,10 @@
 			name = LookAtThat_AppKit;
 			packageProductDependencies = (
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
-				F029F641255A4D67006D4E03 /* SwiftSyntax */,
-				F029F643255A4D67006D4E03 /* SwiftSyntaxBuilder */,
-				F029F648255A4E1C006D4E03 /* SwiftAST */,
-				F029F64A255A4E1C006D4E03 /* SwiftAST+Tooling */,
 				B7E499C5268E80E6002956D7 /* SwiftTrace */,
 				B73286A4273367B400C9C82A /* FileKit */,
+				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
+				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -817,6 +789,8 @@
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B78159DA273E041B00212176 /* SwiftSyntax */,
 				B78159DC273E045000212176 /* FileKit */,
+				B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */,
+				B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -856,7 +830,6 @@
 			packageReferences = (
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */,
 				B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 			);
@@ -943,7 +916,6 @@
 				F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				F030B8D425185D8500B94E7A /* WordPositionIterator.swift in Sources */,
 				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
-				F0A219A32511C27800D71C98 /* AbstractSyntaxTreeVisitorMuxer.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
@@ -959,7 +931,6 @@
 				F07C49D5251C469D00F28173 /* CodeSheet.swift in Sources */,
 				B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */,
 				B705935A2738BFC300ABFC61 /* CodeGridBlitterBuilder.swift in Sources */,
-				F0A219A02511BBA600D71C98 /* AbstractSyntaxTreeVisitor.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
@@ -1240,6 +1211,8 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -1275,6 +1248,8 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
+					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -1345,6 +1320,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
+					"$(PROJECT_DIR)/LookAtThatMobile/Libraries/swift-RELEASE-5.5",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1376,6 +1352,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
+					"$(PROJECT_DIR)/LookAtThatMobile/Libraries/swift-RELEASE-5.5",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1449,16 +1426,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-syntax";
 			requirement = {
-				kind = exactVersion;
-				version = 0.50500.0;
-			};
-		};
-		F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/yanagiba/swift-ast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.19.9;
+				kind = revision;
+				revision = 4c46b31770a775b08124ed16419bf926d963f200;
 			};
 		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
@@ -1472,10 +1441,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B712C8222740DAC100303CB8 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
+		B712C8242740DB7C00303CB8 /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntax;
+		};
+		B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
 		B73286A4273367B400C9C82A /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */;
 			productName = FileKit;
+		};
+		B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxBuilder;
 		};
 		B78159DA273E041B00212176 /* SwiftSyntax */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1491,26 +1480,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
-		};
-		F029F641255A4D67006D4E03 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		F029F643255A4D67006D4E03 /* SwiftSyntaxBuilder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxBuilder;
-		};
-		F029F648255A4E1C006D4E03 /* SwiftAST */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */;
-			productName = SwiftAST;
-		};
-		F029F64A255A4E1C006D4E03 /* SwiftAST+Tooling */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F647255A4E1C006D4E03 /* XCRemoteSwiftPackageReference "swift-ast" */;
-			productName = "SwiftAST+Tooling";
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

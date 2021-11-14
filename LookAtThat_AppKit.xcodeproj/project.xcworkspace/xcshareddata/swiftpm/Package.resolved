@@ -20,21 +20,12 @@
         }
       },
       {
-        "package": "swift-ast",
-        "repositoryURL": "https://github.com/yanagiba/swift-ast",
-        "state": {
-          "branch": null,
-          "revision": "e8507d78b32dbd33ea5ea975bbbc82b7613870a1",
-          "version": "0.19.9"
-        }
-      },
-      {
         "package": "SwiftSyntax",
         "repositoryURL": "https://github.com/apple/swift-syntax",
         "state": {
           "branch": null,
-          "revision": "75e60475d9d8fd5bbc16a12e0eaa2cb01b0c322e",
-          "version": "0.50500.0"
+          "revision": "4c46b31770a775b08124ed16419bf926d963f200",
+          "version": null
         }
       },
       {

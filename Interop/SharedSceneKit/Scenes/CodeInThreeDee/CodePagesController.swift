@@ -43,7 +43,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
         sceneState.rootGeometryNode.addChildNode(
             codeGridParser.world.rootContainerNode
         )
-        codeGridParser.cameraNode = sceneCameraNode
+
+        codeGridParser.cameraNode = sceneView.pointOfView
     }
     
     #if os(macOS)

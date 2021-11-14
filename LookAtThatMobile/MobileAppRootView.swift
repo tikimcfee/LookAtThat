@@ -17,13 +17,30 @@ struct MobileAppRootView : View {
                 arView: SceneLibrary.global.sharedSceneView
             ).edgesIgnoringSafeArea(.all)
 
-            Button(action: { showInfoView = true }) {
-                Text("📶").padding()
+            VStack {
+                Button(action: { showInfoView = true }) {
+                    Text("📶").padding()
+                }
+                Button(action: { renderTest() }) {
+                    Text("📜").padding()
+                }
             }
         }.sheet(isPresented: $showInfoView) {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
         }
+    }
+    
+    func renderTest() {
+        let testSource = """
+import Foundation
+
+func main() {
+    print("Well hello, World.")
+}
+""".data(using: .utf8)!
+        
+        MultipeerConnectionManager.shared.receivedCodeGrids.append(testSource)
     }
 }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftSyntax
+import SwiftSyntaxParser
 
 // File loading
 public protocol SwiftSyntaxFileLoadable {
