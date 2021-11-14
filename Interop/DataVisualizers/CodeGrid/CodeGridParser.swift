@@ -181,8 +181,14 @@ class CodeGridWorld {
         guard let cam = cameraProvider?() else { return }
         
         let gridNode = style.grid.rootNode
+        
         gridNode.simdPosition = cam.simdPosition
-        gridNode.simdPosition += cam.simdWorldFront * 5
+        gridNode.simdPosition += cam.simdWorldFront * 0.5
+        
+        gridNode.simdEulerAngles.y = cam.simdEulerAngles.y
+        gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
+//        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
+        gridNode.scale = SCNVector3(x: 0.01, y: 0.01, z: 0.01)
         rootContainerNode.addChildNode(gridNode)
     }
     
