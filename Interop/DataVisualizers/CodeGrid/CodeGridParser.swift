@@ -178,6 +178,7 @@ class CodeGridWorld {
     }
     
     func addInFrontOfCamera(style: WorldGridEditor.AddStyle) {
+        #if os(iOS)
         guard let cam = cameraProvider?() else { return }
         
         let gridNode = style.grid.rootNode
@@ -192,6 +193,7 @@ class CodeGridWorld {
         
         gridNode.simdPosition += -cam.simdWorldRight * (0.5 * gridNode.lengthX * 0.01)
         rootContainerNode.addChildNode(gridNode)
+        #endif
     }
     
     func addGrid(style: WorldGridEditor.AddStyle) {

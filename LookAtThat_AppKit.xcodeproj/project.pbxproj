@@ -68,6 +68,9 @@
 		B7815A03273E081100212176 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E42676AA5400F351B4 /* Syntax+Caching.swift */; };
 		B7815A05273E08C500212176 /* CodeSheetVisitor+DirectoryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7C26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift */; };
 		B7815A06273E08CB00212176 /* CodeSheetDirectoryRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */; };
+		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
+		B7AB37172745699900CEC7DD /* CodeSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37162745699900CEC7DD /* CodeSheetTests.swift */; };
+		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -249,6 +252,9 @@
 		B775C7982672800E00414972 /* CodeSheetParserV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetParserV2.swift; sourceTree = "<group>"; };
 		B775C79B2672803F00414972 /* ParsingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingState.swift; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
+		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
+		B7AB37162745699900CEC7DD /* CodeSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetTests.swift; sourceTree = "<group>"; };
+		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
@@ -432,6 +438,22 @@
 				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
 			);
 			path = CallStack;
+			sourceTree = "<group>";
+		};
+		B7AB37152745698B00CEC7DD /* CodeSheet */ = {
+			isa = PBXGroup;
+			children = (
+				B7AB37162745699900CEC7DD /* CodeSheetTests.swift */,
+			);
+			path = CodeSheet;
+			sourceTree = "<group>";
+		};
+		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
+			isa = PBXGroup;
+			children = (
+				B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */,
+			);
+			path = CodeGrid;
 			sourceTree = "<group>";
 		};
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
@@ -619,7 +641,10 @@
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				B7AB371827456A3500CEC7DD /* CodeGrid */,
+				B7AB37152745698B00CEC7DD /* CodeSheet */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
+				B7AB37132745696000CEC7DD /* TestBundle.swift */,
 				F07C49C9251C095200F28173 /* Info.plist */,
 			);
 			path = LookAtThat_AppKitTests;
@@ -965,8 +990,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */,
 				B775C7972671AD1200414972 /* String+Extensions.swift in Sources */,
+				B7AB37172745699900CEC7DD /* CodeSheetTests.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
+				B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

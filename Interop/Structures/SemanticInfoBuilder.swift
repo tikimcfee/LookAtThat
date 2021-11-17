@@ -70,7 +70,7 @@ class SemanticInfoBuilder {
 					color: CodeGridColors.structDecl 
 				)
 			case .functionDecl(let funcl):
-				return SemanticInfo(
+                return SemanticInfo(
 					node: node,
 					referenceName: "\(funcl.identifier)\(funcl.signature)", 
 					color: CodeGridColors.functionDecl
