@@ -23,7 +23,7 @@ class TestBundle {
         Bundle.main.url(forResource: $0, withExtension: "")
     }
     
-    lazy var testFile = Self.testFileResourceURLs[0]
+    lazy var testFile = Self.testFileResourceURLs[1]
     var glyphs: GlyphLayerCache!
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!

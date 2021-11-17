@@ -100,43 +100,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testRewriting() throws {
-        
-        let testTraceCall = """
-func laztrace(
-    _ file: String = #fileID,
-    _ function: String = #function,
-    _ args: Any...
-) {
-  print(file, function, args)
-}
-"""
-        
-        let testSource = """
-func foo(_ ivan: String) {
-  print("hello, world")
-}
-
-func bar(lugo: String) {
-  print("goodbye, franke")
-}
-
-func gnar() {
-  print("flibble, flooble")
-}
-
-func gingunkafunk(a: String, b: String, c: String, aReallyLongOne: String, _ mrTripUUp: String) {
-  print("goodbye, franke")
-}
-
-func johnny() {
-  func go() {
-    func deeper() {
-        print("lul")
-    }
-  }
-}
-"""
-        
         let rewriter = StateCapturingRewriter(
             onVisitAny: { node in
                 return .visitChildren
@@ -145,21 +108,65 @@ func johnny() {
                 
             }
         )
-        let parsed = try! SyntaxParser.parse(source: testSource)
+        
+        let parsed = try! SyntaxParser.parse(bundle.testFile)
+        let rewritten = rewriter.visit(parsed)
+        print(rewritten.description)
+    }
+    
+    func testTracing() throws {
+        let rewriter = StateCapturingRewriter(
+            onVisitAny: { node in
+                return .visitChildren
+            },
+            onVisitAnyPost: { _ in
+                
+            }
+        )
+        
+        let parsed = try! SyntaxParser.parse(bundle.testFile)
         let rewritten = rewriter.visit(parsed)
         print(rewritten.description)
     }
     
 }
 
+class LaZTraceBox {
+    struct Call {
+        let fileID: String
+        let function: String
+        let args: [Any?]
+    }
+    
+    var recordedCalls = [Call]()
+    
+    func laztrace(
+        _ fileID: String,
+        _ function: String,
+        _ args: Any?...
+    ) {
+        recordedCalls.append(
+            Call(
+                fileID: fileID,
+                function: function,
+                args: args
+            )
+        )
+    }
+}
+
+let traceBox = LaZTraceBox()
+func laztrace(
+    _ fileID: String,
+    _ function: String,
+    _ args: Any?...
+) {
+    traceBox.laztrace(fileID, function, args)
+}
+
 class StateCapturingRewriter: SyntaxRewriter {
     let onVisit: (Syntax) -> SyntaxVisitorContinueKind
     let onVisitAnyPost: (Syntax) -> Void
-    
-    lazy var callTrace = """
-laztrace()
-"""
-    lazy var callSyntax = try! SyntaxParser.parse(source: callTrace)
     
     init(onVisitAny: @escaping (Syntax) -> SyntaxVisitorContinueKind,
          onVisitAnyPost: @escaping (Syntax) -> Void) {
