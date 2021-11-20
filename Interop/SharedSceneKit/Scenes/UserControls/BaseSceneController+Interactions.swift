@@ -136,10 +136,15 @@ extension BaseSceneController {
               var positioningNode = firstResult.node.parent else {
             return
         }
-        if HitTestType.semanticTab.rawValue == firstResult.node.categoryBitMask {
+        
+        switch firstResult.node.categoryBitMask {
+        case HitTestType.semanticTab.rawValue,
+            HitTestType.codeGridGlyphs.rawValue:
             // SemanticInfo is setup as a child of the container.
             // we want to position the parent itself when dragged, so move up the hierarchy.
             positioningNode = positioningNode.parent!
+        default:
+            break
         }
 
         touchState.pan.gesturePoint = currentTouchLocation
@@ -300,5 +305,10 @@ class TouchStart {
                                _ dZ: VectorFloat) {
         positioningNode.position =
             positioningNodeStart.translated(dX: dX, dY: dY, dZ: dZ)
+        
+//        print(dX, dY, dZ)
+//        positioningNode.simdPosition += positioningNode.simdWorldFront * Float(dZ)
+//        positioningNode.simdPosition += positioningNode.simdWorldUp * Float(dY)
+//        positioningNode.simdPosition += positioningNode.simdWorldRight * Float(dX)
     }
 }
