@@ -169,7 +169,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         (0..<gridCount).forEach { _ in
             let newGrid = newGrid().consume(syntax: parsed.root)
-            snapping.connect(sourceGrid: focusedGrid, to: [.right(newGrid)])
+            snapping.connectWithInverses(sourceGrid: focusedGrid, to: [.right(newGrid)])
             focusedGrid = newGrid
         }
         focusedGrid = firstGrid
@@ -186,6 +186,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         wait(for: [linkCount], timeout: 1)
         let expectedLengthX = allGrids.reduce(into: VectorFloat(0)) { length, grid in
             length += grid.rootNode.lengthX
+        }
+        XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
+        totalLengthX = firstGrid.rootNode.lengthX
+        snapping.iterateOver(allGrids.last!, direction: .left) { grid in
+            print(totalLengthX)
+            totalLengthX += grid.rootNode.lengthX
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
     }

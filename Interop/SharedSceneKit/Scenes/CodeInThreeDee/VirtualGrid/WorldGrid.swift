@@ -111,6 +111,8 @@ class WorldGridEditor {
         switch style {
         case .trailingFromLastGrid(let codeGrid):
             snapping.connect(sourceGrid: lastGrid, to: [.right(codeGrid)])
+            snapping.connect(sourceGrid: codeGrid, to: [.left(lastGrid)])
+            
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: lastGrid.rootNode.lengthX + 8.0,
                 dY: 0,
@@ -119,7 +121,7 @@ class WorldGridEditor {
             
         case .inNextRow(let codeGrid):
             snapping.connect(sourceGrid: lastGrid, to: [.down(codeGrid)])
-            
+            var maxHeight = snapping.gridsRelativeTo(lastGrid, .left) 
             
             
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(

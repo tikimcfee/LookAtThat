@@ -36,6 +36,28 @@ extension WorldGridSnapping {
         mapping[sourceGrid] = toUnion
     }
     
+    func connectWithInverses(sourceGrid: CodeGrid, to newDirectionalGrids: Directions) {
+        connect(sourceGrid: sourceGrid, to: newDirectionalGrids)
+        for mapping in newDirectionalGrids {
+            switch mapping {
+            case let .right(grid):
+                connect(sourceGrid: grid, to: [.left(sourceGrid)])
+            case let .left(grid):
+                connect(sourceGrid: grid, to: [.right(sourceGrid)])
+                
+            case let .up(grid):
+                connect(sourceGrid: grid, to: [.down(sourceGrid)])
+            case let .down(grid):
+                connect(sourceGrid: grid, to: [.up(sourceGrid)])
+                
+            case let .forward(grid):
+                connect(sourceGrid: grid, to: [.backward(sourceGrid)])
+            case let .backward(grid):
+                connect(sourceGrid: grid, to: [.forward(sourceGrid)])
+            }
+        }
+    }
+    
     func gridsRelativeTo(_ targetGrid: CodeGrid) -> Set<RelativeGridMapping> {
         return mapping[targetGrid] ?? []
     }
