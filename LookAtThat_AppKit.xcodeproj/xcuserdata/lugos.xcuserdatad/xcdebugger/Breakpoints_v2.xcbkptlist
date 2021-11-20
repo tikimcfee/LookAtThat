@@ -135,17 +135,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E094DED9-1EDE-4299-86E2-468B134A0840"
-            shouldBeEnabled = "Yes"
+            uuid = "CE0388E1-867A-4CCB-A65B-665531500789"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Interop/DataVisualizers/CodeGrid/CodeGridParser.swift"
+            filePath = "Interop/SharedSceneKit/Scenes/CodeInThreeDee/VirtualGrid/WorldGrid.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "stackVertical(_:_:)"
-            landmarkType = "9">
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "transformedByAdding(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -103,36 +103,42 @@ class WorldGridEditor {
     @discardableResult
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
         guard let lastGrid = lastFocusedGrid else {
-            print("Setting first grid")
+            print("Setting first focused grid: \(style)")
             lastFocusedGrid = style.grid
             return self
         }
         
         switch style {
         case .trailingFromLastGrid(let codeGrid):
-            snapping.connect(sourceGrid: lastGrid, to: [.right(codeGrid)])
-            snapping.connect(sourceGrid: codeGrid, to: [.left(lastGrid)])
-            
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(codeGrid)])
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: lastGrid.rootNode.lengthX + 8.0,
                 dY: 0,
                 dZ: 0
             )
+            lastFocusedGrid = codeGrid
             
         case .inNextRow(let codeGrid):
-            snapping.connect(sourceGrid: lastGrid, to: [.down(codeGrid)])
-            var maxHeight = snapping.gridsRelativeTo(lastGrid, .left) 
-            
-            
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.down(codeGrid)])
+            var maxHeight = 0.0
+            snapping.iterateOver(lastGrid, direction: .left) { grid in
+                maxHeight = max(maxHeight, grid.rootNode.lengthY)
+            }
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
-                dX: lastGrid.rootNode.lengthX + 8.0,
-                dY: 0,
+                dX: 0,
+                dY: -maxHeight - 8.0,
                 dZ: 0
             )
+            lastFocusedGrid = codeGrid
             
         case .inNextPlane(let codeGrid):
-            snapping.connect(sourceGrid: lastGrid, to: [.backward(codeGrid)])
-
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.backward(codeGrid)])
+            codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
+                dX: 0,
+                dY: 0,
+                dZ: 128.0
+            )
+            lastFocusedGrid = codeGrid
         }
         return self
     }

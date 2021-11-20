@@ -137,14 +137,22 @@ class CodePagesController: BaseSceneController, ObservableObject {
             return (event, nil)
             
         case let .newMultiCommandRecursiveAll(parent, _):
-            let newRoot = self.codeGridParser.makeGridsForRootDirectory(parent)
-            sceneTransaction {
-                self.codeGridParser.editorWrapper.rootContainerNode.addChildNode(newRoot.rootNode)
+            let newRoot = self.codeGridParser.__versionTwo__RenderPathAsRoot(parent) { firstGrid in
+//                sceneTransaction {
+//                    self.sceneState.rootGeometryNode.addChildNode(firstGrid.rootNode)
+//                }
+                DispatchQueue.main.async {
+                    self.sceneState.rootGeometryNode.addChildNode(firstGrid.rootNode)
+                }
+                
             }
+            
             return (event, nil)
         }
         
     }.eraseToAnyPublisher()
+    
+    
 
     func attachMouseSink() {
         #if os(OSX)

@@ -83,29 +83,74 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 //    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     let rootGridColor = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     
-    func __versionTwo__RenderPathAsRoot(_ rootPath: FileKitPath) -> CodeGrid {
-        let rootGrid = newGrid().backgroundColor(rootGridColor)
-        editorWrapper.rootContainerNode = rootGrid.rootNode
+    private let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
+    
+    func __versionTwo__RenderPathAsRoot(
+        _ rootPath: FileKitPath,
+        _ immediateReceiver: ((CodeGrid) -> Void)? = nil
+    ) -> CodeGrid {
+        let newRootGrid = newGrid().backgroundColor(rootGridColor)
+        editorWrapper.rootContainerNode = newRootGrid.rootNode
+        immediateReceiver?(newRootGrid)
         
-        func recurseIntoDirectory(_ directory: FileKitPath) {
+        func recurseIntoDirectory(_ directory: FileKitPath, root: CodeGrid) {
+            // we're recursing but setting a side effect focus position.
+            // retain the original position on entrance, and reset within the loop
+            // to ensure the original containers are maintained for files.
+            let originalContainerNode = editorWrapper.rootContainerNode
             forEachChildOf(directory) { index, childPath in
                 if childPath.isDirectory {
+                    maybeRenderClock?.wait()
+                    print("Dir -> \(childPath.url.lastPathComponent)")
                     // start a new directory
-                    recurseIntoDirectory(childPath)
+                    let newDirectoryContainer = newGrid().backgroundColor(rootGridColor)
+                    editorWrapper.rootContainerNode = newDirectoryContainer.rootNode
+                    root.rootNode.addChildNode(newDirectoryContainer.rootNode)
+                    
+                    let lastGridRootNode = editorWrapper.worldGridEditor.lastFocusedGrid?.rootNode
+                    let lastGridLengthX = lastGridRootNode?.lengthX ?? 0.0
+                    let lastGridPosition = lastGridRootNode?.position ?? SCNVector3Zero
+                    newDirectoryContainer.rootNode.position =
+                        lastGridPosition.translated(dX: lastGridLengthX + 8.0, dY: 0, dZ: 128.0)
+                    
+                    recurseIntoDirectory(childPath, root: newDirectoryContainer)
+                    newDirectoryContainer.sizeGridToContainerNode()
                 } else {
+                    maybeRenderClock?.wait()
+                    print("File -> \(childPath.url.lastPathComponent)")
+                    editorWrapper.rootContainerNode = originalContainerNode
                     guard let childGrid = renderGrid(childPath.url) else {
                         print("No grid rendered for \(childPath)")
                         return
                     }
                     // stack vertically or horizontally
+                    self.editorWrapper.addGrid(style: .inNextRow(childGrid))
                 }
             }
         }
-
-        // Kickoff
-        recurseIntoDirectory(rootPath)
         
-        return rootGrid.sizeGridToContainerNode()
+        var rootRenderComplete = false
+        var maybeRenderClock: DispatchSemaphore?
+        if immediateReceiver != nil {
+            let clock = DispatchSemaphore(value: 1)
+            maybeRenderClock = clock
+            QuickLooper(
+                loop: {
+                    clock.signal()
+                    newRootGrid.sizeGridToContainerNode()
+                },
+                queue: DispatchQueue(label: "RenderClock", qos: .userInitiated)
+            ).runUntil({ rootRenderComplete })
+        }
+        
+        // Kickoff
+        renderQueue.async {
+            recurseIntoDirectory(rootPath, root: newRootGrid)
+            rootRenderComplete = true
+        }
+        
+        
+        return newRootGrid.sizeGridToContainerNode()
     }
     
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {

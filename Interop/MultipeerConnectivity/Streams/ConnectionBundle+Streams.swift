@@ -81,13 +81,18 @@ extension OutputStream {
 
 struct QuickLooper {
     let loop: () -> Void
-    func run(_ stop: @escaping () -> Bool) {
-        guard !stop() else { return }
-        DispatchQueue.main.async {
+    let queue: DispatchQueue
+    init(loop: @escaping () -> Void,
+         queue: DispatchQueue = .main) {
+        self.loop = loop
+        self.queue = queue
+    }
+    func runUntil(_ stopCondition: @escaping () -> Bool) {
+        guard !stopCondition() else { return }
+        loop()
+        queue.asyncAfter(deadline: .now() + 1) {
             loop()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                run(stop)
-            }
+            runUntil(stopCondition)
         }
     }
 }
@@ -138,7 +143,7 @@ struct InputStreamReader {
             return Data(dataAccumulator)
         }
         
-        QuickLooper(loop: printStream).run { isFinalized }
+        QuickLooper(loop: printStream).runUntil { isFinalized }
         
         whileStreamHasBytes {
             let bufferSize = buffer.capacity

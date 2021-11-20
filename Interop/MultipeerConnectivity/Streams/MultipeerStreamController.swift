@@ -82,7 +82,7 @@ class MultipeerStreamController: NSObject {
                 print("InputStream to '\(openStream.target.displayName)' opened")
                 
                 QuickLooper(loop: { print(stream.whyIsItBroken) } )
-                    .run { stream.streamError != nil || stream.streamStatus == .atEnd }
+                    .runUntil { stream.streamError != nil || stream.streamStatus == .atEnd }
                 
             } else if let outputStream = stream as? OutputStream {
                 guard let openStream = self.manager.outputStreamBiMap[outputStream] else {
