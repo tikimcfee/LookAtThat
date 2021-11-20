@@ -79,6 +79,7 @@ extension WorldGridEditor {
         case trailingFromLastGrid(CodeGrid)
         case inNextRow(CodeGrid)
         case inNextPlane(CodeGrid)
+        case atFocusPosition(CodeGrid, FocusPosition)
         var grid: CodeGrid {
             switch self {
             case .trailingFromLastGrid(let codeGrid):
@@ -86,6 +87,8 @@ extension WorldGridEditor {
             case .inNextRow(let codeGrid):
                 return codeGrid
             case .inNextPlane(let codeGrid):
+                return codeGrid
+            case .atFocusPosition(let codeGrid, _):
                 return codeGrid
             }
         }
@@ -107,8 +110,35 @@ class WorldGridEditor {
     @discardableResult
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
         switch style {
+        case .atFocusPosition(let codeGrid, let requestPosition):
+            // This is a our 'blit' function. It is going to start terribly.
+            // If the position is not available because the array is too small,
+            // then we'll recreate with empty grids, and find a way to jump
+            // between spot. Again, a bad idea.
+            break
+            
         case .trailingFromLastGrid(let codeGrid):
+            while focusPosition.z >= cache.indices.upperBound {
+                print("Adding new plane at index \(cache.count - 1)")
+                cache.append(WorldGridPlane())
+            }
+            
+            var updatePlane = cache[focusPosition.z]
+            while focusPosition.y >= updatePlane.indices.upperBound {
+                print("Adding new row at index \(updatePlane.count - 1)")
+                updatePlane.append(WorldGridRow())
+            }
+            cache[focusPosition.z] = updatePlane
+            
+            let row = updatePlane[focusPosition.y]
+            
+            
             updateRow(z: focusPosition.z, y: focusPosition.y) { row in
+                while focusPosition.x >= row.indices.upperBound {
+                    print("Adding new empty grid at index \(row.count - 1)")
+                    row.append(CodeGridEmpty.make())
+                }
+                
                 let lastDimensions = lastGridDimensions
                 let isFirst = row.isEmpty
                 row.append(codeGrid)
@@ -116,12 +146,12 @@ class WorldGridEditor {
                 codeGrid.rootNode.position = lastDimensions.position.translated(
                     dX: lastDimensions.size.lengthX + (isFirst ? 0 : 8.0)
                 )
-
+                
                 if !isFirst {
                     focusPosition.right()
                 }
             }
-
+            
         case .inNextRow(let codeGrid):
             updatePlane(z: focusPosition.z) { plane in
                 let lastDimensions = lastGridDimensions
@@ -135,17 +165,19 @@ class WorldGridEditor {
                     height = max(height, grid.rootNode.lengthY)
                 }
                 let finalY = lastDimensions.position.y
-                    - maxRowHeight
-                    - 16.0
+                - maxRowHeight
+                - 16.0
                 
                 codeGrid.rootNode.position = SCNVector3(
-                    x: 0.0,
+                    x: lastDimensions.position.x,
                     y: finalY,
                     z: lastDimensions.position.z
                 )
                 
                 focusPosition.x = 0
-                focusPosition.down()
+                if !lastRow.isEmpty {
+                    focusPosition.down()
+                }
             }
             
         case .inNextPlane(let codeGrid):
@@ -158,13 +190,13 @@ class WorldGridEditor {
             cache.append(newPlane)
             
             codeGrid.rootNode.position = SCNVector3(
-                x: 0.0,
-                y: 0.0,
+                x: lastDimensions.position.x,
+                y: lastDimensions.position.y,
                 z: lastDimensions.position.z - default__PlaneSpacing
             )
             
-            focusPosition.x = 0
-            focusPosition.y = 0
+            //            focusPosition.x = 0
+            //            focusPosition.y = 0
             focusPosition.forward()
         }
         return self
@@ -202,9 +234,42 @@ extension WorldGridEditor {
             plane[y] = row
         }
     }
+    
+    func iterateColumn(
+        x: Int,
+        z: Int,
+        _ onIterate: @escaping (CodeGrid) -> Void
+    ) {
+        updatePlane(z: z) { columnPlane in
+            // number of rows in grid; iterate from 0 to last row
+            let planeHeight = columnPlane.count
+            
+            (0...planeHeight).forEach { rowIndex in
+                guard columnPlane.indices.contains(rowIndex) else {
+                    print("Invalid row iteration at \(x)")
+                    return
+                }
+                
+                let rowForColumn = columnPlane[rowIndex]
+                guard rowForColumn.indices.contains(x) else {
+                    print("Invalid column iteration at \(x)")
+                    return
+                }
+                
+                let gridAtColumn = rowForColumn[x]
+                onIterate(gridAtColumn)
+            }
+        }
+    }
 }
 
 extension WorldGridEditor {
+    
+    func countGridsInColumn(_ z: Int, _ x: Int) -> Int {
+        var count = 0
+        iterateColumn(x: x, z: z) { _ in count += 1}
+        return count
+    }
     
     func countGridsInRow(_ z: Int, _ y: Int) -> Int {
         guard cache.indices.contains(z),
@@ -301,5 +366,78 @@ extension WorldGridEditor {
             focusPosition.down()
             focusPosition.x = max(0, min(focusPosition.x, countGridsInRow(focusPosition.z, focusPosition.y) - 1))
         }
+    }
+}
+
+class CodeGridSnapping {
+    // map the relative directions you can go from a grid
+    // - a direction has a reference to target grid, such that it can become a 'focus'
+    // grid -> Set<Direction> = {left(toLeft), right(toRight), down(below), forward(zFront)}
+    enum RelativeGridMapping: Hashable {
+        case left(CodeGrid)
+        case right(CodeGrid)
+        case up(CodeGrid)
+        case down(CodeGrid)
+        case forward(CodeGrid)
+        case backward(CodeGrid)
+        
+        var targetGrid: CodeGrid {
+            switch self {
+            case let .left(grid),
+                 let .right(grid),
+                 let .up(grid),
+                 let .down(grid),
+                 let .forward(grid),
+                let .backward(grid):
+                return grid
+            }
+        }
+        
+        var direction: SelfRelativeDirection {
+            switch self {
+            case .left: return .left
+            case .right: return .right
+            case .up: return .up
+            case .down: return .down
+            case .forward: return .forward
+            case .backward: return .backward
+            }
+        }
+        
+        static func == (_ relativeMapping: RelativeGridMapping, _ direction: SelfRelativeDirection) -> Bool {
+            return relativeMapping.direction == direction
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(targetGrid.id)
+        }
+    }
+    
+    typealias Mapping = [CodeGrid: Set<RelativeGridMapping>]
+    typealias Directions = Set<RelativeGridMapping>
+    var mapping = Mapping()
+    
+    func connect(sourceGrid: CodeGrid, to newDirectionalGrids: Directions) {
+        var toUnion = mapping[sourceGrid] ?? {
+            let directions = Directions()
+            mapping[sourceGrid] = directions
+            return directions
+        }()
+        toUnion.formUnion(newDirectionalGrids)
+        mapping[sourceGrid] = toUnion
+    }
+    
+    func gridsRelativeTo(_ targetGrid: CodeGrid) -> Set<RelativeGridMapping> {
+        return mapping[targetGrid] ?? []
+    }
+    
+    func gridsRelativeTo(_ targetGrid: CodeGrid, _ direction: SelfRelativeDirection) -> Set<RelativeGridMapping> {
+        gridsRelativeTo(targetGrid).filter { $0 == direction }
+    }
+}
+
+extension CodeGrid: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

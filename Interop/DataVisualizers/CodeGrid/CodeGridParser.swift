@@ -19,23 +19,24 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 		CodeGridTokenCache()
 	}()
     
-    lazy var world: CodeGridWorld = {
-        CodeGridWorld(cameraProvider: {
+    lazy var editorWrapper: CodeGridWorld = {
+        let world = CodeGridWorld(cameraProvider: {
             self.cameraNode
         })
+        return world
     }()
     
     var cameraNode: SCNNode?
     
     func withNewGrid(_ url: URL, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
         if let grid = renderGrid(url) {
-            operation(world, grid)
+            operation(editorWrapper, grid)
         }
     }
     
     func withNewGrid(_ source: String, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
         if let grid = renderGrid(source) {
-            operation(world, grid)
+            operation(editorWrapper, grid)
         }
     }
     
@@ -82,49 +83,53 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 //    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     let rootGridColor = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     
+    func __versionTwo__RenderPathAsRoot(_ rootPath: FileKitPath) -> CodeGrid {
+        let rootGrid = newGrid().backgroundColor(rootGridColor)
+        editorWrapper.rootContainerNode = rootGrid.rootNode
+        
+        func recurseIntoDirectory(_ directory: FileKitPath) {
+            forEachChildOf(directory) { index, childPath in
+                if childPath.isDirectory {
+                    // start a new directory
+                    recurseIntoDirectory(childPath)
+                } else {
+                    guard let childGrid = renderGrid(childPath.url) else {
+                        print("No grid rendered for \(childPath)")
+                        return
+                    }
+                    // stack vertically or horizontally
+                }
+            }
+        }
+
+        // Kickoff
+        recurseIntoDirectory(rootPath)
+        
+        return rootGrid.sizeGridToContainerNode()
+    }
+    
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
         let rootGrid = newGrid().backgroundColor(rootGridColor)
         
-        var lastRenderedGrid: CodeGrid?
-        
         func stackVertical(_ index: Int, _ newGrid: CodeGrid) {
-            let lastStart = lastRenderedGrid?.rootNode.position.y ?? 0
-            let lastLength = lastRenderedGrid?.rootNode.lengthY ?? 0
-            let space = VectorFloat(index == 0 ? 0.0 : 2.0)
-            
-            rootGrid.rootNode.addChildNode(newGrid.rootNode)
-            newGrid.translated(dY: lastStart - lastLength - space)
+            editorWrapper.addGrid(style: .inNextRow(newGrid))
         }
         
         func stackHorizontal(_ index: Int, _ newGrid: CodeGrid) {
-            let lastStart = lastRenderedGrid?.rootNode.position.x ?? 0
-            let lastLength = lastRenderedGrid?.rootNode.lengthX ?? 0
-            let space = VectorFloat(index == 0 ? 0.0 : 4.0)
-            
-            rootGrid.rootNode.addChildNode(newGrid.rootNode)
-            newGrid.translated(dX: lastStart + lastLength + space)
+            editorWrapper.addGrid(style: .trailingFromLastGrid(newGrid))
         }
         
         func stackOrthogonal(_ index: Int, _ newGrid: CodeGrid) {
-            let lastStart = lastRenderedGrid?.rootNode.position.z ?? 0
-            let lsatLength = lastRenderedGrid?.rootNode.lengthZ ?? 0
-            let space = VectorFloat(index == 0 ? 0.0 : 16.0)
-            
-            rootGrid.rootNode.addChildNode(newGrid.rootNode)
-            newGrid.translated(dX: 8.0, dZ: lastStart + lsatLength + space)
+            editorWrapper.addGrid(style: .inNextPlane(newGrid))
         }
         
         func doMainLoop(_ index: Int, _ pathChild: FileKitPath) {
             if pathChild.isDirectory {
-                let newGrid = renderDirectoryInLine(pathChild).translated(dX: 4.0)
+                let newGrid = renderDirectoryInLine(pathChild).translated(dY: 4.0)
                 stackOrthogonal(index, newGrid)
-                lastRenderedGrid = newGrid
-                
             } else if let childGrid = renderGrid(pathChild.url) {
                 let newGrid = childGrid.translated(dZ: 4.0)
                 stackVertical(index, newGrid)
-                lastRenderedGrid = newGrid
-                
             } else {
                 print("No grid for \(pathChild)")
                 return
@@ -147,9 +152,9 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         forEachChildOf(path) { _, pathChild in
             guard let childGrid = makeGridFromPathType(pathChild) else { return }
             
-            let lastLengthX = lastChild?.rootNode.lengthX ?? 0
+            let lastLengthX = lastChild?.rootNode.lengthY ?? 0
             let lastPosition = lastChild?.rootNode.position ?? SCNVector3Zero
-            let translatedPosition = lastPosition.translated(dX: lastLengthX + 8, dZ: 1.0)
+            let translatedPosition = lastPosition.translated(dY: lastLengthX + 8, dZ: 1.0)
             childGrid.rootNode.position = translatedPosition
                 
             newParentGrid.rootNode.addChildNode(childGrid.rootNode)
@@ -170,7 +175,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
 
 class CodeGridWorld {
     var rootContainerNode: SCNNode = SCNNode()
-    var worldGrid = WorldGridEditor()
+    var worldGridEditor = WorldGridEditor()
     var cameraProvider: (() -> SCNNode?)?
     
     init(cameraProvider: (() -> SCNNode?)?) {
@@ -197,20 +202,20 @@ class CodeGridWorld {
     }
     
     func addGrid(style: WorldGridEditor.AddStyle) {
-        worldGrid.transformedByAdding(style)
+        worldGridEditor.transformedByAdding(style)
         rootContainerNode.addChildNode(style.grid.rootNode)
     }
     
     func changeFocus(_ direction: SelfRelativeDirection) {
-        worldGrid.shiftFocus(direction)
+        worldGridEditor.shiftFocus(direction)
         moveCameraToFocus()
     }
     
     private func moveCameraToFocus() {
         guard let camera = cameraProvider?(),
-              let grid = worldGrid.gridAtFocusPosition
+              let grid = worldGridEditor.gridAtFocusPosition
         else {
-            print("updated focus to empty grid: \(worldGrid.focusPosition)")
+            print("updated focus to empty grid: \(worldGridEditor.focusPosition)")
             return
         }
         camera.position = grid.rootNode.position.translated(

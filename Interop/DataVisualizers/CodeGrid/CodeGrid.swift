@@ -12,6 +12,17 @@ import SwiftSyntax
 let kContainerName = "kContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
+class CodeGridEmpty: CodeGrid {
+    static let emptyGlyphCache = GlyphLayerCache()
+    static let emptyTokenCache = CodeGridTokenCache()
+    static func make() -> CodeGrid {
+        CodeGrid(
+            glyphCache: emptyGlyphCache,
+            tokenCache: emptyTokenCache
+        )
+    }
+}
+
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	

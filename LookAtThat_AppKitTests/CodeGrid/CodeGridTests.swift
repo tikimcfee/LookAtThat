@@ -125,8 +125,84 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         let parsed = try! SyntaxParser.parse(bundle.testFile)
-        let rewritten = rewriter.visit(parsed)
-        print(rewritten.description)
+        let grid = CodeGrid(glyphCache: GlyphLayerCache(), tokenCache: CodeGridTokenCache())
+        grid.consume(syntax: parsed.root)
+        
+//        let rewritten = rewriter.visit(parsed)
+//        print(rewritten.description)
+    }
+    
+    func testSnapping_EasyRight() throws {
+        let snapping = CodeGridSnapping()
+        
+        let firstGrid = CodeGridEmpty.make()
+        let second_toRightOfFirst = CodeGridEmpty.make()
+        let third_toRightOfSecond = CodeGridEmpty.make()
+        
+        snapping.connect(sourceGrid: firstGrid, to: [.right(second_toRightOfFirst)])
+        snapping.connect(sourceGrid: second_toRightOfFirst, to: [.right(third_toRightOfSecond)])
+        
+        let linkCount = expectation(description: "Traversal must occur exactly twice; twice to the right")
+        linkCount.expectedFulfillmentCount = 2
+        snapping.gridsRelativeTo(firstGrid).forEach { relativeDirection in
+            guard case CodeGridSnapping.RelativeGridMapping.right = relativeDirection else {
+                XCTFail("Where did \(relativeDirection) come from?")
+                return
+            }
+            
+            linkCount.fulfill()
+            
+            snapping.gridsRelativeTo(relativeDirection.targetGrid).forEach { secondaryDirection in
+                guard case CodeGridSnapping.RelativeGridMapping.right = secondaryDirection else {
+                    XCTFail("Where did \(secondaryDirection) come from???")
+                    return
+                }
+                
+                linkCount.fulfill()
+            }
+        }
+        wait(for: [linkCount], timeout: 1)
+    }
+    
+    func testSnapping_Complicated() throws {
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        var allGrids = [CodeGrid]()
+        func newGrid() -> CodeGrid {
+            let newGrid = CodeGrid(glyphCache: GlyphLayerCache(), tokenCache: CodeGridTokenCache())
+            allGrids.append(newGrid)
+            return newGrid
+        }
+        
+        let snapping = CodeGridSnapping()
+        let firstGrid = newGrid().consume(syntax: parsed.root)
+        
+        let gridCount = 10
+        var focusedGrid = firstGrid
+        
+        (0..<gridCount).forEach { _ in
+            let newGrid = newGrid().consume(syntax: parsed.root)
+            snapping.connect(sourceGrid: focusedGrid, to: [.right(newGrid)])
+            focusedGrid = newGrid
+        }
+        focusedGrid = firstGrid
+        
+        let expectedRightCommands = gridCount
+        let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
+        linkCount.expectedFulfillmentCount = expectedRightCommands
+        var totalLengthX: VectorFloat = firstGrid.rootNode.lengthX
+        var relativeGrids = snapping.gridsRelativeTo(focusedGrid, .right)
+        while !relativeGrids.isEmpty {
+            print(totalLengthX)
+            let rightGridRelationship = try XCTUnwrap(relativeGrids.first, "Rightmost grid missing")
+            totalLengthX += rightGridRelationship.targetGrid.rootNode.lengthX
+            relativeGrids = snapping.gridsRelativeTo(rightGridRelationship.targetGrid, .right)
+            linkCount.fulfill()
+        }
+        wait(for: [linkCount], timeout: 15)
+        let expectedLengthX = allGrids.reduce(into: VectorFloat(0)) { length, grid in
+            length += grid.rootNode.lengthX
+        }
+        XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
     }
     
 }

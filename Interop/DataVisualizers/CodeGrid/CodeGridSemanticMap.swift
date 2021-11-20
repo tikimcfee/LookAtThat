@@ -110,8 +110,9 @@ extension CodeGridSemanticMap {
 	
 	func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {
 		let syntaxId = syntax.id
-		let existingSyntaxAssociations = syntaxIdToTokenNodes[syntaxId] ?? []
-		syntaxIdToTokenNodes[syntaxId] = existingSyntaxAssociations.union(newValue ?? [])
+		var existingSyntaxAssociations = syntaxIdToTokenNodes[syntaxId] ?? []
+        existingSyntaxAssociations.formUnion(newValue ?? [])
+		syntaxIdToTokenNodes[syntaxId] = existingSyntaxAssociations
 		
 		if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
 			category(for: decl) { category in

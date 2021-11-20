@@ -71,6 +71,8 @@
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB37172745699900CEC7DD /* CodeSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37162745699900CEC7DD /* CodeSheetTests.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
+		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
+		B7C0C3F02745F05A0021F50B /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -199,6 +201,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B7C0C3F02745F05A0021F50B /* SwiftTrace in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +352,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,6 +795,7 @@
 			);
 			name = LookAtThat_AppKitTests;
 			packageProductDependencies = (
+				B7C0C3EE2745F05A0021F50B /* SwiftTrace */,
 			);
 			productName = LookAtThat_AppKitTests;
 			productReference = F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */;
@@ -1503,6 +1508,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */;
 			productName = FileKit;
+		};
+		B7C0C3EE2745F05A0021F50B /* SwiftTrace */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
+			productName = SwiftTrace;
 		};
 		B7E499C5268E80E6002956D7 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;

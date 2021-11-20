@@ -40,11 +40,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
         
-        sceneState.rootGeometryNode.addChildNode(
-            codeGridParser.world.rootContainerNode
-        )
-
-        codeGridParser.cameraNode = sceneView.pointOfView
+        // Don't add the world immediately; use it to draw grids and then add the grids instead
+//        sceneState.rootGeometryNode.addChildNode(
+//            codeGridParser.world.rootContainerNode
+//        )
+        codeGridParser.cameraNode = sceneView.pointOfView ?? sceneCameraNode
     }
     
     #if os(macOS)
@@ -64,7 +64,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         }
         interceptor.onNewFocusChange = { focus in
             sceneTransaction {
-                self.codeGridParser.world.changeFocus(focus)
+                self.codeGridParser.editorWrapper.changeFocus(focus)
             }
         }
         return interceptor
@@ -139,9 +139,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
         case let .newMultiCommandRecursiveAll(parent, _):
             let newRoot = self.codeGridParser.makeGridsForRootDirectory(parent)
             sceneTransaction {
-                self.codeGridParser.world.rootContainerNode.addChildNode(newRoot.rootNode)
+                self.codeGridParser.editorWrapper.rootContainerNode.addChildNode(newRoot.rootNode)
             }
-            
             return (event, nil)
         }
         
@@ -313,7 +312,7 @@ extension CodePagesController {
 				// when this mode is off, it will do some necessarily sane thing like defaulting to a value that produces
 				// the least known human harm when implemented.
                 sceneTransaction {
-                    self.codeGridParser.world.addGrid(style: .trailingFromLastGrid(newSyntaxGlyphGrid))
+                    self.codeGridParser.editorWrapper.addGrid(style: .trailingFromLastGrid(newSyntaxGlyphGrid))
                 }
             }
         }
@@ -329,7 +328,7 @@ extension CodePagesController {
                 .sorted(by: { $0.renderer.lineCount > $1.renderer.lineCount })
                 .forEach { grid in
                     sceneTransaction {
-                        self.codeGridParser.world.addGrid(style: .trailingFromLastGrid(grid))
+                        self.codeGridParser.editorWrapper.addGrid(style: .trailingFromLastGrid(grid))
                     }
                 }
             }
