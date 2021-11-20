@@ -25,7 +25,7 @@ class CodeGrid: Identifiable, Equatable {
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    var displayMode: DisplayMode = .glyphs {
+    var displayMode: DisplayMode = .layers {
         willSet { willSetDisplayMode(newValue) }
     }
 	
@@ -263,26 +263,32 @@ extension CodeGrid {
                 tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
             }
             
+            func walkHierarchyForSemantics() {
+                // Walk the parenty hierarchy and associate these nodes with that parent.
+                // Add semantic info to lookup for each parent node found.
+                var tokenParent: Syntax? = Syntax(token)
+                while tokenParent != nil {
+                    guard let parent = tokenParent else { continue }
+                    codeGridSemanticInfo.mergeSemanticInfo(
+                        parent.id,
+                        token.id.stringIdentifier,
+                        semanticInfoBuilder.semanticInfo(for: parent)
+                    )
+                    tokenTextNodes.formUnion(leadingTriviaNodes)
+                    tokenTextNodes.formUnion(trailingTriviaNodes)
+                    codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
+                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
+                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
+                    tokenParent = parent.parent
+                }
+            }
+            
             switch displayMode {
             case .layers: writeAttributedText()
             case .glyphs: writeGlyphs()
             }
-			
-			// Walk the parenty hierarchy and associate these nodes with that parent.
-			// Add semantic info to lookup for each parent node found.
-			var tokenParent: Syntax? = Syntax(token)
-			while tokenParent != nil {
-				guard let parent = tokenParent else { continue }
-				codeGridSemanticInfo.mergeSemanticInfo(
-					parent.id,
-					token.id.stringIdentifier,
-					semanticInfoBuilder.semanticInfo(for: parent)
-				)
-				codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
-				codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
-				codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
-				tokenParent = parent.parent
-			}
+            
+//            walkHierarchyForSemantics()
         }
         
         switch displayMode {
