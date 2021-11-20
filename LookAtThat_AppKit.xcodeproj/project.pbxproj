@@ -27,6 +27,8 @@
 		B735A9EB2676AB1D00F351B4 /* WordGeometryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */; };
 		B735A9ED2676AB4500F351B4 /* WordColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EC2676AB4500F351B4 /* WordColorCache.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
+		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
+		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A792676F6420021299F /* CodeSheetVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A782676F6420021299F /* CodeSheetVisitor.swift */; };
 		B74E7A7B2676F9C00021299F /* CodeSheetDirectoryRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */; };
@@ -245,6 +247,7 @@
 		B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGeometryCache.swift; sourceTree = "<group>"; };
 		B735A9EC2676AB4500F351B4 /* WordColorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordColorCache.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
+		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A782676F6420021299F /* CodeSheetVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7A2676F9C00021299F /* CodeSheetDirectoryRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetDirectoryRenderer.swift; sourceTree = "<group>"; };
@@ -408,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				B7219725273742B400E1CB60 /* WorldGrid.swift */,
+				B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */,
 			);
 			path = VirtualGrid;
 			sourceTree = "<group>";
@@ -950,6 +954,7 @@
 				F07C49D8251C472300F28173 /* SwiftSyntaxParser+SheetRendering.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
+				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				B74E7A7D26770A940021299F /* CodeSheetVisitor+DirectoryLoader.swift in Sources */,
 				45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */,
@@ -1042,6 +1047,7 @@
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
+				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B7815A00273E080100212176 /* ParsingState.swift in Sources */,
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,

@@ -213,9 +213,9 @@ class CodeGridWorld {
     
     private func moveCameraToFocus() {
         guard let camera = cameraProvider?(),
-              let grid = worldGridEditor.gridAtFocusPosition
+              let grid = worldGridEditor.lastFocusedGrid
         else {
-            print("updated focus to empty grid: \(worldGridEditor.focusPosition)")
+            print("updated focus to empty grid")
             return
         }
         camera.position = grid.rootNode.position.translated(

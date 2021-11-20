@@ -12,17 +12,6 @@ import SwiftSyntax
 let kContainerName = "kContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
-class CodeGridEmpty: CodeGrid {
-    static let emptyGlyphCache = GlyphLayerCache()
-    static let emptyTokenCache = CodeGridTokenCache()
-    static func make() -> CodeGrid {
-        CodeGrid(
-            glyphCache: emptyGlyphCache,
-            tokenCache: emptyTokenCache
-        )
-    }
-}
-
 class CodeGrid: Identifiable, Equatable {
 	lazy var id = UUID().uuidString
 	
@@ -215,6 +204,12 @@ private extension SyntaxIdentifier {
 	var stringIdentifier: String { "\(hashValue)" }
 }
 
+extension CodeGrid: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
 extension CodeGrid {
 	// If you call this, you basically draw text like a typewriter from wherevery you last were.
 	// it adds caches layer glyphs motivated by display requirements inherited by those clients.
@@ -356,4 +351,15 @@ extension SCNNode {
 		modifier(self)
 		return self
 	}
+}
+
+class CodeGridEmpty: CodeGrid {
+    static let emptyGlyphCache = GlyphLayerCache()
+    static let emptyTokenCache = CodeGridTokenCache()
+    static func make() -> CodeGrid {
+        CodeGrid(
+            glyphCache: emptyGlyphCache,
+            tokenCache: emptyTokenCache
+        )
+    }
 }

@@ -87,18 +87,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssert(decodedTest == dataStringAttributed, "AttributedString write and re-read didn't reeturn same attributes")
     }
     
-    func testSemanticWordGridEditor() throws {
-        let editor = WorldGridEditor()
-        
-        var expected = FocusPosition()
-        let start = editor.focusPosition
-        XCTAssertEqual(start, expected, "start off from expected origin")
-        
-        expected = FocusPosition(x: expected.x + 1)
-        editor.shiftFocus(.right)
-        XCTAssertEqual(editor.focusPosition, expected, "start off from expected origin")
-    }
-    
     func testRewriting() throws {
         let rewriter = StateCapturingRewriter(
             onVisitAny: { node in
@@ -133,7 +121,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testSnapping_EasyRight() throws {
-        let snapping = CodeGridSnapping()
+        let snapping = WorldGridSnapping()
         
         let firstGrid = CodeGridEmpty.make()
         let second_toRightOfFirst = CodeGridEmpty.make()
@@ -145,7 +133,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly twice; twice to the right")
         linkCount.expectedFulfillmentCount = 2
         snapping.gridsRelativeTo(firstGrid).forEach { relativeDirection in
-            guard case CodeGridSnapping.RelativeGridMapping.right = relativeDirection else {
+            guard case WorldGridSnapping.RelativeGridMapping.right = relativeDirection else {
                 XCTFail("Where did \(relativeDirection) come from?")
                 return
             }
@@ -153,7 +141,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             linkCount.fulfill()
             
             snapping.gridsRelativeTo(relativeDirection.targetGrid).forEach { secondaryDirection in
-                guard case CodeGridSnapping.RelativeGridMapping.right = secondaryDirection else {
+                guard case WorldGridSnapping.RelativeGridMapping.right = secondaryDirection else {
                     XCTFail("Where did \(secondaryDirection) come from???")
                     return
                 }
@@ -173,7 +161,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             return newGrid
         }
         
-        let snapping = CodeGridSnapping()
+        let snapping = WorldGridSnapping()
         let firstGrid = newGrid().consume(syntax: parsed.root)
         
         let gridCount = 10
@@ -190,15 +178,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
         var totalLengthX: VectorFloat = firstGrid.rootNode.lengthX
-        var relativeGrids = snapping.gridsRelativeTo(focusedGrid, .right)
-        while !relativeGrids.isEmpty {
+        snapping.iterateOver(focusedGrid, direction: .right) { grid in
             print(totalLengthX)
-            let rightGridRelationship = try XCTUnwrap(relativeGrids.first, "Rightmost grid missing")
-            totalLengthX += rightGridRelationship.targetGrid.rootNode.lengthX
-            relativeGrids = snapping.gridsRelativeTo(rightGridRelationship.targetGrid, .right)
+            totalLengthX += grid.rootNode.lengthX
             linkCount.fulfill()
         }
-        wait(for: [linkCount], timeout: 15)
+        wait(for: [linkCount], timeout: 1)
         let expectedLengthX = allGrids.reduce(into: VectorFloat(0)) { length, grid in
             length += grid.rootNode.lengthX
         }
