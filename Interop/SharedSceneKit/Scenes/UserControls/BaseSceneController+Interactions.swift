@@ -129,7 +129,7 @@ extension BaseSceneController {
 //        let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
         let hitTestResults = sceneView.performHitTest(
             location: currentTouchLocation,
-            type: .codeGrid
+            type: [.codeGrid, .semanticTab]
         )
         
         guard let firstResult = hitTestResults.first,

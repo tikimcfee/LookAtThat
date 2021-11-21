@@ -91,8 +91,19 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     ) {
         let snapping = WorldGridSnapping()
         
+        func makeFileNameGrid(_ name: String) -> CodeGrid {
+            let newGrid = newGrid().backgroundColor(.black)
+                .consume(text: name)
+                .sizeGridToContainerNode()
+            newGrid.rootNode.categoryBitMask = HitTestType.semanticTab.rawValue
+            newGrid.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
+            return newGrid
+        }
+        
         func makeGridForDirectory2(_ rootDirectory: FileKitPath, _ depth: Int) -> CodeGrid {
-            let rootDirectoryGrid = newGrid().backgroundColor(rootGridColor)
+            let rootDirectoryGrid = newGrid().backgroundColor(
+                rootGridColor.withAlphaComponent(rootGridColor.alphaComponent * VectorFloat(depth))
+            )
             
             var fileStack: [FileKitPath] = []
             var directoryStack: [FileKitPath] = []
@@ -126,11 +137,18 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
                 }
                 lastDirectChildGrid = newGrid
                 rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
+                
+                let fileName = makeFileNameGrid(last.url.lastPathComponent)
+                fileName.rootNode.position = SCNVector3Zero.translated(
+                    dY: fileName.rootNode.lengthY + 2.0,
+                    dZ: 4.0
+                )
+                newGrid.rootNode.addChildNode(fileName.rootNode)
             }
             
             // all files haves been rendered for this directory; move focus back to the left-most
             var firstGridInLastRow: CodeGrid?
-            var maxHeight = VectorFloat(0.0)
+            var maxHeight = lastDirectChildGrid?.rootNode.lengthY ?? VectorFloat(0.0)
             var nexRowStartPosition = SCNVector3Zero
             if let start = lastDirectChildGrid {
                 snapping.iterateOver(start, direction: .left) { grid in
@@ -147,6 +165,14 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
                 
                 rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
                 childDirectory.rootNode.position = nexRowStartPosition
+                
+                let fileName = makeFileNameGrid(last.url.lastPathComponent).backgroundColor(.blue)
+                fileName.rootNode.position = SCNVector3Zero.translated(
+                    dY: fileName.rootNode.lengthY * 6 + 2.0,
+                    dZ: 8.0
+                )
+                fileName.rootNode.scale = SCNVector3(x: 3.0, y: 3.0, z: 1.0)
+                childDirectory.rootNode.addChildNode(fileName.rootNode)
                 
                 nexRowStartPosition = nexRowStartPosition.translated(
                     dX: childDirectory.rootNode.lengthX + 8

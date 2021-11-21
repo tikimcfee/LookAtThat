@@ -102,6 +102,7 @@ extension CodeGrid {
     @discardableResult
     func backgroundColor(_ color: NSUIColor) -> CodeGrid {
         gridGeometry.firstMaterial?.diffuse.contents = color
+        fullTextBlitter.gridGeometry.firstMaterial?.diffuse.contents = color
         return self
     }
 }
@@ -212,6 +213,42 @@ extension CodeGrid: Hashable {
 extension CodeGrid {
 	// If you call this, you basically draw text like a typewriter from wherevery you last were.
 	// it adds caches layer glyphs motivated by display requirements inherited by those clients.
+    @discardableResult
+    func consume(text: String) -> Self {
+        func writeAttributedText() {
+            func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
+                NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
+            }
+            let sourceAttributedString = NSMutableAttributedString()
+            sourceAttributedString.append(attributedString(text, .white))
+            fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
+            fullTextBlitter.rootNode.position.z += 2.0
+            rootNode.addChildNode(fullTextBlitter.rootNode)
+            rootGlyphsNode.isHidden = true
+        }
+        
+        func writeGlyphs() {
+            func writeString(_ string: String, _ name: String, _ color: NSUIColor) {
+                for newCharacter in string {
+                    let (letterNode, size) = createNodeFor(newCharacter, color)
+                    letterNode.name = name
+                    renderer.insert(newCharacter, letterNode, size)
+                }
+            }
+            writeString(text, text, .white)
+            rootGlyphsNode.isHidden = false
+        }
+        
+        switch displayMode {
+        case .layers:
+            writeAttributedText()
+        case .glyphs:
+            writeGlyphs()
+        }
+        
+        return self
+    }
+    
     @discardableResult
     func consume(syntax: Syntax) -> Self {
 		// ## step something other or else: the bits where you tidy up
