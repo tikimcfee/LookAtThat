@@ -88,69 +88,79 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     func __versionTwo__RenderPathAsRoot(
         _ rootPath: FileKitPath,
         _ immediateReceiver: ((CodeGrid) -> Void)? = nil
-    ) -> CodeGrid {
-        let newRootGrid = newGrid().backgroundColor(rootGridColor)
-        editorWrapper.rootContainerNode = newRootGrid.rootNode
-        immediateReceiver?(newRootGrid)
+    ) {
+        let snapping = WorldGridSnapping()
         
-        func recurseIntoDirectory(_ directory: FileKitPath, root: CodeGrid) {
-            // we're recursing but setting a side effect focus position.
-            // retain the original position on entrance, and reset within the loop
-            // to ensure the original containers are maintained for files.
-            let originalContainerNode = editorWrapper.rootContainerNode
-            forEachChildOf(directory) { index, childPath in
+        func makeGridForDirectory2(_ rootDirectory: FileKitPath, _ depth: Int) -> CodeGrid {
+            let rootDirectoryGrid = newGrid().backgroundColor(rootGridColor)
+            
+            var fileStack: [FileKitPath] = []
+            var directoryStack: [FileKitPath] = []
+            
+            // Add each child to stack for processing
+            forEachChildOf(rootDirectory) { index, childPath in
                 if childPath.isDirectory {
-                    maybeRenderClock?.wait()
-                    print("Dir -> \(childPath.url.lastPathComponent)")
-                    // start a new directory
-                    let newDirectoryContainer = newGrid().backgroundColor(rootGridColor)
-                    editorWrapper.rootContainerNode = newDirectoryContainer.rootNode
-                    root.rootNode.addChildNode(newDirectoryContainer.rootNode)
-                    
-                    let lastGridRootNode = editorWrapper.worldGridEditor.lastFocusedGrid?.rootNode
-                    let lastGridLengthX = lastGridRootNode?.lengthX ?? 0.0
-                    let lastGridPosition = lastGridRootNode?.position ?? SCNVector3Zero
-                    newDirectoryContainer.rootNode.position =
-                        lastGridPosition.translated(dX: lastGridLengthX + 8.0, dY: 0, dZ: 128.0)
-                    
-                    recurseIntoDirectory(childPath, root: newDirectoryContainer)
-                    newDirectoryContainer.sizeGridToContainerNode()
+                    directoryStack.insert(childPath, at: 0)
                 } else {
-                    maybeRenderClock?.wait()
-                    print("File -> \(childPath.url.lastPathComponent)")
-                    editorWrapper.rootContainerNode = originalContainerNode
-                    guard let childGrid = renderGrid(childPath.url) else {
-                        print("No grid rendered for \(childPath)")
-                        return
-                    }
-                    // stack vertically or horizontally
-                    self.editorWrapper.addGrid(style: .inNextRow(childGrid))
+                    fileStack.insert(childPath, at: 0)
                 }
             }
-        }
-        
-        var rootRenderComplete = false
-        var maybeRenderClock: DispatchSemaphore?
-        if immediateReceiver != nil {
-            let clock = DispatchSemaphore(value: 1)
-            maybeRenderClock = clock
-            QuickLooper(
-                loop: {
-                    clock.signal()
-                    newRootGrid.sizeGridToContainerNode()
-                },
-                queue: DispatchQueue(label: "RenderClock", qos: .userInitiated)
-            ).runUntil({ rootRenderComplete })
+            
+            // Pop all files and render them vertically
+            var lastDirectChildGrid: CodeGrid?
+            while let last = fileStack.popLast() {
+                print("File *** \(last.url.lastPathComponent)")
+                guard let newGrid = renderGrid(last.url) else {
+                    print("No grid rendered for \(last)")
+                    continue
+                }
+                
+                newGrid.rootNode.position.z = 4.0
+                if let lastGrid = lastDirectChildGrid {
+                    snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(newGrid)])
+                    newGrid.rootNode.position = lastGrid.rootNode.position.translated(
+                        dX: lastGrid.rootNode.lengthX + 8.0,
+                        dY: 0,
+                        dZ: 0
+                    )
+                }
+                lastDirectChildGrid = newGrid
+                rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
+            }
+            
+            // all files haves been rendered for this directory; move focus back to the left-most
+            var firstGridInLastRow: CodeGrid?
+            var maxHeight = VectorFloat(0.0)
+            var nexRowStartPosition = SCNVector3Zero
+            if let start = lastDirectChildGrid {
+                snapping.iterateOver(start, direction: .left) { grid in
+                    maxHeight = max(maxHeight, grid.rootNode.lengthY)
+                    firstGridInLastRow = grid
+                }
+                nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)
+            }
+            
+            nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
+            while let last = directoryStack.popLast() {
+                print("Dir <--> \(last.url.lastPathComponent)")
+                let childDirectory = makeGridForDirectory2(last, depth + 1)
+                
+                rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
+                childDirectory.rootNode.position = nexRowStartPosition
+                
+                nexRowStartPosition = nexRowStartPosition.translated(
+                    dX: childDirectory.rootNode.lengthX + 8
+                )
+            }
+            
+            return rootDirectoryGrid.sizeGridToContainerNode()
         }
         
         // Kickoff
         renderQueue.async {
-            recurseIntoDirectory(rootPath, root: newRootGrid)
-            rootRenderComplete = true
+            let newRootGrid = makeGridForDirectory2(rootPath, 1)
+            immediateReceiver?(newRootGrid)
         }
-        
-        
-        return newRootGrid.sizeGridToContainerNode()
     }
     
     func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
@@ -248,7 +258,7 @@ class CodeGridWorld {
     
     func addGrid(style: WorldGridEditor.AddStyle) {
         worldGridEditor.transformedByAdding(style)
-        rootContainerNode.addChildNode(style.grid.rootNode)
+//        rootContainerNode.addChildNode(style.grid.rootNode)
     }
     
     func changeFocus(_ direction: SelfRelativeDirection) {

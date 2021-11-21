@@ -35,9 +35,8 @@ class CodeGrid: Identifiable, Equatable {
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
-	
-	lazy var focusedSynaxGroupId: String = id
-	lazy var renderedSyntaxGroups: LockingCache<String, CodeGrid> = .init()
+    
+    var semanticInfo: SemanticInfo?
 	
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,

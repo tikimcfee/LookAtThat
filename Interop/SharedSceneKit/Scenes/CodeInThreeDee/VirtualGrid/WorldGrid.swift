@@ -120,25 +120,31 @@ class WorldGridEditor {
             
         case .inNextRow(let codeGrid):
             snapping.connectWithInverses(sourceGrid: lastGrid, to: [.down(codeGrid)])
+            lastFocusedGrid = codeGrid
             var maxHeight = 0.0
+            var leftMostGrid: CodeGrid?
             snapping.iterateOver(lastGrid, direction: .left) { grid in
                 maxHeight = max(maxHeight, grid.rootNode.lengthY)
+                leftMostGrid = grid
             }
-            codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
+
+            codeGrid.rootNode.position = (
+                leftMostGrid?.rootNode.position ?? SCNVector3Zero
+            ).translated(
                 dX: 0,
                 dY: -maxHeight - 8.0,
                 dZ: 0
             )
-            lastFocusedGrid = codeGrid
-            
+
         case .inNextPlane(let codeGrid):
             snapping.connectWithInverses(sourceGrid: lastGrid, to: [.backward(codeGrid)])
+            lastFocusedGrid = codeGrid
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: 0,
                 dY: 0,
                 dZ: 128.0
             )
-            lastFocusedGrid = codeGrid
+
         }
         return self
     }

@@ -7,143 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E4577732-B2A1-4129-96CF-689EB865DAEE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interop/SharedSceneKit/Scenes/DictionarySceneController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "add(word:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C7676681-FD31-469A-9B72-D5983442CCFA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../Library/Developer/Xcode/DerivedData/LookAtThat_AppKit-cknqatlzjmsdpwghvnspbgummawg/SourcePackages/checkouts/SwiftTrace/SwiftTrace/SwiftSwizzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "init?(name:vtableSlot:objcMethod:objcClass:original:replaceWith:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7A392C0D-E570-420A-BADA-00B5D289AABC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interop/Data/CallStack/CallStackAnalyzer.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "onLogOutput(_:_:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F6DF9C7F-D05B-452C-96C9-7E4154032C85"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../Library/Developer/Xcode/DerivedData/LookAtThat_AppKit-cknqatlzjmsdpwghvnspbgummawg/SourcePackages/checkouts/SwiftTrace/SwiftTrace/SwiftSwizzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "onEntry(stack:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "init(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - 750fd87c49f29c2b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LookAtThat_AppKit.CodeSheet.__allocating_init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThat_AppKit.CodeSheet"
-                  moduleName = "LookAtThat_AppKit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "44">
-               </Location>
-               <Location
-                  uuid = "458275E6-44D3-4443-A36F-30BF1B32D4F9 - b22833bdee8d8097"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LookAtThat_AppKit.CodeSheet.init(Swift.Optional&lt;Swift.String&gt;) -&gt; LookAtThat_AppKit.CodeSheet"
-                  moduleName = "LookAtThat_AppKit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeSheetsV2/CodeSheet.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "11"
-                  endingLineNumber = "11"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "41F223D1-8FCD-46CB-877F-4982AB232474"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Interop/DataVisualizers/CodeGrid/CodeGridParser.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "withNewGrid(_:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CE0388E1-867A-4CCB-A65B-665531500789"
-            shouldBeEnabled = "No"
+            uuid = "FCA1F7AD-3FBE-4977-815E-5E7E505D22C5"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Interop/SharedSceneKit/Scenes/CodeInThreeDee/VirtualGrid/WorldGrid.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "transformedByAdding(_:)"
             landmarkType = "7">
          </BreakpointContent>
