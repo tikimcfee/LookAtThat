@@ -89,12 +89,14 @@ extension CodePagesController {
  
 class TokenHoverInteractionTracker {
 	typealias Key = SCNNode
+	var currentHoveredSet = GridAssociationType()
 	
-	var currentHoveredSet: Set<Key> = []
-	
-	func newSetHovered(_ results: Set<Key>) {
-		let newlyHovered = results.subtracting(currentHoveredSet)
-		let toRemove = currentHoveredSet.subtracting(results)
+	func newSetHovered(_ results: GridAssociationType) {
+        let currentUniquenessSet = Set(currentHoveredSet)
+        let resultsUniquenessSet = Set(results)
+        
+		let newlyHovered = resultsUniquenessSet.subtracting(currentUniquenessSet)
+		let toRemove = currentUniquenessSet.subtracting(resultsUniquenessSet)
 		
 		// you can get a fun hover effect by moving each node in a transaction;
 		// sorta a matrix fly-in as each transaction completes.
@@ -106,14 +108,16 @@ class TokenHoverInteractionTracker {
 	
 	private func focusNode(_ result: Key) {
 		guard !currentHoveredSet.contains(result) else { return }
-		currentHoveredSet.insert(result)
+//		currentHoveredSet.insert(result)
+        currentHoveredSet.append(result)
 		
 		result.position.z += 5.0
 	}
 	
 	private func unfocusNode(_ result: Key) {
 		guard currentHoveredSet.contains(result) else { return }
-		currentHoveredSet.remove(result)
+//		currentHoveredSet.remove(result)
+        currentHoveredSet.removeAll(where: { $0.name == result.name })
 		
 		result.position.z -= 5.0
 	}

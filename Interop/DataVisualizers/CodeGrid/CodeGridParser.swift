@@ -89,6 +89,9 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         _ rootPath: FileKitPath,
         _ immediateReceiver: ((CodeGrid) -> Void)? = nil
     ) {
+        // Used as a really complicated array to measure rows. Not exactly efficient.
+        // Leaving in place to give us a nice layout while we experiment with camera
+        // movement around the structure.
         let snapping = WorldGridSnapping()
         
         func makeFileNameGrid(_ name: String) -> CodeGrid {

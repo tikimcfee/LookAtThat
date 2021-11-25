@@ -25,7 +25,7 @@ class CodeGrid: Identifiable, Equatable {
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    var displayMode: DisplayMode = .layers {
+    var displayMode: DisplayMode = .glyphs {
         willSet { willSetDisplayMode(newValue) }
     }
 	
@@ -35,8 +35,6 @@ class CodeGrid: Identifiable, Equatable {
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
-    
-    var semanticInfo: SemanticInfo?
 	
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
@@ -266,14 +264,14 @@ extension CodeGrid {
             let triviaColor = CodeGridColors.trivia
             let tokenColor = token.defaultColor
 
-			var leadingTriviaNodes = CodeGridNodes()
+			var leadingTriviaNodes = GridAssociationType()
             let leadingTrivia = token.leadingTrivia.stringified
 
             let tokenText = token.text
-            var tokenTextNodes = CodeGridNodes()
+            var tokenTextNodes = GridAssociationType()
 
             let trailingTrivia = token.trailingTrivia.stringified
-			var trailingTriviaNodes = CodeGridNodes()
+			var trailingTriviaNodes = GridAssociationType()
 			
             func writeAttributedText() {
                 func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
@@ -286,11 +284,11 @@ extension CodeGrid {
             }
             
             func writeGlyphs() {
-                func writeString(_ string: String, _ name: String, _ color: NSUIColor, _ set: inout CodeGridNodes) {
+                func writeString(_ string: String, _ name: String, _ color: NSUIColor, _ set: inout GridAssociationType) {
                     for newCharacter in string {
                         let (letterNode, size) = createNodeFor(newCharacter, color)
                         letterNode.name = name
-                        set.insert(letterNode)
+                        set.append(letterNode)
                         renderer.insert(newCharacter, letterNode, size)
                     }
                 }
@@ -306,6 +304,9 @@ extension CodeGrid {
             }
             
             func walkHierarchyForSemantics() {
+                tokenTextNodes.append(contentsOf: leadingTriviaNodes)
+                tokenTextNodes.append(contentsOf: trailingTriviaNodes)
+                
                 // Walk the parenty hierarchy and associate these nodes with that parent.
                 // Add semantic info to lookup for each parent node found.
                 var tokenParent: Syntax? = Syntax(token)
@@ -316,11 +317,8 @@ extension CodeGrid {
                         token.id.stringIdentifier,
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
-                    tokenTextNodes.formUnion(leadingTriviaNodes)
-                    tokenTextNodes.formUnion(trailingTriviaNodes)
+                    
                     codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
-                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
-                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
                     tokenParent = parent.parent
                 }
             }
@@ -329,7 +327,6 @@ extension CodeGrid {
             case .layers: writeAttributedText()
             case .glyphs: writeGlyphs()
             }
-            
 //            walkHierarchyForSemantics()
         }
         
@@ -371,13 +368,12 @@ extension CodeGrid {
 // - given a token, return the nodes that represent it
 // - use that set to highlight, move, do stuff to
 
-typealias CodeGridNodes = Set<SCNNode>
-class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
+class CodeGridTokenCache: LockingCache<String, GridAssociationType> {
 	override func make(
 		_ key: String, 
-		_ store: inout [String : CodeGridNodes]
-	) -> CodeGridNodes {
-		let set = CodeGridNodes()
+		_ store: inout [String : GridAssociationType]
+	) -> GridAssociationType {
+		let set = GridAssociationType()
 		return set
 	}
 }

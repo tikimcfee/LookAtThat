@@ -45,24 +45,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
-        //        grids.consume(syntax: sourceSyntax)
+        let codeGrid = CodeGridEmpty.make()
         
-        func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
-            //            let info = bundle.semanticBuilder.semanticInfo(for: syntax)
-            //            print(info)
-            return .visitChildren
+        measure {
+            codeGrid.consume(syntax: sourceSyntax.root)
         }
         
-        func onVisitPost(_ syntax: Syntax) {
-            
-        }
+        let syntaxAssociationKeyCount = codeGrid.codeGridSemanticInfo.syntaxIdToTokenNodes.keys.count
         
-        let visitor = StateCapturingVisitor(
-            onVisitAny: onVisit,
-            onVisitAnyPost: onVisitPost
-        )
+        print("Total associations: \(syntaxAssociationKeyCount)")
+        codeGrid.codeGridSemanticInfo.dump()
         
-        visitor.walk(sourceSyntax)
     }
     
     func testAttributedWrites() throws {
