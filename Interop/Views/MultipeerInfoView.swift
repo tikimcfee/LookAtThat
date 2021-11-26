@@ -354,7 +354,7 @@ struct MessageSendView: View {
         }
         
         switch event {
-        case let .newSingleCommand(path, type):
+        case let .newSingleCommand(path, _):
             guard let fileData = try? Data(contentsOf: path.url),
                   let compressed = manager.sheetDataTransformer.compress(fileData) else {
                 print("No file data it exploded what a shame")

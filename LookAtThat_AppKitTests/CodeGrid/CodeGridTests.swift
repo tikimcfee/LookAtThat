@@ -103,7 +103,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testTracing() throws {
-        let rewriter = StateCapturingRewriter(
+        let _ = StateCapturingRewriter(
             onVisitAny: { node in
                 return .visitChildren
             },

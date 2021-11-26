@@ -15,7 +15,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     public static let global = SceneLibrary()
 
     let wordNodeBuilder = WordNodeBuilder()
-    let customTextController: CustomTextParser
     let codePagesController: CodePagesController
     let dictionaryController: DictionarySceneController
 
@@ -71,9 +70,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     #endif
 
     private init() {
-        self.customTextController =
-            CustomTextParser(sceneView: sharedSceneView,
-                             wordNodeBuilder: wordNodeBuilder)
         self.codePagesController =
             CodePagesController(sceneView: sharedSceneView,
                                 wordNodeBuilder: wordNodeBuilder)
@@ -138,13 +134,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
         codePagesController.codeGridParser.withNewGrid(sourceString) { world, grid in
             world.addInFrontOfCamera(style: .trailingFromLastGrid(grid))
         }
-    }
-
-    func customText() {
-        currentController.sceneInactive()
-        customTextController.setupScene()
-        currentController = customTextController
-        currentController.sceneActive()
     }
 
     func dictionary() {

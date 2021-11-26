@@ -2,16 +2,10 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 import Combine
-
-var z = VectorFloat(0)
-var nextZ: VectorFloat {
-    z -= 15
-    return z
-}
+import FileKit
 
 class CodePagesController: BaseSceneController, ObservableObject {
 
-    let iteratorY = WordPositionIterator()
     var bumped = Set<Int>()
     var selectedSheets = Set<SyntaxIdentifier>()
     let highlightCache = HighlightCache()
@@ -23,6 +17,12 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
     lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
+    
+    #if os(macOS)
+    lazy var macosCompat = CodePagesControllerMacOSCompat(
+        controller: self
+    )
+    #endif
 	
 	@Published var hoveredToken: String?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
@@ -35,34 +35,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeGridParser = CodeGridParser()
         super.init(sceneView: sceneView)
         
-        // Don't add the world immediately; use it to draw grids and then add the grids instead
-//        sceneState.rootGeometryNode.addChildNode(
-//            codeGridParser.world.rootContainerNode
-//        )
         codeGridParser.cameraNode = sceneView.pointOfView ?? sceneCameraNode
     }
-    
-    #if os(macOS)
-    lazy var keyboardInterceptor: KeyboardInterceptor = {
-        let interceptor = KeyboardInterceptor(
-            targetCamera: sceneCamera,
-            targetCameraNode: sceneCameraNode
-        )
-        interceptor.onNewFileOperation = { op in
-            switch op {
-            case .openDirectory:
-                self.requestSetRootDirectory()
-                break
-            }
-        }
-        interceptor.onNewFocusChange = { focus in
-            sceneTransaction {
-                self.codeGridParser.editorWrapper.changeFocus(focus)
-            }
-        }
-        return interceptor
-    }()
-    #endif
     
     lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
         switch event {
@@ -143,54 +117,17 @@ class CodePagesController: BaseSceneController, ObservableObject {
         
     }.eraseToAnyPublisher()
     
-    
-
-    func attachMouseSink() {
-        #if os(OSX)
-        SceneLibrary.global.sharedMouse
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [weak self] mousePosition in
-                self?.newMousePosition(mousePosition)
-            }
-            .store(in: &cancellables)
-
-        SceneLibrary.global.sharedScroll
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [weak self] scrollEvent in
-                self?.newScrollEvent(scrollEvent)
-            }
-            .store(in: &cancellables)
-
-        SceneLibrary.global.sharedMouseDown
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [weak self] downEvent in
-                self?.newMouseDown(downEvent)
-            }
-            .store(in: &cancellables)
-        #endif
-    }
-    
-    func attachKeyInputSink() {
-        #if os(OSX)
-        SceneLibrary.global.sharedKeyEvent
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [weak self] event in
-                self?.newKeyEvent(event)
-            }
-            .store(in: &cancellables)
-        #endif
-        
-    }
-
     override func sceneActive() {
         // This is pretty dumb. I have the scene library global, and it automatically inits this.
         // However, this tries to attach immediately.. by accessing the init'ing global.
         //                 This is why we don't .global =(
         // Anyway, dispatch for now with no guarantee of success.
+#if os(OSX)
         DispatchQueue.main.async {
-            self.attachMouseSink()
-            self.attachKeyInputSink()
+            self.macosCompat.attachMouseSink()
+            self.macosCompat.attachKeyInputSink()
         }
+#endif
     }
 
     override func sceneInactive() {
@@ -198,7 +135,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     }
 
     override func onSceneStateReset() {
-        iteratorY.reset()
+        // Clear out all the grids and thingsb
     }
 }
 
@@ -217,7 +154,7 @@ extension Set where Element == SyntaxIdentifier {
 extension CodePagesController {
 
     func selected(name: String) {
-        bumpNodes(
+        bumpNodes (
             allTokensWith(name: name)
         )
     }
@@ -302,7 +239,7 @@ extension CodePagesController {
 }
 
 // MARK: File loading
-import FileKit
+
 extension CodePagesController {
     func requestSetRootDirectory() {
         #if os(OSX)
@@ -330,3 +267,157 @@ extension CodePagesController {
         }
     }
 }
+
+#if os(OSX)
+class CodePagesControllerMacOSCompat {
+    let controller: CodePagesController
+    let inputCompat: CodePagesControllerMacOSInputCompat
+    
+    init(controller: CodePagesController) {
+        self.controller = controller
+        self.inputCompat = CodePagesControllerMacOSInputCompat(controller: controller)
+    }
+    
+    lazy var keyboardInterceptor: KeyboardInterceptor = {
+        let interceptor = KeyboardInterceptor(
+            targetCamera: controller.sceneCamera,
+            targetCameraNode: controller.sceneCameraNode
+        )
+        interceptor.onNewFileOperation = onFileOperation(_:)
+        interceptor.onNewFocusChange = onNewFocusChange(_:)
+        return interceptor
+    }()
+    
+    func attachMouseSink() {
+        SceneLibrary.global.sharedMouse
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] mousePosition in
+                inputCompat.newMousePosition(mousePosition)
+            }
+            .store(in: &controller.cancellables)
+        
+        SceneLibrary.global.sharedScroll
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] scrollEvent in
+                inputCompat.newScrollEvent(scrollEvent)
+            }
+            .store(in: &controller.cancellables)
+        
+        SceneLibrary.global.sharedMouseDown
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] downEvent in
+                inputCompat.newMouseDown(downEvent)
+            }
+            .store(in: &controller.cancellables)
+    }
+    
+    func attachKeyInputSink() {
+        SceneLibrary.global.sharedKeyEvent
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] event in
+                inputCompat.newKeyEvent(event)
+            }
+            .store(in: &controller.cancellables)
+    }
+    
+    
+    private func onFileOperation(_ op: FileOperation) {
+        switch op {
+        case .openDirectory:
+            controller.requestSetRootDirectory()
+        }
+    }
+    
+    private func onNewFocusChange(_ focus: SelfRelativeDirection) {
+        sceneTransaction {
+            controller.codeGridParser.editorWrapper.changeFocus(focus)
+        }
+    }
+}
+
+class CodePagesControllerMacOSInputCompat {
+    let controller: CodePagesController
+    init(controller: CodePagesController) {
+        self.controller = controller
+    }
+    
+    var touchState: TouchState { controller.touchState }
+    var sceneCameraNode: SCNNode { controller.sceneCameraNode }
+    var sceneView: SCNView { controller.sceneView }
+    var codeGridParser: CodeGridParser { controller.codeGridParser }
+    var keyboardInterceptor: KeyboardInterceptor { controller.macosCompat.keyboardInterceptor }
+    var hoveredToken: String? {
+        get { controller.hoveredToken }
+        set { controller.hoveredToken = newValue }
+    }
+    
+    func newScrollEvent(_ event: NSEvent) {
+        
+        let sensitivity = CGFloat(1.5)
+        let scaledX = -event.deltaX * sensitivity
+        let scaledY = event.deltaY * sensitivity
+        
+        moveCamera(scaledX: scaledX, scaledY: scaledY, event)
+    }
+    
+    private func moveCamera(scaledX: CGFloat, scaledY: CGFloat, _ event: NSEvent? = nil) {
+        let translation: SCNMatrix4
+        let targetNode: SCNNode
+        if let hoveredSheet = touchState.mouse.currentHoveredSheet,
+           event?.modifierFlags.contains(.control) == true {
+            translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
+            targetNode = hoveredSheet
+        }
+        //        else if event?.modifierFlags.contains(.command) == true {
+        else if event?.modifierFlags.contains(.shift) == true {
+            translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
+            targetNode = sceneCameraNode
+        } else {
+            translation = SCNMatrix4MakeTranslation(scaledX, scaledY, 0)
+            targetNode = sceneCameraNode
+        }
+        
+        sceneTransaction(0) {
+            let translate4x4 = simd_float4x4(translation)
+            let target4x4 = simd_float4x4(targetNode.transform)
+            let multiplied = simd_mul(translate4x4, target4x4)
+            targetNode.simdTransform = multiplied
+            //            targetNode.transform = SCNMatrix4Mult(translation, targetNode.transform)
+        }
+    }
+    
+    func newMouseDown(_ event: NSEvent) {
+        var safePoint: CGPoint?
+        DispatchQueue.main.sync {
+            safePoint = sceneView.convert(event.locationInWindow, to: nil)
+        }
+        guard let point = safePoint else { return }
+        
+        guard let _ = sceneView.hitTestCodeSheet(
+            with: point, .all, .rootCodeSheet
+        ).first?.node.parent else { return }
+    }
+    
+    func newKeyEvent(_ event: NSEvent) {
+        keyboardInterceptor.onNewKeyEvent(event)
+    }
+    
+    func newMousePosition(_ point: CGPoint) {
+        // this should be a single walk with a switch that handles the node each time. this is slow otherwise, lots of
+        // O(M * N) operations on each position update which is Woof.
+        doCodeGridHover(point)
+    }
+    
+    private func doCodeGridHover(_ point: CGPoint) {
+        let grids = sceneView.hitTest(location: point, .codeGridToken)
+        
+        guard let firstHoveredGrid = grids.first,
+              let codeGridIdFromNode = firstHoveredGrid.node.name
+        else { return }
+        
+        let nodeSet = codeGridParser.tokenCache[codeGridIdFromNode]
+        touchState.mouse.hoverTracker.newSetHovered(nodeSet)
+        hoveredToken = codeGridIdFromNode
+    }
+}
+#endif
