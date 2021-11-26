@@ -245,7 +245,6 @@ class Mouse {
 	let hoverTracker = TokenHoverInteractionTracker()
 	
 	var currentHoveredSheet: SCNNode?
-    var currentClickedSheet: CodeSheet?
 }
 
 class MagnifyStart {

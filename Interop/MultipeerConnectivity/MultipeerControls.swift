@@ -36,12 +36,7 @@ extension MultipeerConnectionManager {
 extension MultipeerConnectionManager {
     func sendCodeSheet(to peer: MCPeerID) {
         workerQueue.async {
-            // Lol look at that dependency chain....
-            guard let clickedSheet =
-                    SceneLibrary.global.codePagesController
-                        .touchState.mouse.currentClickedSheet
-            else { return }
-            self.onQueueSendSheet(clickedSheet, peer)
+            print("Code sheets were remove - do something about that.")
             self.updatePeerState()
         }
     }
@@ -67,20 +62,6 @@ extension MultipeerConnectionManager {
         multipeerStreamController.openStream(to: peer) { openStream in
             print("Opened!")
         }
-    }
-
-    private func onQueueSendSheet(_ sheet: CodeSheet, _ peer: MCPeerID) {
-        guard currentPeers[peer] != nil else {
-            print("Stop making up peer ids", peer)
-            return
-        }
-
-        guard let sheetData = sheetDataTransformer.data(from: sheet) else {
-            print("Sheet data failed to send: \(sheet.id)")
-            return
-        }
-
-        currentConnection.send(sheetData, to: peer)
     }
 
     private func onQueueSendMessage(_ message: String, _ peer: MCPeerID) {

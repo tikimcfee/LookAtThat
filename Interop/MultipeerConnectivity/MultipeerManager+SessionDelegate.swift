@@ -19,14 +19,6 @@ extension MultipeerConnectionManager: MCSessionDelegate {
 
     // Received data from remote peer.
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        if let sheet = sheetDataTransformer.sheet(from: data) {
-            mainQueue.async {
-                self.objectWillChange.send()
-                self.receivedCodeSheets.append(sheet)
-            }
-            return
-        }
-
         let connectionData = ConnectionData.fromData(data)
         switch connectionData {
         case .error:

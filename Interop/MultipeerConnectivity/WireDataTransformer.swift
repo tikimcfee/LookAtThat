@@ -74,38 +74,6 @@ extension WireDataTransformer {
     }
 }
 
-// MARK: - CodeSheets
-extension WireDataTransformer {
-    func data(from sheet: CodeSheet) -> Data? {
-        print("Converting sheet \(sheet.id) for transfer")
-        let wireSheet = sheet.wireSheet
-
-        print("\(sheet.id) converted; encoding.")
-        guard let encoding = encode(wireSheet) else { return nil }
-
-        print("Sheet starting is size \(encoding.kb)kb. Compressing...")
-        guard let compressed = compress(encoding) else { return nil }
-
-        print("Sheet compressed to \(compressed.kb)kb.")
-
-        return compressed
-    }
-
-    func sheet(from data: Data) -> CodeSheet? {
-        print("Converting data to sheet (\(data.kb)kb); decompressing..")
-        guard let decompressed = decompress(data) else { return nil }
-
-        print("Data decompressed to (\(decompressed.kb)kb); decoding..")
-        guard let wireSheet = decode(decompressed) else { return nil }
-
-        print("WireSheet decoded (\(wireSheet.id)); finalizing into CodeSheet")
-        let finalSheet = wireSheet.makeCodeSheet()
-        print("CodeSheet recreated! (\(finalSheet.id)")
-
-        return finalSheet
-    }
-}
-
 // MARK: - Encoding, Decoding
 extension WireDataTransformer {
     private func encode<T: Codable & Identifiable>(_ codable: T) -> Data? {

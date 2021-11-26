@@ -315,12 +315,6 @@ struct SourceInfoGrid: View {
     var buttons: some View {
         return VStack {
             HStack {
-                Button(action: renderSource) {
-                    Text("Load source")
-                }
-                Button(action: renderDirectory) {
-                    Text("Load directory")
-                }
                 TestButtons_Debugging()
             }
         }
@@ -331,12 +325,6 @@ extension SourceInfoGrid {
 	private func renderSource() {
 		SceneLibrary.global.codePagesController.renderSyntax{ info in
 			sourceInfo = info
-		}
-	}
-	
-	private func renderDirectory() {
-		SceneLibrary.global.codePagesController.renderDirectory{ states in
-			//            sourceInfo = states.first?.organizedSourceInfo
 		}
 	}
 }

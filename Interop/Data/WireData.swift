@@ -5,10 +5,6 @@ struct WireCode: Codable {
     let sourceFile: String
 }
 
-extension CodeSheet {
-    var wireSheet: WireSheet { WireSheet.from(self) }
-}
-
 extension SCNNode {
     var wireNode: WireNode { WireNode.from(self, isContainer: false) }
     var containerWireNode: WireNode { WireNode.from(self, isContainer: true) }
@@ -42,53 +38,6 @@ struct WireSheet: Codable, Identifiable {
     var backgroundGeometry: WireBox
     let allLines: [WireNode]
     let children: [WireSheet]
-
-    static func from(_ sheet: CodeSheet) -> WireSheet {
-        let newSheet = WireSheet(
-            id: sheet.id,
-            containerNode: sheet.containerNode.containerWireNode,
-            backgroundGeometryNode: sheet.backgroundGeometryNode.containerWireNode,
-            backgroundGeometry: sheet.backgroundGeometry.wireBox,
-            allLines: sheet.allLines.map { $0.wireNode },
-            children: sheet.children.map { $0.wireSheet }
-        )
-        return newSheet
-    }
-
-    func makeCodeSheet(_ parent: CodeSheet? = nil) -> CodeSheet {
-        let root = CodeSheet(id)
-
-        // xxx -- TODO PART 2 -- xxx
-        /* Ok so now the container nodes never contain children.
-         WireSheets *always need to be re-rendered*... kinda lame, but it works right now.
-         The algorithm thing took look up nodes might come in handy later, but now, this does
-         exactly what we want.
-         */
-        root.containerNode = containerNode.scnNode
-        root.backgroundGeometry = backgroundGeometry.scnBox
-
-        root.backgroundGeometryNode = backgroundGeometryNode.scnNode
-        root.backgroundGeometryNode.geometry = root.backgroundGeometry
-        root.containerNode.addChildNode(root.backgroundGeometryNode)
-
-        let linesCopy = allLines
-        for line in linesCopy {
-            let line = line.scnNode
-            root.allLines.append(line)
-            root.containerNode.addChildNode(line)
-        }
-
-        let childrenCopy = children
-        for child in childrenCopy {
-            let sheet = child.makeCodeSheet(root)
-            root.children.append(sheet)
-            root.containerNode.addChildNode(sheet.containerNode)
-            sheet.sizePageToContainerNode()
-        }
-
-        root.sizePageToContainerNode()
-        return root
-    }
 }
 
 struct WireNode: Codable {

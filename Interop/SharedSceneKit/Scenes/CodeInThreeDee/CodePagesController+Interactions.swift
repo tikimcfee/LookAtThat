@@ -50,11 +50,6 @@ extension CodePagesController {
         guard let clickedSheet = sceneView.hitTestCodeSheet(
             with: point, .all, .rootCodeSheet
         ).first?.node.parent else { return }
-
-        let maybeSheet = codeSheetParser.codeSheetVisitor.allRootContainerNodes[clickedSheet]
-        print("Clicked \(maybeSheet?.id ?? "<nothing, no sheet found>")")
-        touchState.mouse.currentClickedSheet = maybeSheet
-        codeSheetSelected(maybeSheet)
     }
     
     func newKeyEvent(_ event: NSEvent) {
@@ -78,12 +73,6 @@ extension CodePagesController {
 		touchState.mouse.hoverTracker.newSetHovered(nodeSet)
 		hoveredToken = codeGridIdFromNode
 	}
-
-    func codeSheetSelected(_ sheet: CodeSheet?) {
-        main.async {
-            self.selectedSheet = sheet
-        }
-    }
     #endif
 }
  

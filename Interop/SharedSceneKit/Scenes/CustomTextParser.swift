@@ -3,8 +3,6 @@ import SwiftUI
 import SceneKit
 
 class CustomTextParser: BaseSceneController {
-
-    let wordParser = WordParser()
     let iteratorY = WordPositionIterator()
     let wordNodeBuilder: WordNodeBuilder
 
@@ -19,16 +17,6 @@ class CustomTextParser: BaseSceneController {
     }
 
     private func customRender() {
-        wordParser.testSourceFileLines.forEach{ sourceLine in // source; "x = x + 1"
-            let lineNode = SCNNode()
-            lineNode.position = iteratorY.nextPosition()
-            let lines = sourceLine.splitToWordsAndSpaces
-                .map{ wordNodeBuilder.node(for: $0) }
-            wordNodeBuilder.arrange(lines, on: lineNode)
-
-            sceneTransaction {
-                self.sceneState.rootGeometryNode.addChildNode(lineNode)
-            }
-        }
+        
     }
 }

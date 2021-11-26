@@ -17,7 +17,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
     let highlightCache = HighlightCache()
 
     let wordNodeBuilder: WordNodeBuilder
-    let codeSheetParser: CodeSheetParserV2
     let codeGridParser: CodeGridParser
     let fileBrowser = FileBrowser()
     
@@ -27,9 +26,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
 	
 	@Published var hoveredToken: String?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
-
-    @Published var selectedSheet: CodeSheet?
-    lazy var sheetStream = $selectedSheet.share().eraseToAnyPublisher()
     
     var cancellables = Set<AnyCancellable>()
 
@@ -37,7 +33,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
          wordNodeBuilder: WordNodeBuilder) {
         self.wordNodeBuilder = wordNodeBuilder
         self.codeGridParser = CodeGridParser()
-        self.codeSheetParser = CodeSheetParserV2(wordNodeBuilder)
         super.init(sceneView: sceneView)
         
         // Don't add the world immediately; use it to draw grids and then add the grids instead
@@ -56,9 +51,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         interceptor.onNewFileOperation = { op in
             switch op {
             case .openDirectory:
-                self.renderDirectory { onDirectory in
-                    print(onDirectory, " rendered")
-                }
+                self.requestSetRootDirectory()
                 break
             }
         }
@@ -224,29 +217,12 @@ extension Set where Element == SyntaxIdentifier {
     }
 }
 
-typealias RenderDirectoryHandler = ([ParsingState]) -> Void
-
 extension CodePagesController {
 
     func selected(name: String) {
         bumpNodes(
             allTokensWith(name: name)
         )
-    }
-
-    func selected(id: SyntaxIdentifier, in source: OrganizedSourceInfo) {
-        guard let sheet = source[id] else {
-            print("Missing sheet or semantic info for \(id)")
-            return
-        }
-
-        let isSelected = selectedSheets.toggle(id)
-        sceneTransaction {
-            sheet.containerNode.position =
-                sheet.containerNode.position.translated(
-                    dZ: isSelected ? 25 : -25
-                )
-        }
     }
 	
 	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
@@ -326,29 +302,12 @@ extension CodePagesController {
             }
         }
     }
-
-    func renderDirectory(_ handler: @escaping RenderDirectoryHandler) {
-        requestSourceDirectory{ directory in
-            self.workerQueue.async {
-                
-                directory.swiftUrls.compactMap {
-                    self.codeGridParser.renderGrid($0)
-                }
-                .sorted(by: { $0.renderer.lineCount > $1.renderer.lineCount })
-                .forEach { grid in
-                    sceneTransaction {
-                        self.codeGridParser.editorWrapper.addGrid(style: .trailingFromLastGrid(grid))
-                    }
-                }
-            }
-        }
-    }
 }
 
 // MARK: File loading
 import FileKit
 extension CodePagesController {
-    func requestSourceDirectory(_ receiver: @escaping (Directory) -> Void) {
+    func requestSetRootDirectory() {
         #if os(OSX)
         selectDirectory { result in
             switch result {

@@ -2,7 +2,6 @@ import SceneKit
 import Foundation
 
 class DictionarySceneController: BaseSceneController {
-    let wordParser = WordParser()
     let iteratorY = WordPositionIterator()
     let wordNodeBuilder: WordNodeBuilder
 
@@ -20,43 +19,7 @@ class DictionarySceneController: BaseSceneController {
 extension DictionarySceneController {
 
     func add(word: String) throws {
-        guard let definition = wordParser.dictionary[word] else {
-            throw SceneControllerError.missingWord(query: word)
-        }
-
-        sceneTransaction {
-            let nextPosition =
-                sceneState.rootGeometryNode.childNodes.last?.position
-                    .translated(dY: -10) ?? SCNVector3()
-
-            let nodeToAdd =
-                wordNodeBuilder.definitionNode(nextPosition, word, definition)
-
-//            let rootWordNode =
-//                nodeToAdd.childNodes.first!
-
-            let definitionWords =
-                nodeToAdd.childNodes.dropFirst()
-
-            var lastNode: SCNNode!
-            let definitionLength =
-                definitionWords.reduce(into: CGFloat(0)) { length, node in
-                    length += node.boundingBox.max.x.cg
-                    defer { lastNode = node }
-                    guard let target = lastNode else { return }
-                    
-                    let dX = target.lengthX / 2 + node.lengthX / 2
-                    node.position = target.position.translated(dX: dX, dY: 0, dZ: 0)
-                }
-
-            sceneCameraNode.position =
-                nextPosition.translated(
-                    dX: definitionLength.vector / 2.0,
-                    dZ: 75
-                )
-
-            sceneState.rootGeometryNode.addChildNode(nodeToAdd)
-        }
+        
     }
 
     func renderDictionaryTest() {
@@ -68,15 +31,7 @@ extension DictionarySceneController {
     }
 
     private func doRenderDictionaryTest() {
-        let dispatchGroup = DispatchGroup()
-        if let next = self.wordParser.definitionSliceIterator.next(), next.count > 0 {
-            dispatchGroup.enter()
-            self.renderWordSlice(next) {
-                dispatchGroup.leave()
-            }
-        }
-        dispatchGroup.wait()
-        print("++ All items rendered in DictionaryTest. Have fun! ++")
+        
     }
 
     private func renderWordSlice(_ wordSlice: ArraySlice<(String, String)>,
