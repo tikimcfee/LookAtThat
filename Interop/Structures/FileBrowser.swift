@@ -180,6 +180,10 @@ extension FileBrowser {
         path.pathExtension == "swift"
     }
     
+    static func recursivePaths(_ path: Path) -> [Path] {
+        path.children(recursive: true).lazy.filter { isFileObserved($0) }
+    }
+    
     static func sortedFilesFirst(_ left: Path, _ right: Path) -> Bool {
         switch (left.isDirectory, right.isDirectory) {
         case (true, true): return left.url.path < right.url.path

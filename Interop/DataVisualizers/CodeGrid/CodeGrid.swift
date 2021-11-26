@@ -25,7 +25,7 @@ class CodeGrid: Identifiable, Equatable {
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    var displayMode: DisplayMode = .glyphs {
+    var displayMode: DisplayMode = .layers {
         willSet { willSetDisplayMode(newValue) }
     }
 	
