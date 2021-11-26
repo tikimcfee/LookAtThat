@@ -11,13 +11,21 @@ import SceneKit
 import SwiftUI
 
 class CodeGridParser: SwiftSyntaxFileLoadable {
+    
+    var cameraNode: SCNNode?
+    
+    private let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
+    
+    private let rootGridColor  = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
+    private let directoryColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
+    
     lazy var glyphCache: GlyphLayerCache = {
         GlyphLayerCache()
     }()
-	
-	lazy var tokenCache: CodeGridTokenCache = {
-		CodeGridTokenCache()
-	}()
+    
+    lazy var tokenCache: CodeGridTokenCache = {
+        CodeGridTokenCache()
+    }()
     
     lazy var editorWrapper: CodeGridWorld = {
         let world = CodeGridWorld(cameraProvider: {
@@ -25,8 +33,10 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         })
         return world
     }()
-    
-    var cameraNode: SCNNode?
+}
+
+// MARK: - Rendering requests
+extension CodeGridParser {
     
     func withNewGrid(_ url: URL, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
         if let grid = renderGrid(url) {
@@ -42,34 +52,40 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else { return nil }
-		let newGrid = createGrid(sourceFile)
+		let newGrid = createGridFromSyntax(sourceFile)
         return newGrid
     }
     
     func renderGrid(_ source: String) -> CodeGrid? {
         guard let sourceFile = parse(source) else { return nil }
-        let newGrid = createGrid(sourceFile)
+        let newGrid = createGridFromSyntax(sourceFile)
         return newGrid
     }
-    
-    func renderDirectory(_ path: FileKitPath) -> CodeGrid? {
-        guard path.isDirectory else { return nil }
-        let newDirectoryRoot = makeGridsForRootDirectory(path)
-        return newDirectoryRoot
+}
+
+// MARK: - Builder helpers
+extension CodeGridParser {
+    private func createNewGrid() -> CodeGrid {
+        CodeGrid(
+            glyphCache: glyphCache,
+            tokenCache: tokenCache
+        )
     }
     
-    private func createGrid(_ syntax: SourceFileSyntax) -> CodeGrid {
-        let grid = newGrid()
+    private func createGridFromSyntax(_ syntax: SourceFileSyntax) -> CodeGrid {
+        let grid = createNewGrid()
             .consume(syntax: Syntax(syntax))
             .sizeGridToContainerNode()
         return grid
     }
     
-    private func newGrid() -> CodeGrid {
-        CodeGrid(
-            glyphCache: glyphCache,
-            tokenCache: tokenCache
-        )
+    func makeFileNameGrid(_ name: String) -> CodeGrid {
+        let newGrid = createNewGrid().backgroundColor(.black)
+            .consume(text: name)
+            .sizeGridToContainerNode()
+        newGrid.rootNode.categoryBitMask = HitTestType.semanticTab.rawValue
+        newGrid.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
+        return newGrid
     }
     
     private func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
@@ -79,29 +95,18 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             .enumerated()
             .forEach(receiver)
     }
-    
-//    let rootGridColor = NSUIColor(calibratedRed: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
-    let rootGridColor = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
-    
-    private let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
-    
+}
+
+// MARK: - Rendering strategies
+extension CodeGridParser {
     func __versionTwo__RenderPathAsRoot(
         _ rootPath: FileKitPath,
         _ immediateReceiver: ((CodeGrid) -> Void)? = nil
     ) {
         let snapping = WorldGridSnapping()
         
-        func makeFileNameGrid(_ name: String) -> CodeGrid {
-            let newGrid = newGrid().backgroundColor(.black)
-                .consume(text: name)
-                .sizeGridToContainerNode()
-            newGrid.rootNode.categoryBitMask = HitTestType.semanticTab.rawValue
-            newGrid.backgroundGeometryNode.categoryBitMask = HitTestType.semanticTab.rawValue
-            return newGrid
-        }
-        
         func makeGridForDirectory2(_ rootDirectory: FileKitPath, _ depth: Int) -> CodeGrid {
-            let rootDirectoryGrid = newGrid().backgroundColor(
+            let rootDirectoryGrid = createNewGrid().backgroundColor(
                 rootGridColor.withAlphaComponent(rootGridColor.alphaComponent * VectorFloat(depth))
             )
             
@@ -147,13 +152,11 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
             }
             
             // all files haves been rendered for this directory; move focus back to the left-most
-            var firstGridInLastRow: CodeGrid?
             var maxHeight = lastDirectChildGrid?.rootNode.lengthY ?? VectorFloat(0.0)
             var nexRowStartPosition = SCNVector3Zero
             if let start = lastDirectChildGrid {
                 snapping.iterateOver(start, direction: .left) { grid in
                     maxHeight = max(maxHeight, grid.rootNode.lengthY)
-                    firstGridInLastRow = grid
                 }
                 nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)
             }
@@ -186,70 +189,6 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         renderQueue.async {
             let newRootGrid = makeGridForDirectory2(rootPath, 1)
             immediateReceiver?(newRootGrid)
-        }
-    }
-    
-    func makeGridsForRootDirectory(_ rootPath: FileKitPath) -> CodeGrid {
-        let rootGrid = newGrid().backgroundColor(rootGridColor)
-        
-        func stackVertical(_ index: Int, _ newGrid: CodeGrid) {
-            editorWrapper.addGrid(style: .inNextRow(newGrid))
-        }
-        
-        func stackHorizontal(_ index: Int, _ newGrid: CodeGrid) {
-            editorWrapper.addGrid(style: .trailingFromLastGrid(newGrid))
-        }
-        
-        func stackOrthogonal(_ index: Int, _ newGrid: CodeGrid) {
-            editorWrapper.addGrid(style: .inNextPlane(newGrid))
-        }
-        
-        func doMainLoop(_ index: Int, _ pathChild: FileKitPath) {
-            if pathChild.isDirectory {
-                let newGrid = renderDirectoryInLine(pathChild).translated(dY: 4.0)
-                stackOrthogonal(index, newGrid)
-            } else if let childGrid = renderGrid(pathChild.url) {
-                let newGrid = childGrid.translated(dZ: 4.0)
-                stackVertical(index, newGrid)
-            } else {
-                print("No grid for \(pathChild)")
-                return
-            }
-        }
-        
-        forEachChildOf(rootPath) { index, pathChild in
-            doMainLoop(index, pathChild)
-        }
-        return rootGrid.sizeGridToContainerNode(pad: 2)
-    }
-    
-//    private let directoryColor: NSUIColor = NSUIColor(calibratedRed: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
-    private let directoryColor: NSUIColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
-    
-    private func renderDirectoryInLine(_ path: FileKitPath) -> CodeGrid {
-        let newParentGrid = newGrid().backgroundColor(directoryColor)
-        var lastChild: CodeGrid?
-        
-        forEachChildOf(path) { _, pathChild in
-            guard let childGrid = makeGridFromPathType(pathChild) else { return }
-            
-            let lastLengthX = lastChild?.rootNode.lengthY ?? 0
-            let lastPosition = lastChild?.rootNode.position ?? SCNVector3Zero
-            let translatedPosition = lastPosition.translated(dY: lastLengthX + 8, dZ: 1.0)
-            childGrid.rootNode.position = translatedPosition
-                
-            newParentGrid.rootNode.addChildNode(childGrid.rootNode)
-            lastChild = childGrid
-        }
-        
-        return newParentGrid.sizeGridToContainerNode(pad: 2.0)
-    }
-    
-    private func makeGridFromPathType(_ path: FileKitPath) -> CodeGrid? {
-        if path.isDirectory {
-            return makeGridsForRootDirectory(path)
-        } else {
-            return renderGrid(path.url)
         }
     }
 }

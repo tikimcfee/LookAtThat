@@ -56,7 +56,6 @@
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
-		B7AB37172745699900CEC7DD /* CodeSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37162745699900CEC7DD /* CodeSheetTests.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
 		B7C0C3F02745F05A0021F50B /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -230,7 +229,6 @@
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
 		B79F93052750528B00E46A96 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
-		B7AB37162745699900CEC7DD /* CodeSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSheetTests.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
@@ -389,14 +387,6 @@
 			path = CallStack;
 			sourceTree = "<group>";
 		};
-		B7AB37152745698B00CEC7DD /* CodeSheet */ = {
-			isa = PBXGroup;
-			children = (
-				B7AB37162745699900CEC7DD /* CodeSheetTests.swift */,
-			);
-			path = CodeSheet;
-			sourceTree = "<group>";
-		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +398,7 @@
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
+				B72197242737428B00E1CB60 /* VirtualGrid */,
 				B7EA88332723938C0098541C /* CodeGrid.swift */,
 				B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */,
 				B7EA88362723955E0098541C /* CodeGridParser.swift */,
@@ -588,7 +579,6 @@
 			isa = PBXGroup;
 			children = (
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
-				B7AB37152745698B00CEC7DD /* CodeSheet */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B7AB37132745696000CEC7DD /* TestBundle.swift */,
 				F07C49C9251C095200F28173 /* Info.plist */,
@@ -676,7 +666,6 @@
 		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
 			isa = PBXGroup;
 			children = (
-				B72197242737428B00E1CB60 /* VirtualGrid */,
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
 				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
 				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
@@ -919,7 +908,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */,
-				B7AB37172745699900CEC7DD /* CodeSheetTests.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
 				B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */,
 			);

@@ -30,7 +30,6 @@ class TestBundle {
     var semanticBuilder: SemanticInfoBuilder!
     
     var wordNodeBuilder: WordNodeBuilder!
-    var swiftSyntaxParser: SwiftSyntaxParser!
     
     func setUpWithError() throws {
         glyphs = GlyphLayerCache()
@@ -39,8 +38,6 @@ class TestBundle {
         semanticBuilder = SemanticInfoBuilder()
         
         wordNodeBuilder = WordNodeBuilder()
-        swiftSyntaxParser = SwiftSyntaxParser(wordNodeBuilder: wordNodeBuilder)
-        swiftSyntaxParser.prepareRendering(source: testFile)
     }
     
     func tearDownWithError() throws {

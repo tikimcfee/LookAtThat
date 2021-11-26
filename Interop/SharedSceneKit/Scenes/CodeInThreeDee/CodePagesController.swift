@@ -131,9 +131,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
             
         case let .newMultiCommandRecursiveAll(parent, _):
             self.codeGridParser.__versionTwo__RenderPathAsRoot(parent) { firstGrid in
-//                sceneTransaction {
-//                    self.sceneState.rootGeometryNode.addChildNode(firstGrid.rootNode)
-//                }
                 DispatchQueue.main.async {
                     sceneTransaction {
                         self.sceneState.rootGeometryNode.addChildNode(firstGrid.rootNode)
