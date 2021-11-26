@@ -29,6 +29,10 @@ public typealias OSEvent = UIEvent
 public typealias VectorFloat = Float
 public typealias OSScreen = UIScreen
 public typealias NSUIImage = UIImage
+
+extension VectorFloat {
+    var toDouble: Double { Double(self) }
+}
 #endif
 
 extension CGFloat {

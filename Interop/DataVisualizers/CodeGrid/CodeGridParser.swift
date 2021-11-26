@@ -106,8 +106,14 @@ extension CodeGridParser {
         let snapping = WorldGridSnapping()
         
         func makeGridForDirectory2(_ rootDirectory: FileKitPath, _ depth: Int) -> CodeGrid {
+            #if os(macOS)
+            let alpha = rootGridColor.alphaComponent * VectorFloat(depth)
+            #elseif os(iOS)
+            let alpha = rootGridColor.cgColor.alpha * CGFloat(depth)
+            #endif
+            
             let rootDirectoryGrid = createNewGrid().backgroundColor(
-                rootGridColor.withAlphaComponent(rootGridColor.alphaComponent * VectorFloat(depth))
+                rootGridColor.withAlphaComponent(alpha)
             )
             
             var fileStack: [FileKitPath] = []

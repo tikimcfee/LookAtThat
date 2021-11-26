@@ -101,14 +101,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
 
     func attachSheetStream() {
         #if os(iOS)
-        MultipeerConnectionManager.shared.codeSheetStream
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: RunLoop.main)
-            .sink{ [weak self] codeSheets in
-                self?.receiveSheets(codeSheets)
-            }
-            .store(in: &cancellables)
-        
         MultipeerConnectionManager.shared.codeGridStream
             .subscribe(on: DispatchQueue.global())
             .receive(on: RunLoop.main)

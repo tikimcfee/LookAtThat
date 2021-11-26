@@ -55,6 +55,8 @@
 		B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
+		B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */; };
+		B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
@@ -90,7 +92,7 @@
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
-		F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */; };
+		F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */; };
 		F056927A252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
 		F056927B252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
 		F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
@@ -105,7 +107,7 @@
 		F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BA5F8C2510802C009A726C /* DictionarySceneController.swift */; };
 		F057D24B252045400094BD83 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
-		F057D24D252045400094BD83 /* CodePagesController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */; };
+		F057D24D252045400094BD83 /* TokenHoverInteractionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */; };
 		F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -226,6 +228,7 @@
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
 		B79F93052750528B00E46A96 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
+		B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSCompat.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
@@ -255,7 +258,7 @@
 		F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Extensions.swift"; sourceTree = "<group>"; };
 		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F04D816C250C9210008210C1 /* dict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dict.json; sourceTree = "<group>"; };
-		F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Interactions.swift"; sourceTree = "<group>"; };
+		F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHoverInteractionTracker.swift; sourceTree = "<group>"; };
 		F0569279252081CF006A10C9 /* WireData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WireData.swift; path = Interop/Data/WireData.swift; sourceTree = SOURCE_ROOT; };
 		F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBundle.swift; sourceTree = "<group>"; };
 		F057D20025201AEB0094BD83 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
@@ -382,6 +385,14 @@
 				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
 			);
 			path = CallStack;
+			sourceTree = "<group>";
+		};
+		B79F93082750681C00E46A96 /* MacOSCompat */ = {
+			isa = PBXGroup;
+			children = (
+				B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */,
+			);
+			path = MacOSCompat;
 			sourceTree = "<group>";
 		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
@@ -662,8 +673,9 @@
 		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
 			isa = PBXGroup;
 			children = (
+				B79F93082750681C00E46A96 /* MacOSCompat */,
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
-				F051FD2C251B17E6005448AE /* CodePagesController+Interactions.swift */,
+				F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */,
 				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
 			);
 			path = CodeInThreeDee;
@@ -837,7 +849,7 @@
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
-				F051FD2D251B17E6005448AE /* CodePagesController+Interactions.swift in Sources */,
+				F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
@@ -877,6 +889,7 @@
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
+				B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */,
 				F057D20125201AEB0094BD83 /* Collections.swift in Sources */,
@@ -924,7 +937,7 @@
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
 				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
-				F057D24D252045400094BD83 /* CodePagesController+Interactions.swift in Sources */,
+				F057D24D252045400094BD83 /* TokenHoverInteractionTracker.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
@@ -936,6 +949,7 @@
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,
+				B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
