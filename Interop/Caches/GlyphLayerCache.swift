@@ -56,7 +56,7 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
     let fontRenderer = FontRenderer()
     
     override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
-        print("--- Caching \(key.glyph) || Size == \(store.count)")
+//        print("--- Caching \(key.glyph) || Size == \(store.count)")
         
 		// Size the glyph from the font using a rendering scale factor
         let safeString = key.glyph

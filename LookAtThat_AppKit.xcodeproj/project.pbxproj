@@ -61,6 +61,9 @@
 		B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B79F93102750741900E46A96 /* CodeGridConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */; };
 		B79F93112750741900E46A96 /* CodeGridConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */; };
+		B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
+		B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
+		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
@@ -235,6 +238,9 @@
 		B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSCompat.swift; sourceTree = "<group>"; };
 		B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+GridExtensions.swift"; sourceTree = "<group>"; };
 		B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrency.swift; sourceTree = "<group>"; };
+		B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionTwo.swift; sourceTree = "<group>"; };
+		B79F931527508FB300E46A96 /* RenderingVersionThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionThree.swift; sourceTree = "<group>"; };
+		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
@@ -401,6 +407,16 @@
 			path = MacOSCompat;
 			sourceTree = "<group>";
 		};
+		B79F931227508F5600E46A96 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */,
+				B79F931527508FB300E46A96 /* RenderingVersionThree.swift */,
+				B79F931727509D3400E46A96 /* Stopwatch.swift */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +428,7 @@
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
+				B79F931227508F5600E46A96 /* Rendering */,
 				B72197242737428B00E1CB60 /* VirtualGrid */,
 				B7EA88332723938C0098541C /* CodeGrid.swift */,
 				B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */,
@@ -884,11 +901,14 @@
 				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
+				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
+				B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */,
 				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
 				45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
+				B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,

@@ -45,6 +45,11 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
         return cache[key] != nil
     }
     
+    func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
+        semaphore.wait(); defer { semaphore.signal() }
+        op(&cache)
+    }
+    
     private func lockAndReturn(key: Key) -> Value? {
         // So sad =(; any time I go async and concurrent, the dictionary wheeps.
         // Fine. lock it all down.
