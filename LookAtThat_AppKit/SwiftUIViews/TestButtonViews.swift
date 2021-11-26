@@ -52,13 +52,13 @@ struct SourceInfoGrid: View {
             self.pathDepths = depths
         }
         .onReceive(
-            SceneLibrary.global.codePagesController.parsedFileStream
+            SceneLibrary.global.codePagesController.hoverInfoStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
-        ) { eventTuple in
-            switch (eventTuple.0, eventTuple.1) {
-            case (_, .some(let grid)):
-                self.sourceInfo = grid.codeGridSemanticInfo
+        ) { event in
+            switch (event) {
+            case (.some(let info)):
+                self.sourceInfo = info
             default:
                 break
             }

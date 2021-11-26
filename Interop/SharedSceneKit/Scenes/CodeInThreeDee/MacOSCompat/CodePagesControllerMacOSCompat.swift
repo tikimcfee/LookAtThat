@@ -62,6 +62,14 @@ class CodePagesControllerMacOSCompat {
             .store(in: &controller.cancellables)
     }
     
+    func attachEventSink() {
+        SceneLibrary.global.codePagesController.fileEventStream
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] event in
+                inputCompat.controller.onNewFileStreamEvent(event)
+            }
+            .store(in: &controller.cancellables)
+    }
     
     private func onFileOperation(_ op: FileOperation) {
         switch op {
@@ -79,6 +87,7 @@ class CodePagesControllerMacOSCompat {
 
 class CodePagesControllerMacOSInputCompat {
     let controller: CodePagesController
+    
     init(controller: CodePagesController) {
         self.controller = controller
     }
@@ -88,6 +97,11 @@ class CodePagesControllerMacOSInputCompat {
     var sceneView: SCNView { controller.sceneView }
     var codeGridParser: CodeGridParser { controller.codeGridParser }
     var keyboardInterceptor: KeyboardInterceptor { controller.macosCompat.keyboardInterceptor }
+    
+    var hoveredInfo: CodeGridSemanticMap? {
+        get { controller.hoveredInfo }
+        set { controller.hoveredInfo = newValue }
+    }
     var hoveredToken: String? {
         get { controller.hoveredToken }
         set { controller.hoveredToken = newValue }
@@ -151,14 +165,39 @@ class CodePagesControllerMacOSInputCompat {
     }
     
     private func doCodeGridHover(_ point: CGPoint) {
-        let grids = sceneView.hitTest(location: point, .codeGridToken)
+        let gridsAndTokens = sceneView.hitTest(location: point, .gridsAndTokens)
+        var iterator = gridsAndTokens.makeIterator()
+        var (hoveredId, tokenSet, grid): (String?, CodeGridNodes?, CodeGrid?)
         
-        guard let firstHoveredGrid = grids.first,
-              let codeGridIdFromNode = firstHoveredGrid.node.name
-        else { return }
+        while tokenSet == nil && grid == nil, let next = iterator.next() {
+            guard let codeGridIdFromNode = next.node.name else {
+                print("No name for node: \(next.node)")
+                continue
+            }
+            
+            if tokenSet == nil {
+                let hovered = codeGridParser.tokenCache[codeGridIdFromNode]
+                hoveredId = codeGridIdFromNode
+                tokenSet = hovered
+            }
+            
+            if grid == nil,
+               let letMaybeParentNameId = next.node.parent?.name,
+               let maybeGrid = codeGridParser.concurrency[letMaybeParentNameId] {
+                grid = maybeGrid
+            }
+        }
+    
+        if let hoveredInfo = grid?.codeGridSemanticInfo {
+            self.hoveredInfo = hoveredInfo
+        }
         
-        let nodeSet = codeGridParser.tokenCache[codeGridIdFromNode]
-        touchState.mouse.hoverTracker.newSetHovered(nodeSet)
-        hoveredToken = codeGridIdFromNode
+        if let hoveredToken = hoveredId {
+            if let set = tokenSet, !set.isEmpty {
+                touchState.mouse.hoverTracker.newSetHovered(set)
+                self.hoveredToken = hoveredToken
+            }
+            
+        }
     }
 }

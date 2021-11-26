@@ -19,7 +19,9 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
     
     @Published var hoveredToken: String?
+    @Published var hoveredInfo: CodeGridSemanticMap?
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
+    lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
     
     var cancellables = Set<AnyCancellable>()
     
@@ -38,10 +40,10 @@ class CodePagesController: BaseSceneController, ObservableObject {
         codeGridParser.cameraNode = sceneView.pointOfView ?? sceneCameraNode
     }
     
-    lazy var parsedFileStream = fileEventStream.share().map { event -> (FileBrowser.Event, CodeGrid?) in
+    func onNewFileStreamEvent(_ event: FileBrowser.Event) {
         switch event {
         case .noSelection:
-            return (event, nil)
+            break
             
         case let .newSinglePath(path):
             var createdGrid: CodeGrid?
@@ -51,7 +53,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     createdGrid = newGrid
                 }
             }
-            return (event, createdGrid)
             
         case let .newSingleCommand(path, style):
             var createdGrid: CodeGrid?
@@ -68,8 +69,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     createdGrid = newGrid
                 }
             }
-            return (event, createdGrid)
-        
+            
         case let .newMultiCommandImmediateChildren(parent, style):
             sceneTransaction {
                 switch style {
@@ -91,7 +91,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                             
                         }
                     }
-                        
+                    
                 case .inNewPlane, .allChildrenInNewPlane:
                     parent.children().filter(FileBrowser.isSwiftFile).forEach { subpath in
                         self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
@@ -101,8 +101,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 }
             }
             
-            return (event, nil)
-            
         case let .newMultiCommandRecursiveAll(parent, _):
             self.codeGridParser.__versionThree_RenderConcurrent(parent) { firstGrid in
                 DispatchQueue.main.async {
@@ -111,11 +109,9 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     }
                 }
             }
-            
-            return (event, nil)
         }
         
-    }.eraseToAnyPublisher()
+    }
     
     override func sceneActive() {
         // This is pretty dumb. I have the scene library global, and it automatically inits this.
@@ -126,6 +122,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         DispatchQueue.main.async {
             self.macosCompat.attachMouseSink()
             self.macosCompat.attachKeyInputSink()
+            self.macosCompat.attachEventSink()
         }
 #endif
     }

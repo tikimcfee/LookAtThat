@@ -85,4 +85,8 @@ struct HitTestType: OptionSet {
         .directoryGroup, .codeGrid, .codeGridToken,
         .codeGridSnapshot, .codeGridGlyphs, .codeGridBlitter
     ]
+    
+    static let gridsAndTokens: HitTestType = [
+        .codeGridToken, .codeGrid
+    ]
 }

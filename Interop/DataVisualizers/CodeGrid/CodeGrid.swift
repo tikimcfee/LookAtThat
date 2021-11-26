@@ -18,7 +18,7 @@ class CodeGrid: Identifiable, Equatable {
         static var walkSemantics: Bool = true
     }
     
-	lazy var id = UUID().uuidString
+    lazy var id = { "\(kContainerName)-\(UUID().uuidString)" }()
 	
 	let tokenCache: CodeGridTokenCache
 	let glyphCache: GlyphLayerCache
@@ -41,8 +41,6 @@ class CodeGrid: Identifiable, Equatable {
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
-    
-    var semanticInfo: SemanticInfo?
 	
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
@@ -117,7 +115,7 @@ extension CodeGrid {
 extension CodeGrid {
     private func makeContainerNode() -> SCNNode {
         let container = SCNNode()
-        container.name = kContainerName + id
+        container.name = id
         container.addChildNode(backgroundGeometryNode)
         container.addChildNode(rootGlyphsNode)
         backgroundGeometryNode.geometry = gridGeometry

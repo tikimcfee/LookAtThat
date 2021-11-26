@@ -36,6 +36,14 @@ class TotalProtonicConcurrency {
         self.cache = cache
     }
     
+    subscript(_ id: CodeGrid.ID) -> CodeGrid? {
+        var grid: CodeGrid?
+        cache.lockAndDo { _ in
+            grid = cache.cachedGrids[id]
+        }
+        return grid
+    }
+    
     func concurrentRenderAccess(_ path: FileKitPath, _ onRender: @escaping (CodeGrid) -> Void) {
         if path.isDirectory {
             print("<!!> Warning - Trying to create a grid for a directory; are you sure you wanted to do this?")
