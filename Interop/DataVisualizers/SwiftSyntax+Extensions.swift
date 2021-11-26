@@ -1,6 +1,10 @@
 import SwiftSyntax
 //import Parser
 
+extension SyntaxIdentifier {
+    var stringIdentifier: String { "\(hashValue)" }
+}
+
 extension SwiftSyntax.TriviaPiece {
     var stringify: String {
         var output = ""

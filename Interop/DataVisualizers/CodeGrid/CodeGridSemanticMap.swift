@@ -15,6 +15,7 @@ typealias SemanticsLookupSyntaxKey = SyntaxIdentifier
 
 typealias GridAssociationType = Set<SCNNode>
 typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationType]
+typealias GridAssociationSyntaxToSyntaxType = [SyntaxIdentifier: Set<SyntaxIdentifier>]
 
 public class CodeGridSemanticMap {
 	
@@ -25,6 +26,7 @@ public class CodeGridSemanticMap {
 	var semanticsLookupByNodeId = [SemanticsLookupNodeKey: SemanticsLookupSyntaxKey]()
 	
 	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
+    var syntaxIdToAssociatedIds = GridAssociationSyntaxToSyntaxType() // [SyntaxIdentifier: Set<SyntaxIdentifier>]
 
 	var structs = GridAssociationSyntaxToNodeType()
 	var classes = GridAssociationSyntaxToNodeType()
@@ -81,9 +83,22 @@ extension CodeGridSemanticMap {
         return parentList
     }
     
+    func forAllNodesAssociatedWith(
+        _ nodeId: SyntaxIdentifier,
+        _ cache: CodeGridTokenCache,
+        _ walker: (SemanticInfo, GridAssociationType) -> Void
+    ) {
+        for associatedId in syntaxIdToAssociatedIds[nodeId] ?? [] {
+            let associatedNodes = cache[associatedId.stringIdentifier]
+            if let info = semanticsLookupBySyntaxId[associatedId] {
+                walker(info, associatedNodes)
+            }
+        }
+    }
+    
     func walkToRootFrom(_ nodeId: SemanticsLookupNodeKey?, _ walker: (SemanticInfo) -> Void) {
         guard let nodeId = nodeId,
-              let syntaxId = semanticsLookupByNodeId[nodeId]else {
+              let syntaxId = semanticsLookupByNodeId[nodeId] else {
             return
         }
         
@@ -107,23 +122,29 @@ extension CodeGridSemanticMap {
 		semanticsLookupByNodeId[nodeId] = syntaxId
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
 	}
+    
+    func associateIdentiferWithSyntax(
+        syntax: Syntax,
+        newValue: SyntaxIdentifier
+    ) {
+        let syntaxId = syntax.id
+        var existingSyntaxAssociations = syntaxIdToAssociatedIds[syntaxId] ?? []
+        existingSyntaxAssociations.insert(newValue)
+        syntaxIdToAssociatedIds[syntaxId] = existingSyntaxAssociations
+  
+        // TODO: track ids the same as nodes... maybe another value type abstraction? lulz.
+//        if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
+//            category(for: decl) { category in
+//                let existing = category[syntaxId] ?? []
+//                category[syntaxId] = existing.i
+//            }
+//        }
+    }
 	
-	func mergeSyntaxAssociations(_ syntax: Syntax, _ newValue: GridAssociationType?) {
-		let syntaxId = syntax.id
-		var existingSyntaxAssociations = syntaxIdToTokenNodes[syntaxId] ?? []
-        existingSyntaxAssociations.formUnion(newValue ?? [])
-		syntaxIdToTokenNodes[syntaxId] = existingSyntaxAssociations
-		
-		if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
-			category(for: decl) { category in
-				let existing = category[syntaxId] ?? [] 
-				category[syntaxId] = existing.union(newValue ?? [])
-			}
-		}
-	}
-	
-	func category(for syntax: DeclSyntaxProtocol,
-					   _ action: (inout GridAssociationSyntaxToNodeType) -> Void) {
+	func category(
+        for syntax: DeclSyntaxProtocol,
+        _ action: (inout GridAssociationSyntaxToNodeType) -> Void)
+    {
 		switch syntax.syntaxNodeType {
 			case is ProtocolDeclSyntax.Type:
 				action(&protocols)

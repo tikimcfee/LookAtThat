@@ -269,18 +269,18 @@ struct SourceInfoGrid: View {
     
     @ViewBuilder
     func infoRows(named: String, from pair: GridAssociationSyntaxToNodeType) -> some View {
-        Text(named).underline().padding(.top, 8)
-        List {
-            ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
-                VStack {
+        Group {
+            Text(named).underline().padding(.top, 8)
+            List {
+                ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
                     if let info = sourceInfo.semanticsLookupBySyntaxId[id] {
                         Text(info.referenceName)
-                            .frame(minWidth: 232, alignment: .leading)
+                            .font(Font.system(.caption, design: .monospaced))
                             .padding(4)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 4)
-                                    .stroke(Color.gray)
+                                Rectangle().stroke(Color.gray)
                             )
+                        
                             .onTapGesture {
                                 selected(id: info.syntaxId)
                             }
@@ -289,8 +289,7 @@ struct SourceInfoGrid: View {
                     }
                 }
             }
-        }
-        .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
+        }.frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
     }
     
     func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {

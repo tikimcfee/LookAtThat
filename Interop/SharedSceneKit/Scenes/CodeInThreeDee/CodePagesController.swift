@@ -152,19 +152,16 @@ extension CodePagesController {
     }
 	
 	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
-		guard let sheet = source.tokenNodes(id) else {
-			print("Missing sheet or semantic info for \(id)")
-			return
-		}
-		
-		let isSelected = selectedSheets.toggle(id)
-		sceneTransaction {
-			sheet.forEach { node in
-				node.position = node.position.translated(
-					dZ: isSelected ? 25 : -25
-				)
-			}
-		}
+        let isSelected = selectedSheets.toggle(id)
+        sceneTransaction {
+            source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
+                nodes.forEach { node in
+                    node.position = node.position.translated(
+                        dZ: isSelected ? 25 : -25
+                    )
+                }
+            }
+        }
 	}
 
     func toggleNodeHighlight(_ node: SCNNode) {

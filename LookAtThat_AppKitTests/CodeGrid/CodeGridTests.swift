@@ -47,22 +47,30 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let sourceSyntax = Syntax(sourceFile)
         //        grids.consume(syntax: sourceSyntax)
         
-        func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
-            //            let info = bundle.semanticBuilder.semanticInfo(for: syntax)
-            //            print(info)
-            return .visitChildren
+        for token in sourceSyntax.tokens {
+            print(token.id.stringIdentifier, "\n\n---\n\(token.text) | \(token.typeName)\n---")
+            var nextParent: Syntax? = token._syntaxNode
+            while let next = nextParent?.parent {
+                print("<--> \(next.id.stringIdentifier) | \(next.cachedType)")
+                nextParent = next
+            }
         }
         
-        func onVisitPost(_ syntax: Syntax) {
-            
-        }
-        
-        let visitor = StateCapturingVisitor(
-            onVisitAny: onVisit,
-            onVisitAnyPost: onVisitPost
-        )
-        
-        visitor.walk(sourceSyntax)
+//        func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
+//            //            let info = bundle.semanticBuilder.semanticInfo(for: syntax)
+//            //            print(info)
+//            return .visitChildren
+//        }
+//
+//        func onVisitPost(_ syntax: Syntax) {
+//
+//        }
+//
+//        let visitor = StateCapturingVisitor(
+//            onVisitAny: onVisit,
+//            onVisitAnyPost: onVisitPost
+//        )
+//        visitor.walk(sourceSyntax)
     }
     
     func testRendering_versionTwo() throws {

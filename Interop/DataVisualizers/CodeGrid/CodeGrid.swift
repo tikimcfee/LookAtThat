@@ -204,10 +204,6 @@ extension CodeGrid {
 }
 
 // CodeSheet operations
-private extension SyntaxIdentifier {
-	var stringIdentifier: String { "\(hashValue)" }
-}
-
 extension CodeGrid: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -311,10 +307,7 @@ extension CodeGrid {
             
             func walkHierarchyForSemantics() {
                 // Walk the parenty hierarchy and associate these nodes with that parent.
-                // Add semantic info to lookup for each parent node found.
-                tokenTextNodes.formUnion(leadingTriviaNodes)
-                tokenTextNodes.formUnion(trailingTriviaNodes)
-                
+                // Add semantic info to lookup for each parent node found.                
                 var tokenParent: Syntax? = Syntax(token)
                 while tokenParent != nil {
                     guard let parent = tokenParent else { continue }
@@ -323,7 +316,10 @@ extension CodeGrid {
                         tokenIdNodeName,
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
-                    codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
+                    codeGridSemanticInfo.associateIdentiferWithSyntax(
+                        syntax: parent,
+                        newValue: token.id
+                    )
                     tokenParent = parent.parent
                 }
             }
