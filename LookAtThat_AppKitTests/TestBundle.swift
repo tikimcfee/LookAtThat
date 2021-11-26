@@ -13,6 +13,7 @@ import SwiftTrace
 @testable import LookAtThat_AppKit
 
 class TestBundle {
+    
     static let testFileNames = [
         "WordNodeIntrospect",
         "RidiculousFile",
@@ -30,6 +31,18 @@ class TestBundle {
     var semanticBuilder: SemanticInfoBuilder!
     
     var wordNodeBuilder: WordNodeBuilder!
+    
+    var testSourceDirectory: FileKitPath? {
+        let absolutePath = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
+        var isDirectory: ObjCBool = false
+        let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
+        guard exists, isDirectory.boolValue else {
+            print("Could not resolve a directory for \(absolutePath)")
+            return nil
+        }
+        
+        return FileKitPath(absolutePath)
+    }
     
     func setUpWithError() throws {
         glyphs = GlyphLayerCache()

@@ -65,6 +65,31 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         visitor.walk(sourceSyntax)
     }
     
+    func testTheQuickness_versionTwo() throws {
+        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
+        measure {
+            let awaitRender = expectation(description: "Version two rendered")
+            bundle.gridParser.__versionTwo__RenderPathAsRoot(rootDirectory) { _ in
+                print("receiver emitted for versionTwo")
+                awaitRender.fulfill()
+            }
+            wait(for: [awaitRender], timeout: 10)
+        }
+    }
+    
+    func testTheQuickness_versionThree_Again() throws {
+        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
+        measure {
+            let awaitRender = expectation(description: "Version two rendered")
+            bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { _ in
+                print("receiver emitted versionThree")
+                awaitRender.fulfill()
+            }
+            wait(for: [awaitRender], timeout: 10)
+        }
+        
+    }
+    
     func testAttributedWrites() throws {
         let testFile = bundle.testFile
         let fileData = try Data(contentsOfPath: FileKitPath(testFile.path))

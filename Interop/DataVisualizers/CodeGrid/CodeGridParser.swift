@@ -75,7 +75,7 @@ extension CodeGridParser {
         // Pop all files and render them vertically
         var lastDirectChildGrid: CodeGrid?
         while let last = fileStack.popLast() {
-            print("File *** \(last.url.lastPathComponent)")
+//            print("File *** \(last.url.lastPathComponent)")
             let newGrid = concurrency.syncAccess(last)
             newGrid.rootNode.position.z = 4.0
             if let lastGrid = lastDirectChildGrid {
@@ -109,7 +109,7 @@ extension CodeGridParser {
         
         nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
         while let last = directoryStack.popLast() {
-            print("Dir <--> \(last.url.lastPathComponent)")
+//            print("Dir <--> \(last.url.lastPathComponent)")
             let childDirectory = kickoffRecursiveRender(last, depth + 1, state)
             
             rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
@@ -133,7 +133,7 @@ extension CodeGridParser {
     
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
-        _ immediateReceiver: ((CodeGrid) -> Void)? = nil
+        _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         
@@ -141,22 +141,23 @@ extension CodeGridParser {
         let dispatchGroup = DispatchGroup()
         FileBrowser.recursivePaths(rootPath).forEach { childPath in
             guard !childPath.isDirectory else {
-                print("Skip directory: \(childPath)")
+//                print("Skip directory: \(childPath)")
                 return
             }
             dispatchGroup.enter()
             concurrency.concurrentRenderAccess(childPath) { newGrid in
-                print("Rendered \(childPath)")
+//                print("Rendered \(childPath)")
                 dispatchGroup.leave()
             }
         }
         dispatchGroup.wait()
-        print("Recursion complete. Let's see what happens.")
+        print("* Recursion complete.")
         
         // second pass: render grids
         renderQueue.async {
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
-            immediateReceiver?(newRootGrid)
+            print("* Layout complete.")
+            onLoadComplete?(newRootGrid)
         }
     }
 }
@@ -164,7 +165,7 @@ extension CodeGridParser {
 extension CodeGridParser {
     func __versionTwo__RenderPathAsRoot(
         _ rootPath: FileKitPath,
-        _ immediateReceiver: ((CodeGrid) -> Void)? = nil
+        _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         let snapping = WorldGridSnapping()
         
@@ -194,7 +195,7 @@ extension CodeGridParser {
             // Pop all files and render them vertically
             var lastDirectChildGrid: CodeGrid?
             while let last = fileStack.popLast() {
-                print("File *** \(last.url.lastPathComponent)")
+//                print("File *** \(last.url.lastPathComponent)")
                 guard let newGrid = renderGrid(last.url) else {
                     print("No grid rendered for \(last)")
                     continue
@@ -232,7 +233,7 @@ extension CodeGridParser {
             
             nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
             while let last = directoryStack.popLast() {
-                print("Dir <--> \(last.url.lastPathComponent)")
+//                print("Dir <--> \(last.url.lastPathComponent)")
                 let childDirectory = makeGridForDirectory2(last, depth + 1)
                 
                 rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
@@ -257,7 +258,7 @@ extension CodeGridParser {
         // Kickoff
         renderQueue.async {
             let newRootGrid = makeGridForDirectory2(rootPath, 1)
-            immediateReceiver?(newRootGrid)
+            onLoadComplete?(newRootGrid)
         }
     }
 }
