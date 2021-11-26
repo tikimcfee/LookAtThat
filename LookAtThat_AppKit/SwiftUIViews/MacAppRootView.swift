@@ -3,10 +3,11 @@ import SceneKit
 
 struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
+    
+    @State var showMultipeer: Bool = false
 
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
-            
             SceneKitRepresentableView(
                 sceneView: library.sharedSceneView
             ).focusable() // set focusable to work around a nil focus error
@@ -20,13 +21,22 @@ struct MacAppRootView: View {
                 }.padding(.bottom, 16.0)
             case .source:
                 VStack(alignment: .leading) {
-                    MultipeerInfoView()
-                        .frame(width: 256.0)
                     HStack(alignment: .top) {
                         SourceInfoGrid()
                     }.padding(.bottom, 4.0)
+                    extras()
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    func extras() -> some View {
+        HStack {
+            if showMultipeer {
+                MultipeerInfoView().frame(width: 256.0)
+            }
+            Spacer()
         }
     }
 }

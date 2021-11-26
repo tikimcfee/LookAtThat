@@ -46,16 +46,13 @@ class CodePagesController: BaseSceneController, ObservableObject {
             break
             
         case let .newSinglePath(path):
-            var createdGrid: CodeGrid?
             sceneTransaction {
                 self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
                     plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                    createdGrid = newGrid
                 }
             }
             
         case let .newSingleCommand(path, style):
-            var createdGrid: CodeGrid?
             sceneTransaction {
                 self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
                     switch style {
@@ -66,7 +63,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     case .inNewPlane, .allChildrenInNewPlane:
                         plane.addGrid(style: .inNextPlane(newGrid))
                     }
-                    createdGrid = newGrid
                 }
             }
             

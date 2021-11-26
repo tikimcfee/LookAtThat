@@ -64,6 +64,7 @@
 		B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
+		B79F931B2750C3D900E46A96 /* SourceInfoGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoGrid.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
@@ -241,6 +242,7 @@
 		B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionTwo.swift; sourceTree = "<group>"; };
 		B79F931527508FB300E46A96 /* RenderingVersionThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionThree.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		B79F931A2750C3D900E46A96 /* SourceInfoGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoGrid.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
@@ -417,6 +419,14 @@
 			path = Rendering;
 			sourceTree = "<group>";
 		};
+		B79F93192750C3B000E46A96 /* Semantics */ = {
+			isa = PBXGroup;
+			children = (
+				B79F931A2750C3D900E46A96 /* SourceInfoGrid.swift */,
+			);
+			path = Semantics;
+			sourceTree = "<group>";
+		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +533,7 @@
 		F030B8D92519039A00B94E7A /* SwiftUIViews */ = {
 			isa = PBXGroup;
 			children = (
+				B79F93192750C3B000E46A96 /* Semantics */,
 				F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */,
 				F00FC731250C53460092AFF9 /* MacAppRootView.swift */,
 				F030B8DA251903B400B94E7A /* TestButtonViews.swift */,
@@ -877,6 +888,7 @@
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
+				B79F931B2750C3D900E46A96 /* SourceInfoGrid.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
