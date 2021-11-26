@@ -136,25 +136,26 @@ extension CodeGridParser {
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
-        
-        // first pass: precache grids
-        let dispatchGroup = DispatchGroup()
-        FileBrowser.recursivePaths(rootPath).forEach { childPath in
-            guard !childPath.isDirectory else {
-//                print("Skip directory: \(childPath)")
-                return
-            }
-            dispatchGroup.enter()
-            concurrency.concurrentRenderAccess(childPath) { newGrid in
-//                print("Rendered \(childPath)")
-                dispatchGroup.leave()
-            }
-        }
-        dispatchGroup.wait()
-        print("* Recursion complete.")
-        
-        // second pass: render grids
         renderQueue.async {
+            // first pass: precache grids
+            let dispatchGroup = DispatchGroup()
+            print("* Starting grid precache...")
+            FileBrowser.recursivePaths(rootPath).forEach { childPath in
+                guard !childPath.isDirectory else {
+//                    print("Skip directory: \(childPath)")
+                    return
+                }
+                dispatchGroup.enter()
+                self.concurrency.concurrentRenderAccess(childPath) { newGrid in
+//                    print("Rendered \(childPath)")
+                    dispatchGroup.leave()
+                }
+            }
+            dispatchGroup.wait()
+            print("* Precache complete.")
+            
+            // second pass: position grids
+            print("* Starting layout...")
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
             print("* Layout complete.")
             onLoadComplete?(newRootGrid)

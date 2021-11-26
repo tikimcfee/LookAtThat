@@ -13,6 +13,11 @@ let kContainerName = "kContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 class CodeGrid: Identifiable, Equatable {
+    struct Defaults {
+        static var displayMode: DisplayMode = .glyphs
+        static var walkSemantics: Bool = true
+    }
+    
 	lazy var id = UUID().uuidString
 	
 	let tokenCache: CodeGridTokenCache
@@ -25,10 +30,11 @@ class CodeGrid: Identifiable, Equatable {
 	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
 	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    var displayMode: DisplayMode = .layers {
+    var walkSemantics: Bool = Defaults.walkSemantics
+    var displayMode: DisplayMode = Defaults.displayMode {
         willSet { willSetDisplayMode(newValue) }
     }
-	
+    
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
 
 	lazy var rootNode: SCNNode = makeContainerNode()
@@ -308,19 +314,18 @@ extension CodeGrid {
             func walkHierarchyForSemantics() {
                 // Walk the parenty hierarchy and associate these nodes with that parent.
                 // Add semantic info to lookup for each parent node found.
+                tokenTextNodes.formUnion(leadingTriviaNodes)
+                tokenTextNodes.formUnion(trailingTriviaNodes)
+                
                 var tokenParent: Syntax? = Syntax(token)
                 while tokenParent != nil {
                     guard let parent = tokenParent else { continue }
                     codeGridSemanticInfo.mergeSemanticInfo(
                         parent.id,
-                        token.id.stringIdentifier,
+                        tokenIdNodeName,
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
-                    tokenTextNodes.formUnion(leadingTriviaNodes)
-                    tokenTextNodes.formUnion(trailingTriviaNodes)
                     codeGridSemanticInfo.mergeSyntaxAssociations(parent, tokenTextNodes)
-                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, leadingTriviaNodes)
-                    //                codeGridSemanticInfo.mergeSyntaxAssociations(parent, trailingTriviaNodes)
                     tokenParent = parent.parent
                 }
             }
@@ -329,8 +334,9 @@ extension CodeGrid {
             case .layers: writeAttributedText()
             case .glyphs: writeGlyphs()
             }
-            
-//            walkHierarchyForSemantics()
+            if walkSemantics {
+                walkHierarchyForSemantics()
+            }
         }
         
         switch displayMode {

@@ -65,7 +65,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         visitor.walk(sourceSyntax)
     }
     
-    func testTheQuickness_versionTwo() throws {
+    func testRendering_versionTwo() throws {
+        CodeGrid.Defaults.displayMode = .glyphs
+        CodeGrid.Defaults.walkSemantics = false
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         measure {
             let awaitRender = expectation(description: "Version two rendered")
@@ -77,7 +79,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
-    func testTheQuickness_versionThree_Again() throws {
+    
+    func testRendering_versionThree() throws {
+        CodeGrid.Defaults.displayMode = .glyphs
+        CodeGrid.Defaults.walkSemantics = false
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         measure {
             let awaitRender = expectation(description: "Version two rendered")
