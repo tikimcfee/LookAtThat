@@ -260,7 +260,8 @@ extension CodeGrid {
         let sourceAttributedString = NSMutableAttributedString()
         
         for token in syntax.tokens {
-			let tokenIdNodeName = token.id.stringIdentifier
+            let tokenId = token.id
+			let tokenIdNodeName = tokenId.stringIdentifier
 			let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
 			let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
             let triviaColor = CodeGridColors.trivia
@@ -311,14 +312,15 @@ extension CodeGrid {
                 var tokenParent: Syntax? = Syntax(token)
                 while tokenParent != nil {
                     guard let parent = tokenParent else { continue }
+                    let parentId = parent.id
                     codeGridSemanticInfo.mergeSemanticInfo(
-                        parent.id,
+                        parentId,
                         tokenIdNodeName,
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
                     codeGridSemanticInfo.associateIdentiferWithSyntax(
-                        syntax: parent,
-                        newValue: token.id
+                        syntaxId: parentId,
+                        newValue: tokenId
                     )
                     tokenParent = parent.parent
                 }

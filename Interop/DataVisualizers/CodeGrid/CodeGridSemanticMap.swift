@@ -15,7 +15,7 @@ typealias SemanticsLookupSyntaxKey = SyntaxIdentifier
 
 typealias GridAssociationType = Set<SCNNode>
 typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationType]
-typealias GridAssociationSyntaxToSyntaxType = [SyntaxIdentifier: Set<SyntaxIdentifier>]
+typealias GridAssociationSyntaxToSyntaxType = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
 	
@@ -88,7 +88,8 @@ extension CodeGridSemanticMap {
         _ cache: CodeGridTokenCache,
         _ walker: (SemanticInfo, GridAssociationType) -> Void
     ) {
-        for associatedId in syntaxIdToAssociatedIds[nodeId] ?? [] {
+        // Specifically avoiding a map / map+reduce here to reduce copying
+        for (associatedId, _) in syntaxIdToAssociatedIds[nodeId] ?? [:] {
             let associatedNodes = cache[associatedId.stringIdentifier]
             if let info = semanticsLookupBySyntaxId[associatedId] {
                 walker(info, associatedNodes)
@@ -124,14 +125,15 @@ extension CodeGridSemanticMap {
 	}
     
     func associateIdentiferWithSyntax(
-        syntax: Syntax,
+        syntaxId: SyntaxIdentifier,
         newValue: SyntaxIdentifier
     ) {
-        let syntaxId = syntax.id
-        var existingSyntaxAssociations = syntaxIdToAssociatedIds[syntaxId] ?? []
-        existingSyntaxAssociations.insert(newValue)
-        syntaxIdToAssociatedIds[syntaxId] = existingSyntaxAssociations
-  
+        if syntaxIdToAssociatedIds[syntaxId] == nil {
+            syntaxIdToAssociatedIds[syntaxId] = [newValue: 1]
+            return
+        }
+        syntaxIdToAssociatedIds[syntaxId]?[newValue] = 1
+        
         // TODO: track ids the same as nodes... maybe another value type abstraction? lulz.
 //        if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
 //            category(for: decl) { category in

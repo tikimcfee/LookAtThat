@@ -33,19 +33,30 @@ public extension SCNNode {
     }
     
     class BoundsCaching {
+        private static var boundsCacheLocking = LockingCache<BoundsKey, Bounds>()
         private static var boundsCache: [BoundsKey: Bounds] = [:]
+        private static let BoundsZero: Bounds = (min: SCNVector3Zero, max: SCNVector3Zero)
         
         public static func Clear() {
             boundsCache.removeAll()
         }
         
         internal static func getOrUpdate(_ node: SCNNode) -> Bounds {
-            boundsCache[node.cacheKey] ?? Update(node)
+            var bounds: Bounds?
+            boundsCacheLocking.lockAndDo { cache in
+                bounds = cache[node.cacheKey]
+            }
+            guard let cached = bounds else {
+                return Update(node)
+            }
+            return cached
         }
         
-        internal static func Update(_ node: SCNNode) -> Bounds {
+        private static func Update(_ node: SCNNode) -> Bounds {
             let box = node.computeBoundingBox()
-            boundsCache[node.cacheKey] = box
+            boundsCacheLocking.lockAndDo { cache in
+                cache[node.cacheKey] = box
+            }
             return box
         }
     }

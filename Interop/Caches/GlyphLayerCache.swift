@@ -8,11 +8,11 @@ import SceneKit
 public struct GlyphCacheKey: Hashable, Equatable {
     public let glyph: String
     public let foreground: NSUIColor
-    public var attributes: [String: AnyHashable]
+    public var attributes: [String: AnyHashable]?
     
     public init(_ glyph: String,
                 _ foreground: NSUIColor,
-                _ attributes: [String: AnyHashable] = [:]) {
+                _ attributes: [String: AnyHashable]? = nil) {
         self.glyph = glyph
         self.foreground = foreground
         self.attributes = attributes

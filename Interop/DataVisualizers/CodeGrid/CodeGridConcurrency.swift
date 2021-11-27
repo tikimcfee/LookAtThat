@@ -18,7 +18,17 @@ class GridCache: LockingCache<FileKitPath, CodeGrid> {
         self.parser = parser
     }
     
+    func setCache(_ key: FileKitPath) -> CodeGrid{
+        let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
+        lockAndDo { cache in
+            cache[key] = newGrid
+            cachedGrids[newGrid.id] = newGrid
+        }
+        return newGrid
+    }
+    
     override func make(_ key: FileKitPath, _ store: inout [FileKitPath : CodeGrid]) -> CodeGrid {
+        print("Cache miss: \(key.fileName)")
         let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
         cachedGrids[newGrid.id] = newGrid
         return newGrid
@@ -28,7 +38,7 @@ class GridCache: LockingCache<FileKitPath, CodeGrid> {
 class TotalProtonicConcurrency {
     private let cache: GridCache
     private var parser: CodeGridParser
-    private var nextWorkerQueue: DispatchQueue { WorkerPool.shared.nextConcurrentWorker() }
+    private var nextWorkerQueue: DispatchQueue { WorkerPool.shared.nextWorker() }
     
     init(parser: CodeGridParser,
          cache: GridCache) {
@@ -49,7 +59,8 @@ class TotalProtonicConcurrency {
             print("<!!> Warning - Trying to create a grid for a directory; are you sure you wanted to do this?")
         }
         nextWorkerQueue.async { [cache] in
-            let newGridOrCached = cache[path]
+//            let newGridOrCached = cache[path]
+            let newGridOrCached = cache.setCache(path)
             onRender(newGridOrCached)
         }
     }

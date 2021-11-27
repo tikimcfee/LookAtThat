@@ -20,6 +20,11 @@ class TestBundle {
         "SmallFile"
     ]
     
+    static let testDirectoriesAbsolute = [
+        "/Users/lugos/udev/manicmind/LookAtThat",
+        "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
+    ]
+    
     static let testFileResourceURLs = testFileNames.compactMap {
         Bundle.main.url(forResource: $0, withExtension: "")
     }
@@ -30,10 +35,8 @@ class TestBundle {
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
     
-    var wordNodeBuilder: WordNodeBuilder!
-    
     var testSourceDirectory: FileKitPath? {
-        let absolutePath = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
+        let absolutePath = Self.testDirectoriesAbsolute[0]
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
         guard exists, isDirectory.boolValue else {
@@ -45,23 +48,14 @@ class TestBundle {
     }
     
     func setUpWithError() throws {
-        glyphs = GlyphLayerCache()
         gridParser = CodeGridParser()
-        tokenCache = CodeGridTokenCache()
+        glyphs = gridParser.glyphCache
+        tokenCache = gridParser.tokenCache
         semanticBuilder = SemanticInfoBuilder()
-        
-        wordNodeBuilder = WordNodeBuilder()
     }
     
     func tearDownWithError() throws {
         
-    }
-    
-    func makeGrid() -> CodeGrid {
-        CodeGrid(
-            glyphCache: glyphs,
-            tokenCache: tokenCache
-        )
     }
     
     func loadTestSource() throws -> SourceFileSyntax {

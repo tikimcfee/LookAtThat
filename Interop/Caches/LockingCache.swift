@@ -11,11 +11,19 @@ protocol CacheBuilder {
 }
 
 open class LockingCache<Key: Hashable, Value>: CacheBuilder {
+    
     private var cache = [Key: Value]()
-    private let semaphore = DispatchSemaphore(value: 1)
+    
+    private var semaphore = DispatchSemaphore(value: 1)
+    public func lock()   { semaphore.wait() }
+    public func unlock() { semaphore.signal() }
+    
+//    private var unfairLock = os_unfair_lock()
+//    public func lock()   { os_unfair_lock_lock(&unfairLock) }
+//    public func unlock() { os_unfair_lock_unlock(&unfairLock) }
 
     open func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
-        fatalError("A locking cache may not be used without a builder.")
+        fatalError("LockingCache subscript defaults to `make()`; implement this in [\(type(of: self))].")
     }
 
     subscript(key: Key) -> Value {
@@ -29,44 +37,42 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     
     @discardableResult
     func remove(_ key: Key) -> Value? {
-        semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
         return cache.removeValue(forKey: key)
     }
     
     func doOnEach(_ action: (Key, Value) -> Void) {
-        semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
         cache.forEach {
             action($0.key, $0.value)
         }
     }
     
     func contains(_ key: Key) -> Bool {
-        semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
         return cache[key] != nil
     }
     
     func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
         op(&cache)
     }
     
     private func lockAndReturn(key: Key) -> Value? {
         // So sad =(; any time I go async and concurrent, the dictionary wheeps.
         // Fine. lock it all down.
-        semaphore.wait()
-        let toReturn = cache[key]
-        semaphore.signal()
-        return toReturn
+        lock(); defer { unlock() }
+        return cache[key]
     }
 	
 	private func lockAndSet(key: Key, value: Value) {
-		semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
 		cache[key] = value
 	}
     
     private func lockAndMake(key: Key) -> Value {
         // Wait and recheck cache, last lock may have already set
-        semaphore.wait(); defer { semaphore.signal() }
+        lock(); defer { unlock() }
         if let cached = cache[key] { return cached }
         
         // Create and set, default result as cache value
@@ -74,4 +80,6 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
         cache[key] = new
         return new
     }
+    
+    
 }

@@ -18,7 +18,6 @@ class SyntaxCache: LockingCache<Syntax, SyntaxCacheItem> {
         _ key: Syntax,
         _ store: inout [Syntax : SyntaxCacheItem]
     ) -> SyntaxCacheItem {
-        
         return SyntaxCacheItem(
             nodeEnum: key.as(SyntaxEnum.self)
         )

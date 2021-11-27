@@ -83,22 +83,26 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 print("receiver emitted for versionTwo")
                 awaitRender.fulfill()
             }
-            wait(for: [awaitRender], timeout: 10)
+            wait(for: [awaitRender], timeout: 60)
+            bundle.glyphs = GlyphLayerCache()
+            bundle.gridParser = CodeGridParser()
         }
     }
     
     
     func testRendering_versionThree() throws {
         CodeGrid.Defaults.displayMode = .glyphs
-        CodeGrid.Defaults.walkSemantics = false
+        CodeGrid.Defaults.walkSemantics = true
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         measure {
-            let awaitRender = expectation(description: "Version two rendered")
+            let awaitRender = expectation(description: "Version three rendered")
             bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { _ in
                 print("receiver emitted versionThree")
                 awaitRender.fulfill()
             }
-            wait(for: [awaitRender], timeout: 10)
+            wait(for: [awaitRender], timeout: 60)
+            bundle.glyphs = GlyphLayerCache()
+            bundle.gridParser = CodeGridParser()
         }
         
     }

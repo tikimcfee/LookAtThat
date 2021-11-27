@@ -147,12 +147,24 @@ extension SceneControls {
 final class WorkerPool {
 
     static let shared = WorkerPool()
+    private let workerCount = 3
 
     private lazy var allWorkers =
-        (0..<8).map { DispatchQueue(label: "Q\($0)", qos: .userInteractive) }
+        (0..<workerCount).map { DispatchQueue(label: "WorkerQ\($0)", qos: .userInteractive) }
 
     private lazy var concurrentWorkers =
-        (0..<8).map { DispatchQueue(label: "QC\($0)", qos: .userInteractive, attributes: .concurrent) }
+        (0..<workerCount).map { DispatchQueue(
+            label: "WorkerQC\($0)",
+            qos: .userInteractive,
+            attributes: .concurrent,
+            autoreleaseFrequency: .workItem
+        )}
+    
+    private lazy var concurrent = DispatchQueue(
+        label: "WorkerConcurrent",
+        qos: .userInteractive,
+        attributes: .concurrent
+    )
 
     private lazy var workerIterator =
         allWorkers.makeIterator()
@@ -171,6 +183,7 @@ final class WorkerPool {
     }
 
     func nextConcurrentWorker() -> DispatchQueue {
+//        concurrent
         return concurrentWorkerIterator.next() ?? {
             concurrentWorkerIterator = concurrentWorkers.makeIterator()
             let next = concurrentWorkerIterator.next()!
