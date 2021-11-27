@@ -69,7 +69,7 @@ extension CodeGridSemanticMap {
         // Specifically avoiding a map / map+reduce here to reduce copying
         for (associatedId, _) in syntaxIdToAssociatedIds[nodeId] ?? [:] {
             var associatedNodes = cache[associatedId.stringIdentifier]
-            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-leadingTrivia"])
+            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-leadingTrivia"]) // todo: formalize this little hack around not having trivia have a separate node
             associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-trailingTrivia"])
             if let info = semanticsLookupBySyntaxId[associatedId] {
                 walker(info, associatedNodes)

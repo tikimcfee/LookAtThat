@@ -25,6 +25,8 @@ struct SourceInfoGrid: View {
         return HStack(alignment: .top) {
             fileRows(files)
             Spacer()
+            hoverInfo(hoveredToken)
+                .frame(width: 256, height: 256)
             semanticInfo()
         }
         .frame(alignment: .trailing)
@@ -89,7 +91,7 @@ struct SourceInfoGrid: View {
     
     @ViewBuilder
     func semanticInfo() -> some View {
-        VStack {
+        VStack(spacing: 0) {
             if !sourceInfo.structs.isEmpty {
                 infoRows(named: "Structs", from: sourceInfo.structs)
             }
@@ -113,9 +115,6 @@ struct SourceInfoGrid: View {
             if !sourceInfo.variables.isEmpty {
                 infoRows(named: "Variables", from: sourceInfo.variables)
             }
-            
-            hoverInfo(hoveredToken)
-                .frame(width: 256, height: 256)
         }
     }
     
@@ -261,7 +260,10 @@ struct SourceInfoGrid: View {
                         selected(id: semantics.syntaxId)
                     }
                 }
-            }.frame(minHeight: 64)
+            }
+            .frame(minHeight: 64)
+            .padding(4.0)
+            .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
         } else {
             EmptyView()
         }
@@ -269,7 +271,7 @@ struct SourceInfoGrid: View {
     
     @ViewBuilder
     func infoRows(named: String, from pair: GridAssociationSyntaxToSyntaxType) -> some View {
-        Group {
+        VStack(alignment: .leading, spacing: 4) {
             Text(named).underline().padding(.top, 8)
             List {
                 ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
@@ -289,7 +291,10 @@ struct SourceInfoGrid: View {
                     }
                 }
             }
-        }.frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64)
+        }
+        .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64.0)
+        .padding(4.0)
+        .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
     }
     
     func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {

@@ -72,7 +72,7 @@ class SemanticInfoBuilder {
 			case .functionDecl(let funcl):
                 return SemanticInfo(
 					node: node,
-					referenceName: "\(funcl.identifier)\(funcl.signature)", 
+                    referenceName: "\(funcl.identifier)\(funcl.signature._syntaxNode.strippedText)", 
 					color: CodeGridColors.functionDecl
 				)
 			default:
