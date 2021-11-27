@@ -319,7 +319,7 @@ extension CodeGrid {
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
                     codeGridSemanticInfo.associateIdentiferWithSyntax(
-                        syntaxId: parentId,
+                        syntax: parent,
                         newValue: tokenId
                     )
                     tokenParent = parent.parent

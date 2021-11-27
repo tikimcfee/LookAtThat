@@ -268,7 +268,7 @@ struct SourceInfoGrid: View {
     }
     
     @ViewBuilder
-    func infoRows(named: String, from pair: GridAssociationSyntaxToNodeType) -> some View {
+    func infoRows(named: String, from pair: GridAssociationSyntaxToSyntaxType) -> some View {
         Group {
             Text(named).underline().padding(.top, 8)
             List {

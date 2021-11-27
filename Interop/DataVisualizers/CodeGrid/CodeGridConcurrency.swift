@@ -38,7 +38,7 @@ class GridCache: LockingCache<FileKitPath, CodeGrid> {
 class TotalProtonicConcurrency {
     private let cache: GridCache
     private var parser: CodeGridParser
-    private var nextWorkerQueue: DispatchQueue { WorkerPool.shared.nextWorker() }
+    private var nextWorkerQueue: DispatchQueue { WorkerPool.shared.nextConcurrentWorker() }
     
     init(parser: CodeGridParser,
          cache: GridCache) {

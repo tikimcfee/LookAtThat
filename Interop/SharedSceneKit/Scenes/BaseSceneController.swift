@@ -159,12 +159,6 @@ final class WorkerPool {
             attributes: .concurrent,
             autoreleaseFrequency: .workItem
         )}
-    
-    private lazy var concurrent = DispatchQueue(
-        label: "WorkerConcurrent",
-        qos: .userInteractive,
-        attributes: .concurrent
-    )
 
     private lazy var workerIterator =
         allWorkers.makeIterator()
@@ -183,7 +177,6 @@ final class WorkerPool {
     }
 
     func nextConcurrentWorker() -> DispatchQueue {
-//        concurrent
         return concurrentWorkerIterator.next() ?? {
             concurrentWorkerIterator = concurrentWorkers.makeIterator()
             let next = concurrentWorkerIterator.next()!

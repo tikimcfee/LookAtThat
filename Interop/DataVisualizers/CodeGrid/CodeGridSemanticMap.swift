@@ -28,38 +28,16 @@ public class CodeGridSemanticMap {
 	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
     var syntaxIdToAssociatedIds = GridAssociationSyntaxToSyntaxType() // [SyntaxIdentifier: Set<SyntaxIdentifier>]
 
-	var structs = GridAssociationSyntaxToNodeType()
-	var classes = GridAssociationSyntaxToNodeType()
-	var enumerations = GridAssociationSyntaxToNodeType()
-	var functions = GridAssociationSyntaxToNodeType()
-	var variables = GridAssociationSyntaxToNodeType()
-	var typeAliases = GridAssociationSyntaxToNodeType()
-	var protocols = GridAssociationSyntaxToNodeType()
-	var initializers = GridAssociationSyntaxToNodeType()
-	var deinitializers = GridAssociationSyntaxToNodeType()
-	var extensions = GridAssociationSyntaxToNodeType()
-	
-	static func + (left: CodeGridSemanticMap, right: CodeGridSemanticMap) -> CodeGridSemanticMap {
-		
-		left.syntaxIdToTokenNodes.merge(right.syntaxIdToTokenNodes, uniquingKeysWith: takeLeft)
-		left.structs.merge(right.structs, uniquingKeysWith: takeLeft)
-		left.classes.merge(right.classes, uniquingKeysWith: takeLeft)
-		left.enumerations.merge(right.enumerations, uniquingKeysWith: takeLeft)
-		left.functions.merge(right.functions, uniquingKeysWith: takeLeft)
-		left.variables.merge(right.variables, uniquingKeysWith: takeLeft)
-		left.typeAliases.merge(right.typeAliases, uniquingKeysWith: takeLeft)
-		left.protocols.merge(right.protocols, uniquingKeysWith: takeLeft)
-		left.initializers.merge(right.initializers, uniquingKeysWith: takeLeft)
-		left.deinitializers.merge(right.deinitializers, uniquingKeysWith: takeLeft)
-		left.extensions.merge(right.extensions, uniquingKeysWith: takeLeft)
-		
-		return left
-	}
-	
-	private static func takeLeft(_ left: GridAssociationType,  _ right: GridAssociationType) -> GridAssociationType {
-		print("<!> Duplicated gridAssociations key -> \(left.map { $0.name }), \(right.map { $0.name })")
-		return left
-	}
+	var structs = GridAssociationSyntaxToSyntaxType()
+	var classes = GridAssociationSyntaxToSyntaxType()
+	var enumerations = GridAssociationSyntaxToSyntaxType()
+	var functions = GridAssociationSyntaxToSyntaxType()
+	var variables = GridAssociationSyntaxToSyntaxType()
+	var typeAliases = GridAssociationSyntaxToSyntaxType()
+	var protocols = GridAssociationSyntaxToSyntaxType()
+	var initializers = GridAssociationSyntaxToSyntaxType()
+	var deinitializers = GridAssociationSyntaxToSyntaxType()
+	var extensions = GridAssociationSyntaxToSyntaxType()
 }
 
 extension CodeGridSemanticMap {
@@ -90,7 +68,9 @@ extension CodeGridSemanticMap {
     ) {
         // Specifically avoiding a map / map+reduce here to reduce copying
         for (associatedId, _) in syntaxIdToAssociatedIds[nodeId] ?? [:] {
-            let associatedNodes = cache[associatedId.stringIdentifier]
+            var associatedNodes = cache[associatedId.stringIdentifier]
+            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-leadingTrivia"])
+            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-trailingTrivia"])
             if let info = semanticsLookupBySyntaxId[associatedId] {
                 walker(info, associatedNodes)
             }
@@ -114,7 +94,7 @@ extension CodeGridSemanticMap {
         }
     }
 	
-	func mergeSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey, 
+	func mergeSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey,
 						   _ nodeId: SemanticsLookupNodeKey,
 						   _ semanticInfo: @autoclosure () -> SemanticInfo) {
 		guard semanticsLookupBySyntaxId[syntaxId] == nil else { return }
@@ -125,27 +105,30 @@ extension CodeGridSemanticMap {
 	}
     
     func associateIdentiferWithSyntax(
-        syntaxId: SyntaxIdentifier,
+        syntax: Syntax,
         newValue: SyntaxIdentifier
     ) {
+        let syntaxId = syntax.id
         if syntaxIdToAssociatedIds[syntaxId] == nil {
             syntaxIdToAssociatedIds[syntaxId] = [newValue: 1]
             return
         }
         syntaxIdToAssociatedIds[syntaxId]?[newValue] = 1
         
-        // TODO: track ids the same as nodes... maybe another value type abstraction? lulz.
-//        if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
-//            category(for: decl) { category in
-//                let existing = category[syntaxId] ?? []
-//                category[syntaxId] = existing.i
-//            }
-//        }
+        if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
+            category(for: decl) { category in
+                if category[syntaxId] == nil {
+                    category[syntaxId] = [newValue: 1]
+                    return
+                }
+                category[syntaxId]?[newValue] = 1
+            }
+        }
     }
 	
 	func category(
         for syntax: DeclSyntaxProtocol,
-        _ action: (inout GridAssociationSyntaxToNodeType) -> Void)
+        _ action: (inout GridAssociationSyntaxToSyntaxType) -> Void)
     {
 		switch syntax.syntaxNodeType {
 			case is ProtocolDeclSyntax.Type:
