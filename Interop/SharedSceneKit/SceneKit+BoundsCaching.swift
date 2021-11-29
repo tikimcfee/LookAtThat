@@ -93,13 +93,31 @@ public extension SCNNode {
         return box.max.z - box.min.z
     }
     
+    var centerX: VectorFloat {
+        return lengthX / 2.0
+    }
+    
+    var centerY: VectorFloat {
+        return lengthY / 2.0
+    }
+    
+    var centerZ: VectorFloat {
+        return lengthZ / 2.0
+    }
+    
     func chainLinkTo(to target: SCNNode) {
         let distance = SCNDistanceConstraint(target: target)
+        let orientation = SCNTransformConstraint.orientationConstraint(
+            inWorldSpace: true,
+            with: { node, quaternion in target.orientation }
+        )
         distance.maximumDistance = target.lengthX.cg
         distance.minimumDistance = target.lengthX.cg
-        self.constraints = {
+        constraints = {
             var list = constraints ?? []
-            list.append(distance)
+            list.append(contentsOf: [
+                distance, orientation
+            ])
             return list
         }()
     }

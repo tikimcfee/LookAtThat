@@ -25,6 +25,8 @@ class TokenHoverInteractionTracker {
 		currentHoveredSet.insert(result)
 		
 		result.position.z += 5.0
+        result.simdScale += result.simdWorldRight * 1.2
+        result.simdScale += result.simdWorldUp * 1.2
 	}
 	
 	private func unfocusNode(_ result: Key) {
@@ -32,5 +34,7 @@ class TokenHoverInteractionTracker {
 		currentHoveredSet.remove(result)
 		
 		result.position.z -= 5.0
+        result.simdScale -= result.simdWorldRight * 1.2
+        result.simdScale -= result.simdWorldUp * 1.2
 	}
 }

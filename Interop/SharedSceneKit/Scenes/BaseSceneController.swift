@@ -155,9 +155,8 @@ final class WorkerPool {
     private lazy var concurrentWorkers =
         (0..<workerCount).map { DispatchQueue(
             label: "WorkerQC\($0)",
-            qos: .userInteractive,
-            attributes: .concurrent,
-            autoreleaseFrequency: .workItem
+            qos: .userInitiated,
+            attributes: .concurrent
         )}
 
     private lazy var workerIterator =

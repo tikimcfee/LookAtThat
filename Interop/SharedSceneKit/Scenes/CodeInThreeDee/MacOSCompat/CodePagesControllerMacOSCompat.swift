@@ -71,6 +71,15 @@ class CodePagesControllerMacOSCompat {
             .store(in: &controller.cancellables)
     }
     
+    func attachSearchInputSink() {
+        SceneLibrary.global.codePagesController.codeGridParser.query.searchStream
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .sink { [inputCompat] searhEvent in
+                inputCompat.doNewSearch(searhEvent)
+            }
+            .store(in: &controller.cancellables)
+    }
+    
     private func onFileOperation(_ op: FileOperation) {
         switch op {
         case .openDirectory:
@@ -164,7 +173,16 @@ class CodePagesControllerMacOSInputCompat {
         doCodeGridHover(point)
     }
     
+    func doNewSearch(_ newInput: String) {
+        var newResults: Set<SCNNode> = []
+        codeGridParser.query.walkNodesForSearch(newInput) { queryResultNodeSet in
+            newResults.formUnion(queryResultNodeSet)
+        }
+        touchState.mouse.hoverTracker.newSetHovered(newResults)
+    }
+    
     private func doCodeGridHover(_ point: CGPoint) {
+        
         let gridsAndTokens = sceneView.hitTest(location: point, .gridsAndTokens)
         var iterator = gridsAndTokens.makeIterator()
         var (hoveredId, tokenSet, grid): (String?, CodeGridNodes?, CodeGrid?)

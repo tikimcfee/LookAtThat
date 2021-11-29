@@ -17,9 +17,10 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
     lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
-    
+
     @Published var hoveredToken: String?
     @Published var hoveredInfo: CodeGridSemanticMap?
+
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
     lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
     
@@ -119,6 +120,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
             self.macosCompat.attachMouseSink()
             self.macosCompat.attachKeyInputSink()
             self.macosCompat.attachEventSink()
+            self.macosCompat.attachSearchInputSink()
         }
 #endif
     }

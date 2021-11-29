@@ -109,6 +109,7 @@ extension CodeGridParser {
         }
         
         nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
+        
         while let last = directoryStack.popLast() {
             //            print("Dir <--> \(last.url.lastPathComponent)")
             let childDirectory = kickoffRecursiveRender(last, depth + 1, state)

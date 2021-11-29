@@ -104,7 +104,27 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             bundle.glyphs = GlyphLayerCache()
             bundle.gridParser = CodeGridParser()
         }
+    }
+    
+    func testSearch() throws {
+        CodeGrid.Defaults.displayMode = .glyphs
+        CodeGrid.Defaults.walkSemantics = true
+        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
+        let awaitRender = expectation(description: "Version three rendered")
+        var finalGrid: CodeGrid?
+        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootGrid in
+            print("Searchable grids rendered")
+            finalGrid = rootGrid
+            awaitRender.fulfill()
+        }
+        wait(for: [awaitRender], timeout: 60)
+        let _ = try XCTUnwrap(finalGrid, "wut missing root")
         
+        
+        let searchText = "view"
+        bundle.gridParser.query.walkNodesForSearch(searchText) { queryResult in
+            print(queryResult)
+        }
     }
     
     func testAttributedWrites() throws {

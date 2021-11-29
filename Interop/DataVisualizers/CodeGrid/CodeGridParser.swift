@@ -47,6 +47,12 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         )
         return cache
     }()
+    
+    lazy var query: ParserQueryController = {
+        return ParserQueryController(
+            parser: self
+        )
+    }()
 }
 
 // MARK: - Rendering strategies
@@ -121,5 +127,46 @@ class WorldGridNavigator {
         var toAllow = directions[grid.id] ?? []
         toAllow.insert(direction)
         directions[grid.id] = toAllow
+    }
+}
+
+class ParserQueryController: ObservableObject {
+    let parser: CodeGridParser
+    var tokenCache: CodeGridTokenCache { parser.tokenCache }
+    var cache: GridCache { parser.gridCache }
+    
+    @Published var searchInput: String = ""
+    lazy var searchBinding = WrappedBinding("", onSet: { self.searchInput = $0 })
+    lazy var searchStream = $searchInput.share().eraseToAnyPublisher()
+    
+    init(parser: CodeGridParser) {
+        self.parser = parser
+    }
+    
+    func walkNodesForSearch(
+        _ searchText: String,
+        _ receiver: (GridAssociationType) -> Void
+    ) {
+        onAllCachedInfo { grid, info in
+            let doesPassFilter = info.referenceName.contains(searchText)
+            guard doesPassFilter else { return }
+            
+            let infoTokenId = info.syntaxId
+            grid.codeGridSemanticInfo
+                .forAllNodesAssociatedWith(infoTokenId, tokenCache) { info, associations in
+                    receiver(associations)
+                }
+        }
+    }
+    
+    func onAllCachedInfo(_ receiver: (CodeGrid, SemanticInfo) -> Void) {
+        for cachedGrid in cache.cachedGrids.values {
+            cachedGrid
+                .codeGridSemanticInfo
+                .semanticsLookupBySyntaxId
+                .values.forEach { info in
+                    receiver(cachedGrid, info)
+                }
+        }
     }
 }

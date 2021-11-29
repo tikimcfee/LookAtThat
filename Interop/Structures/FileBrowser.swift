@@ -181,7 +181,7 @@ extension FileBrowser {
     }
     
     static func recursivePaths(_ path: Path) -> [Path] {
-        path.children(recursive: true).lazy.filter { isFileObserved($0) }
+        path.children(recursive: true).filter { isFileObserved($0) }
     }
     
     static func sortedFilesFirst(_ left: Path, _ right: Path) -> Bool {

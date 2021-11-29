@@ -355,13 +355,8 @@ extension CodeGrid {
 		let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
 		let (geometry, size) = glyphCache[key]
 		
-		let centerX = size.width / 2.0
-		let centerY = -size.height / 2.0
-		let pivotCenterToLeadingTop = SCNMatrix4MakeTranslation(-centerX.vector, -centerY.vector, 0)
-		
-		let letterNode = SCNNode()
+        let letterNode = SCNNode()
 		letterNode.geometry = geometry
-		letterNode.pivot = pivotCenterToLeadingTop
 		letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
 		
 		return (letterNode, size)

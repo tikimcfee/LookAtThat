@@ -14,13 +14,13 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     
     private var cache = [Key: Value]()
     
-    private var semaphore = DispatchSemaphore(value: 1)
-    public func lock()   { semaphore.wait() }
-    public func unlock() { semaphore.signal() }
+//    private var semaphore = DispatchSemaphore(value: 1)
+//    public func lock()   { semaphore.wait() }
+//    public func unlock() { semaphore.signal() }
     
-//    private var unfairLock = os_unfair_lock()
-//    public func lock()   { os_unfair_lock_lock(&unfairLock) }
-//    public func unlock() { os_unfair_lock_unlock(&unfairLock) }
+    private var unfairLock = os_unfair_lock()
+    public func lock()   { os_unfair_lock_lock(&unfairLock) }
+    public func unlock() { os_unfair_lock_unlock(&unfairLock) }
 
     open func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
         fatalError("LockingCache subscript defaults to `make()`; implement this in [\(type(of: self))].")

@@ -151,5 +151,11 @@ extension CodeGridSemanticMap {
 				break
 		}
 	}
+    
+    func queryAll(_ input: String) {
+        semanticsLookupBySyntaxId.values.filter { semanticInfo in
+            semanticInfo.referenceName.contains(input)
+        }
+    }
 }
 

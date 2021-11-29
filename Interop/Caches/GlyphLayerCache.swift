@@ -8,20 +8,12 @@ import SceneKit
 public struct GlyphCacheKey: Hashable, Equatable {
     public let glyph: String
     public let foreground: NSUIColor
-    public var attributes: [String: AnyHashable]?
     
     public init(_ glyph: String,
-                _ foreground: NSUIColor,
-                _ attributes: [String: AnyHashable]? = nil) {
+                _ foreground: NSUIColor) {
         self.glyph = glyph
         self.foreground = foreground
-        self.attributes = attributes
     }
-    
-    private lazy var identifier: String = {
-        print("Glyph instantiated, [\(glyph)]")
-        return UUID().uuidString
-    }()
 }
 
 struct GlyphRender {

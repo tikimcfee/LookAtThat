@@ -16,15 +16,34 @@ struct SourceInfoGrid: View {
     
     @State var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     @State var hoveredToken: String?
+    @State var searchText: String = ""
     
     typealias RowType = [FileBrowser.Scope]
     @State var files: RowType = []
     @State var pathDepths: [FileKitPath: Int] = [:]
     
+    var searchBinding: Binding<String> {
+        SceneLibrary.global.codePagesController
+            .codeGridParser
+            .query
+            .searchBinding.binding
+    }
+    
     var body: some View {
         return HStack(alignment: .top) {
-            fileRows(files)
+            VStack {
+                fileRows(files)
+                TextField(
+                    "🔍 Find",
+                    text: searchBinding
+                )
+                .frame(width: 256)
+            }
+            .border(.black, width: 2.0)
+            .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+            
             Spacer()
+            
             hoverInfo(hoveredToken)
                 .frame(width: 256, height: 256)
             semanticInfo()
@@ -82,11 +101,9 @@ struct SourceInfoGrid: View {
         .frame(
             minWidth: 256.0,
             maxWidth: 384.0,
-            maxHeight: 1024.0,
+            maxHeight: 768.0,
             alignment: .leading
         )
-        .border(.black, width: 2.0)
-        .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
     }
     
     @ViewBuilder
