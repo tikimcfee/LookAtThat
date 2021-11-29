@@ -36,6 +36,7 @@ class CodeGrid: Identifiable, Equatable {
     }
     
 	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
+    lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)
 
 	lazy var rootNode: SCNNode = makeContainerNode()
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
@@ -138,6 +139,90 @@ extension CodeGrid {
         sheetGeometry.length = PAGE_EXTRUSION_DEPTH
         return sheetGeometry
     }
+}
+
+// MARK: -- Measuring and layout
+extension CodeGrid {
+    class Measures {
+        let target: CodeGrid
+        init(targetGrid: CodeGrid) {
+            self.target = targetGrid
+        }
+        
+        private var positionNode: SCNNode { target.rootNode }
+        private var sizeNode: SCNNode { target.backgroundGeometryNode }
+        
+        var lengthX: VectorFloat { sizeNode.lengthX }
+        var lengthY: VectorFloat { sizeNode.lengthY }
+        var lengthZ: VectorFloat { sizeNode.lengthZ }
+        
+        var centerX: VectorFloat {
+            get { lengthX / 2.0 }
+        }
+        var centerY: VectorFloat {
+            get { lengthY / 2.0 }
+        }
+        
+        var top: VectorFloat {
+            get { positionNode.position.y }
+            set { positionNode.position.y = newValue }
+        }
+        var bottom: VectorFloat { top - lengthY }
+        
+        var leading: VectorFloat {
+            get { positionNode.position.x }
+            set { positionNode.position.x = newValue }
+        }
+        var trailing: VectorFloat { leading + lengthX }
+        
+        var position: SCNVector3 {
+            get { positionNode.position }
+            set { positionNode.position = newValue }
+        }
+        
+        @discardableResult
+        func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+            leading = other.measures.leading
+            return target
+        }
+        
+        @discardableResult
+        func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+            leading = other.measures.trailing
+            return target
+        }
+        
+        @discardableResult
+        func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+            top = other.measures.top
+            return target
+        }
+        
+        @discardableResult
+        func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+            top = other.measures.bottom
+            return target
+        }
+        
+        @discardableResult
+        func alignedCenterX(_ other: CodeGrid) -> CodeGrid {
+            leading = other.measures.centerX - centerX
+            return target
+        }
+        
+        @discardableResult
+        func alignedCenterY(_ other: CodeGrid) -> CodeGrid {
+            top = other.measures.centerY - centerY
+            return target
+        }
+        
+        @discardableResult
+        func alignedCenterZ(_ other: CodeGrid) -> CodeGrid {
+            top = other.measures.bottom
+            return target
+        }
+    }
+    
 }
 
 // MARK: -- Renderer and glyph position

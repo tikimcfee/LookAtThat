@@ -175,11 +175,24 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         let parsed = try! SyntaxParser.parse(bundle.testFile)
-        let grid = CodeGrid(glyphCache: GlyphLayerCache(), tokenCache: CodeGridTokenCache())
-        grid.consume(syntax: parsed.root)
+        let testGridOne = CodeGrid(glyphCache: bundle.glyphs, tokenCache: bundle.tokenCache)
+        testGridOne.consume(syntax: parsed.root).sizeGridToContainerNode()
         
-//        let rewritten = rewriter.visit(parsed)
-//        print(rewritten.description)
+        print(
+            testGridOne.measures.leading,
+            testGridOne.measures.top,
+            testGridOne.measures.trailing,
+            testGridOne.measures.bottom
+        )
+        
+        XCTAssertEqual(testGridOne.measures.lengthX, testGridOne.backgroundGeometryNode.lengthX, "Size must be based off of background")
+        XCTAssertEqual(testGridOne.measures.position, testGridOne.rootNode.position, "Position must be based off of rootNode")
+        
+        let testGridTwo = CodeGrid(glyphCache: bundle.glyphs, tokenCache: bundle.tokenCache)
+        testGridTwo.consume(syntax: parsed.root).sizeGridToContainerNode()
+        
+        testGridOne.measures.alignedToBottomOf(testGridOne)
+        XCTAssertGreaterThanOrEqual(testGridTwo.measures.top, testGridOne.measures.bottom, "Stacking is assumed to be a negative-y flow")
     }
     
     func testSnapping_EasyRight() throws {
@@ -218,7 +231,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()
         func newGrid() -> CodeGrid {
-            let newGrid = CodeGrid(glyphCache: GlyphLayerCache(), tokenCache: CodeGridTokenCache())
+            let newGrid = CodeGrid(glyphCache: bundle.glyphs, tokenCache: bundle.tokenCache)
             allGrids.append(newGrid)
             return newGrid
         }

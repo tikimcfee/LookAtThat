@@ -23,6 +23,22 @@ class WorldGridSnapping {
     typealias Mapping = [CodeGrid: Set<RelativeGridMapping>]
     typealias Directions = Set<RelativeGridMapping>
     var mapping = Mapping()
+    
+    struct Align {
+        enum Direction { case top, bottom }
+        
+        let snap: WorldGridSnapping
+        
+        func all(root: CodeGrid, _ direction: Direction) {
+            snap.iterateOver(root, direction: .left) { leftGrid in
+                
+            }
+            
+            snap.iterateOver(root, direction: .right) { rightGrid in
+                
+            }
+        }
+    }
 }
 
 extension WorldGridSnapping {

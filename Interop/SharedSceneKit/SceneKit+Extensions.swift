@@ -83,3 +83,11 @@ extension SCNVector3 {
                           z: z * scaleZ)
     }
 }
+
+extension SCNVector3: Equatable {
+    public static func == (_ l: Self, _ r: Self) -> Bool {
+        return l.x == r.x
+            && l.y == r.y
+            && l.z == r.z
+    }
+}
