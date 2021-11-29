@@ -23,19 +23,26 @@ class WorldGridSnapping {
     typealias Mapping = [CodeGrid: Set<RelativeGridMapping>]
     typealias Directions = Set<RelativeGridMapping>
     var mapping = Mapping()
+    lazy var align = Align(snap: self)
     
     struct Align {
         enum Direction { case top, bottom }
         
         let snap: WorldGridSnapping
         
-        func all(root: CodeGrid, _ direction: Direction) {
+        func allToTop(root: CodeGrid, _ direction: Direction) {
+            var lastGrid: CodeGrid = root
             snap.iterateOver(root, direction: .left) { leftGrid in
-                
+                leftGrid.measures
+                    .alignedToTopOf(lastGrid)
+                    .alignedToLeadingOf(lastGrid)
+                lastGrid = leftGrid
             }
-            
             snap.iterateOver(root, direction: .right) { rightGrid in
-                
+                rightGrid.measures
+                    .alignedToTopOf(lastGrid)
+                    .alignedToTrailingOf(lastGrid)
+                lastGrid = rightGrid
             }
         }
     }

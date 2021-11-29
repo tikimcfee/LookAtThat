@@ -181,45 +181,45 @@ extension CodeGrid {
         }
         
         @discardableResult
-        func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+        func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
             leading = other.measures.leading
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+        func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
             leading = other.measures.trailing
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+        func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
             top = other.measures.top
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> CodeGrid {
+        func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
             top = other.measures.bottom
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedCenterX(_ other: CodeGrid) -> CodeGrid {
+        func alignedCenterX(_ other: CodeGrid) -> Self {
             leading = other.measures.centerX - centerX
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedCenterY(_ other: CodeGrid) -> CodeGrid {
+        func alignedCenterY(_ other: CodeGrid) -> Self {
             top = other.measures.centerY - centerY
-            return target
+            return self
         }
         
         @discardableResult
-        func alignedCenterZ(_ other: CodeGrid) -> CodeGrid {
+        func alignedCenterZ(_ other: CodeGrid) -> Self {
             top = other.measures.bottom
-            return target
+            return self
         }
     }
     
