@@ -182,25 +182,25 @@ extension CodeGrid {
         
         @discardableResult
         func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            leading = other.measures.leading
+            leading = other.measures.leading + pad
             return self
         }
         
         @discardableResult
         func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            leading = other.measures.trailing
+            leading = other.measures.trailing + pad
             return self
         }
         
         @discardableResult
         func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            top = other.measures.top
+            top = other.measures.top + pad
             return self
         }
         
         @discardableResult
         func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            top = other.measures.bottom
+            top = other.measures.bottom + pad
             return self
         }
         

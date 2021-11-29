@@ -105,8 +105,8 @@ class CodeGridWorld {
             return
         }
         camera.position = grid.rootNode.position.translated(
-            dX: grid.rootNode.lengthX / 2.0,
-            dY: -min(32, grid.rootNode.lengthY / 4.0),
+            dX: grid.measures.lengthX / 2.0,
+            dY: -min(32, grid.measures.lengthY / 4.0),
             dZ: default__CameraSpacingFromPlaneOnShift
         )
     }

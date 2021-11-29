@@ -53,7 +53,7 @@ extension CodeGridParser {
                 if let lastGrid = lastDirectChildGrid {
                     snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(newGrid)])
                     newGrid.rootNode.position = lastGrid.rootNode.position.translated(
-                        dX: lastGrid.rootNode.lengthX + 8.0,
+                        dX: lastGrid.measures.lengthX + 8.0,
                         dY: 0,
                         dZ: 0
                     )
@@ -63,18 +63,18 @@ extension CodeGridParser {
                 
                 let fileName = makeFileNameGrid(last.url.lastPathComponent)
                 fileName.rootNode.position = SCNVector3Zero.translated(
-                    dY: fileName.rootNode.lengthY + 2.0,
+                    dY: fileName.measures.lengthY + 2.0,
                     dZ: 4.0
                 )
                 newGrid.rootNode.addChildNode(fileName.rootNode)
             }
             
             // all files haves been rendered for this directory; move focus back to the left-most
-            var maxHeight = lastDirectChildGrid?.rootNode.lengthY ?? VectorFloat(0.0)
+            var maxHeight = lastDirectChildGrid?.measures.lengthY ?? VectorFloat(0.0)
             var nexRowStartPosition = SCNVector3Zero
             if let start = lastDirectChildGrid {
                 snapping.iterateOver(start, direction: .left) { grid in
-                    maxHeight = max(maxHeight, grid.rootNode.lengthY)
+                    maxHeight = max(maxHeight, grid.measures.lengthY)
                 }
                 nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)
             }
@@ -89,14 +89,14 @@ extension CodeGridParser {
                 
                 let fileName = makeFileNameGrid(last.url.lastPathComponent).backgroundColor(.blue)
                 fileName.rootNode.position = SCNVector3Zero.translated(
-                    dY: fileName.rootNode.lengthY * 6 + 2.0,
+                    dY: fileName.measures.lengthY * 6 + 2.0,
                     dZ: 8.0
                 )
                 fileName.rootNode.scale = SCNVector3(x: 3.0, y: 3.0, z: 1.0)
                 childDirectory.rootNode.addChildNode(fileName.rootNode)
                 
                 nexRowStartPosition = nexRowStartPosition.translated(
-                    dX: childDirectory.rootNode.lengthX + 8
+                    dX: childDirectory.measures.lengthX + 8
                 )
             }
             

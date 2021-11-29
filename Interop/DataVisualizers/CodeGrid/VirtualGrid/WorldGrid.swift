@@ -112,7 +112,7 @@ class WorldGridEditor {
         case .trailingFromLastGrid(let codeGrid):
             snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(codeGrid)])
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
-                dX: lastGrid.rootNode.lengthX + 8.0,
+                dX: lastGrid.measures.lengthX + 8.0,
                 dY: 0,
                 dZ: 0
             )
@@ -124,7 +124,7 @@ class WorldGridEditor {
             var maxHeight: VectorFloat = 0.0
             var leftMostGrid: CodeGrid?
             snapping.iterateOver(lastGrid, direction: .left) { grid in
-                maxHeight = max(maxHeight, grid.rootNode.lengthY)
+                maxHeight = max(maxHeight, grid.measures.lengthY)
                 leftMostGrid = grid
             }
 
