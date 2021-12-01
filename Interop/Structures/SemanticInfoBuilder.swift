@@ -31,7 +31,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 	) {
 		self.node = node
 		self.syntaxId = node.id
-		self.referenceName = referenceName ?? "\(node.hashValue)"
+		self.referenceName = referenceName ?? "\(node.prefixedText(3))"
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
 		self.color = color ?? CodeGridColors.defaultText
         self.isSearchable = searchable
@@ -71,7 +71,7 @@ class SemanticInfoBuilder {
 			case .extensionDecl(let extenl):
 				return SemanticInfo(
 					node: node, 
-					referenceName: "\(extenl.extendedType.description)+\(node.id.hashValue)", 
+                    referenceName: "\(extenl.extendedType._syntaxNode.strippedText)::\(extenl.extendedType._syntaxNode.strippedText)",
                     color: CodeGridColors.extensionDecl,
                     searchable: true
 				)

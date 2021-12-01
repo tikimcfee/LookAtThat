@@ -105,11 +105,6 @@ extension CodeGridSemanticMap {
         let newInfo = makeSemanticInfo()
 		semanticsLookupByNodeId[nodeId] = syntaxId
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
-        if newInfo.isSearchable {
-            newInfo.iterateReferenceKeys { key in
-                globalSearchTrie[key] = newInfo
-            }
-        }
 	}
     
     func associate(

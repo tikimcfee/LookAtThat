@@ -32,6 +32,12 @@ extension Syntax {
             result.append(token.text)
         }
     }
+    
+    func prefixedText(_ count: Int) -> String {
+        return tokens.prefix(count).reduce(into: "") { result, token in
+            result.append(token.text)
+        }
+    }
 }
 
 extension SyntaxChildren {

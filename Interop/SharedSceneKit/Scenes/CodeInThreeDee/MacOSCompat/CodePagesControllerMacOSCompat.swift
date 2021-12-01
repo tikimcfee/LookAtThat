@@ -176,8 +176,6 @@ class CodePagesControllerMacOSInputCompat {
     
     class SearchContainer {
         var codeGridParser: CodeGridParser
-        var positiveGrids: Set<CodeGrid> = []
-        var negativeGrids: Set<CodeGrid> = []
         
         init(codeGridParser: CodeGridParser) {
             self.codeGridParser = codeGridParser
@@ -186,22 +184,27 @@ class CodePagesControllerMacOSInputCompat {
         func search(_ newInput: String, _ state: SceneState) {
             print("new search ---------------------- [\(newInput)]")
             
+            var positiveGrids: Array<CodeGrid> = []
+            var negativeGrids: Array<CodeGrid> = []
             codeGridParser.query.walkGridsForSearch(
                 newInput,
                 onPositive: { foundInGrid, leafInfo in
-                    positiveGrids.insert(foundInGrid)
-//                    if let last = self.positiveGrids.last {
-//                        foundInGrid.measures
-//                            .alignedToTopOf(last, 0)
-//                            .alignedToTrailingOf(last)
-//                    } else {
-//                        foundInGrid.measures.position = SCNVector3Zero
-//                    }
+                    guard !positiveGrids.contains(foundInGrid) else { return }
+                    print(foundInGrid.id)
+                    state.rootGeometryNode.addChildNode(foundInGrid.rootNode)
+                    if let last = positiveGrids.last {
+                        foundInGrid.measures
+                            .alignedToTopOf(last, 0)
+                            .alignedToTrailingOf(last)
+                    } else {
+                        foundInGrid.measures.position = SCNVector3Zero
+                    }
+                    positiveGrids.append(foundInGrid)
                 },
                 onNegative: { excludedGrid, leafInfo in
                     guard !positiveGrids.contains(excludedGrid),
                           !negativeGrids.contains(excludedGrid) else { return }
-                    negativeGrids.insert(excludedGrid)
+                    negativeGrids.append(excludedGrid)
                     
                     print("rem", excludedGrid.id)
                     excludedGrid.rootNode.removeFromParentNode()
