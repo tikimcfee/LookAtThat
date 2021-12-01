@@ -8,6 +8,7 @@
 import Foundation
 import SwiftSyntax
 import SceneKit
+import ThreeWaysTrie
 
 typealias SemanticsLookupType = SemanticInfo
 typealias SemanticsLookupNodeKey = String
@@ -27,6 +28,8 @@ public class CodeGridSemanticMap {
 	
 	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
     var syntaxIdToAssociatedIds = GridAssociationSyntaxToSyntaxType() // [SyntaxIdentifier: Set<SyntaxIdentifier>]
+    
+    var globalSearchTrie = ThreeWaysTrie<SemanticInfo>()
 
 	var structs = GridAssociationSyntaxToSyntaxType()
 	var classes = GridAssociationSyntaxToSyntaxType()
@@ -93,20 +96,23 @@ extension CodeGridSemanticMap {
             }
         }
     }
-	
-	func mergeSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey,
-						   _ nodeId: SemanticsLookupNodeKey,
-						   _ semanticInfo: @autoclosure () -> SemanticInfo) {
+    
+	func saveSemanticInfo(_ syntaxId: SemanticsLookupSyntaxKey,
+                          _ nodeId: SemanticsLookupNodeKey,
+                          _ makeSemanticInfo: @autoclosure () -> SemanticInfo) {
 		guard semanticsLookupBySyntaxId[syntaxId] == nil else { return }
-		let newInfo = semanticInfo()
 		
+        let newInfo = makeSemanticInfo()
 		semanticsLookupByNodeId[nodeId] = syntaxId
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
+        if newInfo.isSearchable {
+            globalSearchTrie[newInfo.referenceName] = newInfo
+        }
 	}
     
-    func associateIdentiferWithSyntax(
+    func associate(
         syntax: Syntax,
-        newValue: SyntaxIdentifier
+        withLookupId newValue: SemanticsLookupSyntaxKey
     ) {
         let syntaxId = syntax.id
         if syntaxIdToAssociatedIds[syntaxId] == nil {

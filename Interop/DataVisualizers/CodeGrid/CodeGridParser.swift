@@ -148,11 +148,21 @@ class ParserQueryController: ObservableObject {
         onPositive: (CodeGrid, SemanticInfo) -> Void,
         onNegative: (CodeGrid, SemanticInfo) -> Void
     ) {
-        onAllCachedInfo { grid, info in
-            let isIncluded = info.referenceName.contains(searchText)
-            let toCall = isIncluded ? onPositive : onNegative
-            toCall(grid, info)
+        forAllGrids { grid in
+            grid.codeGridSemanticInfo
+                .globalSearchTrie
+                .keys(with: searchText)
+                .compactMap { grid.codeGridSemanticInfo.globalSearchTrie[$0] }
+                .forEach { foundInfo in
+                    print(foundInfo)
+                }
         }
+        
+//        onAllCachedInfo { grid, info in
+//            let isIncluded = info.referenceName.contains(searchText)
+//            let toCall = isIncluded ? onPositive : onNegative
+//            toCall(grid, info)
+//        }
     }
     
     func walkNodesForSearch(
@@ -172,14 +182,20 @@ class ParserQueryController: ObservableObject {
         }
     }
     
+    // Loops through all grids, iterates over all SemanticInfo constructed for it
     func onAllCachedInfo(_ receiver: (CodeGrid, SemanticInfo) -> Void) {
         for cachedGrid in cache.cachedGrids.values {
             cachedGrid
                 .codeGridSemanticInfo
-                .semanticsLookupBySyntaxId
-                .values.forEach { info in
+                .semanticsLookupBySyntaxId.values.forEach { info in
                     receiver(cachedGrid, info)
                 }
+        }
+    }
+    
+    func forAllGrids(_ receiver: (CodeGrid) -> Void) {
+        for cachedGrid in cache.cachedGrids.values {
+            receiver(cachedGrid)
         }
     }
 }

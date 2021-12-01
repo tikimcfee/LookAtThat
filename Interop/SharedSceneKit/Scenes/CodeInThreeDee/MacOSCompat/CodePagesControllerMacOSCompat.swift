@@ -173,37 +173,54 @@ class CodePagesControllerMacOSInputCompat {
         doCodeGridHover(point)
     }
     
-    func doNewSearch(_ newInput: String, _ state: SceneState) {
-        var positiveGrids: [CodeGrid] = []
-        var negativeGrids: [CodeGrid] = []
-        print("new search ---------------------- [\(newInput)]")
-        sceneTransaction {
+    
+    class SearchContainer {
+        var codeGridParser: CodeGridParser
+        var positiveGrids: Set<CodeGrid> = []
+        var negativeGrids: Set<CodeGrid> = []
+        
+        init(codeGridParser: CodeGridParser) {
+            self.codeGridParser = codeGridParser
+        }
+        
+        func search(_ newInput: String, _ state: SceneState) {
+            print("new search ---------------------- [\(newInput)]")
+            
             codeGridParser.query.walkGridsForSearch(
                 newInput,
                 onPositive: { foundInGrid, leafInfo in
-                    guard !positiveGrids.contains(foundInGrid) else { return }
-                    print(foundInGrid.id)
-                    state.rootGeometryNode.addChildNode(foundInGrid.rootNode)
-                    if let last = positiveGrids.last {
-                        foundInGrid.measures
-                            .alignedToTopOf(last, 0)
-                            .alignedToTrailingOf(last)
-                    } else {
-                        foundInGrid.measures.position = SCNVector3Zero
-                    }
-                    positiveGrids.append(foundInGrid)
+                    positiveGrids.insert(foundInGrid)
+//                    if let last = self.positiveGrids.last {
+//                        foundInGrid.measures
+//                            .alignedToTopOf(last, 0)
+//                            .alignedToTrailingOf(last)
+//                    } else {
+//                        foundInGrid.measures.position = SCNVector3Zero
+//                    }
                 },
                 onNegative: { excludedGrid, leafInfo in
                     guard !positiveGrids.contains(excludedGrid),
                           !negativeGrids.contains(excludedGrid) else { return }
+                    negativeGrids.insert(excludedGrid)
                     
                     print("rem", excludedGrid.id)
                     excludedGrid.rootNode.removeFromParentNode()
-                    negativeGrids.append(excludedGrid)
+                    
                 }
             )
+            
+            sceneTransaction {
+                
+            }
+            print("----------------------")
         }
-        print("----------------------")
+    }
+    lazy var searchController = {
+        SearchContainer(codeGridParser: codeGridParser)
+    }()
+    
+    func doNewSearch(_ newInput: String, _ state: SceneState) {
+        searchController.search(newInput, state)
     }
     
     private func doCodeGridHover(_ point: CGPoint) {

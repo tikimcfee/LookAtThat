@@ -398,14 +398,14 @@ extension CodeGrid {
                 while tokenParent != nil {
                     guard let parent = tokenParent else { continue }
                     let parentId = parent.id
-                    codeGridSemanticInfo.mergeSemanticInfo(
+                    codeGridSemanticInfo.saveSemanticInfo(
                         parentId,
                         tokenIdNodeName,
                         semanticInfoBuilder.semanticInfo(for: parent)
                     )
-                    codeGridSemanticInfo.associateIdentiferWithSyntax(
+                    codeGridSemanticInfo.associate(
                         syntax: parent,
-                        newValue: tokenId
+                        withLookupId: tokenId
                     )
                     tokenParent = parent.parent
                 }

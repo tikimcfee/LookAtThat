@@ -18,6 +18,7 @@
 		B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */; };
 		B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
+		B732150D275720EF00BD5C17 /* ThreeWaysTrie in Frameworks */ = {isa = PBXBuildFile; productRef = B732150C275720EF00BD5C17 /* ThreeWaysTrie */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9E72676AAAB00F351B4 /* WordStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9E62676AAAB00F351B4 /* WordStringCache.swift */; };
@@ -320,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B732150D275720EF00BD5C17 /* ThreeWaysTrie in Frameworks */,
 				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
 				B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */,
 				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
@@ -740,6 +742,7 @@
 				B73286A4273367B400C9C82A /* FileKit */,
 				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
 				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
+				B732150C275720EF00BD5C17 /* ThreeWaysTrie */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -828,6 +831,7 @@
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
+				B732150B275720EF00BD5C17 /* XCRemoteSwiftPackageReference "ThreeWaysTrie" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1392,6 +1396,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B732150B275720EF00BD5C17 /* XCRemoteSwiftPackageReference "ThreeWaysTrie" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vale-cocoa/ThreeWaysTrie";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nvzqz/FileKit";
@@ -1441,6 +1453,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
+		};
+		B732150C275720EF00BD5C17 /* ThreeWaysTrie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B732150B275720EF00BD5C17 /* XCRemoteSwiftPackageReference "ThreeWaysTrie" */;
+			productName = ThreeWaysTrie;
 		};
 		B73286A4273367B400C9C82A /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;

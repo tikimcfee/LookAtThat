@@ -20,17 +20,21 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 	var description: String {
 		"\(syntaxTypeName)~>[\(referenceName)]"
 	}
+    
+    var isSearchable: Bool = false
 	
 	init(node: Syntax,
 		 referenceName: String? = nil,
 		 typeName: String? = nil,
-		 color: NSUIColor? = nil
+		 color: NSUIColor? = nil,
+         searchable: Bool = false
 	) {
 		self.node = node
 		self.syntaxId = node.id
 		self.referenceName = referenceName ?? "\(node.hashValue)"
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
 		self.color = color ?? CodeGridColors.defaultText
+        self.isSearchable = searchable
 	}
 }
 
@@ -40,40 +44,48 @@ class SemanticInfoBuilder {
 	func semanticInfo(for node: Syntax) -> SemanticInfo {
 		switch self[node] {
 			case .variableDecl(let varl):
-				var name = "(unsupported syntax: \(varl.id)"
+                var name: String
 				if let firstBinding = varl.bindings.first {
 					let typeName = firstBinding.typeAnnotation?.description ?? ""
 					let pattern = firstBinding.pattern.description
 					name = "\(varl.letOrVarKeyword.text) \(pattern)\(typeName)"
-				}
+                } else {
+                    name = "(unsupported syntax: \(varl.id)"
+                }
 				return SemanticInfo(
 					node: node,
 					referenceName: name, 
-					color: CodeGridColors.variableDecl
+					color: CodeGridColors.variableDecl,
+                    searchable: true
 				)
 			case .extensionDecl(let extenl):
 				return SemanticInfo(
 					node: node, 
 					referenceName: "\(extenl.extendedType.description)+\(node.id.hashValue)", 
-					color: CodeGridColors.extensionDecl
+                    color: CodeGridColors.extensionDecl,
+                    searchable: true
 				)
 			case .classDecl(let classl):
 				return SemanticInfo(
 					node: node,
 					referenceName: "\(classl.identifier)",
-					color: CodeGridColors.classDecl
+                    color: CodeGridColors.classDecl,
+                    searchable: true
 				)
 			case .structDecl(let structl):
 				return SemanticInfo(
 					node: node,
 					referenceName: "\(structl.identifier)",
-					color: CodeGridColors.structDecl 
+                    color: CodeGridColors.structDecl,
+                    searchable: true
 				)
 			case .functionDecl(let funcl):
+                let readableFunctionSignataure = "\(funcl.identifier)\(funcl.signature._syntaxNode.strippedText)"
                 return SemanticInfo(
 					node: node,
-                    referenceName: "\(funcl.identifier)\(funcl.signature._syntaxNode.strippedText)", 
-					color: CodeGridColors.functionDecl
+                    referenceName: readableFunctionSignataure,
+                    color: CodeGridColors.functionDecl,
+                    searchable: true
 				)
 			default:
 				return SemanticInfo(

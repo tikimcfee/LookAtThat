@@ -36,6 +36,15 @@
           "revision": "8c9d8c0f7b43f52f7c6884e15af16fbd7a60f76a",
           "version": null
         }
+      },
+      {
+        "package": "ThreeWaysTrie",
+        "repositoryURL": "https://github.com/vale-cocoa/ThreeWaysTrie",
+        "state": {
+          "branch": "main",
+          "revision": "19a5e4c5894981b1c55f10b686fadba8c9093fb0",
+          "version": null
+        }
       }
     ]
   },
