@@ -38,6 +38,16 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 	}
 }
 
+extension SemanticInfo {
+    func iterateReferenceKeys(_ receiver: (String) -> Void) {
+        receiver(referenceName)
+        receiver(referenceName.lowercased())
+        receiver(referenceName.uppercased())
+        
+        referenceName.iterateTrieKeys(receiver: receiver)
+    }
+}
+
 class SemanticInfoBuilder {
 	private let localSemanticCache = SyntaxCache()
 	

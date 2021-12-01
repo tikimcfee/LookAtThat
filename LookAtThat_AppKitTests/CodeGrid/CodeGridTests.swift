@@ -122,9 +122,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         
         let searchText = "view"
-        bundle.gridParser.query.walkNodesForSearch(searchText) { queryResult in
-            print(queryResult)
-        }
+//        bundle.gridParser.query.walkNodesForSearch(searchText) { queryResult in
+//            print(queryResult)
+//        }
     }
     
     func testAttributedWrites() throws {
@@ -269,6 +269,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             totalLengthX += grid.measures.lengthX
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
+    }
+    
+    func testTries() throws {
+        let referenceName = """
+func someFunctionSignature(with aLongName: String) -> Wut { /* no-op */}S
+"""
+        XCTAssertTrue(referenceName.fuzzyMatch("func"))
+        XCTAssertTrue(referenceName.fuzzyMatch("somesignature"))
+        XCTAssertTrue(referenceName.fuzzyMatch("func string wut"))
+        XCTAssertTrue(referenceName.fuzzyMatch("func wut"))
+        XCTAssertFalse(referenceName.fuzzyMatch("func wut string"))
     }
     
 }

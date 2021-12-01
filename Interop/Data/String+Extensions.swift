@@ -45,6 +45,50 @@ public extension String {
         let computedRange = range(of: self)!
         return NSRange(computedRange, in: self)
     }
+    
+    func iterateTrieKeys(_ sliceSize: Int = 5, receiver: (String) -> Void) {
+        let last = count
+        for nextIndex in (0..<last) {
+            let start = index(startIndex, offsetBy: nextIndex)
+            let end = index(startIndex, offsetBy: min(last, nextIndex + sliceSize))
+            receiver(String(self[start..<end]))
+            receiver(String(self[start..<end]).lowercased())
+            receiver(String(self[start..<end]).uppercased())
+        }
+    }
+}
+
+public extension String {
+    func fuzzyMatch(_ searchString: String, caseSensitive: Bool = false) -> Bool {
+        if isEmpty || searchString.isEmpty { return false }
+        
+        var maybeMyIndex: String.Index? = startIndex
+        var maybeSearchIndex: String.Index? = searchString.startIndex
+        
+        while let myIndex = maybeMyIndex,
+              let searchIndex = maybeSearchIndex {
+            // if you find the character, look for the next
+            let (mine, theirs) = caseSensitive
+                ? (String(self[myIndex]), String(searchString[searchIndex]))
+                : (self[myIndex].lowercased(), searchString[searchIndex].lowercased())
+            
+            if mine == theirs {
+                maybeSearchIndex = searchString.safeIndex(searchIndex, offsetBy: 1)
+                // If we've gone off the index, we've found everything - return early
+                if maybeSearchIndex == nil || maybeSearchIndex == searchString.endIndex {
+                    return true
+                }
+            }
+            
+            // Always advance to next character; if we go off the end, we haven't found everything
+            maybeMyIndex = safeIndex(myIndex, offsetBy: 1)
+            if maybeMyIndex == nil || maybeMyIndex == endIndex {
+                return false
+            }
+        }
+        
+        return false
+    }
 }
 
 extension Substring {

@@ -106,7 +106,9 @@ extension CodeGridSemanticMap {
 		semanticsLookupByNodeId[nodeId] = syntaxId
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
         if newInfo.isSearchable {
-            globalSearchTrie[newInfo.referenceName] = newInfo
+            newInfo.iterateReferenceKeys { key in
+                globalSearchTrie[key] = newInfo
+            }
         }
 	}
     
