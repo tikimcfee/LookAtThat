@@ -74,8 +74,8 @@ class CodePagesControllerMacOSCompat {
     func attachSearchInputSink() {
         SceneLibrary.global.codePagesController.codeGridParser.query.searchStream
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .sink { [inputCompat] searhEvent in
-                inputCompat.doNewSearch(searhEvent)
+            .sink { [inputCompat] searchEvent in
+                inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
             }
             .store(in: &controller.cancellables)
     }
@@ -173,12 +173,37 @@ class CodePagesControllerMacOSInputCompat {
         doCodeGridHover(point)
     }
     
-    func doNewSearch(_ newInput: String) {
-        var newResults: Set<SCNNode> = []
-        codeGridParser.query.walkNodesForSearch(newInput) { queryResultNodeSet in
-            newResults.formUnion(queryResultNodeSet)
+    func doNewSearch(_ newInput: String, _ state: SceneState) {
+        var positiveGrids: [CodeGrid] = []
+        var negativeGrids: [CodeGrid] = []
+        print("new search ---------------------- [\(newInput)]")
+        sceneTransaction {
+            codeGridParser.query.walkGridsForSearch(
+                newInput,
+                onPositive: { foundInGrid, leafInfo in
+                    guard !positiveGrids.contains(foundInGrid) else { return }
+                    print(foundInGrid.id)
+                    state.rootGeometryNode.addChildNode(foundInGrid.rootNode)
+                    if let last = positiveGrids.last {
+                        foundInGrid.measures
+                            .alignedToTopOf(last, 0)
+                            .alignedToTrailingOf(last)
+                    } else {
+                        foundInGrid.measures.position = SCNVector3Zero
+                    }
+                    positiveGrids.append(foundInGrid)
+                },
+                onNegative: { excludedGrid, leafInfo in
+                    guard !positiveGrids.contains(excludedGrid),
+                          !negativeGrids.contains(excludedGrid) else { return }
+                    
+                    print("rem", excludedGrid.id)
+                    excludedGrid.rootNode.removeFromParentNode()
+                    negativeGrids.append(excludedGrid)
+                }
+            )
         }
-        touchState.mouse.hoverTracker.newSetHovered(newResults)
+        print("----------------------")
     }
     
     private func doCodeGridHover(_ point: CGPoint) {

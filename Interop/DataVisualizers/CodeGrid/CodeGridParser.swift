@@ -143,18 +143,31 @@ class ParserQueryController: ObservableObject {
         self.parser = parser
     }
     
-    func walkNodesForSearch(
+    func walkGridsForSearch(
         _ searchText: String,
-        _ receiver: (GridAssociationType) -> Void
+        onPositive: (CodeGrid, SemanticInfo) -> Void,
+        onNegative: (CodeGrid, SemanticInfo) -> Void
     ) {
         onAllCachedInfo { grid, info in
-            let doesPassFilter = info.referenceName.contains(searchText)
-            guard doesPassFilter else { return }
+            let isIncluded = info.referenceName.contains(searchText)
+            let toCall = isIncluded ? onPositive : onNegative
+            toCall(grid, info)
+        }
+    }
+    
+    func walkNodesForSearch(
+        _ searchText: String,
+        onPositive: (CodeGrid, SemanticInfo, GridAssociationType) -> Void,
+        onNegative: (CodeGrid, SemanticInfo, GridAssociationType) -> Void
+    ) {
+        onAllCachedInfo { grid, info in
+            let isIncluded = info.referenceName.contains(searchText)
+            let toCall = isIncluded ? onPositive : onNegative
             
             let infoTokenId = info.syntaxId
             grid.codeGridSemanticInfo
                 .forAllNodesAssociatedWith(infoTokenId, tokenCache) { info, associations in
-                    receiver(associations)
+                    toCall(grid, info, associations)
                 }
         }
     }
