@@ -175,51 +175,52 @@ class CodePagesControllerMacOSInputCompat {
     
     
     class SearchContainer {
+        var codeGridFocus: CodeGridFocus
         var codeGridParser: CodeGridParser
         
-        init(codeGridParser: CodeGridParser) {
+        init(codeGridParser: CodeGridParser,
+             codeGridFocus: CodeGridFocus) {
             self.codeGridParser = codeGridParser
+            self.codeGridFocus = codeGridFocus
         }
         
         func search(_ newInput: String, _ state: SceneState) {
             print("new search ---------------------- [\(newInput)]")
-            
-            var positiveGrids: Array<CodeGrid> = []
-            var negativeGrids: Array<CodeGrid> = []
+            var toAdd: [CodeGrid] = []
+            var toRemove: [CodeGrid] = []
             codeGridParser.query.walkGridsForSearch(
                 newInput,
                 onPositive: { foundInGrid, leafInfo in
-                    guard !positiveGrids.contains(foundInGrid) else { return }
-                    print(foundInGrid.id)
-                    state.rootGeometryNode.addChildNode(foundInGrid.rootNode)
-                    if let last = positiveGrids.last {
-                        foundInGrid.measures
-                            .alignedToTopOf(last, 0)
-                            .alignedToTrailingOf(last)
-                    } else {
-                        foundInGrid.measures.position = SCNVector3Zero
-                    }
-                    positiveGrids.append(foundInGrid)
+                    toAdd.append(foundInGrid)
                 },
                 onNegative: { excludedGrid, leafInfo in
-                    guard !positiveGrids.contains(excludedGrid),
-                          !negativeGrids.contains(excludedGrid) else { return }
-                    negativeGrids.append(excludedGrid)
-                    
-                    print("rem", excludedGrid.id)
-                    excludedGrid.rootNode.removeFromParentNode()
-                    
+                    toRemove.append(excludedGrid)
                 }
             )
-            
             sceneTransaction {
-                
+                toRemove.forEach {
+                    codeGridFocus.removeGridFromFocus($0)
+                }
+                toAdd.enumerated().forEach {
+                    codeGridFocus.addGridToFocus($0.element, $0.offset)
+                }
+
             }
             print("----------------------")
         }
     }
     lazy var searchController = {
-        SearchContainer(codeGridParser: codeGridParser)
+        SearchContainer(codeGridParser: codeGridParser,
+                        codeGridFocus: focus)
+    }()
+    lazy var focus: CodeGridFocus = {
+        let rootGrid = codeGridParser.createNewGrid()
+            .backgroundColor(NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.2))
+        let focus = CodeGridFocus(
+            rootGrid: rootGrid
+        )
+        controller.sceneState.rootGeometryNode.addChildNode(focus.rootGrid.rootNode)
+        return focus
     }()
     
     func doNewSearch(_ newInput: String, _ state: SceneState) {

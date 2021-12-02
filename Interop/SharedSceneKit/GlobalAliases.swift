@@ -45,6 +45,12 @@ extension CGFloat {
     }
 }
 
+extension Int {
+    var cg: CGFloat {
+        return CGFloat(self)
+    }
+}
+
 extension Float {
     var vector: VectorFloat {
         return VectorFloat(self)

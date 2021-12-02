@@ -120,11 +120,13 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         wait(for: [awaitRender], timeout: 60)
         let _ = try XCTUnwrap(finalGrid, "wut missing root")
         
-        
-        let searchText = "view"
-//        bundle.gridParser.query.walkNodesForSearch(searchText) { queryResult in
-//            print(queryResult)
-//        }
+        var bimap: BiMap<CodeGrid, Int> = BiMap()
+        var depth = 1
+        bundle.gridParser.gridCache.cachedGrids.values.forEach { grid in
+            bimap[grid] = depth
+            depth += 1
+        }
+        bimap.keysToValues.forEach { print($0) }
     }
     
     func testAttributedWrites() throws {

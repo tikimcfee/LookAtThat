@@ -52,16 +52,24 @@ public extension SCNNode {
             return cached
         }
         
-        private static func Update(_ node: SCNNode) -> Bounds {
+        internal static func Update(_ node: SCNNode) -> Bounds {
             let box = node.computeBoundingBox()
             boundsCacheLocking.lockAndDo { cache in
                 cache[node.cacheKey] = box
             }
             return box
         }
+        
+        internal static func ClearRoot(_ root: SCNNode) {
+            boundsCacheLocking.lockAndDo { cache in
+                root.enumerateHierarchy { node, _ in
+                    cache[node.cacheKey] = nil
+                }
+            }
+        }
     }
     
-    internal func computeBoundingBox() -> Bounds {
+    func computeBoundingBox() -> Bounds {
         childNodes.reduce(into: BoundsComputing()) { result, node in
             var safeBox = node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
@@ -72,7 +80,7 @@ public extension SCNNode {
 }
 
 public extension SCNNode {
-    private var manualBoundingBox: Bounds {
+    var manualBoundingBox: Bounds {
         childNodes.isEmpty
             ? boundingBox
             : BoundsCaching.getOrUpdate(self)
@@ -113,13 +121,24 @@ public extension SCNNode {
         )
         distance.maximumDistance = target.lengthX.cg
         distance.minimumDistance = target.lengthX.cg
-        constraints = {
-            var list = constraints ?? []
-            list.append(contentsOf: [
-                distance, orientation
-            ])
-            return list
-        }()
+        addConstraint(distance)
+        addConstraint(orientation)
+    }
+    
+    func chainLinkZDepth(to target: SCNNode, depth: VectorFloat) {
+        let position = SCNTransformConstraint.positionConstraint(
+            inWorldSpace: true,
+            with: { node, position in
+                node.position.translated(dZ: depth)
+            }
+        )
+        addConstraint(position)
+    }
+    
+    func addConstraint(_ constraint: SCNConstraint) {
+        var list = constraints ?? []
+        list.append(constraint)
+        constraints = list
     }
     
     func addWireframeBox() {

@@ -145,41 +145,27 @@ class ParserQueryController: ObservableObject {
     
     func walkGridsForSearch(
         _ searchText: String,
-        onPositive: (CodeGrid, SemanticInfo) -> Void,
-        onNegative: (CodeGrid, SemanticInfo) -> Void
+        onPositive: (CodeGrid, Set<SemanticInfo>) -> Void,
+        onNegative: (CodeGrid, Set<SemanticInfo>) -> Void
     ) {
-        onAllCachedInfo { grid, info in
-            let isIncluded = info.referenceName.fuzzyMatch(searchText)
-            let toCall = isIncluded ? onPositive : onNegative
-            toCall(grid, info)
-        }
-    }
-    
-    func walkNodesForSearch(
-        _ searchText: String,
-        onPositive: (CodeGrid, SemanticInfo, GridAssociationType) -> Void,
-        onNegative: (CodeGrid, SemanticInfo, GridAssociationType) -> Void
-    ) {
-        onAllCachedInfo { grid, info in
-            let isIncluded = info.referenceName.contains(searchText)
-            let toCall = isIncluded ? onPositive : onNegative
-            
-            let infoTokenId = info.syntaxId
-            grid.codeGridSemanticInfo
-                .forAllNodesAssociatedWith(infoTokenId, tokenCache) { info, associations in
-                    toCall(grid, info, associations)
-                }
+        onAllCachedInfo { grid, infoSet in
+            let filteredSemantics = infoSet.filter {
+                $0.referenceName.fuzzyMatch(searchText)
+            }
+            let toCall = filteredSemantics.isEmpty ? onNegative : onPositive
+            toCall(grid, filteredSemantics)
         }
     }
     
     // Loops through all grids, iterates over all SemanticInfo constructed for it
-    func onAllCachedInfo(_ receiver: (CodeGrid, SemanticInfo) -> Void) {
+    func onAllCachedInfo(_ receiver: (CodeGrid, Set<SemanticInfo>) -> Void) {
         for cachedGrid in cache.cachedGrids.values {
-            cachedGrid.codeGridSemanticInfo
-                .semanticsLookupBySyntaxId
-                .values.forEach { info in
-                    receiver(cachedGrid, info)
-                }
+            let items = Set(
+                cachedGrid.codeGridSemanticInfo
+                    .semanticsLookupBySyntaxId
+                    .values
+            )
+            receiver(cachedGrid, items)
         }
     }
     

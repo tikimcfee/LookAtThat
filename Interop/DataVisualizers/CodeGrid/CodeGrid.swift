@@ -14,7 +14,7 @@ let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 class CodeGrid: Identifiable, Equatable {
     struct Defaults {
-        static var displayMode: DisplayMode = .glyphs
+        static var displayMode: DisplayMode = .layers
         static var walkSemantics: Bool = true
     }
     
@@ -42,7 +42,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
-	
+    
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
 		 tokenCache: CodeGridTokenCache) {
@@ -93,6 +93,23 @@ extension CodeGrid {
         if pivotRootNode {
             rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
         }
+        return self
+    }
+    
+    @discardableResult
+    func resizeGridAsBox(
+        bounds: Bounds
+    ) -> CodeGrid {
+        gridGeometry.width = BoundsWidth(bounds)
+        gridGeometry.height = BoundsHeight(bounds)
+        gridGeometry.length = BoundsLength(bounds)
+        let centerX = gridGeometry.width / 2.0
+        let centerY = gridGeometry.height / 2.0
+        let centerZ = gridGeometry.length / 2.0
+        backgroundGeometryNode.position.x = centerX.vector
+        backgroundGeometryNode.position.y = -centerY.vector
+        backgroundGeometryNode.position.z = -centerZ.vector
+//        rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, centerZ.vector)
         return self
     }
     

@@ -37,7 +37,10 @@ public extension SCNGeometry {
     }
 }
 
-typealias Bounds = (min: SCNVector3, max: SCNVector3)
+public typealias Bounds = (min: SCNVector3, max: SCNVector3)
+func BoundsWidth(_ bounds: Bounds) -> VectorFloat { bounds.max.x - bounds.min.x }
+func BoundsHeight(_ bounds: Bounds) -> VectorFloat { bounds.max.y - bounds.min.y }
+func BoundsLength(_ bounds: Bounds) -> VectorFloat { bounds.max.z - bounds.min.z }
 
 class BoundsComputing {
     var minX: VectorFloat = 0
