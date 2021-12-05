@@ -35,9 +35,20 @@ class CodeGridFocusController {
     }
     
     func setNewFocus() {
-        mainFocus.rootNode.position = mainFocus.rootNode.position.translated(
-            dX: -mainFocus.rootNode.lengthX * 1.2
-        )
+        
+        // ------------------------------------------------
+        // This is absolutely freaking nuts.
+        // Because most of the highlight selection stuff is metainfo based,
+        // and because the `clone()` function is so damn beautifully recursive,
+        // cloning the root of the focus gets you an instant and free copy of your
+        // state. Names are preserved, so hit tests work as well.
+        if let parent = mainFocus.rootNode.parent {
+            mainFocus.rootNode.removeFromParentNode()
+            mainFocus.rootNode = mainFocus.rootNode.clone()
+            parent.addChildNode(mainFocus.rootNode)
+        }
+        // ------------------------------------------------
+        
         mainFocus = makeNewFocusBox()
     }
     
