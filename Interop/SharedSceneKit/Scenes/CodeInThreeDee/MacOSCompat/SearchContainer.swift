@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SceneKit
 
 class SearchContainer {
+    var hovers = TokenHoverInteractionTracker()
     var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
     
@@ -24,12 +26,18 @@ class SearchContainer {
     
     func search(_ newInput: String, _ state: SceneState) {
         print("new search ---------------------- [\(newInput)]")
-        
         var toAdd: [CodeGrid] = []
         var toRemove: [CodeGrid] = []
+        var toHover: Set<SCNNode> = []
+        
         codeGridParser.query.walkGridsForSearch(
             newInput,
             onPositive: { foundInGrid, leafInfo in
+                leafInfo.forEach { info in
+                    foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(info.syntaxId, codeGridParser.tokenCache) { info, nodes in
+                        toHover.formUnion(nodes)
+                    }
+                }
                 toAdd.append(foundInGrid)
             },
             onNegative: { excludedGrid, leafInfo in
@@ -43,7 +51,7 @@ class SearchContainer {
             toAdd.enumerated().forEach {
                 codeGridFocus.addGridToFocus($0.element, $0.offset)
             }
-            
+            hovers.newSetHovered(toHover)
         }
         print("----------------------")
     }

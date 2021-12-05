@@ -25,8 +25,10 @@ class TokenHoverInteractionTracker {
 		currentHoveredSet.insert(result)
 		
 		result.position.z += 5.0
-        result.simdScale += result.simdWorldRight * 1.2
-        result.simdScale += result.simdWorldUp * 1.2
+        result.geometry = result.geometry?.deepCopy()
+        result.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
+//        result.simdScale += result.simdWorldRight * 1.2
+//        result.simdScale += result.simdWorldUp * 1.2
 	}
 	
 	private func unfocusNode(_ result: Key) {
@@ -34,7 +36,9 @@ class TokenHoverInteractionTracker {
 		currentHoveredSet.remove(result)
 		
 		result.position.z -= 5.0
-        result.simdScale -= result.simdWorldRight * 1.2
-        result.simdScale -= result.simdWorldUp * 1.2
+        result.geometry?.firstMaterial?.multiply.contents = NSUIColor.white
+//        result.geometry?.firstMaterial?.multiply.contents = NSUIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8)
+//        result.simdScale -= result.simdWorldRight * 1.2
+//        result.simdScale -= result.simdWorldUp * 1.2
 	}
 }

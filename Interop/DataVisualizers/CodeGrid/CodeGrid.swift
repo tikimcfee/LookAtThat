@@ -14,7 +14,7 @@ let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 class CodeGrid: Identifiable, Equatable {
     struct Defaults {
-        static var displayMode: DisplayMode = .layers
+        static var displayMode: DisplayMode = .glyphs
         static var walkSemantics: Bool = true
     }
     
