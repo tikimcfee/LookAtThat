@@ -78,7 +78,7 @@ extension CodeGrid {
     
     @discardableResult
     func sizeGridToContainerNode(
-        pad: VectorFloat = 2,
+        pad: VectorFloat = 0,
         pivotRootNode: Bool = false
     ) -> CodeGrid {
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
@@ -93,23 +93,6 @@ extension CodeGrid {
         if pivotRootNode {
             rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
         }
-        return self
-    }
-    
-    @discardableResult
-    func resizeGridAsBox(
-        bounds: Bounds
-    ) -> CodeGrid {
-        gridGeometry.width = BoundsWidth(bounds)
-        gridGeometry.height = BoundsHeight(bounds)
-        gridGeometry.length = BoundsLength(bounds)
-        let centerX = gridGeometry.width / 2.0
-        let centerY = gridGeometry.height / 2.0
-        let centerZ = gridGeometry.length / 2.0
-        backgroundGeometryNode.position.x = centerX.vector
-        backgroundGeometryNode.position.y = -centerY.vector
-        backgroundGeometryNode.position.z = -centerZ.vector
-//        rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, centerZ.vector)
         return self
     }
     
@@ -178,6 +161,12 @@ extension CodeGrid {
         }
         var centerY: VectorFloat {
             get { lengthY / 2.0 }
+        }
+        var centerZ: VectorFloat {
+            get { lengthZ / 2.0 }
+        }
+        var centerPosition: SCNVector3 {
+            get { SCNVector3(x: centerX, y: centerY, z: centerZ) }
         }
         
         var top: VectorFloat {

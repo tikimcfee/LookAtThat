@@ -79,7 +79,7 @@ open class BaseSceneController: SceneControls {
     }
 
     open func sceneActive() {
-
+        
     }
 
     open func sceneInactive() {

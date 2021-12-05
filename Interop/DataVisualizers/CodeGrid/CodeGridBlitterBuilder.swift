@@ -37,7 +37,7 @@ class CodeGridBlitter {
         return sheetGeometry
     }
     
-    func sizeGridToContainerNode(pad: VectorFloat = 2, pivotRootNode: Bool = false){
+    func sizeGridToContainerNode(pad: VectorFloat = 0, pivotRootNode: Bool = false){
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = gridGeometry.width / 2.0

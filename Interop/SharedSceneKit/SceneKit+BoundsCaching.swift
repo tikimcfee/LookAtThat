@@ -41,19 +41,19 @@ public extension SCNNode {
             boundsCache.removeAll()
         }
         
-        internal static func getOrUpdate(_ node: SCNNode) -> Bounds {
+        internal static func getOrUpdate(_ node: SCNNode, presentation: Bool) -> Bounds {
             var bounds: Bounds?
             boundsCacheLocking.lockAndDo { cache in
                 bounds = cache[node.cacheKey]
             }
             guard let cached = bounds else {
-                return Update(node)
+                return Update(node, presentation)
             }
             return cached
         }
         
-        internal static func Update(_ node: SCNNode) -> Bounds {
-            let box = node.computeBoundingBox()
+        internal static func Update(_ node: SCNNode, _ presentation: Bool) -> Bounds {
+            let box = node.computeBoundingBox(presentation)
             boundsCacheLocking.lockAndDo { cache in
                 cache[node.cacheKey] = box
             }
@@ -69,9 +69,11 @@ public extension SCNNode {
         }
     }
     
-    func computeBoundingBox() -> Bounds {
+    func computeBoundingBox(_ presentation: Bool) -> Bounds {
         childNodes.reduce(into: BoundsComputing()) { result, node in
-            var safeBox = node.manualBoundingBox
+            var safeBox = presentation
+                ? node.manualPresentationBoundingBox
+                : node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
             safeBox.max = convertPosition(safeBox.max, from: node)
             result.consumeBounds(safeBox)
@@ -83,7 +85,13 @@ public extension SCNNode {
     var manualBoundingBox: Bounds {
         childNodes.isEmpty
             ? boundingBox
-            : BoundsCaching.getOrUpdate(self)
+            : BoundsCaching.getOrUpdate(self, presentation: false)
+    }
+    
+    var manualPresentationBoundingBox: Bounds {
+        childNodes.isEmpty
+            ? presentation.boundingBox
+            : BoundsCaching.getOrUpdate(presentation, presentation: true)
     }
     
     var lengthX: VectorFloat {
@@ -113,6 +121,10 @@ public extension SCNNode {
         return lengthZ / 2.0
     }
     
+    var centerPosition: SCNVector3 {
+        return SCNVector3(x: centerX, y: centerY, z: centerZ)
+    }
+    
     func chainLinkTo(to target: SCNNode) {
         let distance = SCNDistanceConstraint(target: target)
         let orientation = SCNTransformConstraint.orientationConstraint(
@@ -137,13 +149,28 @@ public extension SCNNode {
     
     func addConstraint(_ constraint: SCNConstraint) {
         var list = constraints ?? []
+        guard list.first(where: { $0 === constraint}) == nil else { return }
         list.append(constraint)
         constraints = list
+    }
+    
+    func removeConstraint(_ constraint: SCNConstraint) {
+        constraints?.removeAll(where: { $0 === constraint })
     }
     
     func addWireframeBox() {
         let debugBox = SCNBox()
         debugBox.firstMaterial?.diffuse.contents = NSUIColor.clear
+//        debugBox.width = 10
+//        debugBox.height = 10
+//        debugBox.length = 10
+        geometry = debugBox
+    }
+    
+    func addWireframePoint() {
+        let debugBox = SCNSphere()
+        debugBox.firstMaterial?.diffuse.contents = NSUIColor.lightGray
+        debugBox.radius = 10
         geometry = debugBox
     }
 }
