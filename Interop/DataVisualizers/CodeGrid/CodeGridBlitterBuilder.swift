@@ -37,13 +37,16 @@ class CodeGridBlitter {
         return sheetGeometry
     }
     
-    func sizeGridToContainerNode(pad: VectorFloat = 0, pivotRootNode: Bool = false){
+    func sizeGridToContainerNode(
+        pad: VectorFloat = 2.0,
+        pivotRootNode: Bool = false
+    ){
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = gridGeometry.width / 2.0
         let centerY = -gridGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad
-        backgroundGeometryNode.position.y = centerY.vector + pad
+        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
+        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         backgroundGeometryNode.position.z = -1
         // Can help in some layout situations where you want the root node's position
         // to be at dead-center of background geometry
