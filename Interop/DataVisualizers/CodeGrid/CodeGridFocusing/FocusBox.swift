@@ -12,6 +12,7 @@ let kFocusBoxContainerName = "kFocusBoxContainerName"
 
 class FocusBox: Hashable, Identifiable {
     lazy var id = { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }()
+    lazy var bimap: BiMap<SCNNode, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
@@ -57,13 +58,17 @@ class FocusBox: Hashable, Identifiable {
     }
     
     func detachGrid(_ grid: CodeGrid) {
+        grid.rootNode.position = SCNVector3Zero
         grid.rootNode.removeFromParentNode()
+        bimap[grid.rootNode] = nil
         layoutFocusedGrids()
         resetBounds()
     }
     
-    func attachGrid(_ grid: CodeGrid) {
+    func attachGrid(_ grid: CodeGrid, _ depth: Int) {
+        grid.rootNode.position = SCNVector3Zero
         gridNode.addChildNode(grid.rootNode)
+        bimap[grid.rootNode] = depth
         layoutFocusedGrids()
         resetBounds()
     }
@@ -90,7 +95,7 @@ class FocusBox: Hashable, Identifiable {
     
     func layoutFocusedGrids() {
         sceneTransaction {
-            focus.bimap.keysToValues.forEach { grid, depth in
+            bimap.keysToValues.forEach { grid, depth in
                 grid.position = SCNVector3Zero.translated(
                     //                    dX: -grid.centerX,
                     dZ: depth.cg * -25.0
