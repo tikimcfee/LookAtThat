@@ -138,28 +138,26 @@ class CodePagesControllerMacOSInputCompat {
     }
     
     private func moveCamera(scaledX: CGFloat, scaledY: CGFloat, _ event: NSEvent? = nil) {
-        let translation: SCNMatrix4
         let targetNode: SCNNode
+        var moveVertically = false
+        
         if let hoveredSheet = touchState.mouse.currentHoveredSheet,
            event?.modifierFlags.contains(.control) == true {
-            translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
             targetNode = hoveredSheet
-        }
-        //        else if event?.modifierFlags.contains(.command) == true {
-        else if event?.modifierFlags.contains(.shift) == true {
-            translation = SCNMatrix4MakeTranslation(scaledX, 0, scaledY)
+        } else if event?.modifierFlags.contains(.shift) == true {
             targetNode = sceneCameraNode
+            moveVertically = true
         } else {
-            translation = SCNMatrix4MakeTranslation(scaledX, scaledY, 0)
             targetNode = sceneCameraNode
         }
         
         sceneTransaction(0) {
-            let translate4x4 = simd_float4x4(translation)
-            let target4x4 = simd_float4x4(targetNode.transform)
-            let multiplied = simd_mul(translate4x4, target4x4)
-            targetNode.simdTransform = multiplied
-            //            targetNode.transform = SCNMatrix4Mult(translation, targetNode.transform)
+            targetNode.simdPosition += targetNode.simdWorldRight * Float(scaledX)
+            if moveVertically {
+                targetNode.simdPosition += targetNode.simdWorldUp * -Float(scaledY)
+            } else {
+                targetNode.simdPosition += targetNode.simdWorldFront * -Float(scaledY)
+            }
         }
     }
     
@@ -225,41 +223,5 @@ class CodePagesControllerMacOSInputCompat {
             }
             
         }
-    }
-}
-
-class SearchContainer {
-    var codeGridFocus: CodeGridFocus
-    var codeGridParser: CodeGridParser
-    
-    init(codeGridParser: CodeGridParser,
-         codeGridFocus: CodeGridFocus) {
-        self.codeGridParser = codeGridParser
-        self.codeGridFocus = codeGridFocus
-    }
-    
-    func search(_ newInput: String, _ state: SceneState) {
-        print("new search ---------------------- [\(newInput)]")
-        var toAdd: [CodeGrid] = []
-        var toRemove: [CodeGrid] = []
-        codeGridParser.query.walkGridsForSearch(
-            newInput,
-            onPositive: { foundInGrid, leafInfo in
-                toAdd.append(foundInGrid)
-            },
-            onNegative: { excludedGrid, leafInfo in
-                toRemove.append(excludedGrid)
-            }
-        )
-        sceneTransaction {
-            toRemove.forEach {
-                codeGridFocus.removeGridFromFocus($0)
-            }
-            toAdd.enumerated().forEach {
-                codeGridFocus.addGridToFocus($0.element, $0.offset)
-            }
-            
-        }
-        print("----------------------")
     }
 }

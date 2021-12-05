@@ -9,13 +9,11 @@ import Foundation
 import SceneKit
 
 class FocusBox {
+    lazy var id = { "\(kContainerName)-\(UUID().uuidString)" }()
     lazy var rootNode: SCNNode = makeRootNode()
-    
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
     lazy var rootGeometry: SCNBox = makeGeometry()
-    
-    lazy var id = { "\(kContainerName)-\(UUID().uuidString)" }()
     
     var focus: CodeGridFocus
     
