@@ -1,25 +1,37 @@
 //
-//  CodeGridFocus.swift
+//  FocusBox.swift
 //  LookAtThat_AppKit
 //
-//  Created by Ivan Lugo on 12/1/21.
+//  Created by Ivan Lugo on 12/5/21.
 //
 
 import Foundation
 import SceneKit
 
-class FocusBox {
-    lazy var id = { "\(kContainerName)-\(UUID().uuidString)" }()
+let kFocusBoxContainerName = "kFocusBoxContainerName"
+
+class FocusBox: Hashable, Identifiable {
+    lazy var id = { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
     lazy var rootGeometry: SCNBox = makeGeometry()
     
-    var focus: CodeGridFocus
+    var focus: CodeGridFocusController
     
-    init(_ focus: CodeGridFocus) {
+    init(_ focus: CodeGridFocusController) {
         self.focus = focus
         setup()
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (_ left: FocusBox, _ right: FocusBox) -> Bool {
+        return left.id == right.id
+            && left.rootNode.position == right.rootNode.position
+            && left.rootNode.childNodes.count == right.rootNode.childNodes.count
     }
     
     var bounds: Bounds {
@@ -38,8 +50,8 @@ class FocusBox {
             /// Note: this math assumes nothing has been moved from the origin
             geometryNode.pivot = SCNMatrix4MakeTranslation(
                 -rootGeometry.width / 2.0 - newValue.min.x + halfPad,
-                rootGeometry.height / 2.0 - newValue.max.y - halfPad,
-                -newValue.min.z / 2.0
+                 rootGeometry.height / 2.0 - newValue.max.y - halfPad,
+                 -newValue.min.z / 2.0
             )
         }
     }
@@ -71,7 +83,7 @@ class FocusBox {
         geometryNode.name = id
         geometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         geometryNode.geometry = rootGeometry
-
+        
         // Adding nodes to root
         focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
@@ -80,7 +92,7 @@ class FocusBox {
         sceneTransaction {
             focus.bimap.keysToValues.forEach { grid, depth in
                 grid.position = SCNVector3Zero.translated(
-//                    dX: -grid.centerX,
+                    //                    dX: -grid.centerX,
                     dZ: depth.cg * -25.0
                 )
             }
@@ -119,30 +131,5 @@ class FocusBox {
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
         }
         return box
-    }
-}
-
-class CodeGridFocus {
-    
-    lazy var bimap: BiMap<SCNNode, Int> = BiMap()
-    lazy var focusBox = FocusBox(self)
-    let controller: CodePagesController
-    
-    init(controller: CodePagesController) {
-        self.controller = controller
-    }
-    
-    func removeGridFromFocus(_ grid: CodeGrid) {
-        grid.rootNode.position = SCNVector3Zero
-        bimap[grid.rootNode] = nil
-        
-        focusBox.detachGrid(grid)
-    }
-
-    func addGridToFocus(_ grid: CodeGrid, _ depth: Int) {
-        grid.rootNode.position = SCNVector3Zero
-        bimap[grid.rootNode] = depth
-        
-        focusBox.attachGrid(grid)
     }
 }

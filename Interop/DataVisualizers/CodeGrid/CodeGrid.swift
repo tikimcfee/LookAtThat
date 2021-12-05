@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-let kContainerName = "kContainerName"
+let kCodeGridContainerName = "kCodeGridContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 class CodeGrid: Identifiable, Equatable {
@@ -18,7 +18,7 @@ class CodeGrid: Identifiable, Equatable {
         static var walkSemantics: Bool = true
     }
     
-    lazy var id = { "\(kContainerName)-\(UUID().uuidString)" }()
+    lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
 	
 	let tokenCache: CodeGridTokenCache
 	let glyphCache: GlyphLayerCache
@@ -127,7 +127,7 @@ extension CodeGrid {
     
     private func makeGlyphsContainerNode() -> SCNNode {
         let container = SCNNode()
-        container.name = "\(kContainerName)-glyphs-\(id)"
+        container.name = "\(kCodeGridContainerName)-glyphs-\(id)"
         container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
         return container
     }

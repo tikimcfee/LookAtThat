@@ -8,13 +8,18 @@
 import Foundation
 
 class SearchContainer {
-    var codeGridFocus: CodeGridFocus
+    var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
     
     init(codeGridParser: CodeGridParser,
-         codeGridFocus: CodeGridFocus) {
+         codeGridFocus: CodeGridFocusController) {
         self.codeGridParser = codeGridParser
         self.codeGridFocus = codeGridFocus
+    }
+    
+    func createNewSearchFocus(_ state: SceneState) {
+        print("creating new search focus")
+        
     }
     
     func search(_ newInput: String, _ state: SceneState) {

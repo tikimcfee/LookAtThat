@@ -102,8 +102,8 @@ class CodePagesControllerMacOSInputCompat {
                         codeGridFocus: focus)
     }()
     
-    lazy var focus: CodeGridFocus = {
-        let focus = CodeGridFocus(
+    lazy var focus: CodeGridFocusController = {
+        let focus = CodeGridFocusController(
             controller: controller
         )
         return focus
