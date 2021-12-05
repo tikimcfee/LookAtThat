@@ -33,15 +33,16 @@ class FocusBox {
             let halfPad = pad / 2.0
             rootGeometry.width = BoundsWidth(newValue) + pad
             rootGeometry.height = BoundsHeight(newValue) + pad
-            rootGeometry.length = BoundsLength(newValue) + pad * 2.0
+            rootGeometry.length = BoundsLength(newValue) + pad
             
             /// translate geometry:
             /// 1. so it's top-left-front is at (0, 0, 1/2 length)
             /// 2. so it's aligned with the bounds of the grids themselves.
             geometryNode.pivot = SCNMatrix4MakeTranslation(
-                -rootGeometry.width / 2.0 + (halfPad),
+//                -rootGeometry.width / 2.0 + (halfPad),
+                0,
                  rootGeometry.height / 2.0 - (newValue.max.y) - (halfPad),
-                 -rootGeometry.length / 2.0 + (newValue.max.z / 2.0) + (halfPad)
+                -rootGeometry.length / 2.0 - (newValue.min.z) + (halfPad)
             )
         }
     }
@@ -63,17 +64,12 @@ class FocusBox {
         rootNode.addWireframeBox()
         
         gridNode.name = id
-//        gridNode.addWireframePoint()
         
         geometryNode.name = id
         geometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         geometryNode.addConstraint(makeGeometryConstraint())
         geometryNode.geometry = rootGeometry
-        
-//        let geometryRootPositionNode = SCNNode()
-//        geometryRootPositionNode.addWireframePoint()
-//        geometryNode.addChildNode(geometryRootPositionNode)
-        
+
         // Adding nodes to root
         focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
@@ -158,22 +154,37 @@ class CodeGridFocus {
     func removeGridFromFocus(_ grid: CodeGrid) {
         bimap[grid.rootNode] = nil
         focusBox.detachGrid(grid)
-        grid.rootNode.removeConstraint(constraint)
+        
+        layoutFocusedGrids()
+//        grid.rootNode.removeConstraint(constraint)
     }
 
     func addGridToFocus(_ grid: CodeGrid, _ depth: Int) {
         bimap[grid.rootNode] = depth
         focusBox.attachGrid(grid)
-        grid.rootNode.addConstraint(constraint)
+        
+        layoutFocusedGrids()
+//        grid.rootNode.addConstraint(constraint)
+    }
+    
+    func layoutFocusedGrids() {
+        sceneTransaction {
+            bimap.keysToValues.forEach { grid, depth in
+                grid.position = SCNVector3Zero.translated(
+                    dX: -grid.centerX,
+                    dZ: depth.cg * -25.0
+                )
+            }
+        }
     }
     
     func makeConstraint() -> SCNTransformConstraint{
         func onConstraint(_ node: SCNNode, _ position: SCNVector3) -> SCNVector3 {
-            return position
-//            return SCNVector3Zero.translated(
-//                dX: -node.centerX,
-//                dZ: self.depth(node) * -25.0
-//            )
+//            return position
+            return SCNVector3Zero.translated(
+                dX: -node.centerX,
+                dZ: self.depth(node) * -25.0
+            )
         }
         
         return SCNTransformConstraint.positionConstraint(
