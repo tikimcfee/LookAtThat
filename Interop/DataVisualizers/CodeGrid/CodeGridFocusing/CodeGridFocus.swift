@@ -28,7 +28,7 @@ class FocusBox {
         get { rootGeometry.boundingBox }
         set {
             // Set the size of the box to match
-            let pad = 8.0
+            let pad = 16.0
             let halfPad = pad / 2.0
             rootGeometry.width = BoundsWidth(newValue) + pad
             rootGeometry.height = BoundsHeight(newValue) + pad
@@ -39,8 +39,8 @@ class FocusBox {
             /// 2. so it's aligned with the bounds of the grids themselves.
             /// Note: this math assumes nothing has been moved from the origin
             geometryNode.pivot = SCNMatrix4MakeTranslation(
-                0,
-                rootGeometry.height / 2.0 - (newValue.max.y) - (halfPad),
+                -rootGeometry.width / 2.0 - newValue.min.x + halfPad,
+                rootGeometry.height / 2.0 - newValue.max.y - halfPad,
                 -newValue.min.z / 2.0
             )
         }
@@ -82,7 +82,7 @@ class FocusBox {
         sceneTransaction {
             focus.bimap.keysToValues.forEach { grid, depth in
                 grid.position = SCNVector3Zero.translated(
-                    dX: -grid.centerX,
+//                    dX: -grid.centerX,
                     dZ: depth.cg * -25.0
                 )
             }
@@ -96,16 +96,19 @@ class FocusBox {
     
     private func makeRootNode() -> SCNNode {
         let root = SCNNode()
+        root.renderingOrder = -1
         return root
     }
     
     private func makeGridNode() -> SCNNode {
         let root = SCNNode()
+        root.renderingOrder = -1
         return root
     }
     
     private func makeGeometryNode() -> SCNNode {
         let root = SCNNode()
+        root.renderingOrder = 1
         return root
     }
     
@@ -113,7 +116,7 @@ class FocusBox {
         let box = SCNBox()
         box.chamferRadius = 4.0
         if let material = box.firstMaterial {
-            material.transparency = 0.2
+            material.transparency = 0.125
             material.transparencyMode = .dualLayer
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
         }
