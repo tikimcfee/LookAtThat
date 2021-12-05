@@ -19,11 +19,12 @@ class SearchContainer {
     
     func createNewSearchFocus(_ state: SceneState) {
         print("creating new search focus")
-        
+        codeGridFocus.setNewFocus()
     }
     
     func search(_ newInput: String, _ state: SceneState) {
         print("new search ---------------------- [\(newInput)]")
+        
         var toAdd: [CodeGrid] = []
         var toRemove: [CodeGrid] = []
         codeGridParser.query.walkGridsForSearch(

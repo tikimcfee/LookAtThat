@@ -33,11 +33,17 @@ struct SourceInfoGrid: View {
         return HStack(alignment: .top) {
             VStack {
                 fileRows(files)
-                TextField(
-                    "🔍 Find",
-                    text: searchBinding
-                )
-                .frame(width: 256)
+                HStack {
+                    TextField(
+                        "🔍 Find",
+                        text: searchBinding
+                    ).frame(width: 256)
+                    Text("􀆪")
+                        .padding(8.0)
+                        .font(.headline)
+                        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                        .onTapGesture { newFocusRequested() }
+                }
             }
             .border(.black, width: 2.0)
             .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
@@ -312,6 +318,13 @@ struct SourceInfoGrid: View {
         .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64.0)
         .padding(4.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
+    }
+    
+    func newFocusRequested() {
+        #if os(OSX)
+        SceneLibrary.global.codePagesController.macosCompat
+            .inputCompat.focus.setNewFocus()
+        #endif
     }
     
     func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {

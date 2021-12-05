@@ -11,16 +11,20 @@ import SceneKit
 let kFocusBoxContainerName = "kFocusBoxContainerName"
 
 class FocusBox: Hashable, Identifiable {
-    lazy var id = { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }()
+    static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
+    
     lazy var bimap: BiMap<SCNNode, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
     lazy var rootGeometry: SCNBox = makeGeometry()
     
+    var id: String
     var focus: CodeGridFocusController
     
-    init(_ focus: CodeGridFocusController) {
+    init(id: String,
+         inFocus focus: CodeGridFocusController) {
+        self.id = id
         self.focus = focus
         setup()
     }
@@ -89,6 +93,7 @@ class FocusBox: Hashable, Identifiable {
         geometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         geometryNode.geometry = rootGeometry
         
+        // TODO: Something other than the focus should add it to the scene
         // Adding nodes to root
         focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
