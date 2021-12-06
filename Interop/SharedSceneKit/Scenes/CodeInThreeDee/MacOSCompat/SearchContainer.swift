@@ -94,8 +94,8 @@ class SearchContainer {
         
         sceneTransaction {
             toRemove.forEach {
-                $0.displayMode = .all
                 codeGridFocus.removeGridFromFocus($0)
+                $0.displayMode = .all
             }
             toAdd.enumerated().forEach {
                 $0.element.displayMode = displayMode

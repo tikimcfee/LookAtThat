@@ -120,8 +120,11 @@ class FocusBox: Hashable, Identifiable {
     }
     
     private func recomputeGridNodeBounds() -> Bounds {
-        SCNNode.BoundsCaching.ClearRoot(gridNode)
-        return gridNode.manualBoundingBox
+        // It's mostly safe to assume the child code grids
+        // aren't changing bounds, so we just need to calculate
+        // this grid itself. Not really useful to cache it either
+        // since it's expected to update frequently.
+        return gridNode.computeBoundingBox(false)
     }
     
     private func makeRootNode() -> SCNNode {
