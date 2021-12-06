@@ -7,6 +7,12 @@ class TokenHoverInteractionTracker {
 	typealias Key = SCNNode
 	
 	var currentHoveredSet: Set<Key> = []
+    
+    func diff(_ results: Set<Key>) -> (Set<Key>, Set<Key>) {
+        let newlyHovered = results.subtracting(currentHoveredSet)
+        let toRemove = currentHoveredSet.subtracting(results)
+        return (newlyHovered, toRemove)
+    }
 	
     func newSetHovered(_ results: Set<Key>, inTransaction: Bool = true) {
 		let newlyHovered = results.subtracting(currentHoveredSet)
@@ -23,10 +29,9 @@ class TokenHoverInteractionTracker {
             newlyHovered.forEach { focusNode($0) }
             toRemove.forEach { unfocusNode($0) }
         }
-		
 	}
 	
-	private func focusNode(_ result: Key) {
+	func focusNode(_ result: Key) {
 		guard !currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.insert(result)
 		
@@ -37,7 +42,7 @@ class TokenHoverInteractionTracker {
 //        result.simdScale += result.simdWorldUp * 1.2
 	}
 	
-	private func unfocusNode(_ result: Key) {
+	func unfocusNode(_ result: Key) {
 		guard currentHoveredSet.contains(result) else { return }
 		currentHoveredSet.remove(result)
 		

@@ -68,8 +68,8 @@ class SearchContainer {
                 toAdd.append(foundInGrid)
                 
                 // Collect all nodes from all semantic info that contributed to passed test
-                leafInfo.forEach { info in
-                    foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
+                try leafInfo.forEach { info in
+                    try foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
                         info.syntaxId,
                         codeGridParser.tokenCache
                     ) { info, nodes in
@@ -92,16 +92,27 @@ class SearchContainer {
             ? CodeGrid.DisplayMode.all
             : CodeGrid.DisplayMode.glyphs
         
-        sceneTransaction {
-            toRemove.forEach {
-                $0.displayMode = .all
-                codeGridFocus.removeGridFromFocus($0)
-            }
-            toAdd.enumerated().forEach {
-                $0.element.displayMode = displayMode
-                codeGridFocus.addGridToFocus($0.element, $0.offset)
-            }
-            hovers.newSetHovered(toHover, inTransaction: false)
+        try toRemove.forEach {
+            try throwIfCancelled()
+            
+            $0.displayMode = .all
+            codeGridFocus.removeGridFromFocus($0)
+        }
+        try toAdd.enumerated().forEach {
+            try throwIfCancelled()
+            
+            $0.element.displayMode = displayMode
+            codeGridFocus.addGridToFocus($0.element, $0.offset)
+        }
+        
+        let (toFocus, toUnfocus) = hovers.diff(toHover)
+        try toUnfocus.forEach {
+            try throwIfCancelled()
+            hovers.unfocusNode($0)
+        }
+        try toFocus.forEach {
+            try throwIfCancelled()
+            hovers.focusNode($0)
         }
         
         printStop(newInput)

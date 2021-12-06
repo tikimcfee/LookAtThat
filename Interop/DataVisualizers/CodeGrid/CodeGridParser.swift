@@ -169,6 +169,7 @@ class ParserQueryController: ObservableObject {
                 try receiver(cachedGrid, items)
             } catch {
                 print("Walk received error: \(error)")
+                return
             }
         }
     }

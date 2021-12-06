@@ -156,7 +156,7 @@ extension CodePagesController {
 	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
         let isSelected = selectedSheets.toggle(id)
         sceneTransaction {
-            source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
+            try? source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
                 nodes.forEach { node in
                     node.position = node.position.translated(
                         dZ: isSelected ? 25 : -25
