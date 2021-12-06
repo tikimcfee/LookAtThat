@@ -8,16 +8,22 @@ class TokenHoverInteractionTracker {
 	
 	var currentHoveredSet: Set<Key> = []
 	
-	func newSetHovered(_ results: Set<Key>) {
+    func newSetHovered(_ results: Set<Key>, inTransaction: Bool = true) {
 		let newlyHovered = results.subtracting(currentHoveredSet)
 		let toRemove = currentHoveredSet.subtracting(results)
 		
-		// you can get a fun hover effect by moving each node in a transaction;
-		// sorta a matrix fly-in as each transaction completes.
-		sceneTransaction {
-			newlyHovered.forEach { focusNode($0) }
-			toRemove.forEach { unfocusNode($0) }
-		}
+		if inTransaction {
+            sceneTransaction {
+                // you can get a fun hover effect by moving each node in a transaction;
+                // sorta a matrix fly-in as each transaction completes.
+                newlyHovered.forEach { focusNode($0) }
+                toRemove.forEach { unfocusNode($0) }
+            }
+        } else {
+            newlyHovered.forEach { focusNode($0) }
+            toRemove.forEach { unfocusNode($0) }
+        }
+		
 	}
 	
 	private func focusNode(_ result: Key) {

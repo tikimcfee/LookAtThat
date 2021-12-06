@@ -145,27 +145,31 @@ class ParserQueryController: ObservableObject {
     
     func walkGridsForSearch(
         _ searchText: String,
-        onPositive: (CodeGrid, Set<SemanticInfo>) -> Void,
-        onNegative: (CodeGrid, Set<SemanticInfo>) -> Void
+        onPositive: (CodeGrid, Set<SemanticInfo>) throws -> Void,
+        onNegative: (CodeGrid, Set<SemanticInfo>) throws -> Void
     ) {
         onAllCachedInfo { grid, infoSet in
             let filteredSemantics = infoSet.filter {
                 $0.referenceName.fuzzyMatch(searchText)
-            }
+            }            
             let toCall = filteredSemantics.isEmpty ? onNegative : onPositive
-            toCall(grid, filteredSemantics)
+            try toCall(grid, filteredSemantics)
         }
     }
     
     // Loops through all grids, iterates over all SemanticInfo constructed for it
-    func onAllCachedInfo(_ receiver: (CodeGrid, Set<SemanticInfo>) -> Void) {
+    func onAllCachedInfo(_ receiver: (CodeGrid, Set<SemanticInfo>) throws -> Void) {
         for cachedGrid in cache.cachedGrids.values {
             let items = Set(
                 cachedGrid.codeGridSemanticInfo
                     .semanticsLookupBySyntaxId
                     .values
             )
-            receiver(cachedGrid, items)
+            do {
+                try receiver(cachedGrid, items)
+            } catch {
+                print("Walk received error: \(error)")
+            }
         }
     }
     
