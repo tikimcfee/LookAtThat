@@ -11,6 +11,11 @@ import SceneKit
 let kFocusBoxContainerName = "kFocusBoxContainerName"
 
 class FocusBox: Hashable, Identifiable {
+    enum LayoutMode {
+        case horizontal
+        case stacked
+    }
+    
     static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
     
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
@@ -65,14 +70,15 @@ class FocusBox: Hashable, Identifiable {
         grid.rootNode.position = SCNVector3Zero
         grid.rootNode.removeFromParentNode()
         bimap[grid] = nil
-        layoutFocusedGrids()
-        resetBounds()
     }
     
     func attachGrid(_ grid: CodeGrid, _ depth: Int) {
         grid.rootNode.position = SCNVector3Zero
         gridNode.addChildNode(grid.rootNode)
         bimap[grid] = depth
+    }
+    
+    func finishUpdates() {
         layoutFocusedGrids()
         resetBounds()
     }

@@ -35,7 +35,6 @@ class CodeGridFocusController {
     }
     
     func setNewFocus() {
-        
         // ------------------------------------------------
         // This is absolutely freaking nuts.
         // Because most of the highlight selection stuff is metainfo based,
@@ -50,6 +49,10 @@ class CodeGridFocusController {
         // ------------------------------------------------
         
         mainFocus = makeNewFocusBox()
+    }
+    
+    func finishUpdates() {
+        mainFocus.finishUpdates()
     }
     
     func removeGridFromFocus(_ grid: CodeGrid) {

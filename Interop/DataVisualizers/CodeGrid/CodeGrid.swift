@@ -71,15 +71,18 @@ extension CodeGrid {
         case .glyphs:
             rootGlyphsNode.isHidden = false
             fullTextBlitter.rootNode.isHidden = true
-        case .layers, .all:
+        case .layers:
             rootGlyphsNode.isHidden = true
+            fullTextBlitter.rootNode.isHidden = false
+        case .all:
+            rootGlyphsNode.isHidden = false
             fullTextBlitter.rootNode.isHidden = false
         }
     }
     
     @discardableResult
     func sizeGridToContainerNode(
-        pad: VectorFloat = 0,
+        pad: VectorFloat = 2.0,
         pivotRootNode: Bool = false
     ) -> CodeGrid {
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
@@ -277,6 +280,10 @@ extension CodeGrid {
 		) {
 			// add node directly to root container grid
 			letterNode.position = currentPosition.vector
+            letterNode.position = letterNode.position.translated(
+                dX: letterNode.lengthX / 2.0,
+                dY: -letterNode.lengthY / 2.0
+            )
             targetGrid.rootGlyphsNode.addChildNode(letterNode)
 			
 			// we're writing left-to-right. 
