@@ -88,11 +88,17 @@ class SearchContainer {
         )
         
         // Add / remove grids, and set new highlighted nodes
+        let displayMode = toAdd.count > 5
+            ? CodeGrid.DisplayMode.all
+            : CodeGrid.DisplayMode.glyphs
+        
         sceneTransaction {
             toRemove.forEach {
+                $0.displayMode = .all
                 codeGridFocus.removeGridFromFocus($0)
             }
             toAdd.enumerated().forEach {
+                $0.element.displayMode = displayMode
                 codeGridFocus.addGridToFocus($0.element, $0.offset)
             }
             hovers.newSetHovered(toHover, inTransaction: false)

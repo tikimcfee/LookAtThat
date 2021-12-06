@@ -14,7 +14,7 @@ let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 class CodeGrid: Identifiable, Equatable {
     struct Defaults {
-        static var displayMode: DisplayMode = .glyphs
+        static var displayMode: DisplayMode = .all
         static var walkSemantics: Bool = true
     }
     
@@ -61,6 +61,7 @@ extension CodeGrid {
     enum DisplayMode {
         case glyphs
         case layers
+        case all
     }
     
     private func willSetDisplayMode(_ mode: DisplayMode) {
@@ -70,7 +71,7 @@ extension CodeGrid {
         case .glyphs:
             rootGlyphsNode.isHidden = false
             fullTextBlitter.rootNode.isHidden = true
-        case .layers:
+        case .layers, .all:
             rootGlyphsNode.isHidden = true
             fullTextBlitter.rootNode.isHidden = false
         }
@@ -315,7 +316,6 @@ extension CodeGrid {
             fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
             fullTextBlitter.rootNode.position.z += 2.0
             rootNode.addChildNode(fullTextBlitter.rootNode)
-            rootGlyphsNode.isHidden = true
         }
         
         func writeGlyphs() {
@@ -327,14 +327,22 @@ extension CodeGrid {
                 }
             }
             writeString(text, text, .white)
-            rootGlyphsNode.isHidden = false
         }
         
         switch displayMode {
         case .layers:
             writeAttributedText()
+            fullTextBlitter.rootNode.isHidden = false
+            rootGlyphsNode.isHidden = true
         case .glyphs:
             writeGlyphs()
+            fullTextBlitter.rootNode.isHidden = true
+            rootGlyphsNode.isHidden = false
+        case .all:
+            writeAttributedText()
+            writeGlyphs()
+            fullTextBlitter.rootNode.isHidden = false
+            rootGlyphsNode.isHidden = true
         }
         
         return self
@@ -418,8 +426,13 @@ extension CodeGrid {
             }
             
             switch displayMode {
-            case .layers: writeAttributedText()
-            case .glyphs: writeGlyphs()
+            case .layers:
+                writeAttributedText()
+            case .glyphs:
+                writeGlyphs()
+            case .all:
+                writeAttributedText()
+                writeGlyphs()
             }
             if walkSemantics {
                 walkHierarchyForSemantics()
@@ -427,12 +440,15 @@ extension CodeGrid {
         }
         
         switch displayMode {
-        case .layers:
+        case .layers, .all:
             fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
             fullTextBlitter.rootNode.position.z += 2.0
             rootNode.addChildNode(fullTextBlitter.rootNode)
+            
+            fullTextBlitter.rootNode.isHidden = false
             rootGlyphsNode.isHidden = true
         case .glyphs:
+            fullTextBlitter.rootNode.isHidden = true
             rootGlyphsNode.isHidden = false
         }
         
