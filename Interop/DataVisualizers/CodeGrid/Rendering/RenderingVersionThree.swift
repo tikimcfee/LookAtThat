@@ -98,7 +98,7 @@ extension CodeGridParser {
         var maxHeight = lastDirectChildGrid?.measures.lengthY ?? VectorFloat(0.0)
         var nexRowStartPosition = SCNVector3Zero
         if let start = lastDirectChildGrid {
-            state.snapping.iterateOver(start, direction: .left) { grid in
+            state.snapping.iterateOver(start, direction: .left) { grid, _ in
                 maxHeight = max(maxHeight, grid.measures.lengthY)
             }
             nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)

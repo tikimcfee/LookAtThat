@@ -32,13 +32,13 @@ class WorldGridSnapping {
         
         func allToTop(root: CodeGrid, _ direction: Direction) {
             var lastGrid: CodeGrid = root
-            snap.iterateOver(root, direction: .left) { leftGrid in
+            snap.iterateOver(root, direction: .left) { leftGrid, _ in
                 leftGrid.measures
                     .alignedToTopOf(lastGrid)
                     .alignedToLeadingOf(lastGrid)
                 lastGrid = leftGrid
             }
-            snap.iterateOver(root, direction: .right) { rightGrid in
+            snap.iterateOver(root, direction: .right) { rightGrid, _ in
                 rightGrid.measures
                     .alignedToTopOf(lastGrid)
                     .alignedToTrailingOf(lastGrid)
@@ -92,15 +92,19 @@ extension WorldGridSnapping {
     func iterateOver(
         _ codeGrid: CodeGrid,
         direction: SelfRelativeDirection,
-        _ receiver: @escaping (CodeGrid) -> Void
+        _ receiver: @escaping (CodeGrid, inout Bool) -> Void
     ) {
         var relativeGrids = gridsRelativeTo(codeGrid, direction)
+        var stop = false
         while !relativeGrids.isEmpty {
             guard let nextGrid = relativeGrids.first?.targetGrid else {
                 print("I was lied to about things not being empty")
                 return
             }
-            receiver(nextGrid)
+            
+            receiver(nextGrid, &stop)
+            if stop { return }
+            
             relativeGrids = gridsRelativeTo(nextGrid, direction)
         }
     }

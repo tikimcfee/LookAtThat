@@ -13,7 +13,7 @@ let kFocusBoxContainerName = "kFocusBoxContainerName"
 class FocusBox: Hashable, Identifiable {
     static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
     
-    lazy var bimap: BiMap<SCNNode, Int> = BiMap()
+    lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
@@ -64,7 +64,7 @@ class FocusBox: Hashable, Identifiable {
     func detachGrid(_ grid: CodeGrid) {
         grid.rootNode.position = SCNVector3Zero
         grid.rootNode.removeFromParentNode()
-        bimap[grid.rootNode] = nil
+        bimap[grid] = nil
         layoutFocusedGrids()
         resetBounds()
     }
@@ -72,7 +72,7 @@ class FocusBox: Hashable, Identifiable {
     func attachGrid(_ grid: CodeGrid, _ depth: Int) {
         grid.rootNode.position = SCNVector3Zero
         gridNode.addChildNode(grid.rootNode)
-        bimap[grid.rootNode] = depth
+        bimap[grid] = depth
         layoutFocusedGrids()
         resetBounds()
     }
@@ -100,12 +100,22 @@ class FocusBox: Hashable, Identifiable {
     
     func layoutFocusedGrids() {
         sceneTransaction {
-            bimap.keysToValues.forEach { grid, depth in
-                grid.position = SCNVector3Zero.translated(
-                    //                    dX: -grid.centerX,
+            iterateGrids { previousGrid, grid, depth in
+                grid.rootNode.position = SCNVector3Zero.translated(
                     dZ: depth.cg * -25.0
                 )
             }
+        }
+    }
+    
+    private func iterateGrids(_ receiver: (CodeGrid?, CodeGrid, Int) -> Void) {
+        var previousGrid: CodeGrid?
+        let sorted = bimap.keysToValues.sorted(by: { leftTuple, rightTuple in
+            return leftTuple.key.measures.lengthY < rightTuple.key.measures.lengthY
+        })
+        sorted.enumerated().forEach { index, tuple in
+            receiver(previousGrid, tuple.0, index)
+            previousGrid = tuple.0
         }
     }
     

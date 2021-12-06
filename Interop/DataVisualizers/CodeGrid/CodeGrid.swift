@@ -259,7 +259,7 @@ extension CodeGrid {
 	
 	class Renderer {
 		struct Config {
-			static let newLineSizeRatio: VectorFloat = 0.67
+			static let newLineSizeRatio: VectorFloat = 0.5
 		}
 		
 		let targetGrid: CodeGrid

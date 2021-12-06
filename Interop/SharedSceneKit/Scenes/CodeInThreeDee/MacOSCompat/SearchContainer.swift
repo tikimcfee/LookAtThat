@@ -88,31 +88,38 @@ class SearchContainer {
         )
         
         // Add / remove grids, and set new highlighted nodes
-        let displayMode = toAdd.count > 5
+        let displayMode = toAdd.count > 3
             ? CodeGrid.DisplayMode.all
             : CodeGrid.DisplayMode.glyphs
         
-        try toRemove.forEach {
-            try throwIfCancelled()
-            
-            $0.displayMode = .all
-            codeGridFocus.removeGridFromFocus($0)
-        }
-        try toAdd.enumerated().forEach {
-            try throwIfCancelled()
-            
-            $0.element.displayMode = displayMode
-            codeGridFocus.addGridToFocus($0.element, $0.offset)
+        sceneTransaction {
+            toRemove.forEach {
+                $0.displayMode = .all
+                codeGridFocus.removeGridFromFocus($0)
+            }
+            toAdd.enumerated().forEach {
+                $0.element.displayMode = displayMode
+                codeGridFocus.addGridToFocus($0.element, $0.offset)
+            }
         }
         
-        let (toFocus, toUnfocus) = hovers.diff(toHover)
-        try toUnfocus.forEach {
-            try throwIfCancelled()
-            hovers.unfocusNode($0)
-        }
-        try toFocus.forEach {
-            try throwIfCancelled()
-            hovers.focusNode($0)
+        if displayMode == .glyphs {
+            let (toFocus, toUnfocus) = hovers.diff(toHover)
+            sceneTransaction {
+                for unfocus in toUnfocus {
+                    do {
+                        try throwIfCancelled()
+                    } catch { print(error); return }
+                    hovers.unfocusNode(unfocus)
+                }
+                
+                for focus in toFocus {
+                    do {
+                        try throwIfCancelled()
+                    } catch { print(error); return }
+                    hovers.focusNode(focus)
+                }
+            }
         }
         
         printStop(newInput)
