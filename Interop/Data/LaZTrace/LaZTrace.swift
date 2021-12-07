@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxParser
 
 let traceBox = LaZTraceBox()
+
 func laztrace(
     _ fileID: String,
     _ function: String,
@@ -42,10 +43,11 @@ class LaZTraceBox {
     }
 }
 
-
 class StateCapturingRewriter: SyntaxRewriter {
     let onVisit: (Syntax) -> SyntaxVisitorContinueKind
     let onVisitAnyPost: (Syntax) -> Void
+    
+    var traceFunctionName: String { "laztrace" }
     
     init(onVisitAny: @escaping (Syntax) -> SyntaxVisitorContinueKind,
          onVisitAnyPost: @escaping (Syntax) -> Void) {
@@ -118,7 +120,7 @@ class StateCapturingRewriter: SyntaxRewriter {
         SyntaxFactory.makeFunctionCallExpr(
             calledExpression: ExprSyntax(
                 SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier("laztrace"),
+                    identifier: SyntaxFactory.makeIdentifier(traceFunctionName),
                     declNameArguments: nil
                 )
             ),
