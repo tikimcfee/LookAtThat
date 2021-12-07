@@ -62,13 +62,12 @@ class TraceFileWriter {
     
     private func rewrite(data: Data, toPath file: URL, name: String) throws {
         let rewrittenFile = AppFiles.file(named: name, in: AppFiles.rewritesDirectory)
+        print("Rewriting to \(rewrittenFile)")
         
         let handle = try FileHandle(forUpdating: rewrittenFile)
         try handle.truncate(atOffset: 0)
         handle.write(data)
         try handle.close()
-        
-        file.stopAccessingSecurityScopedResource()
     }
 }
 
@@ -173,7 +172,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
             colon: nil,
             expression: ExprSyntax(
                 SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier(callingName!.description),
+                    identifier: SyntaxFactory.makeIdentifier(callingName?.text ?? "<param_error>"),
                     declNameArguments: nil
                 )
             ),
