@@ -137,10 +137,13 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testRewriting() throws {
         let rewriter = TraceCapturingRewriter()
-        let parsed = try! SyntaxParser.parse(bundle.testFile)
+        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
         let rewritten = rewriter.visit(parsed)
         let rewrittenAgain = rewriter.visit(rewritten)
-        print(rewrittenAgain.description)
+        XCTAssertEqual(rewritten, rewrittenAgain, "Should not modify already decorated contents")
+        
+        let fileRewriter = TraceFileWriter()
+        fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))
     }
     
     func testTracing() throws {

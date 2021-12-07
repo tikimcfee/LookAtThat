@@ -43,6 +43,35 @@ class LaZTraceBox {
     }
 }
 
+class TraceFileWriter {
+    let rewriter = TraceCapturingRewriter()
+    
+    func addTracesToFile(_ path: FileKitPath) {
+        guard !path.isDirectoryFile else { return }
+        do {
+            let parsed = try SyntaxParser.parse(path.url)
+            let rewritten = rewriter.visit(parsed)
+            if let rewrittenData = rewritten.allText.data(using: .utf8) {
+                try rewrite(data: rewrittenData, toPath: path.url, name: path.fileName)
+            }
+        } catch {
+            print("Failed to parse [\(path.fileName)]: \(error)")
+            return
+        }
+    }
+    
+    private func rewrite(data: Data, toPath file: URL, name: String) throws {
+        let rewrittenFile = AppFiles.file(named: name, in: AppFiles.rewritesDirectory)
+        
+        let handle = try FileHandle(forUpdating: rewrittenFile)
+        try handle.truncate(atOffset: 0)
+        handle.write(data)
+        try handle.close()
+        
+        file.stopAccessingSecurityScopedResource()
+    }
+}
+
 class TraceCapturingRewriter: SyntaxRewriter {
     var traceFunctionName: String { "laztrace" }
     

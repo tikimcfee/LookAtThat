@@ -20,6 +20,10 @@ class TestBundle {
         "SmallFile"
     ]
     
+    static let testFilesAbsolute = [
+        URL(fileURLWithPath: "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrid/CodeGrid.swift")
+    ]
+    
     static let testDirectoriesAbsolute = [
         "/Users/lugos/udev/manicmind/LookAtThat",
         "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
@@ -30,6 +34,7 @@ class TestBundle {
     }
     
     lazy var testFile = Self.testFileResourceURLs[0]
+    lazy var testFileRaw = Self.testFilesAbsolute[0]
     var glyphs: GlyphLayerCache!
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!

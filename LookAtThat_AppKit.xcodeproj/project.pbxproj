@@ -75,6 +75,8 @@
 		B7A6F2B1275EDA09004CAA66 /* CodeGridParser+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2AF275EDA09004CAA66 /* CodeGridParser+Search.swift */; };
 		B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
+		B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
+		B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
@@ -260,6 +262,7 @@
 		B7A6F2AC275ED98C004CAA66 /* CodeGrid+Glyphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Glyphs.swift"; sourceTree = "<group>"; };
 		B7A6F2AF275EDA09004CAA66 /* CodeGridParser+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Search.swift"; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
+		B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePaths.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
@@ -626,6 +629,7 @@
 				F057D20025201AEB0094BD83 /* Collections.swift */,
 				453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */,
 				B73286A62733833C00C9C82A /* FileBrowser.swift */,
+				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -949,6 +953,7 @@
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
+				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */,
 				B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
@@ -1059,6 +1064,7 @@
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B78159E8273E057B00212176 /* WordColorCache.swift in Sources */,
+				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
