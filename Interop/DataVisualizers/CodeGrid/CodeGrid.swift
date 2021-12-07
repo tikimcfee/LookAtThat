@@ -19,39 +19,40 @@ class CodeGrid: Identifiable, Equatable {
     }
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
-	
-	let tokenCache: CodeGridTokenCache
-	let glyphCache: GlyphLayerCache
+    
+    let tokenCache: CodeGridTokenCache
+    let glyphCache: GlyphLayerCache
     
     lazy var fullTextBlitter = CodeGridBlitter(id)
     let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
-	
-	let pointer = Pointer()
-	let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
-	let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
+    
+    let pointer = Pointer()
+    let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
+    let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     var walkSemantics: Bool = Defaults.walkSemantics
     var displayMode: DisplayMode = Defaults.displayMode {
         willSet { willSetDisplayMode(newValue) }
     }
     
-	lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
+    lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
     lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)
-
-	lazy var rootNode: SCNNode = makeContainerNode()
+    
+    lazy var rootNode: SCNNode = makeContainerNode()
     lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
     lazy var gridGeometry: SCNBox = makeGridGeometry()
     lazy var backgroundGeometryNode: SCNNode = SCNNode()
     
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
-		 tokenCache: CodeGridTokenCache) {
+         tokenCache: CodeGridTokenCache) {
         self.glyphCache = glyphCache
         self.tokenCache = tokenCache
         self.id = id ?? self.id
     }
     
     public static func == (_ left: CodeGrid, _ right: CodeGrid) -> Bool {
+        laztrace(#fileID,#function,left,right)
         return left.id == right.id
     }
 }
@@ -65,6 +66,7 @@ extension CodeGrid {
     }
     
     private func willSetDisplayMode(_ mode: DisplayMode) {
+        laztrace(#fileID,#function,mode)
         guard mode != displayMode else { return }
         print("setting display mode to \(mode)")
         switch mode {
@@ -85,6 +87,7 @@ extension CodeGrid {
         pad: VectorFloat = 2.0,
         pivotRootNode: Bool = false
     ) -> CodeGrid {
+        laztrace(#fileID,#function,pad,pivotRootNode)
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = gridGeometry.width / 2.0
@@ -104,12 +107,14 @@ extension CodeGrid {
     func translated(dX: VectorFloat = 0,
                     dY: VectorFloat = 0,
                     dZ: VectorFloat = 0) -> CodeGrid {
+        laztrace(#fileID,#function,dX,dY,dZ)
         rootNode.position = rootNode.position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
     }
     
     @discardableResult
     func backgroundColor(_ color: NSUIColor) -> CodeGrid {
+        laztrace(#fileID,#function,color)
         gridGeometry.firstMaterial?.diffuse.contents = color
         fullTextBlitter.gridGeometry.firstMaterial?.diffuse.contents = color
         return self
@@ -119,17 +124,19 @@ extension CodeGrid {
 // MARK: -- Builders for lazy properties
 extension CodeGrid {
     private func makeContainerNode() -> SCNNode {
+        laztrace(#fileID,#function)
         let container = SCNNode()
         container.name = id
         container.addChildNode(backgroundGeometryNode)
         container.addChildNode(rootGlyphsNode)
         backgroundGeometryNode.geometry = gridGeometry
-		backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
+        backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         backgroundGeometryNode.name = id
         return container
     }
     
     private func makeGlyphsContainerNode() -> SCNNode {
+        laztrace(#fileID,#function)
         let container = SCNNode()
         container.name = "\(kCodeGridContainerName)-glyphs-\(id)"
         container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
@@ -137,6 +144,7 @@ extension CodeGrid {
     }
     
     private func makeGridGeometry() -> SCNBox {
+        laztrace(#fileID,#function)
         let sheetGeometry = SCNBox()
         sheetGeometry.chamferRadius = 4.0
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
@@ -148,15 +156,17 @@ extension CodeGrid {
 // CodeSheet operations
 extension CodeGrid: Hashable {
     func hash(into hasher: inout Hasher) {
+        laztrace(#fileID,#function,hasher)
         hasher.combine(id)
     }
 }
 
 extension CodeGrid {
-	// If you call this, you basically draw text like a typewriter from wherevery you last were.
-	// it adds caches layer glyphs motivated by display requirements inherited by those clients.
+    // If you call this, you basically draw text like a typewriter from wherevery you last were.
+    // it adds caches layer glyphs motivated by display requirements inherited by those clients.
     @discardableResult
     func consume(text: String) -> Self {
+        laztrace(#fileID,#function,text)
         func writeAttributedText() {
             func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
                 NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
@@ -200,31 +210,32 @@ extension CodeGrid {
     
     @discardableResult
     func consume(syntax: Syntax) -> Self {
-		// ## step something other or else: the bits where you tidy up
-		// ## - associate this syntax group with a targetable and movable set of glyphs.
-		//		glyphs are just nodes with text layers that are rendered from some default font,
-		//		otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
-		
-		// ## step something or other: stick the actual letters onto the the screen
+        laztrace(#fileID,#function,syntax)
+        // ## step something other or else: the bits where you tidy up
+        // ## - associate this syntax group with a targetable and movable set of glyphs.
+        //        glyphs are just nodes with text layers that are rendered from some default font,
+        //        otherwise configurable. allows manipulation of code-grid-sub-node-type code grid display layer.
+        
+        // ## step something or other: stick the actual letters onto the the screen
         let sourceAttributedString = NSMutableAttributedString()
         
         for token in syntax.tokens {
             let tokenId = token.id
-			let tokenIdNodeName = tokenId.stringIdentifier
-			let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
-			let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
+            let tokenIdNodeName = tokenId.stringIdentifier
+            let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
+            let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
             let triviaColor = CodeGridColors.trivia
             let tokenColor = token.defaultColor
-
-			var leadingTriviaNodes = CodeGridNodes()
+            
+            var leadingTriviaNodes = CodeGridNodes()
             let leadingTrivia = token.leadingTrivia.stringified
-
+            
             let tokenText = token.text
             var tokenTextNodes = CodeGridNodes()
-
+            
             let trailingTrivia = token.trailingTrivia.stringified
-			var trailingTriviaNodes = CodeGridNodes()
-			
+            var trailingTriviaNodes = CodeGridNodes()
+            
             func writeAttributedText() {
                 func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
                     NSAttributedString(string: string, attributes: [.foregroundColor: color.cgColor])
@@ -257,7 +268,7 @@ extension CodeGrid {
             
             func walkHierarchyForSemantics() {
                 // Walk the parenty hierarchy and associate these nodes with that parent.
-                // Add semantic info to lookup for each parent node found.                
+                // Add semantic info to lookup for each parent node found.
                 var tokenParent: Syntax? = Syntax(token)
                 while tokenParent != nil {
                     guard let parent = tokenParent else { continue }
@@ -304,20 +315,21 @@ extension CodeGrid {
         
         return self
     }
-	
-	private func createNodeFor(
-		_ syntaxTokenCharacter: Character,
-		_ color: NSUIColor
-	) -> (SCNNode, CGSize) {
-		let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
-		let (geometry, size) = glyphCache[key]
-		
+    
+    private func createNodeFor(
+        _ syntaxTokenCharacter: Character,
+        _ color: NSUIColor
+    ) -> (SCNNode, CGSize) {
+        laztrace(#fileID,#function,syntaxTokenCharacter,color)
+        let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
+        let (geometry, size) = glyphCache[key]
+        
         let letterNode = SCNNode()
-		letterNode.geometry = geometry
-		letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
-		
-		return (letterNode, size)
-	}
+        letterNode.geometry = geometry
+        letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
+        
+        return (letterNode, size)
+    }
 }
 
 // associate tokens to sets of nodes.
@@ -327,27 +339,30 @@ extension CodeGrid {
 
 typealias CodeGridNodes = Set<SCNNode>
 class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
-	override func make(
-		_ key: String, 
-		_ store: inout [String : CodeGridNodes]
-	) -> CodeGridNodes {
-		let set = CodeGridNodes()
-		return set
-	}
+    override func make(
+        _ key: String,
+        _ store: inout [String : CodeGridNodes]
+    ) -> CodeGridNodes {
+        laztrace(#fileID,#function,key,store)
+        let set = CodeGridNodes()
+        return set
+    }
 }
 
 extension SCNNode {
-	func apply(_ modifier: (SCNNode) -> Void) -> SCNNode {
-		modifier(self)
-		return self
-	}
+    func apply(_ modifier: @escaping (SCNNode) -> Void) -> SCNNode {
+        laztrace(#fileID,#function,modifier)
+        modifier(self)
+        return self
+    }
 }
 
 class CodeGridEmpty: CodeGrid {
     static let emptyGlyphCache = GlyphLayerCache()
     static let emptyTokenCache = CodeGridTokenCache()
     static func make() -> CodeGrid {
-        CodeGrid(
+        laztrace(#fileID,#function)
+        return CodeGrid(
             glyphCache: emptyGlyphCache,
             tokenCache: emptyTokenCache
         )

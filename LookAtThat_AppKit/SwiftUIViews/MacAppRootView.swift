@@ -49,6 +49,9 @@ struct TestButtons_Debugging: View {
             Button(action: toggleBoundingBoxes) {
                 Text("Toggle bounds")
             }
+            Button(action: dumpLogs) {
+                Text("Dump LaZTrace")
+            }
 //            Button(action: resetScene) {
 //                Text("Reset scene")
 //            }
@@ -75,5 +78,9 @@ struct TestButtons_Debugging: View {
 
     private func resetScene() {
         SceneLibrary.global.currentController.resetScene()
+    }
+    
+    private func dumpLogs() {
+        lazdump()
     }
 }

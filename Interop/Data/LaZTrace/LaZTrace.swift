@@ -9,6 +9,11 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxParser
 
+func currentQueueName() -> String {
+    let name = __dispatch_queue_get_label(nil)
+    return String(cString: name, encoding: .utf8) ?? "<unknown-queue>"
+}
+
 let traceBox = LaZTraceBox()
 
 func laztrace(
@@ -19,13 +24,36 @@ func laztrace(
     traceBox.laztrace(fileID, function, args)
 }
 
+func lazdump() {
+    for call in traceBox.recordedCalls {
+        print(call)
+    }
+}
+
 class LaZTraceBox {
-    struct Call {
+    struct Call: Equatable, CustomStringConvertible {
         let fileID: String
         let function: String
         let args: [Any?]
+        var calls: Int = 1
+        let queueName: String
+        
+        static func == (_ left: Call, _ right: Call) -> Bool {
+            return left.fileID == right.fileID
+                && left.function == right.function
+        }
+        
+        mutating func increment() -> Call {
+            self.calls += 1
+            return self
+        }
+        
+        var description: String {
+            return "\(fileID).\(function).[\(calls)]~\(queueName)"
+        }
     }
     
+    let queue = DispatchQueue(label: "LaZTracing", qos: .background)
     var recordedCalls = [Call]()
     
     func laztrace(
@@ -33,13 +61,19 @@ class LaZTraceBox {
         _ function: String,
         _ args: Any?...
     ) {
-        recordedCalls.append(
-            Call(
-                fileID: fileID,
-                function: function,
-                args: args
-            )
+        let call = Call(
+            fileID: fileID,
+            function: function,
+            args: args,
+            queueName: currentQueueName()
         )
+        queue.async {
+            if var last = self.recordedCalls.last, last == call {
+                self.recordedCalls[self.recordedCalls.endIndex - 1] = last.increment()
+            } else {
+                self.recordedCalls.append(call)
+            }
+        }
     }
 }
 
