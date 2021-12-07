@@ -55,22 +55,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 nextParent = next
             }
         }
-        
-//        func onVisit(_ syntax: Syntax) -> SyntaxVisitorContinueKind {
-//            //            let info = bundle.semanticBuilder.semanticInfo(for: syntax)
-//            //            print(info)
-//            return .visitChildren
-//        }
-//
-//        func onVisitPost(_ syntax: Syntax) {
-//
-//        }
-//
-//        let visitor = StateCapturingVisitor(
-//            onVisitAny: onVisit,
-//            onVisitAnyPost: onVisitPost
-//        )
-//        visitor.walk(sourceSyntax)
     }
     
     func testRendering_versionTwo() throws {
@@ -167,15 +151,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testTracing() throws {
-        let _ = StateCapturingRewriter(
-            onVisitAny: { node in
-                return .visitChildren
-            },
-            onVisitAnyPost: { _ in
-                
-            }
-        )
-        
         let parsed = try! SyntaxParser.parse(bundle.testFile)
         let testGridOne = CodeGrid(glyphCache: bundle.glyphs, tokenCache: bundle.tokenCache)
         testGridOne.consume(syntax: parsed.root).sizeGridToContainerNode()
@@ -255,7 +230,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
         var totalLengthX: VectorFloat = firstGrid.measures.lengthX
-        snapping.iterateOver(focusedGrid, direction: .right) { grid in
+        snapping.iterateOver(focusedGrid, direction: .right) { grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
             linkCount.fulfill()
@@ -266,7 +241,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         totalLengthX = firstGrid.measures.lengthX
-        snapping.iterateOver(allGrids.last!, direction: .left) { grid in
+        snapping.iterateOver(allGrids.last!, direction: .left) { grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
         }
@@ -284,169 +259,4 @@ func someFunctionSignature(with aLongName: String) -> Wut { /* no-op */}S
         XCTAssertFalse(referenceName.fuzzyMatch("func wut string"))
     }
     
-}
-
-class LaZTraceBox {
-    struct Call {
-        let fileID: String
-        let function: String
-        let args: [Any?]
-    }
-    
-    var recordedCalls = [Call]()
-    
-    func laztrace(
-        _ fileID: String,
-        _ function: String,
-        _ args: Any?...
-    ) {
-        recordedCalls.append(
-            Call(
-                fileID: fileID,
-                function: function,
-                args: args
-            )
-        )
-    }
-}
-
-let traceBox = LaZTraceBox()
-func laztrace(
-    _ fileID: String,
-    _ function: String,
-    _ args: Any?...
-) {
-    traceBox.laztrace(fileID, function, args)
-}
-
-class StateCapturingRewriter: SyntaxRewriter {
-    let onVisit: (Syntax) -> SyntaxVisitorContinueKind
-    let onVisitAnyPost: (Syntax) -> Void
-    
-    init(onVisitAny: @escaping (Syntax) -> SyntaxVisitorContinueKind,
-         onVisitAnyPost: @escaping (Syntax) -> Void) {
-        self.onVisit = onVisitAny
-        self.onVisitAnyPost = onVisitAnyPost
-    }
-    
-    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
-        let functionParams = node.signature.input.parameterList
-        
-        var callingElements = functionParams.map { param -> TupleExprElementSyntax in
-            let maybeComma = (functionParams.last != param)
-                ? SyntaxFactory.makeCommaToken()
-                : nil
-            return tupleExprFromFunctionParam(param).withTrailingComma(maybeComma)
-        }
-        
-        callingElements.insert(
-            fileIDKeyword,
-            at: 0
-        )
-        
-        callingElements.insert(
-            functionKeyword.withTrailingComma(
-                !functionParams.isEmpty
-                ? SyntaxFactory.makeCommaToken()
-                : nil
-            ),
-            at: 1
-        )
-        
-        var callExpr = laztraceExpression(callingElements)
-        
-        let firstStatementTrivia = node.body?.statements.first?.leadingTrivia
-        let firstSpacingTrivia = firstStatementTrivia?.first(where: { piece in
-            if case TriviaPiece.spaces = piece {
-                return true
-            } else if case TriviaPiece.tabs = piece {
-                return true
-            }
-            return false
-        })
-        
-        switch firstSpacingTrivia {
-        case let .spaces(count):
-            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .spaces(count))
-        case let .tabs(count):
-            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .tabs(count))
-        default:
-            break
-        }
-        
-        let laztraceNode = node.withBody(
-            node.body?.withStatements(
-                node.body?.statements.inserting(
-                    SyntaxFactory.makeCodeBlockItem(
-                        item: Syntax(callExpr),
-                        semicolon: nil,
-                        errorTokens: nil
-                    ),
-                    at: 0
-                )
-            )
-        )
-        
-        return DeclSyntax(laztraceNode)
-    }
-    
-    func laztraceExpression(_ arguments: [TupleExprElementSyntax]) -> FunctionCallExprSyntax {
-        SyntaxFactory.makeFunctionCallExpr(
-            calledExpression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier("laztrace"),
-                    declNameArguments: nil
-                )
-            ),
-            leftParen: SyntaxFactory.makeLeftParenToken(),
-            argumentList: SyntaxFactory.makeTupleExprElementList(arguments),
-            rightParen: SyntaxFactory.makeRightParenToken(),
-            trailingClosure: nil,
-            additionalTrailingClosures: nil
-        )
-    }
-    
-    func tupleExprFromFunctionParam(_ param: FunctionParameterListSyntax.Element) -> TupleExprElementSyntax {
-        let callingName = param.secondName ?? param.firstName
-        let element = SyntaxFactory.makeTupleExprElement(
-            label: nil,
-            colon: nil,
-            expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier(callingName!.description),
-                    declNameArguments: nil
-                )
-            ),
-            trailingComma: nil
-        )
-        return element
-    }
-    
-    var fileIDKeyword: TupleExprElementSyntax {
-        SyntaxFactory.makeTupleExprElement(
-            label: nil,
-            colon: nil,
-            expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makePoundFileIDKeyword(),
-                    declNameArguments: nil
-                )
-            ),
-            trailingComma: SyntaxFactory.makeCommaToken()
-        )
-    }
-    
-    var functionKeyword: TupleExprElementSyntax {
-        SyntaxFactory.makeTupleExprElement(
-            label: nil,
-            colon: nil,
-            expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makePoundFunctionKeyword(),
-                    declNameArguments: nil
-                )
-            ),
-            trailingComma: nil
-        )
-    }
 }

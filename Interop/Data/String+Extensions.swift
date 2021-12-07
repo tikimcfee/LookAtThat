@@ -59,6 +59,12 @@ public extension String {
 }
 
 public extension String {
+    func containsMatch(_ searchString: String, caseSensitive: Bool = false) -> Bool {
+        return caseSensitive
+            ? contains(searchString)
+            : lowercased().contains(searchString.lowercased())
+    }
+    
     func fuzzyMatch(_ searchString: String, caseSensitive: Bool = false) -> Bool {
         if isEmpty || searchString.isEmpty { return false }
         
