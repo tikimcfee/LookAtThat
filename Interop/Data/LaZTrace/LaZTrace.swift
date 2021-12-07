@@ -43,19 +43,24 @@ class LaZTraceBox {
     }
 }
 
-class StateCapturingRewriter: SyntaxRewriter {
-    let onVisit: (Syntax) -> SyntaxVisitorContinueKind
-    let onVisitAnyPost: (Syntax) -> Void
-    
+class TraceCapturingRewriter: SyntaxRewriter {
     var traceFunctionName: String { "laztrace" }
     
-    init(onVisitAny: @escaping (Syntax) -> SyntaxVisitorContinueKind,
-         onVisitAnyPost: @escaping (Syntax) -> Void) {
-        self.onVisit = onVisitAny
-        self.onVisitAnyPost = onVisitAnyPost
+    private func nodeNeedsDecoration(_ node: FunctionDeclSyntax) -> Bool {
+        if let body = node.body,
+           let firstLine = body.statements.first?._syntaxNode.allText,
+           firstLine.contains(traceFunctionName)
+        {
+            return false
+        }
+        return true
     }
-    
+
     override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
+        guard nodeNeedsDecoration(node) else {
+            return DeclSyntax(node)
+        }
+        
         let functionParams = node.signature.input.parameterList
         
         var callingElements = functionParams.map { param -> TupleExprElementSyntax in

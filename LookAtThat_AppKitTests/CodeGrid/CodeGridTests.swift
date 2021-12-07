@@ -136,18 +136,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testRewriting() throws {
-        let rewriter = StateCapturingRewriter(
-            onVisitAny: { node in
-                return .visitChildren
-            },
-            onVisitAnyPost: { _ in
-                
-            }
-        )
-        
+        let rewriter = TraceCapturingRewriter()
         let parsed = try! SyntaxParser.parse(bundle.testFile)
         let rewritten = rewriter.visit(parsed)
-        print(rewritten.description)
+        let rewrittenAgain = rewriter.visit(rewritten)
+        print(rewrittenAgain.description)
     }
     
     func testTracing() throws {
