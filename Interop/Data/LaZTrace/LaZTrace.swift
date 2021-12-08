@@ -21,7 +21,7 @@ func laztrace(
     _ function: String,
     _ args: Any?...
 ) {
-    traceBox.laztrace(fileID, function, args)
+//    traceBox.laztrace(fileID, function, args)
 }
 
 func lazdump() {
@@ -41,6 +41,7 @@ class LaZTraceBox {
         static func == (_ left: Call, _ right: Call) -> Bool {
             return left.fileID == right.fileID
                 && left.function == right.function
+                && left.queueName == right.queueName
         }
         
         mutating func increment() -> Call {

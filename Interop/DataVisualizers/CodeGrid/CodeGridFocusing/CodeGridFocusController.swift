@@ -51,6 +51,14 @@ class CodeGridFocusController {
         mainFocus = makeNewFocusBox()
     }
     
+    func resetBounds() {
+        mainFocus.resetBounds()
+    }
+    
+    func layoutFocusedGrids() {
+        mainFocus.layoutFocusedGrids()
+    }
+    
     func finishUpdates() {
         mainFocus.finishUpdates()
     }

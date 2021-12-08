@@ -20,8 +20,6 @@ class SearchContainer {
     var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
     
-    var layerFocuses = Set<SCNNode>()
-    
     init(codeGridParser: CodeGridParser,
          codeGridFocus: CodeGridFocusController) {
         self.codeGridParser = codeGridParser
@@ -52,13 +50,51 @@ class SearchContainer {
     
     private func doSearch(task: DispatchWorkItem, _ newInput: String, _ state: SceneState) throws {
         printStart(newInput)
-        func throwIfCancelled() throws {
-            if task.isCancelled { throw Condition.cancelled(input: newInput) }
-        }
         
         var toAdd: [CodeGrid] = []
         var toRemove: [CodeGrid] = []
         var focusableSemanticNodes: Set<SCNNode> = []
+
+        hovers.clearCurrent()
+        hovers.onFocused = { source, node in
+            guard let nodeGlyphsParent = source.parent,
+                  let glyphsGridParent = nodeGlyphsParent.parent,
+                  let gridContainerParent = glyphsGridParent.parent
+            else {
+                return
+            }
+            
+            node.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
+            
+            let glyphsGridWIdth = BoundsWidth(glyphsGridParent.manualBoundingBox)
+            let convertedPosition = glyphsGridParent.convertPosition(source.position, to: gridContainerParent)
+            node.position = convertedPosition
+            node.simdTranslate(dX: -glyphsGridWIdth - 8.0)
+            
+            node.isHidden = false
+            gridContainerParent.addChildNode(node)
+        }
+        hovers.onUnfocused = { source, node in
+            node.removeFromParentNode()
+        }
+        
+        func throwIfCancelled() throws {
+            if task.isCancelled { throw Condition.cancelled(input: newInput) }
+        }
+        
+        // Collect all nodes from all semantic info that contributed to passed test
+        func onSemanticSetFound(grid foundInGrid: CodeGrid, _ leafInfo: Set<SemanticInfo>) throws {
+            try leafInfo.forEach { info in
+                try foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
+                    info.syntaxId,
+                    codeGridParser.tokenCache
+                ) { info, nodes in
+                    try throwIfCancelled()
+                    nodes.forEach { hovers.cacheNode($0) }
+                    focusableSemanticNodes.formUnion(nodes)
+                }
+            }
+        }
         
         // Start search
         codeGridParser.query.walkGridsForSearch(
@@ -69,16 +105,7 @@ class SearchContainer {
                 // Found new grid to add to focus
                 toAdd.append(foundInGrid)
                 
-                // Collect all nodes from all semantic info that contributed to passed test
-                try leafInfo.forEach { info in
-                    try foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
-                        info.syntaxId,
-                        codeGridParser.tokenCache
-                    ) { info, nodes in
-                        try throwIfCancelled()
-                        focusableSemanticNodes.formUnion(nodes)
-                    }
-                }
+                try onSemanticSetFound(grid: foundInGrid, leafInfo)
             },
             onNegative: { excludedGrid, leafInfo in
                 try throwIfCancelled()
@@ -102,54 +129,19 @@ class SearchContainer {
                 $0.element.displayMode = displayMode
                 codeGridFocus.addGridToFocus($0.element, $0.offset)
             }
-
-            // Do hover tracking stuff
-            if displayMode == .glyphs {
-                let (toFocus, toUnfocus) = hovers.diff(focusableSemanticNodes)
-                for unfocus in toUnfocus {
-                    do {
-                        try throwIfCancelled()
-                    } catch { print(error); return }
-                    hovers.unfocusNode(unfocus)
-                }
-                
-                for focus in toFocus {
-                    do {
-                        try throwIfCancelled()
-                    } catch { print(error); return }
-                    hovers.focusNode(focus)
-                }
+            
+            // Layout pass on grids to give first set of focus positions
+            codeGridFocus.layoutFocusedGrids()
+            codeGridFocus.resetBounds()
+        }
+        
+        sceneTransaction {
+            for node in focusableSemanticNodes {
+                hovers.focusNode(node)
             }
             
             // Resize the focus after all updates
-            codeGridFocus.finishUpdates()
-            
-            // Do translated highlighting stuff
-            // Always layout the parent grids first when cloning nodes
-            layerFocuses.forEach { node in node.removeFromParentNode() }
-            layerFocuses.removeAll(keepingCapacity: true)
-            
-            focusableSemanticNodes.forEach { node in
-                guard let nodeGlyphsParent = node.parent,
-                      let glyphsGridParent = nodeGlyphsParent.parent,
-                      let gridContainerParent = glyphsGridParent.parent
-                else {
-                    return
-                }
-                
-                let nodeClone = node.clone()
-                nodeClone.geometry = nodeClone.geometry?.deepCopy()
-                nodeClone.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
-                
-                let convertedPosition = glyphsGridParent.convertPosition(node.position, to: gridContainerParent)
-                nodeClone.position = convertedPosition
-                
-                nodeClone.simdTranslate(dX: -128.0)
-                nodeClone.isHidden = false
-                gridContainerParent.addChildNode(nodeClone)
-                
-                layerFocuses.insert(nodeClone)
-            }
+            codeGridFocus.resetBounds()
         }
         
         printStop(newInput)

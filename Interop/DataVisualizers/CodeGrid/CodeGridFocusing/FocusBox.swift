@@ -157,7 +157,7 @@ class FocusBox: Hashable, Identifiable {
         if let material = box.firstMaterial {
             material.transparency = 0.125
             material.transparencyMode = .dualLayer
-            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
+            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.75)
         }
         return box
     }

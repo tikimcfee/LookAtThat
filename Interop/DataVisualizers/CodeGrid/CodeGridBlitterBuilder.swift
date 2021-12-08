@@ -82,7 +82,7 @@ class FullTextLayerBuilder {
     
     private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: 16, weight: .regular)
     
-    let layoutQueue = DispatchQueue(label: "FullTextLayerBuilder=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
+    static let layoutQueue = DispatchQueue(label: "FullTextLayerBuilder=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
     
     func make(_ safeString: NSMutableAttributedString) -> (geometry: SCNGeometry, size: CGSize) {
@@ -112,7 +112,7 @@ class FullTextLayerBuilder {
         let boxPlane = SCNPlane(width: descaledWidth, height: descaledHeight)
         
         // Create bitmap on queue, set the layer on main. May want to batch this.
-        layoutQueue.async {
+        Self.layoutQueue.async {
             // For whatever reason, we need to call display() manually. Or at least,
             // in this particular commit, the image is just blank without it.
             textLayer.display()
