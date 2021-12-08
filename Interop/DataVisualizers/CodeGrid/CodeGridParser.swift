@@ -19,13 +19,8 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     let rootGridColor  = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
     let directoryColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
     
-    lazy var glyphCache: GlyphLayerCache = {
-        GlyphLayerCache()
-    }()
-    
-    lazy var tokenCache: CodeGridTokenCache = {
-        CodeGridTokenCache()
-    }()
+    var glyphCache: GlyphLayerCache = GlyphLayerCache()
+    var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     
     lazy var editorWrapper: CodeGridWorld = {
         let world = CodeGridWorld(cameraProvider: {

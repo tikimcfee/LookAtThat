@@ -350,6 +350,12 @@ class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
 }
 
 extension SCNNode {
+    func simdTranslate(dX: VectorFloat = 0, dY: VectorFloat = 0, dZ: VectorFloat = 0) {
+        simdPosition += simdWorldRight * Float(dX)
+        simdPosition += simdWorldUp * Float(dY)
+        simdPosition += simdWorldFront * Float(dZ)
+    }
+    
     func apply(_ modifier: @escaping (SCNNode) -> Void) -> SCNNode {
         laztrace(#fileID,#function,modifier)
         modifier(self)

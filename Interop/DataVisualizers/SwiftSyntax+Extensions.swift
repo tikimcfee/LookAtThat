@@ -33,10 +33,12 @@ extension Syntax {
         }
     }
     
-    func prefixedText(_ count: Int) -> String {
-        return tokens.prefix(count).reduce(into: "") { result, token in
-            result.append(token.text)
-        }
+    func cornerText(_ count: Int) -> String {
+        let stripped = strippedText
+        return String(stripped.prefix(count) + stripped.suffix(count))
+//        return tokens.prefix(count).reduce(into: "") { result, token in
+//            result.append(token.text)
+//        }
     }
 }
 

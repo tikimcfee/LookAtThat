@@ -20,6 +20,8 @@ class SearchContainer {
     var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
     
+    var layerFocuses = Set<SCNNode>()
+    
     init(codeGridParser: CodeGridParser,
          codeGridFocus: CodeGridFocusController) {
         self.codeGridParser = codeGridParser
@@ -56,7 +58,7 @@ class SearchContainer {
         
         var toAdd: [CodeGrid] = []
         var toRemove: [CodeGrid] = []
-        var toHover: Set<SCNNode> = []
+        var focusableSemanticNodes: Set<SCNNode> = []
         
         // Start search
         codeGridParser.query.walkGridsForSearch(
@@ -74,8 +76,7 @@ class SearchContainer {
                         codeGridParser.tokenCache
                     ) { info, nodes in
                         try throwIfCancelled()
-                        
-                        toHover.formUnion(nodes)
+                        focusableSemanticNodes.formUnion(nodes)
                     }
                 }
             },
@@ -101,8 +102,10 @@ class SearchContainer {
                 $0.element.displayMode = displayMode
                 codeGridFocus.addGridToFocus($0.element, $0.offset)
             }
+
+            // Do hover tracking stuff
             if displayMode == .glyphs {
-                let (toFocus, toUnfocus) = hovers.diff(toHover)
+                let (toFocus, toUnfocus) = hovers.diff(focusableSemanticNodes)
                 for unfocus in toUnfocus {
                     do {
                         try throwIfCancelled()
@@ -117,7 +120,36 @@ class SearchContainer {
                     hovers.focusNode(focus)
                 }
             }
+            
+            // Resize the focus after all updates
             codeGridFocus.finishUpdates()
+            
+            // Do translated highlighting stuff
+            // Always layout the parent grids first when cloning nodes
+            layerFocuses.forEach { node in node.removeFromParentNode() }
+            layerFocuses.removeAll(keepingCapacity: true)
+            
+            focusableSemanticNodes.forEach { node in
+                guard let nodeGlyphsParent = node.parent,
+                      let glyphsGridParent = nodeGlyphsParent.parent,
+                      let gridContainerParent = glyphsGridParent.parent
+                else {
+                    return
+                }
+                
+                let nodeClone = node.clone()
+                nodeClone.geometry = nodeClone.geometry?.deepCopy()
+                nodeClone.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
+                
+                let convertedPosition = glyphsGridParent.convertPosition(node.position, to: gridContainerParent)
+                nodeClone.position = convertedPosition
+                
+                nodeClone.simdTranslate(dX: -128.0)
+                nodeClone.isHidden = false
+                gridContainerParent.addChildNode(nodeClone)
+                
+                layerFocuses.insert(nodeClone)
+            }
         }
         
         printStop(newInput)

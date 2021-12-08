@@ -32,7 +32,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 	) {
 		self.node = node
 		self.syntaxId = node.id
-		self.referenceName = referenceName ?? "\(node.prefixedText(3))"
+		self.referenceName = referenceName ?? "\(node.cornerText(5))"
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
 		self.color = color ?? CodeGridColors.defaultText
         self.isFullTextSearchable = fullTextSearchable
@@ -101,8 +101,7 @@ class SemanticInfoBuilder {
                 return SemanticInfo(
 					node: node,
                     referenceName: readableFunctionSignataure,
-                    color: CodeGridColors.functionDecl,
-                    fullTextSearchable: true
+                    color: CodeGridColors.functionDecl
 				)
 			default:
 				return SemanticInfo(
