@@ -30,8 +30,8 @@ class ParserQueryController: ObservableObject {
         _ searchText: String,
         onPositive: SearchReceiver,
         onNegative: SearchReceiver
-    ) {
-        onAllCachedInfo { sourceGrid, clone, infoSet in
+    ) throws {
+        try onAllCachedInfo { sourceGrid, clone, infoSet in
             let filteredSemantics = infoSet.filter { info in
                 return info.referenceName.containsMatch(searchText)
             }
@@ -41,19 +41,14 @@ class ParserQueryController: ObservableObject {
     }
     
     // Loops through all grids, iterates over all SemanticInfo constructed for it
-    func onAllCachedInfo(_ receiver: SearchReceiver) {
+    func onAllCachedInfo(_ receiver: SearchReceiver) throws {
         for (cachedGrid, clone) in cache.cachedGrids.values {
             let items = Set(
                 cachedGrid.codeGridSemanticInfo
                     .semanticsLookupBySyntaxId
                     .values
             )
-            do {
-                try receiver(cachedGrid, clone, items)
-            } catch {
-                print("Walk received error: \(error)")
-                return
-            }
+            try receiver(cachedGrid, clone, items)
         }
     }
 }

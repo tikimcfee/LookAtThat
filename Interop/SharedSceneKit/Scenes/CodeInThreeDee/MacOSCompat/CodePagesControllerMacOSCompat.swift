@@ -162,11 +162,6 @@ class CodePagesControllerMacOSInputCompat {
     }
     
     func newMouseDown(_ event: NSEvent) {
-//        var safePoint: CGPoint?
-//        DispatchQueue.main.sync {
-//            safePoint = sceneView.convert(event.locationInWindow, to: nil)
-//        }
-//        guard let point = safePoint else { return }
         func doDown() {
             let point = sceneView.convert(event.locationInWindow, to: nil)
             

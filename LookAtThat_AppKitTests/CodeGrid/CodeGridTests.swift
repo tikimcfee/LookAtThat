@@ -95,14 +95,14 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         CodeGrid.Defaults.walkSemantics = true
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         let awaitRender = expectation(description: "Version three rendered")
-        var finalGrid: CodeGrid?
-        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootGrid in
+        var finalNode: SCNNode?
+        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootNode in
             print("Searchable grids rendered")
-            finalGrid = rootGrid
+            finalNode = rootNode
             awaitRender.fulfill()
         }
         wait(for: [awaitRender], timeout: 60)
-        let _ = try XCTUnwrap(finalGrid, "wut missing root")
+        let _ = try XCTUnwrap(finalNode, "wut missing root")
         
         var bimap: BiMap<CodeGrid, Int> = BiMap()
         var depth = 1
@@ -196,49 +196,49 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let second_toRightOfFirst = CodeGridEmpty.make()
         let third_toRightOfSecond = CodeGridEmpty.make()
         
-        snapping.connect(sourceGrid: firstGrid, to: [.right(second_toRightOfFirst)])
-        snapping.connect(sourceGrid: second_toRightOfFirst, to: [.right(third_toRightOfSecond)])
-        
-        let linkCount = expectation(description: "Traversal must occur exactly twice; twice to the right")
-        linkCount.expectedFulfillmentCount = 2
-        snapping.gridsRelativeTo(firstGrid).forEach { relativeDirection in
-            guard case WorldGridSnapping.RelativeGridMapping.right = relativeDirection else {
-                XCTFail("Where did \(relativeDirection) come from?")
-                return
-            }
-            
-            linkCount.fulfill()
-            
-            snapping.gridsRelativeTo(relativeDirection.targetGrid).forEach { secondaryDirection in
-                guard case WorldGridSnapping.RelativeGridMapping.right = secondaryDirection else {
-                    XCTFail("Where did \(secondaryDirection) come from???")
-                    return
-                }
+        snapping.connect(sourceGrid: firstGrid, to: .right(second_toRightOfFirst))
+        snapping.connect(sourceGrid: second_toRightOfFirst, to: .right(third_toRightOfSecond))
                 
-                linkCount.fulfill()
-            }
+        let firstRelative = try XCTUnwrap(snapping.gridsRelativeTo(firstGrid).first,
+                                          "Must find relative grid immediately")
+        guard case WorldGridSnapping.RelativeGridMapping.right = firstRelative else {
+            XCTFail("Where did \(firstRelative) come from?")
+            return
         }
-        wait(for: [linkCount], timeout: 1)
+        
+        let secondRelative = try XCTUnwrap(snapping.gridsRelativeTo(firstRelative.targetGrid).first,
+                                           "Must find relative grid immediately")
+        guard case WorldGridSnapping.RelativeGridMapping.right = secondRelative else {
+            XCTFail("Where did \(secondRelative) come from???")
+            return
+        }
+        
+        XCTAssert(firstRelative.targetGrid === second_toRightOfFirst)
+        XCTAssert(secondRelative.targetGrid === third_toRightOfSecond)
     }
     
     func testSnapping_Complicated() throws {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()
         func newGrid() -> CodeGrid {
-            let newGrid = CodeGrid(glyphCache: bundle.glyphs, tokenCache: bundle.tokenCache)
+            let newGrid = CodeGrid(glyphCache: bundle.glyphs,
+                                   tokenCache: bundle.tokenCache)
+                .consume(syntax: parsed.root)
+                .sizeGridToContainerNode()
+            
             allGrids.append(newGrid)
             return newGrid
         }
         
         let snapping = WorldGridSnapping()
-        let firstGrid = newGrid().consume(syntax: parsed.root)
+        let firstGrid = newGrid()
         
         let gridCount = 10
         var focusedGrid = firstGrid
         
         (0..<gridCount).forEach { _ in
-            let newGrid = newGrid().consume(syntax: parsed.root)
-            snapping.connectWithInverses(sourceGrid: focusedGrid, to: [.right(newGrid)])
+            let newGrid = newGrid()
+            snapping.connectWithInverses(sourceGrid: focusedGrid, to: .forward(newGrid))
             focusedGrid = newGrid
         }
         focusedGrid = firstGrid
@@ -247,7 +247,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
         var totalLengthX: VectorFloat = firstGrid.measures.lengthX
-        snapping.iterateOver(focusedGrid, direction: .right) { grid, stop in
+        snapping.iterateOver(focusedGrid, direction: .forward) { grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
             linkCount.fulfill()
@@ -258,7 +258,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         totalLengthX = firstGrid.measures.lengthX
-        snapping.iterateOver(allGrids.last!, direction: .left) { grid, stop in
+        snapping.iterateOver(allGrids.last!, direction: .backward) { grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
         }

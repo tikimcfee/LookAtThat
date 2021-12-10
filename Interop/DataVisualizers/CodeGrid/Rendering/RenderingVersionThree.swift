@@ -39,7 +39,7 @@ extension CodeGridParser {
             // second pass: position grids
             print("* Starting layout...")
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
-            let finalGrid = newRootGrid.rootNode.clone()
+            let finalGrid = newRootGrid.rootNode
             print("* Layout complete.")
             
             stopwatch.stop()

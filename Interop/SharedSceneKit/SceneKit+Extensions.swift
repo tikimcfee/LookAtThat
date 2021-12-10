@@ -11,13 +11,17 @@ func lockedSceneTransaction(_ operation: () -> Void) {
 
 func sceneTransaction(_ duration: Int? = nil,
                       _ timing: CAMediaTimingFunction? = nil,
-                      _ operation: () -> Void) {
+                      _ operation: () throws -> Void) {
     SCNTransaction.begin()
     SCNTransaction.animationTimingFunction =  timing ?? SCNTransaction.animationTimingFunction
     SCNTransaction.animationDuration =
         duration.map{ CFTimeInterval($0) }
             ?? SCNTransaction.animationDuration
-    operation()
+    do {
+        try operation()
+    } catch {
+        print("Cancelling transaction early:", error)
+    }
     SCNTransaction.commit()
 }
 

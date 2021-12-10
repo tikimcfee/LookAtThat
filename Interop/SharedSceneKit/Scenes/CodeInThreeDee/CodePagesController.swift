@@ -100,11 +100,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
             
         case let .newMultiCommandRecursiveAll(parent, _):
             self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootNode in
-                DispatchQueue.main.async {
-                    sceneTransaction {
+//                DispatchQueue.main.async {
+//                    sceneTransaction {
 //                        self.sceneState.rootGeometryNode.addChildNode(rootNode)
-                    }
-                }
+//                    }
+//                }
             }
         }
         

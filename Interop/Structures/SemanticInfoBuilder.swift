@@ -32,7 +32,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 	) {
 		self.node = node
 		self.syntaxId = node.id
-		self.referenceName = referenceName ?? "\(node.cornerText(5))"
+		self.referenceName = referenceName ?? ""
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
 		self.color = color ?? CodeGridColors.defaultText
         self.isFullTextSearchable = fullTextSearchable

@@ -97,62 +97,93 @@ class SearchContainer {
         }
         
         // Start search
-        codeGridParser.query.walkGridsForSearch(
-            newInput,
-            onPositive: { foundInGrid, clone, leafInfo in
-                try throwIfCancelled()
-                
-                clone.displayMode = .glyphs
-                clone.backgroundGeometry.firstMaterial?.diffuse.contents = NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.67)
-                toFocus.append((foundInGrid, clone))
-                
-                try onSemanticSetFound(foundInGrid: foundInGrid, clone: clone, leafInfo)
-            },
-            onNegative: { excludedGrid, clone, leafInfo in
-                try throwIfCancelled()
-                
-                clone.rootNode.removeFromParentNode()
-                toRemove.append(excludedGrid)
+        func doSearchWalk() throws {
+            try codeGridParser.query.walkGridsForSearch(
+                newInput,
+                onPositive: { foundInGrid, clone, leafInfo in
+                    try throwIfCancelled()
+                    
+                    clone.displayMode = .glyphs
+                    clone.backgroundGeometry.firstMaterial?.diffuse.contents
+                        = NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.166)
+                    
+                    toFocus.append((foundInGrid, clone))
+                    
+                    try onSemanticSetFound(foundInGrid: foundInGrid, clone: clone, leafInfo)
+                },
+                onNegative: { excludedGrid, clone, leafInfo in
+                    try throwIfCancelled()
+                    
+                    clone.rootNode.removeFromParentNode()
+                    toRemove.append(excludedGrid)
+                }
+            )
+        }
+        
+        if newInput.count >= 3 {
+            sceneTransaction {
+                try doSearchWalk()
             }
-        )
+        } else {
+            sceneTransaction {
+                toRemove = codeGridParser.gridCache.cachedGrids.values.reduce(into: toRemove) { result, tuple in
+                    result.append(tuple.source)
+                }
+            }
+        }
         
         // Add / remove grids, and set new highlighted nodes
         let displayMode = toFocus.count > 3
             ? CodeGrid.DisplayMode.layers
             : CodeGrid.DisplayMode.glyphs
         
-        sceneTransaction {
-            toRemove.forEach {
-                codeGridFocus.removeGridFromFocus($0)
-                $0.displayMode = .layers
-            }
-            
-            toFocus
-                .sorted(by: { $0.source.measures.lengthY < $1.source.measures.lengthY})
-                .enumerated()
-                .forEach {
-                    $0.element.source.displayMode = displayMode
-                    codeGridFocus.addGridToFocus($0.element.source, $0.offset)
+        func addGrids() {
+            sceneTransaction {
+                toRemove.forEach {
+                    codeGridFocus.removeGridFromFocus($0)
+                    $0.displayMode = .layers
                 }
-            
-            // Layout pass on grids to give first set of focus positions
-            codeGridFocus.layoutFocusedGrids()
-            codeGridFocus.resetBounds()
-        }
-        
-        sceneTransaction {
-            for (sourceGrid, clone) in toFocus {
-                clone.displayMode = .glyphs
-                clone.rootNode.position = sourceGrid.rootNode.position
-                clone.measures.alignedToTrailingOf(sourceGrid)
-                codeGridFocus.mainFocus.gridNode.addChildNode(clone.rootNode)
+                
+                toFocus
+                    .sorted(by: { $0.source.measures.lengthY < $1.source.measures.lengthY})
+                    .enumerated()
+                    .forEach {
+                        $0.element.source.displayMode = displayMode
+                        codeGridFocus.addGridToFocus($0.element.source, $0.offset)
+                    }
+                
+                // Layout pass on grids to give first set of focus positions
+                codeGridFocus.layoutFocusedGrids()
+                codeGridFocus.resetBounds()
             }
-            
-            // Resize the focus after all updates
-            codeGridFocus.resetBounds()
         }
         
-        printStop(newInput)
+        func addClones() {
+            sceneTransaction {
+                for (sourceGrid, clone) in toFocus {
+                    clone.rootNode.position = sourceGrid.rootNode.position
+                    clone.measures.alignedToTrailingOf(sourceGrid)
+                    codeGridFocus.mainFocus.gridNode.addChildNode(clone.rootNode)
+                }
+                
+                // Resize the focus after all updates
+                codeGridFocus.resetBounds()
+            }
+        }
+        
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.main.async {
+            addGrids()
+            if toFocus.count < 20 {
+                addClones()
+            }
+            self.printStop(newInput + " -- end of dispatch")
+            group.leave()
+        }
+        group.wait()
+
+        printStop(newInput + " ++ end of call")
     }
     
     private func printStart(_ input: String) {

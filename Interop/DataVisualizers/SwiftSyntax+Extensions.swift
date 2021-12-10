@@ -34,8 +34,11 @@ extension Syntax {
     }
     
     func cornerText(_ count: Int) -> String {
-        let stripped = strippedText
-        return String(stripped.prefix(count) + stripped.suffix(count))
+//        let stripped = description
+//        return String(stripped.prefix(count) + stripped.suffix(count))
+        
+        return String(description.prefix(count))
+        
 //        return tokens.prefix(count).reduce(into: "") { result, token in
 //            result.append(token.text)
 //        }
