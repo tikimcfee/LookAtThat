@@ -51,47 +51,44 @@ class SearchContainer {
     private func doSearch(task: DispatchWorkItem, _ newInput: String, _ state: SceneState) throws {
         printStart(newInput)
         
-        var toAdd: [CodeGrid] = []
+        typealias FocusType = (source: CodeGrid, clone: CodeGrid)
         var toRemove: [CodeGrid] = []
-        var focusableSemanticNodes: Set<SCNNode> = []
-
-        hovers.clearCurrent()
-        hovers.onFocused = { source, node in
-            guard let nodeGlyphsParent = source.parent,
-                  let glyphsGridParent = nodeGlyphsParent.parent,
-                  let gridContainerParent = glyphsGridParent.parent
-            else {
-                return
-            }
-            
-            node.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
-            
-            let glyphsGridWIdth = BoundsWidth(glyphsGridParent.manualBoundingBox)
-            let convertedPosition = glyphsGridParent.convertPosition(source.position, to: gridContainerParent)
-            node.position = convertedPosition
-            node.simdTranslate(dX: -glyphsGridWIdth - 8.0)
-            
-            node.isHidden = false
-            gridContainerParent.addChildNode(node)
-        }
-        hovers.onUnfocused = { source, node in
-            node.removeFromParentNode()
-        }
+        var toFocus: [FocusType] = []
         
         func throwIfCancelled() throws {
             if task.isCancelled { throw Condition.cancelled(input: newInput) }
         }
         
         // Collect all nodes from all semantic info that contributed to passed test
-        func onSemanticSetFound(grid foundInGrid: CodeGrid, _ leafInfo: Set<SemanticInfo>) throws {
-            try leafInfo.forEach { info in
+        func onSemanticSetFound(foundInGrid: CodeGrid,
+                                clone: CodeGrid,
+                                _ matchingSemanticSet: Set<SemanticInfo>) throws {
+            var allNodeNames = Set<String>()
+            
+            for matchingInfo in matchingSemanticSet {
                 try foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
-                    info.syntaxId,
+                    matchingInfo.syntaxId,
                     codeGridParser.tokenCache
-                ) { info, nodes in
+                ) { info, associatedMatchingNodes in
                     try throwIfCancelled()
-                    nodes.forEach { hovers.cacheNode($0) }
-                    focusableSemanticNodes.formUnion(nodes)
+
+                    allNodeNames = associatedMatchingNodes.reduce(into: allNodeNames) {
+                        $0.insert($1.name ?? "")
+                    }
+                }
+            }
+            
+            clone.rootGlyphsNode.enumerateChildNodes { node, stopFlag in
+                guard let nodeName = node.name else {
+                    node.isHidden = true
+                    print("node is missing name! -> \(node) in \(foundInGrid.id)")
+                    return
+                }
+                
+                if allNodeNames.contains(nodeName) {
+                    node.isHidden = false
+                } else {
+                    node.isHidden = true
                 }
             }
         }
@@ -99,24 +96,27 @@ class SearchContainer {
         // Start search
         codeGridParser.query.walkGridsForSearch(
             newInput,
-            onPositive: { foundInGrid, leafInfo in
+            onPositive: { foundInGrid, clone, leafInfo in
                 try throwIfCancelled()
                 
-                // Found new grid to add to focus
-                toAdd.append(foundInGrid)
+                clone.displayMode = .glyphs
+                clone.backgroundGeometry.firstMaterial?.diffuse.contents = NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.67)
+                toFocus.append((foundInGrid, clone))
                 
-                try onSemanticSetFound(grid: foundInGrid, leafInfo)
+                try onSemanticSetFound(foundInGrid: foundInGrid, clone: clone, leafInfo)
             },
-            onNegative: { excludedGrid, leafInfo in
+            onNegative: { excludedGrid, clone, leafInfo in
                 try throwIfCancelled()
                 
                 // This grid did not pass; remove from focus
+//                clone.displayMode = .layers
+                clone.rootNode.removeFromParentNode()
                 toRemove.append(excludedGrid)
             }
         )
         
         // Add / remove grids, and set new highlighted nodes
-        let displayMode = toAdd.count > 3
+        let displayMode = toFocus.count > 3
             ? CodeGrid.DisplayMode.layers
             : CodeGrid.DisplayMode.glyphs
         
@@ -125,9 +125,9 @@ class SearchContainer {
                 codeGridFocus.removeGridFromFocus($0)
                 $0.displayMode = .layers
             }
-            toAdd.enumerated().forEach {
-                $0.element.displayMode = displayMode
-                codeGridFocus.addGridToFocus($0.element, $0.offset)
+            toFocus.enumerated().forEach {
+                $0.element.source.displayMode = displayMode
+                codeGridFocus.addGridToFocus($0.element.source, $0.offset)
             }
             
             // Layout pass on grids to give first set of focus positions
@@ -136,8 +136,11 @@ class SearchContainer {
         }
         
         sceneTransaction {
-            for node in focusableSemanticNodes {
-                hovers.focusNode(node)
+            for (sourceGrid, clone) in toFocus {
+                clone.displayMode = .glyphs
+                clone.rootNode.position = sourceGrid.rootNode.position
+                clone.measures.alignedToTrailingOf(sourceGrid)
+                codeGridFocus.mainFocus.gridNode.addChildNode(clone.rootNode)
             }
             
             // Resize the focus after all updates

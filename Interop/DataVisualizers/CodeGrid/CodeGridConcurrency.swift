@@ -11,8 +11,9 @@ import SceneKit
 import SwiftUI
 
 class GridCache: LockingCache<FileKitPath, CodeGrid> {
+    typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
     let parser: CodeGridParser
-    var cachedGrids = [CodeGrid.ID: CodeGrid]()
+    var cachedGrids = [CodeGrid.ID: CacheValue]()
     
     init(parser: CodeGridParser) {
         self.parser = parser
@@ -20,9 +21,10 @@ class GridCache: LockingCache<FileKitPath, CodeGrid> {
     
     func setCache(_ key: FileKitPath) -> CodeGrid{
         let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
+        let newClone = newGrid.makeClone()
         lockAndDo { cache in
             cache[key] = newGrid
-            cachedGrids[newGrid.id] = newGrid
+            cachedGrids[newGrid.id] = (source: newGrid, clone: newClone)
         }
         return newGrid
     }
@@ -30,7 +32,7 @@ class GridCache: LockingCache<FileKitPath, CodeGrid> {
     override func make(_ key: FileKitPath, _ store: inout [FileKitPath : CodeGrid]) -> CodeGrid {
         print("Cache miss: \(key.fileName)")
         let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
-        cachedGrids[newGrid.id] = newGrid
+        cachedGrids[newGrid.id] = (newGrid, newGrid.makeClone())
         return newGrid
     }
 }
@@ -49,7 +51,7 @@ class TotalProtonicConcurrency {
     subscript(_ id: CodeGrid.ID) -> CodeGrid? {
         var grid: CodeGrid?
         cache.lockAndDo { _ in
-            grid = cache.cachedGrids[id]
+            grid = cache.cachedGrids[id]?.source
         }
         return grid
     }

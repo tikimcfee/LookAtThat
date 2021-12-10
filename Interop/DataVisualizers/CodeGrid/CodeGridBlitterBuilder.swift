@@ -8,20 +8,20 @@
 import Foundation
 import SceneKit
 
-class CodeGridBlitter {
-    let name: String
+class CodeGridBlitter: Identifiable {
+    let id: String
     
     lazy var backgroundGeometryNode = SCNNode()
     lazy var gridGeometry = makeGridGeometry()
-    lazy var rootNode: SCNNode = makeContainerNode(name)
+    lazy var rootNode: SCNNode = makeContainerNode(id)
     
-    init(_ name: String) {
-        self.name = name
+    init(_ id: String) {
+        self.id = "\(id)-blitter"
     }
     
-    private func makeContainerNode(_ name: String) -> SCNNode {
+    private func makeContainerNode(_ id: String) -> SCNNode {
         let container = SCNNode()
-        container.name = "\(name)-blitter-\(UUID().uuidString)"
+        container.name = id
         container.addChildNode(backgroundGeometryNode)
         backgroundGeometryNode.geometry = gridGeometry
         backgroundGeometryNode.categoryBitMask = HitTestType.codeGridBlitter.rawValue

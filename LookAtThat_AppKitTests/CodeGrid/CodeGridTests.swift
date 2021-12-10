@@ -106,11 +106,32 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         var bimap: BiMap<CodeGrid, Int> = BiMap()
         var depth = 1
-        bundle.gridParser.gridCache.cachedGrids.values.forEach { grid in
+        bundle.gridParser.gridCache.cachedGrids.values.forEach { grid, clone in
             bimap[grid] = depth
             depth += 1
         }
         bimap.keysToValues.forEach { print($0) }
+    }
+    
+    func testClones() throws {
+        let sourceFile = try bundle.loadTestSource()
+        let sourceSyntax = Syntax(sourceFile)
+        
+        let firstGrid = bundle.gridParser.createNewGrid()
+            .consume(syntax: sourceSyntax)
+            .sizeGridToContainerNode()
+        var firstGridGlyphs = Set<SCNNode>()
+        firstGrid.rootGlyphsNode.enumerateChildNodes { node, _ in
+            firstGridGlyphs.insert(node)
+        }
+        
+        let clonedGrid = firstGrid.makeClone()
+        var clonedGridGlyphs = Set<SCNNode>()
+        clonedGrid.rootGlyphsNode.enumerateChildNodes { node, _ in
+            clonedGridGlyphs.insert(node)
+        }
+        
+        XCTAssertEqual(firstGridGlyphs, clonedGridGlyphs)
     }
     
     func testAttributedWrites() throws {

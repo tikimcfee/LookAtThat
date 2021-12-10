@@ -104,11 +104,13 @@ class FocusBox: Hashable, Identifiable {
         focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
     
+    
+    private let zDepthDistance = 75.0
     func layoutFocusedGrids() {
         sceneTransaction {
             iterateGrids { previousGrid, grid, depth in
                 grid.rootNode.position = SCNVector3Zero.translated(
-                    dZ: depth.cg * -25.0
+                    dZ: depth.cg * -zDepthDistance
                 )
             }
         }

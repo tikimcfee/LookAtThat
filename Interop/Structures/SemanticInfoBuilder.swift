@@ -67,7 +67,6 @@ class SemanticInfoBuilder {
 				if let firstBinding = varl.bindings.first {
 					let typeName = firstBinding.typeAnnotation?.description ?? ""
 					let pattern = firstBinding.pattern.description
-//					name = "\(varl.letOrVarKeyword.text) \(pattern)\(typeName)"
                     name = "\(varl.letOrVarKeyword.text) \(pattern)\(typeName)"
                 } else {
                     name = "(unsupported syntax: \(varl.id)"

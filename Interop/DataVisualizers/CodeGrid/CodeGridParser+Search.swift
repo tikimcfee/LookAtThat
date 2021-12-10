@@ -8,6 +8,12 @@
 import Foundation
 
 class ParserQueryController: ObservableObject {
+    typealias SearchReceiver = (
+        _ source: CodeGrid,
+        _ clone: CodeGrid,
+        _ semantics: Set<SemanticInfo>
+    ) throws -> Void
+    
     let parser: CodeGridParser
     var tokenCache: CodeGridTokenCache { parser.tokenCache }
     var cache: GridCache { parser.gridCache }
@@ -22,10 +28,10 @@ class ParserQueryController: ObservableObject {
     
     func walkGridsForSearch(
         _ searchText: String,
-        onPositive: (CodeGrid, Set<SemanticInfo>) throws -> Void,
-        onNegative: (CodeGrid, Set<SemanticInfo>) throws -> Void
+        onPositive: SearchReceiver,
+        onNegative: SearchReceiver
     ) {
-        onAllCachedInfo { grid, infoSet in
+        onAllCachedInfo { sourceGrid, clone, infoSet in
             let filteredSemantics = infoSet.filter { info in
                 if info.isFullTextSearchable {
                     return info.referenceName.fuzzyMatch(searchText)
@@ -35,20 +41,20 @@ class ParserQueryController: ObservableObject {
                 }
             }
             let toCall = filteredSemantics.isEmpty ? onNegative : onPositive
-            try toCall(grid, filteredSemantics)
+            try toCall(sourceGrid, clone, filteredSemantics)
         }
     }
     
     // Loops through all grids, iterates over all SemanticInfo constructed for it
-    func onAllCachedInfo(_ receiver: (CodeGrid, Set<SemanticInfo>) throws -> Void) {
-        for cachedGrid in cache.cachedGrids.values {
+    func onAllCachedInfo(_ receiver: SearchReceiver) {
+        for (cachedGrid, clone) in cache.cachedGrids.values {
             let items = Set(
                 cachedGrid.codeGridSemanticInfo
                     .semanticsLookupBySyntaxId
                     .values
             )
             do {
-                try receiver(cachedGrid, items)
+                try receiver(cachedGrid, clone, items)
             } catch {
                 print("Walk received error: \(error)")
                 return
@@ -56,9 +62,9 @@ class ParserQueryController: ObservableObject {
         }
     }
     
-    func forAllGrids(_ receiver: (CodeGrid) -> Void) {
-        for cachedGrid in cache.cachedGrids.values {
-            receiver(cachedGrid)
-        }
-    }
+//    func forAllGrids(_ receiver: (CodeGrid) -> Void) {
+//        for cachedGrid in cache.cachedGrids.values {
+//            receiver(cachedGrid)
+//        }
+//    }
 }

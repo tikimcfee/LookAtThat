@@ -19,6 +19,9 @@ class CodeGrid: Identifiable, Equatable {
     }
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
+    lazy var glyphNodeName = { "\(id)-glyphs" }()
+    lazy var backgroundNodeName = { "\(id)-background" }()
+    var cloneId: ID { "\(id)-clone" }
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
@@ -26,8 +29,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var fullTextBlitter = CodeGridBlitter(id)
     let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
     
-    let pointer = Pointer()
-    let codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
+    private(set) var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     var walkSemantics: Bool = Defaults.walkSemantics
@@ -35,13 +37,14 @@ class CodeGrid: Identifiable, Equatable {
         willSet { willSetDisplayMode(newValue) }
     }
     
+    let pointer = Pointer()
     lazy var renderer: CodeGrid.Renderer = CodeGrid.Renderer(targetGrid: self)
     lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)
     
-    lazy var rootNode: SCNNode = makeContainerNode()
-    lazy var rootGlyphsNode: SCNNode = makeGlyphsContainerNode()
-    lazy var gridGeometry: SCNBox = makeGridGeometry()
-    lazy var backgroundGeometryNode: SCNNode = SCNNode()
+    lazy var rootNode: SCNNode = makeRootNode()
+    lazy var rootGlyphsNode: SCNNode = makeRootGlyphsNode()
+    lazy var backgroundGeometryNode: SCNNode = makeBackgroundGeometryNode()
+    lazy var backgroundGeometry: SCNBox = makeBackgroundGeometry()
     
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
@@ -54,6 +57,42 @@ class CodeGrid: Identifiable, Equatable {
     public static func == (_ left: CodeGrid, _ right: CodeGrid) -> Bool {
         laztrace(#fileID,#function,left,right)
         return left.id == right.id
+    }
+}
+
+// MARK: -- CodeClones
+extension CodeGrid {
+    func makeClone() -> CodeGrid {
+        let clone = CodeGrid(
+            cloneId,
+            glyphCache: glyphCache,
+            tokenCache: tokenCache
+        )
+        clone.codeGridSemanticInfo = codeGridSemanticInfo
+        
+        clone.rootNode = rootNode.clone()
+        clone.rootNode.name = clone.id
+        guard let clonedGlyphes = clone.rootNode.childNode(withName: glyphNodeName, recursively: false),
+              let clonedBackground = clone.rootNode.childNode(withName: backgroundNodeName, recursively: false),
+              let clonedGeometry = clonedBackground.geometry?.deepCopy() as? SCNBox
+        else {
+            fatalError("Node cloning failed - did not find child nodes")
+        }
+        clone.rootGlyphsNode = clonedGlyphes
+        clone.rootGlyphsNode.name = clone.glyphNodeName
+        clone.backgroundGeometryNode = clonedBackground
+        clone.backgroundGeometryNode.name = clone.backgroundNodeName
+        clone.backgroundGeometry = clonedGeometry
+        clone.backgroundGeometryNode.geometry = clone.backgroundGeometry
+        // TODO: add the full text stuff as well
+        
+        guard let fullTextNode = clone.rootNode.childNode(withName: fullTextBlitter.id, recursively: false)
+        else {
+            fatalError("Node cloning failed - full text blitter missing")
+        }
+        fullTextNode.removeFromParentNode()
+        
+        return clone
     }
 }
 
@@ -88,10 +127,10 @@ extension CodeGrid {
         pivotRootNode: Bool = false
     ) -> CodeGrid {
         laztrace(#fileID,#function,pad,pivotRootNode)
-        gridGeometry.width = rootNode.lengthX.cg + pad.cg
-        gridGeometry.height = rootNode.lengthY.cg + pad.cg
-        let centerX = gridGeometry.width / 2.0
-        let centerY = -gridGeometry.height / 2.0
+        backgroundGeometry.width = rootNode.lengthX.cg + pad.cg
+        backgroundGeometry.height = rootNode.lengthY.cg + pad.cg
+        let centerX = backgroundGeometry.width / 2.0
+        let centerY = -backgroundGeometry.height / 2.0
         backgroundGeometryNode.position.x = centerX.vector - pad
         backgroundGeometryNode.position.y = centerY.vector + pad
         backgroundGeometryNode.position.z = -1
@@ -115,7 +154,7 @@ extension CodeGrid {
     @discardableResult
     func backgroundColor(_ color: NSUIColor) -> CodeGrid {
         laztrace(#fileID,#function,color)
-        gridGeometry.firstMaterial?.diffuse.contents = color
+        backgroundGeometry.firstMaterial?.diffuse.contents = color
         fullTextBlitter.gridGeometry.firstMaterial?.diffuse.contents = color
         return self
     }
@@ -123,27 +162,33 @@ extension CodeGrid {
 
 // MARK: -- Builders for lazy properties
 extension CodeGrid {
-    private func makeContainerNode() -> SCNNode {
+    private func makeRootNode() -> SCNNode {
         laztrace(#fileID,#function)
         let container = SCNNode()
         container.name = id
-        container.addChildNode(backgroundGeometryNode)
         container.addChildNode(rootGlyphsNode)
-        backgroundGeometryNode.geometry = gridGeometry
-        backgroundGeometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
-        backgroundGeometryNode.name = id
+        container.addChildNode(backgroundGeometryNode)
         return container
     }
     
-    private func makeGlyphsContainerNode() -> SCNNode {
+    private func makeRootGlyphsNode() -> SCNNode {
         laztrace(#fileID,#function)
         let container = SCNNode()
-        container.name = "\(kCodeGridContainerName)-glyphs-\(id)"
+        container.name = glyphNodeName
         container.categoryBitMask = HitTestType.codeGridGlyphs.rawValue
         return container
     }
     
-    private func makeGridGeometry() -> SCNBox {
+    private func makeBackgroundGeometryNode() -> SCNNode {
+        laztrace(#fileID,#function)
+        let backgroundNode = SCNNode()
+        backgroundNode.name = backgroundNodeName
+        backgroundNode.geometry = backgroundGeometry
+        backgroundNode.categoryBitMask = HitTestType.codeGrid.rawValue
+        return backgroundNode
+    }
+    
+    private func makeBackgroundGeometry() -> SCNBox {
         laztrace(#fileID,#function)
         let sheetGeometry = SCNBox()
         sheetGeometry.chamferRadius = 4.0
