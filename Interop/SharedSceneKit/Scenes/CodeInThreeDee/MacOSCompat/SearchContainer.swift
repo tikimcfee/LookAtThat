@@ -54,6 +54,7 @@ class SearchContainer {
         typealias FocusType = (source: CodeGrid, clone: CodeGrid)
         var toRemove: [CodeGrid] = []
         var toFocus: [FocusType] = []
+        codeGridFocus.resetState()
         
         func throwIfCancelled() throws {
             if task.isCancelled { throw Condition.cancelled(input: newInput) }
@@ -79,6 +80,8 @@ class SearchContainer {
             }
             
             clone.rootGlyphsNode.enumerateChildNodes { node, stopFlag in
+                if task.isCancelled { stopFlag.pointee = true }
+                
                 guard let nodeName = node.name else {
                     node.isHidden = true
                     print("node is missing name! -> \(node) in \(foundInGrid.id)")
@@ -108,8 +111,6 @@ class SearchContainer {
             onNegative: { excludedGrid, clone, leafInfo in
                 try throwIfCancelled()
                 
-                // This grid did not pass; remove from focus
-//                clone.displayMode = .layers
                 clone.rootNode.removeFromParentNode()
                 toRemove.append(excludedGrid)
             }
@@ -125,10 +126,14 @@ class SearchContainer {
                 codeGridFocus.removeGridFromFocus($0)
                 $0.displayMode = .layers
             }
-            toFocus.enumerated().forEach {
-                $0.element.source.displayMode = displayMode
-                codeGridFocus.addGridToFocus($0.element.source, $0.offset)
-            }
+            
+            toFocus
+                .sorted(by: { $0.source.measures.lengthY < $1.source.measures.lengthY})
+                .enumerated()
+                .forEach {
+                    $0.element.source.displayMode = displayMode
+                    codeGridFocus.addGridToFocus($0.element.source, $0.offset)
+                }
             
             // Layout pass on grids to give first set of focus positions
             codeGridFocus.layoutFocusedGrids()

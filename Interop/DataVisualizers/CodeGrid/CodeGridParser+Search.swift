@@ -33,12 +33,7 @@ class ParserQueryController: ObservableObject {
     ) {
         onAllCachedInfo { sourceGrid, clone, infoSet in
             let filteredSemantics = infoSet.filter { info in
-                if info.isFullTextSearchable {
-                    return info.referenceName.fuzzyMatch(searchText)
-                        || info.fullTextSearch.containsMatch(searchText)
-                } else {
-                    return info.referenceName.fuzzyMatch(searchText)
-                }
+                return info.referenceName.containsMatch(searchText)
             }
             let toCall = filteredSemantics.isEmpty ? onNegative : onPositive
             try toCall(sourceGrid, clone, filteredSemantics)
@@ -61,10 +56,4 @@ class ParserQueryController: ObservableObject {
             }
         }
     }
-    
-//    func forAllGrids(_ receiver: (CodeGrid) -> Void) {
-//        for cachedGrid in cache.cachedGrids.values {
-//            receiver(cachedGrid)
-//        }
-//    }
 }

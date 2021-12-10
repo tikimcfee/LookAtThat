@@ -20,8 +20,7 @@ class WorldGridSnapping {
         case backward(CodeGrid)
     }
     
-    typealias Mapping = [CodeGrid: Set<RelativeGridMapping>]
-    typealias Directions = Set<RelativeGridMapping>
+    typealias Mapping = [CodeGrid: RelativeGridMapping]
     var mapping = Mapping()
     lazy var align = Align(snap: self)
     
@@ -49,44 +48,45 @@ class WorldGridSnapping {
 }
 
 extension WorldGridSnapping {
-    func connect(sourceGrid: CodeGrid, to newDirectionalGrids: Directions) {
-        var toUnion = mapping[sourceGrid] ?? {
-            let directions = Directions()
-            mapping[sourceGrid] = directions
-            return directions
-        }()
-        toUnion.formUnion(newDirectionalGrids)
-        mapping[sourceGrid] = toUnion
+    func clearAll() {
+        mapping.removeAll()
     }
     
-    func connectWithInverses(sourceGrid: CodeGrid, to newDirectionalGrids: Directions) {
-        connect(sourceGrid: sourceGrid, to: newDirectionalGrids)
-        for mapping in newDirectionalGrids {
-            switch mapping {
-            case let .right(grid):
-                connect(sourceGrid: grid, to: [.left(sourceGrid)])
-            case let .left(grid):
-                connect(sourceGrid: grid, to: [.right(sourceGrid)])
-                
-            case let .up(grid):
-                connect(sourceGrid: grid, to: [.down(sourceGrid)])
-            case let .down(grid):
-                connect(sourceGrid: grid, to: [.up(sourceGrid)])
-                
-            case let .forward(grid):
-                connect(sourceGrid: grid, to: [.backward(sourceGrid)])
-            case let .backward(grid):
-                connect(sourceGrid: grid, to: [.forward(sourceGrid)])
-            }
+    func connect(sourceGrid: CodeGrid, to newDirectionalGrids: RelativeGridMapping) {
+        mapping[sourceGrid] = newDirectionalGrids
+    }
+    
+    func connectWithInverses(sourceGrid: CodeGrid, to newConnection: RelativeGridMapping) {
+        connect(sourceGrid: sourceGrid, to: newConnection)
+        switch newConnection {
+        case let .right(grid):
+            connect(sourceGrid: grid, to: .left(sourceGrid))
+        case let .left(grid):
+            connect(sourceGrid: grid, to: .right(sourceGrid))
+            
+        case let .up(grid):
+            connect(sourceGrid: grid, to: .down(sourceGrid))
+        case let .down(grid):
+            connect(sourceGrid: grid, to: .up(sourceGrid))
+            
+        case let .forward(grid):
+            connect(sourceGrid: grid, to: .backward(sourceGrid))
+        case let .backward(grid):
+            connect(sourceGrid: grid, to: .forward(sourceGrid))
         }
     }
     
-    func gridsRelativeTo(_ targetGrid: CodeGrid) -> Set<RelativeGridMapping> {
-        return mapping[targetGrid] ?? []
+    func gridsRelativeTo(_ targetGrid: CodeGrid) -> RelativeGridMapping? {
+        return mapping[targetGrid]
     }
     
     func gridsRelativeTo(_ targetGrid: CodeGrid, _ direction: SelfRelativeDirection) -> Set<RelativeGridMapping> {
-        gridsRelativeTo(targetGrid).filter { $0 == direction }
+        if let relative = mapping[targetGrid],
+           relative.direction == direction {
+            return [relative]
+        } else {
+            return []
+        }
     }
     
     func iterateOver(
@@ -101,6 +101,8 @@ extension WorldGridSnapping {
                 print("I was lied to about things not being empty")
                 return
             }
+            
+            print("-- Snap loop \(DispatchTime.now())--")
             
             receiver(nextGrid, &stop)
             if stop { return }

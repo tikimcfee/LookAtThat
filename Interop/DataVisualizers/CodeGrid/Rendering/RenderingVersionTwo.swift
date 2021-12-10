@@ -51,7 +51,7 @@ extension CodeGridParser {
                 
                 newGrid.rootNode.position.z = 4.0
                 if let lastGrid = lastDirectChildGrid {
-                    snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(newGrid)])
+                    snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(newGrid))
                     newGrid.rootNode.position = lastGrid.rootNode.position.translated(
                         dX: lastGrid.measures.lengthX + 8.0,
                         dY: 0,

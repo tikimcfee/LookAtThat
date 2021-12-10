@@ -110,7 +110,7 @@ class WorldGridEditor {
         
         switch style {
         case .trailingFromLastGrid(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(codeGrid)])
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(codeGrid))
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: lastGrid.measures.lengthX + 8.0,
                 dY: 0,
@@ -119,7 +119,7 @@ class WorldGridEditor {
             lastFocusedGrid = codeGrid
             
         case .inNextRow(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.down(codeGrid)])
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: .down(codeGrid))
             lastFocusedGrid = codeGrid
             var maxHeight: VectorFloat = 0.0
             var leftMostGrid: CodeGrid?
@@ -137,7 +137,7 @@ class WorldGridEditor {
             )
 
         case .inNextPlane(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: [.backward(codeGrid)])
+            snapping.connectWithInverses(sourceGrid: lastGrid, to: .backward(codeGrid))
             lastFocusedGrid = codeGrid
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: 0,

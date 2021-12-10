@@ -13,7 +13,7 @@ import SwiftUI
 extension CodeGridParser {
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
-        _ onLoadComplete: ((CodeGrid) -> Void)? = nil
+        _ onLoadComplete: ((SCNNode) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
@@ -39,12 +39,14 @@ extension CodeGridParser {
             // second pass: position grids
             print("* Starting layout...")
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
+            let finalGrid = newRootGrid.rootNode.clone()
             print("* Layout complete.")
             
             stopwatch.stop()
             let time = stopwatch.elapsedTimeString()
             print("Rendering time for \(rootPath.fileName): \(time)")
-            onLoadComplete?(newRootGrid)
+            
+            onLoadComplete?(finalGrid)
         }
     }
     
@@ -80,7 +82,7 @@ extension CodeGridParser {
             let newGrid = concurrency.syncAccess(last)
             newGrid.rootNode.position.z = 4.0
             if let lastGrid = lastDirectChildGrid {
-                state.snapping.connectWithInverses(sourceGrid: lastGrid, to: [.right(newGrid)])
+                state.snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(newGrid))
                 newGrid.measures.alignedToTrailingOf(lastGrid)
             }
             lastDirectChildGrid = newGrid

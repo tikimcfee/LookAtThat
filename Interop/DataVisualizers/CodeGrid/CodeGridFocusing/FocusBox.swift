@@ -18,11 +18,13 @@ class FocusBox: Hashable, Identifiable {
     
     static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
     
+    var focusedGrid: CodeGrid?
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()
     lazy var geometryNode: SCNNode = makeGeometryNode()
     lazy var rootGeometry: SCNBox = makeGeometry()
+    lazy var snapping: WorldGridSnapping = WorldGridSnapping()
     
     var id: String
     var focus: CodeGridFocusController
@@ -76,6 +78,18 @@ class FocusBox: Hashable, Identifiable {
         grid.rootNode.position = SCNVector3Zero
         gridNode.addChildNode(grid.rootNode)
         bimap[grid] = depth
+        
+        if let previous = bimap[depth - 1] {
+            snapping.connectWithInverses(sourceGrid: previous, to: .forward(grid))
+        }
+        
+        if let next = bimap[depth + 1] {
+            snapping.connectWithInverses(sourceGrid: next, to: .backward(grid))
+        }
+    }
+    
+    func setFocusedGrid(_ depth: Int) {
+        focusedGrid = bimap[depth]
     }
     
     func finishUpdates() {
@@ -105,13 +119,19 @@ class FocusBox: Hashable, Identifiable {
     }
     
     
-    private let zDepthDistance = 75.0
+    private let zDepthDistance = 150.0
     func layoutFocusedGrids() {
+        guard let first = bimap[0] else {
+            print("No depth-0 grid to start layout")
+            return
+        }
         sceneTransaction {
-            iterateGrids { previousGrid, grid, depth in
+            var depth = 1
+            snapping.iterateOver(first, direction: .forward) { grid, _ in
                 grid.rootNode.position = SCNVector3Zero.translated(
-                    dZ: depth.cg * -zDepthDistance
+                    dZ: depth.cg * -self.zDepthDistance
                 )
+                depth += 1
             }
         }
     }

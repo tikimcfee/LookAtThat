@@ -51,6 +51,12 @@ class CodeGridFocusController {
         mainFocus = makeNewFocusBox()
     }
     
+    func resetState() {
+        mainFocus.snapping.clearAll()
+        mainFocus.bimap.keysToValues.removeAll()
+        mainFocus.bimap.valuesToKeys.removeAll()
+    }
+    
     func resetBounds() {
         mainFocus.resetBounds()
     }

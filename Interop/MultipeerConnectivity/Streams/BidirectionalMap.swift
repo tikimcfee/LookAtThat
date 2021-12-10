@@ -47,6 +47,8 @@ struct BiMap<Key: Hashable, Value: Hashable>: ExpressibleByDictionaryLiteral {
         set {
             if let toRemove = keysToValues[key] {
                 valuesToKeys[toRemove] = newValue == nil ? nil : key
+            } else if let newValue = newValue {
+                valuesToKeys[newValue] = key
             }
             keysToValues[key] = newValue
         }
@@ -60,6 +62,8 @@ struct BiMap<Key: Hashable, Value: Hashable>: ExpressibleByDictionaryLiteral {
         set {
             if let toRemove = valuesToKeys[key] {
                 keysToValues[toRemove] = newValue == nil ? nil : key
+            } else if let newValue = newValue {
+                keysToValues[newValue] = key
             }
             valuesToKeys[key] = newValue
         }

@@ -86,11 +86,10 @@ extension CodeGrid {
         clone.backgroundGeometryNode.geometry = clone.backgroundGeometry
         // TODO: add the full text stuff as well
         
-        guard let fullTextNode = clone.rootNode.childNode(withName: fullTextBlitter.id, recursively: false)
-        else {
-            fatalError("Node cloning failed - full text blitter missing")
-        }
-        fullTextNode.removeFromParentNode()
+        if let fullTextNode = clone.rootNode.childNode(
+            withName: fullTextBlitter.id,
+            recursively: false
+        ) { fullTextNode.removeFromParentNode() }
         
         return clone
     }
