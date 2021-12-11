@@ -24,10 +24,10 @@ extension CodeGrid {
         var lengthZ: VectorFloat { sizeNode.lengthZ }
         
         var centerX: VectorFloat {
-            get { lengthX / 2.0 }
+            get { leading + (lengthX / 2.0) }
         }
         var centerY: VectorFloat {
-            get { lengthY / 2.0 }
+            get { top - (lengthY / 2.0) }
         }
         var centerZ: VectorFloat {
             get { lengthZ / 2.0 }
@@ -47,6 +47,12 @@ extension CodeGrid {
             set { positionNode.position.x = newValue }
         }
         var trailing: VectorFloat { leading + lengthX }
+        
+        var front: VectorFloat {
+            get { positionNode.position.z }
+            set { positionNode.position.z = newValue }
+        }
+        var back: VectorFloat { front + (lengthZ / 2.0) }
         
         var position: SCNVector3 {
             get { positionNode.position }

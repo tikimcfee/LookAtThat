@@ -53,6 +53,7 @@ class CodeGridFocusController {
     
     func resetState() {
         mainFocus.snapping.clearAll()
+        mainFocus.focusedGrid = nil
         mainFocus.bimap.keysToValues.removeAll()
         mainFocus.bimap.valuesToKeys.removeAll()
     }
@@ -72,9 +73,27 @@ class CodeGridFocusController {
     func removeGridFromFocus(_ grid: CodeGrid) {
         mainFocus.detachGrid(grid)
     }
-
+    
     func addGridToFocus(_ grid: CodeGrid, _ depth: Int) {
         mainFocus.attachGrid(grid, depth)
+    }
+    
+    func setFocusedDepth(_ depth: Int) {
+        mainFocus.setFocusedGrid(depth)
+    }
+    
+    func setNewFocus(inDirection direction: SelfRelativeDirection) -> CodeGrid? {
+        guard let focus = mainFocus.focusedGrid,
+              let firstFocused = mainFocus.snapping.gridsRelativeTo(focus, direction).first?.targetGrid
+        else { return nil }
+        
+        mainFocus.focusedGrid = firstFocused
+        return firstFocused
+    }
+    
+    func currentDirections() -> WorldGridSnapping.RelativeMappings {
+        guard let focus = mainFocus.focusedGrid else { return [] }
+        return mainFocus.snapping.gridsRelativeTo(focus)
     }
     
     private func makeNewFocusBox() -> FocusBox {

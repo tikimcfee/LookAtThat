@@ -36,6 +36,10 @@ class SearchContainer {
     }
     
     private func setupNewSearch(_ newInput: String, _ state: SceneState) {
+        currentWorkItem.cancel()
+        currentWorkItem = DispatchWorkItem(block: searchBlock)
+        searchQueue.async(execute: currentWorkItem)
+        
         func searchBlock() {
             do {
                 try doSearch(task: currentWorkItem, newInput, state)
@@ -43,18 +47,43 @@ class SearchContainer {
                 print(error)
             }
         }
-        currentWorkItem.cancel()
-        currentWorkItem = DispatchWorkItem(block: searchBlock)
-        searchQueue.async(execute: currentWorkItem)
     }
     
     private func doSearch(task: DispatchWorkItem, _ newInput: String, _ state: SceneState) throws {
-        printStart(newInput)
         
         typealias FocusType = (source: CodeGrid, clone: CodeGrid)
+        printStart(newInput)
+        
         var toRemove: [CodeGrid] = []
         var toFocus: [FocusType] = []
         codeGridFocus.resetState()
+        
+        if newInput.count >= 3 {
+            sceneTransaction {
+                try doSearchWalk()
+            }
+        } else {
+            sceneTransaction {
+                toRemove = codeGridParser.gridCache.cachedGrids.values.reduce(into: toRemove) { result, tuple in
+                    result.append(tuple.source)
+                    tuple.clone.rootNode.removeFromParentNode()
+                }
+            }
+        }
+        
+        // Add / remove grids, and set new highlighted nodes
+        let displayMode = toFocus.count > 3
+            ? CodeGrid.DisplayMode.layers
+            : CodeGrid.DisplayMode.glyphs
+        
+        addGrids()
+        addClones()
+        
+        printStop(newInput + " ++ end of call")
+        
+        /// ------------
+        /// start definitions
+        /// ------------
         
         func throwIfCancelled() throws {
             if task.isCancelled { throw Condition.cancelled(input: newInput) }
@@ -103,12 +132,7 @@ class SearchContainer {
                 onPositive: { foundInGrid, clone, leafInfo in
                     try throwIfCancelled()
                     
-                    clone.displayMode = .glyphs
-                    clone.backgroundGeometry.firstMaterial?.diffuse.contents
-                        = NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.166)
-                    
                     toFocus.append((foundInGrid, clone))
-                    
                     try onSemanticSetFound(foundInGrid: foundInGrid, clone: clone, leafInfo)
                 },
                 onNegative: { excludedGrid, clone, leafInfo in
@@ -119,23 +143,6 @@ class SearchContainer {
                 }
             )
         }
-        
-        if newInput.count >= 3 {
-            sceneTransaction {
-                try doSearchWalk()
-            }
-        } else {
-            sceneTransaction {
-                toRemove = codeGridParser.gridCache.cachedGrids.values.reduce(into: toRemove) { result, tuple in
-                    result.append(tuple.source)
-                }
-            }
-        }
-        
-        // Add / remove grids, and set new highlighted nodes
-        let displayMode = toFocus.count > 3
-            ? CodeGrid.DisplayMode.layers
-            : CodeGrid.DisplayMode.glyphs
         
         func addGrids() {
             sceneTransaction {
@@ -155,12 +162,16 @@ class SearchContainer {
                 // Layout pass on grids to give first set of focus positions
                 codeGridFocus.layoutFocusedGrids()
                 codeGridFocus.resetBounds()
+                codeGridFocus.setFocusedDepth(0)
             }
         }
         
         func addClones() {
+            guard toFocus.count <= 20 else { return }
             sceneTransaction {
                 for (sourceGrid, clone) in toFocus {
+                    clone.displayMode = .glyphs
+                    clone.backgroundColor(NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.166))
                     clone.rootNode.position = sourceGrid.rootNode.position
                     clone.measures.alignedToTrailingOf(sourceGrid)
                     codeGridFocus.mainFocus.gridNode.addChildNode(clone.rootNode)
@@ -171,30 +182,16 @@ class SearchContainer {
             }
         }
         
-        let group = DispatchGroup()
-        group.enter()
-        DispatchQueue.main.async {
-            addGrids()
-            if toFocus.count < 20 {
-                addClones()
-            }
-            self.printStop(newInput + " -- end of dispatch")
-            group.leave()
+        func printStart(_ input: String) {
+            print("new search ---------------------- [\(input)]")
         }
-        group.wait()
-
-        printStop(newInput + " ++ end of call")
-    }
-    
-    private func printStart(_ input: String) {
-        print("new search ---------------------- [\(input)]")
-    }
-    
-    private func printStop(_ input: String) {
-        print("---------------------- [\(input)] finished ")
-    }
-    
-    private func printCancelled(_ input: String) {
-        print("XXXXXXXXXXX >> [\(input)] Cancelled")
+        
+        func printStop(_ input: String) {
+            print("---------------------- [\(input)] finished ")
+        }
+        
+        func printCancelled(_ input: String) {
+            print("XXXXXXXXXXX >> [\(input)] Cancelled")
+        }
     }
 }

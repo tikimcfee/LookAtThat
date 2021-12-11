@@ -166,6 +166,11 @@ private extension KeyboardInterceptor {
         case "z", "Z": startMovement(.down)
         case "x", "X": startMovement(.up)
             
+        case _ where event.specialKey == .leftArrow: changeFocus(.left)
+        case _ where event.specialKey == .rightArrow: changeFocus(.right)
+        case _ where event.specialKey == .upArrow: changeFocus(.forward)
+        case _ where event.specialKey == .downArrow: changeFocus(.backward)
+            
         case "h", "H": changeFocus(.left)
         case "l", "L": changeFocus(.right)
         case "j", "J": changeFocus(.forward)
@@ -176,7 +181,9 @@ private extension KeyboardInterceptor {
             
         case "o" where event.modifierFlags.contains(.command):
             onNewFileOperation?(.openDirectory)
-        default: break
+            
+        default:
+            break
         }
     }
     
@@ -189,6 +196,7 @@ private extension KeyboardInterceptor {
             
         case "z", "Z": stopMovement(.down)
         case "x", "X": stopMovement(.up)
+            
         default:
             break
         }

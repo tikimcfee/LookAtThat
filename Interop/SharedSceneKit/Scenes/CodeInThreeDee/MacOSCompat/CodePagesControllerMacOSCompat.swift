@@ -89,8 +89,44 @@ class CodePagesControllerMacOSCompat {
     
     private func onNewFocusChange(_ focus: SelfRelativeDirection) {
         sceneTransaction {
-            controller.codeGridParser.editorWrapper.changeFocus(focus)
+            guard let nextGrid = inputCompat.focus.setNewFocus(inDirection: focus) else {
+                print("No grid in direction: \(focus)")
+                return
+            }
+            
+            guard let parent = nextGrid.rootNode.parent else {
+                print("For \(focus), missing parent on grid: \(nextGrid)")
+                return
+            }
+            
+            var startPosition: SCNVector3 = parent
+                .convertPosition(nextGrid.rootNode.position, to: nil)
+                .translated(
+                    dX: nextGrid.measures.lengthX / 2.0,
+                    dY: -min(32, nextGrid.measures.lengthY / 4.0)
+                )
+            
+            
+            if let clone = findClone(of: nextGrid) {
+                let clonePosition = parent.convertPosition(clone.rootNode.position, to: nil)
+                
+                startPosition = startPosition.translated(dX: clone.measures.lengthX / 2.0)
+                
+//                let centerX = (clone.measures.centerX + nextGrid.measures.centerX) / 2.0
+//                let centerY = (clone.measures.centerY + nextGrid.measures.centerY) / 2.0
+//                let centerZ = startPosition.z + (clone.measures.centerZ + nextGrid.measures.centerZ) / 2.0
+//                let center = SCNVector3(centerX, centerY, centerZ)
+//                controller.sceneCameraNode.look(at: center)
+            }
+            
+            controller.sceneCameraNode.position = startPosition.translated(
+                dZ: default__CameraSpacingFromPlaneOnShift
+            )
         }
+    }
+    
+    private func findClone(of grid: CodeGrid) -> CodeGrid? {
+        return controller.codeGridParser.gridCache.cachedGrids[grid.id]?.clone
     }
 }
 

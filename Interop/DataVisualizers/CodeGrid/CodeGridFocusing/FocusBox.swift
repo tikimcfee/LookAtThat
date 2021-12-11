@@ -120,17 +120,22 @@ class FocusBox: Hashable, Identifiable {
     
     
     private let zDepthDistance = 150.0
-    func layoutFocusedGrids() {
+    func layoutFocusedGrids(_ alignTrailing: Bool = false) {
         guard let first = bimap[0] else {
             print("No depth-0 grid to start layout")
             return
         }
         sceneTransaction {
             var depth = 1
-            snapping.iterateOver(first, direction: .forward) { grid, _ in
+            func update(_ grid: CodeGrid) {
                 grid.rootNode.position = SCNVector3Zero.translated(
-                    dZ: depth.cg * -self.zDepthDistance
+                    dX: -grid.measures.lengthX,
+                    dZ: grid === first ? 0 : depth.cg * -self.zDepthDistance
                 )
+            }
+            update(first)
+            snapping.iterateOver(first, direction: .forward) { grid, _ in
+                update(grid)
                 depth += 1
             }
         }

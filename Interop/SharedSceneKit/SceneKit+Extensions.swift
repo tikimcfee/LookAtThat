@@ -45,9 +45,9 @@ public typealias Bounds = (min: SCNVector3, max: SCNVector3)
 func BoundsWidth(_ bounds: Bounds) -> VectorFloat { bounds.max.x - bounds.min.x }
 func BoundsHeight(_ bounds: Bounds) -> VectorFloat { bounds.max.y - bounds.min.y }
 func BoundsLength(_ bounds: Bounds) -> VectorFloat { bounds.max.z - bounds.min.z }
-func BoundsCenterWidth(_ bounds: Bounds) -> VectorFloat { BoundsWidth(bounds) / 2.0 }
-func BoundsCenterHeight(_ bounds: Bounds) -> VectorFloat { BoundsHeight(bounds) / 2.0 }
-func BoundsCenterLength(_ bounds: Bounds) -> VectorFloat { BoundsLength(bounds) / 2.0 }
+func BoundsCenterWidth(_ bounds: Bounds) -> VectorFloat { BoundsWidth(bounds) / 2.0 + bounds.min.x }
+func BoundsCenterHeight(_ bounds: Bounds) -> VectorFloat { BoundsHeight(bounds) / 2.0 + bounds.min.y }
+func BoundsCenterLength(_ bounds: Bounds) -> VectorFloat { BoundsLength(bounds) / 2.0 + bounds.min.z }
 func BoundsCenterPosition(_ bounds: Bounds) -> SCNVector3 {
     SCNVector3(
         x: BoundsCenterWidth(bounds),
