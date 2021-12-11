@@ -39,6 +39,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         super.init(sceneView: sceneView)
         
         codeGridParser.cameraNode = sceneView.pointOfView ?? sceneCameraNode
+        codeGridParser.rootGeometryNode = sceneState.rootGeometryNode
     }
     
     func onNewFileStreamEvent(_ event: FileBrowser.Event) {

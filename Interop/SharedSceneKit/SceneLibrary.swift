@@ -124,7 +124,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
         }
         
         codePagesController.codeGridParser.withNewGrid(sourceString) { world, grid in
-            world.addInFrontOfCamera(style: .trailingFromLastGrid(grid))
+            world.addInFrontOfCamera(grid: grid)
         }
     }
 

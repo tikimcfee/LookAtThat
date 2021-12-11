@@ -13,6 +13,7 @@ import SwiftUI
 class CodeGridParser: SwiftSyntaxFileLoadable {
     
     var cameraNode: SCNNode?
+    var rootGeometryNode: SCNNode?
     
     let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
     
@@ -23,9 +24,10 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     
     lazy var editorWrapper: CodeGridWorld = {
-        let world = CodeGridWorld(cameraProvider: {
-            self.cameraNode
-        })
+        let world = CodeGridWorld(
+            cameraProvider: { self.cameraNode },
+            rootProvider: { self.rootGeometryNode }
+        )
         return world
     }()
     
@@ -56,19 +58,24 @@ class RecurseState {
 }
 
 class CodeGridWorld {
-    var rootContainerNode: SCNNode = SCNNode()
-    var worldGridEditor = WorldGridEditor()
     var cameraProvider: (() -> SCNNode?)?
+    var rootProvider: (() -> SCNNode?)?
     
-    init(cameraProvider: (() -> SCNNode?)?) {
+    init(
+        cameraProvider: (() -> SCNNode?)?,
+        rootProvider: (() -> SCNNode?)?
+    ) {
         self.cameraProvider = cameraProvider
+        self.rootProvider = rootProvider
     }
     
-    func addInFrontOfCamera(style: WorldGridEditor.AddStyle) {
+    func addInFrontOfCamera(grid: CodeGrid) {
         #if os(iOS)
-        guard let cam = cameraProvider?() else { return }
+        guard let cam = cameraProvider?(),
+              let root = rootProvider?()
+        else { return }
         
-        let gridNode = style.grid.rootNode
+        let gridNode = grid.rootNode
         
         gridNode.simdPosition = cam.simdPosition
         gridNode.simdPosition += cam.simdWorldFront * 0.5
@@ -79,31 +86,16 @@ class CodeGridWorld {
         gridNode.scale = SCNVector3(x: 0.01, y: 0.01, z: 0.01)
         
         gridNode.simdPosition += -cam.simdWorldRight * (0.5 * gridNode.lengthX * 0.01)
-        rootContainerNode.addChildNode(gridNode)
+        root.addChildNode(gridNode)
         #endif
     }
     
     func addGrid(style: WorldGridEditor.AddStyle) {
-        worldGridEditor.transformedByAdding(style)
+        print("not implemented!", #function)
     }
     
     func changeFocus(_ direction: SelfRelativeDirection) {
-        worldGridEditor.shiftFocus(direction)
-        moveCameraToFocus()
-    }
-    
-    private func moveCameraToFocus() {
-        guard let camera = cameraProvider?(),
-              let grid = worldGridEditor.lastFocusedGrid
-        else {
-            print("updated focus to empty grid")
-            return
-        }
-        camera.position = grid.rootNode.position.translated(
-            dX: grid.measures.lengthX / 2.0,
-            dY: -min(32, grid.measures.lengthY / 4.0),
-            dZ: default__CameraSpacingFromPlaneOnShift
-        )
+        print("not implemented!", #function)
     }
 }
 

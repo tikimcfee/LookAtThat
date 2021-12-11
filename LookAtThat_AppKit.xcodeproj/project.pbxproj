@@ -149,7 +149,6 @@
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
 		F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* AppDelegate.swift */; };
 		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
-		F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = F07C49ED251C5AE800F28173 /* Experience.rcproject */; };
 		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
 		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
 		F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
@@ -310,7 +309,6 @@
 		F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThatMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49E9251C5AE800F28173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppRootView.swift; sourceTree = "<group>"; };
-		F07C49ED251C5AE800F28173 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F07C49F4251C5AE900F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -680,13 +678,12 @@
 			isa = PBXGroup;
 			children = (
 				B712C81C2740D4D900303CB8 /* Libraries */,
-				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
+				F07C49F1251C5AE900F28173 /* Preview Content */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
 				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
-				F07C49ED251C5AE800F28173 /* Experience.rcproject */,
+				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
 				F07C49F4251C5AE900F28173 /* Info.plist */,
-				F07C49F1251C5AE900F28173 /* Preview Content */,
 				F057D2092520328C0094BD83 /* LaunchScreen.storyboard */,
 			);
 			path = LookAtThatMobile;
@@ -1045,7 +1042,6 @@
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
-				F07C49EE251C5AE800F28173 /* Experience.rcproject in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
