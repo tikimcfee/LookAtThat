@@ -77,10 +77,11 @@ class CodeGridBlitter: Identifiable {
 }
 
 class FullTextLayerBuilder {
-    private let SCALE_FACTOR = 1.0
-    private let DESCALE_FACTOR = 16.0
+    private static let FONT_SIZE = 8.0
+    private let SCALE_FACTOR = 8.0 // NOTE: Doesn't work with attributed text in CATextLayer... or something
+    private let DESCALE_FACTOR = 8.0
     
-    private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: 16, weight: .regular)
+    private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
     
     static let layoutQueue = DispatchQueue(label: "FullTextLayerBuilder=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
@@ -91,7 +92,7 @@ class FullTextLayerBuilder {
             [.font: Self.MONO_FONT],
             range: safeString.string.fullNSRange
         )
-        let wordSize = fontRenderer.size(safeString)
+        let wordSize = safeString.size()
         //        let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
         //                                    height: wordSize.height * SCALE_FACTOR)
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,

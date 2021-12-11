@@ -16,21 +16,6 @@ public struct GlyphCacheKey: Hashable, Equatable {
     }
 }
 
-struct GlyphRender {
-	private static let kDefaultFontSize: VectorFloat = 1.0
-	private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(
-        ofSize: kDefaultFontSize.cg, weight: .regular
-    )
-	
-    let font: NSUIFont = kDefaultSCNTextFont
-    
-    func size(_ target: GlyphCacheKey) -> CGSize {
-        return target.glyph.size(withAttributes: [
-            .font: font
-        ])
-    }
-}
-
 class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
 	
 	// SCALE_FACTOR changes the requested font size for the new layer.

@@ -104,7 +104,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 #if os(iOS)
                 self.codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
                 #else
-                self.sceneState.rootGeometryNode.addChildNode(rootGrid)
+                self.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
                 #endif
             }
             

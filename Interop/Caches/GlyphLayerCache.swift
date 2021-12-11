@@ -16,34 +16,21 @@ public struct GlyphCacheKey: Hashable, Equatable {
     }
 }
 
-struct GlyphRender {
-	private static let kDefaultFontSize: VectorFloat = 1.0
-	private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(
-        ofSize: kDefaultFontSize.cg, weight: .regular
-    )
-	
-    let font: NSUIFont = kDefaultSCNTextFont
-    
-    func size(_ target: GlyphCacheKey) -> CGSize {
-        return target.glyph.size(withAttributes: [
-            .font: font
-        ])
-    }
-}
-
 class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
-	
-	// SCALE_FACTOR changes the requested font size for the new layer.
-	// OBSERVATION: Setting this value higher creates a smoother font image
-	// HYPOTHESIS: The font size is used to determine the size of a bitmap
-	//              or canvas to which the layer is drawn
-	private let SCALE_FACTOR = 8.0
-	
-	// Recompute descaled size of new layer
-	// DESCALE_FACTOR changes the final rendered size of the layer
-	// This is a straight proportional resize of the original text size.
-	private let DESCALE_FACTOR = 16.0
+    private static let FONT_SIZE = 8.0
+
+    // SCALE_FACTOR changes the requested font size for the new layer.
+    // OBSERVATION: Setting this value higher creates a smoother font image
+    // HYPOTHESIS: The font size is used to determine the size of a bitmap
+    //              or canvas to which the layer is drawn
+    private let SCALE_FACTOR = 1.0
     
+    // Recompute descaled size of new layer
+    // DESCALE_FACTOR changes the final rendered size of the layer
+    // This is a straight proportional resize of the original text size.
+    private let DESCALE_FACTOR = 16.0
+    
+    private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
 	let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
     
@@ -52,7 +39,9 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         
 		// Size the glyph from the font using a rendering scale factor
         let safeString = key.glyph
-        let wordSize = fontRenderer.size(safeString)
+        let wordSize = safeString.size(withAttributes:
+            [.font: Self.MONO_FONT]
+        )
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
                                     height: wordSize.height * SCALE_FACTOR)
         
@@ -87,6 +76,7 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
 }
 
 
+import CoreServices
 extension CALayer {
 #if os(iOS)
     func getBitmapImage() -> NSUIImage? {
@@ -94,18 +84,83 @@ extension CALayer {
         UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
         
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        context.setFillColor(NSUIColor.black.cgColor)
+        context.fill(frame)
         render(in: context)
-        let outputImage = UIGraphicsGetImageFromCurrentImageContext()
         
-        return outputImage
+        let options = NSDictionary(dictionary: [
+            kCGImageDestinationLossyCompressionQuality: 0.0
+        ])
+        
+        let outputImage = UIGraphicsGetImageFromCurrentImageContext()!.cgImage!
+        let mutableData = CFDataCreateMutable(nil, 0)!
+        let destination = CGImageDestinationCreateWithData(mutableData, kUTTypeJPEG, 1, nil)!
+        CGImageDestinationSetProperties(destination, options)
+        CGImageDestinationAddImage(destination, outputImage, nil)
+        CGImageDestinationFinalize(destination)
+        let source = CGImageSourceCreateWithData(mutableData, nil)!
+        let finalImage = CGImageSourceCreateImageAtIndex(source, 0, nil)!
+        
+        return UIImage(cgImage: finalImage)
+//        return outputImage
     }
 #elseif os(OSX)
+    func compressedJpegRepresentation(from source: NSBitmapImageRep) -> NSBitmapImageRep? {
+        guard
+            let jpegData = source.representation(
+                using: .jpeg,
+                properties: [
+//                    .compressionFactor: 0.0,
+                    .fallbackBackgroundColor: NSUIColor.black
+                ]
+//                properties: [:]
+            ),
+            let jpegRepresentation = NSBitmapImageRep(data: jpegData)
+        else {
+            print("Failed to make jepg representation")
+            return nil
+        }
+        
+        return jpegRepresentation
+    }
+    
+    func cgImagePrimitivesJPEG(from cgImage: CGImage) -> CGImage? {
+        guard let mutableData = CFDataCreateMutable(nil, 0),
+              let destination = CGImageDestinationCreateWithData(mutableData, kUTTypeJPEG, 1, nil)
+        else {
+            print("Failed to make CFData / CGImageDest")
+            return nil
+        }
+        
+        let options = NSDictionary(dictionary: [
+            kCGImageDestinationLossyCompressionQuality: 0.0
+        ])
+        CGImageDestinationAddImage(destination, cgImage, options)
+        CGImageDestinationFinalize(destination)
+        
+        guard let source = CGImageSourceCreateWithData(mutableData, nil)
+        else {
+            print("Failed to make CGImageSource")
+            return nil
+        }
+        let finalImage = CGImageSourceCreateImageAtIndex(source, 0, nil)
+        
+        return finalImage
+    }
+    
     func getBitmapImage() -> NSUIImage? {
-        guard let representation = defaultRepresentation() else {
+        guard var representation = defaultRepresentation() else {
             print("Failed to make bitmap representation")
             return nil
         }
         
+        guard let compressed = compressedJpegRepresentation(from: representation)
+        else {
+            print("Failed to make compressed jpeg representation")
+            return nil
+        }
+        representation = compressed
+                
         guard let nsContext = NSGraphicsContext(
             bitmapImageRep: representation
         ) else {
@@ -122,8 +177,15 @@ extension CALayer {
             return nil
         }
         
+        let finalImage = cgImage
+        
+//        guard let finalImage = cgImagePrimitivesJPEG(from: cgImage) else {
+//            print("Failed to recreate as JPEG")
+//            return nil
+//        }
+        
         return NSImage(
-            cgImage: cgImage,
+            cgImage: finalImage,
             size: CGSize(width: frame.width, height: frame.height)
         )
     }

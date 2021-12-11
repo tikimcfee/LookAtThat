@@ -16,16 +16,6 @@ struct LayerCacheKey: Hashable, Equatable {
 struct FontRenderer {
     private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
     let font: NSUIFont = kDefaultSCNTextFont
-    
-    func size(_ target: String) -> CGSize {
-        target.size(withAttributes: [
-            .font: font
-        ])
-    }
-    
-    func size(_ target: NSAttributedString) -> CGSize {
-        target.size()
-    }
 }
 
 class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
@@ -42,7 +32,9 @@ class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
         //              or canvas to which the layer is drawn
         let SCALE_FACTOR: CGFloat = 16
         let safeString = "\(key.word)"
-        let wordSize = fontRenderer.size(safeString)
+        let wordSize = safeString.size(withAttributes:
+            [.font: fontRenderer.font]
+        )
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
                                     height: wordSize.height * SCALE_FACTOR)
         
