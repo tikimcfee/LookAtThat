@@ -12,26 +12,27 @@ import SwiftUI
 
 extension CodeGridParser {
     #if os(OSX)
-    let stopwatch = Stopwatch(running: false)
-    func startTimer() {
+    static let stopwatch = Stopwatch(running: false)
+    static func startTimer() {
+        print("Rendering started")
         stopwatch.start()
     }
-    func stopTimer() {
+    static func stopTimer() {
         stopwatch.stop()
-        let time = stopwatch.elapsedTimeString()
-        print("Rendering time for \(rootPath.fileName): \(time)")
+        let time = Self.stopwatch.elapsedTimeString()
+        print("Rendering time: \(time)")
     }
     #endif
     
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
-        _ onLoadComplete: ((SCNNode) -> Void)? = nil
+        _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
             
             #if os(OSX)
-            startTimer()
+            Self.startTimer()
             #endif
             
             // first pass: precache grids
@@ -54,11 +55,11 @@ extension CodeGridParser {
             // second pass: position grids
             print("* Starting layout...")
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
-            let finalGrid = newRootGrid.rootNode
+            let finalGrid = newRootGrid
             print("* Layout complete.")
             
             #if os(OSX)
-            stopTimer()
+            Self.stopTimer()
             #endif
             
             onLoadComplete?(finalGrid)

@@ -100,13 +100,9 @@ class CodePagesController: BaseSceneController, ObservableObject {
             }
             
         case let .newMultiCommandRecursiveAll(parent, _):
-            #if os(OSX)
             self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootNode in
                 self.sceneState.rootGeometryNode.addChildNode(rootNode)
             }
-            #else
-            break
-            #endif
             
         }
         

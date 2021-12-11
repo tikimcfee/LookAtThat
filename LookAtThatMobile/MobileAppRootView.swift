@@ -30,8 +30,8 @@ struct MobileAppRootView : View {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
         }.sheet(isPresented: $showFileBrowser) {
-            MultipeerInfoView()
-                .environmentObject(MultipeerConnectionManager.shared)
+            FileBrowserView()
+                .onAppear { renderTest() }
         }
     }
     
@@ -47,17 +47,16 @@ struct MobileAppRootView : View {
     }
     
     func renderTest() {
-        
         guard let sampleFilesPath = sampleFilesKitPath else {
             return
         }
-        
+
         SceneLibrary.global
             .codePagesController
-            .onNewFileStreamEvent(.newMultiCommandRecursiveAll(
-                sampleFilesPath,
-                .allChildrenInNewPlane
-            ))
+            .fileBrowser
+            .setRootScope(sampleFilesPath)
+        
+        showFileBrowser = true
     }
 }
 

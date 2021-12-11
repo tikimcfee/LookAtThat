@@ -36,5 +36,84 @@
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0FAE3B11-4FC5-4802-B48A-078289E1FF89"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LookAtThatMobile/SampleFiles.bundle/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "onNewFileStreamEvent(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "onNewFileStreamEvent(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThatMobile"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "616">
+               </Location>
+               <Location
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThatMobile"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "964">
+               </Location>
+               <Location
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThatMobile"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "1312">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

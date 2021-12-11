@@ -18,10 +18,6 @@ struct SourceInfoGrid: View {
     @State var hoveredToken: String?
     @State var searchText: String = ""
     
-    typealias RowType = [FileBrowser.Scope]
-    @State var files: RowType = []
-    @State var pathDepths: [FileKitPath: Int] = [:]
-    
     var searchBinding: Binding<String> {
         SceneLibrary.global.codePagesController
             .codeGridParser
@@ -32,7 +28,7 @@ struct SourceInfoGrid: View {
     var body: some View {
         return HStack(alignment: .top) {
             VStack {
-                fileRows(files)
+                FileBrowserView()
                 HStack {
                     TextField(
                         "🔍 Find",
@@ -62,25 +58,11 @@ struct SourceInfoGrid: View {
         )
         .padding(8)
         .onReceive(
-            SceneLibrary.global.codePagesController.fileStream
-                .subscribe(on: DispatchQueue.global())
-                .receive(on: DispatchQueue.main)
-        ) { scopes in
-            self.files = scopes
-        }
-        .onReceive(
             SceneLibrary.global.codePagesController.hoverStream
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
         ) { hoveredToken in
             self.hoveredToken = hoveredToken
-        }
-        .onReceive(
-            SceneLibrary.global.codePagesController.pathDepthStream
-                .subscribe(on: DispatchQueue.global())
-                .receive(on: DispatchQueue.main)
-        ) { depths in
-            self.pathDepths = depths
         }
         .onReceive(
             SceneLibrary.global.codePagesController.hoverInfoStream
@@ -94,22 +76,6 @@ struct SourceInfoGrid: View {
                 break
             }
         }
-    }
-    
-    
-    func fileRows(_ rows: RowType) -> some View {
-        ScrollView {
-            ForEach(rows, id: \.id) { scope in
-                rowForScope(scope)
-            }
-        }
-        .padding(4.0)
-        .frame(
-            minWidth: 256.0,
-            maxWidth: 384.0,
-            maxHeight: 768.0,
-            alignment: .leading
-        )
     }
     
     @ViewBuilder
@@ -139,113 +105,6 @@ struct SourceInfoGrid: View {
                 infoRows(named: "Variables", from: sourceInfo.variables)
             }
         }
-    }
-    
-    @ViewBuilder
-    func rowForScope(_ scope: FileBrowser.Scope) -> some View {
-        switch scope {
-        case let .file(path):
-            HStack {
-                makeSpacer(pathDepths[path])
-                Text("􀥨")
-                    .font(.footnote)
-                Text(path.components.last?.rawValue ?? "")
-                    .fontWeight(.light)
-                
-                Spacer()
-                
-                Text("􀣘")
-                    .padding(4.0)
-                    .font(.footnote)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .addToRow) }
-                
-                Text("􀄴")
-                    .padding(4.0)
-                    .font(.footnote)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .inNewRow) }
-                
-                Text("􀏨")
-                    .padding(4.0)
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .inNewPlane) }
-            }
-            .padding(0.5)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
-            .onTapGesture { fileSelected(path, .addToRow) }
-        case let .directory(path):
-            HStack {
-                makeSpacer(pathDepths[path])
-                Text("►")
-                
-                Text(path.components.last?.rawValue ?? "")
-                    .fontWeight(.medium)
-                
-                Spacer()
-                
-                Text("􀐙")
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandRecursiveAll(
-                            path, .allChildrenInNewPlane
-                        )
-                    ) }
-                    .padding(4.0)
-            }
-            .padding(2)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-            .onTapGesture { fileScopeSelected(scope) }
-        case let .expandedDirectory(path):
-            HStack {
-                makeSpacer(pathDepths[path])
-                Text("▼")
-                
-                Text(path.components.last?.rawValue ?? "")
-                    .underline()
-                    .fontWeight(.heavy)
-                
-                Spacer()
-                
-                Text("􀐙")
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandRecursiveAll(
-                            path, .allChildrenInNewPlane
-                        )
-                    ) }
-            }
-            .padding(2)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
-            .onTapGesture { fileScopeSelected(scope) }
-        }
-    }
-    
-    // MARK: RectangleDivider
-    struct RectangleDivider: View {
-        let color: Color = .secondary
-        let height: CGFloat = 8.0
-        let width: CGFloat = 1.0
-        var body: some View {
-            Rectangle()
-                .fill(color)
-                .frame(width: width)
-                .edgesIgnoringSafeArea(.horizontal)
-        }
-    }
-    
-    @ViewBuilder
-    func makeSpacer(_ depth: Int?) -> some View {
-        HStack(spacing: 2.0) {
-            Spacer()
-            RectangleDivider()
-        }.frame(
-            width: 16.0 * CGFloat(depth ?? 1),
-            height: 16.0
-        )
     }
     
     @ViewBuilder
@@ -325,22 +184,6 @@ struct SourceInfoGrid: View {
         SceneLibrary.global.codePagesController.macosCompat
             .inputCompat.focus.setNewFocus()
         #endif
-    }
-    
-    func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {
-        SceneLibrary.global.codePagesController
-            .fileBrowser
-            .fileSeletionEvents = .newSingleCommand(path, selectType)
-    }
-    
-    func genericSelection(_ action: FileBrowser.Event) {
-        SceneLibrary.global.codePagesController
-            .fileBrowser
-            .fileSeletionEvents = action
-    }
-    
-    func fileScopeSelected(_ scope: FileBrowser.Scope) {
-        SceneLibrary.global.codePagesController.fileBrowser.onScopeSelected(scope)
     }
     
     func selected(name: String) {
