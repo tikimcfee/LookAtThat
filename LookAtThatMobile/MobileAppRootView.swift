@@ -10,6 +10,7 @@ import ARKit
 
 struct MobileAppRootView : View {
     @State var showInfoView = false
+    @State var showFileBrowser = false
     
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
@@ -28,19 +29,35 @@ struct MobileAppRootView : View {
         }.sheet(isPresented: $showInfoView) {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
+        }.sheet(isPresented: $showFileBrowser) {
+            MultipeerInfoView()
+                .environmentObject(MultipeerConnectionManager.shared)
         }
     }
     
+    var sampleFilesUrl: URL {
+        let bundleName = "SampleFiles.bundle"
+        let mainBundlePath = Bundle.main.bundlePath
+        let sampleFilesUrl = FileKitPath(mainBundlePath).url.appendingPathComponent(bundleName)
+        return sampleFilesUrl
+    }
+    
+    var sampleFilesKitPath: FileKitPath? {
+        FileKitPath(url: sampleFilesUrl)
+    }
+    
     func renderTest() {
-        let testSource = """
-import Foundation
-
-func main() {
-    print("Well hello, World.")
-}
-""".data(using: .utf8)!
         
-        MultipeerConnectionManager.shared.receivedCodeGrids.append(testSource)
+        guard let sampleFilesPath = sampleFilesKitPath else {
+            return
+        }
+        
+        SceneLibrary.global
+            .codePagesController
+            .onNewFileStreamEvent(.newMultiCommandRecursiveAll(
+                sampleFilesPath,
+                .allChildrenInNewPlane
+            ))
     }
 }
 

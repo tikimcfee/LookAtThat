@@ -11,28 +11,13 @@ import SceneKit
 import SwiftUI
 
 extension CodeGridParser {
-    #if os(OSX)
-    let stopwatch = Stopwatch(running: false)
-    func startTimer() {
-        stopwatch.start()
-    }
-    func stopTimer() {
-        stopwatch.stop()
-        let time = stopwatch.elapsedTimeString()
-        print("Rendering time for \(rootPath.fileName): \(time)")
-    }
-    #endif
-    
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
         _ onLoadComplete: ((SCNNode) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
-            
-            #if os(OSX)
-            startTimer()
-            #endif
+            let stopwatch = Stopwatch(running: true)
             
             // first pass: precache grids
             let dispatchGroup = DispatchGroup()
@@ -57,9 +42,9 @@ extension CodeGridParser {
             let finalGrid = newRootGrid.rootNode
             print("* Layout complete.")
             
-            #if os(OSX)
-            stopTimer()
-            #endif
+            stopwatch.stop()
+            let time = stopwatch.elapsedTimeString()
+            print("Rendering time for \(rootPath.fileName): \(time)")
             
             onLoadComplete?(finalGrid)
         }
