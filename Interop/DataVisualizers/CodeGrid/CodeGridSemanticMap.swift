@@ -8,7 +8,6 @@
 import Foundation
 import SwiftSyntax
 import SceneKit
-import ThreeWaysTrie
 
 typealias SemanticsLookupType = SemanticInfo
 typealias SemanticsLookupNodeKey = String
@@ -28,8 +27,6 @@ public class CodeGridSemanticMap {
 	
 	var syntaxIdToTokenNodes = GridAssociationSyntaxToNodeType() // [SyntaxIdentifier: GridAssociationType]
     var syntaxIdToAssociatedIds = GridAssociationSyntaxToSyntaxType() // [SyntaxIdentifier: Set<SyntaxIdentifier>]
-    
-    var globalSearchTrie = ThreeWaysTrie<SemanticInfo>()
 
 	var structs = GridAssociationSyntaxToSyntaxType()
 	var classes = GridAssociationSyntaxToSyntaxType()
