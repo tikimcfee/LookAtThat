@@ -99,6 +99,12 @@ class CodePagesController: BaseSceneController, ObservableObject {
                 }
             }
             
+        case let .newMultiCommandRecursiveAllCache(parent):
+            print("Start cache: \(parent.fileName)")
+            self.codeGridParser.cacheConcurrent(parent) {
+                print("Cache complete: \(parent.fileName)")
+            }
+            
         case let .newMultiCommandRecursiveAll(parent, _):
             self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
                 #if os(iOS)

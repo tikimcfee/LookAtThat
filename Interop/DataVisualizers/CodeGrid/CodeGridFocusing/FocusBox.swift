@@ -21,7 +21,7 @@ class FocusBox: Hashable, Identifiable {
     var focusedGrid: CodeGrid?
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
-    lazy var gridNode: SCNNode = makeGridNode()
+    lazy var gridNode: SCNNode = makeGridNode() // TODO: think about adding a 'dropAll' call to avoid iterating over grids to ... drop
     lazy var geometryNode: SCNNode = makeGeometryNode()
     lazy var rootGeometry: SCNBox = makeGeometry()
     lazy var snapping: WorldGridSnapping = WorldGridSnapping()
@@ -102,15 +102,10 @@ class FocusBox: Hashable, Identifiable {
     }
     
     private func setup() {
-        rootNode.name = id
         rootNode.addChildNode(geometryNode)
         rootNode.addChildNode(gridNode)
         rootNode.addWireframeBox()
         
-        gridNode.name = id
-        
-        geometryNode.name = id
-        geometryNode.categoryBitMask = HitTestType.codeGrid.rawValue
         geometryNode.geometry = rootGeometry
         
         // TODO: Something other than the focus should add it to the scene
@@ -162,18 +157,22 @@ class FocusBox: Hashable, Identifiable {
     
     private func makeRootNode() -> SCNNode {
         let root = SCNNode()
+        root.name = id
         root.renderingOrder = -1
         return root
     }
     
     private func makeGridNode() -> SCNNode {
         let root = SCNNode()
+        root.name = id
         root.renderingOrder = -1
         return root
     }
     
     private func makeGeometryNode() -> SCNNode {
         let root = SCNNode()
+        root.name = id
+        root.categoryBitMask = HitTestType.codeGrid.rawValue
         root.renderingOrder = 1
         return root
     }

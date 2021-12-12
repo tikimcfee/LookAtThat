@@ -150,7 +150,10 @@ final class WorkerPool {
     private let workerCount = 3
 
     private lazy var allWorkers =
-        (0..<workerCount).map { DispatchQueue(label: "WorkerQ\($0)", qos: .userInteractive) }
+        (0..<workerCount).map { DispatchQueue(
+            label: "WorkerQ\($0)",
+            qos: .userInteractive
+        )}
 
     private lazy var concurrentWorkers =
         (0..<workerCount).map { DispatchQueue(

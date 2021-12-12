@@ -60,24 +60,15 @@ struct FileBrowserView: View {
                     .fontWeight(.light)
                 
                 Spacer()
-                
-                Text("⏩")
-                    .padding(4.0)
+
+                Text("📦")
                     .font(.footnote)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .addToRow) }
-                
-                Text("⮐")
+                    .onTapGesture { genericSelection(
+                        .newSinglePath(path)
+                    ) }
                     .padding(4.0)
-                    .font(.footnote)
                     .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .inNewRow) }
-                
-                Text("📑")
                     .padding(4.0)
-                    .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .onTapGesture { fileSelected(path, .inNewPlane) }
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
@@ -94,15 +85,25 @@ struct FileBrowserView: View {
                 
                 Text("📦")
                     .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
                         .newMultiCommandRecursiveAll(
                             path, .allChildrenInNewPlane
                         )
                     ) }
                     .padding(4.0)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .padding([.top, .bottom, .leading], 4)
+                
+                Text("📦🔂")
+                    .font(.callout)
+                    .onTapGesture { genericSelection(
+                        .newMultiCommandRecursiveAllCache(path)
+                    ) }
+                    .padding(4.0)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .padding(4.0)
             }
-            .padding(2)
+            .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
             .onTapGesture { fileScopeSelected(scope) }
         case let .expandedDirectory(path):
@@ -118,14 +119,16 @@ struct FileBrowserView: View {
                 
                 Text("📦")
                     .font(.callout)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                     .onTapGesture { genericSelection(
                         .newMultiCommandRecursiveAll(
                             path, .allChildrenInNewPlane
                         )
                     ) }
+                    .padding(4.0)
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+                    .padding(4.0)
             }
-            .padding(2)
+            .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
             .onTapGesture { fileScopeSelected(scope) }
         }

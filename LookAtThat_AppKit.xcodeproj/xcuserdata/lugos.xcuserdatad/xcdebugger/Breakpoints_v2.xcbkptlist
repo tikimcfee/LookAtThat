@@ -68,49 +68,49 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - 34713888f38a995b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
-                  moduleName = "LookAtThatMobile"
+                  symbolName = "LookAtThat_AppKit.CodePagesController.onNewFileStreamEvent(LookAtThat_AppKit.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThat_AppKit"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "46"
                   endingLineNumber = "46"
-                  offsetFromSymbolStart = "616">
+                  offsetFromSymbolStart = "852">
                </Location>
                <Location
-                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - 34713888f38a995b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
-                  moduleName = "LookAtThatMobile"
+                  symbolName = "LookAtThat_AppKit.CodePagesController.onNewFileStreamEvent(LookAtThat_AppKit.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThat_AppKit"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "46"
                   endingLineNumber = "46"
-                  offsetFromSymbolStart = "964">
+                  offsetFromSymbolStart = "1216">
                </Location>
                <Location
-                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - e4579bc46583bd95"
+                  uuid = "7FE21E79-47A5-4B41-9570-28BE94E96645 - 34713888f38a995b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "LookAtThatMobile.CodePagesController.onNewFileStreamEvent(LookAtThatMobile.FileBrowser.Event) -&gt; ()"
-                  moduleName = "LookAtThatMobile"
+                  symbolName = "LookAtThat_AppKit.CodePagesController.onNewFileStreamEvent(LookAtThat_AppKit.FileBrowser.Event) -&gt; ()"
+                  moduleName = "LookAtThat_AppKit"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/CodeInThreeDee/CodePagesController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "46"
                   endingLineNumber = "46"
-                  offsetFromSymbolStart = "1312">
+                  offsetFromSymbolStart = "1572">
                </Location>
             </Locations>
          </BreakpointContent>

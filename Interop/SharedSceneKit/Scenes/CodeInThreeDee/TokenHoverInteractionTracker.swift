@@ -70,11 +70,11 @@ class TokenHoverInteractionTracker {
     
     private func defaultFocusNode(_ source: Key, _ safeClone: Key) {
         safeClone.position.z += 5.0
-        safeClone.geometry?.firstMaterial?.multiply.contents = NSUIColor.red
+        safeClone.materialMultiply(NSUIColor.red)
     }
     
     private func defaultUnfocusNode(_ source: Key, _ safeClone: Key) {
         safeClone.position.z -= 5.0
-        safeClone.geometry?.firstMaterial?.multiply.contents = NSUIColor.white
+        safeClone.materialMultiply(NSUIColor.white)
     }
 }

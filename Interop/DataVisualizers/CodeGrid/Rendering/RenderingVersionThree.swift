@@ -14,15 +14,42 @@ extension CodeGridParser {
     #if os(OSX)
     static let stopwatch = Stopwatch(running: false)
     static func startTimer() {
-        print("Rendering started")
+        print("* Starting grid cache...")
         stopwatch.start()
     }
     static func stopTimer() {
         stopwatch.stop()
         let time = Self.stopwatch.elapsedTimeString()
-        print("Rendering time: \(time)")
+        print("* Cache complete. Rendering time: \(time)")
     }
+    #else
+    static func startTimer() { }
+    static func stopTimer() { }
     #endif
+    
+    func cacheConcurrent(
+        _ rootPath: FileKitPath,
+        _ onLoadComplete: (() -> Void)? = nil
+    ) {
+        renderQueue.async { [concurrency] in
+            let dispatchGroup = DispatchGroup()
+            Self.startTimer()
+            
+            FileBrowser.recursivePaths(rootPath)
+                .filter { !$0.isDirectory }
+                .forEach { childPath in
+                    dispatchGroup.enter()
+                    concurrency.renderConcurrent(childPath) { _ in
+                        dispatchGroup.leave()
+                    }
+                }
+            
+            dispatchGroup.wait()
+            Self.stopTimer()
+            
+            onLoadComplete?()
+        }
+    }
     
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
@@ -30,39 +57,23 @@ extension CodeGridParser {
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
-            
-            #if os(OSX)
-            Self.startTimer()
-            #endif
-            
-            // first pass: precache grids
             let dispatchGroup = DispatchGroup()
-            print("* Starting grid precache...")
-            FileBrowser.recursivePaths(rootPath).forEach { childPath in
-                guard !childPath.isDirectory else {
-                    //                    print("Skip directory: \(childPath)")
-                    return
+            Self.startTimer()
+            
+            FileBrowser.recursivePaths(rootPath)
+                .filter { !$0.isDirectory }
+                .forEach { childPath in
+                    dispatchGroup.enter()
+                    self.concurrency.asyncAccess(childPath) { _ in
+                        dispatchGroup.leave()
+                    }
                 }
-                dispatchGroup.enter()
-                self.concurrency.concurrentRenderAccess(childPath) { newGrid in
-                    //                    print("Rendered \(childPath)")
-                    dispatchGroup.leave()
-                }
-            }
+            
             dispatchGroup.wait()
-            print("* Precache complete.")
-            
-            // second pass: position grids
-            print("* Starting layout...")
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
-            let finalGrid = newRootGrid
-            print("* Layout complete.")
-            
-            #if os(OSX)
             Self.stopTimer()
-            #endif
             
-            onLoadComplete?(finalGrid)
+            onLoadComplete?(newRootGrid)
         }
     }
     

@@ -80,12 +80,15 @@ class CodeGridWorld {
         gridNode.simdPosition = cam.simdPosition
         gridNode.simdPosition += cam.simdWorldFront * 0.5
         
-        gridNode.simdEulerAngles.y = cam.simdEulerAngles.y
-        gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
+//        gridNode.simdEulerAngles.y = cam.simdEulerAngles.y
+//        gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
 //        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
-        gridNode.scale = SCNVector3(x: 0.01, y: 0.01, z: 0.01)
         
-        gridNode.simdPosition += -cam.simdWorldRight * (0.5 * gridNode.lengthX * 0.01)
+        let scaleFactor = VectorFloat(0.001)
+        gridNode.scale = SCNVector3(x: scaleFactor, y: scaleFactor, z: scaleFactor)
+        
+        gridNode.simdPosition += -gridNode.simdWorldRight * (0.5 * gridNode.lengthX * scaleFactor)
+        
         root.addChildNode(gridNode)
         #endif
     }

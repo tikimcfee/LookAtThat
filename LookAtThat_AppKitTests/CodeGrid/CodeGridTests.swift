@@ -96,9 +96,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         let awaitRender = expectation(description: "Version three rendered")
         var finalNode: SCNNode?
-        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootNode in
+        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootGrid in
             print("Searchable grids rendered")
-            finalNode = rootNode
+            finalNode = rootGrid.rootNode
             awaitRender.fulfill()
         }
         wait(for: [awaitRender], timeout: 60)

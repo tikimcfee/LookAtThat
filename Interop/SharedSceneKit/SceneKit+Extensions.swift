@@ -1,7 +1,8 @@
 import Foundation
 import SceneKit
 
-func lockedSceneTransaction(_ operation: () -> Void) {
+//@inlinable
+@inline(__always) func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.lock()
     SCNTransaction.begin()
     operation()
@@ -9,13 +10,16 @@ func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.unlock()
 }
 
-func sceneTransaction(_ duration: Int? = nil,
-                      _ timing: CAMediaTimingFunction? = nil,
-                      _ operation: () throws -> Void) {
+//@inlinable
+@inline(__always) func sceneTransaction(
+    _ duration: Int? = nil,
+    _ timing: CAMediaTimingFunction? = nil,
+    _ operation: () throws -> Void
+) {
     SCNTransaction.begin()
     SCNTransaction.animationTimingFunction =  timing ?? SCNTransaction.animationTimingFunction
     SCNTransaction.animationDuration =
-        duration.map{ CFTimeInterval($0) }
+        duration.map { CFTimeInterval($0) }
             ?? SCNTransaction.animationDuration
     do {
         try operation()
@@ -114,5 +118,23 @@ extension SCNVector3: Equatable {
         return l.x == r.x
             && l.y == r.y
             && l.z == r.z
+    }
+}
+
+extension SCNNode {
+    func materialMultiply(_ any: Any?) {
+        geometry?.firstMaterial?.multiply.contents = any
+    }
+    
+    func simdTranslate(dX: VectorFloat = 0, dY: VectorFloat = 0, dZ: VectorFloat = 0) {
+        simdPosition += simdWorldRight * Float(dX)
+        simdPosition += simdWorldUp * Float(dY)
+        simdPosition += simdWorldFront * Float(dZ)
+    }
+    
+    func apply(_ modifier: @escaping (SCNNode) -> Void) -> SCNNode {
+        laztrace(#fileID,#function,modifier)
+        modifier(self)
+        return self
     }
 }

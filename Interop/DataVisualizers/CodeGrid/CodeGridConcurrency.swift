@@ -10,30 +10,41 @@ import SwiftSyntax
 import SceneKit
 import SwiftUI
 
-class GridCache: LockingCache<FileKitPath, CodeGrid> {
+class GridCache {
     typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
     let parser: CodeGridParser
     var cachedGrids = [CodeGrid.ID: CacheValue]()
+    var cachedFiles = [FileKitPath: CodeGrid.ID]()
+    
+    private var semaphore = DispatchSemaphore(value: 1)
+    func lock()   { semaphore.wait() }
+    func unlock() { semaphore.signal() }
     
     init(parser: CodeGridParser) {
         self.parser = parser
     }
     
-    func setCache(_ key: FileKitPath) -> CodeGrid{
+    func setCache(_ key: FileKitPath) -> CodeGrid {
         let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
         let newClone = newGrid.makeClone()
-        lockAndDo { cache in
-            cache[key] = newGrid
-            cachedGrids[newGrid.id] = (source: newGrid, clone: newClone)
-        }
+        
+        lock()
+        cachedGrids[newGrid.id] = (source: newGrid, clone: newClone)
+        cachedFiles[key] = newGrid.id
+        unlock()
         return newGrid
     }
     
-    override func make(_ key: FileKitPath, _ store: inout [FileKitPath : CodeGrid]) -> CodeGrid {
-        print("Cache miss: \(key.fileName)")
-        let newGrid = parser.renderGrid(key.url) ?? parser.createNewGrid()
-        cachedGrids[newGrid.id] = (newGrid, newGrid.makeClone())
-        return newGrid
+    func getOrCache(_ key: FileKitPath) -> CodeGrid {
+        lock()
+        if let gridId = cachedFiles[key],
+           let grid = cachedGrids[gridId] {
+            unlock()
+            return grid.source
+        }
+        unlock()
+        
+        return setCache(key)
     }
 }
 
@@ -49,28 +60,32 @@ class TotalProtonicConcurrency {
     }
     
     subscript(_ id: CodeGrid.ID) -> CodeGrid? {
-        var grid: CodeGrid?
-        cache.lockAndDo { _ in
-            grid = cache.cachedGrids[id]?.source
-        }
+        cache.lock()
+        let grid = cache.cachedGrids[id]?.source
+        cache.unlock()
         return grid
     }
     
-    func concurrentRenderAccess(_ path: FileKitPath, _ onRender: @escaping (CodeGrid) -> Void) {
+    func renderConcurrent(_ path: FileKitPath, _ onRender: @escaping (CodeGrid) -> Void) {
         if path.isDirectory {
             print("<!!> Warning - Trying to create a grid for a directory; are you sure you wanted to do this?")
         }
         nextWorkerQueue.async { [cache] in
-//            let newGridOrCached = cache[path]
             let newGridOrCached = cache.setCache(path)
             onRender(newGridOrCached)
         }
     }
     
+    func asyncAccess(_ path: FileKitPath, _ receiver: @escaping (CodeGrid) -> Void) {
+        nextWorkerQueue.async { [cache] in
+            let found = cache.getOrCache(path)
+            receiver(found)
+        }
+    }
+    
     func syncAccess(_ path: FileKitPath) -> CodeGrid {
         nextWorkerQueue.sync { [cache] in
-            let newGridOrCached = cache[path]
-            return newGridOrCached
+            return cache.getOrCache(path)
         }
     }
 }

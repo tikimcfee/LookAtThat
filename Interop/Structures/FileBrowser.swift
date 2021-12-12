@@ -85,6 +85,8 @@ extension FileBrowser {
         case newMultiCommandImmediateChildren(Path, SelectType)
         
         case newMultiCommandRecursiveAll(Path, SelectType)
+        
+        case newMultiCommandRecursiveAllCache(Path)
     }
     
     func setRootScope(_ path: Path) {
