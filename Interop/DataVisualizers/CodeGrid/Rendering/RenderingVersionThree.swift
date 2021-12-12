@@ -18,6 +18,7 @@ extension CodeGridParser {
         stopwatch.start()
     }
     static func stopTimer() {
+        defer { stopwatch.reset() }
         stopwatch.stop()
         let time = Self.stopwatch.elapsedTimeString()
         print("* Cache complete. Rendering time: \(time)")
