@@ -110,15 +110,18 @@ public extension SCNNode {
     }
     
     var centerX: VectorFloat {
-        return lengthX / 2.0
+        let box = manualBoundingBox
+        return lengthX / 2.0 + box.min.x
     }
     
     var centerY: VectorFloat {
-        return lengthY / 2.0
+        let box = manualBoundingBox
+        return lengthY / 2.0 + box.min.y
     }
     
     var centerZ: VectorFloat {
-        return lengthZ / 2.0
+        let box = manualBoundingBox
+        return lengthZ / 2.0 + box.min.z
     }
     
     var centerPosition: SCNVector3 {

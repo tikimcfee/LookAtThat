@@ -30,7 +30,7 @@ extension CodeGrid {
             get { top - (lengthY / 2.0) }
         }
         var centerZ: VectorFloat {
-            get { lengthZ / 2.0 }
+            get { front - lengthZ / 2.0 }
         }
         var centerPosition: SCNVector3 {
             get { SCNVector3(x: centerX, y: centerY, z: centerZ) }

@@ -126,7 +126,6 @@ extension BaseSceneController {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
         let currentTouchLocation = event.currentLocation
         
-//        let hitTestResults = sceneView.hitTestCodeSheet(with: currentTouchLocation)
         let hitTestResults = sceneView.performHitTest(
             location: currentTouchLocation,
             type: [.codeGrid, .semanticTab]

@@ -55,7 +55,8 @@ extension CodeGridParser {
     }
     
     func makeFileNameGrid(_ name: String) -> CodeGrid {
-        let newGrid = createNewGrid().backgroundColor(.black)
+        let newGrid = createNewGrid()
+            .backgroundColor(.black)
             .consume(text: name)
             .sizeGridToContainerNode()
         newGrid.rootNode.categoryBitMask = HitTestType.semanticTab.rawValue

@@ -192,6 +192,18 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
         
+        class CodeGridEmpty: CodeGrid {
+            static let emptyGlyphCache = GlyphLayerCache()
+            static let emptyTokenCache = CodeGridTokenCache()
+            static func make() -> CodeGrid {
+                laztrace(#fileID,#function)
+                return CodeGrid(
+                    glyphCache: emptyGlyphCache,
+                    tokenCache: emptyTokenCache
+                )
+            }
+        }
+        
         let firstGrid = CodeGridEmpty.make()
         let second_toRightOfFirst = CodeGridEmpty.make()
         let third_toRightOfSecond = CodeGridEmpty.make()
@@ -215,6 +227,49 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         XCTAssert(firstRelative.targetGrid === second_toRightOfFirst)
         XCTAssert(secondRelative.targetGrid === third_toRightOfSecond)
+    }
+    
+    func testMeasuresAndSizes() throws {
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        func newGrid() -> CodeGrid {
+            CodeGrid(glyphCache: bundle.glyphs,
+                     tokenCache: bundle.tokenCache)
+                .consume(syntax: parsed.root)
+                .sizeGridToContainerNode()
+        }
+        
+        let testGrid = newGrid()
+        XCTAssert(testGrid.measures.lengthX > 10, "Should have some size")
+        XCTAssertEqual(testGrid.rootNode.position, SCNVector3Zero, "Must start at zero position for test")
+        
+        let testGridWidth = testGrid.measures.lengthX
+        let testGridHeight = testGrid.measures.lengthY
+        let testGridLength = testGrid.measures.lengthZ
+        print("w:\(testGridWidth), h:\(testGridHeight), l:\(testGridLength), center: \(testGrid.measures.centerPosition)")
+        
+        // Test initial sizing works
+        let centerX = testGrid.measures.centerX
+        let centerY = testGrid.measures.centerY
+        let centerZ = testGrid.measures.centerZ
+        let expectedX = testGridWidth / 2.0
+        let expectedY = -testGridHeight / 2.0
+        let expectedZ = -testGridLength / 2.0
+        XCTAssert(expectedX >= 0, "Grids at (0,0,0) expected to draw left to right; its center should ahead of that point")
+        XCTAssert(expectedY <= 0, "Grids at (0,0,0) expected to draw top to bottom; its center should be below that point")
+        XCTAssert(expectedZ <= 0, "Grids at (0,0,0) expected to draw front to back; its center should behind that point")
+        XCTAssertEqual(centerX, expectedX)
+        XCTAssertEqual(centerY, expectedY)
+        XCTAssertEqual(centerZ, expectedZ)
+        
+        // Move node, then test the expected position comes back
+        let delta = 10.0
+        testGrid.translated(dX: delta, dY: delta, dZ: delta)
+        let newCenterX = testGrid.measures.centerX
+        let newCenterY = testGrid.measures.centerY
+        let newCenterZ = testGrid.measures.centerZ
+        XCTAssertEqual(newCenterX, centerX + delta)
+        XCTAssertEqual(newCenterY, centerY + delta)
+        XCTAssertEqual(newCenterZ, centerZ + delta)
     }
     
     func testSnapping_Complicated() throws {

@@ -198,15 +198,16 @@ class CodePagesControllerMacOSInputCompat {
     }
     
     func newMouseDown(_ event: NSEvent) {
-        func doDown() {
+        DispatchQueue.main.async { doClick() }
+        func doClick() {
             let point = sceneView.convert(event.locationInWindow, to: nil)
             
-            guard let _ = sceneView.hitTestCodeSheet(
-                with: point, .all, .rootCodeSheet
-            ).first?.node.parent else { return }
+//            guard let _ = sceneView.hitTestCodeSheet(
+//                with: point, .all, .rootCodeSheet
+//            ).first?.node.parent else { return }
+               
         }
-        
-        DispatchQueue.main.async { doDown() }
+
     }
     
     func newKeyEvent(_ event: NSEvent) {
