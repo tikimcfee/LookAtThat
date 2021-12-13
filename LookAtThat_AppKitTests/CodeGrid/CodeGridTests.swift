@@ -248,9 +248,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print("w:\(testGridWidth), h:\(testGridHeight), l:\(testGridLength), center: \(testGrid.measures.centerPosition)")
         
         // Test initial sizing works
-        let centerX = testGrid.measures.centerX
-        let centerY = testGrid.measures.centerY
-        let centerZ = testGrid.measures.centerZ
+        var centerX = testGrid.measures.centerX
+        var centerY = testGrid.measures.centerY
+        var centerZ = testGrid.measures.centerZ
         let expectedX = testGridWidth / 2.0
         let expectedY = -testGridHeight / 2.0
         let expectedZ = -testGridLength / 2.0
@@ -262,14 +262,43 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(centerZ, expectedZ)
         
         // Move node, then test the expected position comes back
-        let delta = 10.0
-        testGrid.translated(dX: delta, dY: delta, dZ: delta)
-        let newCenterX = testGrid.measures.centerX
-        let newCenterY = testGrid.measures.centerY
-        let newCenterZ = testGrid.measures.centerZ
-        XCTAssertEqual(newCenterX, centerX + delta)
-        XCTAssertEqual(newCenterY, centerY + delta)
-        XCTAssertEqual(newCenterZ, centerZ + delta)
+        func testTranslate(_ delta: VectorFloat) {
+            func rounded(_ float: VectorFloat) -> VectorFloat {
+                return round(float)
+            }
+            testGrid.translated(dX: delta, dY: delta, dZ: delta)
+            let newCenterX = testGrid.measures.centerX
+            let newCenterY = testGrid.measures.centerY
+            let newCenterZ = testGrid.measures.centerZ
+            
+            let newExpectedCenterX = centerX + delta
+            let newExpectedCenterY = centerY + delta
+            let newExpectedCenterZ = centerZ + delta
+            
+            let deltaX = abs(newCenterX - newExpectedCenterX)
+            let deltaY = abs(newCenterY - newExpectedCenterY)
+            let deltaZ = abs(newCenterZ - newExpectedCenterZ)
+            
+            XCTAssertLessThanOrEqual(deltaX, 0.1, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(deltaY, 0.1, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(deltaZ, 0.1, "Error should be within 1 point")
+            
+            centerX = newCenterX
+            centerY = newCenterY
+            centerZ = newCenterZ
+        }
+        // MARK: -- Rounding between boxes and positions is off
+        // Current measurements and position have a precision of about 3-4 places.
+        testTranslate(0)
+        testTranslate(1)
+        testTranslate(2)
+        testTranslate(10)
+        testTranslate(-55.222)
+        testTranslate(50.22)
+        testTranslate(-100)
+        testTranslate(1000)
+        testTranslate(-10000)
+        testTranslate(194.231)
     }
     
     func testSnapping_Complicated() throws {
