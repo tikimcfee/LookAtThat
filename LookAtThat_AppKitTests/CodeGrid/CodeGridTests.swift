@@ -278,18 +278,13 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         doTranslateTest(4)
         doTranslateTest(5)
         doTranslateTest(6)
-
-//        doTranslateTest(1000)
-//        doTranslateTest(-10000)
-//        doTranslateTest(194.231)
+        doTranslateTest(1000)
+        doTranslateTest(-10000)
+        doTranslateTest(194.231)
         
         // Move node, then test the expected position comes back
         func doTranslateTest(_ delta: VectorFloat) {
-            SCNTransaction.begin()
             testGrid.translated(dX: delta, dY: delta, dZ: delta)
-            SCNTransaction.commit()
-//            SCNNode.BoundsCaching.ClearRoot(testGrid.rootNode)
-            SCNNode.BoundsCaching.Clear()
             stats(testGrid)
             
             let newCenterPosition = testGrid.measures.centerPosition
