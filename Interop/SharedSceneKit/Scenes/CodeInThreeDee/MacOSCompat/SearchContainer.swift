@@ -38,7 +38,7 @@ class SearchContainer {
         
         func searchBlock() {
 //            SCNTransaction.lock()
-            SCNTransaction.begin()
+//            SCNTransaction.begin()
             
             RenderTask(
                 codeGridFocus: codeGridFocus,
@@ -49,7 +49,8 @@ class SearchContainer {
             ).start()
             
 //            SCNTransaction.flush()
-            SCNTransaction.commit()
+//            SCNTransaction.commit()
+//            SCNTransaction.flush()
 //            SCNTransaction.unlock()
         }
     }
@@ -81,10 +82,9 @@ private class RenderTask {
     }
     
     var displayMode: CodeGrid.DisplayMode {
-//        toFocus.count > 3
-//            ? CodeGrid.DisplayMode.layers
-//            : CodeGrid.DisplayMode.glyphs
-        CodeGrid.DisplayMode.layers
+        toFocus.count > 8
+            ? CodeGrid.DisplayMode.layers
+            : CodeGrid.DisplayMode.glyphs
     }
     
     func start() {

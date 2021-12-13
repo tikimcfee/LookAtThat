@@ -12,6 +12,20 @@ import SwiftSyntax
 let kCodeGridContainerName = "kCodeGridContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
+class CodeGridControl {
+    let targetGrid: CodeGrid
+    let displayGrid: CodeGrid
+    
+    init(targetGrid: CodeGrid, displayGrid: CodeGrid) {
+        self.targetGrid = targetGrid
+        self.displayGrid = displayGrid
+    }
+    
+    func test() {
+
+    }
+}
+
 class CodeGrid: Identifiable, Equatable {
     struct Defaults {
         static var displayMode: DisplayMode = .all
@@ -34,7 +48,7 @@ class CodeGrid: Identifiable, Equatable {
     
     var walkSemantics: Bool = Defaults.walkSemantics
     var displayMode: DisplayMode = Defaults.displayMode {
-        willSet { willSetDisplayMode(newValue) }
+        didSet { didSetDisplayMode() }
     }
     
     let pointer = Pointer()
@@ -114,21 +128,8 @@ extension CodeGrid {
         case all
     }
     
-    private func willSetDisplayMode(_ mode: DisplayMode) {
-        laztrace(#fileID,#function,mode)
-        guard mode != displayMode else { return }
-        print("setting display mode to \(mode)")
-        switch mode {
-        case .glyphs:
-            rootGlyphsNode.isHidden = false
-            fullTextBlitter.rootNode.isHidden = true
-        case .layers:
-            rootGlyphsNode.isHidden = true
-            fullTextBlitter.rootNode.isHidden = false
-        case .all:
-            rootGlyphsNode.isHidden = false
-            fullTextBlitter.rootNode.isHidden = false
-        }
+    private func didSetDisplayMode() {
+        recomputeDisplayMode()
     }
     
     func recomputeDisplayMode() {
@@ -155,14 +156,22 @@ extension CodeGrid {
         backgroundGeometry.height = rootNode.lengthY.cg + pad.cg
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad
-        backgroundGeometryNode.position.y = centerY.vector + pad
+        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
+        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         backgroundGeometryNode.position.z = -1
         // Can help in some layout situations where you want the root node's position
         // to be at dead-center of background geometry
-        if pivotRootNode {
-            rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
-        }
+
+        //        if pivotRootNode {
+//            rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
+//        }
+        
+//        rootNode.pivot = SCNMatrix4MakeTranslation(pad, -pad, 0)
+        
+        // Manual bounding box needs to me manually updated after initial layout
+        // too account for new geometry position
+        _ = SCNNode.BoundsCaching.Update(rootNode, false)
+        
         return self
     }
     

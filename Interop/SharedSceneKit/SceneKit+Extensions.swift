@@ -2,7 +2,7 @@ import Foundation
 import SceneKit
 
 //@inlinable
-@inline(__always) func lockedSceneTransaction(_ operation: () -> Void) {
+func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.lock()
     SCNTransaction.begin()
     operation()
@@ -11,7 +11,7 @@ import SceneKit
 }
 
 //@inlinable
-@inline(__always) func sceneTransaction(
+func sceneTransaction(
     _ duration: Int? = nil,
     _ timing: CAMediaTimingFunction? = nil,
     _ operation: () throws -> Void
@@ -30,12 +30,12 @@ import SceneKit
 }
 
 public extension SCNGeometry {
-    var lengthX: VectorFloat { return boundingBox.max.x - boundingBox.min.x }
-    var lengthY: VectorFloat { return boundingBox.max.y - boundingBox.min.y }
-    var lengthZ: VectorFloat { return boundingBox.max.z - boundingBox.min.z }
-    var centerX: VectorFloat { return lengthX / 2 }
-    var centerY: VectorFloat { return lengthY / 2 }
-    var centerZ: VectorFloat { return lengthZ / 2 }
+    var lengthX: VectorFloat { return abs(boundingBox.max.x - boundingBox.min.x) }
+    var lengthY: VectorFloat { return abs(boundingBox.max.y - boundingBox.min.y) }
+    var lengthZ: VectorFloat { return abs(boundingBox.max.z - boundingBox.min.z) }
+    var centerX: VectorFloat { return boundingBox.min.x + lengthX / 2 }
+    var centerY: VectorFloat { return boundingBox.min.y + lengthY / 2 }
+    var centerZ: VectorFloat { return boundingBox.min.z + lengthZ / 2 }
     var centerPosition: SCNVector3 { return SCNVector3(x: centerX, y: centerY, z: centerZ) }
 
     func deepCopy() -> SCNGeometry {
@@ -46,18 +46,19 @@ public extension SCNGeometry {
 }
 
 public typealias Bounds = (min: SCNVector3, max: SCNVector3)
-func BoundsWidth(_ bounds: Bounds) -> VectorFloat { bounds.max.x - bounds.min.x }
-func BoundsHeight(_ bounds: Bounds) -> VectorFloat { bounds.max.y - bounds.min.y }
-func BoundsLength(_ bounds: Bounds) -> VectorFloat { bounds.max.z - bounds.min.z }
+func BoundsWidth(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.x - bounds.min.x) }
+func BoundsHeight(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.y - bounds.min.y) }
+func BoundsLength(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.z - bounds.min.z) }
 func BoundsCenterWidth(_ bounds: Bounds) -> VectorFloat { BoundsWidth(bounds) / 2.0 + bounds.min.x }
 func BoundsCenterHeight(_ bounds: Bounds) -> VectorFloat { BoundsHeight(bounds) / 2.0 + bounds.min.y }
 func BoundsCenterLength(_ bounds: Bounds) -> VectorFloat { BoundsLength(bounds) / 2.0 + bounds.min.z }
-func BoundsCenterPosition(_ bounds: Bounds) -> SCNVector3 {
-    SCNVector3(
+func BoundsCenterPosition(_ bounds: Bounds, source: SCNNode) -> SCNVector3 {
+    let vector = SCNVector3(
         x: BoundsCenterWidth(bounds),
         y: BoundsCenterHeight(bounds),
         z: BoundsCenterLength(bounds)
     )
+    return source.convertPosition(vector, to: source.parent)
 }
 
 class BoundsComputing {
@@ -83,8 +84,10 @@ class BoundsComputing {
         minX -= pad
         minY -= pad
         minZ -= pad
+        
         maxX += pad
         maxY += pad
+        maxZ += pad
     }
     
     var bounds: Bounds {

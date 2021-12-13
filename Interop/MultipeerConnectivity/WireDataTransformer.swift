@@ -35,9 +35,12 @@ extension WireDataTransformer {
         return result
     }
     
-    func encodeAttributedString(_ attributed: NSMutableAttributedString) -> Data? {
-        guard let rtfData = try? attributed.data(from: attributed.string.fullNSRange, documentAttributes: [:])
-        else { return nil }
+    func encodeAttributedString(_ attributed: NSMutableAttributedString) throws -> Data? {
+        let range = attributed.string.fullNSRange
+        let attributes: [NSAttributedString.DocumentAttributeKey: Any] = [
+            .documentType : NSAttributedString.DocumentType.rtf
+        ]
+        let rtfData = try attributed.data(from: range, documentAttributes: attributes)
         return compress(rtfData)
     }
     

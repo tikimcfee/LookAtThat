@@ -60,6 +60,12 @@ public extension SCNNode {
             return box
         }
         
+        internal static func Set(_ node: SCNNode, _ bounds: Bounds) {
+            boundsCacheLocking.lockAndDo { cache in
+                cache[node.cacheKey] = bounds
+            }
+        }
+        
         internal static func ClearRoot(_ root: SCNNode) {
             boundsCacheLocking.lockAndDo { cache in
                 root.enumerateHierarchy { node, _ in
@@ -70,43 +76,49 @@ public extension SCNNode {
     }
     
     func computeBoundingBox(_ presentation: Bool) -> Bounds {
-        childNodes.reduce(into: BoundsComputing()) { result, node in
-            var safeBox = presentation
-                ? node.manualPresentationBoundingBox
-                : node.manualBoundingBox
+        let computing = BoundsComputing()
+        
+        _ = childNodes.reduce(into: computing) { result, node in
+            var safeBox = node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
             safeBox.max = convertPosition(safeBox.max, from: node)
+
             result.consumeBounds(safeBox)
-        }.bounds
+//            if let geometry = node.geometry {
+//                result.consumeBounds(safeBox)
+//            }
+        }
+        
+        if let geometry = geometry {
+            let safeBox = geometry.boundingBox
+            computing.consumeBounds(safeBox)
+        }
+        
+        return computing.bounds
     }
 }
 
 public extension SCNNode {
+    
     var manualBoundingBox: Bounds {
         childNodes.isEmpty
             ? boundingBox
             : BoundsCaching.getOrUpdate(self, presentation: false)
     }
     
-    var manualPresentationBoundingBox: Bounds {
-        childNodes.isEmpty
-            ? presentation.boundingBox
-            : BoundsCaching.getOrUpdate(presentation, presentation: true)
-    }
-    
     var lengthX: VectorFloat {
         let box = manualBoundingBox
-        return box.max.x - box.min.x
+        return abs(box.max.x - box.min.x)
     }
     
     var lengthY: VectorFloat {
         let box = manualBoundingBox
-        return box.max.y - box.min.y
+        return abs(box.max.y - box.min.y)
     }
     
     var lengthZ: VectorFloat {
         let box = manualBoundingBox
-        return box.max.z - box.min.z
+        return abs(box.max.z - box.min.z)
     }
     
     var centerX: VectorFloat {

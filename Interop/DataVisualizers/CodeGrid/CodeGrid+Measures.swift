@@ -17,42 +17,49 @@ extension CodeGrid {
         }
         
         private var positionNode: SCNNode { target.rootNode }
-        private var sizeNode: SCNNode { target.backgroundGeometryNode }
+        private var sizeNode: SCNNode { target.rootNode }
         
         var lengthX: VectorFloat { sizeNode.lengthX }
         var lengthY: VectorFloat { sizeNode.lengthY }
         var lengthZ: VectorFloat { sizeNode.lengthZ }
         
-        var centerX: VectorFloat {
+        var leading: VectorFloat {
+            get { positionNode.manualBoundingBox.min.x }
+        }
+        var trailing: VectorFloat {
+            get { positionNode.manualBoundingBox.max.x }
+        }
+        var top: VectorFloat {
+            get { positionNode.manualBoundingBox.max.y }
+        }
+        var bottom: VectorFloat {
+            get { positionNode.manualBoundingBox.min.y }
+        }
+        var front: VectorFloat {
+            get { positionNode.manualBoundingBox.max.z }
+        }
+        var back: VectorFloat {
+            get { positionNode.manualBoundingBox.min.z }
+        }
+        
+        private var centerX: VectorFloat {
             get { leading + (lengthX / 2.0) }
         }
-        var centerY: VectorFloat {
+        private var centerY: VectorFloat {
             get { top - (lengthY / 2.0) }
         }
-        var centerZ: VectorFloat {
+        private var centerZ: VectorFloat {
             get { front - (lengthZ / 2.0) }
         }
+        
         var centerPosition: SCNVector3 {
-            get { SCNVector3(x: centerX, y: centerY, z: centerZ) }
+            get {
+                positionNode.convertPosition(
+                    SCNVector3(x: centerX, y: centerY, z: centerZ),
+                    to: positionNode.parent
+                )
+            }
         }
-        
-        var top: VectorFloat {
-            get { positionNode.position.y }
-            set { positionNode.position.y = newValue }
-        }
-        var bottom: VectorFloat { top - lengthY }
-        
-        var leading: VectorFloat {
-            get { positionNode.position.x }
-            set { positionNode.position.x = newValue }
-        }
-        var trailing: VectorFloat { leading + lengthX }
-        
-        var front: VectorFloat {
-            get { positionNode.position.z }
-            set { positionNode.position.z = newValue }
-        }
-        var back: VectorFloat { front - lengthZ }
         
         var position: SCNVector3 {
             get { positionNode.position }
@@ -61,43 +68,43 @@ extension CodeGrid {
         
         @discardableResult
         func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            leading = other.measures.leading + pad
+            position.x = other.measures.position.x + pad
             return self
         }
         
         @discardableResult
         func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            leading = other.measures.trailing + pad
+            position.x = other.measures.position.x + other.measures.lengthX + pad
             return self
         }
         
         @discardableResult
         func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            top = other.measures.top + pad
+            position.y = other.measures.position.y + pad
             return self
         }
         
         @discardableResult
         func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            top = other.measures.bottom + pad
+            position.y = other.measures.position.y + other.measures.lengthY + pad
             return self
         }
         
         @discardableResult
         func alignedCenterX(_ other: CodeGrid) -> Self {
-            leading = other.measures.centerX - centerX
+            position.x = other.measures.centerX - lengthX / 2.0
             return self
         }
         
         @discardableResult
         func alignedCenterY(_ other: CodeGrid) -> Self {
-            top = other.measures.centerY - centerY
+            position.y = other.measures.centerY + lengthY / 2.0
             return self
         }
         
         @discardableResult
         func alignedCenterZ(_ other: CodeGrid) -> Self {
-            top = other.measures.bottom
+            position.z = other.measures.centerZ + lengthZ / 2.0
             return self
         }
     }
