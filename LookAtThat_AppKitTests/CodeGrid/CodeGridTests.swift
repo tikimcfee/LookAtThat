@@ -229,6 +229,32 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print()
     }
     
+    func testPositions() throws {
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        func newGrid() -> CodeGrid {
+            CodeGrid(glyphCache: bundle.glyphs,
+                     tokenCache: bundle.tokenCache)
+                .consume(syntax: parsed.root)
+                .sizeGridToContainerNode()
+        }
+        let testGrid = newGrid()
+        
+        printStart()
+        print("start: ----")
+        print(testGrid.measures.dumpstats)
+        
+        let delta = 12.99
+        testGrid.translated(dX: delta, dY: delta, dZ: delta)
+        
+        print("after translate: ----")
+        print(testGrid.measures.dumpstats)
+        
+        print("--- pivots")
+        print(testGrid.backgroundGeometryNode.manualBoundingBox.min.x)
+    }
+        printEnd()
+    }
+    
     func testMeasuresAndSizes() throws {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
