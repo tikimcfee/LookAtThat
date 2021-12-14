@@ -35,14 +35,14 @@ class WorldGridSnapping {
             var lastGrid: CodeGrid = root
             snap.iterateOver(root, direction: .left) { leftGrid, _ in
                 leftGrid.measures
-                    .alignedToTopOf(lastGrid)
-                    .alignedToLeadingOf(lastGrid)
+                    .alignedToTopOf(lastGrid, pad: 4.0)
+                    .alignedToLeadingOf(lastGrid, pad: 4.0)
                 lastGrid = leftGrid
             }
             snap.iterateOver(root, direction: .right) { rightGrid, _ in
                 rightGrid.measures
-                    .alignedToTopOf(lastGrid)
-                    .alignedToTrailingOf(lastGrid)
+                    .alignedToTopOf(lastGrid, pad: 4.0)
+                    .alignedToTrailingOf(lastGrid, pad: 4.0)
                 lastGrid = rightGrid
             }
         }
@@ -68,7 +68,10 @@ extension WorldGridSnapping {
         mapping[sourceGrid] = toInsert
     }
     
-    func connectWithInverses(sourceGrid: CodeGrid, to newConnection: RelativeGridMapping) {
+    func connectWithInverses(
+        sourceGrid: CodeGrid,
+        to newConnection: RelativeGridMapping
+    ) {
         connect(sourceGrid: sourceGrid, to: newConnection)
         switch newConnection {
         case let .right(grid):

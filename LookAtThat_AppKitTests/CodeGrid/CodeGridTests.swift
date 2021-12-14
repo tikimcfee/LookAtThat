@@ -265,6 +265,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(centerY, expectedCenterY)
         XCTAssertEqual(centerZ, expectedCenterZ)
         
+        /// NOTE: This is linearly increasing to test a cached bounds issue,
+        /// and to more easily detect patterns with problem result positions
         doTranslateTest(-5)
         doTranslateTest(-5)
         doTranslateTest(-4)

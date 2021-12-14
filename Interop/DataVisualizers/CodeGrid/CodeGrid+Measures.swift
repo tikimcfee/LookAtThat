@@ -42,20 +42,20 @@ extension CodeGrid {
             get { positionNode.manualBoundingBox.min.z }
         }
         
-        private var centerX: VectorFloat {
+        private var localCenterX: VectorFloat {
             get { leading + (lengthX / 2.0) }
         }
-        private var centerY: VectorFloat {
+        private var localCenterY: VectorFloat {
             get { top - (lengthY / 2.0) }
         }
-        private var centerZ: VectorFloat {
+        private var localCenterZ: VectorFloat {
             get { front - (lengthZ / 2.0) }
         }
         
         var centerPosition: SCNVector3 {
             get {
                 positionNode.convertPosition(
-                    SCNVector3(x: centerX, y: centerY, z: centerZ),
+                    SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
                     to: positionNode.parent
                 )
             }
@@ -66,45 +66,60 @@ extension CodeGrid {
             set { positionNode.position = newValue }
         }
         
+        private var dump: String {
+"""
+--\(target.id)
+nodePosition: \(positionNode.position)
+boundsCenter: \(centerPosition)
+(lx:\(lengthX),ly:\(lengthY),lz:\(lengthZ))
+--
+"""
+        }
+        
+        func dumpit() {
+            print(dump)
+        }
+        
         @discardableResult
-        func alignedToLeadingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
+        func alignedToLeadingOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
             position.x = other.measures.position.x + pad
             return self
         }
         
         @discardableResult
-        func alignedToTrailingOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
+        func alignedToTrailingOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
             position.x = other.measures.position.x + other.measures.lengthX + pad
             return self
         }
         
         @discardableResult
-        func alignedToTopOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
+        func alignedToTopOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
             position.y = other.measures.position.y + pad
             return self
         }
         
         @discardableResult
-        func alignedToBottomOf(_ other: CodeGrid, _ pad: VectorFloat = 4.0) -> Self {
-            position.y = other.measures.position.y + other.measures.lengthY + pad
+        func alignedToBottomOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
+//            position.y = other.measures.position.y - other.measures.lengthY - pad
+            position.y = other.measures.bottom - pad
             return self
         }
         
         @discardableResult
         func alignedCenterX(_ other: CodeGrid) -> Self {
-            position.x = other.measures.centerX - lengthX / 2.0
+            position.x = other.measures.centerPosition.x - lengthX / 2.0
             return self
         }
         
         @discardableResult
         func alignedCenterY(_ other: CodeGrid) -> Self {
-            position.y = other.measures.centerY + lengthY / 2.0
+            position.y = other.measures.centerPosition.y + lengthY / 2.0
             return self
         }
         
         @discardableResult
         func alignedCenterZ(_ other: CodeGrid) -> Self {
-            position.z = other.measures.centerZ + lengthZ / 2.0
+            position.z = other.measures.centerPosition.z + lengthZ / 2.0
             return self
         }
     }

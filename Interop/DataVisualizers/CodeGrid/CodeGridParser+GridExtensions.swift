@@ -64,6 +64,12 @@ extension CodeGridParser {
         return newGrid
     }
     
+    func allChildrenOf(_ path: FileKitPath) -> [FileKitPath] {
+        path.children()
+            .filter(FileBrowser.isFileObserved)
+            .sorted(by: FileBrowser.sortedFilesFirst)
+    }
+    
     func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
         path.children()
             .filter(FileBrowser.isFileObserved)

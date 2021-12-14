@@ -218,7 +218,7 @@ private class RenderTask {
             clone.displayMode = .glyphs
             clone.backgroundColor(NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.166))
             clone.rootNode.position = sourceGrid.rootNode.position
-            clone.measures.alignedToTrailingOf(sourceGrid)
+            clone.measures.alignedToTrailingOf(sourceGrid, pad: 4.0)
             codeGridFocus.mainFocus.gridNode.addChildNode(clone.rootNode)
         }
         

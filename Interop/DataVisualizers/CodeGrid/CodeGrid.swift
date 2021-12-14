@@ -176,6 +176,12 @@ extension CodeGrid {
     }
     
     @discardableResult
+    func zeroedPosition() -> CodeGrid {
+        rootNode.position = SCNVector3(x: 0, y: 0, z: 0)
+        return self
+    }
+    
+    @discardableResult
     func translated(dX: VectorFloat = 0,
                     dY: VectorFloat = 0,
                     dZ: VectorFloat = 0) -> CodeGrid {
@@ -189,6 +195,13 @@ extension CodeGrid {
         laztrace(#fileID,#function,color)
         backgroundGeometry.firstMaterial?.diffuse.contents = color
         fullTextBlitter.gridGeometry.firstMaterial?.diffuse.contents = color
+        return self
+    }
+    
+    @discardableResult
+    func applying(_ action: (Self) -> Void) -> Self {
+        laztrace(#fileID,#function)
+        action(self)
         return self
     }
 }
