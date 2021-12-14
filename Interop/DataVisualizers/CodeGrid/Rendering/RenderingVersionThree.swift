@@ -111,7 +111,7 @@ extension CodeGridParser {
             newGrid.rootNode.position.z = 4.0
             if let lastGrid = lastDirectChildGrid {
                 state.snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(newGrid))
-                newGrid.measures.alignedToTrailingOf(lastGrid)
+                newGrid.measures.alignedToTrailingOf(lastGrid, pad: 4.0)
             }
             lastDirectChildGrid = newGrid
             rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
