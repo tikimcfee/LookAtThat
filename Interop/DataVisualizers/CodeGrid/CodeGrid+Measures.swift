@@ -20,65 +20,124 @@ extension CodeGrid {
         var lengthX: VectorFloat { sizeNode.lengthX }
         var lengthY: VectorFloat { sizeNode.lengthY }
         var lengthZ: VectorFloat { sizeNode.lengthZ }
-        
-        var leading: VectorFloat { boundsMin.x }
-        var trailing: VectorFloat { boundsMax.x }
-        var top: VectorFloat { boundsMax.y }
-        var bottom: VectorFloat { boundsMin.y }
-        var front: VectorFloat { boundsMax.z }
-        var back: VectorFloat { boundsMin.z }
-        
-        var position: SCNVector3 {
-            get { positionNode.position }
-            set { positionNode.position = newValue }
+
+        var leading: VectorFloat {
+            get { boundsMin.x }
         }
         
+        var trailing: VectorFloat {
+            get { boundsMax.x }
+        }
+        
+        var top: VectorFloat {
+            get { boundsMax.y }
+        }
+        
+        var bottom: VectorFloat {
+            get { boundsMin.y }
+        }
+        
+        var front: VectorFloat {
+            get { boundsMax.z }
+        }
+        
+        var back: VectorFloat {
+            get { boundsMin.z }
+        }
+        
+        func setLeading(_ newValue: VectorFloat) {
+            xpos = newValue + leadingOffset
+        }
+        
+        func setTrailing(_ newValue: VectorFloat) {
+            xpos = newValue - trailingOffset
+        }
+        
+        func setTop(_ newValue: VectorFloat) {
+            ypos = newValue - topOffset
+        }
+        
+        func setBottom(_ newValue: VectorFloat) {
+            ypos = newValue + bottomOffset
+        }
+        
+        func setFront(_ newValue: VectorFloat) {
+            zpos = newValue - frontOffset
+        }
+        
+        func setBack(_ newValue: VectorFloat) {
+            zpos = newValue + backOffset
+        }
+        
+        var leadingOffset: VectorFloat { abs(localLeading) }
+        var trailingOffset: VectorFloat { abs(localTrailing) }
+        var topOffset: VectorFloat { abs(localTop) }
+        var bottomOffset: VectorFloat { abs(localBottom) }
+        var frontOffset: VectorFloat { abs(localFront) }
+        var backOffset: VectorFloat { abs(localBack) }
+        
         var boundsMin: SCNVector3 {
-            positionNode.convertVector(
+            positionNode.convertPosition(
                 SCNVector3(localLeading, localBottom, localBack),
                 to: positionNode.parent
             )
         }
         
         var boundsMax: SCNVector3 {
-            positionNode.convertVector(
+            positionNode.convertPosition(
                 SCNVector3(localTrailing, localTop, localFront),
                 to: positionNode.parent
             )
         }
 
         var centerPosition: SCNVector3 {
-            get {
-                positionNode.convertPosition(
-                    SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
-                    to: positionNode.parent
-                )
-            }
+            positionNode.convertPosition(
+                SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
+                to: positionNode.parent
+            )
+        }
+        
+        var xpos: VectorFloat {
+            get { positionNode.position.x }
+            set { positionNode.position.x = newValue }
+        }
+        
+        var ypos: VectorFloat {
+            get { positionNode.position.y }
+            set { positionNode.position.y = newValue }
+        }
+        
+        var zpos: VectorFloat {
+            get { positionNode.position.z }
+            set { positionNode.position.z = newValue }
+        }
+        
+        var position: SCNVector3 {
+            get { positionNode.position }
+            set { positionNode.position = newValue }
         }
                 
         @discardableResult
         func alignedToLeadingOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
-            position.x = other.measures.position.x + pad
+            setTrailing(other.measures.leading + pad)
             return self
         }
         
         @discardableResult
         func alignedToTrailingOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
-            position.x = other.measures.position.x + other.measures.lengthX + pad
+            setLeading(other.measures.trailing + pad)
             return self
         }
         
         @discardableResult
         func alignedToTopOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
-            position.y = other.measures.position.y + pad
+            setBottom(other.measures.top + pad)
             return self
         }
         
         @discardableResult
         func alignedToBottomOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
-//            position.y = other.measures.position.y - other.measures.lengthY - pad
-            position.y = other.measures.localBottom - pad
-            print("!!! --- TODO - stop using localBottom and use proper offset")
+            setTop(other.measures.bottom + pad)
             return self
         }
         
@@ -141,13 +200,17 @@ extension CodeGrid.Measures {
     var dumpstats: String {
 """
 --\(target.id)
-nodePosition: \(positionNode.position)
-boundsCenter: \(centerPosition)
-
-xmin: \(leading), xmax: \(trailing), lx:\(lengthX)
-ymax: \(top), ymin: \(bottom), ly:\(lengthY)
-zmax: \(front), zmin: \(back), lz:\(lengthZ)
---
+nodePosition:     \(positionNode.position)
+size:             \(SCNVector3(lengthX, lengthY, lengthZ))
+boundsMin:        \(boundsMin)
+boundsMax:        \(boundsMax)
+boundsCenter:     \(centerPosition)
+(leading, top, back):            \(SCNVector3(leading, top, back))
+(trailing, bottom, front):       \(SCNVector3(trailing, bottom, front))
+local-(leading, top, back):      \(SCNVector3(localLeading, localTop, localBack))
+local-(trailing, bottom, front): \(SCNVector3(localTrailing, localBottom, localFront))
+offst-(leading, top, back):      \(SCNVector3(leadingOffset, topOffset, backOffset))
+offst-(trailing, bottom, front): \(SCNVector3(trailingOffset, bottomOffset, frontOffset))--
 """
     }
 }

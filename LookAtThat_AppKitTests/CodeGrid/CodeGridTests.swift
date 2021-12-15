@@ -238,20 +238,36 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 .sizeGridToContainerNode()
         }
         let testGrid = newGrid()
+        var (deltaX, deltaY, deltaZ) = (0.0, 0.0, 0.0)
+        let start = testGrid.measures.boundsMin
         
         printStart()
         print("start: ----")
         print(testGrid.measures.dumpstats)
+
+        XCTAssertEqual(testGrid.measures.position, SCNVector3Zero, "Must start at 0,0,0")
         
-        let delta = 12.99
-        testGrid.translated(dX: delta, dY: delta, dZ: delta)
-        
+        testGrid.measures.setLeading(0)
+        testGrid.measures.setTop(0)
+        testGrid.measures.setBack(0)
         print("after translate: ----")
         print(testGrid.measures.dumpstats)
         
-        print("--- pivots")
-        print(testGrid.backgroundGeometryNode.manualBoundingBox.min.x)
-    }
+        deltaX = abs(testGrid.measures.leadingOffset - testGrid.measures.xpos)
+        deltaY = abs(testGrid.measures.topOffset + testGrid.measures.ypos)
+        deltaZ = abs(testGrid.measures.backOffset - testGrid.measures.zpos)
+        XCTAssertLessThanOrEqual(abs(deltaX), 0.001, "Float difference must be very small")
+        XCTAssertLessThanOrEqual(abs(deltaY), 0.001, "Float difference must be very small")
+        XCTAssertLessThanOrEqual(abs(deltaZ), 0.001, "Float difference must be very small")
+
+        let alignedGrid = newGrid()
+        print("new grid: ----")
+        print(alignedGrid.measures.dumpstats)
+        alignedGrid.measures.alignedToTrailingOf(testGrid, pad: 0)
+        
+        print("after align: ----")
+        print(alignedGrid.measures.dumpstats)
+    
         printEnd()
     }
     
@@ -313,6 +329,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         // Move node, then test the expected position comes back
         func doTranslateTest(_ delta: VectorFloat) {
             testGrid.translated(dX: delta, dY: delta, dZ: delta)
+            
             stats(testGrid)
             
             let newCenterPosition = testGrid.measures.centerPosition
