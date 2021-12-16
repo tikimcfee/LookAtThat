@@ -23,13 +23,42 @@ class CodeGridControl {
     let targetGrid: CodeGrid
     let displayGrid: CodeGrid
     
+    typealias Receiver = (CodeGridControl) -> Void
+    var didActivate: Receiver?
+    
     init(targetGrid: CodeGrid) {
         self.targetGrid = targetGrid
-        self.displayGrid = CodeGrid(glyphCache: targetGrid.glyphCache, tokenCache: targetGrid.tokenCache)
+        self.displayGrid = targetGrid.newGridUsingCaches()
     }
     
-    func test() {
-        
+    func setup() {
+        displayGrid.applying {
+            $0.displayMode = .glyphs
+            $0.fullTextBlitter.rootNode.removeFromParentNode()
+            $0.fullTextBlitter.backgroundGeometryNode.removeFromParentNode()
+            $0.backgroundGeometryNode.categoryBitMask = HitTestType.codeGridControl.rawValue
+        }
+
+        displayGrid
+            .consume(text: "Swap Mode")
+            .sizeGridToContainerNode(pad: 4.0)
+            .backgroundColor(NSUIColor(displayP3Red: 0.2, green: 0.4, blue: 0.5, alpha: 0.8))
+            .applying { _ = SCNNode.BoundsCaching.Update($0.rootNode, false) }
+
+        displayGrid
+            .measures
+            .setBottom(targetGrid.measures.top + 2)
+            .setLeading(targetGrid.measures.leading)
+            .setFront(targetGrid.measures.front)
+
+        didActivate = { [targetGrid] _ in
+            switch targetGrid.displayMode {
+            case .glyphs:
+                targetGrid.displayMode = .layers
+            case .layers, .all:
+                targetGrid.displayMode = .glyphs
+            }
+        }
     }
 }
 
@@ -125,6 +154,13 @@ extension CodeGrid: Hashable {
 
 // MARK: -- Builder-style configuration
 extension CodeGrid {
+    func newGridUsingCaches() -> CodeGrid {
+        return CodeGrid(
+            glyphCache: glyphCache,
+            tokenCache: tokenCache
+        )
+    }
+    
     @discardableResult
     func sizeGridToContainerNode(
         pad: VectorFloat = 2.0,

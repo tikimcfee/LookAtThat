@@ -60,8 +60,16 @@ class CodePagesController: BaseSceneController, ObservableObject {
                             }
                         }
                         self.macosCompat.inputCompat.focus.resize { focus, box in
+                            //TODO: The control is off by a few points.. WHY!?
+                            let newControl = CodeGridControl(targetGrid: newGrid)
+                            box.gridNode.addChildNode(newControl.displayGrid.rootNode)
+                            newControl.setup()
+                            
+                            self.codeGridParser.gridCache.insertControl(newControl)
+                            
                             box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX / 2.0)
                         }
+                        
                         break
                     #else
                         break

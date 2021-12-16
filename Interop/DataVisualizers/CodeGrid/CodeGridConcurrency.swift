@@ -14,6 +14,7 @@ class GridCache {
     typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
     let parser: CodeGridParser
     var cachedGrids = [CodeGrid.ID: CacheValue]()
+    var cachedControls = [CodeGrid.ID: CodeGridControl]()
     var cachedFiles = [FileKitPath: CodeGrid.ID]()
     
     private var semaphore = DispatchSemaphore(value: 1)
@@ -22,6 +23,10 @@ class GridCache {
     
     init(parser: CodeGridParser) {
         self.parser = parser
+    }
+    
+    func insertControl(_ key: CodeGridControl) {
+        cachedControls[key.displayGrid.id] = key
     }
     
     func setCache(_ key: FileKitPath) -> CodeGrid {

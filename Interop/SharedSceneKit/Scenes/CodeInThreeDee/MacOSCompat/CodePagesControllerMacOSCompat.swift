@@ -10,6 +10,7 @@ import SceneKit
 import SwiftSyntax
 import Combine
 import FileKit
+import SwiftUI
 
 class CodePagesControllerMacOSCompat {
     let controller: CodePagesController
@@ -201,11 +202,21 @@ class CodePagesControllerMacOSInputCompat {
         DispatchQueue.main.async { doClick() }
         func doClick() {
             let point = sceneView.convert(event.locationInWindow, to: nil)
+            let clickTest = sceneView.hitTest(location: point, .codeGridControl)
             
-//            guard let _ = sceneView.hitTestCodeSheet(
-//                with: point, .all, .rootCodeSheet
-//            ).first?.node.parent else { return }
-               
+            guard let clickedGeometryNode = clickTest.first?.node,
+                  let controlRootNode = clickedGeometryNode.parent,
+                  let controlNodeId = controlRootNode.name else {
+                return
+            }
+            
+            let cache = codeGridParser.gridCache
+            guard let matchingControl = cache.cachedControls[controlNodeId] else {
+                print("Missing cached control grid for \(controlNodeId)")
+                return
+            }
+            
+            matchingControl.didActivate?(matchingControl)
         }
 
     }
