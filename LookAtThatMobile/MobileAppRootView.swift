@@ -36,9 +36,9 @@ struct MobileAppRootView : View {
     }
     
     var sampleFilesUrl: URL {
-        let bundleName = "SampleFiles.bundle"
+        let rootDirectoryName = "Interop"
         let mainBundlePath = Bundle.main.bundlePath
-        let sampleFilesUrl = FileKitPath(mainBundlePath).url.appendingPathComponent(bundleName)
+        let sampleFilesUrl = FileKitPath(mainBundlePath).url.appendingPathComponent(rootDirectoryName)
         return sampleFilesUrl
     }
     
