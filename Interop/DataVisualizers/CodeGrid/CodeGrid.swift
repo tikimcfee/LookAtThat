@@ -120,57 +120,26 @@ extension CodeGrid: Hashable {
     }
 }
 
-// MARK: -- Displays configuration
+// MARK: -- Builder-style configuration
 extension CodeGrid {
-    enum DisplayMode {
-        case glyphs
-        case layers
-        case all
-    }
-    
-    private func didSetDisplayMode() {
-        recomputeDisplayMode()
-    }
-    
-    func recomputeDisplayMode() {
-        switch displayMode {
-        case .layers:
-            fullTextBlitter.rootNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-        case .glyphs:
-            fullTextBlitter.rootNode.isHidden = true
-            rootGlyphsNode.isHidden = false
-        case .all:
-            fullTextBlitter.rootNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-        }
-    }
-    
     @discardableResult
     func sizeGridToContainerNode(
         pad: VectorFloat = 2.0,
         pivotRootNode: Bool = false
     ) -> CodeGrid {
         laztrace(#fileID,#function,pad,pivotRootNode)
-        backgroundGeometry.width = rootNode.lengthX.cg + pad.cg
-        backgroundGeometry.height = rootNode.lengthY.cg + pad.cg
+        
+        // manualBoundingBox needs to me manually updated after initial layout
+        _ = SCNNode.BoundsCaching.Update(rootNode, false)
+        
+        backgroundGeometry.width = measures.lengthX.cg + pad.cg
+        backgroundGeometry.height = measures.lengthY.cg + pad.cg
+        
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
         backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
         backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
         backgroundGeometryNode.position.z = -1
-        // Can help in some layout situations where you want the root node's position
-        // to be at dead-center of background geometry
-
-        //        if pivotRootNode {
-//            rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
-//        }
-        
-//        rootNode.pivot = SCNMatrix4MakeTranslation(pad, -pad, 0)
-        
-        // Manual bounding box needs to me manually updated after initial layout
-        // too account for new geometry position
-        _ = SCNNode.BoundsCaching.Update(rootNode, false)
         
         return self
     }
@@ -204,4 +173,47 @@ extension CodeGrid {
         action(self)
         return self
     }
+    
+    @discardableResult
+    func addingChild(_ child: CodeGrid) -> Self {
+        laztrace(#fileID,#function,child)
+        rootNode.addChildNode(child.rootNode)
+        return self
+    }
+    
+    @discardableResult
+    func asChildOf(_ parent: CodeGrid) -> Self {
+        laztrace(#fileID,#function,parent)
+        parent.rootNode.addChildNode(rootNode)
+        return self
+    }
+}
+
+// MARK: -- Displays configuration
+extension CodeGrid {
+    enum DisplayMode {
+        case glyphs
+        case layers
+        case all
+    }
+    
+    private func didSetDisplayMode() {
+        recomputeDisplayMode()
+    }
+    
+    func recomputeDisplayMode() {
+        switch displayMode {
+        case .layers:
+            fullTextBlitter.rootNode.isHidden = false
+            rootGlyphsNode.isHidden = true
+        case .glyphs:
+            fullTextBlitter.rootNode.isHidden = true
+            rootGlyphsNode.isHidden = false
+        case .all:
+            fullTextBlitter.rootNode.isHidden = false
+            rootGlyphsNode.isHidden = true
+        }
+    }
+    
+    
 }

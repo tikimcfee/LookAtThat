@@ -182,6 +182,10 @@ extension FileBrowser {
         path.pathExtension == "swift"
     }
     
+    static func directChildren(_ path: Path) -> [Path] {
+        path.children(recursive: false).filter { isFileObserved($0) }
+    }
+    
     static func recursivePaths(_ path: Path) -> [Path] {
         path.children(recursive: true).filter { isFileObserved($0) }
     }

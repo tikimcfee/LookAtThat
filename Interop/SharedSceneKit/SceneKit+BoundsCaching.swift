@@ -82,11 +82,7 @@ public extension SCNNode {
             var safeBox = node.manualBoundingBox
             safeBox.min = convertPosition(safeBox.min, from: node)
             safeBox.max = convertPosition(safeBox.max, from: node)
-
             result.consumeBounds(safeBox)
-//            if let geometry = node.geometry {
-//                result.consumeBounds(safeBox)
-//            }
         }
         
         if let geometry = geometry {
@@ -185,7 +181,7 @@ public extension SCNNode {
     func addWireframePoint() {
         let debugBox = SCNSphere()
         debugBox.firstMaterial?.diffuse.contents = NSUIColor.lightGray
-        debugBox.radius = 10
+        debugBox.radius = 5
         geometry = debugBox
     }
 }

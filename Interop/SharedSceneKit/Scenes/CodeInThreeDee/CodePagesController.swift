@@ -106,12 +106,19 @@ class CodePagesController: BaseSceneController, ObservableObject {
             }
             
         case let .newMultiCommandRecursiveAll(parent, _):
-            self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-                #if os(iOS)
+//            self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+//                #if os(iOS)
+//                self.codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
+//                #else
+//                self.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
+//                #endif
+//            }
+            self.codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
+#if os(iOS)
                 self.codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
-                #else
+#else
                 self.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
-                #endif
+#endif
             }
             
         }

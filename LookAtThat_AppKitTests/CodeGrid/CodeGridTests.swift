@@ -239,7 +239,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         let testGrid = newGrid()
         var (deltaX, deltaY, deltaZ) = (0.0, 0.0, 0.0)
-        let start = testGrid.measures.boundsMin
         
         printStart()
         print("start: ----")
@@ -263,7 +262,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let alignedGrid = newGrid()
         print("new grid: ----")
         print(alignedGrid.measures.dumpstats)
-        alignedGrid.measures.alignedToTrailingOf(testGrid, pad: 0)
+        alignedGrid.measures.setLeading(testGrid.measures.trailing)
         
         print("after align: ----")
         print(alignedGrid.measures.dumpstats)

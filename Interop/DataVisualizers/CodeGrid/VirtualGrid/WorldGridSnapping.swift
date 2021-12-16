@@ -24,6 +24,12 @@ class WorldGridSnapping {
     
     typealias Mapping = [CodeGrid: RelativeMappings]
     var mapping = Mapping()
+    
+    var gridReg1: CodeGrid?
+    var gridReg2: CodeGrid?
+    var gridReg3: CodeGrid?
+    var gridReg4: CodeGrid?
+    
     lazy var align = Align(snap: self)
     
     struct Align {

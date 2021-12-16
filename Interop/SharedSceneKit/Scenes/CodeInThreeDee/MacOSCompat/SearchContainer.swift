@@ -39,7 +39,7 @@ class SearchContainer {
         func searchBlock() {
 //            SCNTransaction.lock()
 //            SCNTransaction.begin()
-            
+
             RenderTask(
                 codeGridFocus: codeGridFocus,
                 codeGridParser: codeGridParser,
@@ -146,13 +146,13 @@ private class RenderTask {
                 stopFlag.pointee = true
                 return
             }
-            
+
             guard let nodeName = node.name else {
                 node.isHidden = true
                 print("node is missing name! -> \(node) in \(foundInGrid.id)")
                 return
             }
-            
+
             if allNodeNames.contains(nodeName) {
                 node.isHidden = false
                 node.materialMultiply(NSUIColor.red)
