@@ -54,8 +54,13 @@ class CodePagesController: BaseSceneController, ObservableObject {
                         
                     case .addToFocus:
                     #if os(macOS)
-                        self.macosCompat.inputCompat.focus.layout { focus, box in
-                            focus.addGridToFocus(newGrid, box.deepestDepth + 1)
+                        sceneTransaction(0) {
+                            self.macosCompat.inputCompat.focus.layout { focus, box in
+                                focus.addGridToFocus(newGrid, box.deepestDepth + 1)
+                            }
+                        }
+                        self.macosCompat.inputCompat.focus.resize { focus, box in
+                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX / 2.0)
                         }
                         break
                     #else
