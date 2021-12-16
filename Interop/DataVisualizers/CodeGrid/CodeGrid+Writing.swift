@@ -141,6 +141,8 @@ extension CodeGrid {
             vendRawGlyphWriter.writeGlyphs(text)
         }
         recomputeDisplayMode()
+        
+//        renderer.eraseWhitespace()
         return self
     }
 }
@@ -195,6 +197,8 @@ extension CodeGrid {
         
         attributedTextWriter.finalize()
         recomputeDisplayMode()
+        
+//        renderer.eraseWhitespace()
         return self
     }
     

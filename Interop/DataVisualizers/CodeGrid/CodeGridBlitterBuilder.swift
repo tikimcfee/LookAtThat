@@ -77,9 +77,16 @@ class CodeGridBlitter: Identifiable {
 }
 
 class FullTextLayerBuilder {
+
+    #if os(iOS)
     private static let FONT_SIZE = 8.0
-    private let SCALE_FACTOR = 8.0 // NOTE: Doesn't work with attributed text in CATextLayer... or something
+    private let SCALE_FACTOR = 8.0
     private let DESCALE_FACTOR = 8.0
+    #else
+    private static let FONT_SIZE = 16.0
+    private let SCALE_FACTOR = 1.0
+    private let DESCALE_FACTOR = 16.0
+    #endif
     
     private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
     

@@ -65,6 +65,10 @@ extension CodeGrid {
             if syntaxTokenCharacter.isNewline {
                 newLine(size)
             }
+            
+            if syntaxTokenCharacter.isWhitespace {
+                letterNode.name?.append("-\(kWhitespaceNodeName)")
+            }
         }
         
         func newLine(_ size: CGSize) {
@@ -72,5 +76,24 @@ extension CodeGrid {
             targetGrid.pointer.left(currentPosition.xColumn)
             lineCount += 1
         }
+        
+        func eraseWhitespace() {
+            targetGrid.rootGlyphsNode.enumerateHierarchy { node, _ in
+                guard node.name?.hasSuffix(kWhitespaceNodeName) == true else { return }
+                node.removeFromParentNode()
+            }
+        }
+    }
+}
+
+extension Character {
+    var isWhitespace: Bool {
+        CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: self)
+    }
+}
+
+extension CharacterSet {
+    func containsUnicodeScalars(of character: Character) -> Bool {
+        return character.unicodeScalars.allSatisfy(contains(_:))
     }
 }

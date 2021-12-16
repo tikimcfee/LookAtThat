@@ -17,21 +17,19 @@ public struct GlyphCacheKey: Hashable, Equatable {
 }
 
 class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
-    private static let FONT_SIZE = 8.0
-
-    // SCALE_FACTOR changes the requested font size for the new layer.
-    // OBSERVATION: Setting this value higher creates a smoother font image
-    // HYPOTHESIS: The font size is used to determine the size of a bitmap
-    //              or canvas to which the layer is drawn
-    private let SCALE_FACTOR = 1.0
     
-    // Recompute descaled size of new layer
-    // DESCALE_FACTOR changes the final rendered size of the layer
-    // This is a straight proportional resize of the original text size.
+    #if os(iOS)
+    private static let FONT_SIZE = 8.0
+    private let SCALE_FACTOR = 1.0
     private let DESCALE_FACTOR = 16.0
+    #else
+    private static let FONT_SIZE = 16.0
+    private let SCALE_FACTOR = 1.0
+    private let DESCALE_FACTOR = 16.0
+    #endif
     
     private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
-	let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
+    let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
     
     override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
