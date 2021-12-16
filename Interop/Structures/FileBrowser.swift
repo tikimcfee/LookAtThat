@@ -68,25 +68,16 @@ class FileBrowser: ObservableObject {
 extension FileBrowser {
     enum Event {
         enum SelectType {
-            case addToRow
-            case inNewRow
-            case inNewPlane
-            
-            case allChildrenInRow
-            case allChildrenInNewRow
-            case allChildrenInNewPlane
+            case addToFocus
+            case addToWorld
         }
         
         case noSelection
         
-        case newSinglePath(Path)
         case newSingleCommand(Path, SelectType)
         
-        case newMultiCommandImmediateChildren(Path, SelectType)
-        
-        case newMultiCommandRecursiveAll(Path, SelectType)
-        
         case newMultiCommandRecursiveAllCache(Path)
+        case newMultiCommandRecursiveAllLayout(Path, SelectType)
     }
     
     func setRootScope(_ path: Path) {
@@ -121,7 +112,7 @@ extension FileBrowser {
         
         switch scopes[index] {
         case let .file(newPathSelection):
-            fileSeletionEvents = .newSinglePath(newPathSelection)
+            fileSeletionEvents = .newSingleCommand(newPathSelection, .addToFocus)
         case let .directory(path):
             scopes[index] = .expandedDirectory(path)
             expandCollapsedDirectory(rootIndex: index, path)

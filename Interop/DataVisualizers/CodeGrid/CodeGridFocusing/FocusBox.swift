@@ -19,18 +19,22 @@ class FocusBox: Hashable, Identifiable {
     static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
     
     var focusedGrid: CodeGrid?
+    var layoutMode: LayoutMode = .horizontal
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
-    lazy var gridNode: SCNNode = makeGridNode() // TODO: think about adding a 'dropAll' call to avoid iterating over grids to ... drop
-    lazy var geometryNode: SCNNode = makeGeometryNode()
-    lazy var rootGeometry: SCNBox = makeGeometry()
+    lazy var gridNode: SCNNode = makeGridNode()
+    private lazy var geometryNode: SCNNode = makeGeometryNode()
+    private lazy var rootGeometry: SCNBox = makeGeometry()
     lazy var snapping: WorldGridSnapping = WorldGridSnapping()
     
     var id: String
     var focus: CodeGridFocusController
     
-    init(id: String,
-         inFocus focus: CodeGridFocusController) {
+    var deepestDepth: Int {
+        bimap.valuesToKeys.keys.max() ?? -1
+    }
+    
+    init(id: String, inFocus focus: CodeGridFocusController) {
         self.id = id
         self.focus = focus
         setup()
@@ -79,12 +83,26 @@ class FocusBox: Hashable, Identifiable {
         gridNode.addChildNode(grid.rootNode)
         bimap[grid] = depth
         
+        var nextDirection: WorldGridSnapping.RelativeGridMapping {
+            switch layoutMode {
+            case .stacked: return .forward(grid)
+            case .horizontal: return .right(grid)
+            }
+        }
+        
+        var previousDirection: WorldGridSnapping.RelativeGridMapping {
+            switch layoutMode {
+            case .stacked: return .backward(grid)
+            case .horizontal: return .left(grid)
+            }
+        }
+        
         if let previous = bimap[depth - 1] {
-            snapping.connectWithInverses(sourceGrid: previous, to: .forward(grid))
+            snapping.connectWithInverses(sourceGrid: previous, to: nextDirection)
         }
         
         if let next = bimap[depth + 1] {
-            snapping.connectWithInverses(sourceGrid: next, to: .backward(grid))
+            snapping.connectWithInverses(sourceGrid: next, to: previousDirection)
         }
     }
     
@@ -113,25 +131,48 @@ class FocusBox: Hashable, Identifiable {
         focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
     
-    
-    private let zDepthDistance = 150.0
     func layoutFocusedGrids(_ alignTrailing: Bool = false) {
         guard let first = bimap[0] else {
             print("No depth-0 grid to start layout")
             return
         }
+        
+        
+        let xLengthPadding = 8.0
+        let zLengthPadding = 150.0
+        
         sceneTransaction {
-            var depth = 1
-            func update(_ grid: CodeGrid) {
-                grid.rootNode.position = SCNVector3Zero.translated(
-                    dX: -grid.measures.lengthX,
-                    dZ: grid === first ? 0 : depth.cg * -self.zDepthDistance
-                )
+            switch layoutMode {
+            case .horizontal:
+                horizontalLayout()
+            case .stacked:
+                stackLayout()
             }
-            update(first)
-            snapping.iterateOver(first, direction: .forward) { grid, _ in
-                update(grid)
-                depth += 1
+        }
+        
+        func horizontalLayout() {
+            snapping.iterateOver(first, direction: .right) { previous, current, _ in
+                if let previous = previous {
+                    current.measures
+                        .setTop(previous.measures.top)
+                        .setLeading(previous.measures.trailing + xLengthPadding)
+                        .setBack(previous.measures.back)
+                } else {
+                    current.zeroedPosition()
+                }
+            }
+        }
+        
+        func stackLayout() {
+            snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+                if let previous = previous {
+                    current.measures
+                        .setTop(previous.measures.top)
+                        .alignedCenterX(previous)
+                        .setBack(previous.measures.back - zLengthPadding)
+                } else {
+                    current.zeroedPosition()
+                }
             }
         }
     }

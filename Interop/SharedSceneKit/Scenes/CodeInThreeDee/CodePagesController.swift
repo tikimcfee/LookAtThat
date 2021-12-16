@@ -47,56 +47,30 @@ class CodePagesController: BaseSceneController, ObservableObject {
         case .noSelection:
             break
             
-        case let .newSinglePath(path):
-            sceneTransaction {
-                self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
-                    plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                }
-            }
-            
         case let .newSingleCommand(path, style):
             sceneTransaction {
                 self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
                     switch style {
-                    case .addToRow, .allChildrenInRow:
-                        plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                    case .inNewRow, .allChildrenInNewRow:
-                        plane.addGrid(style: .inNextRow(newGrid))
-                    case .inNewPlane, .allChildrenInNewPlane:
-                        plane.addGrid(style: .inNextPlane(newGrid))
+                        
+                    case .addToFocus:
+                    #if os(macOS)
+                        self.macosCompat.inputCompat.focus.layout { focus, box in
+                            focus.addGridToFocus(newGrid, box.deepestDepth + 1)
+                        }
+                        break
+                    #else
+                        break
+                    #endif
+                        
+                    case .addToWorld:
+                        self.addToRoot(rootGrid: newGrid)
                     }
                 }
             }
             
-        case let .newMultiCommandImmediateChildren(parent, style):
-            sceneTransaction {
-                switch style {
-                case .allChildrenInRow, .addToRow:
-                    parent.children().filter(FileBrowser.isFileObserved).forEach { subpath in
-                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
-                            plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                        }
-                    }
-                    
-                case .inNewRow, .allChildrenInNewRow:
-                    parent.children().filter(FileBrowser.isSwiftFile).enumerated().forEach { index, subpath in
-                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
-                            if index == 0 {
-                                plane.addGrid(style: .inNextRow(newGrid))
-                            } else {
-                                plane.addGrid(style: .trailingFromLastGrid(newGrid))
-                            }
-                            
-                        }
-                    }
-                    
-                case .inNewPlane, .allChildrenInNewPlane:
-                    parent.children().filter(FileBrowser.isSwiftFile).forEach { subpath in
-                        self.codeGridParser.withNewGrid(subpath.url) { plane, newGrid in
-                            plane.addGrid(style: .inNextPlane(newGrid))
-                        }
-                    }
-                }
+        case let .newMultiCommandRecursiveAllLayout(parent, _):
+            self.codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
+                self.addToRoot(rootGrid: rootGrid)
             }
             
         case let .newMultiCommandRecursiveAllCache(parent):
@@ -104,25 +78,15 @@ class CodePagesController: BaseSceneController, ObservableObject {
             self.codeGridParser.cacheConcurrent(parent) {
                 print("Cache complete: \(parent.fileName)")
             }
-            
-        case let .newMultiCommandRecursiveAll(parent, _):
-//            self.codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-//                #if os(iOS)
-//                self.codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
-//                #else
-//                self.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
-//                #endif
-//            }
-            self.codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
-#if os(iOS)
-                self.codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
-#else
-                self.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
-#endif
-            }
-            
         }
-        
+    }
+    
+    func addToRoot(rootGrid: CodeGrid) {
+#if os(iOS)
+        codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
+#else
+        sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
+#endif
     }
     
     override func sceneActive() {

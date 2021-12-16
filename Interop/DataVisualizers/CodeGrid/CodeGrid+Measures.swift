@@ -45,28 +45,40 @@ extension CodeGrid {
             get { boundsMin.z }
         }
         
-        func setLeading(_ newValue: VectorFloat) {
+        @discardableResult
+        func setLeading(_ newValue: VectorFloat) -> Self {
             xpos = newValue + leadingOffset
+            return self
         }
         
-        func setTrailing(_ newValue: VectorFloat) {
+        @discardableResult
+        func setTrailing(_ newValue: VectorFloat) -> Self{
             xpos = newValue - trailingOffset
+            return self
         }
         
-        func setTop(_ newValue: VectorFloat) {
+        @discardableResult
+        func setTop(_ newValue: VectorFloat) -> Self {
             ypos = newValue - topOffset
+            return self
         }
         
-        func setBottom(_ newValue: VectorFloat) {
+        @discardableResult
+        func setBottom(_ newValue: VectorFloat) -> Self {
             ypos = newValue + bottomOffset
+            return self
         }
         
-        func setFront(_ newValue: VectorFloat) {
+        @discardableResult
+        func setFront(_ newValue: VectorFloat) -> Self {
             zpos = newValue - frontOffset
+            return self
         }
         
-        func setBack(_ newValue: VectorFloat) {
+        @discardableResult
+        func setBack(_ newValue: VectorFloat) -> Self {
             zpos = newValue + backOffset
+            return self
         }
         
         var leadingOffset: VectorFloat { abs(localLeading) }
@@ -143,19 +155,20 @@ extension CodeGrid {
         
         @discardableResult
         func alignedCenterX(_ other: CodeGrid) -> Self {
-            position.x = other.measures.centerPosition.x - lengthX / 2.0
+            setLeading(other.measures.leading - lengthX / 2.0 + other.measures.lengthX / 2.0)
             return self
         }
         
         @discardableResult
         func alignedCenterY(_ other: CodeGrid) -> Self {
-            position.y = other.measures.centerPosition.y + lengthY / 2.0
+            setTop(other.measures.top + lengthY / 2.0 - other.measures.lengthY / 2.0)
             return self
         }
         
         @discardableResult
         func alignedCenterZ(_ other: CodeGrid) -> Self {
-            position.z = other.measures.centerPosition.z + lengthZ / 2.0
+            setBack(other.measures.back - lengthZ / 2.0 + other.measures.lengthZ
+                    / 2.0)
             return self
         }
     }

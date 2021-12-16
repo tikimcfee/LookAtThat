@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SceneKit
 
 class WorldGridSnapping {
     // map the relative directions you can go from a grid
@@ -29,30 +30,10 @@ class WorldGridSnapping {
     var gridReg2: CodeGrid?
     var gridReg3: CodeGrid?
     var gridReg4: CodeGrid?
-    
-    lazy var align = Align(snap: self)
-    
-    struct Align {
-        enum Direction { case top, bottom }
-        
-        let snap: WorldGridSnapping
-        
-        func allToTop(root: CodeGrid, _ direction: Direction) {
-            var lastGrid: CodeGrid = root
-            snap.iterateOver(root, direction: .left) { leftGrid, _ in
-                leftGrid.measures
-                    .alignedToTopOf(lastGrid, pad: 4.0)
-                    .alignedToLeadingOf(lastGrid, pad: 4.0)
-                lastGrid = leftGrid
-            }
-            snap.iterateOver(root, direction: .right) { rightGrid, _ in
-                rightGrid.measures
-                    .alignedToTopOf(lastGrid, pad: 4.0)
-                    .alignedToTrailingOf(lastGrid, pad: 4.0)
-                lastGrid = rightGrid
-            }
-        }
-    }
+    var nodeReg1: SCNNode?
+    var nodeReg2: SCNNode?
+    var nodeReg3: SCNNode?
+    var nodeReg4: SCNNode?
 }
 
 extension WorldGridSnapping {
@@ -108,24 +89,27 @@ extension WorldGridSnapping {
     func iterateOver(
         _ codeGrid: CodeGrid,
         direction: SelfRelativeDirection,
-        _ receiver: @escaping (CodeGrid, inout Bool) -> Void
+        _ receiver: @escaping (CodeGrid?, CodeGrid, inout Bool) -> Void
     ) {
         var stop = false
         var nextTargetGrid = codeGrid
+        var previousGrid = codeGrid
         var nextSet = gridsRelativeTo(nextTargetGrid, direction)
         
         while !stop, !nextSet.isEmpty {
             if nextSet.count == 1, let first = nextSet.first {
                 nextTargetGrid = first.targetGrid
-                receiver(first.targetGrid, &stop)
+                receiver(previousGrid, first.targetGrid, &stop)
                 nextSet = gridsRelativeTo(nextTargetGrid, direction)
+                previousGrid = nextTargetGrid
             } else if let first = nextSet.first {
                 print("Found multiple relations: \(nextSet)")
                 nextTargetGrid = first.targetGrid
                 nextSet.forEach { relation in
-                    receiver(relation.targetGrid, &stop)
+                    receiver(previousGrid, relation.targetGrid, &stop)
                 }
                 nextSet = gridsRelativeTo(nextTargetGrid, direction)
+                previousGrid = nextTargetGrid
             } else {
                 stop = true
             }

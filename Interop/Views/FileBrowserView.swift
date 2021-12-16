@@ -48,6 +48,20 @@ struct FileBrowserView: View {
     }
     
     @ViewBuilder
+    func actionButton(
+        _ text: String,
+        _ path: FileKitPath,
+        event: FileBrowser.Event
+    ) -> some View {
+        Text(text)
+            .font(.footnote)
+            .onTapGesture { genericSelection(event) }
+            .padding(8.0)
+            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+            .padding(4.0)
+    }
+    
+    @ViewBuilder
     func rowForScope(_ scope: FileBrowser.Scope) -> some View {
         switch scope {
         case let .file(path):
@@ -61,18 +75,13 @@ struct FileBrowserView: View {
                 
                 Spacer()
 
-                Text("📦")
-                    .font(.footnote)
-                    .onTapGesture { genericSelection(
-                        .newSinglePath(path)
-                    ) }
-                    .padding(4.0)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .padding(4.0)
+                actionButton("📦", path, event: .newSingleCommand(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
-            .onTapGesture { fileSelected(path, .addToRow) }
+            .onTapGesture {
+                genericSelection(.newSingleCommand(path, .addToFocus))
+            }
         case let .directory(path):
             HStack {
                 makeSpacer(pathDepths[path])
@@ -83,25 +92,8 @@ struct FileBrowserView: View {
                 
                 Spacer()
                 
-                Text("📦")
-                    .font(.callout)
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandRecursiveAll(
-                            path, .allChildrenInNewPlane
-                        )
-                    ) }
-                    .padding(4.0)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .padding([.top, .bottom, .leading], 4)
-                
-                Text("📦🔂")
-                    .font(.callout)
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandRecursiveAllCache(path)
-                    ) }
-                    .padding(4.0)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .padding(4.0)
+                actionButton("📦", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+                actionButton("📦🔂", path, event: .newMultiCommandRecursiveAllCache(path))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -117,16 +109,8 @@ struct FileBrowserView: View {
                 
                 Spacer()
                 
-                Text("📦")
-                    .font(.callout)
-                    .onTapGesture { genericSelection(
-                        .newMultiCommandRecursiveAll(
-                            path, .allChildrenInNewPlane
-                        )
-                    ) }
-                    .padding(4.0)
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-                    .padding(4.0)
+                actionButton("📦", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+                actionButton("📦🔂", path, event: .newMultiCommandRecursiveAllCache(path))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))

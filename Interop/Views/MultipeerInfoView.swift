@@ -362,13 +362,7 @@ struct MessageSendView: View {
             }
             
             manager.multipeerStreamController.streamRaw(to: peer.targetPeerId, compressed)
-        case let .newSinglePath(path):
-            guard let fileData = try? Data(contentsOf: path.url),
-                  let compressed = manager.sheetDataTransformer.compress(fileData) else {
-                print("No file data it exploded what a shame")
-                return
-            }
-            manager.multipeerStreamController.streamRaw(to: peer.targetPeerId, compressed)
+
         default:
             print("Ignoring event: \(event)")
         }

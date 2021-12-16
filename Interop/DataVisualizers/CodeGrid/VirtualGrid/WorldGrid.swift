@@ -123,7 +123,7 @@ class WorldGridEditor {
             lastFocusedGrid = codeGrid
             var maxHeight: VectorFloat = 0.0
             var leftMostGrid: CodeGrid?
-            snapping.iterateOver(lastGrid, direction: .left) { grid, _ in
+            snapping.iterateOver(lastGrid, direction: .left) { _, grid, _ in
                 maxHeight = max(maxHeight, grid.measures.lengthY)
                 leftMostGrid = grid
             }

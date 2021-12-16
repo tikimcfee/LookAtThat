@@ -85,7 +85,7 @@ class FullTextLayerBuilder {
     #else
     private static let FONT_SIZE = 16.0
     private let SCALE_FACTOR = 1.0
-    private let DESCALE_FACTOR = 16.0
+    private let DESCALE_FACTOR = 12.0
     #endif
     
     private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)

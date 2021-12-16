@@ -82,6 +82,11 @@ class CodeGridFocusController {
         mainFocus.setFocusedGrid(depth)
     }
     
+    func layout(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
+        receiver(self, mainFocus)
+        finishUpdates()
+    }
+    
     func setNewFocus(inDirection direction: SelfRelativeDirection) -> CodeGrid? {
         guard let focus = mainFocus.focusedGrid,
               let firstFocused = mainFocus.snapping.gridsRelativeTo(focus, direction).first?.targetGrid
