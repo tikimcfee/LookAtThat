@@ -52,9 +52,9 @@ struct TestButtons_Debugging: View {
             Button(action: dumpLogs) {
                 Text("Dump LaZTrace")
             }
-//            Button(action: resetScene) {
-//                Text("Reset scene")
-//            }
+            Button(action: resetScene) {
+                Text("Reset scene")
+            }
 //            Button(action: dictionaryDemo) {
 //                Text("Dictionary demo")
 //            }

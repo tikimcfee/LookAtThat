@@ -154,8 +154,11 @@ extension CodeGrid {
     func consume(syntax: Syntax) -> Self {
         laztrace(#fileID,#function,syntax)
         
-        let attributedTextWriter = vendAttributedFullTextWriter
-        let attributedGlyphsWriter = vendAttributedGlyphsWriter
+        lazy var attributedTextWriter = vendAttributedFullTextWriter
+        lazy var attributedGlyphsWriter = vendAttributedGlyphsWriter
+        
+        let writeText = [.all, .layers].contains(displayMode)
+        let writeGlyphs = [.all, .glyphs].contains(displayMode)
         
         for token in syntax.tokens {
             // Setup identifiers and build out token text
@@ -176,14 +179,18 @@ extension CodeGrid {
             let trailingTrivia = token.trailingTrivia.stringified
             
             // Write attributed text
-            attributedTextWriter.writeAttributedText(leadingTrivia, color: triviaColor)
-            attributedTextWriter.writeAttributedText(tokenText, color: tokenColor)
-            attributedTextWriter.writeAttributedText(trailingTrivia, color: triviaColor)
+            if writeText {
+                attributedTextWriter.writeAttributedText(leadingTrivia, color: triviaColor)
+                attributedTextWriter.writeAttributedText(tokenText, color: tokenColor)
+                attributedTextWriter.writeAttributedText(trailingTrivia, color: triviaColor)
+            }
             
             // Write glyphs
-            attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
-            attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
-            attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+            if writeGlyphs {
+                attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
+                attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
+                attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+            }
             
             // Save nodes to tokenCache *after* glyphs area created and inserted
             tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
@@ -195,10 +202,12 @@ extension CodeGrid {
             }
         }
         
-        attributedTextWriter.finalize()
-        recomputeDisplayMode()
-        
+        if writeText {
+            attributedTextWriter.finalize()
+        }
+
 //        renderer.eraseWhitespace()
+        recomputeDisplayMode()
         return self
     }
     
@@ -211,7 +220,7 @@ extension CodeGrid {
         // Walk the parenty hierarchy and associate these nodes with that parent.
         // Add semantic info to lookup for each parent node found.
         var tokenParent: Syntax? = Syntax(token)
-        while tokenParent != nil {
+        while tokenParent != nil && tokenParent?.id != rootSyntax.id {
             guard let parent = tokenParent else { continue }
             let parentId = parent.id
             codeGridSemanticInfo.saveSemanticInfo(
@@ -224,6 +233,39 @@ extension CodeGrid {
                 withLookupId: tokenId
             )
             tokenParent = parent.parent
+        }
+    }
+}
+
+// MARK: -- Displays configuration
+extension CodeGrid {
+    enum DisplayMode {
+        case glyphs
+        case layers
+        case all
+    }
+    
+    func didSetDisplayMode() {
+        recomputeDisplayMode()
+    }
+    
+    func recomputeDisplayMode() {
+        switch displayMode {
+        case .layers:
+            fullTextBlitter.rootNode.isHidden = false
+            fullTextBlitter.backgroundGeometryNode.isHidden = false
+            rootGlyphsNode.isHidden = true
+            backgroundGeometryNode.isHidden = true
+        case .glyphs:
+            fullTextBlitter.rootNode.isHidden = true
+            fullTextBlitter.backgroundGeometryNode.isHidden = true
+            rootGlyphsNode.isHidden = false
+            backgroundGeometryNode.isHidden = false
+        case .all:
+            fullTextBlitter.rootNode.isHidden = false
+            fullTextBlitter.backgroundGeometryNode.isHidden = false
+            rootGlyphsNode.isHidden = true
+            backgroundGeometryNode.isHidden = true
         }
     }
 }

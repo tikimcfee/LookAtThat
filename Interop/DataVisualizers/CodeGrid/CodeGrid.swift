@@ -12,25 +12,28 @@ import SwiftSyntax
 let kCodeGridContainerName = "kCodeGridContainerName"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
-class CodeGridControl {
-    let targetGrid: CodeGrid
-    let displayGrid: CodeGrid
-    
-    init(targetGrid: CodeGrid, displayGrid: CodeGrid) {
-        self.targetGrid = targetGrid
-        self.displayGrid = displayGrid
-    }
-    
-    func test() {
-
-    }
-}
-
-class CodeGrid: Identifiable, Equatable {
+extension CodeGrid {
     struct Defaults {
         static var displayMode: DisplayMode = .all
         static var walkSemantics: Bool = true
     }
+}
+
+class CodeGridControl {
+    let targetGrid: CodeGrid
+    let displayGrid: CodeGrid
+    
+    init(targetGrid: CodeGrid) {
+        self.targetGrid = targetGrid
+        self.displayGrid = CodeGrid(glyphCache: targetGrid.glyphCache, tokenCache: targetGrid.tokenCache)
+    }
+    
+    func test() {
+        
+    }
+}
+
+class CodeGrid: Identifiable, Equatable {
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
     lazy var glyphNodeName = { "\(id)-glyphs" }()
@@ -187,39 +190,4 @@ extension CodeGrid {
         parent.rootNode.addChildNode(rootNode)
         return self
     }
-}
-
-// MARK: -- Displays configuration
-extension CodeGrid {
-    enum DisplayMode {
-        case glyphs
-        case layers
-        case all
-    }
-    
-    private func didSetDisplayMode() {
-        recomputeDisplayMode()
-    }
-    
-    func recomputeDisplayMode() {
-        switch displayMode {
-        case .layers:
-            fullTextBlitter.rootNode.isHidden = false
-            fullTextBlitter.backgroundGeometryNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-            backgroundGeometryNode.isHidden = true
-        case .glyphs:
-            fullTextBlitter.rootNode.isHidden = true
-            fullTextBlitter.backgroundGeometryNode.isHidden = true
-            rootGlyphsNode.isHidden = false
-            backgroundGeometryNode.isHidden = false
-        case .all:
-            fullTextBlitter.rootNode.isHidden = false
-            fullTextBlitter.backgroundGeometryNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-            backgroundGeometryNode.isHidden = true
-        }
-    }
-    
-    
 }

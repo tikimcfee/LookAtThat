@@ -57,7 +57,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
-    func X_testRendering_versionTwo() throws {
+    func testRendering_versionTwo() throws {
         CodeGrid.Defaults.displayMode = .glyphs
         CodeGrid.Defaults.walkSemantics = false
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
@@ -74,7 +74,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     
-    func X_testRendering_versionThree() throws {
+    func testRendering_versionThree() throws {
         CodeGrid.Defaults.displayMode = .glyphs
         CodeGrid.Defaults.walkSemantics = true
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)

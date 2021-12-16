@@ -145,7 +145,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
     }
 
     override func onSceneStateReset() {
-        // Clear out all the grids and thingsb
+        // Clear out all the grids and things
+        #if os(macOS)
+        macosCompat.inputCompat.focus.resetState()
+        macosCompat.inputCompat.focus.setNewFocus()
+        #endif
     }
 }
 

@@ -27,7 +27,7 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     }
 
     subscript(key: Key) -> Value {
-        get { lockAndReturn(key: key) ?? lockAndMake(key: key) }
+        get { lockAndMake(key: key) }
 		set { lockAndSet(key: key, value: newValue) }
     }
     
@@ -37,47 +37,44 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     
     @discardableResult
     func remove(_ key: Key) -> Value? {
-        lock(); defer { unlock() }
-        return cache.removeValue(forKey: key)
+        lock()
+        let removed = cache.removeValue(forKey: key)
+        unlock()
+        return removed
     }
     
     func doOnEach(_ action: (Key, Value) -> Void) {
-        lock(); defer { unlock() }
+        lock()
         cache.forEach {
             action($0.key, $0.value)
         }
-    }
-    
-    func contains(_ key: Key) -> Bool {
-        lock(); defer { unlock() }
-        return cache[key] != nil
+        unlock()
     }
     
     func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        lock(); defer { unlock() }
+        lock()
         op(&cache)
-    }
-    
-    private func lockAndReturn(key: Key) -> Value? {
-        // So sad =(; any time I go async and concurrent, the dictionary wheeps.
-        // Fine. lock it all down.
-        lock(); defer { unlock() }
-        return cache[key]
+        unlock()
     }
 	
 	private func lockAndSet(key: Key, value: Value) {
-        lock(); defer { unlock() }
+        lock()
 		cache[key] = value
+        unlock()
 	}
     
     private func lockAndMake(key: Key) -> Value {
-        // Wait and recheck cache, last lock may have already set
-        lock(); defer { unlock() }
-        if let cached = cache[key] { return cached }
+        lock()
+        if let cached = cache[key] {
+            unlock()
+            return cached
+        }
         
-        // Create and set, default result as cache value
-        let new = make(key, &cache)
+        var diff = [Key:Value]()
+        let new = make(key, &diff)
         cache[key] = new
+        
+        unlock()
         return new
     }
     
