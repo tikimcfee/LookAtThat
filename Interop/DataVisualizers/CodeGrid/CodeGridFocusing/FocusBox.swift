@@ -125,10 +125,6 @@ class FocusBox: Hashable, Identifiable {
         rootNode.addWireframeBox()
         
         geometryNode.geometry = rootGeometry
-        
-        // TODO: Something other than the focus should add it to the scene
-        // Adding nodes to root
-        focus.controller.sceneState.rootGeometryNode.addChildNode(rootNode)
     }
     
     func layoutFocusedGrids(_ alignTrailing: Bool = false) {
@@ -213,7 +209,7 @@ class FocusBox: Hashable, Identifiable {
     private func makeGeometryNode() -> SCNNode {
         let root = SCNNode()
         root.name = id
-        root.categoryBitMask = HitTestType.codeGrid.rawValue
+        root.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
         root.renderingOrder = 1
         return root
     }

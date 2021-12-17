@@ -407,7 +407,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
         var totalLengthX: VectorFloat = firstGrid.measures.lengthX
-        snapping.iterateOver(focusedGrid, direction: .forward) { grid, stop in
+        snapping.iterateOver(focusedGrid, direction: .forward) { _, grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
             linkCount.fulfill()
@@ -418,7 +418,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         totalLengthX = firstGrid.measures.lengthX
-        snapping.iterateOver(allGrids.last!, direction: .backward) { grid, stop in
+        snapping.iterateOver(allGrids.last!, direction: .backward) { _, grid, stop in
             print(totalLengthX)
             totalLengthX += grid.measures.lengthX
         }

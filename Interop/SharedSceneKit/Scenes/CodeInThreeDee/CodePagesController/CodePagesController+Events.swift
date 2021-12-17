@@ -39,13 +39,14 @@ extension CodePagesController {
                 //TODO: The control is off by a few points.. WHY!?
                 let swapControl = CGCSwapModes(newGrid).applying {
                     insertControl($0)
-                    box.gridNode.addingChild($0.displayGrid)
+                    newGrid.addingChild($0.displayGrid)
+//                    box.gridNode.addingChild($0.displayGrid)
                     
                     $0.onAlign = {
                         $0.displayGrid.measures
-                            .setBottom(newGrid.measures.top + 2)
-                            .setLeading(newGrid.measures.leading)
-                            .setFront(newGrid.measures.front)
+                            .setBottom(newGrid.measures.topOffset + 2)
+                            .setLeading(newGrid.measures.leadingOffset)
+                            .setFront(newGrid.measures.frontOffset)
                         
                         return $0.displayGrid.rootNode.transform
                     }
@@ -53,13 +54,14 @@ extension CodePagesController {
                 
                 CGCAddToFocus(newGrid, macosCompat.inputCompat.focus).applying {
                     insertControl($0)
-                    box.gridNode.addingChild($0.displayGrid)
+                    newGrid.addingChild($0.displayGrid)
+//                    box.gridNode.addingChild($0.displayGrid)
                     
                     $0.onAlign = {
                         $0.displayGrid.measures
-                            .setBottom(newGrid.measures.top + 2)
-                            .setLeading(swapControl.displayGrid.measures.trailing + 4.0)
-                            .setFront(swapControl.displayGrid.measures.front)
+                            .setBottom(newGrid.measures.topOffset + 2)
+                            .setLeading(swapControl.displayGrid.measures.trailingOffset + 4.0)
+                            .setFront(swapControl.displayGrid.measures.backOffset)
                         
                         return $0.displayGrid.rootNode.transform
                     }

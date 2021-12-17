@@ -32,23 +32,6 @@ extension SCNView {
 			]
 		)
 	}
-    
-    func performHitTest(
-        location: CGPoint,
-        type: HitTestType = .codeGrid
-    ) -> [SCNHitTestResult] {
-        return hitTest(
-            location,
-            options: [
-                SCNHitTestOption.boundingBoxOnly: true,
-                SCNHitTestOption.backFaceCulling: true,
-                SCNHitTestOption.clipToZRange: true,
-                SCNHitTestOption.ignoreChildNodes: false,
-                SCNHitTestOption.categoryBitMask: type.rawValue,
-                SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
-            ]
-        )
-    }
 }
 
 struct HitTestType: OptionSet {
@@ -65,12 +48,13 @@ struct HitTestType: OptionSet {
     static let codeGridGlyphs   = HitTestType(rawValue: 1 << 9)
     static let codeGridBlitter  = HitTestType(rawValue: 1 << 10)
     static let codeGridControl  = HitTestType(rawValue: 1 << 11)
+    static let codeGridFocusBox = HitTestType(rawValue: 1 << 12)
 
     static let all: HitTestType = [
         .codeSheet, .semanticTab, .rootCodeSheet,
         .directoryGroup, .codeGrid, .codeGridToken,
         .codeGridSnapshot, .codeGridGlyphs, .codeGridBlitter,
-        .codeGridControl
+        .codeGridControl, .codeGridFocusBox
     ]
     
     static let gridsAndTokens: HitTestType = [

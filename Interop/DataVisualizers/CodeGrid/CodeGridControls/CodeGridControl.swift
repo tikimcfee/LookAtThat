@@ -64,8 +64,8 @@ class CodeGridControl {
             return transform
         }
         
-        onAlign(self)
+        let final = onAlign(self)
         
-        return node.transform
+        return final
     }
 }

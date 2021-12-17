@@ -126,9 +126,9 @@ extension BaseSceneController {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
         let currentTouchLocation = event.currentLocation
         
-        let hitTestResults = sceneView.performHitTest(
+        let hitTestResults = sceneView.hitTest(
             location: currentTouchLocation,
-            type: [.codeGrid, .semanticTab]
+            [.codeGrid, .semanticTab, .codeGridSnapshot]
         )
         
         guard let firstResult = hitTestResults.first,
@@ -138,7 +138,8 @@ extension BaseSceneController {
         
         switch firstResult.node.categoryBitMask {
         case HitTestType.semanticTab.rawValue,
-            HitTestType.codeGridGlyphs.rawValue:
+            HitTestType.codeGridGlyphs.rawValue,
+            HitTestType.codeGridSnapshot.rawValue:
             // SemanticInfo is setup as a child of the container.
             // we want to position the parent itself when dragged, so move up the hierarchy.
             positioningNode = positioningNode.parent!
