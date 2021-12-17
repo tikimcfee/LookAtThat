@@ -7,13 +7,15 @@
 
 import Foundation
 import SceneKit
-
-private enum Result {
-    case grid(CodeGrid)
-    case focusBox(FocusBox)
-}
+import XCTest
 
 class HitTestEvaluator {
+    enum Result {
+        case grid(CodeGrid)
+        case focusBox(FocusBox)
+        case unknown(SCNNode)
+    }
+
     
     let controller: CodePagesController
     private var parser: CodeGridParser { controller.codeGridParser }
@@ -26,36 +28,38 @@ class HitTestEvaluator {
         self.controller = controller
     }
     
-    func evaluate(_ hitTestResults: [SCNHitTestResult]) {
-        let found = hitTestResults.reduce(into: [Result]()) { allResults, hitTest in
-            let node = hitTest.node
+    func evaluate(_ hitTestResults: [SCNHitTestResult]) -> [Result] {
+        hitTestResults.reduce(into: [Result]()) { allResults, hitTest in
+            allResults.append(evaluateSingle(hitTest))
+        }
+    }
+    
+    private func evaluateSingle(_ hitTest: SCNHitTestResult) -> Result {
+        let node = hitTest.node
+        switch node.categoryBitMask {
             
-            switch node.categoryBitMask {
-            case let type where isGridHierarchy(type):
-                if let result = extractHierarchyGrid(node) {
-                    allResults.append(result)
-                }
-                
-                
-            case let type where isGrid(type):
-                if let result = extractGrid(node) {
-                    allResults.append(result)
-                }
+        case let type where isGridHierarchy(type):
+            return safeExtract(node, extractHierarchyGrid(_:))
+            
+        case let type where isGrid(type):
+            return safeExtract(node, extractGrid(_:))
+            
 #if os(macOS)
-            case let type where isFocus(type):
-                if let result = extraFocus(node) {
-                    allResults.append(result)
-                }
+        case let type where isFocus(type):
+            return safeExtract(node, extraFocus(_:))
 #endif
-                
-            default:
-                break
-            }
+
+        default:
+            return .unknown(node)
         }
     }
 }
 
 private extension HitTestEvaluator {
+    func safeExtract(_ node: SCNNode, _ extractor: (SCNNode) -> Result?) -> Result {
+        return extractor(node) ?? .unknown(node)
+    }
+    
     func extractHierarchyGrid(_ node: SCNNode) -> Result? {
         guard let targetNodeParent = node.parent,
               let targetNodeRoot = targetNodeParent.parent,

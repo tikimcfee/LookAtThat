@@ -133,6 +133,7 @@ extension BaseSceneController {
         
         HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
             .evaluate(hitTestResults)
+            .forEach { print($0) }
         
         guard let firstResult = hitTestResults.first,
               var positioningNode = firstResult.node.parent else {
