@@ -20,18 +20,24 @@ extension CodeGrid {
 }
 
 class CodeGridControl {
+    typealias ControlReceiver = (CodeGridControl) -> Void
+    var didActivate: ControlReceiver?
+    
+    struct Settings {
+        let name: String
+        let action: ControlReceiver
+    }
+    
     let targetGrid: CodeGrid
     let displayGrid: CodeGrid
-    
-    typealias Receiver = (CodeGridControl) -> Void
-    var didActivate: Receiver?
     
     init(targetGrid: CodeGrid) {
         self.targetGrid = targetGrid
         self.displayGrid = targetGrid.newGridUsingCaches()
     }
     
-    func setup() {
+    @discardableResult
+    func setup(_ settings: CodeGridControl.Settings) -> Self {
         displayGrid.applying {
             $0.displayMode = .glyphs
             $0.fullTextBlitter.rootNode.removeFromParentNode()
@@ -40,7 +46,7 @@ class CodeGridControl {
         }
 
         displayGrid
-            .consume(text: "Swap Mode")
+            .consume(text: settings.name)
             .sizeGridToContainerNode(pad: 4.0)
             .backgroundColor(NSUIColor(displayP3Red: 0.2, green: 0.4, blue: 0.5, alpha: 0.8))
             .applying { _ = SCNNode.BoundsCaching.Update($0.rootNode, false) }
@@ -51,14 +57,14 @@ class CodeGridControl {
             .setLeading(targetGrid.measures.leading)
             .setFront(targetGrid.measures.front)
 
-        didActivate = { [targetGrid] _ in
-            switch targetGrid.displayMode {
-            case .glyphs:
-                targetGrid.displayMode = .layers
-            case .layers, .all:
-                targetGrid.displayMode = .glyphs
-            }
-        }
+        didActivate = settings.action
+        
+        return self
+    }
+    
+    func applying(_ settings: ControlReceiver) -> Self {
+        settings(self)
+        return self
     }
 }
 
@@ -224,6 +230,13 @@ extension CodeGrid {
     func asChildOf(_ parent: CodeGrid) -> Self {
         laztrace(#fileID,#function,parent)
         parent.rootNode.addChildNode(rootNode)
+        return self
+    }
+    
+    @discardableResult
+    func asChildOf(_ parent: SCNNode) -> Self {
+        laztrace(#fileID,#function,parent)
+        parent.addChildNode(rootNode)
         return self
     }
 }

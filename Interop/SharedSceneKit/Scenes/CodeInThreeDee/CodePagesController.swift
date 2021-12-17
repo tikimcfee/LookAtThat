@@ -61,13 +61,31 @@ class CodePagesController: BaseSceneController, ObservableObject {
                         }
                         self.macosCompat.inputCompat.focus.resize { focus, box in
                             //TODO: The control is off by a few points.. WHY!?
-                            let newControl = CodeGridControl(targetGrid: newGrid)
-                            box.gridNode.addChildNode(newControl.displayGrid.rootNode)
-                            newControl.setup()
+                            
+                            weak var weakNewGrid = newGrid
+                            func swapModes(_ control: CodeGridControl) {
+                                guard let targetGrid = weakNewGrid else { return }
+                                switch targetGrid.displayMode {
+                                case .glyphs:
+                                    targetGrid.displayMode = .layers
+                                case .layers, .all:
+                                    targetGrid.displayMode = .glyphs
+                                }
+                            }
+                            
+                            let settings = CodeGridControl.Settings(
+                                name: "Swap Modes",
+                                action: swapModes
+                            )
+                            
+                            let newControl = CodeGridControl(targetGrid: newGrid).applying {
+                                $0.displayGrid.asChildOf(box.gridNode)
+                                $0.setup(settings)
+                            }
                             
                             self.codeGridParser.gridCache.insertControl(newControl)
                             
-                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX / 2.0)
+                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
                         }
                         
                         break
