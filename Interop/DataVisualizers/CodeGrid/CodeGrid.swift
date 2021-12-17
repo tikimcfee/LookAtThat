@@ -19,55 +19,6 @@ extension CodeGrid {
     }
 }
 
-class CodeGridControl {
-    typealias ControlReceiver = (CodeGridControl) -> Void
-    var didActivate: ControlReceiver?
-    
-    struct Settings {
-        let name: String
-        let action: ControlReceiver
-    }
-    
-    let targetGrid: CodeGrid
-    let displayGrid: CodeGrid
-    
-    init(targetGrid: CodeGrid) {
-        self.targetGrid = targetGrid
-        self.displayGrid = targetGrid.newGridUsingCaches()
-    }
-    
-    @discardableResult
-    func setup(_ settings: CodeGridControl.Settings) -> Self {
-        displayGrid.applying {
-            $0.displayMode = .glyphs
-            $0.fullTextBlitter.rootNode.removeFromParentNode()
-            $0.fullTextBlitter.backgroundGeometryNode.removeFromParentNode()
-            $0.backgroundGeometryNode.categoryBitMask = HitTestType.codeGridControl.rawValue
-        }
-
-        displayGrid
-            .consume(text: settings.name)
-            .sizeGridToContainerNode(pad: 4.0)
-            .backgroundColor(NSUIColor(displayP3Red: 0.2, green: 0.4, blue: 0.5, alpha: 0.8))
-            .applying { _ = SCNNode.BoundsCaching.Update($0.rootNode, false) }
-
-        displayGrid
-            .measures
-            .setBottom(targetGrid.measures.top + 2)
-            .setLeading(targetGrid.measures.leading)
-            .setFront(targetGrid.measures.front)
-
-        didActivate = settings.action
-        
-        return self
-    }
-    
-    func applying(_ settings: ControlReceiver) -> Self {
-        settings(self)
-        return self
-    }
-}
-
 class CodeGrid: Identifiable, Equatable {
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
@@ -78,7 +29,7 @@ class CodeGrid: Identifiable, Equatable {
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
     
-    lazy var fullTextBlitter = CodeGridBlitter(id)
+    lazy var fullTextBlitter: CodeGridBlitter = CodeGridBlitter(id)
     let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
     
     var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()

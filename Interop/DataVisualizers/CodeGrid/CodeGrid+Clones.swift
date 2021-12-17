@@ -9,8 +9,19 @@ import Foundation
 import SceneKit
 
 // MARK: -- CodeClones
+
+private let defaultSettings = CodeGrid.CloneSettings()
+
 extension CodeGrid {
-    func makeClone() -> CodeGrid {
+    struct CloneSettings {
+        let removeFullTextNode: Bool
+        
+        init(removeFullTextNode: Bool = true) {
+            self.removeFullTextNode = removeFullTextNode
+        }
+    }
+    
+    func makeClone(_ cloneSettings: CloneSettings = defaultSettings) -> CodeGrid {
         let clone = CodeGrid(
             cloneId,
             glyphCache: glyphCache,
@@ -34,11 +45,13 @@ extension CodeGrid {
         clone.backgroundGeometryNode.geometry = clone.backgroundGeometry
         // TODO: add the full text stuff as well
         
-        if let fullTextNode = clone.rootNode.childNode(
-            withName: fullTextBlitter.id,
-            recursively: false
-        ) { fullTextNode.removeFromParentNode() }
-        
+        if cloneSettings.removeFullTextNode {
+            if let fullTextNode = clone.rootNode.childNode(
+                withName: fullTextBlitter.id,
+                recursively: false
+            ) { fullTextNode.removeFromParentNode() }
+        }
+
         return clone
     }
 }

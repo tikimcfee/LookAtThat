@@ -88,6 +88,12 @@
 		B7B18C61276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B7B18C65276AF3280043DA1B /* Interop in Resources */ = {isa = PBXBuildFile; fileRef = B7B18C64276AF3280043DA1B /* Interop */; };
+		B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
+		B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
+		B7B18C6B276C1C680043DA1B /* CGCSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */; };
+		B7B18C6C276C1C680043DA1B /* CGCSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */; };
+		B7B18C6F276C1EE40043DA1B /* CodePagesController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CodePagesController+Events.swift */; };
+		B7B18C70276C1EE40043DA1B /* CodePagesController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CodePagesController+Events.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
 		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
@@ -282,6 +288,9 @@
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7B18C60276991220043DA1B /* RenderingVersionFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionFour.swift; sourceTree = "<group>"; };
 		B7B18C64276AF3280043DA1B /* Interop */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Interop; sourceTree = "<group>"; };
+		B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridControl.swift; sourceTree = "<group>"; };
+		B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGCSwapModes.swift; sourceTree = "<group>"; };
+		B7B18C6E276C1EE40043DA1B /* CodePagesController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodePagesController+Events.swift"; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
 		B7BB9B78275D68290082EBAC /* FocusBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBox.swift; sourceTree = "<group>"; };
 		B7C23195276450EE003B1C3D /* SampleFiles.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SampleFiles.bundle; sourceTree = "<group>"; };
@@ -502,6 +511,24 @@
 			path = CodeGrid;
 			sourceTree = "<group>";
 		};
+		B7B18C66276C1B590043DA1B /* CodeGridControls */ = {
+			isa = PBXGroup;
+			children = (
+				B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */,
+				B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */,
+			);
+			path = CodeGridControls;
+			sourceTree = "<group>";
+		};
+		B7B18C6D276C1EC30043DA1B /* CodePagesController */ = {
+			isa = PBXGroup;
+			children = (
+				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				B7B18C6E276C1EE40043DA1B /* CodePagesController+Events.swift */,
+			);
+			path = CodePagesController;
+			sourceTree = "<group>";
+		};
 		B7EA8835272394AB0098541C /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +537,7 @@
 				B79F931227508F5600E46A96 /* Rendering */,
 				B72197242737428B00E1CB60 /* VirtualGrid */,
 				B7EA88332723938C0098541C /* CodeGrid.swift */,
+				B7B18C66276C1B590043DA1B /* CodeGridControls */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
 				B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */,
 				B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */,
@@ -789,7 +817,7 @@
 			isa = PBXGroup;
 			children = (
 				B79F93082750681C00E46A96 /* MacOSCompat */,
-				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				B7B18C6D276C1EC30043DA1B /* CodePagesController */,
 				F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */,
 				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
 			);
@@ -966,6 +994,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B79F93102750741900E46A96 /* CodeGridConcurrency.swift in Sources */,
+				B7B18C6B276C1C680043DA1B /* CGCSwapModes.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
@@ -976,6 +1005,7 @@
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoGrid.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
+				B7B18C6F276C1EE40043DA1B /* CodePagesController+Events.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
@@ -1023,6 +1053,7 @@
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
+				B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */,
@@ -1084,6 +1115,7 @@
 				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
 				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
+				B7B18C6C276C1C680043DA1B /* CGCSwapModes.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
@@ -1104,6 +1136,7 @@
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
+				B7B18C70276C1EE40043DA1B /* CodePagesController+Events.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */,
 				B78159E8273E057B00212176 /* WordColorCache.swift in Sources */,
@@ -1132,6 +1165,7 @@
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
 				B78159EB273E057B00212176 /* WordStringCache.swift in Sources */,
+				B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

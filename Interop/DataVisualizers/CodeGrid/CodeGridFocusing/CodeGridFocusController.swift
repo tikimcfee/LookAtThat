@@ -26,6 +26,7 @@ class FocusCache: LockingCache<String, FocusBox> {
 
 class CodeGridFocusController {
     lazy var focusCache = FocusCache(parentController: self)
+    lazy var userFocus = makeNewFocusBox()
     lazy var mainFocus = makeNewFocusBox()
     
     let controller: CodePagesController

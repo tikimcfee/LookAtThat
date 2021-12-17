@@ -48,65 +48,16 @@ class CodePagesController: BaseSceneController, ObservableObject {
             break
             
         case let .newSingleCommand(path, style):
-            sceneTransaction {
-                self.codeGridParser.withNewGrid(path.url) { plane, newGrid in
-                    switch style {
-                        
-                    case .addToFocus:
-                    #if os(macOS)
-                        sceneTransaction(0) {
-                            self.macosCompat.inputCompat.focus.layout { focus, box in
-                                focus.addGridToFocus(newGrid, box.deepestDepth + 1)
-                            }
-                        }
-                        self.macosCompat.inputCompat.focus.resize { focus, box in
-                            //TODO: The control is off by a few points.. WHY!?
-                            
-                            weak var weakNewGrid = newGrid
-                            func swapModes(_ control: CodeGridControl) {
-                                guard let targetGrid = weakNewGrid else { return }
-                                switch targetGrid.displayMode {
-                                case .glyphs:
-                                    targetGrid.displayMode = .layers
-                                case .layers, .all:
-                                    targetGrid.displayMode = .glyphs
-                                }
-                            }
-                            
-                            let settings = CodeGridControl.Settings(
-                                name: "Swap Modes",
-                                action: swapModes
-                            )
-                            
-                            let newControl = CodeGridControl(targetGrid: newGrid).applying {
-                                $0.displayGrid.asChildOf(box.gridNode)
-                                $0.setup(settings)
-                            }
-                            
-                            self.codeGridParser.gridCache.insertControl(newControl)
-                            
-                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
-                        }
-                        
-                        break
-                    #else
-                        break
-                    #endif
-                        
-                    case .addToWorld:
-                        self.addToRoot(rootGrid: newGrid)
-                    }
-                }
-            }
+            handleSingleCommand(path, style)
             
         case let .newMultiCommandRecursiveAllLayout(parent, _):
-            self.codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
+            codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
                 self.addToRoot(rootGrid: rootGrid)
             }
             
         case let .newMultiCommandRecursiveAllCache(parent):
             print("Start cache: \(parent.fileName)")
-            self.codeGridParser.cacheConcurrent(parent) {
+            codeGridParser.cacheConcurrent(parent) {
                 print("Cache complete: \(parent.fileName)")
             }
         }

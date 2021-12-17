@@ -140,4 +140,10 @@ extension SCNNode {
         modifier(self)
         return self
     }
+    
+    @discardableResult
+    func addingChild(_ child: CodeGrid) -> SCNNode {
+        addChildNode(child.rootNode)
+        return self
+    }
 }
