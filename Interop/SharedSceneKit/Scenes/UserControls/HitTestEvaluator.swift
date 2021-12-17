@@ -13,6 +13,28 @@ class HitTestEvaluator {
         case grid(CodeGrid)
         case focusBox(FocusBox)
         case unknown(SCNNode)
+        
+        var positionNode: SCNNode {
+            switch self {
+            case .grid(let codeGrid):
+                return codeGrid.rootNode
+            case .focusBox(let focusBox):
+                return focusBox.rootNode
+            case .unknown(let sCNNode):
+                return sCNNode
+            }
+        }
+        
+        var defaultSortOrder: Int {
+            switch self {
+            case .grid:
+                return 0
+            case .focusBox:
+                return 1
+            case .unknown:
+                return 2
+            }
+        }
     }
 
     

@@ -131,26 +131,19 @@ extension BaseSceneController {
             [.codeGrid, .codeGridGlyphs, .semanticTab, .codeGridSnapshot, .codeGridFocusBox]
         )
         
-        HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
+        guard let first = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
             .evaluate(hitTestResults)
-            .forEach { print($0) }
-        
-        guard let firstResult = hitTestResults.first,
-              var positioningNode = firstResult.node.parent else {
+            .sorted(by: { left, right in
+                return left.defaultSortOrder < right.defaultSortOrder
+            }).first
+        else {
             return
         }
         
-        switch firstResult.node.categoryBitMask {
-        case HitTestType.semanticTab.rawValue,
-            HitTestType.codeGridGlyphs.rawValue,
-            HitTestType.codeGridSnapshot.rawValue:
-            // SemanticInfo is setup as a child of the container.
-            // we want to position the parent itself when dragged, so move up the hierarchy.
-            positioningNode = positioningNode.parent!
-        default:
-            break
-        }
-
+        print("interacting with \(first)")
+        
+        let positioningNode = first.positionNode
+        
         touchState.pan.gesturePoint = currentTouchLocation
         touchState.pan.positioningNode = positioningNode
         touchState.pan.computeStartPosition()
