@@ -7,7 +7,6 @@
 
 import Foundation
 import SceneKit
-import XCTest
 
 class HitTestEvaluator {
     enum Result {
