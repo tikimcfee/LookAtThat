@@ -21,6 +21,10 @@ extension CodePagesController {
             return
         }
         
+        // We're making duplicates of files, but cache them anyway
+        // ** Clone is made for you! **
+        codeGridParser.gridCache.insertGrid(newGrid)
+        
         let resizeCommand = macosCompat.inputCompat.focus.resize
         let layoutCommand = macosCompat.inputCompat.focus.layout
         let insertControl = codeGridParser.gridCache.insertControl

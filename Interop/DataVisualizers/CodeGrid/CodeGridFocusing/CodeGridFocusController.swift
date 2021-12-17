@@ -15,6 +15,12 @@ class FocusCache: LockingCache<String, FocusBox> {
         self.parentController = parentController
     }
     
+    func maybeGet(_ id: FocusBox.ID) -> FocusBox? {
+        var box: FocusBox?
+        lockAndDo { box = $0[id] }
+        return box
+    }
+    
     func cacheNewFocus() -> FocusBox {
         return self[FocusBox.nextId()]
     }

@@ -121,15 +121,18 @@ extension BaseSceneController {
             print("-- Ended pan")
         }
     }
-
+    
     private func panBegan(_ event: PanEvent) {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
         let currentTouchLocation = event.currentLocation
         
         let hitTestResults = sceneView.hitTest(
             location: currentTouchLocation,
-            [.codeGrid, .semanticTab, .codeGridSnapshot]
+            [.codeGrid, .codeGridGlyphs, .semanticTab, .codeGridSnapshot, .codeGridFocusBox]
         )
+        
+        HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
+            .evaluate(hitTestResults)
         
         guard let firstResult = hitTestResults.first,
               var positioningNode = firstResult.node.parent else {

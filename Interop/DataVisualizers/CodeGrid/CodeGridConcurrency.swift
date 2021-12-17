@@ -25,6 +25,10 @@ class GridCache {
         self.parser = parser
     }
     
+    func insertGrid(_ key: CodeGrid) {
+        cachedGrids[key.id] = (key, key.makeClone())
+    }
+    
     func insertControl(_ key: CodeGridControl) {
         cachedControls[key.displayGrid.id] = key
     }
