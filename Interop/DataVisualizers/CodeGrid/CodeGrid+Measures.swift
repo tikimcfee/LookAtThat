@@ -167,10 +167,51 @@ extension CodeGrid {
         
         @discardableResult
         func alignedCenterZ(_ other: CodeGrid) -> Self {
-            setBack(other.measures.back - lengthZ / 2.0 + other.measures.lengthZ
-                    / 2.0)
+            setBack(other.measures.back - lengthZ / 2.0 + other.measures.lengthZ / 2.0)
             return self
         }
+    }
+}
+
+#if os(iOS)
+let DeviceScale = 0.001
+#elseif os(macOS)
+let DeviceScale = 1.0
+#endif
+
+
+private extension CodeGrid.Measures {
+    private var scaledLengthX: VectorFloat { sizeNode.lengthX * DeviceScale }
+    private var scaledLengthY: VectorFloat { sizeNode.lengthY * DeviceScale }
+    private var scaledLengthZ: VectorFloat { sizeNode.lengthZ * DeviceScale }
+    
+    private var scaledLocalLeading: VectorFloat {
+        get { localLeading * DeviceScale }
+    }
+    private var scaledLocalTrailing: VectorFloat {
+        get { localTrailing * DeviceScale }
+    }
+    private var scaledLocalTop: VectorFloat {
+        get { localTop * DeviceScale }
+    }
+    private var scaledLocalBottom: VectorFloat {
+        get { localBottom * DeviceScale }
+    }
+    private var scaledLocalFront: VectorFloat {
+        get { localFront * DeviceScale  }
+    }
+    private var scaledLocalBack: VectorFloat {
+        get { localBack * DeviceScale }
+    }
+    
+    private var scaledLocalCenterX: VectorFloat {
+        get { scaledLocalLeading + (scaledLengthX / 2.0) }
+    }
+    private var scaledLocalCenterY: VectorFloat {
+        get { scaledLocalTop - (scaledLengthY / 2.0) }
+    }
+    private var scaledLocalCenterZ: VectorFloat {
+        get { scaledLocalFront - (scaledLengthZ / 2.0) }
     }
 }
 

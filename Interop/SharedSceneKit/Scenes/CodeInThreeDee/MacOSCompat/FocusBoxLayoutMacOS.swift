@@ -6,10 +6,37 @@
 //
 
 import Foundation
+import SceneKit
 
 class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
-    func layout(_ box: FocusBox) {
-        guard let first = box.bimap[0] else {
+    func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
+        // Set the size of the box to match
+        let pad: VectorFloat = 32.0
+        let halfPad: VectorFloat = pad / 2.0
+        
+        container.rootGeometry.width = (BoundsWidth(newValue) + pad).cg
+        container.rootGeometry.height = (BoundsHeight(newValue) + pad).cg
+        container.rootGeometry.length = (BoundsLength(newValue) + pad).cg
+        
+        let rootWidth = container.rootGeometry.width.vector
+        let rootHeight = container.rootGeometry.height.vector
+        
+        /// translate geometry:
+        /// 1. so it's top-left-front is at (0, 0, 1/2 length)
+        /// 2. so it's aligned with the bounds of the grids themselves.
+        /// Note: this math assumes nothing has been moved from the origin
+        
+        let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
+        let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
+        let translateZ = -newValue.min.z / 2.0
+        
+        container.geometryNode.pivot = SCNMatrix4MakeTranslation(
+            translateX, translateY, translateZ
+        )
+    }
+    
+    func layout(_ container: FBLEContainer) {
+        guard let first = container.box.bimap[0] else {
             print("No depth-0 grid to start layout")
             return
         }
@@ -18,7 +45,7 @@ class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
         let zLengthPadding: VectorFloat = 150.0
         
         sceneTransaction {
-            switch box.layoutMode {
+            switch container.box.layoutMode {
             case .horizontal:
                 horizontalLayout()
             case .stacked:
@@ -27,7 +54,7 @@ class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
         }
         
         func horizontalLayout() {
-            box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
+            container.box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
                 if let previous = previous {
                     current.measures
                         .setTop(previous.measures.top)
@@ -40,7 +67,7 @@ class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
         }
         
         func stackLayout() {
-            box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+            container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
                 if let previous = previous {
                     current.measures
                         .setTop(previous.measures.top)

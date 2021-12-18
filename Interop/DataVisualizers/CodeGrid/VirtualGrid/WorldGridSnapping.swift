@@ -24,8 +24,8 @@ class WorldGridSnapping {
         case forward(CodeGrid)
         case backward(CodeGrid)
         
-        func copy(_ grid: CodeGrid) -> RelativeGridMapping {
-            switch self {
+        static func make(_ direction: SelfRelativeDirection, _ grid: CodeGrid) -> RelativeGridMapping {
+            switch direction {
             case .left:
                 return .left(grid)
             case .right:

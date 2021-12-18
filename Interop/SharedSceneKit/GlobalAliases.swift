@@ -31,20 +31,14 @@ public typealias OSScreen = UIScreen
 public typealias NSUIImage = UIImage
 #endif
 
-#if os(iOS)
-let DeviceScale = 0.001
-#elseif os(macOS)
-let DeviceScale = 1.0
-#endif
-
 extension VectorFloat {
     var toDouble: Double { Double(self) }
 }
 
 extension Double {
-    var device: Double {
-        return self * DeviceScale
-    }
+//    var device: Double {
+//        return self * DeviceScale
+//    }
 }
 
 extension CGFloat {
@@ -56,9 +50,9 @@ extension CGFloat {
         return self
     }
     
-    var device: CGFloat {
-        return self * DeviceScale
-    }
+//    var device: CGFloat {
+//        return self * DeviceScale
+//    }
 }
 
 extension Int {

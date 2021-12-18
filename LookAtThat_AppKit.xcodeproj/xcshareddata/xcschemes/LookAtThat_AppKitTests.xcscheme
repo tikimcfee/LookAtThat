@@ -51,15 +51,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-            BuildableName = "LookAtThat_AppKit.app"
-            BlueprintName = "LookAtThat_AppKit"
-            ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -214,6 +214,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B7F44C41276E324600522B45 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F07C49E6251C5AE800F28173;
+			remoteInfo = LookAtThatMobile;
+		};
 		F07C49CA251C095200F28173 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
@@ -903,6 +910,7 @@
 			);
 			dependencies = (
 				F07C49CB251C095200F28173 /* PBXTargetDependency */,
+				B7F44C42276E324600522B45 /* PBXTargetDependency */,
 			);
 			name = LookAtThat_AppKitTests;
 			packageProductDependencies = (
@@ -1221,6 +1229,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F07C49E6251C5AE800F28173 /* LookAtThatMobile */;
+			targetProxy = B7F44C41276E324600522B45 /* PBXContainerItemProxy */;
+		};
 		F07C49CB251C095200F28173 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */;

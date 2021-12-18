@@ -259,6 +259,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid = newGrid()
         var (deltaX, deltaY, deltaZ) = (0.0, 0.0, 0.0)
         
+        
+        
         printStart()
         print("start: ----")
         print(testGrid.measures.dumpstats)
