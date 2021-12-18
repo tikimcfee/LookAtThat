@@ -86,7 +86,10 @@ extension CodePagesController {
             print("No code grid we cry")
             return
         }
-        
+     
+#if os(iOS)
+        self.addToRoot(rootGrid: newGrid)
+#elseif os(macOS)
         let resizeCommand = macosCompat.inputCompat.focus.resize
         let layoutCommand = macosCompat.inputCompat.focus.layout
         let insertControl = codeGridParser.gridCache.insertControl
@@ -112,8 +115,8 @@ extension CodePagesController {
         case .addToWorld:
             self.addToRoot(rootGrid: newGrid)
         }
+#endif
     }
-    
 #endif
     
 }
