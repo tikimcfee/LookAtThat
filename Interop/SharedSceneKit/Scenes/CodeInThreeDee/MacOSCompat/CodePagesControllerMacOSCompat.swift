@@ -19,7 +19,7 @@ class CodePagesControllerMacOSCompat {
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesControllerMacOSInputCompat(controller: controller)
-        self.engine = FocusBoxLayoutMacOS()
+        self.engine = FocusBoxEngineMacOS()
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {

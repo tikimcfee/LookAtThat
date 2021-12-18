@@ -204,7 +204,7 @@ private extension FocusBox {
             box.width = DeviceScale.cg
             box.height = DeviceScale.cg
             box.length = DeviceScale.cg
-            material.transparency = 0.5
+            material.transparency = 0.45
 #endif
             material.transparencyMode = .dualLayer
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.75)

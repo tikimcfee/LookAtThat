@@ -117,8 +117,13 @@ class CodeGridFocusController {
         let newFocus = focusCache.cacheNewFocus()
         
         controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
+            #if os(macOS)
+            newFocus.rootNode.position = camera.position
+            newFocus.rootNode.simdPosition += camera.simdWorldFront * 128.0
+            #elseif os(iOS)
             newFocus.rootNode.position = camera.position
             newFocus.rootNode.simdPosition += camera.simdWorldFront * 0.5
+            #endif
             
             rootNode.addChildNode(newFocus.rootNode)
         }

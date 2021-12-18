@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
+class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
         // Set the size of the box to match
         let pad: VectorFloat = 32.0

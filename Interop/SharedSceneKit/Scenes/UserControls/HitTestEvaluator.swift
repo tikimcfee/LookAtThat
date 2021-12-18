@@ -114,12 +114,7 @@ private extension HitTestEvaluator {
     }
     
     func maybeGetFocus(_ id: FocusBox.ID) -> FocusBox? {
-        #if os(macOS)
         return compat.inputCompat.focus.focusCache.maybeGet(id)
-        #elseif os(iOS)
-        print("No focuses in iOS yet")
-        return nil
-        #endif
     }
 }
 
