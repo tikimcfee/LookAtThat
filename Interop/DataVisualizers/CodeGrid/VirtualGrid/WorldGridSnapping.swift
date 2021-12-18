@@ -8,11 +8,13 @@
 import Foundation
 import SceneKit
 
+
+
 class WorldGridSnapping {
     // map the relative directions you can go from a grid
     // - a direction has a reference to target grid, such that it can become a 'focus'
     // grid -> Set<Direction> = {left(toLeft), right(toRight), down(below), forward(zFront)}
-    typealias RelativeMappings = [RelativeGridMapping]
+    typealias Relationship = SourcedRelativeGridMapping
     
     enum RelativeGridMapping {
         case left(CodeGrid)
@@ -21,10 +23,32 @@ class WorldGridSnapping {
         case down(CodeGrid)
         case forward(CodeGrid)
         case backward(CodeGrid)
+        
+        func copy(_ grid: CodeGrid) -> RelativeGridMapping {
+            switch self {
+            case .left:
+                return .left(grid)
+            case .right:
+                return .right(grid)
+            case .up:
+                return .up(grid)
+            case .down:
+                return .down(grid)
+            case .forward:
+                return .forward(grid)
+            case .backward:
+                return .backward(grid)
+            }
+        }
     }
     
-    typealias Mapping = [CodeGrid: RelativeMappings]
-    var mapping = Mapping()
+    struct SourcedRelativeGridMapping {
+        let parent: CodeGrid
+        let mapping: RelativeGridMapping
+    }
+    
+    private typealias Mapping = [CodeGrid: [Relationship]]
+    private var mapping = Mapping()
     
     var gridReg1: CodeGrid?
     var gridReg2: CodeGrid?
@@ -41,17 +65,18 @@ extension WorldGridSnapping {
         mapping.removeAll()
     }
     
-    func connect(sourceGrid: CodeGrid, to newDirectionalGrids: RelativeGridMapping) {
+    func connect(sourceGrid: CodeGrid, to relativeDirection: RelativeGridMapping) {
         var toInsert = mapping[sourceGrid] ?? {
-            let new = RelativeMappings()
+            let new = [Relationship]()
             mapping[sourceGrid] = new
             return new
         }()
-        guard !toInsert.contains(where: { $0 == newDirectionalGrids }) else {
-            print("Skipping add; \(newDirectionalGrids) exists")
+        
+        guard !toInsert.contains(where: { $0.mapping == relativeDirection }) else {
+            print("Skipping add; \(relativeDirection) exists")
             return
         }
-        toInsert.append(newDirectionalGrids)
+        toInsert.append(SourcedRelativeGridMapping(parent: sourceGrid, mapping: relativeDirection))
         mapping[sourceGrid] = toInsert
     }
     
@@ -78,11 +103,44 @@ extension WorldGridSnapping {
         }
     }
     
-    func gridsRelativeTo(_ targetGrid: CodeGrid) -> RelativeMappings {
-        return mapping[targetGrid] ?? []
+    func detachRetaining(_ targetGrid: CodeGrid) {
+        guard let detachedRelationships = mapping.removeValue(forKey: targetGrid) else {
+            print("Nothing to detach for \(targetGrid)")
+            return
+        }
+        
+        print("Detach \(targetGrid.id)")
+        
+        var repairable: [Relationship] = []
+        
+        let allKeys = Array(mapping.keys)
+        for key in allKeys {
+            mapping[key]?.removeAll(where: { relationship in
+                let foundMatch = relationship.mapping.targetGrid.id == targetGrid.id
+                if foundMatch { repairable.append(relationship) }
+                return foundMatch
+            })
+        }
+
+        for potentialParent in repairable {
+            for detachedRelationship in detachedRelationships {
+                let matchesDirection = potentialParent.mapping.direction == detachedRelationship.mapping.direction
+                let isNotMe = potentialParent.mapping.targetGrid.id != detachedRelationship.mapping.targetGrid.id
+                if matchesDirection && isNotMe {
+                    print("-- found match: [\(potentialParent.parent.id)] \(potentialParent.mapping)")
+                    connect(sourceGrid: potentialParent.parent, to: detachedRelationship.mapping)
+                } else {
+                    print("-- skip match: direction:\(matchesDirection) isNotMe:\(isNotMe)")
+                }
+            }   
+        }
     }
     
-    func gridsRelativeTo(_ targetGrid: CodeGrid, _ direction: SelfRelativeDirection) -> RelativeMappings {
+    func gridsRelativeTo(_ targetGrid: CodeGrid) -> [RelativeGridMapping] {
+        return mapping[targetGrid]?.map { $0.mapping } ?? []
+    }
+    
+    func gridsRelativeTo(_ targetGrid: CodeGrid, _ direction: SelfRelativeDirection) -> [RelativeGridMapping] {
         gridsRelativeTo(targetGrid).filter { $0.direction == direction }
     }
     

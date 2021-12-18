@@ -108,7 +108,7 @@ class CodeGridFocusController {
         return firstFocused
     }
     
-    func currentDirections() -> WorldGridSnapping.RelativeMappings {
+    func currentDirections() -> [WorldGridSnapping.RelativeGridMapping] {
         guard let focus = mainFocus.focusedGrid else { return [] }
         return mainFocus.snapping.gridsRelativeTo(focus)
     }
