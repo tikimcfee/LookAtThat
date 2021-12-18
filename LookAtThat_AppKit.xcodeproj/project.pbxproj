@@ -118,6 +118,7 @@
 		B7F44C3B276DB2B300522B45 /* TestButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C39276DB2B300522B45 /* TestButtonsView.swift */; };
 		B7F44C3D276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */; };
 		B7F44C3E276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */; };
+		B7F44C40276DCFEE00522B45 /* FocusBoxLayoutMacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3F276DCFEE00522B45 /* FocusBoxLayoutMacOS.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -314,6 +315,7 @@
 		B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSInputCompat.swift; sourceTree = "<group>"; };
 		B7F44C39276DB2B300522B45 /* TestButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonsView.swift; sourceTree = "<group>"; };
 		B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSInputCompat.swift; sourceTree = "<group>"; };
+		B7F44C3F276DCFEE00522B45 /* FocusBoxLayoutMacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxLayoutMacOS.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 		B79F93082750681C00E46A96 /* MacOSCompat */ = {
 			isa = PBXGroup;
 			children = (
+				B7F44C3F276DCFEE00522B45 /* FocusBoxLayoutMacOS.swift */,
 				B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */,
 				B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */,
 			);
@@ -1040,6 +1043,7 @@
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
+				B7F44C40276DCFEE00522B45 /* FocusBoxLayoutMacOS.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,

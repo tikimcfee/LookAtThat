@@ -15,10 +15,11 @@ import SwiftUI
 class CodePagesControllerMacOSCompat {
     let controller: CodePagesController
     let inputCompat: CodePagesControllerMacOSInputCompat
-    
+    let engine: FocusBoxLayoutEngine
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesControllerMacOSInputCompat(controller: controller)
+        self.engine = FocusBoxLayoutMacOS()
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {

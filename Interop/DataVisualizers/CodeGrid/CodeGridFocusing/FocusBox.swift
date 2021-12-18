@@ -26,6 +26,7 @@ class FocusBox: Hashable, Identifiable {
     private lazy var geometryNode: SCNNode = makeGeometryNode()
     private lazy var rootGeometry: SCNBox = makeGeometry()
     lazy var snapping: WorldGridSnapping = WorldGridSnapping()
+    var engine: FocusBoxLayoutEngine { focus.controller.compat.engine }
     
     var id: String
     var focus: CodeGridFocusController
@@ -146,48 +147,7 @@ class FocusBox: Hashable, Identifiable {
     }
     
     func layoutFocusedGrids(_ alignTrailing: Bool = false) {
-        guard let first = bimap[0] else {
-            print("No depth-0 grid to start layout")
-            return
-        }
-        
-        let xLengthPadding: VectorFloat = 8.0
-        let zLengthPadding: VectorFloat = 150.0
-        
-        sceneTransaction {
-            switch layoutMode {
-            case .horizontal:
-                horizontalLayout()
-            case .stacked:
-                stackLayout()
-            }
-        }
-        
-        func horizontalLayout() {
-            snapping.iterateOver(first, direction: .right) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .setLeading(previous.measures.trailing + xLengthPadding)
-                        .setBack(previous.measures.back)
-                } else {
-                    current.zeroedPosition()
-                }
-            }
-        }
-        
-        func stackLayout() {
-            snapping.iterateOver(first, direction: .forward) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .alignedCenterX(previous)
-                        .setBack(previous.measures.back - zLengthPadding)
-                } else {
-                    current.zeroedPosition()
-                }
-            }
-        }
+        engine.layout(self)
     }
     
     private func iterateGrids(_ receiver: (CodeGrid?, CodeGrid, Int) -> Void) {
@@ -243,4 +203,8 @@ class FocusBox: Hashable, Identifiable {
         }
         return box
     }
+}
+
+protocol FocusBoxLayoutEngine {
+    func layout(_ box: FocusBox)
 }

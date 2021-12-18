@@ -11,10 +11,12 @@ import SceneKit
 class ControlleriOSCompat {
     let controller: CodePagesController
     let inputCompat: CodePagesInput
+    let engine: FocusBoxLayoutEngine
     
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesInput(controller: controller)
+        self.engine = CompatiOSFocusBoxLayoutEngine()
     }
     
     func attachEventSink() {
@@ -41,5 +43,11 @@ extension ControlleriOSCompat: CommandHandler {
         guard let newGrid = renderAndCache(path) else { return }
         
         parser.editorWrapper.addInFrontOfCamera(grid: newGrid)
+    }
+}
+
+struct CompatiOSFocusBoxLayoutEngine: FocusBoxLayoutEngine {
+    func layout(_ box: FocusBox) {
+        print("no ios layout")
     }
 }
