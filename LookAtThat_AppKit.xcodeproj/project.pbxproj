@@ -109,9 +109,6 @@
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
-		B7F44C27276D85AB00522B45 /* ARHeadsetKit in Frameworks */ = {isa = PBXBuildFile; productRef = B7F44C26276D85AB00522B45 /* ARHeadsetKit */; };
-		B7F44C2B276D867E00522B45 /* CodePagesARRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C29276D85E300522B45 /* CodePagesARRenderer.swift */; };
-		B7F44C2D276D86A800522B45 /* ARHeadsetKit in Frameworks */ = {isa = PBXBuildFile; productRef = B7F44C2C276D86A800522B45 /* ARHeadsetKit */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -304,7 +301,6 @@
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
-		B7F44C29276D85E300522B45 /* CodePagesARRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesARRenderer.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -376,7 +372,6 @@
 			files = (
 				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
-				B7F44C27276D85AB00522B45 /* ARHeadsetKit in Frameworks */,
 				B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */,
 				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
@@ -398,7 +393,6 @@
 			files = (
 				B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */,
 				B78159DB273E041B00212176 /* SwiftSyntax in Frameworks */,
-				B7F44C2D276D86A800522B45 /* ARHeadsetKit in Frameworks */,
 				B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */,
 				B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
@@ -530,7 +524,6 @@
 		B7B18C6D276C1EC30043DA1B /* CodePagesController */ = {
 			isa = PBXGroup;
 			children = (
-				B7F44C28276D85CB00522B45 /* ARKit */,
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
 				B7B18C6E276C1EE40043DA1B /* CodePagesController+Events.swift */,
 			);
@@ -559,14 +552,6 @@
 				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
 			);
 			path = CodeGrid;
-			sourceTree = "<group>";
-		};
-		B7F44C28276D85CB00522B45 /* ARKit */ = {
-			isa = PBXGroup;
-			children = (
-				B7F44C29276D85E300522B45 /* CodePagesARRenderer.swift */,
-			);
-			path = ARKit;
 			sourceTree = "<group>";
 		};
 		F00FC723250C53460092AFF9 = {
@@ -864,7 +849,6 @@
 				B73286A4273367B400C9C82A /* FileKit */,
 				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
 				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
-				B7F44C26276D85AB00522B45 /* ARHeadsetKit */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -912,7 +896,6 @@
 				B78159DC273E045000212176 /* FileKit */,
 				B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */,
 				B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */,
-				B7F44C2C276D86A800522B45 /* ARHeadsetKit */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -954,7 +937,6 @@
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
-				B7F44C25276D85AB00522B45 /* XCRemoteSwiftPackageReference "ARHeadsetKit" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1151,7 +1133,6 @@
 				B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B7A6F2AE275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
-				B7F44C2B276D867E00522B45 /* CodePagesARRenderer.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
@@ -1569,14 +1550,6 @@
 				kind = branch;
 			};
 		};
-		B7F44C25276D85AB00522B45 /* XCRemoteSwiftPackageReference "ARHeadsetKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/ARHeadsetKit";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-syntax";
@@ -1640,16 +1613,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
-		};
-		B7F44C26276D85AB00522B45 /* ARHeadsetKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7F44C25276D85AB00522B45 /* XCRemoteSwiftPackageReference "ARHeadsetKit" */;
-			productName = ARHeadsetKit;
-		};
-		B7F44C2C276D86A800522B45 /* ARHeadsetKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7F44C25276D85AB00522B45 /* XCRemoteSwiftPackageReference "ARHeadsetKit" */;
-			productName = ARHeadsetKit;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

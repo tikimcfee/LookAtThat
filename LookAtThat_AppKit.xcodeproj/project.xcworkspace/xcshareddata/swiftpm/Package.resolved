@@ -2,29 +2,11 @@
   "object": {
     "pins": [
       {
-        "package": "ARHeadsetKit",
-        "repositoryURL": "https://github.com/tikimcfee/ARHeadsetKit",
-        "state": {
-          "branch": "main",
-          "revision": "4dce9bdcaf41b743112586b0bd6e594122109be1",
-          "version": null
-        }
-      },
-      {
         "package": "Brotli",
         "repositoryURL": "https://github.com/karlvr/Brotli",
         "state": {
           "branch": "master",
           "revision": "0d59ff8edef57eb7b1d167bf950e42826cf1f54a",
-          "version": null
-        }
-      },
-      {
-        "package": "DeviceKit",
-        "repositoryURL": "https://github.com/devicekit/DeviceKit",
-        "state": {
-          "branch": "master",
-          "revision": "da57c444cbb7b6159aa871534d4cf2616d1d55c6",
           "version": null
         }
       },
@@ -35,15 +17,6 @@
           "branch": null,
           "revision": "8b023fb42c2afd8a9ca00d2e587e1619a4ce8b5c",
           "version": "5.3.0"
-        }
-      },
-      {
-        "package": "JJLISO8601DateFormatter",
-        "repositoryURL": "https://github.com/michaeleisel/JJLISO8601DateFormatter",
-        "state": {
-          "branch": null,
-          "revision": "99fadf2e6425a0f827b1b485ea60bc2b7ecdd22c",
-          "version": "0.1.4"
         }
       },
       {
@@ -62,24 +35,6 @@
           "branch": "main",
           "revision": "8c9d8c0f7b43f52f7c6884e15af16fbd7a60f76a",
           "version": null
-        }
-      },
-      {
-        "package": "ZippyJSON",
-        "repositoryURL": "https://github.com/michaeleisel/ZippyJSON",
-        "state": {
-          "branch": "master",
-          "revision": "71a46d3ed2749a150202346aec83a6cd78340cc5",
-          "version": null
-        }
-      },
-      {
-        "package": "ZippyJSONCFamily",
-        "repositoryURL": "https://github.com/michaeleisel/ZippyJSONCFamily",
-        "state": {
-          "branch": null,
-          "revision": "c55123b23f0faa898b22bf1b967e72a2df51fdb4",
-          "version": "1.2.4"
         }
       }
     ]
