@@ -22,16 +22,17 @@ struct MobileAppRootView : View {
                 Button(action: { showInfoView = true }) {
                     Text("📶").padding()
                 }
-                Button(action: { renderTest() }) {
+                Button(action: { showFiles() }) {
                     Text("📜").padding()
                 }
+                TestButtons_Debugging()
             }
         }.sheet(isPresented: $showInfoView) {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
         }.sheet(isPresented: $showFileBrowser) {
             FileBrowserView()
-                .onAppear { renderTest() }
+                .onAppear { showFiles() }
         }
     }
     
@@ -46,7 +47,7 @@ struct MobileAppRootView : View {
         FileKitPath(url: sampleFilesUrl)
     }
     
-    func renderTest() {
+    func showFiles() {
         guard let sampleFilesPath = sampleFilesKitPath else {
             return
         }

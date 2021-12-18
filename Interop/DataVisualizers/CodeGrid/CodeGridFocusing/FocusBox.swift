@@ -54,20 +54,27 @@ class FocusBox: Hashable, Identifiable {
         get { rootGeometry.boundingBox }
         set {
             // Set the size of the box to match
-            let pad = 16.0
-            let halfPad = pad / 2.0
-            rootGeometry.width = BoundsWidth(newValue) + pad
-            rootGeometry.height = BoundsHeight(newValue) + pad
-            rootGeometry.length = BoundsLength(newValue) + pad
+            let pad: VectorFloat = 32.0
+            let halfPad: VectorFloat = pad / 2.0
+            
+            rootGeometry.width = (BoundsWidth(newValue) + pad).cg
+            rootGeometry.height = (BoundsHeight(newValue) + pad).cg
+            rootGeometry.length = (BoundsLength(newValue) + pad).cg
+            
+            let rootWidth = rootGeometry.width.vector
+            let rootHeight = rootGeometry.height.vector
             
             /// translate geometry:
             /// 1. so it's top-left-front is at (0, 0, 1/2 length)
             /// 2. so it's aligned with the bounds of the grids themselves.
             /// Note: this math assumes nothing has been moved from the origin
+            
+            let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
+            let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
+            let translateZ = -newValue.min.z / 2.0
+            
             geometryNode.pivot = SCNMatrix4MakeTranslation(
-                -rootGeometry.width / 2.0 - newValue.min.x + halfPad,
-                 rootGeometry.height / 2.0 - newValue.max.y - halfPad,
-                 -newValue.min.z / 2.0
+                translateX, translateY, translateZ
             )
         }
     }
@@ -144,9 +151,8 @@ class FocusBox: Hashable, Identifiable {
             return
         }
         
-        
-        let xLengthPadding = 8.0
-        let zLengthPadding = 150.0
+        let xLengthPadding: VectorFloat = 8.0
+        let zLengthPadding: VectorFloat = 150.0
         
         sceneTransaction {
             switch layoutMode {
@@ -229,7 +235,9 @@ class FocusBox: Hashable, Identifiable {
         let box = SCNBox()
         box.chamferRadius = 4.0
         if let material = box.firstMaterial {
+            #if os(macOS)
             material.transparency = 0.125
+            #endif
             material.transparencyMode = .dualLayer
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.75)
         }

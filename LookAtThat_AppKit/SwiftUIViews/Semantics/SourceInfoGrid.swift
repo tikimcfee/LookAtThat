@@ -180,10 +180,8 @@ struct SourceInfoGrid: View {
     }
     
     func newFocusRequested() {
-        #if os(OSX)
-        SceneLibrary.global.codePagesController.macosCompat
+        SceneLibrary.global.codePagesController.compat
             .inputCompat.focus.setNewFocus()
-        #endif
     }
     
     func selected(name: String) {

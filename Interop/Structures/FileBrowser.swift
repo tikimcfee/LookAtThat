@@ -14,8 +14,7 @@ import Combine
 typealias FileKitPath = Path
 
 class FileBrowser: ObservableObject {
-    @Published private(set) var scopes: [Scope] = []
-    @Published private(set) var pathDepths: [FileKitPath: Int] = [:]
+    @Published var scopes: [Scope] = []
     @Published var fileSeletionEvents: FileBrowser.Event = .noSelection
     
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
@@ -52,6 +51,17 @@ class FileBrowser: ObservableObject {
             }
         }
         
+        var path: FileKitPath {
+            switch self {
+            case let .file(path):
+                return path
+            case let .directory(path):
+                return path
+            case let .expandedDirectory(path):
+                return path
+            }
+        }
+        
         var description: String {
             switch self {
             case let .file(path):
@@ -80,10 +90,25 @@ extension FileBrowser {
         case newMultiCommandRecursiveAllLayout(Path, SelectType)
     }
     
+    var rootScope: Scope? {
+        return scopes.first
+    }
+    
+    func distanceToRoot(_ start: Scope) -> Int {
+        guard let rootPath = rootScope?.path else { return 0 }
+        
+        var depth = 0
+        var pointer: FileKitPath? = start.path
+        while pointer != nil && pointer != rootPath {
+            pointer = pointer?.parent
+            depth += 1
+        }
+        
+        return depth
+    }
+    
     func setRootScope(_ path: Path) {
         scopes.removeAll()
-        pathDepths.removeAll()
-        setPathDepth(path)
         if path.isDirectory {
             scopes.append(.expandedDirectory(path))
             expandCollapsedDirectory(rootIndex: 0, path)
@@ -122,21 +147,10 @@ extension FileBrowser {
         }
     }
     
-    private func setPathDepth(_ path: Path) {
-        guard pathDepths[path] == nil else { return }
-        
-        if let parentDepth = pathDepths[path.parent] {
-            pathDepths[path] = parentDepth + 1
-        } else {
-            pathDepths[path] = 0
-        }
-    }
-    
     private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
         let subpaths = path.filterdChildren(Self.isFileObserved)
         let expandedChildren = subpaths
             .reduce(into: [Scope]()) { result, path in
-                setPathDepth(path)
                 result.append(Scope.from(path))
             }
         scopes.insert(contentsOf: expandedChildren, at: rootIndex + 1)

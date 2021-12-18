@@ -12,7 +12,9 @@ struct FileBrowserView: View {
     
     typealias RowType = [FileBrowser.Scope]
     @State var files: RowType = []
-    @State var pathDepths: [FileKitPath: Int] = [:]
+    
+    var fileBrowser: FileBrowser { SceneLibrary.global.codePagesController.fileBrowser }
+    func pathDepths(_ scope: FileBrowser.Scope) -> Int { fileBrowser.distanceToRoot(scope) }
     
     var body: some View {
         fileRows(files)
@@ -22,13 +24,6 @@ struct FileBrowserView: View {
                     .receive(on: DispatchQueue.main)
             ) { scopes in
                 self.files = scopes
-            }
-            .onReceive(
-                SceneLibrary.global.codePagesController.pathDepthStream
-                    .subscribe(on: DispatchQueue.global())
-                    .receive(on: DispatchQueue.main)
-            ) { depths in
-                self.pathDepths = depths
             }
     }
     
@@ -66,7 +61,7 @@ struct FileBrowserView: View {
         switch scope {
         case let .file(path):
             HStack {
-                makeSpacer(pathDepths[path])
+                makeSpacer(pathDepths(scope))
                 Text("📄")
                     .font(.footnote)
                     .truncationMode(.middle)
@@ -84,7 +79,7 @@ struct FileBrowserView: View {
             }
         case let .directory(path):
             HStack {
-                makeSpacer(pathDepths[path])
+                makeSpacer(pathDepths(scope))
                 Text("▶️")
                 
                 Text(path.components.last?.rawValue ?? "")
@@ -100,7 +95,7 @@ struct FileBrowserView: View {
             .onTapGesture { fileScopeSelected(scope) }
         case let .expandedDirectory(path):
             HStack {
-                makeSpacer(pathDepths[path])
+                makeSpacer(pathDepths(scope))
                 Text("🔽")
                 
                 Text(path.components.last?.rawValue ?? "")
@@ -129,14 +124,9 @@ struct FileBrowserView: View {
     }
     
     func genericSelection(_ action: FileBrowser.Event) {
-        #if os(OSX)
         SceneLibrary.global.codePagesController
             .fileBrowser
             .fileSeletionEvents = action
-        #else
-        SceneLibrary.global.codePagesController
-            .onNewFileStreamEvent(action)
-        #endif
     }
     
     @ViewBuilder
@@ -162,4 +152,4 @@ struct RectangleDivider: View {
             .frame(width: width)
             .edgesIgnoringSafeArea(.horizontal)
     }
-    }
+}

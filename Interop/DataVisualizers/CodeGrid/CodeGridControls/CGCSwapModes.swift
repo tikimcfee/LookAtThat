@@ -30,7 +30,6 @@ func CGCSwapModes(_ targetGrid: CodeGrid) -> CodeGridControl {
     return CodeGridControl(targetGrid: targetGrid).setup(settings)
 }
 
-#if os(macOS)
 func CGCAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
     weak var weakTargetGrid = targetGrid
     weak var weakController = controller
@@ -62,4 +61,3 @@ func CGCAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController
     
     return CodeGridControl(targetGrid: targetGrid).setup(settings)
 }
-#endif

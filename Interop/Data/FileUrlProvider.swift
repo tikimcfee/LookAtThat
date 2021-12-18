@@ -108,9 +108,5 @@ func openFile(_ receiver: @escaping FileReceiver) {
 
 func openDirectory(_ receiver: @escaping DirectoryReceiver) {
     print("Open directory not implemented", #file)
-    
-    QuickLooper(loop: {
-        print("Looping")
-    })
 }
 #endif

@@ -37,9 +37,6 @@ class SearchContainer {
         searchQueue.async(execute: currentWorkItem)
         
         func searchBlock() {
-//            SCNTransaction.lock()
-//            SCNTransaction.begin()
-
             RenderTask(
                 codeGridFocus: codeGridFocus,
                 codeGridParser: codeGridParser,
@@ -47,11 +44,6 @@ class SearchContainer {
                 newInput: newInput,
                 state: state
             ).start()
-            
-//            SCNTransaction.flush()
-//            SCNTransaction.commit()
-//            SCNTransaction.flush()
-//            SCNTransaction.unlock()
         }
     }
 }

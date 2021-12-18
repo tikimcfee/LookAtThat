@@ -9,12 +9,10 @@ import Foundation
 import SceneKit
 
 class HitTestEvaluator {
+    
     let controller: CodePagesController
     private var parser: CodeGridParser { controller.codeGridParser }
-
-#if os(macOS)
-    lazy var compat = controller.macosCompat
-#endif
+    lazy var compat = controller.compat
     
     init(controller: CodePagesController) {
         self.controller = controller
@@ -40,11 +38,9 @@ class HitTestEvaluator {
             
         case let type where isGrid(type):
             return safeExtract(node, extractGrid(_:))
-            
-#if os(macOS)
+
         case let type where isFocus(type):
             return safeExtract(node, extraFocus(_:))
-#endif
 
         default:
             return .unknown(node)
@@ -80,7 +76,6 @@ private extension HitTestEvaluator {
         return .grid(grid.source)
     }
 
-#if os(macOS)
     func extraFocus(_ node: SCNNode) -> Result? {
         guard let focusRootNode = node.parent,
               let focusRootId = focusRootNode.name,
@@ -91,7 +86,6 @@ private extension HitTestEvaluator {
         
         return .focusBox(cachedFocus)
     }
-#endif
 }
 
 private extension HitTestEvaluator {
@@ -119,24 +113,21 @@ private extension HitTestEvaluator {
         return parser.gridCache.cachedGrids[id]
     }
     
-#if os(macOS)
     func maybeGetFocus(_ id: FocusBox.ID) -> FocusBox? {
+        #if os(macOS)
         return compat.inputCompat.focus.focusCache.maybeGet(id)
+        #elseif os(iOS)
+        print("No focuses in iOS yet")
+        return nil
+        #endif
     }
-#elseif os(iOS)
-    
-#endif
-    
 }
 
 extension HitTestEvaluator {
     enum Result {
         case grid(CodeGrid)
         case unknown(SCNNode)
-
-#if os(macOS)
         case focusBox(FocusBox)
-#endif
         
         var positionNode: SCNNode {
             switch self {
@@ -144,26 +135,19 @@ extension HitTestEvaluator {
                 return codeGrid.rootNode
             case .unknown(let sCNNode):
                 return sCNNode
-                
-#if os(macOS)
             case .focusBox(let focusBox):
                 return focusBox.rootNode
-#endif
             }
         }
 
-        
         var defaultSortOrder: Int {
             switch self {
             case .grid:
                 return 0
-            case .unknown:
-                return 2
-                
-#if os(macOS)
             case .focusBox:
                 return 1
-#endif
+            case .unknown:
+                return 2
             }
         }
         

@@ -139,6 +139,23 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(firstNames, secondNames)
     }
     
+    func testFileBrowser() throws {
+        let testFile = bundle.testFile
+        let testPathStart = try XCTUnwrap(FileKitPath(url: testFile), "Need a working url to test")
+        let testPathParent = try XCTUnwrap(testPathStart.parent.parent.parent, "Need a working url to test")
+        
+        let scopeStart = FileBrowser.Scope.file(testPathStart)
+        let scopeParent = FileBrowser.Scope.file(testPathParent)
+        
+        let browser = FileBrowser()
+        browser.scopes.append(scopeParent)
+        
+        let depth = browser.distanceToRoot(scopeStart)
+        
+        print("Depth: \(depth)")
+        XCTAssertEqual(depth, 3, "Calls to parent and depth count must match")
+    }
+    
     func testAttributedWrites() throws {
         let testFile = bundle.testFile
         let fileData = try Data(contentsOfPath: FileKitPath(testFile.path))

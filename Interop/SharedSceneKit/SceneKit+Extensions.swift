@@ -146,4 +146,13 @@ extension SCNNode {
         addChildNode(child.rootNode)
         return self
     }
+    
+    @discardableResult
+    func withDeviceScale() -> SCNNode {
+        #if os(iOS)
+        let scaleFactor = VectorFloat(0.001)
+        scale = SCNVector3(x: scaleFactor, y: scaleFactor, z: scaleFactor)
+        #endif
+        return self
+    }
 }

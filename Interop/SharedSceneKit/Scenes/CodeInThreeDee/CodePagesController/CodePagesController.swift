@@ -16,7 +16,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
     
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
-    lazy var pathDepthStream = fileBrowser.$pathDepths.share().eraseToAnyPublisher()
 
     @Published var hoveredToken: String?
     @Published var hoveredInfo: CodeGridSemanticMap?
@@ -25,11 +24,17 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
     
     var cancellables = Set<AnyCancellable>()
-    
+
 #if os(macOS)
-    lazy var macosCompat = CodePagesControllerMacOSCompat(
+    lazy var compat = CodePagesControllerMacOSCompat(
         controller: self
     )
+    var commandHandler: CommandHandler { compat }
+#elseif os(iOS)
+    lazy var compat = ControlleriOSCompat(
+        controller: self
+    )
+    var commandHandler: CommandHandler { compat }
 #endif
 
     init(sceneView: CustomSceneView,
@@ -48,7 +53,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
             break
             
         case let .newSingleCommand(path, style):
-            handleSingleCommand(path, style)
+            commandHandler.handleSingleCommand(path, style)
             
         case let .newMultiCommandRecursiveAllLayout(parent, _):
             codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
@@ -78,12 +83,18 @@ class CodePagesController: BaseSceneController, ObservableObject {
         // Anyway, dispatch for now with no guarantee of success.
 #if os(OSX)
         DispatchQueue.main.async {
-            self.macosCompat.attachMouseSink()
-            self.macosCompat.attachKeyInputSink()
-            self.macosCompat.attachEventSink()
-            self.macosCompat.attachSearchInputSink()
+            self.compat.attachMouseSink()
+            self.compat.attachKeyInputSink()
+            self.compat.attachEventSink()
+            self.compat.attachSearchInputSink()
+        }
+#elseif os(iOS)
+        DispatchQueue.main.async {
+            self.compat.attachEventSink()
+            self.compat.attachSearchInputSink()
         }
 #endif
+
     }
 
     override func sceneInactive() {
@@ -93,8 +104,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
     override func onSceneStateReset() {
         // Clear out all the grids and things
         #if os(macOS)
-        macosCompat.inputCompat.focus.resetState()
-        macosCompat.inputCompat.focus.setNewFocus()
+        compat.inputCompat.focus.resetState()
+        compat.inputCompat.focus.setNewFocus()
         #endif
     }
 }
