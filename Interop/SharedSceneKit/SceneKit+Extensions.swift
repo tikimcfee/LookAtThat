@@ -149,10 +149,13 @@ extension SCNNode {
     
     @discardableResult
     func withDeviceScale() -> SCNNode {
-        #if os(iOS)
-        let scaleFactor = VectorFloat(0.001)
-        scale = SCNVector3(x: scaleFactor, y: scaleFactor, z: scaleFactor)
-        #endif
+        scale = SCNVector3(x: DeviceScale, y: DeviceScale, z: DeviceScale)
         return self
     }
 }
+
+#if os(iOS)
+let DeviceScale = VectorFloat(0.001)
+#elseif os(macOS)
+let DeviceScale = 1.0
+#endif

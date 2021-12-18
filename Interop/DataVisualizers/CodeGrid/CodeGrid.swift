@@ -79,7 +79,7 @@ extension CodeGrid {
         container.name = id
         container.addChildNode(rootGlyphsNode)
         container.addChildNode(backgroundGeometryNode)
-        return container
+        return container.withDeviceScale()
     }
     
     private func makeRootGlyphsNode() -> SCNNode {

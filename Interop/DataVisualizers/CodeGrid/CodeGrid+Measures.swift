@@ -17,9 +17,75 @@ extension CodeGrid {
             self.target = targetGrid
         }
         
-        var lengthX: VectorFloat { sizeNode.lengthX }
-        var lengthY: VectorFloat { sizeNode.lengthY }
-        var lengthZ: VectorFloat { sizeNode.lengthZ }
+        var xpos: VectorFloat {
+            get { positionNode.position.x }
+            set { positionNode.position.x = newValue }
+        }
+        
+        var ypos: VectorFloat {
+            get { positionNode.position.y }
+            set { positionNode.position.y = newValue }
+        }
+        
+        var zpos: VectorFloat {
+            get { positionNode.position.z }
+            set { positionNode.position.z = newValue }
+        }
+        
+        var position: SCNVector3 {
+            get { positionNode.position }
+            set { positionNode.position = newValue }
+        }
+        
+        var lengthX: VectorFloat { scaledLengthX }
+        var lengthY: VectorFloat { scaledLengthY }
+        var lengthZ: VectorFloat { scaledLengthZ }
+        
+        var leadingOffset: VectorFloat { abs(scaledLocalLeading) }
+        var trailingOffset: VectorFloat { abs(scaledLocalTrailing) }
+        var topOffset: VectorFloat { abs(scaledLocalTop) }
+        var bottomOffset: VectorFloat { abs(scaledLocalBottom) }
+        var frontOffset: VectorFloat { abs(scaledLocalFront) }
+        var backOffset: VectorFloat { abs(scaledLocalBack) }
+        
+        var boundsMin: SCNVector3 {
+//            positionNode.convertPosition(
+//                SCNVector3(scaledLocalLeading, scaledLocalBottom, scaledLocalBack),
+//                to: positionNode.parent
+//            )
+            
+            positionNode.convertPosition(
+                SCNVector3(localLeading, localBottom, localBack),
+                to: positionNode.parent
+            )
+//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
+        }
+        
+        var boundsMax: SCNVector3 {
+//            positionNode.convertPosition(
+//                SCNVector3(scaledLocalTrailing, scaledLocalTop, scaledLocalFront),
+//                to: positionNode.parent
+//            )
+            
+            positionNode.convertPosition(
+                SCNVector3(localTrailing, localTop, localFront),
+                to: positionNode.parent
+            )
+//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
+        }
+        
+        var centerPosition: SCNVector3 {
+//            positionNode.convertPosition(
+//                SCNVector3(x: scaledLocalCenterX, y: scaledLocalCenterY, z: scaledLocalCenterZ),
+//                to: positionNode.parent
+//            )
+            
+            positionNode.convertPosition(
+                SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
+                to: positionNode.parent
+            )
+//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
+        }
 
         var leading: VectorFloat {
             get { boundsMin.x }
@@ -80,54 +146,6 @@ extension CodeGrid {
             zpos = newValue + backOffset
             return self
         }
-        
-        var leadingOffset: VectorFloat { abs(localLeading) }
-        var trailingOffset: VectorFloat { abs(localTrailing) }
-        var topOffset: VectorFloat { abs(localTop) }
-        var bottomOffset: VectorFloat { abs(localBottom) }
-        var frontOffset: VectorFloat { abs(localFront) }
-        var backOffset: VectorFloat { abs(localBack) }
-        
-        var boundsMin: SCNVector3 {
-            positionNode.convertPosition(
-                SCNVector3(localLeading, localBottom, localBack),
-                to: positionNode.parent
-            )
-        }
-        
-        var boundsMax: SCNVector3 {
-            positionNode.convertPosition(
-                SCNVector3(localTrailing, localTop, localFront),
-                to: positionNode.parent
-            )
-        }
-
-        var centerPosition: SCNVector3 {
-            positionNode.convertPosition(
-                SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
-                to: positionNode.parent
-            )
-        }
-        
-        var xpos: VectorFloat {
-            get { positionNode.position.x }
-            set { positionNode.position.x = newValue }
-        }
-        
-        var ypos: VectorFloat {
-            get { positionNode.position.y }
-            set { positionNode.position.y = newValue }
-        }
-        
-        var zpos: VectorFloat {
-            get { positionNode.position.z }
-            set { positionNode.position.z = newValue }
-        }
-        
-        var position: SCNVector3 {
-            get { positionNode.position }
-            set { positionNode.position = newValue }
-        }
                 
         @discardableResult
         func alignedToLeadingOf(_ other: CodeGrid, pad: VectorFloat) -> Self {
@@ -155,30 +173,23 @@ extension CodeGrid {
         
         @discardableResult
         func alignedCenterX(_ other: CodeGrid) -> Self {
-            setLeading(other.measures.leading - lengthX / 2.0 + other.measures.lengthX / 2.0)
+            setLeading(other.measures.leading - scaledLengthX / 2.0 + other.measures.scaledLengthX / 2.0)
             return self
         }
         
         @discardableResult
         func alignedCenterY(_ other: CodeGrid) -> Self {
-            setTop(other.measures.top + lengthY / 2.0 - other.measures.lengthY / 2.0)
+            setTop(other.measures.top + scaledLengthY / 2.0 - other.measures.scaledLengthY / 2.0)
             return self
         }
         
         @discardableResult
         func alignedCenterZ(_ other: CodeGrid) -> Self {
-            setBack(other.measures.back - lengthZ / 2.0 + other.measures.lengthZ / 2.0)
+            setBack(other.measures.back - scaledLengthZ / 2.0 + other.measures.scaledLengthZ / 2.0)
             return self
         }
     }
 }
-
-#if os(iOS)
-let DeviceScale = 0.001
-#elseif os(macOS)
-let DeviceScale = 1.0
-#endif
-
 
 private extension CodeGrid.Measures {
     private var scaledLengthX: VectorFloat { sizeNode.lengthX * DeviceScale }
@@ -239,13 +250,13 @@ private extension CodeGrid.Measures {
     }
     
     private var localCenterX: VectorFloat {
-        get { localLeading + (lengthX / 2.0) }
+        get { localLeading + (sizeNode.lengthX / 2.0) }
     }
     private var localCenterY: VectorFloat {
-        get { localTop - (lengthY / 2.0) }
+        get { localTop - (sizeNode.lengthY / 2.0) }
     }
     private var localCenterZ: VectorFloat {
-        get { localFront - (lengthZ / 2.0) }
+        get { localFront - (sizeNode.lengthZ / 2.0) }
     }
 }
 
@@ -259,6 +270,10 @@ size:             \(SCNVector3(lengthX, lengthY, lengthZ))
 boundsMin:        \(boundsMin)
 boundsMax:        \(boundsMax)
 boundsCenter:     \(centerPosition)
+ComputedBoundsWidth:  \(BoundsWidth(positionNode.manualBoundingBox))
+ComputedBoundsHeight: \(BoundsHeight(positionNode.manualBoundingBox))
+ComputedBoundsLength: \(BoundsLength(positionNode.manualBoundingBox))
+ComputedBoundsCenter: \(BoundsCenterPosition(positionNode.manualBoundingBox, source: positionNode))
 (leading, top, back):            \(SCNVector3(leading, top, back))
 (trailing, bottom, front):       \(SCNVector3(trailing, bottom, front))
 local-(leading, top, back):      \(SCNVector3(localLeading, localTop, localBack))
