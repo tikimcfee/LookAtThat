@@ -75,6 +75,9 @@ class FocusBox: Hashable, Identifiable {
     func detachGrid(_ grid: CodeGrid) {
         grid.rootNode.position = SCNVector3Zero
         grid.rootNode.removeFromParentNode()
+        
+        print(snapping.gridsRelativeTo(grid), "are now dangling, you schmuck.")
+        
         bimap[grid] = nil
     }
     

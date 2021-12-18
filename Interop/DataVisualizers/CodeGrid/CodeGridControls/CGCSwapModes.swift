@@ -39,12 +39,18 @@ func CGCAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController
               let strongController = weakController
         else { return }
         
-        if let _ = strongController.mainFocus.bimap[strongGrid] {
-            strongController.removeGridFromFocus(strongGrid)
-            strongGrid.measures.position = strongController.mainFocus.rootNode.position
-        } else {
-            strongGrid.rootNode.removeFromParentNode()
-            strongController.addGridToFocus(strongGrid, strongController.mainFocus.deepestDepth + 1)
+        if let _ = strongController.userFocus.bimap[strongGrid] {
+            strongController.userFocus.detachGrid(strongGrid)
+            strongController.userFocus.finishUpdates()
+            
+            strongController.mainFocus.attachGrid(strongGrid, strongController.mainFocus.deepestDepth + 1)
+            strongController.mainFocus.finishUpdates()
+        } else if let _ = strongController.mainFocus.bimap[strongGrid] {
+            strongController.mainFocus.detachGrid(strongGrid)
+            strongController.mainFocus.finishUpdates()
+            
+            strongController.userFocus.attachGrid(strongGrid, strongController.userFocus.deepestDepth + 1)
+            strongController.userFocus.finishUpdates()
         }
     }
     

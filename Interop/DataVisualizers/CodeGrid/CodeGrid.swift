@@ -19,6 +19,14 @@ extension CodeGrid {
     }
 }
 
+extension CodeGrid: CustomStringConvertible {
+    var description: String {
+"""
+CodeGrid(\(id.trimmingCharacters(in: CharacterSet(charactersIn: kCodeGridContainerName)))
+""".trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
 class CodeGrid: Identifiable, Equatable {
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
