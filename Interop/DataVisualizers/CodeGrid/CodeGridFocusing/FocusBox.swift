@@ -75,10 +75,18 @@ class FocusBox: Hashable, Identifiable {
     func detachGrid(_ grid: CodeGrid) {
         grid.rootNode.position = SCNVector3Zero
         grid.rootNode.removeFromParentNode()
+        snapping.detachRetaining(grid)
         
-        print(snapping.gridsRelativeTo(grid), "are now dangling, you schmuck.")
-        
+        guard let depth = bimap[grid] else { return }
         bimap[grid] = nil
+        let sortedKeys = Array(bimap.valuesToKeys.keys.sorted(by: { $0 < $1 } ))
+        sortedKeys.forEach { key in
+            if key <= depth { return }
+            let newKey = key - 1
+            let swap = bimap[key]
+            bimap[key] = nil
+            bimap[newKey] = swap
+        }
     }
     
     func attachGrid(_ grid: CodeGrid, _ depth: Int) {
