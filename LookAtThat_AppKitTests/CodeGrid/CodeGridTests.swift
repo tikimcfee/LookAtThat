@@ -242,7 +242,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let manualWidth = BoundsWidth(testGrid.rootNode.manualBoundingBox)
         let manualHeight = BoundsHeight(testGrid.rootNode.manualBoundingBox)
         let manualLength = BoundsLength(testGrid.rootNode.manualBoundingBox)
-        let manualCenter = BoundsCenterPosition(testGrid.rootNode.manualBoundingBox, source: testGrid.rootNode)
+        let manualCenter = testGrid.rootNode.boundsCenterPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
         print("mw:\(manualWidth), mh:\(manualHeight), ml:\(manualLength), mcenter: \(manualCenter), mcenterConv: \(manualCenterConverted)")
         print()
@@ -381,7 +381,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newBoundsWidth = BoundsWidth(newBounds) * DeviceScale
             let newBoundsHeight = BoundsHeight(newBounds) * DeviceScale
             let newBoundsLength = BoundsLength(newBounds) * DeviceScale
-            let newBoundsCenter = BoundsCenterPosition(newBounds, source: testGrid.rootNode)
+            let newBoundsCenter = testGrid.rootNode.boundsCenterPosition
             
             let sizeDeltaX = abs(testGridWidth - newBoundsWidth)
             let sizeDeltaY = abs(testGridHeight - newBoundsHeight)

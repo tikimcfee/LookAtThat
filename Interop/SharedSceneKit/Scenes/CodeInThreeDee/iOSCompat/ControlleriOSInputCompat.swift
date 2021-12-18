@@ -11,6 +11,13 @@ import SceneKit
 class CodePagesInput {
     let controller: CodePagesController
     
+    lazy var focus: CodeGridFocusController = {
+        let focus = CodeGridFocusController(
+            controller: controller
+        )
+        return focus
+    }()
+    
     init(controller: CodePagesController) {
         self.controller = controller
     }

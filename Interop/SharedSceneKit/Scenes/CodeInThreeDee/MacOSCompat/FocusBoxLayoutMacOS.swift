@@ -25,7 +25,7 @@ class FocusBoxLayoutMacOS: FocusBoxLayoutEngine {
         /// 1. so it's top-left-front is at (0, 0, 1/2 length)
         /// 2. so it's aligned with the bounds of the grids themselves.
         /// Note: this math assumes nothing has been moved from the origin
-        
+        /// Note: -1.0 as multiple is explicit to remain compatiable between iOS macOS; '-' operand isn't universal
         let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
         let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
         let translateZ = -newValue.min.z / 2.0

@@ -116,9 +116,12 @@ class CodeGridFocusController {
     private func makeNewFocusBox() -> FocusBox {
         let newFocus = focusCache.cacheNewFocus()
         
-        controller.sceneState
-            .rootGeometryNode
-            .addChildNode(newFocus.rootNode)
+        controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
+            newFocus.rootNode.position = camera.position
+            newFocus.rootNode.simdPosition += camera.simdWorldFront * 0.5
+            
+            rootNode.addChildNode(newFocus.rootNode)
+        }
         
         return newFocus
     }

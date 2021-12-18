@@ -45,22 +45,30 @@ public extension SCNGeometry {
     }
 }
 
-public typealias Bounds = (min: SCNVector3, max: SCNVector3)
 func BoundsWidth(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.x - bounds.min.x) }
 func BoundsHeight(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.y - bounds.min.y) }
 func BoundsLength(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.z - bounds.min.z) }
-func BoundsCenterWidth(_ bounds: Bounds) -> VectorFloat { BoundsWidth(bounds) / 2.0 + bounds.min.x }
-func BoundsCenterHeight(_ bounds: Bounds) -> VectorFloat { BoundsHeight(bounds) / 2.0 + bounds.min.y }
-func BoundsCenterLength(_ bounds: Bounds) -> VectorFloat { BoundsLength(bounds) / 2.0 + bounds.min.z }
-func BoundsCenterPosition(_ bounds: Bounds, source: SCNNode) -> SCNVector3 {
-    let vector = SCNVector3(
-        x: BoundsCenterWidth(bounds),
-        y: BoundsCenterHeight(bounds),
-        z: BoundsCenterLength(bounds)
-    )
-    return source.convertPosition(vector, to: source.parent)
+
+extension SCNNode {
+    var boundsWidth: VectorFloat { abs(manualBoundingBox.max.x - manualBoundingBox.min.x) }
+    var boundsHeight: VectorFloat { abs(manualBoundingBox.max.y - manualBoundingBox.min.y) }
+    var boundsLength: VectorFloat { abs(manualBoundingBox.max.z - manualBoundingBox.min.z) }
+    
+    var boundsCenterWidth: VectorFloat { boundsWidth / 2.0 + manualBoundingBox.min.x }
+    var boundsCenterHeight: VectorFloat { boundsHeight / 2.0 + manualBoundingBox.min.y }
+    var boundsCenterLength: VectorFloat { boundsLength / 2.0 + manualBoundingBox.min.z }
+    
+    var boundsCenterPosition: SCNVector3 {
+        let vector = SCNVector3(
+            x: boundsCenterWidth,
+            y: boundsCenterHeight,
+            z: boundsCenterLength
+        )
+        return convertPosition(vector, to: parent)
+    }
 }
 
+public typealias Bounds = (min: SCNVector3, max: SCNVector3)
 class BoundsComputing {
     var minX: VectorFloat = 0
     var minY: VectorFloat = 0

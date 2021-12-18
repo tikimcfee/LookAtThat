@@ -196,10 +196,15 @@ private extension FocusBox {
     
     func makeGeometry() -> SCNBox {
         let box = SCNBox()
-        box.chamferRadius = 4.0
         if let material = box.firstMaterial {
 #if os(macOS)
+            box.chamferRadius = 4.0
             material.transparency = 0.125
+#elseif os(iOS)
+            box.width = DeviceScale.cg
+            box.height = DeviceScale.cg
+            box.length = DeviceScale.cg
+            material.transparency = 0.5
 #endif
             material.transparencyMode = .dualLayer
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.75)

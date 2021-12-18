@@ -58,6 +58,8 @@ class RecurseState {
 }
 
 class CodeGridWorld {
+    typealias Receiver = (_ camera: SCNNode, _ root: SCNNode) -> Void
+    
     var cameraProvider: (() -> SCNNode?)?
     var rootProvider: (() -> SCNNode?)?
     
@@ -67,6 +69,13 @@ class CodeGridWorld {
     ) {
         self.cameraProvider = cameraProvider
         self.rootProvider = rootProvider
+    }
+    
+    func doInWorld(_ operation: Receiver) {
+        guard let cam = cameraProvider?(),
+              let root = rootProvider?()
+        else { return }
+        operation(cam, root)
     }
     
     func addInFrontOfCamera(grid: CodeGrid) {
