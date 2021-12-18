@@ -126,20 +126,15 @@ extension BaseSceneController {
         touchState.pan.cameraNodeEulers = sceneCameraNode.eulerAngles
         let currentTouchLocation = event.currentLocation
         
-        let hitTestResults = sceneView.hitTest(
-            location: currentTouchLocation,
-            [.codeGrid, .codeGridGlyphs, .semanticTab, .codeGridSnapshot, .codeGridFocusBox]
-        )
+        let evaluator = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
         
-        guard let first = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
-            .evaluate(hitTestResults)
-            .sorted(by: { left, right in
-                return left.defaultSortOrder < right.defaultSortOrder
-            }).first
-        else {
-            return
-        }
+        let first = evaluator.testAndEval(currentTouchLocation, [
+            .codeGrid, .codeGridGlyphs, .semanticTab, .codeGridSnapshot, .codeGridFocusBox
+        ]).sorted(by: { left, right in
+            return left.defaultSortOrder < right.defaultSortOrder
+        }).first
         
+        guard let first = first else { return }
         print("interacting with \(first)")
         
         let positioningNode = first.positionNode

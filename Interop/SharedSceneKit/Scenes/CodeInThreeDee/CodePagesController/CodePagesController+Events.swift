@@ -44,31 +44,21 @@ extension CodePagesController {
                 let swapControl = CGCSwapModes(newGrid).applying {
                     insertControl($0)
                     newGrid.addingChild($0.displayGrid)
-//                    box.gridNode.addingChild($0.displayGrid)
                     
-                    $0.onAlign = {
-                        $0.displayGrid.measures
-                            .setBottom(newGrid.measures.topOffset + 2)
-                            .setLeading(newGrid.measures.leadingOffset)
-                            .setFront(newGrid.measures.frontOffset)
-                        
-                        return $0.displayGrid.rootNode.transform
-                    }
+                    $0.displayGrid.measures
+                        .setBottom(newGrid.measures.topOffset + 2)
+                        .setLeading(newGrid.measures.leadingOffset)
+                        .setFront(newGrid.measures.frontOffset)
                 }
                 
                 CGCAddToFocus(newGrid, macosCompat.inputCompat.focus).applying {
                     insertControl($0)
                     newGrid.addingChild($0.displayGrid)
-//                    box.gridNode.addingChild($0.displayGrid)
                     
-                    $0.onAlign = {
-                        $0.displayGrid.measures
-                            .setBottom(newGrid.measures.topOffset + 2)
-                            .setLeading(swapControl.displayGrid.measures.trailingOffset + 4.0)
-                            .setFront(swapControl.displayGrid.measures.backOffset)
-                        
-                        return $0.displayGrid.rootNode.transform
-                    }
+                    $0.displayGrid.measures
+                        .setBottom(newGrid.measures.topOffset + 2)
+                        .setLeading(swapControl.displayGrid.measures.trailingOffset + 4.0)
+                        .setFront(swapControl.displayGrid.measures.backOffset)
                 }
             }
             

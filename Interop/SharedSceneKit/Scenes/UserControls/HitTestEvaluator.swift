@@ -9,35 +9,6 @@ import Foundation
 import SceneKit
 
 class HitTestEvaluator {
-    enum Result {
-        case grid(CodeGrid)
-        case focusBox(FocusBox)
-        case unknown(SCNNode)
-        
-        var positionNode: SCNNode {
-            switch self {
-            case .grid(let codeGrid):
-                return codeGrid.rootNode
-            case .focusBox(let focusBox):
-                return focusBox.rootNode
-            case .unknown(let sCNNode):
-                return sCNNode
-            }
-        }
-        
-        var defaultSortOrder: Int {
-            switch self {
-            case .grid:
-                return 0
-            case .focusBox:
-                return 1
-            case .unknown:
-                return 2
-            }
-        }
-    }
-
-    
     let controller: CodePagesController
     private var parser: CodeGridParser { controller.codeGridParser }
 
@@ -53,6 +24,11 @@ class HitTestEvaluator {
         hitTestResults.reduce(into: [Result]()) { allResults, hitTest in
             allResults.append(evaluateSingle(hitTest))
         }
+    }
+    
+    func testAndEval(_ location: CGPoint, _ options: HitTestType) -> [Result] {
+        let results = controller.sceneView.hitTest(location: location, options)
+        return evaluate(results)
     }
     
     private func evaluateSingle(_ hitTest: SCNHitTestResult) -> Result {
@@ -153,4 +129,32 @@ private extension HitTestEvaluator {
     
 }
 
-
+extension HitTestEvaluator {
+    enum Result {
+        case grid(CodeGrid)
+        case focusBox(FocusBox)
+        case unknown(SCNNode)
+        
+        var positionNode: SCNNode {
+            switch self {
+            case .grid(let codeGrid):
+                return codeGrid.rootNode
+            case .focusBox(let focusBox):
+                return focusBox.rootNode
+            case .unknown(let sCNNode):
+                return sCNNode
+            }
+        }
+        
+        var defaultSortOrder: Int {
+            switch self {
+            case .grid:
+                return 0
+            case .focusBox:
+                return 1
+            case .unknown:
+                return 2
+            }
+        }
+    }
+}

@@ -44,9 +44,9 @@ class CodeGridControl {
             .backgroundColor(NSUIColor(displayP3Red: 0.2, green: 0.4, blue: 0.5, alpha: 0.8))
             .applying { _ = SCNNode.BoundsCaching.Update($0.rootNode, false) }
         
-        displayGrid.rootNode.addConstraint(
-            SCNTransformConstraint(inWorldSpace: false, with: onConstraintLayout)
-        )
+//        displayGrid.rootNode.addConstraint(
+//            SCNTransformConstraint(inWorldSpace: false, with: onConstraintLayout)
+//        )
 
         didActivate = settings.action
         
