@@ -19,7 +19,7 @@ class FocusBox: Hashable, Identifiable {
     static func nextId() -> String { "\(kFocusBoxContainerName)-\(UUID().uuidString)" }
     
     var focusedGrid: CodeGrid?
-    var layoutMode: LayoutMode = .horizontal
+    var layoutMode: LayoutMode = .stacked
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var gridNode: SCNNode = makeGridNode()

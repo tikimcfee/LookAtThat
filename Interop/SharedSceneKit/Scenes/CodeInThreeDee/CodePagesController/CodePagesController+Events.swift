@@ -36,9 +36,17 @@ extension CodePagesController {
                     focus.addGridToFocus(newGrid, box.deepestDepth + 1)
                 }}
                 
-                sceneTransaction {
-                    box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
+                if box.deepestDepth != 0 {
+                    sceneTransaction {
+                        switch box.layoutMode {
+                        case .horizontal:
+                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
+                        case .stacked:
+                            box.rootNode.simdTranslate(dZ: -150.0)
+                        }
+                    }
                 }
+                
                 
                 //TODO: The control is off by a few points.. WHY!?
                 let swapControl = CGCSwapModes(newGrid).applying {
