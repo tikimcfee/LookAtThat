@@ -11,7 +11,7 @@ import SwiftUI
 struct TestButtons_Debugging: View {
 #if os(iOS)
     var body: some View {
-        VStack {
+        HStack {
             Button(action: toggleBoundingBoxes) {
                 Text("🔳")
             }

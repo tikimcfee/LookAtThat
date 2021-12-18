@@ -10,7 +10,6 @@ import ARKit
 
 struct MobileAppRootView : View {
     @State var showInfoView = false
-    @State var showFileBrowser = false
     
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
@@ -18,21 +17,18 @@ struct MobileAppRootView : View {
                 arView: SceneLibrary.global.sharedSceneView
             ).edgesIgnoringSafeArea(.all)
 
-            VStack {
+            VStack(alignment: .trailing) {
                 Button(action: { showInfoView = true }) {
                     Text("📶").padding()
                 }
-                Button(action: { showFiles() }) {
-                    Text("📜").padding()
-                }
                 TestButtons_Debugging()
+                FileBrowserView()
+                    .onAppear { setRootScope() }
+                    .frame(maxHeight: 192.0)
             }
         }.sheet(isPresented: $showInfoView) {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
-        }.sheet(isPresented: $showFileBrowser) {
-            FileBrowserView()
-                .onAppear { showFiles() }
         }
     }
     
@@ -47,7 +43,7 @@ struct MobileAppRootView : View {
         FileKitPath(url: sampleFilesUrl)
     }
     
-    func showFiles() {
+    func setRootScope() {
         guard let sampleFilesPath = sampleFilesKitPath else {
             return
         }
@@ -56,8 +52,6 @@ struct MobileAppRootView : View {
             .codePagesController
             .fileBrowser
             .setRootScope(sampleFilesPath)
-        
-        showFileBrowser = true
     }
 }
 
