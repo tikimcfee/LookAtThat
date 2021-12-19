@@ -122,7 +122,9 @@ class CodeGridFocusController {
             newFocus.rootNode.simdPosition += camera.simdWorldFront * 128.0
             #elseif os(iOS)
             newFocus.rootNode.position = camera.position
-            newFocus.rootNode.simdPosition += camera.simdWorldFront * 0.5
+            newFocus.rootNode.simdPosition += camera.simdWorldFront * 0.05
+//            newFocus.rootNode.look(at: camera.position)
+//            newFocus.rootNode.simdPosition -= newFocus.rootNode.simdWorldFront
             #endif
             
             rootNode.addChildNode(newFocus.rootNode)

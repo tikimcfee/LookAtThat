@@ -45,6 +45,12 @@ public extension SCNGeometry {
     }
 }
 
+public extension CGSize {
+    var deviceScaled: CGSize {
+        CGSize(width: width * DeviceScale.cg, height: height * DeviceScale.cg)
+    }
+}
+
 func BoundsWidth(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.x - bounds.min.x) }
 func BoundsHeight(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.y - bounds.min.y) }
 func BoundsLength(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.z - bounds.min.z) }
@@ -160,10 +166,18 @@ extension SCNNode {
         scale = SCNVector3(x: DeviceScale, y: DeviceScale, z: DeviceScale)
         return self
     }
+    
+    @discardableResult
+    func withDeviceScaleInverse() -> SCNNode {
+        scale = SCNVector3(x: DeviceScaleInverse, y: DeviceScaleInverse, z: DeviceScaleInverse)
+        return self
+    }
 }
 
 #if os(iOS)
 let DeviceScale = VectorFloat(0.001)
+let DeviceScaleInverse = VectorFloat(1000.0)
 #elseif os(macOS)
 let DeviceScale = 1.0
+let DeviceScaleInverse = 1.0
 #endif

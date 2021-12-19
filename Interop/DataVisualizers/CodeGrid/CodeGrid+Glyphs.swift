@@ -52,16 +52,19 @@ extension CodeGrid {
             _ size: CGSize
         ) {
             // add node directly to root container grid
+            let nodeLengthX = size.width.vector
+            let nodeLengthY = size.height.vector
+            
             letterNode.position = currentPosition.vector
             letterNode.position = letterNode.position.translated(
-                dX: letterNode.lengthX / 2.0,
-                dY: -letterNode.lengthY / 2.0
+                dX: nodeLengthX / 2.0,
+                dY: -nodeLengthY / 2.0
             )
             targetGrid.rootGlyphsNode.addChildNode(letterNode)
             
             // we're writing left-to-right.
             // Letter spacing is implicit to layer size.
-            targetGrid.pointer.right(size.width.vector)
+            targetGrid.pointer.right(nodeLengthX)
             if syntaxTokenCharacter.isNewline {
                 newLine(size)
             }

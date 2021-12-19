@@ -36,6 +36,9 @@ extension VectorFloat {
 }
 
 extension Double {
+    var cg: CGFloat {
+        return self
+    }
 //    var device: Double {
 //        return self * DeviceScale
 //    }

@@ -61,12 +61,14 @@ extension CodeGrid {
     }
     
     class RawFullText: Writer {
+        let zOffset = VectorFloat(2.0)
+        
         func writeAttributedText(_ text: String) {
             let sourceAttributedString = NSMutableAttributedString()
             sourceAttributedString.append(attributedString(text, .white))
             
             fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
-            fullTextBlitter.rootNode.position.z += 2.0
+            fullTextBlitter.rootNode.position.z += zOffset
             
             rootNode.addChildNode(fullTextBlitter.rootNode)
         }
@@ -91,6 +93,8 @@ extension CodeGrid {
     }
     
     class AttributedFullText: Writer {
+        private let zOffset = VectorFloat(2.0)
+        
         var sourceAttributedString = NSMutableAttributedString()
         
         func writeAttributedText(_ text: String, color: NSUIColor) {
@@ -102,7 +106,7 @@ extension CodeGrid {
                 fullTextLayerBuilder,
                 sourceAttributedString
             )
-            fullTextBlitter.rootNode.position.z += 2.0
+            fullTextBlitter.rootNode.position.z += zOffset
             grid.rootNode.addChildNode(fullTextBlitter.rootNode)
         }
     }

@@ -43,10 +43,6 @@ class CodeGridControl {
             .sizeGridToContainerNode(pad: 4.0)
             .backgroundColor(NSUIColor(displayP3Red: 0.2, green: 0.4, blue: 0.5, alpha: 0.8))
             .applying { _ = SCNNode.BoundsCaching.Update($0.rootNode, false) }
-        
-//        displayGrid.rootNode.addConstraint(
-//            SCNTransformConstraint(inWorldSpace: false, with: onConstraintLayout)
-//        )
 
         didActivate = settings.action
         
@@ -67,5 +63,18 @@ class CodeGridControl {
         let final = onAlign(self)
         
         return final
+    }
+    
+    func setPositionConstraint(
+        target: SCNNode,
+        positionOffset: SCNVector3
+    ) {
+        let positionConstraint = SCNReplicatorConstraint(target: target)
+        positionConstraint.replicatesOrientation = true
+        positionConstraint.replicatesPosition = true
+        positionConstraint.replicatesScale = true
+        positionConstraint.positionOffset = positionOffset
+        
+        displayGrid.rootNode.addConstraint(positionConstraint)
     }
 }

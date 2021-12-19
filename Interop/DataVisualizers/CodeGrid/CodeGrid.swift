@@ -133,17 +133,21 @@ extension CodeGrid {
     ) -> CodeGrid {
         laztrace(#fileID,#function,pad,pivotRootNode)
         
+        let zStart = VectorFloat(-1.0)
+        let unscaledWidth = measures.lengthX.cg * DeviceScaleInverse.cg
+        let unscaledHeight = measures.lengthY.cg * DeviceScaleInverse.cg
+        
         // manualBoundingBox needs to me manually updated after initial layout
         _ = SCNNode.BoundsCaching.Update(rootNode, false)
         
-        backgroundGeometry.width = measures.lengthX.cg + pad.cg
-        backgroundGeometry.height = measures.lengthY.cg + pad.cg
+        backgroundGeometry.width = unscaledWidth + pad.cg
+        backgroundGeometry.height = unscaledHeight + pad.cg
         
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
         backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
         backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
-        backgroundGeometryNode.position.z = -1
+        backgroundGeometryNode.position.z = zStart
         
         return self
     }
