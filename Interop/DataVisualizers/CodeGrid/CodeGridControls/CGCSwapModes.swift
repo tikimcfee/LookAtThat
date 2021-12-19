@@ -40,18 +40,18 @@ func CGCAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController
         else { return }
         
         sceneTransaction {
-            if let _ = strongController.userFocus.bimap[strongGrid] {
-                strongController.userFocus.detachGrid(strongGrid)
-                strongController.userFocus.finishUpdates()
+            if let _ = strongController.userDepthFor(strongGrid) {
+                strongController.detatchFromUserFocus(strongGrid)
+                strongController.finishUserUpdates()
                 
-                strongController.mainFocus.attachGrid(strongGrid, strongController.mainFocus.deepestDepth + 1)
-                strongController.mainFocus.finishUpdates()
-            } else if let _ = strongController.mainFocus.bimap[strongGrid] {
-                strongController.mainFocus.detachGrid(strongGrid)
-                strongController.mainFocus.finishUpdates()
+                strongController.attachToTargetFocus(strongGrid, strongController.deepestDepth + 1)
+                strongController.finishUpdates()
+            } else if let _ = strongController.depthFor(strongGrid) {
+                strongController.removeGridFromFocus(strongGrid)
+                strongController.finishUpdates()
                 
-                strongController.userFocus.attachGrid(strongGrid, strongController.userFocus.deepestDepth + 1)
-                strongController.userFocus.finishUpdates()
+                strongController.attachToUserFocus(strongGrid, strongController.userDeepestDepth + 1)
+                strongController.finishUserUpdates()
             }
         }
         

@@ -154,7 +154,7 @@ private extension CodePagesControllerMacOSCompat {
     
     func onNewFocusChange(_ focus: SelfRelativeDirection) {
         sceneTransaction {
-            guard let nextGrid = inputCompat.focus.setNewFocus(inDirection: focus) else {
+            guard let nextGrid = inputCompat.focus.updateBoxFocusedGrid(inDirection: focus) else {
                 print("No grid in direction: \(focus)")
                 return
             }
