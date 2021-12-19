@@ -150,8 +150,6 @@ class CodeGridFocusController {
             
             camera.addChildNode(placementNode)
             placementNode.simdPosition += simdMultiple
-            
-            print(placementNode)
         }
         
         return newFocus

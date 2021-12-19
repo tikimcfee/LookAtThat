@@ -72,7 +72,7 @@ class CodeGridControl {
         let positionConstraint = SCNReplicatorConstraint(target: target)
         positionConstraint.replicatesOrientation = true
         positionConstraint.replicatesPosition = true
-        positionConstraint.replicatesScale = true
+        positionConstraint.replicatesScale = false
         positionConstraint.positionOffset = positionOffset
         
         displayGrid.rootNode.addConstraint(positionConstraint)

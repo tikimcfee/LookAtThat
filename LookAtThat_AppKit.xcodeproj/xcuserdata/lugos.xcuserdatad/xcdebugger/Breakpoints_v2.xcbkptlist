@@ -76,8 +76,8 @@
             filePath = "Interop/DataVisualizers/CodeGrid/CodeGridFocusing/CodeGridFocusController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "makeNewUserFocusBox()"
             landmarkType = "7">
          </BreakpointContent>

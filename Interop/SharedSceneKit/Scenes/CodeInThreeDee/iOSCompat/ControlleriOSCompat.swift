@@ -85,15 +85,16 @@ extension ControlleriOSCompat: CommandHandler {
         
         func addControls(_ box: FocusBox) {
             //TODO: The control is off by a few points.. WHY!?
-            let swapControl = CGCSwapModes(newGrid).applying {
-                insertControl($0)
-                box.gridNode.addingChild($0.displayGrid)
-            }
+            let swapControl = CGCSwapModes(newGrid)
+                .applying {
+                    insertControl($0)
+                    newGrid.addingChild($0)
+                }
             swapControl.setPositionConstraint(
                 target: newGrid.rootNode,
                 positionOffset: SCNVector3(
                     x: 0,
-                    y: swapControl.displayGrid.measures.lengthY,
+                    y: swapControl.displayGrid.measures.lengthY + Constants.topOffsetPad,
                     z: 0
                 )
             )
@@ -101,7 +102,7 @@ extension ControlleriOSCompat: CommandHandler {
             
             let focusControl = CGCAddToFocus(newGrid, inputCompat.focus).applying {
                 insertControl($0)
-                box.gridNode.addingChild($0.displayGrid)
+                newGrid.addingChild($0)
             }
             focusControl.setPositionConstraint(
                 target: swapControl.displayGrid.rootNode,
