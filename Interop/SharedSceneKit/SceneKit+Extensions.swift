@@ -162,6 +162,12 @@ extension SCNNode {
     }
     
     @discardableResult
+    func addingChild(_ child: SCNNode) -> SCNNode {
+        addChildNode(child)
+        return self
+    }
+    
+    @discardableResult
     func withDeviceScale() -> SCNNode {
         scale = SCNVector3(x: DeviceScale, y: DeviceScale, z: DeviceScale)
         return self

@@ -43,7 +43,12 @@ class CodePagesController: BaseSceneController, ObservableObject {
         self.codeGridParser = CodeGridParser()
         super.init(sceneView: sceneView)
         
-        codeGridParser.cameraNode = sceneView.pointOfView ?? sceneCameraNode
+        if let pointOfView = sceneView.pointOfView {
+            print("CodePagesController using point of view for camera node")
+            codeGridParser.cameraNode = pointOfView
+        } else {
+            codeGridParser.cameraNode = sceneCameraNode
+        }
         codeGridParser.rootGeometryNode = sceneState.rootGeometryNode
     }
     

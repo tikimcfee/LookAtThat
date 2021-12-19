@@ -32,8 +32,10 @@ class FocusCache: LockingCache<String, FocusBox> {
 
 class CodeGridFocusController {
     lazy var focusCache = FocusCache(parentController: self)
-    lazy var mainFocus = makeNewFocusBox()
-    private(set) lazy var userFocus = makeNewFocusBox()
+    lazy var mainFocus: FocusBox = makeNewFocusBox()
+    
+    private(set) lazy var userFocusPlacementNode: SCNNode = makeNewPlacementNode()
+    private(set) lazy var userFocus: FocusBox = makeNewUserFocusBox()
     
     let controller: CodePagesController
     
@@ -115,19 +117,41 @@ class CodeGridFocusController {
     
     private func makeNewFocusBox() -> FocusBox {
         let newFocus = focusCache.cacheNewFocus()
+        controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
+#if os(macOS)
+            let simdMultiple = camera.simdWorldFront * 128.0
+#elseif os(iOS)
+            let simdMultiple = camera.simdWorldFront * 0.05
+#endif
+            newFocus.rootNode.position = camera.position
+            newFocus.rootNode.simdPosition += simdMultiple
+            rootNode.addChildNode(newFocus.rootNode)
+        }
+        
+        return newFocus
+    }
+    
+    private func makeNewPlacementNode() -> SCNNode {
+        let placementNode = SCNNode()
+        return placementNode
+    }
+    
+    private func makeNewUserFocusBox() -> FocusBox {
+        let newFocus = focusCache.cacheNewFocus()
+        let placementNode = userFocusPlacementNode
+        placementNode.addingChild(newFocus.rootNode)
         
         controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
-            #if os(macOS)
-            newFocus.rootNode.position = camera.position
-            newFocus.rootNode.simdPosition += camera.simdWorldFront * 128.0
-            #elseif os(iOS)
-            newFocus.rootNode.position = camera.position
-            newFocus.rootNode.simdPosition += camera.simdWorldFront * 0.05
-//            newFocus.rootNode.look(at: camera.position)
-//            newFocus.rootNode.simdPosition -= newFocus.rootNode.simdWorldFront
-            #endif
+#if os(macOS)
+            let simdMultiple = camera.simdWorldFront * 128.0
+#elseif os(iOS)
+            let simdMultiple = camera.simdWorldFront * 0.05
+#endif
             
-            rootNode.addChildNode(newFocus.rootNode)
+            camera.addChildNode(placementNode)
+            placementNode.simdPosition += simdMultiple
+            
+            print(placementNode)
         }
         
         return newFocus
