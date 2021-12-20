@@ -46,6 +46,7 @@ class CodeGridFocusController {
 }
 
 // MARK: - Current Target Focus
+
 extension CodeGridFocusController {
     func depthFor(_ grid: CodeGrid) -> Int? {
         currentTargetFocus.bimap[grid]
@@ -125,6 +126,10 @@ extension CodeGridFocusController {
         currentTargetFocus.setFocusedGrid(depth)
     }
     
+    func setLayoutModel(_ mode: FocusBox.LayoutMode) {
+        currentTargetFocus.layoutMode = mode
+    }
+    
     func layout(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
         receiver(self, currentTargetFocus)
         finishUpdates()
@@ -159,14 +164,18 @@ extension CodeGridFocusController {
         userFocus.finishUpdates()
     }
     
+    func resetUserBounds() {
+        userFocus.finishUpdates()
+    }
+    
     func userLayout(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
         receiver(self, userFocus)
-        finishUpdates()
+        finishUserUpdates()
     }
     
     func userResize(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
         receiver(self, userFocus)
-        resetBounds()
+        resetUserBounds()
     }
 
 }
@@ -202,13 +211,26 @@ private extension CodeGridFocusController {
         
         controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
 #if os(macOS)
-            let simdMultiple = camera.simdWorldFront * 128.0
+//            let simdMultiple = camera.simdWorldFront * 128.0
+            let depth = VectorFloat(128)
 #elseif os(iOS)
-            let simdMultiple = camera.simdWorldFront * 0.05
+//            let simdMultiple = camera.simdWorldFront * 0.1
+            let depth = VectorFloat(0.2)
+//                             + camera.simdWorldRight * 0.1
 #endif
             
+            let position = SCNTransformConstraint(
+                inWorldSpace: true,
+                with: { node, currentTransform in
+                    node.simdPosition = camera.simdPosition
+                    node.simdPosition += camera.simdWorldFront * depth
+                    node.simdOrientation = camera.simdOrientation
+                    return node.transform
+                }
+            )
+            placementNode.addConstraint(position)
+
             camera.addChildNode(placementNode)
-            placementNode.simdPosition += simdMultiple
         }
         
         return newFocus

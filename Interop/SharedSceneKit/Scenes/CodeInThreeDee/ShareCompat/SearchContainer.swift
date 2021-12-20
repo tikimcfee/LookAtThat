@@ -91,6 +91,7 @@ private class RenderTask {
         printStart(newInput)
         
         codeGridFocus.resetState()
+        codeGridFocus.setLayoutModel(.stacked)
         sceneTransaction {
             switch newInput.count {
             case 0:

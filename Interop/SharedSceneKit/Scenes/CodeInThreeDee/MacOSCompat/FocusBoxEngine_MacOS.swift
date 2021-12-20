@@ -42,7 +42,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
         }
         
         let xLengthPadding: VectorFloat = 8.0
-        let zLengthPadding: VectorFloat = 150.0
+        let zLengthPadding: VectorFloat = 192.0
         
         sceneTransaction {
             switch container.box.layoutMode {
