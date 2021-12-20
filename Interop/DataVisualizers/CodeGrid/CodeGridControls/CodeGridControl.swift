@@ -29,6 +29,10 @@ class CodeGridControl {
         self.displayGrid = targetGrid.newGridUsingCaches()
     }
     
+    func activate() {
+        didActivate?(self)
+    }
+    
     @discardableResult
     func setup(_ settings: CodeGridControl.Settings) -> Self {
         displayGrid.applying {

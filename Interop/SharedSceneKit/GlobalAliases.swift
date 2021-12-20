@@ -6,6 +6,7 @@ import SceneKit
 public typealias NSUIPreview = NSViewRepresentableContext<SceneKitRepresentableView>
 public typealias NSUIColor = NSColor
 public typealias GestureRecognizer = NSGestureRecognizer
+public typealias TapGestureRecognizer = NSGestureRecognizer
 public typealias PanGestureRecognizer = NSPanGestureRecognizer
 public typealias PanGestureRecognizerState = NSPanGestureRecognizer.State
 public typealias MagnificationGestureRecognizer = NSMagnificationGestureRecognizer
@@ -19,6 +20,7 @@ public typealias NSUIImage = NSImage
 #elseif os(iOS)
 public typealias NSUIColor = UIColor
 public typealias GestureRecognizer = UIGestureRecognizer
+public typealias TapGestureRecognizer = UITapGestureRecognizer
 public typealias PanGestureRecognizer = UIPanGestureRecognizer
 public typealias PanGestureRecognizerState = UIPanGestureRecognizer.State
 public typealias MagnificationGestureRecognizer = UIPinchGestureRecognizer

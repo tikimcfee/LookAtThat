@@ -79,23 +79,16 @@ class CodePagesControllerMacOSInputCompat {
         DispatchQueue.main.async { doClick() }
         func doClick() {
             let point = sceneView.convert(event.locationInWindow, to: nil)
-            let clickTest = sceneView.hitTest(location: point, .codeGridControl)
-            
-            guard let clickedGeometryNode = clickTest.first?.node,
-                  let controlRootNode = clickedGeometryNode.parent,
-                  let controlNodeId = controlRootNode.name else {
-                      return
-                  }
-            
-            let cache = codeGridParser.gridCache
-            guard let matchingControl = cache.cachedControls[controlNodeId] else {
-                print("Missing cached control grid for \(controlNodeId)")
-                return
-            }
-            
-            matchingControl.didActivate?(matchingControl)
+            let newMockEvent = GestureEvent(
+                state: .began,
+                type: .deviceTap,
+                currentLocation: point,
+                commandStart: nil,
+                optionStart: nil,
+                controlStart: nil
+            )
+            controller.panGestureShim.onTap(newMockEvent)
         }
-        
     }
     
     func newKeyEvent(_ event: NSEvent) {

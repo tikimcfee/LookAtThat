@@ -4,6 +4,7 @@ import SceneKit
 
 typealias PanReceiver = (PanEvent) -> Void
 typealias MagnificationReceiver = (MagnificationEvent) -> Void
+typealias TapReceiver = (GestureEvent) -> Void
 
 #if os(OSX)
 
@@ -15,11 +16,19 @@ class GestureShim {
     lazy var magnificationRecognizer =
         ModifiersMagnificationGestureRecognizer(target: self, action: #selector(magnify))
     let onMagnify: MagnificationReceiver
+    
+    lazy var tapGestureRecognizer =
+        TapGestureRecognizer(target: self, action: #selector(noop))
+    let onTap: TapReceiver
 
     init(_ onPan: @escaping PanReceiver,
-         _ onMagnify: @escaping MagnificationReceiver) {
+         _ onMagnify: @escaping MagnificationReceiver,
+         _ onTap: @escaping TapReceiver) {
         self.onPan = onPan
         self.onMagnify = onMagnify
+        self.onTap = onTap
+        
+        tapGestureRecognizer.isEnabled = false
     }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
@@ -29,6 +38,8 @@ class GestureShim {
     @objc func magnify(_ receiver: ModifiersMagnificationGestureRecognizer) {
         onMagnify(receiver.makeMagnificationEvent)
     }
+    
+    @objc func noop(_ receiver: TapGestureRecognizer) { }
 }
 
 #elseif os(iOS)
@@ -41,11 +52,21 @@ class GestureShim {
     lazy var magnificationRecognizer =
         MagnificationGestureRecognizer(target: self, action: #selector(magnify))
     let onMagnify: MagnificationReceiver
+    
+    lazy var tapGestureRecognizer =
+        TapGestureRecognizer(target: self, action: #selector(tap))
+    let onTap: TapReceiver
 
     init(_ onPan: @escaping PanReceiver,
-         _ onMagnify: @escaping MagnificationReceiver) {
+         _ onMagnify: @escaping MagnificationReceiver,
+         _ onTap: @escaping TapReceiver) {
         self.onPan = onPan
         self.onMagnify = onMagnify
+        self.onTap = onTap
+    }
+    
+    @objc func tap(_ receiver: TapGestureRecognizer) {
+        onTap(receiver.makeGestureEvent)
     }
 
     @objc func pan(_ receiver: PanGestureRecognizer) {
@@ -58,6 +79,24 @@ class GestureShim {
 }
 
 #endif
+
+extension BaseSceneController {
+    func attachTapGestureRecognizer() {
+        sceneView.addGestureRecognizer(panGestureShim.tapGestureRecognizer)
+    }
+    
+    func onTap(_ event: GestureEvent) {
+        guard event.type == .deviceTap else { return }
+        
+        let location = event.currentLocation
+        let controls: [CodeGridControl] = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
+            .testAndEval(location, [.codeGridControl])
+            .compactMap { $0.maybeValue() }
+        
+        guard let firstControl = controls.first else { return }
+        firstControl.activate()
+    }
+}
 
 extension BaseSceneController {
     func attachMagnificationRecognizer() {

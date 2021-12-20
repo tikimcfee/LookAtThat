@@ -7,6 +7,18 @@ extension GestureRecognizer {
 }
 
 #if os(iOS)
+extension UITapGestureRecognizer {
+    var makeGestureEvent: GestureEvent {
+        return GestureEvent(
+            state: state.translated,
+            type: .deviceTap,
+            currentLocation: currentLocation,
+            commandStart: nil,
+            optionStart: nil
+        )
+    }
+}
+
 extension UIPanGestureRecognizer {
     var makePanEvent: PanEvent {
         return PanEvent(
@@ -43,6 +55,19 @@ extension UIGestureRecognizer.State {
     }
 }
 #elseif os(OSX)
+extension GestureRecognizer {
+    var makeTapEvent: GestureEvent {
+        return GestureEvent(
+            state: state.translated,
+            type: .deviceTap,
+            currentLocation: currentLocation,
+            commandStart: nil,
+            optionStart: nil,
+            controlStart: nil
+        )
+    }
+}
+
 class ModifierStore {
     var modifierFlags = NSEvent.ModifierFlags()
     var positionsForFlagChanges = [NSEvent.ModifierFlags: CGPoint]()

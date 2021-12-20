@@ -5,6 +5,10 @@ enum EventState {
     case began, changed, ended
 }
 
+enum EventType {
+    case deviceTap
+}
+
 struct MagnificationEvent {
     let state: EventState?
 
@@ -29,6 +33,22 @@ struct PanEvent {
     var optionStart: CGPoint?
     var pressingOption: Bool { optionStart != nil }
 
+    var controlStart: CGPoint?
+    var pressingControl: Bool { controlStart != nil }
+}
+
+struct GestureEvent {
+    let state: EventState?
+    let type: EventType?
+    
+    let currentLocation: CGPoint
+    
+    var commandStart: CGPoint?
+    var pressingCommand: Bool { commandStart != nil }
+    
+    var optionStart: CGPoint?
+    var pressingOption: Bool { optionStart != nil }
+    
     var controlStart: CGPoint?
     var pressingControl: Bool { controlStart != nil }
 }

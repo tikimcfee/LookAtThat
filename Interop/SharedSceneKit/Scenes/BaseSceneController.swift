@@ -31,7 +31,8 @@ open class BaseSceneController: SceneControls {
 
     lazy var panGestureShim: GestureShim = GestureShim(
         { self.pan($0) },
-        { self.magnify($0) }
+        { self.magnify($0) },
+        { self.onTap($0) }
     )
 
     var workerQueue: DispatchQueue {
@@ -89,6 +90,7 @@ open class BaseSceneController: SceneControls {
 
         attachPanRecognizer()
         attachMagnificationRecognizer()
+        attachTapGestureRecognizer()
 
         // TODO: have a way to set the scene on completion of loading stuff
         // Seems logical to break down into preloaded scenes and then set on the view.
