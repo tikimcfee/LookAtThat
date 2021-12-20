@@ -230,7 +230,7 @@ extension BaseSceneController {
 
         // reverse start and end to reverse camera control style
         let rotation = rotationBetween(end, scaledStart, using: touchState.pan.cameraNodeEulers)
-        guard rotation.x != 0.0 || rotation.y != 0 else { return }
+        guard rotation.x != 0.0 || rotation.y != 0.0 else { return }
 
         sceneTransaction(0) {
             sceneCameraNode.eulerAngles.y = rotation.y.vector
@@ -249,22 +249,6 @@ extension BaseSceneController {
         newAngleY += currentAngles.y.cg
         newAngleX += currentAngles.x.cg
         return CGPoint(x: newAngleX, y: newAngleY)
-    }
-
-    private func setPositionOf(_ node: SCNNode,
-                               to position: SCNVector3,
-                               relativeTo referenceNode: SCNNode) {
-        let referenceNodeTransform = matrix_float4x4(referenceNode.transform)
-
-        // Setup a translation matrix with the desired position
-        var translationMatrix = matrix_identity_float4x4
-        translationMatrix.columns.3.x = Float(position.x)
-        translationMatrix.columns.3.y = Float(position.y)
-        translationMatrix.columns.3.z = Float(position.z)
-
-        // Combine the configured translation matrix with the referenceNode's transform to get the desired position AND orientation
-        let updatedTransform = matrix_multiply(referenceNodeTransform, translationMatrix)
-        node.transform = SCNMatrix4(updatedTransform)
     }
 }
 
@@ -295,7 +279,6 @@ class TouchStart {
 
     var projectionDepthPosition = SCNVector3Zero
     var projectionDepthPositionWorld = SCNVector3Zero
-    
     var computedStartUnprojection = SCNVector3Zero
     var computedStartUnprojectionWorld = SCNVector3Zero
     var computedEndUnprojection = SCNVector3Zero
