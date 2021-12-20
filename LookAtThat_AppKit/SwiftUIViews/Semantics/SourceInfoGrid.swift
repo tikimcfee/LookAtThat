@@ -48,7 +48,8 @@ struct SourceInfoGrid: View {
             
             hoverInfo(hoveredToken)
                 .frame(width: 256, height: 256)
-            semanticInfo()
+            
+//            semanticInfo()
         }
         .frame(alignment: .trailing)
         .padding(8)

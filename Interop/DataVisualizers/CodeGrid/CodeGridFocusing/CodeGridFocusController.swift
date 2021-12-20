@@ -210,29 +210,52 @@ private extension CodeGridFocusController {
         placementNode.addingChild(newFocus.rootNode)
         
         controller.codeGridParser.editorWrapper.doInWorld { camera, rootNode in
-#if os(macOS)
-//            let simdMultiple = camera.simdWorldFront * 128.0
-            let depth = VectorFloat(128)
-#elseif os(iOS)
-//            let simdMultiple = camera.simdWorldFront * 0.1
-            let depth = VectorFloat(0.2)
-//                             + camera.simdWorldRight * 0.1
-#endif
-            
-            let position = SCNTransformConstraint(
-                inWorldSpace: true,
-                with: { node, currentTransform in
-                    node.simdPosition = camera.simdPosition
-                    node.simdPosition += camera.simdWorldFront * depth
-                    node.simdOrientation = camera.simdOrientation
-                    return node.transform
-                }
-            )
-            placementNode.addConstraint(position)
-
+            placementNode.addConstraint(makeCameraConstraint(camera))
             camera.addChildNode(placementNode)
         }
         
         return newFocus
     }
 }
+
+#if os(macOS)
+private extension CodeGridFocusController {
+    func makeCameraConstraint(_ camera: SCNNode) -> SCNConstraint {
+        let depth = Float(128)
+        let dZ = CGFloat(-1.0 * depth)
+        
+        let position = SCNTransformConstraint(
+            inWorldSpace: true,
+            with: { node, currentTransform in
+                return SCNMatrix4Translate(
+                    camera.transform,
+                    0.0,
+                    0.0,
+                    dZ
+                )
+            }
+        )
+        
+        return position
+    }
+}
+
+#elseif os(iOS)
+private extension CodeGridFocusController {
+    func makeCameraConstraint(_ camera: SCNNode) -> SCNConstraint {
+        let depth = VectorFloat(0.2)
+        
+        let position = SCNTransformConstraint(
+            inWorldSpace: true,
+            with: { node, currentTransform in
+                node.simdPosition = camera.simdPosition
+                node.simdPosition += camera.simdWorldFront * depth
+                node.simdOrientation = camera.simdOrientation
+                return node.transform
+            }
+        )
+        
+        return position
+    }
+}
+#endif
