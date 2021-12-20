@@ -189,11 +189,13 @@ extension BaseSceneController {
     }
 
     private func panOnNode(_ event: PanEvent) {
-        let currentTouchLocation = event.currentLocation
-        let newLocationProjection = touchState.pan.computedEndUnprojection(with: currentTouchLocation, in: sceneView)
-        let dX = newLocationProjection.x - touchState.pan.computedStartUnprojection.x
-        let dY = newLocationProjection.y - touchState.pan.computedStartUnprojection.y
-        let dZ = newLocationProjection.z - touchState.pan.computedStartUnprojection.z
+        touchState.pan.computedEndUnprojection(with: event.currentLocation, in: sceneView)
+        
+        let startUnprojection = touchState.pan.computedStartUnprojectionWorld
+        let newLocationProjection = touchState.pan.computedEndUnprojectionWorld
+        let dX = newLocationProjection.x - startUnprojection.x
+        let dY = newLocationProjection.y - startUnprojection.y
+        let dZ = newLocationProjection.z - startUnprojection.z
 
         touchState.pan.computeStartEulers()
 
@@ -288,16 +290,23 @@ class TouchStart {
 
     var positioningNode = SCNNode()
     var positioningNodeStart = SCNVector3Zero
+    var positioningNodeStartWorld = SCNVector3Zero
     var positioningNodeEulers = SCNVector3Zero
 
     var projectionDepthPosition = SCNVector3Zero
+    var projectionDepthPositionWorld = SCNVector3Zero
+    
     var computedStartUnprojection = SCNVector3Zero
+    var computedStartUnprojectionWorld = SCNVector3Zero
+    var computedEndUnprojection = SCNVector3Zero
+    var computedEndUnprojectionWorld = SCNVector3Zero
 
     var cameraNodeEulers = SCNVector3Zero
 
     // Starting values
     func computeStartPosition() {
         positioningNodeStart = positioningNode.position
+        positioningNodeStartWorld = positioningNode.worldPosition
     }
 
     func computeStartEulers() {
@@ -306,6 +315,7 @@ class TouchStart {
 
     func computeProjectedDepthPosition(in scene: SCNView) {
         projectionDepthPosition = scene.projectPoint(positioningNode.position)
+        projectionDepthPositionWorld = scene.projectPoint(positioningNode.worldPosition)
     }
 
     func computeStartUnprojection(in scene: SCNView) {
@@ -316,15 +326,29 @@ class TouchStart {
                 z: projectionDepthPosition.z.vector
             )
         )
+        computedStartUnprojectionWorld = scene.unprojectPoint(
+            SCNVector3(
+                x: gesturePoint.x.vector,
+                y: gesturePoint.y.vector,
+                z: projectionDepthPositionWorld.z.vector
+            )
+        )
     }
 
     // End values
-    func computedEndUnprojection(with location: CGPoint, in scene: SCNView) -> SCNVector3 {
-        return scene.unprojectPoint(
+    func computedEndUnprojection(with location: CGPoint, in scene: SCNView) {
+        computedEndUnprojection = scene.unprojectPoint(
             SCNVector3(
                 x: location.x.vector,
                 y: location.y.vector,
                 z: projectionDepthPosition.z.vector
+            )
+        )
+        computedEndUnprojectionWorld = scene.unprojectPoint(
+            SCNVector3(
+                x: location.x.vector,
+                y: location.y.vector,
+                z: projectionDepthPositionWorld.z.vector
             )
         )
     }
@@ -333,12 +357,7 @@ class TouchStart {
     func setTranslatedPosition(_ dX: VectorFloat,
                                _ dY: VectorFloat,
                                _ dZ: VectorFloat) {
-        positioningNode.position =
-            positioningNodeStart.translated(dX: dX, dY: dY, dZ: dZ)
-        
-//        print(dX, dY, dZ)
-//        positioningNode.simdPosition += positioningNode.simdWorldFront * Float(dZ)
-//        positioningNode.simdPosition += positioningNode.simdWorldUp * Float(dY)
-//        positioningNode.simdPosition += positioningNode.simdWorldRight * Float(dX)
+        positioningNode.worldPosition =
+            positioningNodeStartWorld.translated(dX: dX, dY: dY, dZ: dZ)
     }
 }
