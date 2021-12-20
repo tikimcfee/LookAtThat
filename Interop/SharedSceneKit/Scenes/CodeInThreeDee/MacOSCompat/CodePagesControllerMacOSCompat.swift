@@ -60,7 +60,7 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                 }
                 
                 //TODO: The control is off by a few points.. WHY!?
-                let swapControl = CGCSwapModes(newGrid).applying {
+                let swapControl = GridControlSwapModes(newGrid).applying {
                     insertControl($0)
                     newGrid.addingChild($0.displayGrid)
                     

@@ -88,8 +88,8 @@
 		B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
 		B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
-		B7B18C6B276C1C680043DA1B /* CGCSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */; };
-		B7B18C6C276C1C680043DA1B /* CGCSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */; };
+		B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
+		B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B7B18C72276CFD030043DA1B /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
@@ -108,6 +108,8 @@
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
+		B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
+		B7EAA4C82771443700E91C29 /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
 		B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
 		B7F44C2F276D946A00522B45 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B7F44C35276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */; };
@@ -307,7 +309,7 @@
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7B18C60276991220043DA1B /* RenderingVersionFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionFour.swift; sourceTree = "<group>"; };
 		B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridControl.swift; sourceTree = "<group>"; };
-		B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGCSwapModes.swift; sourceTree = "<group>"; };
+		B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlSwapModes.swift; sourceTree = "<group>"; };
 		B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHandler.swift; sourceTree = "<group>"; };
 		B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitTestEvaluator.swift; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
+		B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlAddToFocus.swift; sourceTree = "<group>"; };
 		B7F44C31276D983A00522B45 /* ControlleriOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSCompat.swift; sourceTree = "<group>"; };
 		B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSInputCompat.swift; sourceTree = "<group>"; };
 		B7F44C39276DB2B300522B45 /* TestButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonsView.swift; sourceTree = "<group>"; };
@@ -541,7 +544,8 @@
 			isa = PBXGroup;
 			children = (
 				B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */,
-				B7B18C6A276C1C680043DA1B /* CGCSwapModes.swift */,
+				B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */,
+				B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */,
 			);
 			path = CodeGridControls;
 			sourceTree = "<group>";
@@ -1041,7 +1045,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B79F93102750741900E46A96 /* CodeGridConcurrency.swift in Sources */,
-				B7B18C6B276C1C680043DA1B /* CGCSwapModes.swift in Sources */,
+				B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
@@ -1055,6 +1059,7 @@
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */,
+				B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
@@ -1171,7 +1176,7 @@
 				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
 				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
-				B7B18C6C276C1C680043DA1B /* CGCSwapModes.swift in Sources */,
+				B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
@@ -1189,6 +1194,7 @@
 				B7A6F2AE275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
+				B7EAA4C82771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
