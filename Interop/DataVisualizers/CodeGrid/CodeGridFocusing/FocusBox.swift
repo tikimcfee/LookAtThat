@@ -111,9 +111,10 @@ extension FocusBox {
 }
 
 extension FocusBox {
-    enum LayoutMode {
+    enum LayoutMode: CaseIterable {
         case horizontal
         case stacked
+        case userStack
     }
     
     private typealias GridDirection = WorldGridSnapping.RelativeGridMapping
@@ -129,6 +130,7 @@ extension FocusBox {
     private var nextDirectionForMode: SelfRelativeDirection {
         switch layoutMode {
         case .stacked: return .forward
+        case .userStack: return .forward
         case .horizontal: return .right
         }
     }
@@ -136,6 +138,7 @@ extension FocusBox {
     private var previousDirectionForMode: SelfRelativeDirection {
         switch layoutMode {
         case .stacked: return .backward
+        case .userStack: return .backward
         case .horizontal: return .left
         }
     }
@@ -201,14 +204,16 @@ private extension FocusBox {
             box.chamferRadius = 4.0
             material.transparency = 0.125
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.65)
+            material.transparencyMode = .dualLayer
 #elseif os(iOS)
             box.width = DeviceScale.cg
             box.height = DeviceScale.cg
             box.length = DeviceScale.cg
 //            material.transparency = 0.40
-            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.25)
-#endif
+            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.35)
             material.transparencyMode = .dualLayer
+#endif
+            
         }
         return box
     }
@@ -222,6 +227,6 @@ struct FBLEContainer {
 }
 
 protocol FocusBoxLayoutEngine {
-    func layout(_ container: FBLEContainer)
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds)
+    func layout(_ container: FBLEContainer)
 }

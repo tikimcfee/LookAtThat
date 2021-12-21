@@ -194,7 +194,7 @@ private extension CodeGridFocusController {
 #if os(macOS)
             let simdMultiple = camera.simdWorldFront * 128.0
 #elseif os(iOS)
-            let simdMultiple = camera.simdWorldFront * 0.05
+            let simdMultiple = camera.simdWorldFront * 0.03
 #endif
             newFocus.rootNode.position = camera.position
             newFocus.rootNode.simdPosition += simdMultiple
@@ -206,6 +206,8 @@ private extension CodeGridFocusController {
     
     func makeNewUserFocusBox() -> FocusBox {
         let newFocus = focusCache.cacheNewFocus()
+        newFocus.layoutMode = .userStack
+        
         let placementNode = userFocusPlacementNode
         placementNode.addingChild(newFocus.rootNode)
         

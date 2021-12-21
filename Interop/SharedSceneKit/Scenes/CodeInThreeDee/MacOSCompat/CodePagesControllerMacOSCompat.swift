@@ -55,6 +55,8 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                             box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
                         case .stacked:
                             box.rootNode.simdTranslate(dZ: VectorVal(-150.0).vector)
+                        case .userStack:
+                            print("Seriously userStack isn't supported on mac yet")
                         }
                     }
                 }
@@ -70,7 +72,7 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                         .setFront(newGrid.measures.frontOffset)
                 }
                 
-                CGCAddToFocus(newGrid, inputCompat.focus).applying {
+                GridControlAddToFocus(newGrid, inputCompat.focus).applying {
                     insertControl($0)
                     newGrid.addingChild($0.displayGrid)
                     

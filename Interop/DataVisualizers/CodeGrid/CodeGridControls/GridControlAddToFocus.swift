@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-func CGCAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
+func GridControlAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
     weak var weakTargetGrid = targetGrid
     weak var weakController = controller
     

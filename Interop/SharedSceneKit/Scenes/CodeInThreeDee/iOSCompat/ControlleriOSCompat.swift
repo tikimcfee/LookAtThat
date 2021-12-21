@@ -65,7 +65,9 @@ extension ControlleriOSCompat: CommandHandler {
             resizeCommand { _, box in
                 addToFocus()
                 sceneTransaction {
+                    #if os(macOS)
                     moveNewGrid(box)
+                    #endif
                     addControls(box)
                 }
             }
@@ -92,13 +94,15 @@ extension ControlleriOSCompat: CommandHandler {
                     box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
                 case .stacked:
                     box.rootNode.simdTranslate(dZ: Constants.stackOffset)
+                case .userStack:
+                    print("iOS move new grid")
                 }
             }
         }
         
         func addControls(_ box: FocusBox) {
             //TODO: The control is off by a few points.. WHY!?
-            let swapControl = CGCSwapModes(newGrid)
+            let swapControl = GridControlSwapModes(newGrid)
                 .applying {
                     insertControl($0)
                     newGrid.addingChild($0)
@@ -113,7 +117,7 @@ extension ControlleriOSCompat: CommandHandler {
             )
             print("swap:----\n", swapControl.displayGrid.measures.dumpstats)
             
-            let focusControl = CGCAddToFocus(newGrid, inputCompat.focus).applying {
+            let focusControl = GridControlAddToFocus(newGrid, inputCompat.focus).applying {
                 insertControl($0)
                 newGrid.addingChild($0)
             }

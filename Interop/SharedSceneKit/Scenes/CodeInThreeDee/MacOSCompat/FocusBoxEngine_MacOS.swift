@@ -50,6 +50,8 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
                 horizontalLayout()
             case .stacked:
                 stackLayout()
+            case .userStack:
+                print("Finish the user stack on mac")
             }
         }
         
