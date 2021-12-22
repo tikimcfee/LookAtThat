@@ -139,6 +139,15 @@ extension SCNVector3: Equatable {
 }
 
 extension SCNNode {
+    @discardableResult
+    func translate(dX: VectorFloat = 0,
+                   dY: VectorFloat = 0,
+                   dZ: VectorFloat = 0) {
+        position.x += dX
+        position.y += dY
+        position.z += dZ
+    }
+    
     func materialMultiply(_ any: Any?) {
         geometry?.firstMaterial?.multiply.contents = any
     }

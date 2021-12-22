@@ -62,13 +62,13 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                 }
                 
                 //TODO: The control is off by a few points.. WHY!?
-                let swapControl = GridControlSwapModes(newGrid).applying {
+                let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
                     insertControl($0)
                     newGrid.addingChild($0.displayGrid)
                     
                     $0.displayGrid.measures
                         .setBottom(newGrid.measures.topOffset + 2)
-                        .setLeading(newGrid.measures.leadingOffset)
+                        .setLeading(newGrid.measures.localLeading - $0.displayGrid.measures.leadingOffset)
                         .setFront(newGrid.measures.frontOffset)
                 }
                 
@@ -77,9 +77,9 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                     newGrid.addingChild($0.displayGrid)
                     
                     $0.displayGrid.measures
-                        .setBottom(newGrid.measures.topOffset + 2)
+                        .setBottom(swapControl.displayGrid.measures.bottom)
                         .setLeading(swapControl.displayGrid.measures.trailingOffset + 4.0)
-                        .setFront(swapControl.displayGrid.measures.backOffset)
+                        .setBack(swapControl.displayGrid.measures.back)
                 }
             }
             

@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-func GridControlSwapModes(_ targetGrid: CodeGrid) -> CodeGridControl {
+func GridControlSwapModes(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
     weak var weakTargetGrid = targetGrid
     
     func swapModes(_ control: CodeGridControl) {
@@ -27,5 +27,8 @@ func GridControlSwapModes(_ targetGrid: CodeGrid) -> CodeGridControl {
         action: swapModes
     )
     
-    return CodeGridControl(targetGrid: targetGrid).setup(settings)
+    return CodeGridControl(
+        targetGrid: targetGrid,
+        parser: controller.controller.codeGridParser
+    ).setup(settings)
 }

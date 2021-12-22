@@ -45,7 +45,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
-        //        grids.consume(syntax: sourceSyntax)
         
         for token in sourceSyntax.tokens {
             print(token.id.stringIdentifier, "\n\n---\n\(token.text) | \(token.typeName)\n---")
@@ -237,6 +236,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGridLength = testGrid.measures.lengthZ
         let testGridCenter = testGrid.measures.centerPosition
         print()
+        print(testGrid.fileName)
         print("gw:\(testGridWidth), gh:\(testGridHeight), gl:\(testGridLength), gcenter: \(testGridCenter)")
         
         let manualWidth = BoundsWidth(testGrid.rootNode.manualBoundingBox)
@@ -253,13 +253,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         func newGrid() -> CodeGrid {
             CodeGrid(glyphCache: bundle.glyphs,
                      tokenCache: bundle.tokenCache)
+                .withFileName(bundle.testFile.lastPathComponent)
                 .consume(syntax: parsed.root)
                 .sizeGridToContainerNode()
         }
         let testGrid = newGrid()
         var (deltaX, deltaY, deltaZ) = (0.0, 0.0, 0.0)
-        
-        
         
         printStart()
         print("start: ----")

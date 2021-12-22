@@ -24,9 +24,9 @@ class CodeGridControl {
     let targetGrid: CodeGrid
     let displayGrid: CodeGrid
     
-    init(targetGrid: CodeGrid) {
+    init(targetGrid: CodeGrid, parser: CodeGridParser) {
         self.targetGrid = targetGrid
-        self.displayGrid = targetGrid.newGridUsingCaches()
+        self.displayGrid = parser.createNewGrid()
     }
     
     func activate() {
@@ -34,7 +34,7 @@ class CodeGridControl {
     }
     
     @discardableResult
-    func setup(_ settings: CodeGridControl.Settings) -> Self {
+    func setup(_ settings: Settings) -> Self {
         displayGrid.applying {
             $0.displayMode = .glyphs
             $0.fullTextBlitter.rootNode.removeFromParentNode()
@@ -73,12 +73,18 @@ class CodeGridControl {
         target: SCNNode,
         positionOffset: SCNVector3
     ) {
-        let positionConstraint = SCNReplicatorConstraint(target: target)
-        positionConstraint.replicatesOrientation = true
-        positionConstraint.replicatesPosition = true
-        positionConstraint.replicatesScale = true
-        positionConstraint.positionOffset = positionOffset
+//        let positionConstraint = SCNReplicatorConstraint(target: target)
+//        positionConstraint.replicatesOrientation = true
+//        positionConstraint.replicatesPosition = true
+//        positionConstraint.replicatesScale = true
+//        positionConstraint.positionOffset = positionOffset
         
-        displayGrid.rootNode.addConstraint(positionConstraint)
+        let transformConstraint = SCNTransformConstraint(inWorldSpace: false) { node, _ in
+            node.transform = target.transform
+            node.translate(dX: positionOffset.x, dY: positionOffset.y, dZ: positionOffset.z)
+            return node.transform
+        }
+        displayGrid.rootNode.addConstraint(transformConstraint)
+//        displayGrid.rootNode.addConstraint(positionConstraint)
     }
 }

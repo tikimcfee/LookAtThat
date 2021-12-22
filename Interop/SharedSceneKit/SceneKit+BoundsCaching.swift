@@ -97,9 +97,9 @@ public extension SCNNode {
 public extension SCNNode {
     
     var manualBoundingBox: Bounds {
-        childNodes.isEmpty
+        return childNodes.isEmpty
             ? boundingBox
-            : BoundsCaching.getOrUpdate(self, presentation: false)
+            : computeBoundingBox(false)
     }
     
     var lengthX: VectorFloat {

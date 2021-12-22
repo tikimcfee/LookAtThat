@@ -202,7 +202,11 @@ extension CodeGrid {
             tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
             
             if walkSemantics {
-                walkHierarchyForSemantics(rootSyntax: syntax, token, tokenId, tokenIdNodeName)
+                walkHierarchyForSemantics(
+                    rootSyntax: syntax,
+                    token, tokenId, tokenIdNodeName,
+                    fileName
+                )
             }
         }
         
@@ -219,7 +223,8 @@ extension CodeGrid {
         rootSyntax: Syntax,
         _ token: TokenSyntax,
         _ tokenId: SyntaxIdentifier,
-        _ tokenIdNodeName: String
+        _ tokenIdNodeName: String,
+        _ sourceFileName: String
     ) {
         // Walk the parenty hierarchy and associate these nodes with that parent.
         // Add semantic info to lookup for each parent node found.
@@ -230,7 +235,10 @@ extension CodeGrid {
             codeGridSemanticInfo.saveSemanticInfo(
                 parentId,
                 tokenIdNodeName,
-                semanticInfoBuilder.semanticInfo(for: parent)
+                semanticInfoBuilder.semanticInfo(
+                    for: parent,
+                    fileName: sourceFileName
+                )
             )
             codeGridSemanticInfo.associate(
                 syntax: parent,

@@ -226,36 +226,36 @@ private extension CodeGrid.Measures {
     }
 }
 
-private extension CodeGrid.Measures {
+extension CodeGrid.Measures {
     private var positionNode: SCNNode { target.rootNode }
     private var sizeNode: SCNNode { target.rootNode }
     
-    private var localLeading: VectorFloat {
+    var localLeading: VectorFloat {
         get { positionNode.manualBoundingBox.min.x }
     }
-    private var localTrailing: VectorFloat {
+    var localTrailing: VectorFloat {
         get { positionNode.manualBoundingBox.max.x }
     }
-    private var localTop: VectorFloat {
+    var localTop: VectorFloat {
         get { positionNode.manualBoundingBox.max.y }
     }
-    private var localBottom: VectorFloat {
+    var localBottom: VectorFloat {
         get { positionNode.manualBoundingBox.min.y }
     }
-    private var localFront: VectorFloat {
+    var localFront: VectorFloat {
         get { positionNode.manualBoundingBox.max.z }
     }
-    private var localBack: VectorFloat {
+    var localBack: VectorFloat {
         get { positionNode.manualBoundingBox.min.z }
     }
     
-    private var localCenterX: VectorFloat {
+    var localCenterX: VectorFloat {
         get { localLeading + (sizeNode.lengthX / 2.0) }
     }
-    private var localCenterY: VectorFloat {
+    var localCenterY: VectorFloat {
         get { localTop - (sizeNode.lengthY / 2.0) }
     }
-    private var localCenterZ: VectorFloat {
+    var localCenterZ: VectorFloat {
         get { localFront - (sizeNode.lengthZ / 2.0) }
     }
 }
@@ -264,22 +264,23 @@ private extension CodeGrid.Measures {
 extension CodeGrid.Measures {
     var dumpstats: String {
 """
---\(target.id)
-nodePosition:     \(positionNode.position)
-size:             \(SCNVector3(lengthX, lengthY, lengthZ))
-boundsMin:        \(boundsMin)
-boundsMax:        \(boundsMax)
-boundsCenter:     \(centerPosition)
-ComputedBoundsWidth:  \(positionNode.boundsWidth)
-ComputedBoundsHeight: \(positionNode.boundsHeight)
-ComputedBoundsLength: \(positionNode.boundsLength)
-ComputedBoundsCenter: \(positionNode.boundsCenterPosition)
+-- \(target.fileName) || \(target.id)
+ComputedBoundsWidth:             \(positionNode.boundsWidth)
+ComputedBoundsHeight:            \(positionNode.boundsHeight)
+ComputedBoundsLength:            \(positionNode.boundsLength)
+nodePosition:                    \(positionNode.position)
+size:                            \(SCNVector3(lengthX, lengthY, lengthZ))
+boundsMin:                       \(boundsMin)
+boundsMax:                       \(boundsMax)
+boundsCenter:                    \(centerPosition)
+ComputedBoundsCenter:            \(positionNode.boundsCenterPosition)
 (leading, top, back):            \(SCNVector3(leading, top, back))
 (trailing, bottom, front):       \(SCNVector3(trailing, bottom, front))
 local-(leading, top, back):      \(SCNVector3(localLeading, localTop, localBack))
 local-(trailing, bottom, front): \(SCNVector3(localTrailing, localBottom, localFront))
 offst-(leading, top, back):      \(SCNVector3(leadingOffset, topOffset, backOffset))
-offst-(trailing, bottom, front): \(SCNVector3(trailingOffset, bottomOffset, frontOffset))--
+offst-(trailing, bottom, front): \(SCNVector3(trailingOffset, bottomOffset, frontOffset))
+--
 """
     }
 }

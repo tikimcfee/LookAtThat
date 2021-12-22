@@ -40,5 +40,8 @@ func GridControlAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusCo
         action: moveToMainFocus
     )
     
-    return CodeGridControl(targetGrid: targetGrid).setup(settings)
+    return CodeGridControl(
+        targetGrid: targetGrid,
+        parser: controller.controller.codeGridParser
+    ).setup(settings)
 }

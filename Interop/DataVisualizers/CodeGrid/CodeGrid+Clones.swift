@@ -31,13 +31,16 @@ extension CodeGrid {
         
         clone.rootNode = rootNode.clone()
         clone.rootNode.name = clone.id
-        guard let clonedGlyphes = clone.rootNode.childNode(withName: glyphNodeName, recursively: false),
-              let clonedBackground = clone.rootNode.childNode(withName: backgroundNodeName, recursively: false),
-              let clonedGeometry = clonedBackground.geometry?.deepCopy() as? SCNBox
+        guard let clonedContainer  = clone.rootNode.childNode(withName: rootContainerNodeName, recursively: false),
+              let clonedGlyphs     = clonedContainer.childNode(withName: glyphNodeName, recursively: false),
+              let clonedBackground = clonedContainer.childNode(withName: backgroundNodeName, recursively: false),
+              let clonedGeometry   = clonedBackground.geometry?.deepCopy() as? SCNBox
         else {
             fatalError("Node cloning failed - did not find child nodes")
         }
-        clone.rootGlyphsNode = clonedGlyphes
+        clone.rootContainerNode = clonedContainer
+        clone.rootContainerNode.name = clone.rootContainerNodeName
+        clone.rootGlyphsNode = clonedGlyphs
         clone.rootGlyphsNode.name = clone.glyphNodeName
         clone.backgroundGeometryNode = clonedBackground
         clone.backgroundGeometryNode.name = clone.backgroundNodeName

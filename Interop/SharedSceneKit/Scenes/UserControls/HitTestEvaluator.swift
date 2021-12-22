@@ -56,49 +56,67 @@ private extension HitTestEvaluator {
         return extractor(node) ?? .unknown(node)
     }
     
-    func extractHierarchyGrid(_ node: SCNNode) -> Result? {
-        guard let targetNodeParent = node.parent,
-              let targetNodeRoot = targetNodeParent.parent,
-              let gridNodeNameId = targetNodeRoot.name,
-              let grid = maybeGetGrid(gridNodeNameId)
-        else {
-            return nil
+    func searchUp<T>(
+        from root: SCNNode,
+        _ inclueRoot: Bool = true,
+        _ action: (SCNNode, String, UnsafeMutablePointer<Bool>) -> T?
+    ) -> T? {
+        var stop: Bool = false
+        if inclueRoot {
+            if let result = action(root, root.name ?? "", &stop) {
+                return result
+            }
         }
         
-        return .grid(grid.source)
+        var parent: SCNNode? = root.parent
+        while let nextParent = parent, !stop {
+            if let result = action(nextParent, nextParent.name ?? "", &stop) {
+                return result
+            }
+            parent = nextParent.parent
+        }
+        
+        return nil
+    }
+    
+    func extractHierarchyGrid(_ node: SCNNode) -> Result? {
+        return searchUp(from: node) { node, name, stop in
+            if let grid = maybeGetGrid(name) {
+                return .grid(grid.source)
+            } else {
+                return nil
+            }
+        }
     }
     
     func extractGrid(_ node: SCNNode) -> Result? {
-        guard let gridBackgroundNodeParent = node.parent,
-              let rootNodeId = gridBackgroundNodeParent.name,
-              let grid = maybeGetGrid(rootNodeId)
-        else {
-            return nil
+        return searchUp(from: node) { node, name, stop in
+            if let grid = maybeGetGrid(name) {
+                return .grid(grid.source)
+            } else {
+                return nil
+            }
         }
-        
-        return .grid(grid.source)
     }
 
     func extraFocus(_ node: SCNNode) -> Result? {
-        guard let focusRootNode = node.parent,
-              let focusRootId = focusRootNode.name,
-              let cachedFocus = maybeGetFocus(focusRootId)
-        else {
-            return nil
+        return searchUp(from: node) { node, name, stop in
+            if let focus = maybeGetFocus(name) {
+                return .focusBox(focus)
+            } else {
+                return nil
+            }
         }
-        
-        return .focusBox(cachedFocus)
     }
     
     func extractControl(_ node: SCNNode) -> Result? {
-        guard let controlRootNode = node.parent,
-              let controlNodeId = controlRootNode.name,
-              let cachedCotrol = maybeGetControl(controlNodeId)
-        else {
-            return nil
+        return searchUp(from: node) { node, name, stop in
+            if let control = maybeGetControl(name) {
+                return .control(control)
+            } else {
+                return nil
+            }
         }
-        
-        return .control(cachedCotrol)
     }
 }
 
@@ -203,12 +221,13 @@ struct HitTestType: OptionSet {
     static let codeGridBlitter  = HitTestType(rawValue: 1 << 10)
     static let codeGridControl  = HitTestType(rawValue: 1 << 11)
     static let codeGridFocusBox = HitTestType(rawValue: 1 << 12)
+    static let codeGridFocusControl = HitTestType(rawValue: 1 << 13)
     
     static let all: HitTestType = [
         .codeSheet, .semanticTab, .rootCodeSheet,
         .directoryGroup, .codeGrid, .codeGridToken,
         .codeGridSnapshot, .codeGridGlyphs, .codeGridBlitter,
-        .codeGridControl, .codeGridFocusBox
+        .codeGridControl, .codeGridFocusBox, .codeGridFocusControl
     ]
     
     static let gridsAndTokens: HitTestType = [

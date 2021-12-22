@@ -32,7 +32,10 @@ class CodeGrid: Identifiable, Equatable {
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
     lazy var glyphNodeName = { "\(id)-glyphs" }()
     lazy var backgroundNodeName = { "\(id)-background" }()
+    lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
+    lazy var rootContainerNodeName = { "\(id)-container" }()
     var cloneId: ID { "\(id)-clone" }
+    var fileName: String = ""
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
@@ -53,6 +56,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)
     
     lazy var rootNode: SCNNode = makeRootNode()
+    lazy var rootContainerNode: SCNNode = makeRootContainerNode()
     lazy var rootGlyphsNode: SCNNode = makeRootGlyphsNode()
     lazy var backgroundGeometryNode: SCNNode = makeBackgroundGeometryNode()
     lazy var backgroundGeometry: SCNBox = makeBackgroundGeometry()
@@ -75,11 +79,19 @@ class CodeGrid: Identifiable, Equatable {
 extension CodeGrid {
     private func makeRootNode() -> SCNNode {
         laztrace(#fileID,#function)
+        let root = SCNNode()
+        root.name = id
+        root.addChildNode(rootContainerNode)
+        return root.withDeviceScale()
+    }
+    
+    private func makeRootContainerNode() -> SCNNode {
+        laztrace(#fileID,#function)
         let container = SCNNode()
-        container.name = id
+        container.name = rootContainerNodeName
         container.addChildNode(rootGlyphsNode)
         container.addChildNode(backgroundGeometryNode)
-        return container.withDeviceScale()
+        return container
     }
     
     private func makeRootGlyphsNode() -> SCNNode {
@@ -102,6 +114,7 @@ extension CodeGrid {
     private func makeBackgroundGeometry() -> SCNBox {
         laztrace(#fileID,#function)
         let sheetGeometry = SCNBox()
+        sheetGeometry.name = backgroundNodeGeometry
         sheetGeometry.chamferRadius = 4.0
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
         sheetGeometry.length = PAGE_EXTRUSION_DEPTH
@@ -119,13 +132,6 @@ extension CodeGrid: Hashable {
 
 // MARK: -- Builder-style configuration
 extension CodeGrid {
-    func newGridUsingCaches() -> CodeGrid {
-        return CodeGrid(
-            glyphCache: glyphCache,
-            tokenCache: tokenCache
-        )
-    }
-    
     @discardableResult
     func sizeGridToContainerNode(
         pad: VectorFloat = 2.0,
@@ -207,6 +213,12 @@ extension CodeGrid {
     func asChildOf(_ parent: SCNNode) -> Self {
         laztrace(#fileID,#function,parent)
         parent.addChildNode(rootNode)
+        return self
+    }
+    
+    @discardableResult
+    func withFileName(_ fileName: String) -> CodeGrid {
+        self.fileName = fileName
         return self
     }
 }

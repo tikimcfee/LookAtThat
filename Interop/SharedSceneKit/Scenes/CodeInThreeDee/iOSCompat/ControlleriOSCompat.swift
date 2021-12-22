@@ -102,11 +102,11 @@ extension ControlleriOSCompat: CommandHandler {
         
         func addControls(_ box: FocusBox) {
             //TODO: The control is off by a few points.. WHY!?
-            let swapControl = GridControlSwapModes(newGrid)
-                .applying {
-                    insertControl($0)
-                    newGrid.addingChild($0)
-                }
+            let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
+                insertControl($0)
+                newGrid.addingChild($0)
+            }
+            
             swapControl.setPositionConstraint(
                 target: newGrid.rootNode,
                 positionOffset: SCNVector3(

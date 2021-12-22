@@ -27,13 +27,13 @@ extension CodeGridParser {
     
     func renderGrid(_ url: URL) -> CodeGrid? {
         guard let sourceFile = loadSourceUrl(url) else { return nil }
-        let newGrid = createGridFromSyntax(sourceFile)
+        let newGrid = createGridFromSyntax(sourceFile, url)
         return newGrid
     }
     
     func renderGrid(_ source: String) -> CodeGrid? {
         guard let sourceFile = parse(source) else { return nil }
-        let newGrid = createGridFromSyntax(sourceFile)
+        let newGrid = createGridFromSyntax(sourceFile, nil)
         return newGrid
     }
 }
@@ -47,8 +47,9 @@ extension CodeGridParser {
         )
     }
     
-    func createGridFromSyntax(_ syntax: SourceFileSyntax) -> CodeGrid {
+    func createGridFromSyntax(_ syntax: SourceFileSyntax, _ sourceURL: URL?) -> CodeGrid {
         let grid = createNewGrid()
+            .withFileName(sourceURL?.lastPathComponent ?? "")
             .consume(syntax: Syntax(syntax))
             .sizeGridToContainerNode()
         return grid
