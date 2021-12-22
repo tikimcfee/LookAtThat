@@ -200,7 +200,7 @@ extension BaseSceneController {
         touchState.pan.computeStartEulers()
 
         sceneTransaction(0) {
-            touchState.pan.setTranslatedPosition(dX, dY, dZ)
+            touchState.pan.setWorldTranslatedPosition(dX, dY, dZ)
         }
     }
 
@@ -340,7 +340,19 @@ class TouchStart {
     func setTranslatedPosition(_ dX: VectorFloat,
                                _ dY: VectorFloat,
                                _ dZ: VectorFloat) {
+        positioningNode.position =
+            positioningNodeStart.translated(dX: dX, dY: dY, dZ: dZ)
+    }
+    
+    func setWorldTranslatedPosition(_ dX: VectorFloat,
+                                    _ dY: VectorFloat,
+                                    _ dZ: VectorFloat) {
+        #if os(iOS)
         positioningNode.worldPosition =
             positioningNodeStartWorld.translated(dX: dX, dY: dY, dZ: dZ)
+        #elseif os(macOS)
+        positioningNode.worldPosition =
+            positioningNodeStartWorld.translated(dX: dX, dY: dY, dZ: dZ)
+        #endif
     }
 }

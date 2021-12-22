@@ -49,42 +49,24 @@ extension CodeGrid {
         var backOffset: VectorFloat { abs(scaledLocalBack) }
         
         var boundsMin: SCNVector3 {
-//            positionNode.convertPosition(
-//                SCNVector3(scaledLocalLeading, scaledLocalBottom, scaledLocalBack),
-//                to: positionNode.parent
-//            )
-            
             positionNode.convertPosition(
                 SCNVector3(localLeading, localBottom, localBack),
                 to: positionNode.parent
             )
-//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
         }
         
         var boundsMax: SCNVector3 {
-//            positionNode.convertPosition(
-//                SCNVector3(scaledLocalTrailing, scaledLocalTop, scaledLocalFront),
-//                to: positionNode.parent
-//            )
-            
             positionNode.convertPosition(
                 SCNVector3(localTrailing, localTop, localFront),
                 to: positionNode.parent
             )
-//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
         }
         
         var centerPosition: SCNVector3 {
-//            positionNode.convertPosition(
-//                SCNVector3(x: scaledLocalCenterX, y: scaledLocalCenterY, z: scaledLocalCenterZ),
-//                to: positionNode.parent
-//            )
-            
             positionNode.convertPosition(
                 SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
                 to: positionNode.parent
             )
-//            .scaled(scaleX: DeviceScale, scaleY: DeviceScale, scaleZ: DeviceScale)
         }
 
         var leading: VectorFloat {

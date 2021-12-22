@@ -38,21 +38,22 @@ class CodeGridBlitter: Identifiable {
     }
     
     func sizeGridToContainerNode(
-        pad: VectorFloat = 2.0,
-        pivotRootNode: Bool = false
+        pad: VectorFloat = 2.0
     ){
+        let zStart = VectorFloat(2.0)
         gridGeometry.width = rootNode.lengthX.cg + pad.cg
         gridGeometry.height = rootNode.lengthY.cg + pad.cg
+        
         let centerX = gridGeometry.width / 2.0
         let centerY = -gridGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
-        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
-        backgroundGeometryNode.position.z = -1
-        // Can help in some layout situations where you want the root node's position
-        // to be at dead-center of background geometry
-        if pivotRootNode {
-            rootNode.pivot = SCNMatrix4MakeTranslation(centerX.vector, centerY.vector, 0)
-        }
+        
+        backgroundGeometryNode.pivot = SCNMatrix4Translate(
+            backgroundGeometryNode.pivot,
+            -(centerX.vector - pad / 2.0),
+            -(centerY.vector + pad / 2.0),
+            (zStart)
+            
+        )
     }
     
     func createBackingFlatLayer(
@@ -88,7 +89,7 @@ class FullTextLayerBuilder {
     private let DESCALE_FACTOR = 12.0
     #endif
     
-    private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
+    let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
     
     static let layoutQueue = DispatchQueue(label: "FullTextLayerBuilder=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
@@ -96,7 +97,7 @@ class FullTextLayerBuilder {
     func make(_ safeString: NSMutableAttributedString) -> (geometry: SCNGeometry, size: CGSize) {
         // Size the glyph from the font using a rendering scale factor
         safeString.addAttributes(
-            [.font: Self.MONO_FONT],
+            [.font: MONO_FONT],
             range: safeString.string.fullNSRange
         )
         let wordSize = safeString.size()

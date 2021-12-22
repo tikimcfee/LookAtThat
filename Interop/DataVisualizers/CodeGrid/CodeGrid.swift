@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-let kCodeGridContainerName = "kCodeGridContainerName"
+let kCodeGridContainerName = "CodeGrid"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 extension CodeGrid {
@@ -139,21 +139,22 @@ extension CodeGrid {
     ) -> CodeGrid {
         laztrace(#fileID,#function,pad,pivotRootNode)
         
-        let zStart = VectorFloat(-1.0)
+        let zStart = VectorFloat(2.0)
         let unscaledWidth = measures.lengthX.cg * DeviceScaleInverse.cg
         let unscaledHeight = measures.lengthY.cg * DeviceScaleInverse.cg
-        
-        // manualBoundingBox needs to me manually updated after initial layout
-        _ = SCNNode.BoundsCaching.Update(rootNode, false)
-        
+                
         backgroundGeometry.width = unscaledWidth + pad.cg
         backgroundGeometry.height = unscaledHeight + pad.cg
         
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
-        backgroundGeometryNode.position.x = centerX.vector - pad / 2.0
-        backgroundGeometryNode.position.y = centerY.vector + pad / 2.0
-        backgroundGeometryNode.position.z = zStart
+        
+        backgroundGeometryNode.pivot = SCNMatrix4Translate(
+            backgroundGeometryNode.pivot,
+            -(centerX.vector - pad / 2.0),
+            -(centerY.vector + pad / 2.0),
+            (zStart)
+        )
         
         return self
     }
@@ -191,21 +192,21 @@ extension CodeGrid {
     @discardableResult
     func addingChild(_ child: CodeGridControl) -> Self {
         laztrace(#fileID,#function,child)
-        rootNode.addChildNode(child.displayGrid.rootNode)
+        rootContainerNode.addChildNode(child.displayGrid.rootNode)
         return self
     }
     
     @discardableResult
     func addingChild(_ child: CodeGrid) -> Self {
         laztrace(#fileID,#function,child)
-        rootNode.addChildNode(child.rootNode)
+        rootContainerNode.addChildNode(child.rootNode)
         return self
     }
     
     @discardableResult
     func asChildOf(_ parent: CodeGrid) -> Self {
         laztrace(#fileID,#function,parent)
-        parent.rootNode.addChildNode(rootNode)
+        parent.rootContainerNode.addChildNode(rootNode)
         return self
     }
     

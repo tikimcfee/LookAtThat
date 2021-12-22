@@ -181,7 +181,7 @@ public extension SCNNode {
     func addWireframePoint() {
         let debugBox = SCNSphere()
         debugBox.firstMaterial?.diffuse.contents = NSUIColor.lightGray
-        debugBox.radius = 5
+        debugBox.radius = 1
         geometry = debugBox
     }
 }

@@ -64,22 +64,26 @@ extension CodePagesControllerMacOSCompat: CommandHandler {
                 //TODO: The control is off by a few points.. WHY!?
                 let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
                     insertControl($0)
-                    newGrid.addingChild($0.displayGrid)
+                    newGrid.addingChild($0)
                     
-                    $0.displayGrid.measures
-                        .setBottom(newGrid.measures.topOffset + 2)
-                        .setLeading(newGrid.measures.localLeading - $0.displayGrid.measures.leadingOffset)
-                        .setFront(newGrid.measures.frontOffset)
+                    $0.setPositionConstraint(
+                        target: newGrid.rootContainerNode,
+                        positionOffset: SCNVector3(
+                            0, $0.displayGrid.measures.lengthY + 2.0, 0
+                        )
+                    )
                 }
                 
                 GridControlAddToFocus(newGrid, inputCompat.focus).applying {
                     insertControl($0)
-                    newGrid.addingChild($0.displayGrid)
+                    newGrid.addingChild($0)
                     
-                    $0.displayGrid.measures
-                        .setBottom(swapControl.displayGrid.measures.bottom)
-                        .setLeading(swapControl.displayGrid.measures.trailingOffset + 4.0)
-                        .setBack(swapControl.displayGrid.measures.back)
+                    $0.setPositionConstraint(
+                        target: swapControl.displayGrid.rootNode,
+                        positionOffset: SCNVector3(
+                            swapControl.displayGrid.measures.lengthX + 4.0, 0, 0
+                        )
+                    )
                 }
             }
             
