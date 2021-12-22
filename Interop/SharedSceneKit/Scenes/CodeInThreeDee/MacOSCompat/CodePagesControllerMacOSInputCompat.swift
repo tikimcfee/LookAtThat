@@ -105,41 +105,31 @@ class CodePagesControllerMacOSInputCompat {
         searchController.search(newInput, state)
     }
     
+    private lazy var hoverEval = HitTestEvaluator(controller: controller)
     private func doCodeGridHover(_ point: CGPoint) {
+        var (tokenSet, grid): (CodeGridNodes?, CodeGrid?)
+        let results = hoverEval.testAndEval(point, [.gridsAndTokens])
         
-        let gridsAndTokens = sceneView.hitTest(location: point, .gridsAndTokens)
-        var iterator = gridsAndTokens.makeIterator()
-        var (hoveredId, tokenSet, grid): (String?, CodeGridNodes?, CodeGrid?)
-        
-        while tokenSet == nil && grid == nil, let next = iterator.next() {
-            guard let codeGridIdFromNode = next.node.name else {
-                print("No name for node: \(next.node)")
-                continue
-            }
-            
-            if tokenSet == nil {
-                let hovered = codeGridParser.tokenCache[codeGridIdFromNode]
-                hoveredId = codeGridIdFromNode
+        for hitTest in results where tokenSet == nil || grid == nil {
+            switch hitTest {
+            case let .token(_, name):
+                guard tokenSet == nil else { continue }
+                let hovered = codeGridParser.tokenCache[name]
                 tokenSet = hovered
+                self.hoveredToken = name
+                if !hovered.isEmpty {
+                    touchState.mouse.hoverTracker.newSetHovered(hovered)
+                    self.hoveredToken = hoveredToken
+                }
+                
+            case let .grid(foundGrid):
+                guard grid == nil else { continue }
+                grid = foundGrid
+                self.hoveredInfo = foundGrid.codeGridSemanticInfo
+                
+            default:
+                print("skip: \(hitTest)")
             }
-            
-            if grid == nil,
-               let letMaybeParentNameId = next.node.parent?.name,
-               let maybeGrid = codeGridParser.concurrency[letMaybeParentNameId] {
-                grid = maybeGrid
-            }
-        }
-        
-        if let hoveredInfo = grid?.codeGridSemanticInfo {
-            self.hoveredInfo = hoveredInfo
-        }
-        
-        if let hoveredToken = hoveredId {
-            if let set = tokenSet, !set.isEmpty {
-                touchState.mouse.hoverTracker.newSetHovered(set)
-                self.hoveredToken = hoveredToken
-            }
-            
         }
     }
 }

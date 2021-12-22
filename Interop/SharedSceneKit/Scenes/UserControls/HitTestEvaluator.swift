@@ -33,6 +33,9 @@ class HitTestEvaluator {
         let node = hitTest.node
         switch node.categoryBitMask {
             
+        case let type where isToken(type):
+            return .token(node, node.name ?? "")
+            
         case let type where isGridHierarchy(type):
             return safeExtract(node, extractHierarchyGrid(_:))
             
@@ -121,11 +124,15 @@ private extension HitTestEvaluator {
 }
 
 private extension HitTestEvaluator {
-    static let gridChildren = Set([
+    static let gridChildren = [
         HitTestType.codeGridSnapshot.rawValue,
         HitTestType.codeGridGlyphs.rawValue,
         HitTestType.semanticTab.rawValue
-    ])
+    ]
+    
+    func isToken(_ mask: Int) -> Bool {
+        return HitTestType.codeGridToken.rawValue == mask
+    }
     
     func isGridHierarchy(_ mask: Int) -> Bool {
         return Self.gridChildren.contains(mask)
@@ -163,6 +170,7 @@ extension HitTestEvaluator {
         case grid(CodeGrid)
         case focusBox(FocusBox)
         case control(CodeGridControl)
+        case token(SCNNode, String)
         case unknown(SCNNode)
         
         var positionNode: SCNNode {
@@ -173,8 +181,10 @@ extension HitTestEvaluator {
                 return focusBox.rootNode
             case .control(let control):
                 return control.displayGrid.rootNode
-            case .unknown(let sCNNode):
-                return sCNNode
+            case .token(let scnNode, _):
+                return scnNode
+            case .unknown(let scnNode):
+                return scnNode
             }
         }
         
@@ -186,8 +196,10 @@ extension HitTestEvaluator {
                 return focusBox as? T
             case .control(let control):
                 return control as? T
-            case .unknown(let sCNNode):
-                return sCNNode as? T
+            case .unknown(let scnNode):
+                return scnNode as? T
+            case .token(let scnNode, _):
+                return scnNode as? T
             }
         }
 
@@ -199,8 +211,10 @@ extension HitTestEvaluator {
                 return 1
             case .focusBox:
                 return 2
-            case .unknown:
+            case .token:
                 return 3
+            case .unknown:
+                return 4
             }
         }
     }
