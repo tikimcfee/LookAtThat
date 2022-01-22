@@ -91,7 +91,6 @@ struct QuickLooper {
         guard !stopCondition() else { return }
         loop()
         queue.asyncAfter(deadline: .now() + 1) {
-            loop()
             runUntil(stopCondition)
         }
     }

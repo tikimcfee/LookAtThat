@@ -250,7 +250,7 @@ private extension CodeGridFocusController {
         let position = SCNTransformConstraint(
             inWorldSpace: true,
             with: { node, currentTransform in
-                node.simdPosition = camera.simdPosition
+                node.simdPosition = camera.simdWorldPosition
                 node.simdPosition += camera.simdWorldFront * depth
                 node.simdOrientation = camera.simdOrientation
                 return node.transform

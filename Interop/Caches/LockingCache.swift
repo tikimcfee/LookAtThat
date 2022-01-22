@@ -35,6 +35,13 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
         cache.isEmpty
     }
     
+    func contains(_ key: Key) -> Bool {
+        lock()
+        let contains = cache[key] != nil
+        unlock()
+        return contains
+    }
+    
     @discardableResult
     func remove(_ key: Key) -> Value? {
         lock()
