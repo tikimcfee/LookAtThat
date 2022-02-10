@@ -9,30 +9,24 @@ import Foundation
 import SceneKit
 
 func GridControlAddToFocus(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
-    weak var weakTargetGrid = targetGrid
-    weak var weakController = controller
-    
+    let userController = controller.userController
+
     func moveToMainFocus(_ control: CodeGridControl) {
-        guard let strongGrid = weakTargetGrid,
-              let strongController = weakController
-        else { return }
-        
         sceneTransaction {
-            if let _ = strongController.userDepthFor(strongGrid) {
-                strongController.detatchFromUserFocus(strongGrid)
-                strongController.finishUserUpdates()
+            if let _ = userController.userDepthFor(targetGrid) {
+                userController.detatchFromUserFocus(targetGrid)
+                userController.finishUserUpdates()
                 
-                strongController.attachToTargetFocus(strongGrid, strongController.deepestDepth + 1)
-                strongController.finishUpdates()
-            } else if let _ = strongController.depthFor(strongGrid) {
-                strongController.removeGridFromFocus(strongGrid)
-                strongController.finishUpdates()
+                controller.attachToTargetFocus(targetGrid, controller.deepestDepth + 1)
+                controller.finishUpdates()
+            } else if let _ = controller.depthFor(targetGrid) {
+                controller.removeGridFromFocus(targetGrid)
+                controller.finishUpdates()
                 
-                strongController.attachToUserFocus(strongGrid, strongController.userDeepestDepth + 1)
-                strongController.finishUserUpdates()
+                userController.attachToUserFocus(targetGrid, userController.userDeepestDepth + 1)
+                userController.finishUserUpdates()
             }
         }
-        
     }
     
     let settings = CodeGridControl.Settings(

@@ -51,7 +51,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
             case .stacked:
                 stackLayout()
             case .userStack:
-                print("Finish the user stack on mac")
+                userLayout()
             }
         }
         
@@ -69,6 +69,19 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
         }
         
         func stackLayout() {
+            container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+                if let previous = previous {
+                    current.measures
+                        .setTop(previous.measures.top)
+                        .alignedCenterX(previous)
+                        .setBack(previous.measures.back - zLengthPadding)
+                } else {
+                    current.zeroedPosition()
+                }
+            }
+        }
+        
+        func userLayout() {
             container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
                 if let previous = previous {
                     current.measures

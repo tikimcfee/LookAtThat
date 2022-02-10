@@ -45,19 +45,11 @@ let Constants = (
 )
 
 extension ControlleriOSCompat: CommandHandler {
-    private var defaultAttachUser: Bool { true }
-    
     func handleSingleCommand(_ path: FileKitPath, _ style: FileBrowser.Event.SelectType) {
         guard let newGrid = renderAndCache(path) else { return }
-        
-        let resizeCommand = defaultAttachUser
-            ? inputCompat.focus.userResize
-            : inputCompat.focus.resize
-        
-        let layoutCommand = defaultAttachUser
-            ? inputCompat.focus.userLayout
-            : inputCompat.focus.layout
-        
+                
+        let resizeCommand = inputCompat.focus.resize
+        let layoutCommand = inputCompat.focus.layout
         let insertControl = parser.gridCache.insertControl
         
         switch style {
@@ -77,11 +69,7 @@ extension ControlleriOSCompat: CommandHandler {
         
         func addToFocus() {
             sceneTransaction(0) { layoutCommand { focus, box in
-                if defaultAttachUser {
-                    focus.attachToUserFocus(newGrid, box.deepestDepth + 1)
-                } else {
-                    focus.addGridToFocus(newGrid, box.deepestDepth + 1)
-                }
+                focus.addGridToFocus(newGrid, box.deepestDepth + 1)
             }}
         }
         

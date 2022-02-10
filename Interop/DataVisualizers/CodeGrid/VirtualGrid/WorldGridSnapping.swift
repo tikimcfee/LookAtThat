@@ -157,7 +157,7 @@ extension WorldGridSnapping {
         while !stop, !nextSet.isEmpty {
             if nextSet.count == 1, let first = nextSet.first {
                 nextTargetGrid = first.targetGrid
-                receiver(previousGrid, first.targetGrid, &stop)
+                receiver(previousGrid, nextTargetGrid, &stop)
                 nextSet = gridsRelativeTo(nextTargetGrid, direction)
                 previousGrid = nextTargetGrid
             } else if let first = nextSet.first {
