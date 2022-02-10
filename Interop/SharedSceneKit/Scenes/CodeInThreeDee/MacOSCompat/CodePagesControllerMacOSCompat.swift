@@ -178,9 +178,9 @@ private extension CodePagesControllerMacOSCompat {
                 )
             
             
-            if let clone = findClone(of: nextGrid) {
-                let clonePosition = parent.convertPosition(clone.rootNode.position, to: nil)
-                
+            if inputCompat.searchController.hasActiveSearch,
+               let clone = findClone(of: nextGrid) {
+//                let clonePosition = parent.convertPosition(clone.rootNode.position, to: nil)
                 startPosition = startPosition.translated(dX: clone.measures.lengthX / 2.0)
                 
 //                let centerX = (clone.measures.centerX + nextGrid.measures.centerX) / 2.0

@@ -8,13 +8,32 @@
 import Foundation
 import SceneKit
 
+private class State {
+    private let check = DispatchQueue(label: "GridTextState", qos: .userInitiated)
+    
+    private var _input = ""
+    var input: String {
+        get { check.sync { _input } }
+        set { check.sync { _input = newValue } }
+    }
+    
+    private var _count = 0
+    var count: Int {
+        get { check.sync { _count } }
+        set { check.sync { _count = newValue } }
+    }
+}
+
 class SearchContainer {
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
-    private var currentWorkItem = DispatchWorkItem { }
+    private var currentWorkItem = DispatchWorkItem { print("hola, amigo") }
     
     var hovers = TokenHoverInteractionTracker()
     var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
+    
+    private var state = State()
+    var hasActiveSearch: Bool { !state.input.isEmpty }
     
     init(codeGridParser: CodeGridParser,
          codeGridFocus: CodeGridFocusController) {
@@ -31,7 +50,7 @@ class SearchContainer {
         setupNewSearch(newInput, state)
     }
     
-    private func setupNewSearch(_ newInput: String, _ state: SceneState) {
+    private func setupNewSearch(_ newInput: String, _ sceneState: SceneState) {
         currentWorkItem.cancel()
         currentWorkItem = DispatchWorkItem(block: searchBlock)
         searchQueue.async(execute: currentWorkItem)
@@ -42,7 +61,8 @@ class SearchContainer {
                 codeGridParser: codeGridParser,
                 task: currentWorkItem,
                 newInput: newInput,
-                state: state
+                state: sceneState,
+                searchState: state
             ).start()
         }
     }
@@ -57,20 +77,23 @@ private class RenderTask {
     let codeGridParser: CodeGridParser
     let task: DispatchWorkItem
     let newInput: String
-    let state: SceneState
+    let sceneState: SceneState
+    let searchState: State
     
     init(
         codeGridFocus: CodeGridFocusController,
         codeGridParser: CodeGridParser,
         task: DispatchWorkItem,
         newInput: String,
-        state: SceneState
+        state: SceneState,
+        searchState: State
     ) {
         self.codeGridFocus = codeGridFocus
         self.codeGridParser = codeGridParser
         self.task = task
         self.newInput = newInput
-        self.state = state
+        self.sceneState = state
+        self.searchState = searchState
     }
     
     var displayMode: CodeGrid.DisplayMode {
@@ -183,6 +206,9 @@ private class RenderTask {
     }
     
     func updateGrids() {
+        searchState.input = newInput
+        searchState.count = toRemove.count
+        
         toRemove.forEach { (source, clone) in
             codeGridFocus.removeGridFromFocus(source)
             source.displayMode = .layers

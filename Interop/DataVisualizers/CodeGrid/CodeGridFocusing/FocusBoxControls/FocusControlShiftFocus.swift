@@ -11,8 +11,6 @@ func FocusControlShiftFocus(_ targetFocus: FocusBox, _ controller: CodeGridFocus
     weak var weakTargetFocus = targetFocus
     
     func shiftFocus(_ control: FocusBoxControl) {
-        guard let strongTarget = weakTargetFocus else { return }
-        
         if let focusedGrid = targetFocus.focusedGrid,
            let parent = focusedGrid.rootNode.parent {
             

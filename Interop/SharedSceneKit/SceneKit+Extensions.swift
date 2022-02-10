@@ -139,7 +139,7 @@ extension SCNVector3: Equatable {
 }
 
 extension SCNNode {
-    @discardableResult
+
     func translate(dX: VectorFloat = 0,
                    dY: VectorFloat = 0,
                    dZ: VectorFloat = 0) {

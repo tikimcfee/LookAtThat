@@ -83,6 +83,7 @@ extension FocusBox {
         gridNode.addChildNode(grid.rootNode)
         bimap[grid] = depth
         
+        focusedGrid = grid
         if let previous = bimap[depth - 1] {
             snapping.connectWithInverses(sourceGrid: previous, to: makeNextDirection(grid))
         }
