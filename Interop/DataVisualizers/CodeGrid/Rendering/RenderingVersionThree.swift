@@ -65,7 +65,7 @@ extension CodeGridParser {
                 .filter { !$0.isDirectory }
                 .forEach { childPath in
                     dispatchGroup.enter()
-                    self.concurrency.asyncAccess(childPath) { _ in
+                    self.concurrency.asyncAccess(childPath) { grid in
                         dispatchGroup.leave()
                     }
                 }
@@ -93,6 +93,11 @@ extension CodeGridParser {
         let alpha = rootGridColor.cgColor.alpha * CGFloat(depth)
         let rootDirectoryGrid = createNewGrid().backgroundColor(rootGridColor.withAlphaComponent(alpha))
 #endif
+        rootDirectoryGrid.applying {
+            gridCache.insertGrid($0)
+            $0.rootNode.scale = DeviceScaleVectorOne
+//            $0.backgroundGeometryNode.scale = DeviceScaleVector
+        }
         
         // Add each child to stack for processing
         forEachChildOf(rootDirectory) { index, childPath in
@@ -108,18 +113,22 @@ extension CodeGridParser {
         while let last = fileStack.popLast() {
             //            print("File *** \(last.url.lastPathComponent)")
             let newGrid = concurrency.syncAccess(last)
-            newGrid.rootNode.position.z = 4.0
+//            newGrid.rootNode.position.z = 4.0
+            newGrid.rootNode.position.z = 4.0 * DeviceScale
             if let lastGrid = lastDirectChildGrid {
                 state.snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(newGrid))
-                newGrid.measures.alignedToTrailingOf(lastGrid, pad: 4.0)
+//                newGrid.measures.alignedToTrailingOf(lastGrid, pad: 4.0)
+                newGrid.measures.alignedToTrailingOf(lastGrid, pad: 4.0 * DeviceScale)
             }
             lastDirectChildGrid = newGrid
             rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
             
             let fileName = makeFileNameGrid(last.url.lastPathComponent)
             fileName.rootNode.position = SCNVector3Zero.translated(
-                dY: fileName.measures.lengthY + 2.0,
-                dZ: 4.0
+//                dY: fileName.measures.lengthY + 2.0,
+//                dZ: 4.0
+                dY: fileName.measures.lengthY + 2.0 * DeviceScale,
+                dZ: 4.0 * DeviceScale
             )
             newGrid.rootNode.addChildNode(fileName.rootNode)
         }
@@ -131,10 +140,12 @@ extension CodeGridParser {
             state.snapping.iterateOver(start, direction: .left) { _, grid, _ in
                 maxHeight = max(maxHeight, grid.measures.lengthY)
             }
-            nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)
+//            nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0)
+            nexRowStartPosition = nexRowStartPosition.translated(dY: -maxHeight - 8.0 * DeviceScale)
         }
         
-        nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
+//        nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth))
+        nexRowStartPosition = nexRowStartPosition.translated(dZ: 32.0 * VectorFloat(depth) * DeviceScale)
         
         while let last = directoryStack.popLast() {
             //            print("Dir <--> \(last.url.lastPathComponent)")
@@ -145,14 +156,18 @@ extension CodeGridParser {
             
             let fileName = makeFileNameGrid(last.url.lastPathComponent).backgroundColor(.blue)
             fileName.rootNode.position = SCNVector3Zero.translated(
-                dY: fileName.measures.lengthY * 6 + 2.0,
-                dZ: 8.0
+                dY: fileName.measures.lengthY * 6 + 2.0 * DeviceScale,
+                dZ: 8.0 * DeviceScale
+//                dY: fileName.measures.lengthY * 6 + 2.0,
+//                dZ: 8.0
             )
-            fileName.rootNode.scale = SCNVector3(x: 3.0, y: 3.0, z: 1.0)
+//            fileName.rootNode.scale = SCNVector3(x: 3.0, y: 3.0, z: 1.0)
+            fileName.rootNode.scale = SCNVector3(x: 3.0 * DeviceScale, y: 3.0 * DeviceScale, z: 1.0 * DeviceScale)
             childDirectory.rootNode.addChildNode(fileName.rootNode)
             
             nexRowStartPosition = nexRowStartPosition.translated(
-                dX: childDirectory.measures.lengthX + 8
+//                dX: childDirectory.measures.lengthX + 8
+                dX: childDirectory.measures.lengthX + 8 * DeviceScale
             )
         }
         

@@ -66,5 +66,229 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D9B16DF-DB8F-456E-B804-37D07FBDECD6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "evaluateSingle(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "171A12F2-BEBE-4D4F-8FCE-FA84652CC3E1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "evaluateSingle(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "171A12F2-BEBE-4D4F-8FCE-FA84652CC3E1 - ba3720402c8f6b49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "428">
+               </Location>
+               <Location
+                  uuid = "171A12F2-BEBE-4D4F-8FCE-FA84652CC3E1 - a9c360344b7c3824"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #3 (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in implicit closure #2 (LookAtThat_AppKit.HitTestEvaluator) -&gt; (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AECF9899-E52D-414C-B3F2-3A10E35DC7DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "evaluateSingle(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AECF9899-E52D-414C-B3F2-3A10E35DC7DF - ba3720402c8f54ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "576">
+               </Location>
+               <Location
+                  uuid = "AECF9899-E52D-414C-B3F2-3A10E35DC7DF - 31bbaddda1373b83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #5 (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in implicit closure #4 (LookAtThat_AppKit.HitTestEvaluator) -&gt; (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "05B1C9D9-419D-43A9-B4BF-50207074F739"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "evaluateSingle(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "05B1C9D9-419D-43A9-B4BF-50207074F739 - ba3720402c8f540f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "724">
+               </Location>
+               <Location
+                  uuid = "05B1C9D9-419D-43A9-B4BF-50207074F739 - 5970dae6ffe9ef7a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #7 (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in implicit closure #6 (LookAtThat_AppKit.HitTestEvaluator) -&gt; (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCB499EF-42A7-47B0-B40D-789AD09B9D9F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "evaluateSingle(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FCB499EF-42A7-47B0-B40D-789AD09B9D9F - ba3720402c8f5590"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "872">
+               </Location>
+               <Location
+                  uuid = "FCB499EF-42A7-47B0-B40D-789AD09B9D9F - e129078fd5a0a2e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #9 (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in implicit closure #8 (LookAtThat_AppKit.HitTestEvaluator) -&gt; (__C.SCNNode) -&gt; Swift.Optional&lt;LookAtThat_AppKit.HitTestEvaluator.Result&gt; in LookAtThat_AppKit.HitTestEvaluator.evaluateSingle(__C.SCNHitTestResult) -&gt; LookAtThat_AppKit.HitTestEvaluator.Result"
+                  moduleName = "LookAtThat_AppKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lugos/udev/manicmind/LookAtThat/Interop/SharedSceneKit/Scenes/UserControls/HitTestEvaluator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C486F0AE-86EC-46DA-BC1C-E48819B1FBD7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Interop/DataVisualizers/CodeGrid/CodeGridParser.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "addInFrontOfCamera(grid:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

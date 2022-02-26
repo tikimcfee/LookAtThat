@@ -94,7 +94,7 @@ class CodeGridWorld {
 //        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
         
         let scaleFactor = VectorFloat(0.001)
-        gridNode.scale = SCNVector3(x: scaleFactor, y: scaleFactor, z: scaleFactor)
+//        gridNode.scale = SCNVector3(x: scaleFactor, y: scaleFactor, z: scaleFactor)
         gridNode.simdPosition += -gridNode.simdWorldRight * (0.5 * gridNode.lengthX * scaleFactor)
         
         root.addChildNode(gridNode)

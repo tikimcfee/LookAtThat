@@ -26,7 +26,10 @@ class HitTestEvaluator {
     
     func testAndEval(_ location: CGPoint, _ options: HitTestType) -> [Result] {
         let results = controller.sceneView.hitTest(location: location, options)
-        return evaluate(results)
+        return evaluate(results).filter {
+            if case Result.unknown(_) = $0 { return false }
+            return true
+        }
     }
     
     private func evaluateSingle(_ hitTest: SCNHitTestResult) -> Result {

@@ -196,3 +196,6 @@ let DeviceScaleInverse = VectorFloat(1000.0)
 let DeviceScale = 1.0
 let DeviceScaleInverse = 1.0
 #endif
+let DeviceScaleVector = SCNVector3(x: DeviceScale, y: DeviceScale, z: DeviceScale)
+let DeviceScaleVectorInverse = SCNVector3(x: DeviceScaleInverse, y: DeviceScaleInverse, z: DeviceScaleInverse)
+let DeviceScaleVectorOne = SCNVector3(x: 1, y: 1, z: 1)

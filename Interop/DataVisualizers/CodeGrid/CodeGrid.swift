@@ -14,7 +14,11 @@ let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 extension CodeGrid {
     struct Defaults {
+        #if os(iOS)
+        static var displayMode: DisplayMode = .glyphs
+        #else
         static var displayMode: DisplayMode = .all
+        #endif
         static var walkSemantics: Bool = true
     }
 }
@@ -139,7 +143,6 @@ extension CodeGrid {
     ) -> CodeGrid {
         laztrace(#fileID,#function,pad,pivotRootNode)
         
-        let zStart = VectorFloat(2.0)
         let unscaledWidth = measures.lengthX.cg * DeviceScaleInverse.cg
         let unscaledHeight = measures.lengthY.cg * DeviceScaleInverse.cg
                 
@@ -149,6 +152,7 @@ extension CodeGrid {
         let centerX = backgroundGeometry.width / 2.0
         let centerY = -backgroundGeometry.height / 2.0
         
+        let zStart = VectorFloat(2.0) * DeviceScale
         backgroundGeometryNode.pivot = SCNMatrix4Translate(
             backgroundGeometryNode.pivot,
             -(centerX.vector - pad / 2.0),

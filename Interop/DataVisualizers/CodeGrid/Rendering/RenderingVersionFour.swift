@@ -62,6 +62,10 @@ extension CodeGridParser {
                 .backgroundColor(directoryColor)
                 .asChildOf(rootContainerGrid)
                 .translated(dZ: 8.0)
+                .applying {
+                    gridCache.insertGrid($0)
+//                    $0.rootNode.scale = DeviceScaleVectorOne
+                }
             
             FileBrowser.directChildren(directory)
                 .filter { !$0.isDirectory }
