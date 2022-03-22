@@ -61,7 +61,8 @@ class CodePagesController: BaseSceneController, ObservableObject {
             commandHandler.handleSingleCommand(path, style)
             
         case let .newMultiCommandRecursiveAllLayout(parent, _):
-            codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
+            codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+//            codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
                 self.addToRoot(rootGrid: rootGrid)
             }
             

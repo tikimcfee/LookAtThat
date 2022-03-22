@@ -180,7 +180,7 @@ extension FileBrowser {
     
     // This is fragile. Both collapse/expand need to filter repeatedly.
     static func isFileObserved(_ path: Path) -> Bool {
-        path.isDirectoryFile || path.pathExtension == "swift"
+        path.isDirectoryFile || isSwiftFile(path)
     }
     
     static func isSwiftFile(_ path: Path) -> Bool {

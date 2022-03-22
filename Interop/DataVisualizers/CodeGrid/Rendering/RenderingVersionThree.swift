@@ -93,6 +93,7 @@ extension CodeGridParser {
         let alpha = rootGridColor.cgColor.alpha * CGFloat(depth)
         let rootDirectoryGrid = createNewGrid().backgroundColor(rootGridColor.withAlphaComponent(alpha))
 #endif
+        gridCache.insertGrid(rootDirectoryGrid)
         
         // Add each child to stack for processing
         forEachChildOf(rootDirectory) { index, childPath in
@@ -154,6 +155,8 @@ extension CodeGridParser {
             nexRowStartPosition = nexRowStartPosition.translated(
                 dX: childDirectory.measures.lengthX + 8
             )
+            
+            gridCache.insertGrid(fileName)
         }
         
         return rootDirectoryGrid.sizeGridToContainerNode()
