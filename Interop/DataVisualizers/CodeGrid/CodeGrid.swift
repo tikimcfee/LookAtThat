@@ -13,10 +13,17 @@ let kCodeGridContainerName = "CodeGrid"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 
 extension CodeGrid {
+    #if os(iOS)
+    struct Defaults {
+        static var displayMode: DisplayMode = .glyphs
+        static var walkSemantics: Bool = true
+    }
+    #else
     struct Defaults {
         static var displayMode: DisplayMode = .all
         static var walkSemantics: Bool = true
     }
+    #endif
 }
 
 extension CodeGrid: CustomStringConvertible {
