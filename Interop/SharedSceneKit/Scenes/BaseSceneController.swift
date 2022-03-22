@@ -109,8 +109,7 @@ open class BaseSceneController: SceneControls {
 
     func resetScene() {
         lockedSceneTransaction {
-            sceneState.rootGeometryNode.removeFromParentNode()
-            sceneState.rootGeometryNode = SCNNode()
+            sceneState.resetRootGeometryNode()
             scene.rootNode.addChildNode(sceneState.rootGeometryNode)
             onSceneStateReset()
         }
@@ -184,11 +183,24 @@ protocol Actor: Hashable {
 
 class SceneState {
 
-    var rootGeometryNode: SCNNode = SCNNode()
+    private(set) var rootGeometryNode: SCNNode = makeRootGeometryNode()
+    
 	var cameraNode: SCNNode
     
 	init(cameraNode: SCNNode) {
         self.cameraNode = cameraNode
+    }
+    
+    func resetRootGeometryNode() {
+        rootGeometryNode.removeFromParentNode()
+        rootGeometryNode = Self.makeRootGeometryNode()
+    }
+    
+    private static func makeRootGeometryNode() -> SCNNode {
+        let rootGeometryNode = SCNNode()
+        rootGeometryNode.name = "|GlobalRootGeometryNode|"
+        rootGeometryNode.scale = DeviceScaleRootVector
+        return rootGeometryNode
     }
 }
 

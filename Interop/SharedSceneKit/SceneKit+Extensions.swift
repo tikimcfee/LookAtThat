@@ -189,10 +189,34 @@ extension SCNNode {
     }
 }
 
+// MARK: -- Global Scaling Defaults --
+
+let DeviceScaleEnabled = false
+let DeviceScaleRootEnabled = true
+
 #if os(iOS)
-let DeviceScale = VectorFloat(0.001)
-let DeviceScaleInverse = VectorFloat(1000.0)
+let DeviceScaleRoot = VectorFloat(0.001)
+let DeviceScale = DeviceScaleEnabled ? VectorFloat(0.001) : 1.0
+let DeviceScaleInverse = DeviceScaleEnabled ? VectorFloat(1000.0) : 1.0
 #elseif os(macOS)
+let DeviceScaleRoot = 1.0
 let DeviceScale = 1.0
 let DeviceScaleInverse = 1.0
 #endif
+
+let DeviceScaleUnitVector = SCNVector3(x: 1.0, y: 1.0, z: 1.0)
+
+let DeviceScaleVector = DeviceScaleEnabled
+    ? SCNVector3(x: DeviceScale, y: DeviceScale, z: DeviceScale)
+    : DeviceScaleUnitVector
+
+let DeviceScaleVectorInverse = DeviceScaleEnabled
+    ? SCNVector3(x: DeviceScaleInverse, y: DeviceScaleInverse, z: DeviceScaleInverse)
+    : DeviceScaleUnitVector
+
+let DeviceScaleRootVector = DeviceScaleRootEnabled
+    ? SCNVector3(x: DeviceScaleRoot, y: DeviceScaleRoot, z: DeviceScaleRoot)
+    : DeviceScaleUnitVector
+
+
+// MARK: -- Global Scaling Defaults --
