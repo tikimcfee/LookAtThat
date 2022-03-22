@@ -82,15 +82,18 @@ extension OutputStream {
 struct QuickLooper {
     let loop: () -> Void
     let queue: DispatchQueue
-    init(loop: @escaping () -> Void,
+    let interval: DispatchTimeInterval
+    init(interval: DispatchTimeInterval = .seconds(1),
+         loop: @escaping () -> Void,
          queue: DispatchQueue = .main) {
+        self.interval = interval
         self.loop = loop
         self.queue = queue
     }
     func runUntil(_ stopCondition: @escaping () -> Bool) {
         guard !stopCondition() else { return }
         loop()
-        queue.asyncAfter(deadline: .now() + 1) {
+        queue.asyncAfter(deadline: .now() + interval) {
             runUntil(stopCondition)
         }
     }

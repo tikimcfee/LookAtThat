@@ -71,6 +71,25 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         
         return (boxPlane, descaledSize)
     }
+    
+    private typealias BucketType = (NSUIImage, SCNPlane)
+    private static var bucket = [BucketType]()
+    private static let bucketQueue = DispatchQueue(label: "ImageBucket", qos: .userInitiated)
+    private static let batchLooper = QuickLooper(interval: .seconds(3)) {
+        bucketQueue.sync {
+            print("Draining materials: \(bucket.count)")
+            bucket.forEach { $1.firstMaterial?.diffuse.contents = $0 }
+            print("Clearing materials: \(bucket.count)")
+            bucket.removeAll(keepingCapacity: true)
+            print("Cleared!: \(bucket.count)")
+        }
+    }
+    private static func enqueue(_ tuple: BucketType) {
+        bucketQueue.async {
+            print("Adding new layer for display")
+            bucket.append(tuple)
+        }
+    }
 }
 
 
