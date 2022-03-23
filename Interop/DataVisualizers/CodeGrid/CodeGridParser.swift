@@ -87,14 +87,14 @@ class CodeGridWorld {
         let gridNode = grid.rootNode
         
         gridNode.simdPosition = cam.simdPosition
-        gridNode.simdPosition += cam.simdWorldFront * 0.5
+        gridNode.simdPosition += cam.simdWorldFront * 512
         
 //        gridNode.simdEulerAngles.y = cam.simdEulerAngles.y
 //        gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
 //        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
         
 //        gridNode.scale = DeviceScaleVector
-//        gridNode.simdPosition += -gridNode.simdWorldRight * (0.5 * gridNode.lengthX * DeviceScale)
+        gridNode.simdPosition += -gridNode.simdWorldRight * (0.5 * gridNode.lengthX * DeviceScale)
         
         root.addChildNode(gridNode)
         #endif

@@ -88,10 +88,14 @@ extension CodeGridParser {
         
 #if os(macOS)
         let alpha = rootGridColor.alphaComponent * VectorFloat(depth)
-        let rootDirectoryGrid = createNewGrid().backgroundColor(rootGridColor.withAlphaComponent(alpha))
+        let color = rootGridColor.withAlphaComponent(alpha)
+        let rootDirectoryGrid = createNewGrid().backgroundColor(color)
 #elseif os(iOS)
         let alpha = rootGridColor.cgColor.alpha * CGFloat(depth)
-        let rootDirectoryGrid = createNewGrid().backgroundColor(rootGridColor.withAlphaComponent(alpha))
+        let color = rootGridColor.withAlphaComponent(alpha)
+        let rootDirectoryGrid = createNewGrid().applying {
+            $0.transparentBackgroundColor(color)
+        }
 #endif
         gridCache.insertGrid(rootDirectoryGrid)
         

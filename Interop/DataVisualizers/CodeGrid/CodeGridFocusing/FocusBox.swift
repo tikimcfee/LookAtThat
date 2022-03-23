@@ -215,7 +215,6 @@ private extension FocusBox {
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
             material.transparencyMode = .dualLayer
 #endif
-            
         }
         return box
     }

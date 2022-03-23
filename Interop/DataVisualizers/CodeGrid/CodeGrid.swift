@@ -190,6 +190,24 @@ extension CodeGrid {
     }
     
     @discardableResult
+    func transparentBackgroundColor(_ color: NSUIColor,
+                                    transparency: CGFloat = 0.40,
+                                    mode: SCNTransparencyMode = .dualLayer) -> CodeGrid {
+        laztrace(#fileID,#function,color)
+        if let material = backgroundGeometry.firstMaterial {
+            material.diffuse.contents = color
+            material.transparency = transparency
+            material.transparencyMode = mode
+        }
+        if let material = fullTextBlitter.gridGeometry.firstMaterial {
+            material.diffuse.contents = color
+            material.transparency = transparency
+            material.transparencyMode = mode
+        }
+        return self
+    }
+    
+    @discardableResult
     func applying(_ action: (Self) -> Void) -> Self {
         laztrace(#fileID,#function)
         action(self)
