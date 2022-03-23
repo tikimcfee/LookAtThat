@@ -189,18 +189,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func test__RewritingAll() throws {
-//        let rewriter = TraceCapturingRewriter()
-//        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
-//        let rewritten = rewriter.visit(parsed)
+        let fileRewriter = TraceFileWriter()
         
         printStart()
         let root = TestBundle.rewriteDirectories.first!
         let finder = TracingFileFinder()
-        finder.findFiles(root).forEach { print($0) }
-        printEnd()
         
-//        let fileRewriter = TraceFileWriter()
-//        fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))
+        finder.findFiles(root).forEach { path in
+            fileRewriter.addTracesToFile(path)
+        }
+        
+        printEnd()
     }
     
     func testSnapping_EasyRight() throws {
