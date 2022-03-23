@@ -191,8 +191,8 @@ extension SCNNode {
 
 // MARK: -- Global Scaling Defaults --
 
-let DeviceScaleEnabled = false
-let DeviceScaleRootEnabled = true
+let DeviceScaleEnabled = false // Disabled because of switch to root geometry global scaling
+let DeviceScaleRootEnabled = true // Enabled by default to take advantage of global relative measurements within a node
 
 #if os(iOS)
 let DeviceScaleRoot = VectorFloat(0.001)
@@ -217,6 +217,3 @@ let DeviceScaleVectorInverse = DeviceScaleEnabled
 let DeviceScaleRootVector = DeviceScaleRootEnabled
     ? SCNVector3(x: DeviceScaleRoot, y: DeviceScaleRoot, z: DeviceScaleRoot)
     : DeviceScaleUnitVector
-
-
-// MARK: -- Global Scaling Defaults --

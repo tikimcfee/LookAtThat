@@ -207,11 +207,12 @@ private extension FocusBox {
             material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.65)
             material.transparencyMode = .dualLayer
 #elseif os(iOS)
+            box.chamferRadius = 4.0
             box.width = DeviceScale.cg
             box.height = DeviceScale.cg
             box.length = DeviceScale.cg
-//            material.transparency = 0.40
-            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.35)
+            material.transparency = 0.40
+            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
             material.transparencyMode = .dualLayer
 #endif
             
