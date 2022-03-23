@@ -182,10 +182,25 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
         let rewritten = rewriter.visit(parsed)
         let rewrittenAgain = rewriter.visit(rewritten)
-        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Should not modify already decorated contents")
+        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
         
         let fileRewriter = TraceFileWriter()
         fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))
+    }
+    
+    func test__RewritingAll() throws {
+//        let rewriter = TraceCapturingRewriter()
+//        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
+//        let rewritten = rewriter.visit(parsed)
+        
+        printStart()
+        let root = TestBundle.rewriteDirectories.first!
+        let finder = TracingFileFinder()
+        finder.findFiles(root).forEach { print($0) }
+        printEnd()
+        
+//        let fileRewriter = TraceFileWriter()
+//        fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))
     }
     
     func testSnapping_EasyRight() throws {

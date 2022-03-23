@@ -106,6 +106,27 @@ class TraceFileWriter {
     }
 }
 
+class TracingFileFinder {
+    private let toSkip = [
+        ".git",
+        ".xcodeproj",
+        ".xcassets",
+        "Libraries",
+        "AppKitTests",
+    ]
+    
+    func findFiles(_ root: String) -> [FileKitPath] {
+        FileKitPath(root)
+            .children(recursive: true)
+            .filter(fileMatches)
+    }
+    
+    private func fileMatches(_ path: FileKitPath) -> Bool {
+        return path.pathExtension == "swift"
+            && toSkip.allSatisfy { !path.url.absoluteString.contains($0) }
+    }
+}
+
 class TraceCapturingRewriter: SyntaxRewriter {
     var traceFunctionName: String { "laztrace" }
     

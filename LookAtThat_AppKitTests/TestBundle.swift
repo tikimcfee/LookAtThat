@@ -14,6 +14,10 @@ import SwiftTrace
 
 class TestBundle {
     
+    static let rewriteDirectories = [
+        "/Users/lugos/udev/manicmind/LookAtThat"
+    ]
+    
     static let testFileNames = [
         "WordNodeIntrospect",
         "RidiculousFile",
