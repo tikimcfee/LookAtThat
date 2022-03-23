@@ -182,7 +182,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
         let rewritten = rewriter.visit(parsed)
         let rewrittenAgain = rewriter.visit(rewritten)
-        XCTAssertEqual(rewritten, rewrittenAgain, "Should not modify already decorated contents")
+        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Should not modify already decorated contents")
         
         let fileRewriter = TraceFileWriter()
         fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))

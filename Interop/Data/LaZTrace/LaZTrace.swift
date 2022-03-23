@@ -109,22 +109,17 @@ class TraceFileWriter {
 class TraceCapturingRewriter: SyntaxRewriter {
     var traceFunctionName: String { "laztrace" }
     
-    private func nodeNeedsDecoration(_ node: FunctionDeclSyntax) -> Bool {
-        if let body = node.body,
-           let firstLine = body.statements.first?._syntaxNode.allText,
-           firstLine.contains(traceFunctionName)
-        {
-            return false
-        }
-        return true
+    private func requiresRewrite(_ node: FunctionDeclSyntax) -> Bool {
+        node.body?.statements.first?._syntaxNode
+            .allText.contains(traceFunctionName) == true
     }
 
-    override func visit(_ node: FunctionDeclSyntax) -> DeclSyntax {
-        guard nodeNeedsDecoration(node) else {
-            return DeclSyntax(node)
-        }
+    override func visit(_ nodeToVisit: FunctionDeclSyntax) -> DeclSyntax {
+        let safeCopy = requiresRewrite(nodeToVisit)
+            ? nodeToVisit.withBody(nodeToVisit.body?.withStatements(nodeToVisit.body?.statements.removingFirst()))
+            : nodeToVisit
         
-        let functionParams = node.signature.input.parameterList
+        let functionParams = safeCopy.signature.input.parameterList
         
         var callingElements = functionParams.map { param -> TupleExprElementSyntax in
             let maybeComma = (functionParams.last != param)
@@ -149,7 +144,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
         
         var callExpr = laztraceExpression(callingElements)
         
-        let firstStatementTrivia = node.body?.statements.first?.leadingTrivia
+        let firstStatementTrivia = safeCopy.body?.statements.first?.leadingTrivia
         let firstSpacingTrivia = firstStatementTrivia?.first(where: { piece in
             if case TriviaPiece.spaces = piece {
                 return true
@@ -168,9 +163,9 @@ class TraceCapturingRewriter: SyntaxRewriter {
             break
         }
         
-        let laztraceNode = node.withBody(
-            node.body?.withStatements(
-                node.body?.statements.inserting(
+        let laztraceNode = safeCopy.withBody(
+            safeCopy.body?.withStatements(
+                safeCopy.body?.statements.inserting(
                     SyntaxFactory.makeCodeBlockItem(
                         item: Syntax(callExpr),
                         semicolon: nil,
