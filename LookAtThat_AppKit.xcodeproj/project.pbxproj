@@ -66,8 +66,8 @@
 		B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B79F930D275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
-		B79F93102750741900E46A96 /* CodeGridConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */; };
-		B79F93112750741900E46A96 /* CodeGridConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */; };
+		B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
+		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
@@ -104,6 +104,8 @@
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
+		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
+		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
 		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -301,7 +303,7 @@
 		B79F93052750528B00E46A96 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSCompat.swift; sourceTree = "<group>"; };
 		B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+GridExtensions.swift"; sourceTree = "<group>"; };
-		B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrency.swift; sourceTree = "<group>"; };
+		B79F930F2750741900E46A96 /* CodeGridCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridCache.swift; sourceTree = "<group>"; };
 		B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionTwo.swift; sourceTree = "<group>"; };
 		B79F931527508FB300E46A96 /* RenderingVersionThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionThree.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		B7C23195276450EE003B1C3D /* SampleFiles.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SampleFiles.bundle; sourceTree = "<group>"; };
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
 		B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFocusController.swift; sourceTree = "<group>"; };
+		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
@@ -586,7 +589,8 @@
 				B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */,
 				B7EA88362723955E0098541C /* CodeGridParser.swift */,
 				B7A6F2AF275EDA09004CAA66 /* CodeGridParser+Search.swift */,
-				B79F930F2750741900E46A96 /* CodeGridConcurrency.swift */,
+				B79F930F2750741900E46A96 /* CodeGridCache.swift */,
+				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */,
 				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
 			);
@@ -1064,7 +1068,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B79F93102750741900E46A96 /* CodeGridConcurrency.swift in Sources */,
+				B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
@@ -1136,6 +1140,7 @@
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */,
+				B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */,
@@ -1189,7 +1194,7 @@
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */,
 				B7F44C3E276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */,
-				B79F93112750741900E46A96 /* CodeGridConcurrency.swift in Sources */,
+				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */,
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
@@ -1222,6 +1227,7 @@
 				B7EAA4C82771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
+				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
 				B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,

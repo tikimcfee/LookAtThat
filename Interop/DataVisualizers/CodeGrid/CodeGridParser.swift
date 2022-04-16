@@ -37,8 +37,8 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         )
     }()
     
-    lazy var concurrency: TotalProtonicConcurrency = {
-        let cache = TotalProtonicConcurrency(
+    lazy var concurrency: ConcurrentGridRenderer = {
+        let cache = ConcurrentGridRenderer(
             parser: self,
             cache: gridCache
         )
