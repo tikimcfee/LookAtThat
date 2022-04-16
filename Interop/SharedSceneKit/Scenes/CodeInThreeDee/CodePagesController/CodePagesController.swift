@@ -220,7 +220,7 @@ extension CodePagesController {
                 print(error)
                 
             case .success(let directory):
-                let path: Path = Path(directory.parent.path)
+                let path: FileKitPath = Path(directory.parent.path)
                 self.fileBrowser.setRootScope(path)
             }
         }

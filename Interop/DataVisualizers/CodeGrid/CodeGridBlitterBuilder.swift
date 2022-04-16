@@ -100,18 +100,12 @@ class FullTextLayerBuilder {
             [.font: MONO_FONT],
             range: safeString.string.fullNSRange
         )
-        let wordSize = safeString.size()
-        //        let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
-        //                                    height: wordSize.height * SCALE_FACTOR)
-        let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
-                                    height: wordSize.height * SCALE_FACTOR)
         
         // Create and configure text layer
         let textLayer = CATextLayer()
         textLayer.alignmentMode = .left
         textLayer.string = safeString
         textLayer.font = fontRenderer.font
-        textLayer.fontSize = wordSizeScaled.height
         textLayer.frame.size = textLayer.preferredFrameSize()
         
         // Resize the final layer according to descale factor
@@ -120,15 +114,10 @@ class FullTextLayerBuilder {
         let descaledSize = CGSize(width: descaledWidth, height: descaledHeight)
         let boxPlane = SCNPlane(width: descaledWidth, height: descaledHeight)
         
-        // Create bitmap on queue, set the layer on main. May want to batch this.
-        Self.layoutQueue.async {
-            // For whatever reason, we need to call display() manually. Or at least,
-            // in this particular commit, the image is just blank without it.
-            textLayer.display()
-            let bitmap = textLayer.getBitmapImage()
-            DispatchQueue.main.async {
-                boxPlane.firstMaterial?.diffuse.contents = bitmap
-            }
+        textLayer.display()
+        let bitmap = textLayer.getBitmapImage()
+        DispatchQueue.main.async {
+            boxPlane.firstMaterial?.diffuse.contents = bitmap
         }
         
         return (boxPlane, descaledSize)

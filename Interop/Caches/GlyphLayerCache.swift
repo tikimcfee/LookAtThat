@@ -37,9 +37,8 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         
 		// Size the glyph from the font using a rendering scale factor
         let safeString = key.glyph
-        let wordSize = safeString.size(withAttributes:
-            [.font: Self.MONO_FONT]
-        )
+        
+        let wordSize = safeString.size(withAttributes: [.font: Self.MONO_FONT])
         let wordSizeScaled = CGSize(width: wordSize.width * SCALE_FACTOR,
                                     height: wordSize.height * SCALE_FACTOR)
         
@@ -58,40 +57,15 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         let descaledSize = CGSize(width: descaledWidth, height: descaledHeight)
         let boxPlane = SCNPlane(width: descaledWidth, height: descaledHeight)
         
-        // Create bitmap on queue, set the layer on main. May want to batch this.
-        layoutQueue.async {
-            // For whatever reason, we need to call display() manually. Or at least,
-            // in this particular commit, the image is just blank without it.
-            textLayer.display()
-            let bitmap = textLayer.getBitmapImage()
-            DispatchQueue.main.async {
-                boxPlane.firstMaterial?.diffuse.contents = bitmap
-            }
+        textLayer.display()
+        let bitmap = textLayer.getBitmapImage()
+        DispatchQueue.main.async {
+            boxPlane.firstMaterial?.diffuse.contents = bitmap
         }
         
         return (boxPlane, descaledSize)
     }
-    
-    private typealias BucketType = (NSUIImage, SCNPlane)
-    private static var bucket = [BucketType]()
-    private static let bucketQueue = DispatchQueue(label: "ImageBucket", qos: .userInitiated)
-    private static let batchLooper = QuickLooper(interval: .seconds(3)) {
-        bucketQueue.sync {
-            print("Draining materials: \(bucket.count)")
-            bucket.forEach { $1.firstMaterial?.diffuse.contents = $0 }
-            print("Clearing materials: \(bucket.count)")
-            bucket.removeAll(keepingCapacity: true)
-            print("Cleared!: \(bucket.count)")
-        }
-    }
-    private static func enqueue(_ tuple: BucketType) {
-        bucketQueue.async {
-            print("Adding new layer for display")
-            bucket.append(tuple)
-        }
-    }
 }
-
 
 import CoreServices
 extension CALayer {

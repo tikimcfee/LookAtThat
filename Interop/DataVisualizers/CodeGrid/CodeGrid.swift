@@ -20,7 +20,7 @@ extension CodeGrid {
     }
     #else
     struct Defaults {
-        static var displayMode: DisplayMode = .all
+        static var displayMode: DisplayMode = .glyphs
         static var walkSemantics: Bool = true
     }
     #endif
@@ -99,6 +99,14 @@ extension CodeGrid {
         container.addChildNode(rootGlyphsNode)
         container.addChildNode(backgroundGeometryNode)
         return container
+    }
+    
+    
+    func flattenRootGlyphNode() {
+        laztrace(#fileID,#function)
+        let flattened = rootGlyphsNode.flattenedClone()
+        rootContainerNode.replaceChildNode(rootGlyphsNode, with: flattened)
+        rootGlyphsNode = flattened
     }
     
     private func makeRootGlyphsNode() -> SCNNode {

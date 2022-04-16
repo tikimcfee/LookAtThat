@@ -128,6 +128,11 @@ extension CodeGrid {
                 grid.renderer.insert(newCharacter, letterNode, size)
             }
         }
+        
+        func finalize() {
+            grid.renderer.eraseWhitespace()
+            grid.flattenRootGlyphNode()
+        }
     }
 }
 
@@ -216,8 +221,11 @@ extension CodeGrid {
         if writeText {
             attributedTextWriter.finalize()
         }
-
-//        renderer.eraseWhitespace()
+        
+        if writeGlyphs {
+            attributedGlyphsWriter.finalize()
+        }
+        
         recomputeDisplayMode()
         return self
     }
