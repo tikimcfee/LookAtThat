@@ -259,12 +259,14 @@ extension CodeGrid {
             recursively: false
         )?.removeFromParentNode()
         rootContainerNode.addChildNode(rawGlyphsNode)
+        rawGlyphsNode.isHidden = false
     }
     
     func swapOutRootGlyphs() {
         let new = SCNNode()
         new.name = rawGlyphsNode.name
         rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
+        rawGlyphsNode.isHidden = true
     }
     
     @discardableResult
