@@ -23,6 +23,8 @@ class CodePagesControllerMacOSInputCompat {
         return focus
     }()
     
+    private lazy var hitTestEval = HitTestEvaluator(controller: controller)
+    
     init(controller: CodePagesController) {
         self.controller = controller
     }
@@ -113,32 +115,51 @@ class CodePagesControllerMacOSInputCompat {
         searchController.search(newInput, state)
     }
     
-    private lazy var hoverEval = HitTestEvaluator(controller: controller)
     private func doCodeGridHover(_ point: CGPoint) {
-        var (tokenSet, grid): (CodeGridNodes?, CodeGrid?)
-        let results = hoverEval.testAndEval(point, [.gridsAndTokens])
+        let results = hitTestEval.testAndEval(point, [.gridsAndTokens])
         
-        for hitTest in results where tokenSet == nil || grid == nil {
-            switch hitTest {
-            case let .token(_, name):
-                guard tokenSet == nil else { continue }
-                let hovered = codeGridParser.tokenCache[name]
-                tokenSet = hovered
-                self.hoveredToken = name
-                if !hovered.isEmpty {
-                    touchState.mouse.hoverTracker.newSetHovered(hovered)
-                    self.hoveredToken = hoveredToken
-                }
-                
-            case let .grid(foundGrid):
-                guard grid == nil else { continue }
+        // take first
+        var (tokenNode, tokenName): (SCNNode?, String?)
+        var grid: CodeGrid?
+        var shouldContinue: Bool {
+            grid == nil || tokenNode == nil || tokenName == nil
+        }
+        
+        for hitTestResult in results where shouldContinue {
+            switch hitTestResult {
+            case let .token(node, name) where tokenNode == nil:
+                tokenNode = node
+                tokenName = name
+            case let .grid(foundGrid) where grid == nil:
                 grid = foundGrid
-                self.hoveredInfo = foundGrid.codeGridSemanticInfo
-                self.hoveredGrid = foundGrid
-                
             default:
-                print("skip: \(hitTest)")
+                break
             }
         }
+        
+        if let tokenNode = tokenNode, let tokenName = tokenName {
+            onTokenHovered(tokenNode, tokenName)
+        }
+        
+        if let grid = grid {
+            onGridHovered(grid)
+        }
+    }
+    
+    private func onTokenHovered(_ node: SCNNode, _ name: String) {
+        let hovered = codeGridParser.tokenCache[name]
+        if !hovered.isEmpty {
+            touchState.mouse.hoverTracker.newSetHovered(hovered)
+            hoveredToken = name
+        }
+    }
+    
+    private func onGridHovered(_ grid: CodeGrid) {
+        guard !grid.codeGridSemanticInfo.isEmpty else {
+            print("Skip grid hover: \(grid.id)")
+            return
+        }
+        hoveredInfo = grid.codeGridSemanticInfo
+        hoveredGrid = grid
     }
 }

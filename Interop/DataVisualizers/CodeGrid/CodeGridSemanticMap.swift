@@ -18,8 +18,8 @@ typealias GridAssociationSyntaxToNodeType = [SyntaxIdentifier: GridAssociationTy
 typealias GridAssociationSyntaxToSyntaxType = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
-	
-	// TODO: Having separate caches is kinda lame
+    
+    // TODO: Having separate caches is kinda lame
 	// I'd like to find a way to use a shared key between node look and syntax lookup.
 	// I may just need to go back and replace all the SyntaxIdentifier's with simple strings.
 	var semanticsLookupBySyntaxId = [SemanticsLookupSyntaxKey: SemanticsLookupType]()
@@ -41,6 +41,23 @@ public class CodeGridSemanticMap {
 }
 
 extension CodeGridSemanticMap {
+    var isEmpty: Bool {
+        semanticsLookupBySyntaxId.isEmpty
+        && semanticsLookupByNodeId.isEmpty
+        && syntaxIdToTokenNodes.isEmpty
+        && syntaxIdToAssociatedIds.isEmpty
+        && structs.isEmpty
+        && classes.isEmpty
+        && enumerations.isEmpty
+        && functions.isEmpty
+        && variables.isEmpty
+        && typeAliases.isEmpty
+        && protocols.isEmpty
+        && initializers.isEmpty
+        && deinitializers.isEmpty
+        && extensions.isEmpty
+    }
+    
     func tokenNodes(_ syntaxId: SyntaxIdentifier) -> GridAssociationType? {
 		syntaxIdToTokenNodes[syntaxId]
 	}
