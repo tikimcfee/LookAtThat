@@ -273,22 +273,24 @@ extension CodeGrid {
     }
     
     func recomputeDisplayMode() {
-        switch displayMode {
-        case .layers:
-            fullTextBlitter.rootNode.isHidden = false
-            fullTextBlitter.backgroundGeometryNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-            backgroundGeometryNode.isHidden = true
-        case .glyphs:
-            fullTextBlitter.rootNode.isHidden = true
-            fullTextBlitter.backgroundGeometryNode.isHidden = true
-            rootGlyphsNode.isHidden = false
-            backgroundGeometryNode.isHidden = false
-        case .all:
-            fullTextBlitter.rootNode.isHidden = false
-            fullTextBlitter.backgroundGeometryNode.isHidden = false
-            rootGlyphsNode.isHidden = true
-            backgroundGeometryNode.isHidden = true
-        }
+//        switch displayMode {
+//        case .layers:
+//            fullTextBlitter.rootNode.isHidden = false
+//            fullTextBlitter.backgroundGeometryNode.isHidden = false
+//            rawGlyphsNode.isHidden = true
+//            backgroundGeometryNode.isHidden = true
+//        case .glyphs:
+//            fullTextBlitter.rootNode.isHidden = true
+//            fullTextBlitter.backgroundGeometryNode.isHidden = true
+//            rawGlyphsNode.isHidden = false
+//            backgroundGeometryNode.isHidden = false
+//        case .all:
+//            fullTextBlitter.rootNode.isHidden = false
+//            fullTextBlitter.backgroundGeometryNode.isHidden = false
+//            rawGlyphsNode.isHidden = true
+//            backgroundGeometryNode.isHidden = true
+//        }
+        fullTextBlitter.rootNode.isHidden = true
+        fullTextBlitter.backgroundGeometryNode.isHidden = true
     }
 }

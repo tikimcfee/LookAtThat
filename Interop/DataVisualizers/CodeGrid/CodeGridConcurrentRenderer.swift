@@ -74,7 +74,7 @@ extension ConcurrentGridRenderer {
     func waitForElements(_ grid: CodeGrid, _ done: @escaping () -> Void) {
         var waitCount = 0
         let waitUnit = DispatchTimeInterval.milliseconds(1)
-        var isNotEmpty: Bool { grid.rootGlyphsNode.geometry?.elements.isEmpty == false }
+        var isNotEmpty: Bool { grid.flattenedGlyphsNode?.geometry?.elements.isEmpty == false }
         
         func check() {
             waitCount += 1

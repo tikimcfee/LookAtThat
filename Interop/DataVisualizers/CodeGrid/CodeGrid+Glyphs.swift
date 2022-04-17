@@ -60,7 +60,7 @@ extension CodeGrid {
                 dX: nodeLengthX / 2.0,
                 dY: -nodeLengthY / 2.0
             )
-            targetGrid.rootGlyphsNode.addChildNode(letterNode)
+            targetGrid.rawGlyphsNode.addChildNode(letterNode)
             
             // we're writing left-to-right.
             // Letter spacing is implicit to layer size.
@@ -81,7 +81,7 @@ extension CodeGrid {
         }
         
         func eraseWhitespace() {
-            targetGrid.rootGlyphsNode.enumerateHierarchy { node, _ in
+            targetGrid.rawGlyphsNode.enumerateHierarchy { node, _ in
                 guard node.name?.hasSuffix(kWhitespaceNodeName) == true else { return }
                 node.removeFromParentNode()
             }

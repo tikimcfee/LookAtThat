@@ -156,7 +156,7 @@ private class RenderTask {
         }
         
         // Iterate through all glyphs, and transforms the ones not associated with search
-        clone.rootGlyphsNode.enumerateChildNodes { node, stopFlag in
+        clone.rawGlyphsNode.enumerateChildNodes { node, stopFlag in
             guard !task.isCancelled else {
                 print("early stop on enumerate")
                 stopFlag.pointee = true

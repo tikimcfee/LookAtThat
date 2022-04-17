@@ -37,10 +37,11 @@ CodeGrid(\(id.trimmingCharacters(in: CharacterSet(charactersIn: kCodeGridContain
 class CodeGrid: Identifiable, Equatable {
     
     lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
+    lazy var rootContainerNodeName = { "\(id)-container" }()
     lazy var glyphNodeName = { "\(id)-glyphs" }()
+    lazy var flattedGlyphNodeName = { "\(id)-glyphs-flattened" }()
     lazy var backgroundNodeName = { "\(id)-background" }()
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
-    lazy var rootContainerNodeName = { "\(id)-container" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
     
@@ -64,7 +65,8 @@ class CodeGrid: Identifiable, Equatable {
     
     lazy var rootNode: SCNNode = makeRootNode()
     lazy var rootContainerNode: SCNNode = makeRootContainerNode()
-    lazy var rootGlyphsNode: SCNNode = makeRootGlyphsNode()
+    lazy var rawGlyphsNode: SCNNode = makeRootGlyphsNode()
+    lazy var flattenedGlyphsNode: SCNNode? = nil
     lazy var backgroundGeometryNode: SCNNode = makeBackgroundGeometryNode()
     lazy var backgroundGeometry: SCNBox = makeBackgroundGeometry()
     
@@ -96,17 +98,9 @@ extension CodeGrid {
         laztrace(#fileID,#function)
         let container = SCNNode()
         container.name = rootContainerNodeName
-        container.addChildNode(rootGlyphsNode)
+        container.addChildNode(rawGlyphsNode)
         container.addChildNode(backgroundGeometryNode)
         return container
-    }
-    
-    
-    func flattenRootGlyphNode() {
-        laztrace(#fileID,#function)
-        let flattened = rootGlyphsNode.flattenedClone()
-        rootContainerNode.replaceChildNode(rootGlyphsNode, with: flattened)
-        rootGlyphsNode = flattened
     }
     
     private func makeRootGlyphsNode() -> SCNNode {
@@ -165,7 +159,8 @@ extension CodeGrid {
         let centerY = -backgroundGeometry.height / 2.0
         
         backgroundGeometryNode.pivot = SCNMatrix4Translate(
-            backgroundGeometryNode.pivot,
+//            backgroundGeometryNode.pivot, // so... using pivot only worked because it starts at identity. oops.
+            SCNMatrix4Identity,
             -(centerX.vector - pad / 2.0),
             -(centerY.vector + pad / 2.0),
             (zStart)
@@ -251,8 +246,26 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func withFileName(_ fileName: String) -> CodeGrid {
+    func withFileName(_ fileName: String) -> Self {
         self.fileName = fileName
+        return self
+    }
+}
+
+extension CodeGrid {
+    @discardableResult
+    func flattenRootGlyphNode() -> Self {
+        laztrace(#fileID,#function)
+        
+        let flattened = rawGlyphsNode.flattenedClone()
+        flattened.name = flattedGlyphNodeName
+        flattenedGlyphsNode = flattened
+        rootContainerNode.addChildNode(flattened)
+        
+        let new = SCNNode()
+        new.name = rawGlyphsNode.name
+        rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
+        
         return self
     }
 }

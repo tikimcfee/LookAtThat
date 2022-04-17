@@ -134,49 +134,6 @@ extension SceneControls {
     }
 }
 
-final class WorkerPool {
-
-    static let shared = WorkerPool()
-    private let workerCount = 3
-
-    private lazy var allWorkers =
-        (0..<workerCount).map { DispatchQueue(
-            label: "WorkerQ\($0)",
-            qos: .userInteractive
-        )}
-
-    private lazy var concurrentWorkers =
-        (0..<workerCount).map { DispatchQueue(
-            label: "WorkerQC\($0)",
-            qos: .userInitiated,
-            attributes: .concurrent
-        )}
-
-    private lazy var workerIterator =
-        allWorkers.makeIterator()
-
-    private lazy var concurrentWorkerIterator =
-        concurrentWorkers.makeIterator()
-
-    private init() {}
-
-    func nextWorker() -> DispatchQueue {
-        return workerIterator.next() ?? {
-            workerIterator = allWorkers.makeIterator()
-            let next = workerIterator.next()!
-            return next
-        }()
-    }
-
-    func nextConcurrentWorker() -> DispatchQueue {
-        return concurrentWorkerIterator.next() ?? {
-            concurrentWorkerIterator = concurrentWorkers.makeIterator()
-            let next = concurrentWorkerIterator.next()!
-            return next
-        }()
-    }
-}
-
 protocol Actor: Hashable {
 	func withCurrentSceneState() throws -> SceneState
 }

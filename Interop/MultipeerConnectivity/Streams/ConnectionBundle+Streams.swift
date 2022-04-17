@@ -83,6 +83,7 @@ struct QuickLooper {
     let loop: () -> Void
     let queue: DispatchQueue
     let interval: DispatchTimeInterval
+    
     init(interval: DispatchTimeInterval = .seconds(1),
          loop: @escaping () -> Void,
          queue: DispatchQueue = .main) {
@@ -90,8 +91,16 @@ struct QuickLooper {
         self.loop = loop
         self.queue = queue
     }
-    func runUntil(_ stopCondition: @escaping () -> Bool) {
-        guard !stopCondition() else { return }
+    
+    func runUntil(
+        onStop: (() -> Void)? = nil,
+        _ stopCondition: @escaping () -> Bool
+    ) {
+        guard !stopCondition() else {
+            onStop?()
+            return
+        }
+        
         loop()
         queue.asyncAfter(deadline: .now() + interval) {
             runUntil(stopCondition)

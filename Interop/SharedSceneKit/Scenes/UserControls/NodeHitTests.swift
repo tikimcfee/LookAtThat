@@ -28,7 +28,8 @@ extension SCNView {
 				SCNHitTestOption.clipToZRange: true,
 				SCNHitTestOption.ignoreChildNodes: false,
 				SCNHitTestOption.categoryBitMask: mask.rawValue,
-				SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue
+				SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue,
+                SCNHitTestOption.ignoreHiddenNodes: false
 			]
 		)
 	}

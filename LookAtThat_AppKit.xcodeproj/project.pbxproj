@@ -102,6 +102,8 @@
 		B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
+		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
+		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
@@ -324,6 +326,7 @@
 		B7BB9B78275D68290082EBAC /* FocusBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBox.swift; sourceTree = "<group>"; };
 		B7C23195276450EE003B1C3D /* SampleFiles.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SampleFiles.bundle; sourceTree = "<group>"; };
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
+		B7C7565E280B82E80005A233 /* WorkerPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerPool.swift; sourceTree = "<group>"; };
 		B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFocusController.swift; sourceTree = "<group>"; };
 		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
@@ -853,6 +856,7 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				B7C7565E280B82E80005A233 /* WorkerPool.swift */,
 				F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */,
 				F00FC742250C53820092AFF9 /* Data */,
 				F00FC744250C53820092AFF9 /* DataVisualizers */,
@@ -1151,6 +1155,7 @@
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
+				B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
 				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B735A9E92676AAE400F351B4 /* WordLayerCache.swift in Sources */,
@@ -1257,6 +1262,7 @@
 				F057D228252044430094BD83 /* WordNodes.swift in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
+				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,

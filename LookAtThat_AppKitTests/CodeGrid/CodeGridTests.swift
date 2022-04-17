@@ -121,14 +121,14 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .sizeGridToContainerNode()
         
         var firstGridGlyphs = Set<SCNNode>()
-        firstGrid.rootGlyphsNode.enumerateChildNodes { node, _ in
+        firstGrid.rawGlyphsNode.enumerateChildNodes { node, _ in
             firstGridGlyphs.insert(node)
         }
         
         let clonedGrid = firstGrid.makeClone()
         var clonedGridGlyphs = Set<SCNNode>()
         
-        clonedGrid.rootGlyphsNode.enumerateChildNodes { node, _ in
+        clonedGrid.rawGlyphsNode.enumerateChildNodes { node, _ in
             clonedGridGlyphs.insert(node)
         }
         
