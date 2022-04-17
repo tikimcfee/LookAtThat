@@ -253,6 +253,20 @@ extension CodeGrid {
 }
 
 extension CodeGrid {
+    func swapInRootGlyphs() {
+        rootContainerNode.childNode(
+            withName: glyphNodeName,
+            recursively: false
+        )?.removeFromParentNode()
+        rootContainerNode.addChildNode(rawGlyphsNode)
+    }
+    
+    func swapOutRootGlyphs() {
+        let new = SCNNode()
+        new.name = rawGlyphsNode.name
+        rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
+    }
+    
     @discardableResult
     func flattenRootGlyphNode() -> Self {
         laztrace(#fileID,#function)
@@ -262,10 +276,7 @@ extension CodeGrid {
         flattenedGlyphsNode = flattened
         rootContainerNode.addChildNode(flattened)
         
-        let new = SCNNode()
-        new.name = rawGlyphsNode.name
-        rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
-        
+        swapOutRootGlyphs()
         return self
     }
 }

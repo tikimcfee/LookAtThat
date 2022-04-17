@@ -19,9 +19,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
 
     @Published var hoveredToken: String?
     @Published var hoveredInfo: CodeGridSemanticMap?
+    @Published var hoveredGrid: CodeGrid?
 
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
     lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
+    lazy var hoverGridStream = $hoveredGrid.share().eraseToAnyPublisher()
     
     var cancellables = Set<AnyCancellable>()
 

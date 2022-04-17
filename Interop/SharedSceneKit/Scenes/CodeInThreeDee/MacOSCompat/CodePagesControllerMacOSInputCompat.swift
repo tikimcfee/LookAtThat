@@ -33,6 +33,14 @@ class CodePagesControllerMacOSInputCompat {
     var codeGridParser: CodeGridParser { controller.codeGridParser }
     var keyboardInterceptor: KeyboardInterceptor { controller.compat.keyboardInterceptor }
     
+    var hoveredGrid: CodeGrid? {
+        willSet {
+            guard newValue?.id != hoveredGrid?.id else { return }
+            hoveredGrid?.swapOutRootGlyphs()
+            newValue?.swapInRootGlyphs()
+        }
+    }
+    
     var hoveredInfo: CodeGridSemanticMap? {
         get { controller.hoveredInfo }
         set { controller.hoveredInfo = newValue }
@@ -126,6 +134,7 @@ class CodePagesControllerMacOSInputCompat {
                 guard grid == nil else { continue }
                 grid = foundGrid
                 self.hoveredInfo = foundGrid.codeGridSemanticInfo
+                self.hoveredGrid = foundGrid
                 
             default:
                 print("skip: \(hitTest)")
