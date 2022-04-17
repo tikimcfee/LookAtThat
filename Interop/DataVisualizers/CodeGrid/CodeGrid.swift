@@ -44,6 +44,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
+    private var showingRawGlyphs = false
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
@@ -253,6 +254,14 @@ extension CodeGrid {
 }
 
 extension CodeGrid {
+    func toggleGlyphs() {
+        if showingRawGlyphs {
+            swapOutRootGlyphs()
+        } else {
+            swapInRootGlyphs()
+        }
+    }
+    
     func swapInRootGlyphs() {
         rootContainerNode.childNode(
             withName: glyphNodeName,
@@ -260,6 +269,7 @@ extension CodeGrid {
         )?.removeFromParentNode()
         rootContainerNode.addChildNode(rawGlyphsNode)
         rawGlyphsNode.isHidden = false
+        showingRawGlyphs = true
     }
     
     func swapOutRootGlyphs() {
@@ -267,6 +277,7 @@ extension CodeGrid {
         new.name = rawGlyphsNode.name
         rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
         rawGlyphsNode.isHidden = true
+        showingRawGlyphs = false
     }
     
     @discardableResult

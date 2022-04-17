@@ -89,12 +89,19 @@ extension BaseSceneController {
         guard event.type == .deviceTap else { return }
         
         let location = event.currentLocation
-        let controls: [CodeGridControl] = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
-            .testAndEval(location, [.codeGridControl])
-            .compactMap { $0.maybeValue() }
-        
-        guard let firstControl = controls.first else { return }
-        firstControl.activate()
+        let found = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
+            .testAndEval(location, [.codeGridControl, .codeGrid])
+            
+        for result in found {
+            switch result {
+            case .grid(let codeGrid):
+                codeGrid.toggleGlyphs()
+            case .control(let codeGridControl):
+                codeGridControl.activate()
+            default:
+                break
+            }
+        }
     }
 }
 
