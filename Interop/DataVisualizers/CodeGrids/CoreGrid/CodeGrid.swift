@@ -49,9 +49,6 @@ class CodeGrid: Identifiable, Equatable {
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
     
-    lazy var fullTextBlitter: CodeGridBlitter = CodeGridBlitter(id)
-    let fullTextLayerBuilder: FullTextLayerBuilder = FullTextLayerBuilder()
-    
     var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
@@ -189,7 +186,6 @@ extension CodeGrid {
     func backgroundColor(_ color: NSUIColor) -> CodeGrid {
         laztrace(#fileID,#function,color)
         backgroundGeometry.firstMaterial?.diffuse.contents = color
-        fullTextBlitter.gridGeometry.firstMaterial?.diffuse.contents = color
         return self
     }
     
@@ -199,11 +195,6 @@ extension CodeGrid {
                                     mode: SCNTransparencyMode = .dualLayer) -> CodeGrid {
         laztrace(#fileID,#function,color)
         if let material = backgroundGeometry.firstMaterial {
-            material.diffuse.contents = color
-            material.transparency = transparency
-            material.transparencyMode = mode
-        }
-        if let material = fullTextBlitter.gridGeometry.firstMaterial {
             material.diffuse.contents = color
             material.transparency = transparency
             material.transparencyMode = mode

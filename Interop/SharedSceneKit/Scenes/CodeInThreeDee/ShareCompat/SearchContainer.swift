@@ -97,9 +97,7 @@ private class RenderTask {
     }
     
     var displayMode: CodeGrid.DisplayMode {
-        toFocus.count > 8
-            ? CodeGrid.DisplayMode.layers
-            : CodeGrid.DisplayMode.glyphs
+        CodeGrid.DisplayMode.glyphs
     }
     
     func start() {
@@ -200,7 +198,6 @@ private class RenderTask {
     func removeAllGrids() {
         codeGridParser.gridCache.cachedGrids.values.forEach { (source, clone) in
             codeGridFocus.removeGridFromFocus(source)
-            source.displayMode = .layers
             clone.rootNode.removeFromParentNode()
         }
     }
@@ -211,7 +208,6 @@ private class RenderTask {
         
         toRemove.forEach { (source, clone) in
             codeGridFocus.removeGridFromFocus(source)
-            source.displayMode = .layers
             clone.rootNode.removeFromParentNode()
         }
         

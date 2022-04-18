@@ -46,14 +46,6 @@ extension CodeGrid {
         clone.backgroundGeometryNode.name = clone.backgroundNodeName
         clone.backgroundGeometry = clonedGeometry
         clone.backgroundGeometryNode.geometry = clone.backgroundGeometry
-        // TODO: add the full text stuff as well
-        
-        if cloneSettings.removeFullTextNode {
-            if let fullTextNode = clone.rootNode.childNode(
-                withName: fullTextBlitter.id,
-                recursively: false
-            ) { fullTextNode.removeFromParentNode() }
-        }
 
         return clone
     }

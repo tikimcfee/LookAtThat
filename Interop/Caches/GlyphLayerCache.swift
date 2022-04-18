@@ -4,6 +4,7 @@
 
 import Foundation
 import SceneKit
+import UniformTypeIdentifiers
 
 public struct GlyphCacheKey: Hashable, Equatable {
     public let glyph: String
@@ -96,6 +97,7 @@ extension CALayer {
 //        return outputImage
     }
 #elseif os(OSX)
+    
     func compressedJpegRepresentation(from source: NSBitmapImageRep) -> NSBitmapImageRep? {
         guard
             let jpegData = source.representation(
@@ -117,7 +119,7 @@ extension CALayer {
     
     func cgImagePrimitivesJPEG(from cgImage: CGImage) -> CGImage? {
         guard let mutableData = CFDataCreateMutable(nil, 0),
-              let destination = CGImageDestinationCreateWithData(mutableData, kUTTypeJPEG, 1, nil)
+              let destination = CGImageDestinationCreateWithData(mutableData, UTType.jpeg.identifier as CFString, 1, nil)
         else {
             print("Failed to make CFData / CGImageDest")
             return nil

@@ -15,6 +15,8 @@ struct LayerCacheKey: Hashable, Equatable {
 
 struct FontRenderer {
     private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
+    private(set) static var shared: FontRenderer = FontRenderer()
+    
     let font: NSUIFont = kDefaultSCNTextFont
 }
 

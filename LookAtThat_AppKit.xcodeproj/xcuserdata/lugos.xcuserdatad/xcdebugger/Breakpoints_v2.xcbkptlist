@@ -60,8 +60,8 @@
             filePath = "Interop/DataVisualizers/CodeGrid/CodeGridBlitterBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "make(_:)"
             landmarkType = "7">
          </BreakpointContent>

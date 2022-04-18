@@ -36,8 +36,6 @@ class FocusBoxControl {
     func setup(_ settings: Settings) -> Self {
         displayGrid.applying {
             $0.displayMode = .glyphs
-            $0.fullTextBlitter.rootNode.removeFromParentNode()
-            $0.fullTextBlitter.backgroundGeometryNode.removeFromParentNode()
             $0.backgroundGeometryNode.categoryBitMask = HitTestType.codeGridFocusControl.rawValue
         }
 

@@ -8,14 +8,12 @@
 import Foundation
 
 func FocusControlShiftFocus(_ targetFocus: FocusBox, _ controller: CodeGridFocusController) -> FocusBoxControl {
-    weak var weakTargetFocus = targetFocus
-    
     func shiftFocus(_ control: FocusBoxControl) {
-        if let focusedGrid = targetFocus.focusedGrid,
-           let parent = focusedGrid.rootNode.parent {
-            
-            
-        }
+//        if let focusedGrid = targetFocus.focusedGrid,
+//           let parent = focusedGrid.rootNode.parent {
+//            
+//            
+//        }
     }
     
     let settings = FocusBoxControl.Settings(

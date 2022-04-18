@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
-		B705935A2738BFC300ABFC61 /* CodeGridBlitterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */; };
 		B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; };
 		B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8222740DAC100303CB8 /* SwiftSyntaxParser */; };
 		B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8242740DB7C00303CB8 /* SwiftSyntax */; };
@@ -54,7 +53,6 @@
 		B78159ED273E057B00212176 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B78159EE273E059500212176 /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
 		B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B78159F5273E05EA00212176 /* CodeGridBlitterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */; };
 		B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
 		B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B78159F8273E05F300212176 /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
@@ -318,7 +316,6 @@
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
-		B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridBlitterBuilder.swift; sourceTree = "<group>"; };
 		B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
@@ -534,13 +531,6 @@
 			path = "swift-RELEASE-5.5";
 			sourceTree = "<group>";
 		};
-		B71C59552766AA8D00E406AE /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controls;
-			sourceTree = "<group>";
-		};
 		B72197242737428B00E1CB60 /* VirtualGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,15 +540,15 @@
 			path = VirtualGrid;
 			sourceTree = "<group>";
 		};
-		B732150F275858A800BD5C17 /* CodeGridFocusing */ = {
+		B732150F275858A800BD5C17 /* Focusing */ = {
 			isa = PBXGroup;
 			children = (
+				B7EAA4CC2771A3BD00E91C29 /* FocusBoxControls */,
 				B7321510275858F800BD5C17 /* CodeGridFocusController.swift */,
 				B7BB9B78275D68290082EBAC /* FocusBox.swift */,
-				B7EAA4CC2771A3BD00E91C29 /* FocusBoxControls */,
 				B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */,
 			);
-			path = CodeGridFocusing;
+			path = Focusing;
 			sourceTree = "<group>";
 		};
 		B77DCAB226781E40002DF299 /* CallStack */ = {
@@ -567,6 +557,29 @@
 				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
 			);
 			path = CallStack;
+			sourceTree = "<group>";
+		};
+		B796DEED280D1AB8006AC749 /* CoreGrid */ = {
+			isa = PBXGroup;
+			children = (
+				B7EA88332723938C0098541C /* CodeGrid.swift */,
+				B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */,
+				B7A6F2AC275ED98C004CAA66 /* CodeGrid+Glyphs.swift */,
+				B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */,
+				B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */,
+				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
+			);
+			path = CoreGrid;
+			sourceTree = "<group>";
+		};
+		B796DEEE280D1B00006AC749 /* CoreParser */ = {
+			isa = PBXGroup;
+			children = (
+				B7EA88362723955E0098541C /* CodeGridParser.swift */,
+				B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */,
+				B7A6F2AF275EDA09004CAA66 /* CodeGridParser+Search.swift */,
+			);
+			path = CoreParser;
 			sourceTree = "<group>";
 		};
 		B79F93082750681C00E46A96 /* MacOSCompat */ = {
@@ -579,7 +592,7 @@
 			path = MacOSCompat;
 			sourceTree = "<group>";
 		};
-		B79F931227508F5600E46A96 /* Rendering */ = {
+		B79F931227508F5600E46A96 /* CoreRendering */ = {
 			isa = PBXGroup;
 			children = (
 				B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */,
@@ -587,7 +600,7 @@
 				B7B18C60276991220043DA1B /* RenderingVersionFour.swift */,
 				B79F931727509D3400E46A96 /* Stopwatch.swift */,
 			);
-			path = Rendering;
+			path = CoreRendering;
 			sourceTree = "<group>";
 		};
 		B79F93192750C3B000E46A96 /* Semantics */ = {
@@ -614,14 +627,14 @@
 			path = CodeGrid;
 			sourceTree = "<group>";
 		};
-		B7B18C66276C1B590043DA1B /* CodeGridControls */ = {
+		B7B18C66276C1B590043DA1B /* Controls */ = {
 			isa = PBXGroup;
 			children = (
 				B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */,
 				B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */,
 				B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */,
 			);
-			path = CodeGridControls;
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		B7B18C6D276C1EC30043DA1B /* CodePagesController */ = {
@@ -749,29 +762,20 @@
 			path = Taps;
 			sourceTree = "<group>";
 		};
-		B7EA8835272394AB0098541C /* CodeGrid */ = {
+		B7EA8835272394AB0098541C /* CodeGrids */ = {
 			isa = PBXGroup;
 			children = (
-				B71C59552766AA8D00E406AE /* Controls */,
-				B732150F275858A800BD5C17 /* CodeGridFocusing */,
-				B79F931227508F5600E46A96 /* Rendering */,
-				B72197242737428B00E1CB60 /* VirtualGrid */,
-				B7B18C66276C1B590043DA1B /* CodeGridControls */,
-				B7EA88332723938C0098541C /* CodeGrid.swift */,
-				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
-				B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */,
-				B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */,
-				B7A6F2AC275ED98C004CAA66 /* CodeGrid+Glyphs.swift */,
-				B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */,
-				B70593592738BFC300ABFC61 /* CodeGridBlitterBuilder.swift */,
-				B7EA88362723955E0098541C /* CodeGridParser.swift */,
-				B7A6F2AF275EDA09004CAA66 /* CodeGridParser+Search.swift */,
+				B796DEED280D1AB8006AC749 /* CoreGrid */,
+				B796DEEE280D1B00006AC749 /* CoreParser */,
+				B79F931227508F5600E46A96 /* CoreRendering */,
+				B7B18C66276C1B590043DA1B /* Controls */,
+				B732150F275858A800BD5C17 /* Focusing */,
 				B79F930F2750741900E46A96 /* CodeGridCache.swift */,
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
-				B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */,
-				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
+				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
+				B72197242737428B00E1CB60 /* VirtualGrid */,
 			);
-			path = CodeGrid;
+			path = CodeGrids;
 			sourceTree = "<group>";
 		};
 		B7EAA4CC2771A3BD00E91C29 /* FocusBoxControls */ = {
@@ -872,7 +876,7 @@
 				B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */,
 				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
 				B79F93052750528B00E46A96 /* Syntax+Caching.swift */,
-				B7EA8835272394AB0098541C /* CodeGrid */,
+				B7EA8835272394AB0098541C /* CodeGrids */,
 			);
 			path = DataVisualizers;
 			sourceTree = "<group>";
@@ -1337,7 +1341,6 @@
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 				B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */,
 				B7F44C35276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
-				B705935A2738BFC300ABFC61 /* CodeGridBlitterBuilder.swift in Sources */,
 				B7C756F5280CECBA0005A233 /* TAPDevice.swift in Sources */,
 				B7B18C61276991220043DA1B /* RenderingVersionFour.swift in Sources */,
 				B7F44C3A276DB2B300522B45 /* TestButtonsView.swift in Sources */,
@@ -1470,7 +1473,6 @@
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
-				B78159F5273E05EA00212176 /* CodeGridBlitterBuilder.swift in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
 				F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */,
 				B7A6F2B1275EDA09004CAA66 /* CodeGridParser+Search.swift in Sources */,

@@ -11,16 +11,8 @@ import SwiftSyntax
 
 // MARK: -- Writer Vending
 extension CodeGrid {
-    var vendRawFullTextWriter: RawFullText {
-        return RawFullText(self)
-    }
-    
     var vendRawGlyphWriter: RawGlyphs {
         return RawGlyphs(self)
-    }
-    
-    var vendAttributedFullTextWriter: AttributedFullText {
-        return AttributedFullText(self)
     }
     
     var vendAttributedGlyphsWriter: AttributedGlyphs {
@@ -47,8 +39,6 @@ extension CodeGrid {
 extension CodeGrid {
     class Writer {
         let grid: CodeGrid
-        var fullTextBlitter: CodeGridBlitter { grid.fullTextBlitter }
-        var fullTextLayerBuilder: FullTextLayerBuilder { grid.fullTextLayerBuilder }
         var rootNode: SCNNode { grid.rootNode }
         
         init(_ grid: CodeGrid) {
@@ -58,22 +48,8 @@ extension CodeGrid {
         func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
             NSAttributedString(string: string, attributes: [
                 .foregroundColor: color.cgColor,
-                .font: fullTextLayerBuilder.fontRenderer.font
+                .font: FontRenderer.shared.font
             ])
-        }
-    }
-    
-    class RawFullText: Writer {
-        let zOffset = VectorFloat(2.0)
-        
-        func writeAttributedText(_ text: String) {
-            let sourceAttributedString = NSMutableAttributedString()
-            sourceAttributedString.append(attributedString(text, .white))
-            
-            fullTextBlitter.createBackingFlatLayer(fullTextLayerBuilder, sourceAttributedString)
-            fullTextBlitter.rootNode.position.z += zOffset
-            
-            rootNode.addChildNode(fullTextBlitter.rootNode)
         }
     }
     
@@ -92,25 +68,6 @@ extension CodeGrid {
                 letterNode.name = name
                 grid.renderer.insert(newCharacter, letterNode, size)
             }
-        }
-    }
-    
-    class AttributedFullText: Writer {
-        private let zOffset = VectorFloat(2.0)
-        
-        var sourceAttributedString = NSMutableAttributedString()
-        
-        func writeAttributedText(_ text: String, color: NSUIColor) {
-            sourceAttributedString.append(attributedString(text, color))
-        }
-        
-        func finalize() {
-            fullTextBlitter.createBackingFlatLayer(
-                fullTextLayerBuilder,
-                sourceAttributedString
-            )
-            fullTextBlitter.rootNode.position.z += zOffset
-            grid.rootNode.addChildNode(fullTextBlitter.rootNode)
         }
     }
     
@@ -144,17 +101,12 @@ extension CodeGrid {
     func consume(text: String) -> Self {
         laztrace(#fileID,#function,text)
         switch displayMode {
-        case .layers:
-            vendRawFullTextWriter.writeAttributedText(text)
         case .glyphs:
             vendRawGlyphWriter.writeGlyphs(text)
         case .all:
-            vendRawFullTextWriter.writeAttributedText(text)
             vendRawGlyphWriter.writeGlyphs(text)
         }
         recomputeDisplayMode()
-        
-//        renderer.eraseWhitespace()
         return self
     }
 }
@@ -166,10 +118,7 @@ extension CodeGrid {
     func consume(syntax: Syntax) -> Self {
         laztrace(#fileID,#function,syntax)
         
-        lazy var attributedTextWriter = vendAttributedFullTextWriter
-        lazy var attributedGlyphsWriter = vendAttributedGlyphsWriter
-        
-        let writeText = [.all, .layers].contains(displayMode)
+        let attributedGlyphsWriter = vendAttributedGlyphsWriter
         let writeGlyphs = [.all, .glyphs].contains(displayMode)
         
         for token in syntax.tokens {
@@ -190,13 +139,6 @@ extension CodeGrid {
             var trailingTriviaNodes = CodeGridNodes()
             let trailingTrivia = token.trailingTrivia.stringified
             
-            // Write attributed text
-            if writeText {
-                attributedTextWriter.writeAttributedText(leadingTrivia, color: triviaColor)
-                attributedTextWriter.writeAttributedText(tokenText, color: tokenColor)
-                attributedTextWriter.writeAttributedText(trailingTrivia, color: triviaColor)
-            }
-            
             // Write glyphs
             if writeGlyphs {
                 attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
@@ -216,10 +158,6 @@ extension CodeGrid {
                     fileName
                 )
             }
-        }
-        
-        if writeText {
-            attributedTextWriter.finalize()
         }
         
         if writeGlyphs {
@@ -264,7 +202,6 @@ extension CodeGrid {
 extension CodeGrid {
     enum DisplayMode {
         case glyphs
-        case layers
         case all
     }
     
@@ -290,7 +227,5 @@ extension CodeGrid {
 //            rawGlyphsNode.isHidden = true
 //            backgroundGeometryNode.isHidden = true
 //        }
-        fullTextBlitter.rootNode.isHidden = true
-        fullTextBlitter.backgroundGeometryNode.isHidden = true
     }
 }

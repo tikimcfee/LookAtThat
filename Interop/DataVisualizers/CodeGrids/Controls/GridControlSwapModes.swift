@@ -9,17 +9,8 @@ import Foundation
 import SceneKit
 
 func GridControlSwapModes(_ targetGrid: CodeGrid, _ controller: CodeGridFocusController) -> CodeGridControl {
-    weak var weakTargetGrid = targetGrid
-    
     func swapModes(_ control: CodeGridControl) {
-        guard let strongGrid = weakTargetGrid else { return }
-        
-        switch strongGrid.displayMode {
-        case .glyphs:
-            strongGrid.displayMode = .layers
-        case .layers, .all:
-            strongGrid.displayMode = .glyphs
-        }
+        targetGrid.toggleGlyphs()
     }
     
     let settings = CodeGridControl.Settings(
