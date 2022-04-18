@@ -8,8 +8,6 @@
 import Foundation
 import SceneKit
 
-
-
 class WorldGridSnapping {
     // map the relative directions you can go from a grid
     // - a direction has a reference to target grid, such that it can become a 'focus'

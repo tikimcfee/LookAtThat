@@ -45,8 +45,8 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
         return cache
     }()
     
-    lazy var query: ParserQueryController = {
-        return ParserQueryController(
+    lazy var query: CodeGridParserQueryController = {
+        return CodeGridParserQueryController(
             parser: self
         )
     }()

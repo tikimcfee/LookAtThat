@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ParserQueryController: ObservableObject {
+class CodeGridParserQueryController: ObservableObject {
     typealias SearchReceiver = (
         _ source: CodeGrid,
         _ clone: CodeGrid,
