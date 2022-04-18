@@ -1,43 +1,40 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Brotli",
-        "repositoryURL": "https://github.com/karlvr/Brotli",
-        "state": {
-          "branch": "master",
-          "revision": "0d59ff8edef57eb7b1d167bf950e42826cf1f54a",
-          "version": null
-        }
-      },
-      {
-        "package": "FileKit",
-        "repositoryURL": "https://github.com/nvzqz/FileKit",
-        "state": {
-          "branch": null,
-          "revision": "8b023fb42c2afd8a9ca00d2e587e1619a4ce8b5c",
-          "version": "5.3.0"
-        }
-      },
-      {
-        "package": "SwiftSyntax",
-        "repositoryURL": "https://github.com/apple/swift-syntax",
-        "state": {
-          "branch": null,
-          "revision": "4c46b31770a775b08124ed16419bf926d963f200",
-          "version": null
-        }
-      },
-      {
-        "package": "SwiftTrace",
-        "repositoryURL": "https://github.com/tikimcfee/SwiftTrace",
-        "state": {
-          "branch": "main",
-          "revision": "8c9d8c0f7b43f52f7c6884e15af16fbd7a60f76a",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "brotli",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/karlvr/Brotli",
+      "state" : {
+        "branch" : "master",
+        "revision" : "0d59ff8edef57eb7b1d167bf950e42826cf1f54a"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "filekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nvzqz/FileKit",
+      "state" : {
+        "revision" : "8b023fb42c2afd8a9ca00d2e587e1619a4ce8b5c",
+        "version" : "5.3.0"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax",
+      "state" : {
+        "revision" : "4c46b31770a775b08124ed16419bf926d963f200"
+      }
+    },
+    {
+      "identity" : "swifttrace",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/SwiftTrace",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8c9d8c0f7b43f52f7c6884e15af16fbd7a60f76a"
+      }
+    }
+  ],
+  "version" : 2
 }

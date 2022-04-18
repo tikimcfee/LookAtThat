@@ -47,9 +47,13 @@ struct SourceInfoGrid: View {
             Spacer()
             
             hoverInfo(hoveredToken)
-                .frame(width: 256, height: 256)
+                .frame(
+                    minWidth: 156.0, maxWidth: 296.0,
+                    minHeight: 128.0
+                )
+                .padding(4.0)
             
-//            semanticInfo()
+            semanticInfo()
         }
         .frame(alignment: .trailing)
         .padding(8)
@@ -130,23 +134,27 @@ struct SourceInfoGrid: View {
     @ViewBuilder
     func hoverInfo(_ hoveredId: String?) -> some View {
         if let hoveredId = hoveredId {
-            List {
-                ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
-                    VStack(alignment: .leading) {
-                        Text(semantics.syntaxTypeName)
-                            .font(.caption)
-                            .underline()
-                        Text(semantics.referenceName)
-                            .font(.caption)
+            VStack {
+                Text("Target: \(hoveredId)")
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
+                        ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
+                            VStack(alignment: .leading) {
+                                Text(semantics.syntaxTypeName)
+                                    .font(.caption)
+                                    .underline()
+                                Text(semantics.referenceName)
+                                    .font(.caption)
+                            }
+                            .onTapGesture {
+                                selected(id: semantics.syntaxId)
+                            }
+                        }
                     }
-                    .onTapGesture {
-                        selected(id: semantics.syntaxId)
-                    }
+                    .padding(4.0)
+                    .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
                 }
             }
-            .frame(minHeight: 64)
-            .padding(4.0)
-            .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
         } else {
             EmptyView()
         }
@@ -216,10 +224,35 @@ import SwiftSyntax
 struct SourceInfo_Previews: PreviewProvider {
     static var sourceInfo = WrappedBinding<CodeGridSemanticMap>(
         {
-            let info = CodeGridSemanticMap()
+            let parser = CodeGridParser()
+            let source = """
+func helloWorld() {
+  let test = ""
+  let another = ""
+  let somethingCrazy: () -> Void = { [weak self] in
+     print("Hello, world!")
+  }
+  somethingCrazy()
+}
+"""
+            let grid = parser.renderGrid(source)!
+            let info = grid.codeGridSemanticInfo
             return info
         }()
     )
+    
+    static var randomId: String {
+        let maybeId = sourceInfo.binding.wrappedValue
+            .semanticsLookupBySyntaxId
+            .values
+            .first(where: {
+                $0.fullTextSearch.contains("something")
+            })
+            .map {
+                $0.syntaxId.stringIdentifier
+            }
+        return maybeId ?? "no-id"
+    }
     
     static var hoveredString = WrappedBinding<String>(
         {
@@ -231,7 +264,7 @@ struct SourceInfo_Previews: PreviewProvider {
     static var previews: some View {
         SourceInfoGrid(
             sourceInfo: Self.sourceInfo.binding.wrappedValue,
-            hoveredToken: Self.hoveredString.binding.wrappedValue
+            hoveredToken: Self.randomId
         )
     }
 }

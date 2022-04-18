@@ -75,7 +75,7 @@ extension CodeGridSemanticMap {
         walkToRootFrom(nodeId) { info in
             parentList.append(info)
         }
-        return parentList
+        return parentList.reversed()
     }
     
     func forAllNodesAssociatedWith(
@@ -173,11 +173,5 @@ extension CodeGridSemanticMap {
 				break
 		}
 	}
-    
-//    func queryAll(_ input: String) {
-//        semanticsLookupBySyntaxId.values.filter { semanticInfo in
-//            semanticInfo.referenceName.contains(input)
-//        }
-//    }
 }
 
