@@ -9,6 +9,8 @@ import SwiftUI
 
 class TapObserving: ObservableObject {
     
+    private(set) static var shared = TapObserving()
+    
     @Published var fingers: [Fingers] = []
     
     private lazy var delegate = StartingTapDelegate()
@@ -34,15 +36,13 @@ class TapObserving: ObservableObject {
 }
 
 struct FingerSUI: View {
-    @StateObject var observing = TapObserving()
+    @EnvironmentObject var observing: TapObserving
     
     var body: some View {
         VStack {
             allFingers
         }
         .padding(32.0)
-        .onAppear { observing.start() }
-        .onDisappear { observing.stop() }
     }
     
     var allFingers: some View {

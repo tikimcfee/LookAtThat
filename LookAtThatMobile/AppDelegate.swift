@@ -14,6 +14,9 @@ struct AppDelegate: App {
     var body: some Scene {
          WindowGroup {
             MobileAppRootView()
+                 .environmentObject(TapObserving.shared)
+                 .onAppear { TapObserving.shared.start() }
+                 .onDisappear { TapObserving.shared.stop() }
          }
      }
 }
