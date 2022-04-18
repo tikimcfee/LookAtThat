@@ -94,9 +94,9 @@ extension BaseSceneController {
             
         for result in found {
             switch result {
-            case .grid(let codeGrid):
+            case let .grid(codeGrid):
                 codeGrid.toggleGlyphs()
-            case .control(let codeGridControl):
+            case let .control(codeGridControl):
                 codeGridControl.activate()
             default:
                 break
