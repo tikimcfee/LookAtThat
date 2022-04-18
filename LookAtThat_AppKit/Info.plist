@@ -24,6 +24,8 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth to Tap, Bluetooth to Link</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
