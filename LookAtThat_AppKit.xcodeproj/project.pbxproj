@@ -753,18 +753,10 @@
 				B7C75719280CEE040005A233 /* BasicIO.swift */,
 				B7C75718280CEE040005A233 /* RawFingerData.swift */,
 				B7C75715280CEE040005A233 /* Structures.swift */,
-				B7C75716280CEE040005A233 /* Taps */,
+				B7C75717280CEE040005A233 /* StartingTapDelegate.swift */,
 			);
 			name = LugoTaps;
 			path = Views/LugoTaps;
-			sourceTree = "<group>";
-		};
-		B7C75716280CEE040005A233 /* Taps */ = {
-			isa = PBXGroup;
-			children = (
-				B7C75717280CEE040005A233 /* StartingTapDelegate.swift */,
-			);
-			path = Taps;
 			sourceTree = "<group>";
 		};
 		B7EA8835272394AB0098541C /* CodeGrids */ = {
