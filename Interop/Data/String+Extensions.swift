@@ -82,7 +82,7 @@ public extension String {
                 #if os(iOS)
                 maybeSearchIndex = searchString.index(searchIndex, offsetBy: 1, limitedBy: searchString.endIndex)
                 #else
-                maybeSearchIndex = searchString.safeIndex(searchIndex, offsetBy: 1)
+                maybeSearchIndex = searchString.index(searchIndex, offsetBy: 1)
                 #endif
                 // If we've gone off the index, we've found everything - return early
                 if maybeSearchIndex == nil || maybeSearchIndex == searchString.endIndex {
@@ -94,7 +94,7 @@ public extension String {
             #if os(iOS)
             maybeMyIndex = index(myIndex, offsetBy: 1, limitedBy: endIndex)
             #else
-            maybeMyIndex = safeIndex(myIndex, offsetBy: 1)
+            maybeMyIndex = index(myIndex, offsetBy: 1)
             #endif
             
             if maybeMyIndex == nil || maybeMyIndex == endIndex {

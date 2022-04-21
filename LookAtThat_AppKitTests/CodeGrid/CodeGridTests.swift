@@ -9,7 +9,6 @@ import XCTest
 import SwiftSyntax
 import SwiftSyntaxParser
 import SceneKit
-import SwiftTrace
 import Foundation
 @testable import LookAtThat_AppKit
 

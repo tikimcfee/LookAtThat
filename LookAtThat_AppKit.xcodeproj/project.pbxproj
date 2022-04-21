@@ -31,6 +31,22 @@
 		B735A9EB2676AB1D00F351B4 /* WordGeometryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */; };
 		B735A9ED2676AB4500F351B4 /* WordColorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EC2676AB4500F351B4 /* WordColorCache.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
+		B73EF76028111E2C008BEE85 /* GCDConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75728111E2C008BEE85 /* GCDConcurrentDictionary.swift */; };
+		B73EF76128111E2C008BEE85 /* GCDConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75728111E2C008BEE85 /* GCDConcurrentDictionary.swift */; };
+		B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
+		B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
+		B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
+		B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
+		B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
+		B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
+		B73EF76828111E2C008BEE85 /* GCDConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */; };
+		B73EF76928111E2C008BEE85 /* GCDConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */; };
+		B73EF76A28111E2C008BEE85 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */; };
+		B73EF76B28111E2C008BEE85 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */; };
+		B73EF76E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */; };
+		B73EF76F28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */; };
+		B73EF77028111E2C008BEE85 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B73EF75F28111E2C008BEE85 /* Info.plist */; };
+		B73EF77128111E2C008BEE85 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B73EF75F28111E2C008BEE85 /* Info.plist */; };
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
@@ -101,8 +117,6 @@
 		B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
-		B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; };
-		B7C0C3F02745F05A0021F50B /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B7C0C3EE2745F05A0021F50B /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7C23196276450EE003B1C3D /* SampleFiles.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B7C23195276450EE003B1C3D /* SampleFiles.bundle */; };
 		B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
@@ -150,8 +164,6 @@
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
-		B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; };
-		B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */ = {isa = PBXBuildFile; productRef = B7E499C5268E80E6002956D7 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
@@ -291,7 +303,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B7C0C3F02745F05A0021F50B /* SwiftTrace in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,7 +313,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B7E499C7268E80E6002956D7 /* SwiftTrace in CopyFiles */,
 				B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,6 +346,14 @@
 		B735A9EA2676AB1D00F351B4 /* WordGeometryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGeometryCache.swift; sourceTree = "<group>"; };
 		B735A9EC2676AB4500F351B4 /* WordColorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordColorCache.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
+		B73EF75728111E2C008BEE85 /* GCDConcurrentDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDConcurrentDictionary.swift; sourceTree = "<group>"; };
+		B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
+		B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionary.swift; sourceTree = "<group>"; };
+		B73EF75A28111E2C008BEE85 /* RWLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWLock.swift; sourceTree = "<group>"; };
+		B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDConcurrentArray.swift; sourceTree = "<group>"; };
+		B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
+		B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentPriorityQueue.swift; sourceTree = "<group>"; };
+		B73EF75F28111E2C008BEE85 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
@@ -478,7 +496,6 @@
 			files = (
 				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
-				B7E499C6268E80E6002956D7 /* SwiftTrace in Frameworks */,
 				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
@@ -490,7 +507,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */,
-				B7C0C3EF2745F05A0021F50B /* SwiftTrace in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +576,21 @@
 				B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */,
 			);
 			path = Focusing;
+			sourceTree = "<group>";
+		};
+		B73EF75628111E2C008BEE85 /* SwiftConcurrentCollections */ = {
+			isa = PBXGroup;
+			children = (
+				B73EF75728111E2C008BEE85 /* GCDConcurrentDictionary.swift */,
+				B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */,
+				B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */,
+				B73EF75A28111E2C008BEE85 /* RWLock.swift */,
+				B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */,
+				B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */,
+				B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */,
+				B73EF75F28111E2C008BEE85 /* Info.plist */,
+			);
+			path = SwiftConcurrentCollections;
 			sourceTree = "<group>";
 		};
 		B77DCAB226781E40002DF299 /* CallStack */ = {
@@ -921,6 +952,7 @@
 		F043BB0F2515369000FB1EF6 /* Caches */ = {
 			isa = PBXGroup;
 			children = (
+				B73EF75628111E2C008BEE85 /* SwiftConcurrentCollections */,
 				F043BB0D2515315600FB1EF6 /* LockingCache.swift */,
 				B735A9EE2676AB6300F351B4 /* HighlightCache.swift */,
 				B735A9E62676AAAB00F351B4 /* WordStringCache.swift */,
@@ -1118,7 +1150,6 @@
 			name = LookAtThat_AppKit;
 			packageProductDependencies = (
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
-				B7E499C5268E80E6002956D7 /* SwiftTrace */,
 				B73286A4273367B400C9C82A /* FileKit */,
 				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
 				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
@@ -1144,7 +1175,6 @@
 			);
 			name = LookAtThat_AppKitTests;
 			packageProductDependencies = (
-				B7C0C3EE2745F05A0021F50B /* SwiftTrace */,
 				B796DEF8280D2AD8006AC749 /* Brotli */,
 			);
 			productName = LookAtThat_AppKitTests;
@@ -1211,7 +1241,6 @@
 			packageReferences = (
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
@@ -1230,6 +1259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73EF77028111E2C008BEE85 /* Info.plist in Resources */,
 				F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */,
 				F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */,
 				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
@@ -1252,6 +1282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73EF77128111E2C008BEE85 /* Info.plist in Resources */,
 				B7F44C44276E66F700522B45 /* Interop in Resources */,
 				F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */,
 				F0E3F425251D327600FC02ED /* dict.json in Resources */,
@@ -1304,6 +1335,7 @@
 				B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */,
 				B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
+				B73EF76828111E2C008BEE85 /* GCDConcurrentArray.swift in Sources */,
 				B7B18C72276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,
 				B7EAA4CA27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
@@ -1316,6 +1348,7 @@
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
 				B7EAA4CE2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
 				F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */,
+				B73EF76028111E2C008BEE85 /* GCDConcurrentDictionary.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				B796DEF3280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
@@ -1328,6 +1361,7 @@
 				B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */,
 				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
+				B73EF76A28111E2C008BEE85 /* PriorityQueue.swift in Sources */,
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
@@ -1348,6 +1382,7 @@
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
 				B7C756F7280CECBA0005A233 /* TAPKitLog.swift in Sources */,
 				F00FC747250C53820092AFF9 /* WordNodes.swift in Sources */,
+				B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */,
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
@@ -1356,6 +1391,8 @@
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */,
 				B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
+				B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
+				B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */,
@@ -1383,6 +1420,7 @@
 				B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */,
 				B7C75707280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C756FD280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
+				B73EF76E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */,
 				B7C7570F280CED4D0005A233 /* FingerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1401,6 +1439,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
 				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
 				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
@@ -1435,6 +1474,7 @@
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
+				B73EF76928111E2C008BEE85 /* GCDConcurrentArray.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
@@ -1445,6 +1485,7 @@
 				B7C756FA280CECBA0005A233 /* TAPKitCentral.swift in Sources */,
 				B7C756FC280CECBA0005A233 /* TAPCombination.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
+				B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */,
 				B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */,
 				B7EAA4CB27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
@@ -1468,6 +1509,7 @@
 				B7C756F2280CECBA0005A233 /* TAPKit.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */,
+				B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */,
 				B78159E8273E057B00212176 /* WordColorCache.swift in Sources */,
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
@@ -1480,6 +1522,7 @@
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
 				F057D2482520453C0094BD83 /* DictionarySceneController.swift in Sources */,
 				B7A6F2B1275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
+				B73EF76128111E2C008BEE85 /* GCDConcurrentDictionary.swift in Sources */,
 				B78159E7273E057B00212176 /* WordLayerCache.swift in Sources */,
 				F056927B252081CF006A10C9 /* WireData.swift in Sources */,
 				B7F44C2F276D946A00522B45 /* CodeGridFocusController.swift in Sources */,
@@ -1494,9 +1537,11 @@
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
 				F057D228252044430094BD83 /* WordNodes.swift in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
+				B73EF76F28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
+				B73EF76B28111E2C008BEE85 /* PriorityQueue.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
 				B7C75710280CED4D0005A233 /* FingerView.swift in Sources */,
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,
@@ -1594,6 +1639,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1890,14 +1936,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-syntax";
@@ -1956,16 +1994,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
-		};
-		B7C0C3EE2745F05A0021F50B /* SwiftTrace */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
-			productName = SwiftTrace;
-		};
-		B7E499C5268E80E6002956D7 /* SwiftTrace */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7E499C4268E80E6002956D7 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
-			productName = SwiftTrace;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -12,15 +12,8 @@ protocol CacheBuilder {
 
 open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     
-    private var cache = [Key: Value]()
-    
-    private var semaphore = DispatchSemaphore(value: 1)
-    public func lock()   { semaphore.wait() }
-    public func unlock() { semaphore.signal() }
-    
-//    private var unfairLock = os_unfair_lock()
-//    public func lock()   { os_unfair_lock_lock(&unfairLock) }
-//    public func unlock() { os_unfair_lock_unlock(&unfairLock) }
+    private var cache = ConcurrentDictionary<Key, Value>()
+//    private var cache = GCDConcurrentDictionary<Key, Value>()
 
     open func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
         fatalError("LockingCache subscript defaults to `make()`; implement this in [\(type(of: self))].")
@@ -34,56 +27,33 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     func isEmpty() -> Bool {
         cache.isEmpty
     }
-    
-    func contains(_ key: Key) -> Bool {
-        lock()
-        let contains = cache[key] != nil
-        unlock()
-        return contains
-    }
-    
-    @discardableResult
-    func remove(_ key: Key) -> Value? {
-        lock()
-        let removed = cache.removeValue(forKey: key)
-        unlock()
-        return removed
-    }
-    
+        
     func doOnEach(_ action: (Key, Value) -> Void) {
-        lock()
-        cache.forEach {
-            action($0.key, $0.value)
+        var keys = cache.keys.makeIterator()
+        var values = cache.values.makeIterator()
+        while let key = keys.next(),
+              let value = values.next() {
+            action(key, value)
         }
-        unlock()
     }
     
     func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        lock()
-        op(&cache)
-        unlock()
+        cache.lockAndDo(op)
     }
 	
 	private func lockAndSet(key: Key, value: Value) {
-        lock()
 		cache[key] = value
-        unlock()
 	}
     
     private func lockAndMake(key: Key) -> Value {
-        lock()
         if let cached = cache[key] {
-            unlock()
             return cached
         }
         
         var diff = [Key:Value]()
         let new = make(key, &diff)
         cache[key] = new
-        
-        unlock()
+
         return new
     }
-    
-    
 }
