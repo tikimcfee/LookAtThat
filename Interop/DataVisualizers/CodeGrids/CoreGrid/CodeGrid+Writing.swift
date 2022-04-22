@@ -154,7 +154,9 @@ extension CodeGrid {
             if walkSemantics {
                 walkHierarchyForSemantics(
                     rootSyntax: syntax,
-                    token, tokenId, tokenIdNodeName,
+                    token,
+                    tokenId,
+                    tokenIdNodeName,
                     fileName
                 )
             }
@@ -165,6 +167,11 @@ extension CodeGrid {
         }
         
         recomputeDisplayMode()
+        
+        // Flushing implicit transaction immediately saves a few cycles
+        // and removes need to 'wait' for elements to appear after finalization..
+        flushSceneKitTransactions()
+        
         return self
     }
     

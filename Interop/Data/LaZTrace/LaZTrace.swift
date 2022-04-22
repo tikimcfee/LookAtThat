@@ -16,6 +16,7 @@ func currentQueueName() -> String {
 
 let traceBox = LaZTraceBox()
 
+@inline(__always)
 func laztrace(
     _ fileID: String,
     _ function: String,
@@ -69,11 +70,16 @@ class LaZTraceBox {
             queueName: currentQueueName()
         )
         queue.async {
-            if var last = self.recordedCalls.last, last == call {
-                self.recordedCalls[self.recordedCalls.endIndex - 1] = last.increment()
-            } else {
-                self.recordedCalls.append(call)
-            }
+            self.appendOrIncrement(call)
+        }
+    }
+    
+    private func appendOrIncrement(_ call: Call) {
+        switch recordedCalls.last {
+        case var .some(lastCall) where lastCall == call:
+            recordedCalls[recordedCalls.endIndex - 1] = lastCall.increment()
+        default:
+            recordedCalls.append(call)
         }
     }
 }

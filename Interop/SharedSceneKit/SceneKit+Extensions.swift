@@ -1,6 +1,11 @@
 import Foundation
 import SceneKit
 
+func flushSceneKitTransactions() {
+//    print("Flushing SCNTransaction from: \(Thread.current)")
+    SCNTransaction.flush()
+}
+
 //@inlinable
 func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.lock()

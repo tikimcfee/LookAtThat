@@ -45,8 +45,6 @@
 		B73EF76B28111E2C008BEE85 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */; };
 		B73EF76E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */; };
 		B73EF76F28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */; };
-		B73EF77028111E2C008BEE85 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B73EF75F28111E2C008BEE85 /* Info.plist */; };
-		B73EF77128111E2C008BEE85 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B73EF75F28111E2C008BEE85 /* Info.plist */; };
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
@@ -353,7 +351,6 @@
 		B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDConcurrentArray.swift; sourceTree = "<group>"; };
 		B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentPriorityQueue.swift; sourceTree = "<group>"; };
-		B73EF75F28111E2C008BEE85 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
@@ -588,7 +585,6 @@
 				B73EF75B28111E2C008BEE85 /* GCDConcurrentArray.swift */,
 				B73EF75C28111E2C008BEE85 /* PriorityQueue.swift */,
 				B73EF75E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift */,
-				B73EF75F28111E2C008BEE85 /* Info.plist */,
 			);
 			path = SwiftConcurrentCollections;
 			sourceTree = "<group>";
@@ -1259,7 +1255,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B73EF77028111E2C008BEE85 /* Info.plist in Resources */,
 				F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */,
 				F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */,
 				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
@@ -1282,7 +1277,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B73EF77128111E2C008BEE85 /* Info.plist in Resources */,
 				B7F44C44276E66F700522B45 /* Interop in Resources */,
 				F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */,
 				F0E3F425251D327600FC02ED /* dict.json in Resources */,

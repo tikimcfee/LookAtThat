@@ -14,13 +14,13 @@ final class WorkerPool {
     
     private lazy var allWorkers =
     (0..<workerCount).map { DispatchQueue(
-        label: "WorkerQ\($0)",
+        label: "LugoWorkerPool-Serial-\($0)",
         qos: .userInitiated
     )}
     
     private lazy var concurrentWorkers =
     (0..<workerCount).map { DispatchQueue(
-        label: "WorkerQC\($0)",
+        label: "LugoWorkerPool-Concur-\($0)",
         qos: .userInitiated,
         attributes: .concurrent
     )}
