@@ -41,6 +41,19 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
+    func testTracing() throws {
+        let tracer = RuntimeTracer()
+        
+        let sourceFile = try bundle.loadTestSource()
+        let sourceSyntax = Syntax(sourceFile)
+        printStart()
+        let _ = bundle.gridParser.createNewGrid()
+            .applying { _ in printStart() }
+            .consume(syntax: sourceSyntax)
+            .sizeGridToContainerNode()
+        printEnd()
+    }
+    
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -114,7 +127,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testClones() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
-        
         let firstGrid = bundle.gridParser.createNewGrid()
             .consume(syntax: sourceSyntax)
             .sizeGridToContainerNode()

@@ -25,6 +25,15 @@
       "state" : {
         "revision" : "4c46b31770a775b08124ed16419bf926d963f200"
       }
+    },
+    {
+      "identity" : "swifttrace",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/SwiftTrace",
+      "state" : {
+        "branch" : "logging-output",
+        "revision" : "eee29f192e2af1d0dbb6076cd24a8c0afd091c46"
+      }
     }
   ],
   "version" : 2

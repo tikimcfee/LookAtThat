@@ -22,6 +22,7 @@
 		B71C595B2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */; };
 		B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
+		B72145652813AD9700EBF2E3 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B72145642813AD9700EBF2E3 /* SwiftTrace */; };
 		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
@@ -491,6 +492,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B72145652813AD9700EBF2E3 /* SwiftTrace in Frameworks */,
 				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
 				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
@@ -1149,6 +1151,7 @@
 				B73286A4273367B400C9C82A /* FileKit */,
 				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
 				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
+				B72145642813AD9700EBF2E3 /* SwiftTrace */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1238,6 +1241,7 @@
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
+				B72145632813AD9700EBF2E3 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1633,7 +1637,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1922,6 +1929,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B72145632813AD9700EBF2E3 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
+			requirement = {
+				branch = "logging-output";
+				kind = branch;
+			};
+		};
 		B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nvzqz/FileKit";
@@ -1963,6 +1978,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
+		};
+		B72145642813AD9700EBF2E3 /* SwiftTrace */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B72145632813AD9700EBF2E3 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
+			productName = SwiftTrace;
 		};
 		B73286A4273367B400C9C82A /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;

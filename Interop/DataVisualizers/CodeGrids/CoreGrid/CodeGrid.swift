@@ -157,7 +157,6 @@ extension CodeGrid {
         let centerY = -backgroundGeometry.height / 2.0
         
         backgroundGeometryNode.pivot = SCNMatrix4Translate(
-//            backgroundGeometryNode.pivot, // so... using pivot only worked because it starts at identity. oops.
             SCNMatrix4Identity,
             -(centerX.vector - pad / 2.0),
             -(centerY.vector + pad / 2.0),

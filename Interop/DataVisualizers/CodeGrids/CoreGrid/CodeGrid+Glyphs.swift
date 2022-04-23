@@ -10,27 +10,13 @@ import SceneKit
 
 // MARK: -- Renderer and glyph position
 extension CodeGrid {
-    struct GlyphPosition: Hashable, Equatable {
-        let xColumn: VectorFloat
-        let yRow: VectorFloat
-        let zDepth: VectorFloat
-        var vector: SCNVector3 { SCNVector3(xColumn, yRow, zDepth) }
-        
-        func transformed(dX: VectorFloat = 0,
-                         dY: VectorFloat = 0,
-                         dZ: VectorFloat = 0) -> GlyphPosition {
-            GlyphPosition(xColumn: xColumn + dX, yRow: yRow + dY, zDepth: zDepth + dZ)
-        }
-    }
-    
     class Pointer {
-        var position: GlyphPosition = GlyphPosition(xColumn: 0, yRow: 0, zDepth: 0)
+        var position: SCNVector3 = SCNVector3()
         
-        func right(_ dX: VectorFloat) { position = position.transformed(dX: dX) }
-        func left(_ dX: VectorFloat) { position = position.transformed(dX: -dX) }
-        func up(_ dY: VectorFloat) { position = position.transformed(dY: dY) }
-        func down(_ dY: VectorFloat) { position = position.transformed(dY: -dY) }
-        func move(to newPosition: GlyphPosition) { position = newPosition }
+        func right(_ dX: VectorFloat) { position.x += dX }
+        func left(_ dX: VectorFloat) { position.x -= dX }
+        func up(_ dY: VectorFloat) { position.y += dY }
+        func down(_ dY: VectorFloat) { position.y -= dY }
     }
     
     class Renderer {
@@ -40,7 +26,7 @@ extension CodeGrid {
         
         let targetGrid: CodeGrid
         var lineCount = 0
-        private var currentPosition: GlyphPosition { targetGrid.pointer.position }
+        private var currentPosition: SCNVector3 { targetGrid.pointer.position.translated() }
         
         init(targetGrid: CodeGrid) {
             self.targetGrid = targetGrid
@@ -55,7 +41,7 @@ extension CodeGrid {
             let nodeLengthX = size.width.vector
             let nodeLengthY = size.height.vector
             
-            letterNode.position = currentPosition.vector
+            letterNode.position = currentPosition
             letterNode.position = letterNode.position.translated(
                 dX: nodeLengthX / 2.0,
                 dY: -nodeLengthY / 2.0
@@ -76,7 +62,7 @@ extension CodeGrid {
         
         func newLine(_ size: CGSize) {
             targetGrid.pointer.down(size.height.vector * Config.newLineSizeRatio)
-            targetGrid.pointer.left(currentPosition.xColumn)
+            targetGrid.pointer.left(currentPosition.x)
             lineCount += 1
         }
         

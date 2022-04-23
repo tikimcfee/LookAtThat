@@ -115,7 +115,7 @@ extension CodeGrid {
 extension CodeGrid {
     
     @discardableResult
-    func consume(syntax: Syntax) -> Self {
+    func consume(syntax: Syntax) -> CodeGrid {
         laztrace(#fileID,#function,syntax)
         
         let attributedGlyphsWriter = vendAttributedGlyphsWriter
