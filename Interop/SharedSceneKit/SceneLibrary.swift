@@ -28,8 +28,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     var cancellables = Set<AnyCancellable>()
 
     #if os(OSX)
-    private let tracer = RuntimeTracer()
-    
     private let mouseSubject = PassthroughSubject<CGPoint, Never>()
     private let scrollSubject = PassthroughSubject<NSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()

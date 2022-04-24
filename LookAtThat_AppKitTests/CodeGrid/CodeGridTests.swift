@@ -42,7 +42,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testTracing() throws {
-//        let tracer = bundle.gridParser.tracer
+        let tracer = TracingRoot.shared
         
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -53,7 +53,27 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .sizeGridToContainerNode()
         printEnd()
         
-//        grid.codeGridSemanticInfo.buildTracedInfoList(usingTracer: tracer)
+        SemanticMapTracer.start(
+            sourceGrids: [grid],
+            sourceTracer: tracer
+        )
+    }
+    
+    func testTracingMulti() throws {
+        let tracer = TracingRoot.shared
+        
+        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
+        let awaitRender = expectation(description: "Version three rendered")
+        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { _ in
+            print("receiver emitted versionThree")
+            awaitRender.fulfill()
+        }
+        wait(for: [awaitRender], timeout: 60)
+        
+        SemanticMapTracer.start(
+            sourceGrids: bundle.gridParser.gridCache.cachedGrids.values.map { $0.source },
+            sourceTracer: tracer
+        )
     }
     
     func testSemanticInfo() throws {

@@ -16,6 +16,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
     var fullTextSearch: String = ""
     var fileName: String = ""
 	let referenceName: String
+    let callStackName: String
 	let syntaxTypeName: String
 	let color: NSUIColor
 	
@@ -30,7 +31,8 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 		 typeName: String? = nil,
 		 color: NSUIColor? = nil,
          fullTextSearchable: Bool = false,
-         fileName: String? = nil
+         fileName: String? = nil,
+         callStackName: String? = nil
 	) {
 		self.node = node
 		self.syntaxId = node.id
@@ -38,6 +40,7 @@ struct SemanticInfo: Hashable, CustomStringConvertible {
 		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
 		self.color = color ?? CodeGridColors.defaultText
         self.isFullTextSearchable = fullTextSearchable
+        self.callStackName = callStackName ?? ""
         if isFullTextSearchable {
             self.fullTextSearch = node.strippedText
         }
@@ -67,6 +70,7 @@ class SemanticInfoBuilder {
 		switch self[node] {
 			case .variableDecl(let varl):
                 var name: String
+                let stackName = varl.bindings.first?.pattern.description
 				if let firstBinding = varl.bindings.first {
 					let typeName = firstBinding.typeAnnotation?.description ?? ""
 					let pattern = firstBinding.pattern.description
@@ -79,12 +83,13 @@ class SemanticInfoBuilder {
 					referenceName: name, 
 					color: CodeGridColors.variableDecl,
                     fullTextSearchable: true,
-                    fileName: fileName
+                    fileName: fileName,
+                    callStackName: stackName
                 )
 			case .extensionDecl(let extenl):
 				return SemanticInfo(
 					node: node, 
-                    referenceName: "\(extenl.extendedType._syntaxNode.strippedText)::\(extenl.extendedType._syntaxNode.strippedText)",
+                    referenceName: "extension \(extenl.extendedType._syntaxNode.strippedText)",
                     color: CodeGridColors.extensionDecl,
                     fileName: fileName
 				)
@@ -93,14 +98,16 @@ class SemanticInfoBuilder {
 					node: node,
 					referenceName: "\(classl.identifier)",
                     color: CodeGridColors.classDecl,
-                    fileName: fileName
+                    fileName: fileName,
+                    callStackName: "\(classl.identifier)"
 				)
 			case .structDecl(let structl):
 				return SemanticInfo(
 					node: node,
 					referenceName: "\(structl.identifier)",
                     color: CodeGridColors.structDecl,
-                    fileName: fileName
+                    fileName: fileName,
+                    callStackName: "\(structl.identifier)"
 				)
 			case .functionDecl(let funcl):
                 let readableFunctionSignataure = "\(funcl.identifier)\(funcl.signature._syntaxNode.strippedText)"
@@ -108,7 +115,8 @@ class SemanticInfoBuilder {
 					node: node,
                     referenceName: readableFunctionSignataure,
                     color: CodeGridColors.functionDecl,
-                    fileName: fileName
+                    fileName: fileName,
+                    callStackName: "\(funcl.identifier)"
 				)
 			default:
 				return SemanticInfo(
