@@ -12,50 +12,11 @@ import FileKit
 import SwiftSyntax
 import Combine
 
-class SourceInfoPanelState: ObservableObject {
-    @Published var error: SceneControllerError?
-    @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
-    @Published var hoveredToken: String = ""
-    @Published var searchText: String = ""
-    
-    private var bag = Set<AnyCancellable>()
-    
-    var searchBinding: Binding<String> {
-        SceneLibrary.global.codePagesController
-            .codeGridParser
-            .query
-            .searchBinding.binding
-    }
-    
-    init() {
-        #if !TARGETING_SUI
-        setupBindings()
-        #endif
-    }
-    
-    func setupBindings() {
-        SceneLibrary.global.codePagesController.hoverStream
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink {
-                self.hoveredToken = $0
-            }
-            .store(in: &bag)
-        
-        SceneLibrary.global.codePagesController.hoverInfoStream
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink { event in
-                switch (event) {
-                case (.some(let info)):
-                    self.sourceInfo = info
-                default:
-                    break
-                }
-            }
-            .store(in: &bag)
-    }
-}
+#if !TARGETING_SUI && !os(iOS)
+import SwiftTrace
+#else
+
+#endif
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
@@ -179,13 +140,8 @@ struct SourceInfoPanelView: View {
                         Text(info.referenceName)
                             .font(Font.system(.caption, design: .monospaced))
                             .padding(4)
-                            .overlay(
-                                Rectangle().stroke(Color.gray)
-                            )
-                        
-                            .onTapGesture {
-                                selected(id: info.syntaxId)
-                            }
+                            .overlay(Rectangle().stroke(Color.gray))
+                            .onTapGesture { selected(id: info.syntaxId) }
                     } else {
                         Text("No SemanticInfo")
                     }
@@ -202,31 +158,10 @@ struct SourceInfoPanelView: View {
             .inputCompat.focus.setNewFocus()
     }
     
-    func selected(name: String) {
-        SceneLibrary.global.codePagesController.selected(name: name)
-    }
-    
     func selected(id: SyntaxIdentifier) {
         SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
     }
-    
-    var buttons: some View {
-        return VStack {
-            HStack {
-                TestButtons_Debugging()
-            }
-        }
-    }
 }
-
-extension SourceInfoPanelView {
-    private func renderSource() {
-        SceneLibrary.global.codePagesController.renderSyntax{ info in
-            state.sourceInfo = info
-        }
-    }
-}
-
 
 #if DEBUG
 import SwiftSyntax
@@ -265,9 +200,22 @@ func helloWorld() {
         state.hoveredToken = Self.randomId
         return state
     }()
+    
+    static var semanticTracingOutState: SemanticTracingOutState = {
+        let state = SemanticTracingOutState()
+        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+            .filter { !$0.callStackName.isEmpty }
+            .map {
+                TracedInfo.found(out: .init(), trace: (sourceGrid, $0))
+            }
+        return state
+    }()
 
     static var previews: some View {
-        return SourceInfoPanelView(state: sourceState)
+        return Group {
+            SemanticTracingOutView(state: semanticTracingOutState)
+            SourceInfoPanelView(state: sourceState)
+        }
     }
 }
 #endif
