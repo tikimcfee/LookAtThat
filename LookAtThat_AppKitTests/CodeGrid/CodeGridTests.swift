@@ -70,7 +70,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         wait(for: [awaitRender], timeout: 60)
         
-        SemanticMapTracer.start(
+        let _ = SemanticMapTracer.start(
             sourceGrids: bundle.gridParser.gridCache.cachedGrids.values.map { $0.source },
             sourceTracer: tracer
         )

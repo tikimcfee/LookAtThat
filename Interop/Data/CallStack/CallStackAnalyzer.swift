@@ -98,7 +98,7 @@ extension SemanticMapTracer {
     static func start(
         sourceGrids: [CodeGrid],
         sourceTracer: TracingRoot
-    ) {
+    ) -> [TracedInfo] {
         SemanticMapTracer(
             sourceGrids: sourceGrids,
             sourceTracer: sourceTracer
@@ -119,10 +119,11 @@ class SemanticMapTracer {
         self.sourceTracer = sourceTracer
     }
     
-    private func buildTracedInfoList() {
+    private func buildTracedInfoList() -> [TracedInfo] {
         var tracedInfo = [TracedInfo]()
+        tracedInfo.reserveCapacity(sourceTracer.logOutput.count)
         
-        for output in sourceTracer.logOutput.prefix(upTo: 10000) {
+        for output in sourceTracer.logOutput {
             switch findPossibleSemanticMatches(output).first {
             case .some(let first):
                 tracedInfo.append(.found(out: output, info: first))
@@ -131,14 +132,7 @@ class SemanticMapTracer {
             }
         }
         
-        let results = tracedInfo.map { (check: TracedInfo) -> String in
-            switch check {
-            case let .missing(out):
-                return "Missing \(out.callComponents.callPath)"
-            case let .found(out, info):
-                return "Found \(out.callComponents.callPath) -> \(info.referenceName)"
-            }
-        }
+        return tracedInfo
     }
         
     private func findPossibleSemanticMatches(
@@ -147,19 +141,13 @@ class SemanticMapTracer {
         let callPath = output.callComponents.callPath
         let callPathComponents = callPath.split(separator: ".").map { String($0) }
         var matches = [SemanticInfo]()
+        
         for component in callPathComponents.reversed() {
-            if component != callPathComponents.last {
-                // Prefix components are all assumed structs / protocols(?) / classes
-                if let found = firstSemanticInfoMatching(component) {
-                    matches.append(found)
-                }
-            } else {
-                // Last component is usually function or field update.
-                if let found = firstSemanticInfoMatching(component) {
-                    matches.append(found)
-                }
+            if let found = firstSemanticInfoMatching(component) {
+                matches.append(found)
             }
         }
+        
         return matches
     }
     
