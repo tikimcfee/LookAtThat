@@ -161,7 +161,7 @@ struct SourceInfoGrid: View {
     }
     
     @ViewBuilder
-    func infoRows(named: String, from pair: GridAssociationSyntaxToSyntaxType) -> some View {
+    func infoRows(named: String, from pair: AssociatedSyntaxMap) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(named).underline().padding(.top, 8)
             List {

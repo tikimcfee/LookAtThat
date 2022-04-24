@@ -11,25 +11,31 @@ import SceneKit
 
 typealias NodeID = String
 typealias NodeSet = Set<SCNNode>
-typealias GridAssociationSyntaxToSyntaxType = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
+typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
 	var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()
 	var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
 	var syntaxIdToTokenNodes = [SyntaxIdentifier: NodeSet]()
     
-    var syntaxIdToAssociatedIds = GridAssociationSyntaxToSyntaxType()
+    var syntaxIdToAssociatedIds = AssociatedSyntaxMap()
 
-	var structs = GridAssociationSyntaxToSyntaxType()
-	var classes = GridAssociationSyntaxToSyntaxType()
-	var enumerations = GridAssociationSyntaxToSyntaxType()
-	var functions = GridAssociationSyntaxToSyntaxType()
-	var variables = GridAssociationSyntaxToSyntaxType()
-	var typeAliases = GridAssociationSyntaxToSyntaxType()
-	var protocols = GridAssociationSyntaxToSyntaxType()
-	var initializers = GridAssociationSyntaxToSyntaxType()
-	var deinitializers = GridAssociationSyntaxToSyntaxType()
-	var extensions = GridAssociationSyntaxToSyntaxType()
+	var structs = AssociatedSyntaxMap()
+	var classes = AssociatedSyntaxMap()
+	var enumerations = AssociatedSyntaxMap()
+	var functions = AssociatedSyntaxMap()
+	var variables = AssociatedSyntaxMap()
+	var typeAliases = AssociatedSyntaxMap()
+	var protocols = AssociatedSyntaxMap()
+	var initializers = AssociatedSyntaxMap()
+	var deinitializers = AssociatedSyntaxMap()
+	var extensions = AssociatedSyntaxMap()
+}
+
+extension CodeGridSemanticMap {
+    var allSemanticInfo: [SemanticInfo] {
+        return Array(semanticsLookupBySyntaxId.values)
+    }
 }
 
 extension CodeGridSemanticMap {
@@ -104,6 +110,10 @@ extension CodeGridSemanticMap {
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
 	}
     
+    // Uses a nested dictionary to associate a node with an arbitrary set of
+    // other nodes. The first key is lookup for associations. The second is
+    // to quickly determine if a given node is associated with the former. 1
+    // is a placeholder for hash lookup instead of Set.
     func associate(
         syntax: Syntax,
         withLookupId newValue: SyntaxIdentifier
@@ -132,7 +142,7 @@ extension CodeGridSemanticMap {
 extension CodeGridSemanticMap {
     func category(
         for syntax: DeclSyntaxProtocol,
-        _ action: (inout GridAssociationSyntaxToSyntaxType) -> Void)
+        _ action: (inout AssociatedSyntaxMap) -> Void)
     {
         switch syntax.syntaxNodeType {
         case is ProtocolDeclSyntax.Type:

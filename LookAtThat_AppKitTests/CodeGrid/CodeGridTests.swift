@@ -42,16 +42,18 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testTracing() throws {
-        let tracer = RuntimeTracer()
+//        let tracer = bundle.gridParser.tracer
         
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
         printStart()
-        let _ = bundle.gridParser.createNewGrid()
+        let grid = bundle.gridParser.createNewGrid()
             .applying { _ in printStart() }
             .consume(syntax: sourceSyntax)
             .sizeGridToContainerNode()
         printEnd()
+        
+//        grid.codeGridSemanticInfo.buildTracedInfoList(usingTracer: tracer)
     }
     
     func testSemanticInfo() throws {
