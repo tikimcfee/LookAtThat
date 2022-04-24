@@ -22,7 +22,7 @@ struct MacAppRootView: View {
             case .source:
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        SourceInfoGrid()
+                        SourceInfoPanelView()
                     }.padding(.bottom, 4.0)
                     FingerSUI()
                     extras()

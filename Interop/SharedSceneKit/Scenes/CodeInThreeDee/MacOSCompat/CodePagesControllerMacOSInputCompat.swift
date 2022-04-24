@@ -47,7 +47,7 @@ class CodePagesControllerMacOSInputCompat {
         get { controller.hoveredInfo }
         set { controller.hoveredInfo = newValue }
     }
-    var hoveredToken: String? {
+    var hoveredToken: String {
         get { controller.hoveredToken }
         set { controller.hoveredToken = newValue }
     }

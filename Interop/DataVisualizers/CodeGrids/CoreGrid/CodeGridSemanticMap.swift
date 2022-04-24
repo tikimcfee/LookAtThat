@@ -83,7 +83,10 @@ extension CodeGridSemanticMap {
         }
     }
     
-    func walkToRootFrom(_ nodeId: NodeID?, _ walker: (SemanticInfo) -> Void) {
+    func walkToRootFrom(
+        _ nodeId: NodeID?,
+        _ walker: (SemanticInfo) -> Void
+    ) {
         guard let nodeId = nodeId,
               let syntaxId = syntaxIDLookupByNodeId[nodeId] else {
             return

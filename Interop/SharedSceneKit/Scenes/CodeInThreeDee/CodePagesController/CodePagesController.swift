@@ -17,7 +17,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
 
-    @Published var hoveredToken: String?
+    @Published var hoveredToken: String = ""
     @Published var hoveredInfo: CodeGridSemanticMap?
     @Published var hoveredGrid: CodeGrid?
 
