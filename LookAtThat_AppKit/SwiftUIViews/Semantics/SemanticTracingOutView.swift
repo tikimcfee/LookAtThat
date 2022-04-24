@@ -9,12 +9,14 @@ import SwiftUI
 
 //#if !TARGETING_SUI
 class SemanticTracingOutState: ObservableObject {
+    @Published var currentIndex = 0
+    @Published var allTracedInfo =  [TracedInfo]()
+    
+    @Published var isSetup = false
+    @Published var isAutoPlaying = false
+    
     private var lastIndex: Int { currentIndex - 1 }
     private var nextIndex: Int { currentIndex + 1 }
-    
-    @Published var currentIndex = 0
-    @Published var isAutoPlaying = false
-    var allTracedInfo =  [TracedInfo]()
     
     var lastInfo: TracedInfo? {
         return allTracedInfo.indices.contains(lastIndex)
@@ -60,11 +62,36 @@ class SemanticTracingOutState: ObservableObject {
         guard let trace = trace else {
             return
         }
+        trace.grid.toggleGlyphs()
         SceneLibrary.global.codePagesController.selected(
             id: trace.info.syntaxId,
             in: trace.grid.codeGridSemanticInfo
         )
     }
+    
+    #if !TARGETING_SUI
+    func setupTracing() {
+        TracingRoot.shared.setupTracing()
+        self.isSetup = true
+    }
+    
+    func computeTraceInfo() {
+        let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
+        let allGrid = cache.cachedGrids.values.map { $0.source }
+        self.allTracedInfo = SemanticMapTracer.start(
+            sourceGrids: allGrid,
+            sourceTracer: TracingRoot.shared
+        )
+    }
+    #else
+    func computeTraceInfo() {
+        print("\n\n\t\tTRACING DISABLED!\n\n")
+    }
+    
+    func setupTracing() {
+        print("\n\n\t\tTRACING DISABLED!\n\n")
+    }
+    #endif
 }
 
 struct SemanticTracingOutView: View {
@@ -72,41 +99,62 @@ struct SemanticTracingOutView: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            VStack(alignment: .leading) {
-                if let last = state.lastInfo?.maybeTrace {
-                    makeInfoView(last)
-                } else {
-                    Text("...")
-                }
-                
-                if let current = state.thisInfo?.maybeTrace {
-                    makeInfoView(current)
-                        .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
-                } else {
-                    Text("<No current>")
-                }
-                
-                if let next = state.nextInfo?.maybeTrace {
-                    makeInfoView(next)
-                } else {
-                    Text("...")
-                }
-            }
-            
-            VStack(alignment: .center) {
-                HStack {
-                    Button("<- Backward", action: { backward() })
-                    Button("Forward ->", action: { forward() })
-                }
-                Spacer().frame(height: 16.0)
-                if state.isAutoPlaying {
-                    Button("Stop", action: { state.stopAutoPlay() })
-                } else {
-                    Button("Autoplay", action: { state.startAutoPlay() })
-                }
+            if !state.isSetup {
+                makeSetupView()
+            } else if state.allTracedInfo.isEmpty {
+                makeEmtyView()
+            } else {
+                makeControlsView()
             }
         }
         .padding()
+    }
+    
+    @ViewBuilder
+    func makeSetupView() -> some View {
+        Button("Setup Tracing", action: { state.setupTracing() })
+    }
+    
+    @ViewBuilder
+    func makeEmtyView() -> some View {
+        Button("Load from trace", action: { state.computeTraceInfo() })
+    }
+    
+    @ViewBuilder
+    func makeControlsView() -> some View {
+        VStack(alignment: .leading) {
+            if let last = state.lastInfo?.maybeTrace {
+                makeInfoView(last)
+            } else {
+                Text("...")
+            }
+            
+            if let current = state.thisInfo?.maybeTrace {
+                makeInfoView(current)
+                    .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
+            } else {
+                Text("<No current>")
+            }
+            
+            if let next = state.nextInfo?.maybeTrace {
+                makeInfoView(next)
+            } else {
+                Text("...")
+            }
+        }
+        
+        VStack(alignment: .center) {
+            HStack {
+                Button("<- Backward", action: { backward() })
+                Button("Forward ->", action: { forward() })
+            }
+            Spacer().frame(height: 16.0)
+            if state.isAutoPlaying {
+                Button("Stop", action: { state.stopAutoPlay() })
+            } else {
+                Button("Autoplay", action: { state.startAutoPlay() })
+            }
+        }
     }
     
     @ViewBuilder

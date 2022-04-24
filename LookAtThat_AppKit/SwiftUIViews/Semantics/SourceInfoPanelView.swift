@@ -20,22 +20,41 @@ import SwiftTrace
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
+    @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
     var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
     
     var body: some View {
-        return HStack(alignment: .top) {
-            VStack {
-                FileBrowserView()
-                searchControlView()
+        return VStack {
+            HStack(alignment: .top) {
+                if state.sections.contains(.directories) {
+                    VStack {
+                        FileBrowserView()
+                        searchControlView()
+                    }
+                    .border(.black, width: 2.0)
+                    .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+                }
+                
+                Spacer()
+                
+                if state.sections.contains(.tracingInfo) {
+                    SemanticTracingOutView(state: tracingState)
+                }
+                
+                if state.sections.contains(.hoverInfo) {
+                    hoveredNodeInfoView(state.hoveredToken)
+                }
+                
+                if state.sections.contains(.semanticCategories) {
+                    semanticCategoryViews()
+                }
             }
-            .border(.black, width: 2.0)
-            .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
-            
-            Spacer()
-            
-            hoveredNodeInfoView(state.hoveredToken)
-            semanticCategoryViews()
+            HStack {
+                ForEach(PanelSections.allCases, id: \.self) { section in
+                    Button("Toggle \(section.rawValue)", action: { state.toggleSection(section) })
+                }
+            }
         }
         .frame(alignment: .trailing)
         .padding(8)
@@ -203,11 +222,13 @@ func helloWorld() {
     
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
+        #if TARGETING_SUI
         state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
                 TracedInfo.found(out: .init(), trace: (sourceGrid, $0))
             }
+        #endif
         return state
     }()
 

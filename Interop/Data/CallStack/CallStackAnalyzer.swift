@@ -13,13 +13,13 @@ import AppKit
 class TracingRoot {
     static var shared = TracingRoot()
     
-    var logOutput = [TraceOutput]()
+    var logOutput = ConcurrentArray<TraceOutput>()
     
     private init() {
-        setupTracing()
+        
     }
     
-    private func setupTracing() {
+    func setupTracing() {
         SwiftTrace.logOutput.onOutput = onLog(_:)
         SwiftTrace.swiftDecorateArgs.onEntry = false
         SwiftTrace.swiftDecorateArgs.onExit = false

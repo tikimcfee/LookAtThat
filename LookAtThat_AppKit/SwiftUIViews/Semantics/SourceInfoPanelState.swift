@@ -9,11 +9,11 @@ import Foundation
 import Combine
 import SwiftUI
 
-enum PanelSections: CaseIterable, Equatable {
-    case directories
-    case semanticCategories
-    case hoverInfo
-    case tracingInfo
+enum PanelSections: String, CaseIterable, Equatable {
+    case directories = "Directories"
+    case semanticCategories = "Semantic Categories"
+    case hoverInfo = "Hover Info"
+    case tracingInfo = "Tracing Info"
 }
 
 class SourceInfoPanelState: ObservableObject {
