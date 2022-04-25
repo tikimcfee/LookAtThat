@@ -32,15 +32,17 @@ class SemanticTracingOutState: ObservableObject {
     }
     
     func increment() {
-        toggleTrace(currentInfo?.maybeTrace)
+//        toggleTrace(currentInfo?.maybeTrace)
         currentIndex += 1
-        toggleTrace(currentInfo?.maybeTrace)
+//        toggleTrace(currentInfo?.maybeTrace)
+        zoomTrace(currentInfo?.maybeTrace)
     }
     
     func decrement() {
-        toggleTrace(currentInfo?.maybeTrace)
+//        toggleTrace(currentInfo?.maybeTrace)
         currentIndex -= 1
-        toggleTrace(currentInfo?.maybeTrace)
+//        toggleTrace(currentInfo?.maybeTrace)
+        zoomTrace(currentInfo?.maybeTrace)
     }
     
     func toggleTrace(_ trace: TraceValue?) {
@@ -51,6 +53,16 @@ class SemanticTracingOutState: ObservableObject {
         SceneLibrary.global.codePagesController.selected(
             id: trace.info.syntaxId,
             in: trace.grid.codeGridSemanticInfo
+        )
+    }
+    
+    func zoomTrace(_ trace: TraceValue?) {
+        guard let trace = trace else {
+            return
+        }
+        SceneLibrary.global.codePagesController.zoom(
+            id: trace.info.syntaxId,
+            in: trace.grid
         )
     }
 }

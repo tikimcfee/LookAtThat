@@ -147,6 +147,12 @@ extension CodePagesController {
             }
         }
 	}
+    
+    func zoom(id: SyntaxIdentifier, in grid: CodeGrid) {
+        sceneTransaction {
+            sceneState.cameraNode.worldPosition = grid.rootNode.worldPosition.translated(dZ: 150)
+        }
+    }
 
     func toggleNodeHighlight(_ node: SCNNode) {
         for letter in node.childNodes {

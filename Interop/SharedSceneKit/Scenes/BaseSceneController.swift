@@ -57,12 +57,13 @@ open class BaseSceneController: SceneControls {
 
     open func makeSceneCamera() -> SCNCamera {
         let camera = SCNCamera()
-        camera.zFar = 2000
+        camera.zFar = 4096
         return camera
     }
 
     open func makeSceneCameraNode() -> SCNNode {
         let cameraNode = SCNNode()
+        cameraNode.name = "|RootSceneCameraNode|"
         cameraNode.camera = sceneCamera
         cameraNode.position = SCNVector3Make(0, 0, 150)
         return cameraNode
