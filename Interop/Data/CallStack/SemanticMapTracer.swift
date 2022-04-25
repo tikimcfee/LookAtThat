@@ -47,11 +47,11 @@ extension SemanticMapTracer {
     }
 }
 
-class PullThreadInfo {
+class ThreadInfoExtract {
     static let rawInfoRegex = #"\{(.*), (.*)\}"#
     static let infoRegex = try! NSRegularExpression(pattern: rawInfoRegex)
     private init() {}
-    static func from(_ string: String) -> (String, String) {
+    static func from(_ string: String) -> (number: String, name: String) {
         let range = NSRange(string.range(of: string)!, in: string)
         let matches = Self.infoRegex.matches(in: string, range: range)
         
@@ -70,7 +70,7 @@ extension SemanticMapTracer {
             return .found(
                 out: trace.0,
                 trace: firstMatch,
-                threadName: PullThreadInfo.from(trace.1.description).0
+                threadName: ThreadInfoExtract.from(trace.1.description).number
             )
         }
         return nil

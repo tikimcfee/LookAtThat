@@ -54,11 +54,15 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .sizeGridToContainerNode()
         printEnd()
         
-        let results = SemanticMapTracer.start(
+        let results = SemanticMapTracer.wrapForLazyLoad(
             sourceGrids: [grid],
             sourceTracer: tracer
         )
-        XCTAssertGreaterThan(results.count, 0, "Expected at least 1 trace result")
+        
+        let firstThread = try XCTUnwrap(tracer.capturedLoggingThreads.keys.first, "Expected at least one log thread")
+        let logs = firstThread.getTraceLogs()
+        
+        XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
     }
     
     func testTracingMulti() throws {

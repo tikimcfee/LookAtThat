@@ -8,6 +8,10 @@
 import SwiftUI
 import Combine
 
+#if !TARGETING_SUI
+import SwiftTrace
+#endif
+
 class SemanticTracingOutState: ObservableObject {
     @Published var currentIndex = 0
     @Published var isSetup = false
@@ -20,6 +24,8 @@ class SemanticTracingOutState: ObservableObject {
     private let tracer = TracingRoot.shared
     private lazy var cache = SemanticLookupCache(self)
     private lazy var bag = Set<AnyCancellable>()
+    
+    private var outputSnapshot = [(TraceOutput, Thread)]()
     
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
@@ -125,12 +131,33 @@ extension SemanticTracingOutState {
         return info?.id == currentInfo?.id
     }
     
+    func captureThreadSnapshots() {
+        print("TODO: --- Display snapshots per thread!")
+        guard let thread = tracer.capturedLoggingThreads.keys.first else {
+            print("TODO: --- This is getting dumb!")
+            return
+        }
+        
+        tracer.capturedLoggingThreads.keys.forEach { thread in
+            let measured = Stopwatch.measure {
+                let traceLogs = thread.getTraceLogs()
+                print(traceLogs.count)
+            }
+            print(measured.elapsedMilliseconds())
+        }
+        
+        outputSnapshot = thread.getTraceLogs()
+    }
+    
     func maybeInfoFromIndex(_ index: Int) -> MatchedTraceOutput? {
-        let logSnapshot = tracer.logOutput.values
-        guard logSnapshot.indices.contains(index) else {
+        if outputSnapshot.isEmpty {
+            captureThreadSnapshots()
+        }
+        
+        guard outputSnapshot.indices.contains(index) else {
             return nil
         }
-        let output = logSnapshot[index]
+        let output = outputSnapshot[index]
         let maybeInfo = wrapper?.lookupInfo(output)
         return maybeInfo
     }

@@ -17,6 +17,8 @@
 		B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */; };
 		B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
+		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
+		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */; };
@@ -464,6 +466,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,6 +691,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B713405828170F92005E0E31 /* SwiftTrace in Frameworks */,
 				B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1393,12 +1397,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				B713405628170F88005E0E31 /* PBXTargetDependency */,
 				F07C49CB251C095200F28173 /* PBXTargetDependency */,
 				B7F44C42276E324600522B45 /* PBXTargetDependency */,
 			);
 			name = LookAtThat_AppKitTests;
 			packageProductDependencies = (
 				B796DEF8280D2AD8006AC749 /* Brotli */,
+				B713405728170F92005E0E31 /* SwiftTrace */,
 			);
 			productName = LookAtThat_AppKitTests;
 			productReference = F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */;
@@ -1942,6 +1948,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B713405628170F88005E0E31 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B713405528170F88005E0E31 /* SwiftTrace */;
+		};
 		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F07C49E6251C5AE800F28173 /* LookAtThatMobile */;
@@ -2252,6 +2262,11 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2471,6 +2486,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
+		};
+		B713405528170F88005E0E31 /* SwiftTrace */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
+			productName = SwiftTrace;
+		};
+		B713405728170F92005E0E31 /* SwiftTrace */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
+			productName = SwiftTrace;
 		};
 		B73286A4273367B400C9C82A /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;
