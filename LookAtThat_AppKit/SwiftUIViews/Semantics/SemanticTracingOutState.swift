@@ -10,10 +10,13 @@ import SwiftUI
 class SemanticTracingOutState: ObservableObject {
     
     @Published var currentIndex = 0
-    @Published var allTracedInfo =  [TracedInfo]()
-    
     @Published var isSetup = false
+    @Published var isWrapperLoaded = false
     @Published var isAutoPlaying = false
+    
+    @Published private var wrapper: SemanticMapTracer?
+    private let tracer = TracingRoot.shared
+    private lazy var cache = SemanticLookupCache(self)
     
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
@@ -62,10 +65,11 @@ extension SemanticTracingOutState {
     func computeTraceInfo() {
         let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
         let allGrid = cache.cachedGrids.values.map { $0.source }
-        allTracedInfo = SemanticMapTracer.start(
+        wrapper = SemanticMapTracer.wrapForLazyLoad(
             sourceGrids: allGrid,
             sourceTracer: TracingRoot.shared
         )
+        isWrapperLoaded = true
     }
 }
 #else
@@ -95,6 +99,7 @@ extension SemanticTracingOutState {
 //}
 
 //MARK: - Index Convencience
+
 extension SemanticTracingOutState {
     private var lastIndex2: Int { currentIndex - 2 }
     private var lastIndex: Int { currentIndex - 1 }
@@ -112,13 +117,34 @@ extension SemanticTracingOutState {
     }
     
     func isCurrent(_ info: TracedInfo?) -> Bool {
-        return info?.maybeFoundInfo?.syntaxId
-            == currentInfo?.maybeFoundInfo?.syntaxId
+        return info?.id == currentInfo?.id
+    }
+    
+    func maybeInfoFromIndex(_ index: Int) -> TracedInfo? {
+        let logSnapshot = tracer.logOutput.values
+        guard logSnapshot.indices.contains(index) else {
+            return nil
+        }
+        let output = logSnapshot[index]
+        let maybeInfo = wrapper?.lookupInfo(output)
+        return maybeInfo
     }
     
     private subscript(_ index: Int) -> TracedInfo? {
-        return allTracedInfo.indices.contains(index)
-            ? allTracedInfo[index]
-            : nil
+        cache[index]
+    }
+}
+
+// Pass through index to use the easy cache semantics.
+private class SemanticLookupCache: LockingCache<Int, TracedInfo?> {
+    let sourceState: SemanticTracingOutState
+    
+    init(_ state: SemanticTracingOutState) {
+        self.sourceState = state
+        super.init()
+    }
+    
+    override func make(_ key: Int, _ store: inout [Int : TracedInfo?]) -> TracedInfo? {
+        sourceState.maybeInfoFromIndex(key)
     }
 }

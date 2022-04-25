@@ -38,8 +38,8 @@ class TracingRoot {
             ConcurrentGridRenderer.self,
             GridCache.self,
             WorkerPool.self,
-            SceneLibrary.self,
-            CodePagesController.self,
+//            SceneLibrary.self,
+//            CodePagesController.self,
         ] as [AnyClass]
         
         types.forEach {

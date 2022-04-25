@@ -13,7 +13,6 @@ protocol CacheBuilder {
 open class LockingCache<Key: Hashable, Value>: CacheBuilder {
     
     private var cache = ConcurrentDictionary<Key, Value>()
-//    private var cache = GCDConcurrentDictionary<Key, Value>()
 
     open func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
         fatalError("LockingCache subscript defaults to `make()`; implement this in [\(type(of: self))].")

@@ -8,18 +8,6 @@
 import Foundation
 import SwiftTrace
 
-extension SemanticMapTracer {
-    static func start(
-        sourceGrids: [CodeGrid],
-        sourceTracer: TracingRoot
-    ) -> [TracedInfo] {
-        SemanticMapTracer(
-            sourceGrids: sourceGrids,
-            sourceTracer: sourceTracer
-        ).buildTracedInfoList()
-    }
-}
-
 class SemanticMapTracer {
     private var sourceGrids: [CodeGrid]
     private var sourceTracer: TracingRoot
@@ -32,7 +20,44 @@ class SemanticMapTracer {
         self.sourceGrids = sourceGrids
         self.sourceTracer = sourceTracer
     }
+}
+
+extension SemanticMapTracer {
+    static func start(
+        sourceGrids: [CodeGrid],
+        sourceTracer: TracingRoot
+    ) -> [TracedInfo] {
+        SemanticMapTracer(
+            sourceGrids: sourceGrids,
+            sourceTracer: sourceTracer
+        ).buildTracedInfoList()
+    }
     
+    static func wrapForLazyLoad(
+        sourceGrids: [CodeGrid],
+        sourceTracer: TracingRoot
+    ) -> SemanticMapTracer  {
+        SemanticMapTracer(
+            sourceGrids: sourceGrids,
+            sourceTracer: sourceTracer
+        )
+    }
+}
+
+extension SemanticMapTracer {
+    func lookupInfo(_ trace: (TraceOutput, String)) -> TracedInfo? {
+        if let firstMatch = findPossibleSemanticMatches(trace.0).first {
+            return .found(
+                out: trace.0,
+                trace: firstMatch,
+                threadName: trace.1
+            )
+        }
+        return nil
+    }
+}
+
+extension SemanticMapTracer {
     private func buildTracedInfoList() -> [TracedInfo] {
         var tracedInfo = [TracedInfo]()
         tracedInfo.reserveCapacity(sourceTracer.logOutput.count)
@@ -46,7 +71,7 @@ class SemanticMapTracer {
                     threadName: output.1
                 ))
             default:
-//                tracedInfo.append(.missing(out: output))
+                //                tracedInfo.append(.missing(out: output))
                 break
             }
         }

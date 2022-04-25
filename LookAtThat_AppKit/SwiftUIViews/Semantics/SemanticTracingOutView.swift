@@ -14,9 +14,11 @@ struct SemanticTracingOutView: View {
         VStack(alignment: .center, spacing: 16.0) {
             if !state.isSetup {
                 makeSetupView()
-            } else if state.allTracedInfo.isEmpty {
-                makeEmtyView()
-            } else {
+            }
+            else if !state.isWrapperLoaded {
+                makeRequestLoadView()
+            }
+            else {
                 makeControlsView()
             }
         }
@@ -29,7 +31,7 @@ struct SemanticTracingOutView: View {
     }
     
     @ViewBuilder
-    func makeEmtyView() -> some View {
+    func makeRequestLoadView() -> some View {
         Button("Load from trace", action: { state.computeTraceInfo() })
     }
     
