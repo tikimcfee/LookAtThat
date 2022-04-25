@@ -26,16 +26,6 @@ class SemanticMapTracer {
 }
 
 extension SemanticMapTracer {
-    static func start(
-        sourceGrids: [CodeGrid],
-        sourceTracer: TracingRoot
-    ) -> [MatchedTraceOutput] {
-        SemanticMapTracer(
-            sourceGrids: sourceGrids,
-            sourceTracer: sourceTracer
-        ).buildTracedInfoList()
-    }
-    
     static func wrapForLazyLoad(
         sourceGrids: [CodeGrid],
         sourceTracer: TracingRoot
@@ -78,27 +68,6 @@ extension SemanticMapTracer {
 }
 
 extension SemanticMapTracer {
-    private func buildTracedInfoList() -> [MatchedTraceOutput] {
-        var tracedInfo = [MatchedTraceOutput]()
-        tracedInfo.reserveCapacity(sourceTracer.logOutput.count)
-        
-        for output in sourceTracer.logOutput.values {
-            switch findPossibleSemanticMatches(output.0).first {
-            case .some(let first):
-                tracedInfo.append(.found(
-                    out: output.0,
-                    trace: first,
-                    threadName: String(describing: output.1)
-                ))
-            default:
-                //                tracedInfo.append(.missing(out: output))
-                break
-            }
-        }
-        
-        return tracedInfo
-    }
-    
     private func findPossibleSemanticMatches(
         _ output: TraceOutput
     ) -> [TraceValue] {

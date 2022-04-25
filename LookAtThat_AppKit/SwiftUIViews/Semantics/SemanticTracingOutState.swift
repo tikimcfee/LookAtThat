@@ -17,6 +17,8 @@ class SemanticTracingOutState: ObservableObject {
     @Published var isSetup = false
     @Published var isWrapperLoaded = false
     @Published var wrapper: SemanticMapTracer?
+    @Published var focusedThread: Thread?
+    
     @Published var isAutoPlaying = false
     @Published var interval = 1000.0
     let loopRange = 100.0...2000.0
@@ -24,8 +26,18 @@ class SemanticTracingOutState: ObservableObject {
     private let tracer = TracingRoot.shared
     private lazy var cache = SemanticLookupCache(self)
     private lazy var bag = Set<AnyCancellable>()
+        
+    var loggedThreads: [Thread] {
+        tracer.capturedLoggingThreads.keys.sorted(by: {
+            $0.queueName < $1.queueName
+        })
+//        return [Thread(), Thread(), Thread(), Thread(), Thread()]
+    }
     
-    private var outputSnapshot = [(TraceOutput, Thread)]()
+    func logs(for thread: Thread) -> [(TraceOutput, Thread)] {
+        // It's on `thread`, but using it here for now to do other transforms if needed
+        return thread.getTraceLogs()
+    }
     
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
@@ -95,19 +107,12 @@ extension SemanticTracingOutState {
     }
 }
 
-//extension TracedInfo: Identifiable, Hashable {
-//    static func == (lhs: TracedInfo, rhs: TracedInfo) -> Bool {
-//        lhs.id == rhs.id
-//        && lhs.thread == rhs.thread
-//    }
-//
-//    var id: String {
-//        return maybeFoundInfo?.syntaxId.stringIdentifier ?? "<no_id>"
-//    }
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(id)
-//    }
-//}
+//MARK: - View properties
+extension SemanticTracingOutState {
+    func threadSelectionText(_ thread: Thread) -> String {
+        "[\(thread.threadName) | \(thread.queueName)]"
+    }
+}
 
 //MARK: - Index Convencience
 
@@ -131,52 +136,28 @@ extension SemanticTracingOutState {
         return info?.id == currentInfo?.id
     }
     
-    func captureThreadSnapshots() {
-        print("TODO: --- Display snapshots per thread!")
-        guard let thread = tracer.capturedLoggingThreads.keys.first else {
-            print("TODO: --- This is getting dumb!")
-            return
-        }
-        
-        tracer.capturedLoggingThreads.keys.forEach { thread in
-            let measured = Stopwatch.measure {
-                let traceLogs = thread.getTraceLogs()
-                print(traceLogs.count)
-            }
-            print(measured.elapsedMilliseconds())
-        }
-        
-        outputSnapshot = thread.getTraceLogs()
+    func isCurrent(_ thread: Thread?) -> Bool {
+        return thread == focusedThread
     }
     
     func maybeInfoFromIndex(_ index: Int) -> MatchedTraceOutput? {
-        if outputSnapshot.isEmpty {
-            captureThreadSnapshots()
+        guard let thread = focusedThread else {
+            print("No thread focused")
+            return nil
         }
         
+        let outputSnapshot = thread.getTraceLogs()
         guard outputSnapshot.indices.contains(index) else {
             return nil
         }
+        
         let output = outputSnapshot[index]
         let maybeInfo = wrapper?.lookupInfo(output)
         return maybeInfo
     }
-    
-#if TARGETING_SUI
-    static var randomTestData = [MatchedTraceOutput]()
-    private subscript(_ index: Int) -> MatchedTraceOutput? {
-        return Self.randomTestData.indices.contains(index)
-            ? Self.randomTestData[index]
-            : nil
-    }
-#else
-    private subscript(_ index: Int) -> MatchedTraceOutput? {
-        cache[index]
-    }
-#endif
-    
 }
 
+// MARK: - Lookup Cache
 // Pass through index to use the easy cache semantics.
 private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
     let sourceState: SemanticTracingOutState
@@ -186,7 +167,28 @@ private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
         super.init()
     }
     
-    override func make(_ key: Int, _ store: inout [Int : MatchedTraceOutput?]) -> MatchedTraceOutput? {
+    override func make(
+        _ key: Int,
+        _ store: inout [Int : MatchedTraceOutput?]
+    ) -> MatchedTraceOutput? {
         sourceState.maybeInfoFromIndex(key)
     }
 }
+
+// MARK: - Subscripting
+#if TARGETING_SUI
+extension SemanticTracingOutState {
+    static var randomTestData = [MatchedTraceOutput]()
+    subscript(_ index: Int) -> MatchedTraceOutput? {
+        return Self.randomTestData.indices.contains(index)
+        ? Self.randomTestData[index]
+        : nil
+    }
+}
+#else
+extension SemanticTracingOutState {
+    subscript(_ index: Int) -> MatchedTraceOutput? {
+        cache[index]
+    }
+}
+#endif

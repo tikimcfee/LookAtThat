@@ -14,12 +14,6 @@ class TracingRoot {
     
     lazy var capturedLoggingThreads = ConcurrentDictionary<Thread, Int>()
     
-    lazy var logOutput: ConcurrentArray<(TraceOutput, Thread)> = {
-        let log = ConcurrentArray<(TraceOutput, Thread)>()
-        log.reserve(30_000)
-        return log
-    }()
-    
     private init() {
         
     }
@@ -29,12 +23,7 @@ class TracingRoot {
         
         capturedLoggingThreads[Thread.current] = 1
         Thread.storeTraceLog(out)
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            self.logOutput.append((out, logThread))
-//        }
     }
-    
-    
 }
 
 #if !TARGETING_SUI
@@ -78,30 +67,29 @@ extension TracingRoot {
 }
 #endif
 
-typealias ThreadDictType = NSMutableArray
-typealias ThreadDictTypeDowncast = NSArray
-typealias ThreadDictTuple = (TraceOutput, Thread)
+typealias ThreadStorageType = NSMutableArray
+typealias ThreadStorageTypeDowncast = NSArray
+typealias ThreadStorageTuple = (TraceOutput, Thread)
 
 extension Thread {
-    private static let logStorageKey = "ThreadLocalTraceOutputLog"
+    private static let logStorage = ConcurrentDictionary<Thread, ThreadStorageType>()
     
-    func getTraceLogs() -> [ThreadDictTuple] {
-        let capturedType = threadDictionary[Self.logStorageKey] as? ThreadDictTypeDowncast
-        let maybeArray = capturedType as? [ThreadDictTuple]
+    func getTraceLogs() -> [ThreadStorageTuple] {
+        let capturedType = Self.logStorage[self]
+        let maybeArray = capturedType as? [ThreadStorageTuple]
         return maybeArray ?? []
     }
         
     static func storeTraceLog(_ output: TraceOutput) {
         let thread = Thread.current
-        let dictionary = thread.threadDictionary
-        
-        let outputStore = dictionary[logStorageKey] as? ThreadDictType ?? {
-            let type = ThreadDictType()
-            dictionary[logStorageKey] = type
+        let tuple = (output, thread)
+
+        let outputStore = logStorage[thread] ?? {
+            let type = ThreadStorageType()
+            logStorage[thread] = type
             return type
         }()
-        
-        outputStore.add((output, Thread.current))
+        outputStore.add(tuple)
     }
     
     var threadName: String {

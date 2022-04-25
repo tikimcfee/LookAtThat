@@ -27,6 +27,7 @@ struct SemanticTracingOutView: View {
             }
         }
         .padding()
+        .frame(maxWidth: 480)
     }
     
     @ViewBuilder
@@ -41,8 +42,11 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeControlsView() -> some View {
-        makeButtonsGroup()
-        makeAllRows()
+        VStack {
+            makeButtonsGroup()
+            makeFocusedTraceRows()
+            makeLoggedThreadsView()
+        }
     }
     
     @ViewBuilder
@@ -67,7 +71,27 @@ struct SemanticTracingOutView: View {
     }
     
     @ViewBuilder
-    func makeAllRows() -> some View {
+    func makeLoggedThreadsView() -> some View {
+        VStack {
+            Text("Threads (found \(state.loggedThreads.count))")
+                .font(Font.system(.body, design: .monospaced))
+                .padding(4.0)
+            
+            ForEach(state.loggedThreads, id: \.hash) { thread in
+                Text(state.threadSelectionText(thread))
+                    .font(Font.system(.body, design: .monospaced))
+                    .padding(4.0)
+                    .background(state.isCurrent(thread)
+                                ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
+                                : Color.gray.opacity(0.1))
+                    .onTapGesture { state.focusedThread = thread }
+            }
+            .overlay(Rectangle().stroke(Color.gray))
+        }
+    }
+    
+    @ViewBuilder
+    func makeFocusedTraceRows() -> some View {
         VStack(alignment: .leading) {
             ForEach(state.focusContext, id: \.self) { info in
                 switch info {
@@ -101,6 +125,7 @@ struct SemanticTracingOutView: View {
             VStack(alignment: .leading, spacing: 8.0) {
                 Text("\(output.name) \(output.callComponents.callPath)")
                     .font(Font.system(.body, design: .monospaced))
+                
                 if (isCurrent) {
 //                    Text("\(traceValue.info.referenceName)")
 //                        .font(Font.system(.footnote, design: .monospaced))
@@ -112,7 +137,6 @@ struct SemanticTracingOutView: View {
             Text("\(thread)")
                 .font(Font.system(.callout, design: .monospaced))
         }
-        .frame(width: 480, alignment: .leading)
         .padding(4)
         .overlay(Rectangle().stroke(Color.gray))
         .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
@@ -124,13 +148,11 @@ struct SemanticTracingOutView: View {
     ) -> some View {
         HStack {
             Text(text).font(Font.system(.caption, design: .monospaced))
+            Spacer()
         }
-        .frame(width: 480, alignment: .leading)
         .padding(4)
         .overlay(Rectangle().stroke(Color.gray))
         .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
-        
-        
     }
     
     func forward() {
@@ -185,11 +207,10 @@ func helloWorld() {
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
 //        state.setupTracing()
+        TracingRoot.shared.capturedLoggingThreads[Thread.current] = 1
         state.isSetup = true
         (0...10).forEach { _ in
-            TracingRoot.shared.logOutput.append(
-                (TraceOutput.random, Thread.current)
-            )
+            Thread.storeTraceLog(TraceOutput.random)
         }
         state.prepareQueryWrapper()
         

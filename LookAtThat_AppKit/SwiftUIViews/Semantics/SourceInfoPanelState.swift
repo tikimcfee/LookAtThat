@@ -17,7 +17,7 @@ enum PanelSections: String, CaseIterable, Equatable {
 }
 
 class SourceInfoPanelState: ObservableObject {
-    @Published var sections: [PanelSections] = PanelSections.allCases
+    @Published var sections: [PanelSections] = [.directories, .tracingInfo]
     @Published var error: SceneControllerError?
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     @Published var hoveredToken: String = ""
