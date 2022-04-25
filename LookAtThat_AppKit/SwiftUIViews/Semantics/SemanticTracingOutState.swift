@@ -6,42 +6,47 @@
 //
 
 import SwiftUI
+import Combine
 
 class SemanticTracingOutState: ObservableObject {
-    
     @Published var currentIndex = 0
     @Published var isSetup = false
     @Published var isWrapperLoaded = false
+    @Published var wrapper: SemanticMapTracer?
     @Published var isAutoPlaying = false
+    @Published var interval = 1000.0
+    let loopRange = 100.0...2000.0
     
-    @Published private var wrapper: SemanticMapTracer?
     private let tracer = TracingRoot.shared
     private lazy var cache = SemanticLookupCache(self)
+    private lazy var bag = Set<AnyCancellable>()
     
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
         isAutoPlaying = true
-        QuickLooper(
+        var looper = QuickLooper(
             interval: .seconds(1),
             loop: { self.increment() }
-        ).runUntil { !self.isAutoPlaying }
+        )
+        looper.runUntil { !self.isAutoPlaying }
+        
+        $interval.sink { newTime in
+            looper.interval = .milliseconds(Int(newTime))
+        }.store(in: &bag)
     }
     
     func stopAutoPlay() {
         isAutoPlaying = false
+        bag.removeAll()
     }
     
     func increment() {
-//        toggleTrace(currentInfo?.maybeTrace)
         currentIndex += 1
-//        toggleTrace(currentInfo?.maybeTrace)
         zoomTrace(currentInfo?.maybeTrace)
     }
     
     func decrement() {
-//        toggleTrace(currentInfo?.maybeTrace)
         currentIndex -= 1
-//        toggleTrace(currentInfo?.maybeTrace)
         zoomTrace(currentInfo?.maybeTrace)
     }
     

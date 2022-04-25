@@ -6,6 +6,12 @@ public final class ConcurrentArray<Element> {
 
     private var container: [Element] = []
     private let rwlock = RWLock()
+    
+    public func reserve(_ cap: Int) {
+        rwlock.writeLock()
+        container.reserveCapacity(cap)
+        rwlock.unlock()
+    }
 
     public var values: [Element] {
         let result: [Element]

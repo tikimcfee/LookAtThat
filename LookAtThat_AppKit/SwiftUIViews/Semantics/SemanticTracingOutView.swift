@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+#if !TARGETING_SUI
+import SwiftTrace
+#endif
+
 struct SemanticTracingOutView: View {
     @ObservedObject var state: SemanticTracingOutState
     
@@ -37,44 +41,96 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeControlsView() -> some View {
-        VStack(alignment: .leading) {
-            ForEach(state.focusContext, id: \.self) { info in
-                switch info {
-                case let .found(_, trace, _, _) where state.isCurrent(info):
-                    makeTextRow(trace.info.referenceName)
-                        .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
-                        .onTapGesture { state.toggleTrace(trace) }
-                case let .found(_, trace, _, _):
-                    makeTextRow(trace.info.referenceName)
-                        .onTapGesture { state.toggleTrace(trace) }
-                default:
-                    makeTextRow("...")
-                }
-            }
-        }
+        makeButtonsGroup()
+        makeAllRows()
+    }
+    
+    @ViewBuilder
+    func makeButtonsGroup() -> some View {
         VStack(alignment: .center) {
+            if state.isAutoPlaying {
+                HStack {
+                    Slider(value: $state.interval, in: state.loopRange, label: {
+                        Text(String(format: "%.fms", state.interval))
+                    })
+                    Button("Stop", action: { state.stopAutoPlay() })
+                }
+            } else {
+                Button("Autoplay", action: { state.startAutoPlay() })
+            }
+            
             HStack {
                 Button("<- Backward", action: { backward() })
                 Button("Forward ->", action: { forward() })
             }
-            Spacer().frame(height: 16.0)
-            if state.isAutoPlaying {
-                Button("Stop", action: { state.stopAutoPlay() })
-            } else {
-                Button("Autoplay", action: { state.startAutoPlay() })
-            }
         }
-        .frame(width: 256.0)
     }
     
     @ViewBuilder
-    func makeTextRow(_ text: String) -> some View {
-        Text(text)
-            .font(Font.system(.caption, design: .monospaced))
-            .frame(width: 480, alignment: .leading)
-            .padding(4)
-            .overlay(Rectangle().stroke(Color.gray))
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+    func makeAllRows() -> some View {
+        VStack(alignment: .leading) {
+            ForEach(state.focusContext, id: \.self) { info in
+                switch info {
+                case let .found(output, matchedTrace, thread, _) where state.isCurrent(info):
+                    makeTextRow(matchedTrace, output, thread, true)
+                        .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
+                        .onTapGesture { state.toggleTrace(matchedTrace) }
+                    
+                case let .found(output, matchedTrace, thread, _):
+                    makeTextRow(matchedTrace, output, thread, false)
+                        .onTapGesture { state.toggleTrace(matchedTrace) }
+                    
+                case let .missing(out, thread, _):
+                    makeEmptyRow("\(out.name) \(out.callComponents.callPath) \(thread)")
+                    
+                case .none:
+                    makeEmptyRow("...")
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func makeTextRow(
+        _ traceValue: TraceValue,
+        _ output: TraceOutput,
+        _ thread: String,
+        _ isCurrent: Bool
+    ) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 8.0) {
+                Text("\(output.name) \(output.callComponents.callPath)")
+                    .font(Font.system(.body, design: .monospaced))
+                if (isCurrent) {
+//                    Text("\(traceValue.info.referenceName)")
+//                        .font(Font.system(.footnote, design: .monospaced))
+                    Text("\(traceValue.grid.fileName.isEmpty ? "..." : traceValue.grid.fileName)")
+                        .font(Font.system(.footnote, design: .monospaced))
+                }
+            }
+            Spacer()
+            Text("\(thread)")
+                .font(Font.system(.callout, design: .monospaced))
+        }
+        .frame(width: 480, alignment: .leading)
+        .padding(4)
+        .overlay(Rectangle().stroke(Color.gray))
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+    }
+    
+    @ViewBuilder
+    func makeEmptyRow(
+        _ text: String
+    ) -> some View {
+        HStack {
+            Text(text).font(Font.system(.caption, design: .monospaced))
+        }
+        .frame(width: 480, alignment: .leading)
+        .padding(4)
+        .overlay(Rectangle().stroke(Color.gray))
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+        
+        
     }
     
     func forward() {
@@ -132,11 +188,12 @@ func helloWorld() {
         state.isSetup = true
         (0...10).forEach { _ in
             TracingRoot.shared.logOutput.append(
-                (TraceOutput.random, "Thread: \(Int.random(in: 0...10))")
+                (TraceOutput.random, Thread.current)
             )
         }
         state.prepareQueryWrapper()
         
+#if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
@@ -146,6 +203,7 @@ func helloWorld() {
                     threadName: "TestThread"
                 )
             }
+#endif
         return state
     }()
     

@@ -19,15 +19,6 @@ enum TraceOutput {
         case .exit(_, _, let decorated, _): return decorated
         }
     }
-    
-    static var random: TraceOutput {
-        switch Bool.random() {
-        case true:
-            return .entry(invocation: "Invocation \(Int.random(in: 0...100))", method: nil, decorated: "helloWorld()", subLog: Bool.random())
-        case false:
-            return .exit(invocation: "Invocation_X \(Int.random(in: 100...200))", method: nil, decorated: "peaceWorld()", subLog: Bool.random())
-        }
-    }
 }
 #endif
 
@@ -109,6 +100,20 @@ extension TraceOutput {
         }
     }
     
+    var isEntry: Bool {
+        switch self {
+        case .entry: return true
+        case .exit:  return false
+        }
+    }
+    
+    var isExit: Bool {
+        switch self {
+        case .entry: return false
+        case .exit:  return true
+        }
+    }
+    
     func cleanFunction(_ rawFunction: String) -> String {
         let argIndex = rawFunction.firstIndex(of: "(") ?? rawFunction.endIndex
         let strippedArgs = rawFunction.prefix(upTo: argIndex)
@@ -135,5 +140,20 @@ extension TraceOutput {
         }
         
         return (decorated, "")
+    }
+    
+    #if TARGETING_SUI
+    static var randomInvoke: String { "" }
+    #else
+    static var randomInvoke: SwiftTrace.Swizzle.Invocation { .current }
+    #endif
+    
+    static var random: TraceOutput {
+        switch Bool.random() {
+        case true:
+            return .entry(invocation: randomInvoke, method: nil, decorated: "helloWorld()", subLog: Bool.random())
+        case false:
+            return .exit(invocation: randomInvoke, method: nil, decorated: "peaceWorld()", subLog: Bool.random())
+        }
     }
 }

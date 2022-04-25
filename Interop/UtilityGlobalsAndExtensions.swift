@@ -25,7 +25,7 @@ extension Array {
 struct QuickLooper {
     let loop: () -> Void
     let queue: DispatchQueue
-    let interval: DispatchTimeInterval
+    var interval: DispatchTimeInterval
     
     init(interval: DispatchTimeInterval = .seconds(1),
          loop: @escaping () -> Void,

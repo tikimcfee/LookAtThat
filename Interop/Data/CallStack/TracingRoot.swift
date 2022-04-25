@@ -16,14 +16,23 @@ import SwiftTrace
 class TracingRoot {
     static var shared = TracingRoot()
     
-    var logOutput = ConcurrentArray<(TraceOutput, String)>()
+    lazy var logOutput: ConcurrentArray<(TraceOutput, Thread)> = {
+        let log = ConcurrentArray<(TraceOutput, Thread)>()
+        log.reserve(30_000)
+        return log
+    }()
     
     private init() {
         
     }
     
     func onLog(_ out: TraceOutput) {
-        logOutput.append((out, String(describing: Thread.current)))
+        guard out.isEntry else { return }
+        
+        let logThread = Thread.current
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.logOutput.append((out, logThread))
+        }
     }
     
     func setupTracing() {
@@ -40,10 +49,10 @@ class TracingRoot {
             CodeGrid.Renderer.self,
             CodeGridSemanticMap.self,
             SemanticInfoBuilder.self,
-            CodeGrid.AttributedGlyphs.self,
+//            CodeGrid.AttributedGlyphs.self,
 //            CodeGridTokenCache.self,
 //            GlyphLayerCache.self,
-            ConcurrentGridRenderer.self,
+//            ConcurrentGridRenderer.self,
 //            GridCache.self,
 //            WorkerPool.self,
 //            SceneLibrary.self,

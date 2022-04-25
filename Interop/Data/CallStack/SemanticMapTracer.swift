@@ -47,13 +47,30 @@ extension SemanticMapTracer {
     }
 }
 
+class PullThreadInfo {
+    static let rawInfoRegex = #"\{(.*), (.*)\}"#
+    static let infoRegex = try! NSRegularExpression(pattern: rawInfoRegex)
+    private init() {}
+    static func from(_ string: String) -> (String, String) {
+        let range = NSRange(string.range(of: string)!, in: string)
+        let matches = Self.infoRegex.matches(in: string, range: range)
+        
+        for match in matches {
+            let maybeNumber = Range(match.range(at: 1), in: string).map { string[$0] } ?? ""
+            let maybeName = Range(match.range(at: 2), in: string).map { string[$0] } ?? ""
+            return (String(maybeNumber), String(maybeName))
+        }
+        return ("", "")
+    }
+}
+
 extension SemanticMapTracer {
-    func lookupInfo(_ trace: (TraceOutput, String)) -> MatchedTraceOutput? {
+    func lookupInfo(_ trace: (TraceOutput, Thread)) -> MatchedTraceOutput? {
         if let firstMatch = findPossibleSemanticMatches(trace.0).first {
             return .found(
                 out: trace.0,
                 trace: firstMatch,
-                threadName: trace.1
+                threadName: PullThreadInfo.from(trace.1.description).0
             )
         }
         return nil
@@ -71,7 +88,7 @@ extension SemanticMapTracer {
                 tracedInfo.append(.found(
                     out: output.0,
                     trace: first,
-                    threadName: output.1
+                    threadName: String(describing: output.1)
                 ))
             default:
                 //                tracedInfo.append(.missing(out: output))
