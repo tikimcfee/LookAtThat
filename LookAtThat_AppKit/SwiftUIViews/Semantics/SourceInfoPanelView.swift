@@ -226,7 +226,7 @@ func helloWorld() {
         state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
-                TracedInfo.found(out: .init(), trace: (sourceGrid, $0))
+                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
             }
         #endif
         return state

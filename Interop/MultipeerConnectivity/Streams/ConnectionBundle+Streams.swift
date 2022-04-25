@@ -79,35 +79,6 @@ extension OutputStream {
     }
 }
 
-struct QuickLooper {
-    let loop: () -> Void
-    let queue: DispatchQueue
-    let interval: DispatchTimeInterval
-    
-    init(interval: DispatchTimeInterval = .seconds(1),
-         loop: @escaping () -> Void,
-         queue: DispatchQueue = .main) {
-        self.interval = interval
-        self.loop = loop
-        self.queue = queue
-    }
-    
-    func runUntil(
-        onStop: (() -> Void)? = nil,
-        _ stopCondition: @escaping () -> Bool
-    ) {
-        guard !stopCondition() else {
-            onStop?()
-            return
-        }
-        
-        loop()
-        queue.asyncAfter(deadline: .now() + interval) {
-            runUntil(stopCondition)
-        }
-    }
-}
-
 extension Stream {
     var whyIsItBroken: String {
         let error = streamError?.localizedDescription ?? "nil error"

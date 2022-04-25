@@ -195,6 +195,8 @@
 		B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
+		B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
+		B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
@@ -519,6 +521,7 @@
 		B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticTracingOutView.swift; sourceTree = "<group>"; };
 		B74A234228161C4600F6F727 /* SemanticInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfo.swift; sourceTree = "<group>"; };
 		B74A234628161C9200F6F727 /* CodeGridColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridColors.swift; sourceTree = "<group>"; };
+		B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticTracingOutState.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
@@ -828,8 +831,9 @@
 		B79F93192750C3B000E46A96 /* Semantics */ = {
 			isa = PBXGroup;
 			children = (
-				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
 				B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */,
+				B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */,
+				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
 				B74A23352815197000F6F727 /* SourceInfoPanelState.swift */,
 			);
 			path = Semantics;
@@ -1640,6 +1644,7 @@
 				B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */,
 				B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */,
 				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
+				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B74A230F2814FFF300F6F727 /* Structures.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
@@ -1724,6 +1729,7 @@
 				B7C756FB280CECBA0005A233 /* TAPCombination.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
+				B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */,
 				F056927A252081CF006A10C9 /* WireData.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,

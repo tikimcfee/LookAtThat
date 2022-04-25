@@ -7,99 +7,11 @@
 
 import SwiftUI
 
-//#if !TARGETING_SUI
-class SemanticTracingOutState: ObservableObject {
-    
-    @Published var currentIndex = 0
-    @Published var allTracedInfo =  [TracedInfo]()
-    
-    @Published var isSetup = false
-    @Published var isAutoPlaying = false
-    
-    private var lastIndex: Int { currentIndex - 1 }
-    private var nextIndex: Int { currentIndex + 1 }
-    
-    var lastInfo: TracedInfo? {
-        return allTracedInfo.indices.contains(lastIndex)
-        ? allTracedInfo[lastIndex] : nil
-    }
-    
-    var thisInfo: TracedInfo? {
-        return allTracedInfo.indices.contains(currentIndex)
-        ? allTracedInfo[currentIndex] : nil
-    }
-    
-    var nextInfo: TracedInfo? {
-        return allTracedInfo.indices.contains(nextIndex)
-        ? allTracedInfo[nextIndex] : nil
-    }
-    
-    func startAutoPlay() {
-        guard !isAutoPlaying else { return }
-        isAutoPlaying = true
-        QuickLooper(
-            interval: .seconds(1),
-            loop: { self.increment() }
-        ).runUntil { !self.isAutoPlaying }
-    }
-    
-    func stopAutoPlay() {
-        isAutoPlaying = false
-    }
-    
-    func increment() {
-        toggleTrace(thisInfo?.maybeTrace)
-        currentIndex += 1
-        toggleTrace(thisInfo?.maybeTrace)
-    }
-    
-    func decrement() {
-        toggleTrace(thisInfo?.maybeTrace)
-        currentIndex -= 1
-        toggleTrace(thisInfo?.maybeTrace)
-    }
-    
-    func toggleTrace(_ trace: TraceValue?) {
-        guard let trace = trace else {
-            return
-        }
-        trace.grid.toggleGlyphs()
-        SceneLibrary.global.codePagesController.selected(
-            id: trace.info.syntaxId,
-            in: trace.grid.codeGridSemanticInfo
-        )
-    }
-    
-    #if !TARGETING_SUI
-    func setupTracing() {
-        TracingRoot.shared.setupTracing()
-        self.isSetup = true
-    }
-    
-    func computeTraceInfo() {
-        let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
-        let allGrid = cache.cachedGrids.values.map { $0.source }
-        self.allTracedInfo = SemanticMapTracer.start(
-            sourceGrids: allGrid,
-            sourceTracer: TracingRoot.shared
-        )
-    }
-    #else
-    func computeTraceInfo() {
-        print("\n\n\t\tTRACING DISABLED!\n\n")
-    }
-    
-    func setupTracing() {
-        print("\n\n\t\tTRACING DISABLED!\n\n")
-    }
-    #endif
-}
-
 struct SemanticTracingOutView: View {
     @ObservedObject var state: SemanticTracingOutState
     
     var body: some View {
-        HStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 16.0) {
             if !state.isSetup {
                 makeSetupView()
             } else if state.allTracedInfo.isEmpty {
@@ -124,26 +36,20 @@ struct SemanticTracingOutView: View {
     @ViewBuilder
     func makeControlsView() -> some View {
         VStack(alignment: .leading) {
-            if let last = state.lastInfo?.maybeTrace {
-                makeInfoView(last)
-            } else {
-                Text("...")
-            }
-            
-            if let current = state.thisInfo?.maybeTrace {
-                makeInfoView(current)
-                    .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
-            } else {
-                Text("<No current>")
-            }
-            
-            if let next = state.nextInfo?.maybeTrace {
-                makeInfoView(next)
-            } else {
-                Text("...")
+            ForEach(state.focusContext, id: \.self) { info in
+                switch info {
+                case let .found(_, trace, _, _) where state.isCurrent(info):
+                    makeTextRow(trace.info.referenceName)
+                        .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
+                        .onTapGesture { state.toggleTrace(trace) }
+                case let .found(_, trace, _, _):
+                    makeTextRow(trace.info.referenceName)
+                        .onTapGesture { state.toggleTrace(trace) }
+                default:
+                    makeTextRow("...")
+                }
             }
         }
-        
         VStack(alignment: .center) {
             HStack {
                 Button("<- Backward", action: { backward() })
@@ -156,17 +62,17 @@ struct SemanticTracingOutView: View {
                 Button("Autoplay", action: { state.startAutoPlay() })
             }
         }
+        .frame(width: 256.0)
     }
     
     @ViewBuilder
-    func makeInfoView(_ trace: TraceValue) -> some View {
-        Text(trace.info.referenceName)
+    func makeTextRow(_ text: String) -> some View {
+        Text(text)
             .font(Font.system(.caption, design: .monospaced))
-            .frame(minWidth: 256.0, alignment: .leading)
+            .frame(width: 480, alignment: .leading)
             .padding(4)
             .overlay(Rectangle().stroke(Color.gray))
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
-            .onTapGesture { state.toggleTrace(trace) }
     }
     
     func forward() {
@@ -178,3 +84,64 @@ struct SemanticTracingOutView: View {
     }
 }
 //#endif
+
+#if DEBUG
+import SwiftSyntax
+
+struct SemanticTracing_Previews: PreviewProvider {
+    static let sourceString = """
+func helloWorld() {
+  let test = ""
+  let another = "X"
+  let somethingCrazy: () -> Void = { [weak self] in
+     print("Hello, world!")
+  }
+  somethingCrazy()
+}
+"""
+    
+    static var sourceGrid: CodeGrid = {
+        let parser = CodeGridParser()
+        let grid = parser.renderGrid(sourceString)!
+        return grid
+    }()
+    
+    static var sourceInfo = WrappedBinding<CodeGridSemanticMap>({
+        let info = sourceGrid.codeGridSemanticInfo
+        return info
+    }())
+    
+    static var randomId: String {
+        let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
+        let offset = characterIndex.utf16Offset(in: sourceString)
+        return sourceGrid.rawGlyphsNode.childNodes[offset].name ?? "no-id"
+    }
+    
+    static var sourceState: SourceInfoPanelState = {
+        let state = SourceInfoPanelState()
+        state.sourceInfo = Self.sourceInfo.binding.wrappedValue
+        state.hoveredToken = Self.randomId
+        return state
+    }()
+    
+    static var semanticTracingOutState: SemanticTracingOutState = {
+        let state = SemanticTracingOutState()
+#if TARGETING_SUI
+//        state.setupTracing()
+        state.isSetup = true
+        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+            .filter { !$0.callStackName.isEmpty }
+            .map {
+                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread")
+            }
+#endif
+        return state
+    }()
+    
+    static var previews: some View {
+        return Group {
+            SemanticTracingOutView(state: semanticTracingOutState)
+        }
+    }
+}
+#endif
