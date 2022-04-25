@@ -67,34 +67,22 @@ class SemanticTracingOutState: ObservableObject {
     }
 }
 
-#if !TARGETING_SUI
 extension SemanticTracingOutState {
     func setupTracing() {
-        TracingRoot.shared.setupTracing()
+        tracer.setupTracing()
         isSetup = true
     }
     
-    func computeTraceInfo() {
+    func prepareQueryWrapper() {
         let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
         let allGrid = cache.cachedGrids.values.map { $0.source }
         wrapper = SemanticMapTracer.wrapForLazyLoad(
             sourceGrids: allGrid,
-            sourceTracer: TracingRoot.shared
+            sourceTracer: tracer
         )
         isWrapperLoaded = true
     }
 }
-#else
-extension SemanticTracingOutState {
-    func computeTraceInfo() {
-        print("\n\n\t\tTRACING DISABLED!\n\n")
-    }
-    
-    func setupTracing() {
-        print("\n\n\t\tTRACING DISABLED!\n\n")
-    }
-}
-#endif
 
 //extension TracedInfo: Identifiable, Hashable {
 //    static func == (lhs: TracedInfo, rhs: TracedInfo) -> Bool {
@@ -118,21 +106,21 @@ extension SemanticTracingOutState {
     private var nextIndex: Int { currentIndex + 1 }
     private var nextIndex2: Int { currentIndex + 2 }
     
-    var lastInfo2: TracedInfo? { self[lastIndex2] }
-    var lastInfo: TracedInfo? { self[lastIndex] }
-    var currentInfo: TracedInfo? { self[currentIndex] }
-    var nextInfo: TracedInfo? { self[nextIndex] }
-    var nextInfo2: TracedInfo? { self[nextIndex2] }
+    var lastInfo2: MatchedTraceOutput? { self[lastIndex2] }
+    var lastInfo: MatchedTraceOutput? { self[lastIndex] }
+    var currentInfo: MatchedTraceOutput? { self[currentIndex] }
+    var nextInfo: MatchedTraceOutput? { self[nextIndex] }
+    var nextInfo2: MatchedTraceOutput? { self[nextIndex2] }
     
-    var focusContext: [TracedInfo?] {
+    var focusContext: [MatchedTraceOutput?] {
         [lastInfo2, lastInfo, currentInfo, nextInfo, nextInfo2]
     }
     
-    func isCurrent(_ info: TracedInfo?) -> Bool {
+    func isCurrent(_ info: MatchedTraceOutput?) -> Bool {
         return info?.id == currentInfo?.id
     }
     
-    func maybeInfoFromIndex(_ index: Int) -> TracedInfo? {
+    func maybeInfoFromIndex(_ index: Int) -> MatchedTraceOutput? {
         let logSnapshot = tracer.logOutput.values
         guard logSnapshot.indices.contains(index) else {
             return nil
@@ -142,13 +130,23 @@ extension SemanticTracingOutState {
         return maybeInfo
     }
     
-    private subscript(_ index: Int) -> TracedInfo? {
+#if TARGETING_SUI
+    static var randomTestData = [MatchedTraceOutput]()
+    private subscript(_ index: Int) -> MatchedTraceOutput? {
+        return Self.randomTestData.indices.contains(index)
+            ? Self.randomTestData[index]
+            : nil
+    }
+#else
+    private subscript(_ index: Int) -> MatchedTraceOutput? {
         cache[index]
     }
+#endif
+    
 }
 
 // Pass through index to use the easy cache semantics.
-private class SemanticLookupCache: LockingCache<Int, TracedInfo?> {
+private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
     let sourceState: SemanticTracingOutState
     
     init(_ state: SemanticTracingOutState) {
@@ -156,7 +154,7 @@ private class SemanticLookupCache: LockingCache<Int, TracedInfo?> {
         super.init()
     }
     
-    override func make(_ key: Int, _ store: inout [Int : TracedInfo?]) -> TracedInfo? {
+    override func make(_ key: Int, _ store: inout [Int : MatchedTraceOutput?]) -> MatchedTraceOutput? {
         sourceState.maybeInfoFromIndex(key)
     }
 }

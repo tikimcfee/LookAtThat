@@ -32,7 +32,7 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeRequestLoadView() -> some View {
-        Button("Load from trace", action: { state.computeTraceInfo() })
+        Button("Load from trace", action: { state.prepareQueryWrapper() })
     }
     
     @ViewBuilder
@@ -128,15 +128,24 @@ func helloWorld() {
     
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
-#if TARGETING_SUI
 //        state.setupTracing()
         state.isSetup = true
-        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+        (0...10).forEach { _ in
+            TracingRoot.shared.logOutput.append(
+                (TraceOutput.random, "Thread: \(Int.random(in: 0...10))")
+            )
+        }
+        state.prepareQueryWrapper()
+        
+        SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
-                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread")
+                MatchedTraceOutput.found(
+                    out: TraceOutput.random,
+                    trace: (sourceGrid, $0),
+                    threadName: "TestThread"
+                )
             }
-#endif
         return state
     }()
     

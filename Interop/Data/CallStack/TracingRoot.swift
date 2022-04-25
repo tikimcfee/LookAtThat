@@ -6,9 +6,12 @@
 //
 
 import Foundation
-import SwiftTrace
 import SwiftSyntax
 import AppKit
+
+#if !TARGETING_SUI
+import SwiftTrace
+#endif
 
 class TracingRoot {
     static var shared = TracingRoot()
@@ -19,7 +22,12 @@ class TracingRoot {
         
     }
     
+    func onLog(_ out: TraceOutput) {
+        logOutput.append((out, String(describing: Thread.current)))
+    }
+    
     func setupTracing() {
+#if !TARGETING_SUI
         SwiftTrace.logOutput.onOutput = onLog(_:)
         SwiftTrace.swiftDecorateArgs.onEntry = false
         SwiftTrace.swiftDecorateArgs.onExit = false
@@ -47,50 +55,6 @@ class TracingRoot {
             let parser = SwiftTrace.interpose(aType: $0)
             print("interposed '\($0)': \(parser)")
         }
-    }
-    
-    func onLog(_ out: TraceOutput) {
-        logOutput.append((out, String(describing: Thread.current)))
-    }
-}
-
-extension TraceOutput {
-    private static let Module = "LookAtThat_AppKit."
-    private static let CallSeparator = " -> "
-    private static let TypeSeparator = " : "
-    
-    var name: String {
-        switch self {
-        case .entry: return "-> "
-        case .exit:  return "<- "
-        }
-    }
-    
-    func cleanFunction(_ rawFunction: String) -> String {
-        let argIndex = rawFunction.firstIndex(of: "(") ?? rawFunction.endIndex
-        let strippedArgs = rawFunction.prefix(upTo: argIndex)
-        return String(strippedArgs)
-    }
-    
-    func cleanModule(_ line: String) -> String {
-        line.replacingOccurrences(of: Self.Module, with: "")
-    }
-    
-    var callComponents: (callPath: String, returnType: String) {
-        let splitFunction = decorated.components(separatedBy: Self.CallSeparator)
-        if splitFunction.count == 2 {
-            let rawFunction = splitFunction[0]
-            let strippedArgs = cleanModule(
-                cleanFunction(rawFunction)
-            )
-            return (String(strippedArgs), splitFunction[1])
-        }
-        
-        let splitField = decorated.components(separatedBy: Self.TypeSeparator)
-        if splitField.count == 2 {
-            return (cleanModule(splitField[0]), splitField[1])
-        }
-        
-        return (decorated, "")
+#endif
     }
 }

@@ -6,7 +6,10 @@
 //
 
 import Foundation
+
+#if !TARGETING_SUI
 import SwiftTrace
+#endif
 
 class SemanticMapTracer {
     private var sourceGrids: [CodeGrid]
@@ -26,7 +29,7 @@ extension SemanticMapTracer {
     static func start(
         sourceGrids: [CodeGrid],
         sourceTracer: TracingRoot
-    ) -> [TracedInfo] {
+    ) -> [MatchedTraceOutput] {
         SemanticMapTracer(
             sourceGrids: sourceGrids,
             sourceTracer: sourceTracer
@@ -45,7 +48,7 @@ extension SemanticMapTracer {
 }
 
 extension SemanticMapTracer {
-    func lookupInfo(_ trace: (TraceOutput, String)) -> TracedInfo? {
+    func lookupInfo(_ trace: (TraceOutput, String)) -> MatchedTraceOutput? {
         if let firstMatch = findPossibleSemanticMatches(trace.0).first {
             return .found(
                 out: trace.0,
@@ -58,8 +61,8 @@ extension SemanticMapTracer {
 }
 
 extension SemanticMapTracer {
-    private func buildTracedInfoList() -> [TracedInfo] {
-        var tracedInfo = [TracedInfo]()
+    private func buildTracedInfoList() -> [MatchedTraceOutput] {
+        var tracedInfo = [MatchedTraceOutput]()
         tracedInfo.reserveCapacity(sourceTracer.logOutput.count)
         
         for output in sourceTracer.logOutput.values {

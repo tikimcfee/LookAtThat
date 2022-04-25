@@ -222,13 +222,13 @@ func helloWorld() {
     
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
-        #if TARGETING_SUI
-        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
-            .filter { !$0.callStackName.isEmpty }
-            .map {
-                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
-            }
-        #endif
+//        #if TARGETING_SUI
+//        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+//            .filter { !$0.callStackName.isEmpty }
+//            .map {
+//                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
+//            }
+//        #endif
         return state
     }()
 

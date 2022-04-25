@@ -16,6 +16,7 @@
 		B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */; };
 		B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */; };
@@ -197,6 +198,7 @@
 		B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
 		B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
+		B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233A2815265300F6F727 /* SemanticMapTracer.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
@@ -1572,6 +1574,7 @@
 				B74A22C52814FFF300F6F727 /* SceneKit+BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
+				B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */,
 				B74A22C82814FFF300F6F727 /* GCDConcurrentArray.swift in Sources */,
 				B74A22C92814FFF300F6F727 /* HitTestEvaluator.swift in Sources */,
 				B74A22CA2814FFF300F6F727 /* FocusBoxControl.swift in Sources */,
@@ -1613,6 +1616,7 @@
 				B74A22ED2814FFF300F6F727 /* ControlleriOSInputCompat.swift in Sources */,
 				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
 				B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */,
+				B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */,
 				B74A22F02814FFF300F6F727 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,

@@ -10,14 +10,30 @@ import Foundation
 #if !TARGETING_SUI
 import SwiftTrace
 #else
-struct TraceOutput {
+enum TraceOutput {
+    case entry(invocation: String, method: Method?, decorated: String, subLog: Bool)
+    case exit (invocation: String, method: Method?, decorated: String, subLog: Bool)
+    public var decorated: String {
+        switch self {
+        case .entry(_, _, let decorated, _): return decorated
+        case .exit(_, _, let decorated, _): return decorated
+        }
+    }
     
+    static var random: TraceOutput {
+        switch Bool.random() {
+        case true:
+            return .entry(invocation: "Invocation \(Int.random(in: 0...100))", method: nil, decorated: "helloWorld()", subLog: Bool.random())
+        case false:
+            return .exit(invocation: "Invocation_X \(Int.random(in: 100...200))", method: nil, decorated: "peaceWorld()", subLog: Bool.random())
+        }
+    }
 }
 #endif
 
 typealias TraceValue = (grid: CodeGrid, info: SemanticInfo)
 
-enum TracedInfo {
+enum MatchedTraceOutput {
     case missing(
         out: TraceOutput,
         threadName: String,
@@ -32,8 +48,8 @@ enum TracedInfo {
     )
 }
 
-extension TracedInfo: Identifiable, Hashable {
-    static func == (lhs: TracedInfo, rhs: TracedInfo) -> Bool {
+extension MatchedTraceOutput: Identifiable, Hashable {
+    static func == (lhs: MatchedTraceOutput, rhs: MatchedTraceOutput) -> Bool {
         lhs.id == rhs.id
     }
     
@@ -44,7 +60,7 @@ extension TracedInfo: Identifiable, Hashable {
     
 }
 
-extension TracedInfo {
+extension MatchedTraceOutput {
     var out: TraceOutput {
         switch self {
         case let .missing(out, _, _): return out
@@ -78,5 +94,46 @@ extension TracedInfo {
         case let .found(_, trace, _, _): return trace.info
         default: return nil
         }
+    }
+}
+
+extension TraceOutput {
+    private static let Module = "LookAtThat_AppKit."
+    private static let CallSeparator = " -> "
+    private static let TypeSeparator = " : "
+    
+    var name: String {
+        switch self {
+        case .entry: return "-> "
+        case .exit:  return "<- "
+        }
+    }
+    
+    func cleanFunction(_ rawFunction: String) -> String {
+        let argIndex = rawFunction.firstIndex(of: "(") ?? rawFunction.endIndex
+        let strippedArgs = rawFunction.prefix(upTo: argIndex)
+        return String(strippedArgs)
+    }
+    
+    func cleanModule(_ line: String) -> String {
+        line.replacingOccurrences(of: Self.Module, with: "")
+    }
+    
+    var callComponents: (callPath: String, returnType: String) {
+        let splitFunction = decorated.components(separatedBy: Self.CallSeparator)
+        if splitFunction.count == 2 {
+            let rawFunction = splitFunction[0]
+            let strippedArgs = cleanModule(
+                cleanFunction(rawFunction)
+            )
+            return (String(strippedArgs), splitFunction[1])
+        }
+        
+        let splitField = decorated.components(separatedBy: Self.TypeSeparator)
+        if splitField.count == 2 {
+            return (cleanModule(splitField[0]), splitField[1])
+        }
+        
+        return (decorated, "")
     }
 }
