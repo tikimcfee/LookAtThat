@@ -69,7 +69,7 @@ extension TracingRoot {
 
 typealias ThreadStorageType = NSMutableArray
 typealias ThreadStorageTypeDowncast = NSArray
-typealias ThreadStorageTuple = (TraceOutput, Thread)
+typealias ThreadStorageTuple = (TraceOutput, Thread, queueName: String)
 
 extension Thread {
     private static let logStorage = ConcurrentDictionary<Thread, ThreadStorageType>()
@@ -82,14 +82,17 @@ extension Thread {
         
     static func storeTraceLog(_ output: TraceOutput) {
         let thread = Thread.current
-        let tuple = (output, thread)
+        let tuple = (output, thread, thread.queueName)
 
         let outputStore = logStorage[thread] ?? {
             let type = ThreadStorageType()
             logStorage[thread] = type
             return type
         }()
-        outputStore.add(tuple)
+        
+        // re-cast avoids headaches bad insertions in untyped NSMutableArray
+        let safeTuple = tuple as ThreadStorageTuple
+        outputStore.add(safeTuple)
     }
     
     var threadName: String {
@@ -98,7 +101,8 @@ extension Thread {
         } else if let threadName = Thread.current.name, !threadName.isEmpty {
             return threadName
         } else {
-            return ThreadInfoExtract.from(description).number
+            let info = ThreadInfoExtract.from(description)
+            return info.number
         }
     }
     

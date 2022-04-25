@@ -84,7 +84,9 @@ struct SemanticTracingOutView: View {
                     .background(state.isCurrent(thread)
                                 ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
                                 : Color.gray.opacity(0.1))
-                    .onTapGesture { state.focusedThread = thread }
+                    .onTapGesture {
+                        state.focusedThread = thread
+                    }
             }
             .overlay(Rectangle().stroke(Color.gray))
         }
@@ -93,22 +95,17 @@ struct SemanticTracingOutView: View {
     @ViewBuilder
     func makeFocusedTraceRows() -> some View {
         VStack(alignment: .leading) {
-            ForEach(state.focusContext, id: \.self) { info in
+            ForEach(state.focusContext, id: \.id) { info in
                 switch info {
-                case let .found(output, matchedTrace, thread, _) where state.isCurrent(info):
-                    makeTextRow(matchedTrace, output, thread, true)
-                        .background(Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0))
+                case let .found(output, matchedTrace, thread, queue, _):
+                    makeTextRow(matchedTrace, output, thread, queue, false)
+                        .background(state.isCurrent(info)
+                                    ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
+                                    : Color.clear)
                         .onTapGesture { state.toggleTrace(matchedTrace) }
                     
-                case let .found(output, matchedTrace, thread, _):
-                    makeTextRow(matchedTrace, output, thread, false)
-                        .onTapGesture { state.toggleTrace(matchedTrace) }
-                    
-                case let .missing(out, thread, _):
-                    makeEmptyRow("\(out.name) \(out.callComponents.callPath) \(thread)")
-                    
-                case .none:
-                    makeEmptyRow("...")
+                case let .missing(out, thread, queue, _):
+                    makeEmptyRow("\(out.name) <?> \(out.callComponents.callPath) \(thread)|\(queue)")
                 }
             }
         }
@@ -119,6 +116,7 @@ struct SemanticTracingOutView: View {
         _ traceValue: TraceValue,
         _ output: TraceOutput,
         _ thread: String,
+        _ queue: String,
         _ isCurrent: Bool
     ) -> some View {
         HStack {
@@ -134,8 +132,12 @@ struct SemanticTracingOutView: View {
                 }
             }
             Spacer()
-            Text("\(thread)")
-                .font(Font.system(.callout, design: .monospaced))
+            VStack(alignment: .trailing, spacing: 8.0) {
+                Text("\(thread)")
+                    .font(Font.system(.callout, design: .monospaced))
+                Text("\(queue)")
+                    .font(Font.system(.callout, design: .monospaced))
+            }
         }
         .padding(4)
         .overlay(Rectangle().stroke(Color.gray))
@@ -221,7 +223,8 @@ func helloWorld() {
                 MatchedTraceOutput.found(
                     out: TraceOutput.random,
                     trace: (sourceGrid, $0),
-                    threadName: "TestThread"
+                    threadName: Thread.current.threadName,
+                    queueName: Thread.current.queueName
                 )
             }
 #endif

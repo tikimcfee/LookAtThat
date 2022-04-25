@@ -29,12 +29,11 @@ class SemanticTracingOutState: ObservableObject {
         
     var loggedThreads: [Thread] {
         tracer.capturedLoggingThreads.keys.sorted(by: {
-            $0.queueName < $1.queueName
+            $0.threadName < $1.threadName
         })
-//        return [Thread(), Thread(), Thread(), Thread(), Thread()]
     }
     
-    func logs(for thread: Thread) -> [(TraceOutput, Thread)] {
+    func logs(for thread: Thread) -> [(TraceOutput, Thread, String)] {
         // It's on `thread`, but using it here for now to do other transforms if needed
         return thread.getTraceLogs()
     }
@@ -90,6 +89,8 @@ class SemanticTracingOutState: ObservableObject {
     }
 }
 
+//MARK: - Setup State Changes
+
 extension SemanticTracingOutState {
     func setupTracing() {
         tracer.setupTracing()
@@ -108,6 +109,7 @@ extension SemanticTracingOutState {
 }
 
 //MARK: - View properties
+
 extension SemanticTracingOutState {
     func threadSelectionText(_ thread: Thread) -> String {
         "[\(thread.threadName) | \(thread.queueName)]"
@@ -128,8 +130,9 @@ extension SemanticTracingOutState {
     var nextInfo: MatchedTraceOutput? { self[nextIndex] }
     var nextInfo2: MatchedTraceOutput? { self[nextIndex2] }
     
-    var focusContext: [MatchedTraceOutput?] {
-        [lastInfo2, lastInfo, currentInfo, nextInfo, nextInfo2]
+    var focusContext: [MatchedTraceOutput] {
+        let range = (currentIndex - 2 ..< currentIndex + 2)
+        return [lastInfo2, lastInfo, currentInfo, nextInfo, nextInfo2].compactMap { $0 }
     }
     
     func isCurrent(_ info: MatchedTraceOutput?) -> Bool {

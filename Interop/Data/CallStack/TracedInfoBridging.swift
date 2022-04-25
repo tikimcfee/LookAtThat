@@ -28,6 +28,7 @@ enum MatchedTraceOutput {
     case missing(
         out: TraceOutput,
         threadName: String,
+        queueName: String,
         stamp: String = UUID().uuidString
     )
     
@@ -35,6 +36,7 @@ enum MatchedTraceOutput {
         out: TraceOutput,
         trace: TraceValue,
         threadName: String,
+        queueName: String,
         stamp: String = UUID().uuidString
     )
 }
@@ -54,35 +56,35 @@ extension MatchedTraceOutput: Identifiable, Hashable {
 extension MatchedTraceOutput {
     var out: TraceOutput {
         switch self {
-        case let .missing(out, _, _): return out
-        case let .found(out, _, _, _): return out
+        case let .missing(out, _, _, _): return out
+        case let .found(out, _, _, _, _): return out
         }
     }
     
     var stamp: Self.ID {
         switch self {
-        case let .missing(_, _, stamp): return stamp
-        case let .found(_, _, _, stamp): return stamp
+        case let .missing(_, _, _, stamp): return stamp
+        case let .found(_, _, _, stamp, _): return stamp
         }
     }
     
     var thread: String {
         switch self {
-        case let .missing(_, thread, _): return thread
-        case let .found(_, _, thread, _): return thread
+        case let .missing(_, thread, _, _): return thread
+        case let .found(_, _, thread, _, _): return thread
         }
     }
     
     var maybeTrace: TraceValue? {
         switch self {
-        case let .found(_, trace, _, _): return trace
+        case let .found(_, trace, _, _, _): return trace
         default: return nil
         }
     }
     
     var maybeFoundInfo: SemanticInfo? {
         switch self {
-        case let .found(_, trace, _, _): return trace.info
+        case let .found(_, trace, _, _, _): return trace.info
         default: return nil
         }
     }
