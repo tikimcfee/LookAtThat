@@ -8,61 +8,6 @@
 import Foundation
 import SwiftSyntax
 
-struct SemanticInfo: Hashable, CustomStringConvertible {
-	let node: Syntax
-	let syntaxId: SyntaxIdentifier
-	
-	// Refer to this semantic info by this name; it's displayable
-    var fullTextSearch: String = ""
-    var fileName: String = ""
-	let referenceName: String
-    let callStackName: String
-	let syntaxTypeName: String
-	let color: NSUIColor
-	
-	var description: String {
-		"\(syntaxTypeName)~>[\(referenceName)]"
-	}
-    
-    var isFullTextSearchable: Bool = false
-	
-	init(node: Syntax,
-		 referenceName: String? = nil,
-		 typeName: String? = nil,
-		 color: NSUIColor? = nil,
-         fullTextSearchable: Bool = false,
-         fileName: String? = nil,
-         callStackName: String? = nil
-	) {
-		self.node = node
-		self.syntaxId = node.id
-		self.referenceName = referenceName ?? ""
-		self.syntaxTypeName = typeName ?? String(describing: node.syntaxNodeType)
-		self.color = color ?? CodeGridColors.defaultText
-        self.isFullTextSearchable = fullTextSearchable
-        self.callStackName = callStackName ?? ""
-        if isFullTextSearchable {
-            self.fullTextSearch = node.strippedText
-        }
-        self.fileName = fileName ?? ""
-	}
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(syntaxId.hashValue)
-        hasher.combine(referenceName.hashValue)
-    }
-}
-
-extension SemanticInfo {
-    func iterateReferenceKeys(_ receiver: (String) -> Void) {
-        receiver(referenceName)
-        receiver(referenceName.lowercased())
-        receiver(referenceName.uppercased())
-        
-        referenceName.iterateTrieKeys(receiver: receiver)
-    }
-}
-
 class SemanticInfoBuilder {
 	private let localSemanticCache = SyntaxCache()
 	
@@ -128,26 +73,5 @@ class SemanticInfoBuilder {
 	
 	private subscript(_ node: Syntax) -> SyntaxEnum {
 		get { localSemanticCache[node].nodeEnum }
-	}
-}
-
-
-class CodeGridColors {
-	static let structDecl = color(0.3, 0.2, 0.3, 1.0)
-	static let classDecl = color(0.2, 0.2, 0.4, 1.0)
-	static let functionDecl = color(0.15, 0.15, 0.3, 1.0)
-	static let enumDecl = color(0.1, 0.3, 0.4, 1.0)
-	static let extensionDecl = color(0.2, 0.4, 0.4, 1.0)
-	static let variableDecl = color(0.3, 0.3, 0.3, 1.0)
-	static let typealiasDecl = color(0.5, 0.3, 0.5, 1.0)
-	static let defaultText = color(0.2, 0.2, 0.2, 1.0)
-	
-	static let trivia = color(0.8, 0.8, 0.8, 0.5)
-	
-	static func color(_ red: VectorFloat,
-                      _ green: VectorFloat,
-                      _ blue: VectorFloat,
-                      _ alpha: VectorFloat)  -> NSUIColor {
-        NSUIColor(displayP3Red: red.cg, green: green.cg, blue: blue.cg, alpha: alpha.cg)
 	}
 }

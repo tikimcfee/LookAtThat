@@ -189,6 +189,12 @@
 		B74A233E281526A700F6F727 /* TracedInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracedInfoBridging.swift */; };
 		B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */; };
 		B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */; };
+		B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
+		B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
+		B74A234528161C4600F6F727 /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
+		B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
+		B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
+		B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
@@ -197,7 +203,7 @@
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
-		B77DCAB426781E4F002DF299 /* CallStackAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */; };
+		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B78159DB273E041B00212176 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DA273E041B00212176 /* SwiftSyntax */; };
 		B78159DD273E045000212176 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DC273E045000212176 /* FileKit */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
@@ -511,11 +517,13 @@
 		B74A233A2815265300F6F727 /* SemanticMapTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticMapTracer.swift; sourceTree = "<group>"; };
 		B74A233C2815267E00F6F727 /* TracedInfoBridging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracedInfoBridging.swift; sourceTree = "<group>"; };
 		B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticTracingOutView.swift; sourceTree = "<group>"; };
+		B74A234228161C4600F6F727 /* SemanticInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfo.swift; sourceTree = "<group>"; };
+		B74A234628161C9200F6F727 /* CodeGridColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridColors.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
-		B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackAnalyzer.swift; sourceTree = "<group>"; };
+		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
 		B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Paths.swift"; sourceTree = "<group>"; };
 		B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Rendering.swift"; sourceTree = "<group>"; };
 		B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+WorldEditing.swift"; sourceTree = "<group>"; };
@@ -764,7 +772,7 @@
 		B77DCAB226781E40002DF299 /* CallStack */ = {
 			isa = PBXGroup;
 			children = (
-				B77DCAB326781E4F002DF299 /* CallStackAnalyzer.swift */,
+				B77DCAB326781E4F002DF299 /* TracingRoot.swift */,
 				B74A233C2815267E00F6F727 /* TracedInfoBridging.swift */,
 				B74A233A2815265300F6F727 /* SemanticMapTracer.swift */,
 			);
@@ -779,7 +787,6 @@
 				B7A6F2AC275ED98C004CAA66 /* CodeGrid+Glyphs.swift */,
 				B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */,
 				B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */,
-				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
 			);
 			path = CoreGrid;
 			sourceTree = "<group>";
@@ -972,8 +979,10 @@
 				B732150F275858A800BD5C17 /* Focusing */,
 				B72197242737428B00E1CB60 /* WorldGrid */,
 				B79F930F2750741900E46A96 /* CodeGridCache.swift */,
+				B74A234628161C9200F6F727 /* CodeGridColors.swift */,
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
+				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
 			);
 			path = CodeGrids;
 			sourceTree = "<group>";
@@ -1143,6 +1152,7 @@
 			children = (
 				F057D20025201AEB0094BD83 /* Collections.swift */,
 				453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */,
+				B74A234228161C4600F6F727 /* SemanticInfo.swift */,
 				B73286A62733833C00C9C82A /* FileBrowser.swift */,
 				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
 			);
@@ -1607,6 +1617,7 @@
 				B74A22F52814FFF300F6F727 /* TAPKitLog.swift in Sources */,
 				B74A22F62814FFF300F6F727 /* WordNodes.swift in Sources */,
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
+				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */,
 				B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */,
 				B74A22FA2814FFF300F6F727 /* CodeGrid+Clones.swift in Sources */,
@@ -1614,6 +1625,7 @@
 				B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */,
 				B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */,
 				B74A22FE2814FFF300F6F727 /* CodePagesControllerMacOSCompat.swift in Sources */,
+				B74A234528161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */,
 				B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */,
 				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
@@ -1750,18 +1762,20 @@
 				B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
 				B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */,
+				B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */,
 				B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */,
 				B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */,
 				F057D20125201AEB0094BD83 /* Collections.swift in Sources */,
-				B77DCAB426781E4F002DF299 /* CallStackAnalyzer.swift in Sources */,
+				B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */,
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
 				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				B7C7571E280CEE040005A233 /* RawFingerData.swift in Sources */,
 				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */,
+				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B7C7571A280CEE040005A233 /* Structures.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
 				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
@@ -1796,6 +1810,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
+				B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
 				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
@@ -1835,6 +1850,7 @@
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
+				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,

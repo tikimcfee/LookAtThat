@@ -9,6 +9,7 @@ import SwiftUI
 
 //#if !TARGETING_SUI
 class SemanticTracingOutState: ObservableObject {
+    
     @Published var currentIndex = 0
     @Published var allTracedInfo =  [TracedInfo]()
     

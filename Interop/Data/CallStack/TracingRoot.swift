@@ -13,7 +13,7 @@ import AppKit
 class TracingRoot {
     static var shared = TracingRoot()
     
-    var logOutput = ConcurrentArray<TraceOutput>()
+    var logOutput = ConcurrentArray<(TraceOutput, String)>()
     
     private init() {
         
@@ -30,10 +30,16 @@ class TracingRoot {
             CodeGridParser.self,
             CodeGrid.Measures.self,
             CodeGrid.Renderer.self,
-            CodeGrid.AttributedGlyphs.self,
-            SemanticInfoBuilder.self,
+//            CodeGridSemanticMap.self,
+//            SemanticInfoBuilder.self,
+//            CodeGrid.AttributedGlyphs.self,
+//            CodeGridTokenCache.self,
+//            GlyphLayerCache.self,
+            ConcurrentGridRenderer.self,
             GridCache.self,
-            GlyphLayerCache.self
+            WorkerPool.self,
+            SceneLibrary.self,
+            CodePagesController.self,
         ] as [AnyClass]
         
         types.forEach {
@@ -44,7 +50,7 @@ class TracingRoot {
     }
     
     func onLog(_ out: TraceOutput) {
-        logOutput.append(out)
+        logOutput.append((out, String(describing: Thread.current)))
     }
 }
 

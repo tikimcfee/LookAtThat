@@ -27,8 +27,8 @@ class SemanticMapTracer {
     private var matchedReferenceCache = [String: TraceValue]()
     private lazy var referenceableInfoCache = makeInfoCache()
     
-    init(sourceGrids: [CodeGrid],
-         sourceTracer: TracingRoot) {
+    private init(sourceGrids: [CodeGrid],
+                 sourceTracer: TracingRoot) {
         self.sourceGrids = sourceGrids
         self.sourceTracer = sourceTracer
     }
@@ -37,12 +37,16 @@ class SemanticMapTracer {
         var tracedInfo = [TracedInfo]()
         tracedInfo.reserveCapacity(sourceTracer.logOutput.count)
         
-        for output in sourceTracer.logOutput {
-            switch findPossibleSemanticMatches(output).first {
+        for output in sourceTracer.logOutput.values {
+            switch findPossibleSemanticMatches(output.0).first {
             case .some(let first):
-                tracedInfo.append(.found(out: output, trace: first))
+                tracedInfo.append(.found(
+                    out: output.0,
+                    trace: first,
+                    threadName: output.1
+                ))
             default:
-                //                tracedInfo.append(.missing(out: output))
+//                tracedInfo.append(.missing(out: output))
                 break
             }
         }
@@ -71,6 +75,7 @@ class SemanticMapTracer {
     ) -> TraceValue? {
         if let cached = matchedReferenceCache[callStackName] { return cached }
         
+        // print out all callstack names, see what was found
         //        referenceableInfoCache.forEach { tuple in
         //            tuple.info.forEach { semanticInfo in
         //                print(semanticInfo.callStackName)

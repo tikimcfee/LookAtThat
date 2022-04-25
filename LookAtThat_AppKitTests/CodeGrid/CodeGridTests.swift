@@ -43,6 +43,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testTracing() throws {
         let tracer = TracingRoot.shared
+        tracer.setupTracing()
         
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -53,10 +54,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .sizeGridToContainerNode()
         printEnd()
         
-        SemanticMapTracer.start(
+        let results = SemanticMapTracer.start(
             sourceGrids: [grid],
             sourceTracer: tracer
         )
+        XCTAssertGreaterThan(results.count, 0, "Expected at least 1 trace result")
     }
     
     func testTracingMulti() throws {
