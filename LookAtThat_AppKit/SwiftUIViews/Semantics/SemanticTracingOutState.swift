@@ -13,11 +13,14 @@ import SwiftTrace
 #endif
 
 class SemanticTracingOutState: ObservableObject {
-    @Published var currentIndex = 0
     @Published var isSetup = false
     @Published var isWrapperLoaded = false
     @Published var wrapper: SemanticMapTracer?
-    @Published var focusedThread: Thread?
+    @Published var focusedThread: Thread? { didSet { resetFocus() } }
+    
+    @Published var focusContext = [MatchedTraceOutput]()
+    private var focusTrace: MatchedTraceOutput?
+    @Published var currentIndex = 0
     
     @Published var isAutoPlaying = false
     @Published var interval = 1000.0
@@ -59,18 +62,17 @@ class SemanticTracingOutState: ObservableObject {
     
     func increment() {
         currentIndex += 1
-        zoomTrace(currentInfo?.maybeTrace)
+        zoomTrace(self[currentIndex]?.maybeTrace)
+        resetFocus()
     }
     
     func decrement() {
         currentIndex -= 1
-        zoomTrace(currentInfo?.maybeTrace)
+        zoomTrace(self[currentIndex]?.maybeTrace)
+        resetFocus()
     }
     
-    func toggleTrace(_ trace: TraceValue?) {
-        guard let trace = trace else {
-            return
-        }
+    func toggleTrace(_ trace: TraceValue) {
         trace.grid.toggleGlyphs()
         SceneLibrary.global.codePagesController.selected(
             id: trace.info.syntaxId,
@@ -86,6 +88,27 @@ class SemanticTracingOutState: ObservableObject {
             id: trace.info.syntaxId,
             in: trace.grid
         )
+    }
+    
+    func resetFocus() {
+        // lookahead and skip repeated cache entries
+        var last: MatchedTraceOutput?
+        var newFocusTrace: MatchedTraceOutput?
+        let startIndex = currentIndex
+        let compacted = (startIndex ..< startIndex + 64)
+            .lazy
+            .compactMap { focusIndex -> MatchedTraceOutput? in
+                guard let matchAtIndex = self[focusIndex] else { return nil }
+                if last?.maybeFoundInfo?.syntaxId == matchAtIndex.maybeFoundInfo?.syntaxId { return nil }
+                if newFocusTrace == nil {
+                    newFocusTrace = matchAtIndex
+                }
+                last = matchAtIndex
+                return matchAtIndex
+            }
+            .prefix(11) // is this an off by 1 error at Apple?
+        self.focusTrace = newFocusTrace
+        self.focusContext = Array(compacted)
     }
 }
 
@@ -119,24 +142,10 @@ extension SemanticTracingOutState {
 //MARK: - Index Convencience
 
 extension SemanticTracingOutState {
-    private var lastIndex2: Int { currentIndex - 2 }
-    private var lastIndex: Int { currentIndex - 1 }
-    private var nextIndex: Int { currentIndex + 1 }
-    private var nextIndex2: Int { currentIndex + 2 }
-    
-    var lastInfo2: MatchedTraceOutput? { self[lastIndex2] }
-    var lastInfo: MatchedTraceOutput? { self[lastIndex] }
-    var currentInfo: MatchedTraceOutput? { self[currentIndex] }
-    var nextInfo: MatchedTraceOutput? { self[nextIndex] }
-    var nextInfo2: MatchedTraceOutput? { self[nextIndex2] }
-    
-    var focusContext: [MatchedTraceOutput] {
-        let range = (currentIndex - 2 ..< currentIndex + 2)
-        return [lastInfo2, lastInfo, currentInfo, nextInfo, nextInfo2].compactMap { $0 }
-    }
     
     func isCurrent(_ info: MatchedTraceOutput?) -> Bool {
-        return info?.id == currentInfo?.id
+        return info?.maybeFoundInfo?.syntaxId
+            == focusTrace?.maybeFoundInfo?.syntaxId
     }
     
     func isCurrent(_ thread: Thread?) -> Bool {

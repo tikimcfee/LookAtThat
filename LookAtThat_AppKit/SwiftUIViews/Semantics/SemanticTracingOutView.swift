@@ -27,7 +27,7 @@ struct SemanticTracingOutView: View {
             }
         }
         .padding()
-        .frame(maxWidth: 480)
+        .frame(maxWidth: 560)
     }
     
     @ViewBuilder
@@ -105,7 +105,7 @@ struct SemanticTracingOutView: View {
                         .onTapGesture { state.toggleTrace(matchedTrace) }
                     
                 case let .missing(out, thread, queue, _):
-                    makeEmptyRow("\(out.name) <?> \(out.callComponents.callPath) \(thread)|\(queue)")
+                    makeEmptyRow("\(out.name) <?> \(out.callComponents.callPath) \t \(thread)|\(queue)")
                 }
             }
         }
@@ -123,12 +123,14 @@ struct SemanticTracingOutView: View {
             VStack(alignment: .leading, spacing: 8.0) {
                 Text("\(output.name) \(output.callComponents.callPath)")
                     .font(Font.system(.body, design: .monospaced))
+                    .lineLimit(1)
                 
                 if (isCurrent) {
 //                    Text("\(traceValue.info.referenceName)")
 //                        .font(Font.system(.footnote, design: .monospaced))
                     Text("\(traceValue.grid.fileName.isEmpty ? "..." : traceValue.grid.fileName)")
                         .font(Font.system(.footnote, design: .monospaced))
+                        .lineLimit(1)
                 }
             }
             Spacer()

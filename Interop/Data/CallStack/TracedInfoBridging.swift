@@ -64,7 +64,7 @@ extension MatchedTraceOutput {
     var stamp: Self.ID {
         switch self {
         case let .missing(_, _, _, stamp): return stamp
-        case let .found(_, _, _, stamp, _): return stamp
+        case let .found(_, _, _, _, stamp): return stamp
         }
     }
     

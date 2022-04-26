@@ -24,6 +24,15 @@ struct SourceInfoPanelView: View {
     
     var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
     
+//    // I have absolutely no idea how this works. The window is retained somehow and not recreated?
+//    // So the onAppear only creates a single window and view, apparently.
+//    var metaWindowContainer = NSWindow(
+//        contentRect: NSRect(x: 0, y: 0, width: 480, height: 600),
+//        styleMask: [.fullSizeContentView, .titled],
+//        backing: .buffered,
+//        defer: false
+//    )
+    
     var body: some View {
         return VStack {
             HStack(alignment: .top) {
@@ -63,6 +72,11 @@ struct SourceInfoPanelView: View {
                 .stroke(Color.gray)
         )
         .padding(8)
+//        .onAppear {
+//            let windowView = SemanticTracingOutView(state: tracingState)
+//            self.metaWindowContainer.contentView = NSHostingView(rootView: windowView)
+//            self.metaWindowContainer.makeKeyAndOrderFront(nil)
+//        }
     }
     
     @ViewBuilder
