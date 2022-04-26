@@ -95,17 +95,17 @@ struct SemanticTracingOutView: View {
     @ViewBuilder
     func makeFocusedTraceRows() -> some View {
         VStack(alignment: .leading) {
-            ForEach(state.focusContext, id: \.id) { info in
-                switch info {
-                case let .found(output, matchedTrace, thread, queue, _):
-                    makeTextRow(matchedTrace, output, thread, queue, false)
-                        .background(state.isCurrent(info)
+            ForEach(state.focusContext, id: \.id) { match in
+                switch match {
+                case let .found(found):
+                    makeTextRow(match, found)
+                        .background(state.isCurrent(match)
                                     ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
                                     : Color.clear)
-                        .onTapGesture { state.toggleTrace(matchedTrace) }
+                        .onTapGesture { state.toggleTrace(found.trace) }
                     
-                case let .missing(out, thread, queue, _):
-                    makeEmptyRow("\(out.name) <?> \(out.callComponents.callPath) \t \(thread)|\(queue)")
+                case let .missing(missing):
+                    makeEmptyRow("\(missing.out.name) <?> \(missing.out.callComponents.callPath) \t \(missing.threadName)|\(missing.queueName)")
                 }
             }
         }
@@ -113,31 +113,28 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeTextRow(
-        _ traceValue: TraceValue,
-        _ output: TraceOutput,
-        _ thread: String,
-        _ queue: String,
-        _ isCurrent: Bool
+        _ source: MatchedTraceOutput,
+        _ found: MatchedTraceOutput.Found
     ) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 8.0) {
-                Text("\(output.name) \(output.callComponents.callPath)")
+                Text("\(found.out.name) \(found.out.callComponents.callPath)")
                     .font(Font.system(.body, design: .monospaced))
                     .lineLimit(1)
                 
-                if (isCurrent) {
+                if (state.isCurrent(source)) {
 //                    Text("\(traceValue.info.referenceName)")
 //                        .font(Font.system(.footnote, design: .monospaced))
-                    Text("\(traceValue.grid.fileName.isEmpty ? "..." : traceValue.grid.fileName)")
+                    Text("\(found.trace.grid.fileName.isEmpty ? "..." : found.trace.grid.fileName)")
                         .font(Font.system(.footnote, design: .monospaced))
                         .lineLimit(1)
                 }
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 8.0) {
-                Text("\(thread)")
+                Text("\(found.threadName)")
                     .font(Font.system(.callout, design: .monospaced))
-                Text("\(queue)")
+                Text("\(found.queueName)")
                     .font(Font.system(.callout, design: .monospaced))
             }
         }

@@ -92,23 +92,43 @@ class SemanticTracingOutState: ObservableObject {
     
     func resetFocus() {
         // lookahead and skip repeated cache entries
-        var last: MatchedTraceOutput?
         var newFocusTrace: MatchedTraceOutput?
-        let startIndex = currentIndex
-        let compacted = (startIndex ..< startIndex + 64)
-            .lazy
-            .compactMap { focusIndex -> MatchedTraceOutput? in
-                guard let matchAtIndex = self[focusIndex] else { return nil }
-                if last?.maybeFoundInfo?.syntaxId == matchAtIndex.maybeFoundInfo?.syntaxId { return nil }
-                if newFocusTrace == nil {
-                    newFocusTrace = matchAtIndex
-                }
-                last = matchAtIndex
-                return matchAtIndex
+        var final = [MatchedTraceOutput]()
+        let lookAheadMax = 128
+        let goalSize = 10
+        var offset = 0
+        
+        while offset < lookAheadMax && final.count < goalSize {
+            defer {
+                offset += 1
+//                print("\t\tNew offset: \(offset)")
             }
-            .prefix(11) // is this an off by 1 error at Apple?
+            
+            let focusIndex = currentIndex + offset
+            
+            guard let matchAtIndex = self[focusIndex] else {
+//                print("Missing: \(focusIndex)")
+                continue
+            }
+            
+            if let localLast = final.last,
+               localLast.out.callComponents.callPath == matchAtIndex.out.callComponents.callPath
+            {
+//                print("Skip: \(matchAtIndex.out.name) \(matchAtIndex.out.callComponents.callPath)")
+                continue
+            }
+            
+            if newFocusTrace == nil {
+                newFocusTrace = matchAtIndex
+//                print("Set focus: \(matchAtIndex.out.callComponents.callPath)")
+            }
+            
+//            print("Found for focus: \(matchAtIndex.out.callComponents.callPath)")
+            final.append(matchAtIndex)
+        }
+        
         self.focusTrace = newFocusTrace
-        self.focusContext = Array(compacted)
+        self.focusContext = final
     }
 }
 

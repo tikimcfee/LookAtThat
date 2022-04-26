@@ -25,20 +25,23 @@ enum TraceOutput {
 typealias TraceValue = (grid: CodeGrid, info: SemanticInfo)
 
 enum MatchedTraceOutput {
-    case missing(
-        out: TraceOutput,
-        threadName: String,
-        queueName: String,
-        stamp: String = UUID().uuidString
-    )
+    case missing(Missing)
+    case found(Found)
     
-    case found(
-        out: TraceOutput,
-        trace: TraceValue,
-        threadName: String,
-        queueName: String,
-        stamp: String = UUID().uuidString
-    )
+    struct Missing {
+        let out: TraceOutput
+        let threadName: String
+        let queueName: String
+        let stamp: String = UUID().uuidString
+    }
+    
+    struct Found {
+        let out: TraceOutput
+        let trace: TraceValue
+        let threadName: String
+        let queueName: String
+        let stamp: String = UUID().uuidString
+    }
 }
 
 extension MatchedTraceOutput: Identifiable, Hashable {
@@ -56,35 +59,42 @@ extension MatchedTraceOutput: Identifiable, Hashable {
 extension MatchedTraceOutput {
     var out: TraceOutput {
         switch self {
-        case let .missing(out, _, _, _): return out
-        case let .found(out, _, _, _, _): return out
+        case let .missing(missing): return missing.out
+        case let .found(found): return found.out
         }
     }
     
     var stamp: Self.ID {
         switch self {
-        case let .missing(_, _, _, stamp): return stamp
-        case let .found(_, _, _, _, stamp): return stamp
+        case let .missing(missing): return missing.stamp
+        case let .found(found): return found.stamp
         }
     }
     
     var thread: String {
         switch self {
-        case let .missing(_, thread, _, _): return thread
-        case let .found(_, _, thread, _, _): return thread
+        case let .missing(missing): return missing.threadName
+        case let .found(found): return found.threadName
+        }
+    }
+    
+    var queue: String {
+        switch self {
+        case let .missing(missing): return missing.queueName
+        case let .found(found): return found.queueName
         }
     }
     
     var maybeTrace: TraceValue? {
         switch self {
-        case let .found(_, trace, _, _, _): return trace
+        case let .found(found): return found.trace
         default: return nil
         }
     }
     
     var maybeFoundInfo: SemanticInfo? {
         switch self {
-        case let .found(_, trace, _, _, _): return trace.info
+        case let .found(found): return found.trace.info
         default: return nil
         }
     }

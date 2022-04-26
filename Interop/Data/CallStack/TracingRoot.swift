@@ -82,15 +82,19 @@ extension Thread {
         
     static func storeTraceLog(_ output: TraceOutput) {
         let thread = Thread.current
-        let tuple = (output, thread, thread.queueName)
-
         let outputStore = logStorage[thread] ?? {
             let type = ThreadStorageType()
             logStorage[thread] = type
             return type
         }()
         
-        // re-cast avoids headaches bad insertions in untyped NSMutableArray
+        if let last = outputStore.lastObject as? ThreadStorageTuple,
+           last.0.decorated == output.decorated {
+            return
+        }
+        
+        // re-cast avoids headache with bad insertions in untyped NSMutableArray
+        let tuple = (output, thread, thread.queueName)
         let safeTuple = tuple as ThreadStorageTuple
         outputStore.add(safeTuple)
     }
