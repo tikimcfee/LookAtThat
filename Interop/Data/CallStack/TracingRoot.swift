@@ -69,7 +69,7 @@ extension TracingRoot {
 
 typealias ThreadStorageType = NSMutableArray
 typealias ThreadStorageTypeDowncast = NSArray
-typealias ThreadStorageTuple = (TraceOutput, Thread, queueName: String)
+typealias ThreadStorageTuple = (out: TraceOutput, thread: Thread, queueName: String)
 
 extension Thread {
     private static let logStorage = ConcurrentDictionary<Thread, ThreadStorageType>()
@@ -94,7 +94,7 @@ extension Thread {
         }
         
         // re-cast avoids headache with bad insertions in untyped NSMutableArray
-        let tuple = (output, thread, thread.queueName)
+        let tuple = (output, thread, queueName)
         let safeTuple = tuple as ThreadStorageTuple
         outputStore.add(safeTuple)
     }
@@ -109,16 +109,16 @@ extension Thread {
             return info.number
         }
     }
-    
-    var queueName: String {
-        if let queueName = String(validatingUTF8: __dispatch_queue_get_label(nil)) {
-            return queueName
-        } else if let operationQueueName = OperationQueue.current?.name, !operationQueueName.isEmpty {
-            return operationQueueName
-        } else if let dispatchQueueName = OperationQueue.current?.underlyingQueue?.label, !dispatchQueueName.isEmpty {
-            return dispatchQueueName
-        } else {
-            return "n/a"
-        }
+}
+
+private var queueName: String {
+    if let queueName = String(validatingUTF8: __dispatch_queue_get_label(nil)) {
+        return queueName
+    } else if let operationQueueName = OperationQueue.current?.name, !operationQueueName.isEmpty {
+        return operationQueueName
+    } else if let dispatchQueueName = OperationQueue.current?.underlyingQueue?.label, !dispatchQueueName.isEmpty {
+        return dispatchQueueName
+    } else {
+        return "n/a"
     }
 }

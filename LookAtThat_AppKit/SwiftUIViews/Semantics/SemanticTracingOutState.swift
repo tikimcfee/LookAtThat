@@ -111,9 +111,7 @@ class SemanticTracingOutState: ObservableObject {
                 continue
             }
             
-            if let localLast = final.last,
-               localLast.out.callComponents.callPath == matchAtIndex.out.callComponents.callPath
-            {
+            if final.last?.out.callComponents.callPath == matchAtIndex.out.callComponents.callPath {
 //                print("Skip: \(matchAtIndex.out.name) \(matchAtIndex.out.callComponents.callPath)")
                 continue
             }
@@ -151,14 +149,6 @@ extension SemanticTracingOutState {
     }
 }
 
-//MARK: - View properties
-
-extension SemanticTracingOutState {
-    func threadSelectionText(_ thread: Thread) -> String {
-        "[\(thread.threadName) | \(thread.queueName)]"
-    }
-}
-
 //MARK: - Index Convencience
 
 extension SemanticTracingOutState {
@@ -190,6 +180,7 @@ extension SemanticTracingOutState {
 }
 
 // MARK: - Lookup Cache
+
 // Pass through index to use the easy cache semantics.
 private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
     let sourceState: SemanticTracingOutState
@@ -208,13 +199,14 @@ private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
 }
 
 // MARK: - Subscripting
+
 #if TARGETING_SUI
 extension SemanticTracingOutState {
     static var randomTestData = [MatchedTraceOutput]()
     subscript(_ index: Int) -> MatchedTraceOutput? {
         return Self.randomTestData.indices.contains(index)
-        ? Self.randomTestData[index]
-        : nil
+            ? Self.randomTestData[index]
+            : nil
     }
 }
 #else

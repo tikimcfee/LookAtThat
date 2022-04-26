@@ -55,19 +55,19 @@ class ThreadInfoExtract {
 }
 
 extension SemanticMapTracer {
-    func lookupInfo(_ trace: (TraceOutput, Thread, String)) -> MatchedTraceOutput {
-        if let firstMatch = findPossibleSemanticMatches(trace.0).first {
+    func lookupInfo(_ tuple: ThreadStorageTuple) -> MatchedTraceOutput {
+        if let firstMatch = findPossibleSemanticMatches(tuple.out).first {
             return .found(.init(
-                out: trace.0,
+                out: tuple.out,
                 trace: firstMatch,
-                threadName: trace.1.threadName,
-                queueName: trace.1.queueName
+                threadName: tuple.thread.threadName,
+                queueName: tuple.queueName
             ))
         } else {
             return .missing(.init(
-                out: trace.0,
-                threadName: trace.1.threadName,
-                queueName: trace.1.queueName
+                out: tuple.out,
+                threadName: tuple.thread.threadName,
+                queueName: tuple.queueName
             ))
         }
     }

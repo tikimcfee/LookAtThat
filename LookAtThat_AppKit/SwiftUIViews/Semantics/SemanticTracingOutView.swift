@@ -27,7 +27,7 @@ struct SemanticTracingOutView: View {
             }
         }
         .padding()
-        .frame(maxWidth: 560)
+        .frame(maxWidth: 480, maxHeight: 540)
     }
     
     @ViewBuilder
@@ -78,12 +78,10 @@ struct SemanticTracingOutView: View {
                 .padding(4.0)
             
             ForEach(state.loggedThreads, id: \.hash) { thread in
-                Text(state.threadSelectionText(thread))
+                Text("[ \(thread.threadName) ]")
                     .font(Font.system(.body, design: .monospaced))
                     .padding(4.0)
-                    .background(state.isCurrent(thread)
-                                ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
-                                : Color.gray.opacity(0.1))
+                    .background(threadColor(thread))
                     .onTapGesture {
                         state.focusedThread = thread
                     }
@@ -94,21 +92,37 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeFocusedTraceRows() -> some View {
-        VStack(alignment: .leading) {
+        List {
             ForEach(state.focusContext, id: \.id) { match in
                 switch match {
                 case let .found(found):
                     makeTextRow(match, found)
-                        .background(state.isCurrent(match)
-                                    ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
-                                    : Color.clear)
                         .onTapGesture { state.toggleTrace(found.trace) }
+                        .listRowInsets(.none)
+                        .listRowBackground(matchColor(match))
                     
                 case let .missing(missing):
-                    makeEmptyRow("\(missing.out.name) <?> \(missing.out.callComponents.callPath) \t \(missing.threadName)|\(missing.queueName)")
+                    makeEmptyRow("""
+                    \(missing.out.name) <?> \(missing.out.callComponents.callPath)
+                    \(missing.threadName)|\(missing.queueName)
+                    """)
+                    .listRowInsets(.none)
                 }
             }
-        }
+            .overlay(Rectangle().stroke(Color.gray))
+        }.listStyle(.plain)
+    }
+    
+    func matchColor(_ match: MatchedTraceOutput) -> Color {
+        state.isCurrent(match)
+            ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 0.4)
+            : Color.clear
+    }
+    
+    func threadColor(_ thread: Thread) -> Color {
+        state.isCurrent(thread)
+            ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
+            : Color.gray.opacity(0.1)
     }
     
     @ViewBuilder
@@ -117,21 +131,23 @@ struct SemanticTracingOutView: View {
         _ found: MatchedTraceOutput.Found
     ) -> some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8.0) {
+            VStack(alignment: .leading) {
                 Text("\(found.out.name) \(found.out.callComponents.callPath)")
                     .font(Font.system(.body, design: .monospaced))
                     .lineLimit(1)
                 
                 if (state.isCurrent(source)) {
-//                    Text("\(traceValue.info.referenceName)")
-//                        .font(Font.system(.footnote, design: .monospaced))
-                    Text("\(found.trace.grid.fileName.isEmpty ? "..." : found.trace.grid.fileName)")
+                    Text("\(found.trace.info.referenceName)")
+                        .font(Font.system(.footnote, design: .monospaced))
+                        .lineLimit(1)
+                    
+                    Text("\(found.trace.grid.fileName.isEmpty ? "No filename" : found.trace.grid.fileName)")
                         .font(Font.system(.footnote, design: .monospaced))
                         .lineLimit(1)
                 }
             }
             Spacer()
-            VStack(alignment: .trailing, spacing: 8.0) {
+            VStack(alignment: .trailing) {
                 Text("\(found.threadName)")
                     .font(Font.system(.callout, design: .monospaced))
                 Text("\(found.queueName)")
@@ -139,8 +155,7 @@ struct SemanticTracingOutView: View {
             }
         }
         .padding(4)
-        .overlay(Rectangle().stroke(Color.gray))
-        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+//        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
     }
     
     @ViewBuilder
@@ -148,12 +163,12 @@ struct SemanticTracingOutView: View {
         _ text: String
     ) -> some View {
         HStack {
-            Text(text).font(Font.system(.caption, design: .monospaced))
+            Text(text)
+                .font(Font.system(.caption, design: .monospaced))
             Spacer()
         }
         .padding(4)
-        .overlay(Rectangle().stroke(Color.gray))
-        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+//        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
     }
     
     func forward() {
@@ -213,20 +228,26 @@ func helloWorld() {
         (0...10).forEach { _ in
             Thread.storeTraceLog(TraceOutput.random)
         }
-        state.prepareQueryWrapper()
-        
 #if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
-                MatchedTraceOutput.found(
+                Bool.random()
+                ? .found(MatchedTraceOutput.Found(
                     out: TraceOutput.random,
                     trace: (sourceGrid, $0),
                     threadName: Thread.current.threadName,
-                    queueName: Thread.current.queueName
-                )
+                    queueName: "MainThread"
+                ))
+                : .missing(MatchedTraceOutput.Missing(
+                    out: TraceOutput.random,
+                    threadName: "Thread.current.threadName",
+                    queueName: "NoQueueTestz"
+                ))
             }
 #endif
+        state.prepareQueryWrapper()
+        state.focusedThread = Thread.current
         return state
     }()
     
