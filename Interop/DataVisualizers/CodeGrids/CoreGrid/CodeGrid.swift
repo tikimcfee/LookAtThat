@@ -44,7 +44,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
-    private var showingRawGlyphs = false
+    private(set) var showingRawGlyphs = false
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache

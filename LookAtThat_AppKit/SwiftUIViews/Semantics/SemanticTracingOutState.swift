@@ -84,7 +84,8 @@ class SemanticTracingOutState: ObservableObject {
         guard let trace = trace else {
             return
         }
-        SceneLibrary.global.codePagesController.zoom(
+        
+        SceneLibrary.global.codePagesController.moveExecutionPointer(
             id: trace.info.syntaxId,
             in: trace.grid
         )

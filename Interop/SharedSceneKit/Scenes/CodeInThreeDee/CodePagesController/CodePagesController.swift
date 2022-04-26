@@ -20,6 +20,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     @Published var hoveredToken: String = ""
     @Published var hoveredInfo: CodeGridSemanticMap?
     @Published var hoveredGrid: CodeGrid?
+    lazy var pointerNode: SCNNode = makePointerNode()
 
 	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
     lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
@@ -81,6 +82,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
         codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
 #else
         sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
+        rootGrid.translated(
+            dX: -rootGrid.measures.lengthX / 2.0,
+            dY: rootGrid.measures.lengthY / 2.0,
+            dZ: -2000
+        )
 #endif
     }
     
@@ -151,6 +157,43 @@ extension CodePagesController {
     func zoom(id: SyntaxIdentifier, in grid: CodeGrid) {
         sceneTransaction {
             sceneState.cameraNode.worldPosition = grid.rootNode.worldPosition.translated(dZ: 150)
+        }
+    }
+    
+    func makePointerNode() -> SCNNode {
+        let node = SCNNode()
+        node.name = "ExecutionPointer"
+        node.geometry = SCNSphere(radius: 4.0)
+        node.geometry?.materials.first?.diffuse.contents = NSUIColor(red: 0.2, green: 0.8, blue: 0.3, alpha: 1.0)
+        return node
+    }
+    func moveExecutionPointer(id: SyntaxIdentifier, in grid: CodeGrid) {
+        sceneTransaction {
+            if pointerNode.parent == nil {
+                sceneState.rootGeometryNode.addChildNode(pointerNode)
+            }
+            
+            let allCollectedNodes = try? grid.codeGridSemanticInfo.collectAssociatedNodes(id, grid.tokenCache)
+            if let firstNodeSet = allCollectedNodes?.first,
+               let firstNode = firstNodeSet.1.first {
+                
+                pointerNode.worldPosition = grid.rootNode.worldPosition.translated(
+                    dX: firstNode.position.x,
+                    dY: firstNode.position.y,
+                    dZ: firstNode.position.z
+                )
+
+                sceneState.cameraNode.worldPosition = SCNVector3(
+                    x: pointerNode.worldPosition.x,
+                    y: pointerNode.worldPosition.y,
+                    z: sceneState.cameraNode.worldPosition.z
+                )
+                sceneState.cameraNode.look(
+                    at: pointerNode.worldPosition,
+                    up: sceneState.rootGeometryNode.worldUp,
+                    localFront: SCNNode.localFront
+                )
+            }
         }
     }
 

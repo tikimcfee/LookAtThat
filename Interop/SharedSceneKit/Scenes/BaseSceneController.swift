@@ -57,7 +57,7 @@ open class BaseSceneController: SceneControls {
 
     open func makeSceneCamera() -> SCNCamera {
         let camera = SCNCamera()
-        camera.zFar = 4096
+        camera.zFar = 6600
         return camera
     }
 

@@ -11,12 +11,12 @@ import SceneKit
 
 typealias NodeID = String
 typealias NodeSet = Set<SCNNode>
+typealias SortedNodeSet = [SCNNode]
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
 	var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()
 	var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
-	var syntaxIdToTokenNodes = [SyntaxIdentifier: NodeSet]()
     
     var syntaxIdToAssociatedIds = AssociatedSyntaxMap()
 
@@ -39,10 +39,6 @@ extension CodeGridSemanticMap {
 }
 
 extension CodeGridSemanticMap {
-    func tokenNodes(_ syntaxId: SyntaxIdentifier) -> NodeSet? {
-        syntaxIdToTokenNodes[syntaxId]
-    }
-    
     func semanticsFromNodeId(_ nodeId: NodeID?) -> SemanticInfo? {
         guard let nodeId = nodeId,
               let syntaxId = syntaxIDLookupByNodeId[nodeId],
@@ -81,6 +77,28 @@ extension CodeGridSemanticMap {
                 }
             }
         }
+    }
+    
+    func collectAssociatedNodes(
+        _ nodeId: SyntaxIdentifier,
+        _ cache: CodeGridTokenCache
+    ) throws -> [(SemanticInfo, SortedNodeSet)] {
+        func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
+            return left.position.y > right.position.y
+                && left.position.x < right.position.x
+        }
+        
+        var allFound = [(SemanticInfo, SortedNodeSet)]()
+        try forAllNodesAssociatedWith(nodeId, cache, { infoForNodeSet, nodeSet in
+            let sortedTopMost = nodeSet.sorted(by: sortTopLeft)
+            allFound.append((infoForNodeSet, sortedTopMost))
+        })
+        
+        return allFound.sorted(by: { leftTuple, rightTuple in
+            guard let left = leftTuple.1.first else { return false }
+            guard let right = rightTuple.1.first else { return true }
+            return sortTopLeft(left, right)
+        })
     }
     
     func walkToRootFrom(
@@ -172,7 +190,6 @@ extension CodeGridSemanticMap {
     var isEmpty: Bool {
         semanticsLookupBySyntaxId.isEmpty
         && syntaxIDLookupByNodeId.isEmpty
-        && syntaxIdToTokenNodes.isEmpty
         && syntaxIdToAssociatedIds.isEmpty
         && structs.isEmpty
         && classes.isEmpty
