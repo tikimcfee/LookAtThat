@@ -100,11 +100,44 @@ extension MatchedTraceOutput {
     }
 }
 
+// MARK: - Signature cleaning
+
 extension TraceOutput {
-    private static let Module = "LookAtThat_AppKit."
-    private static let CallSeparator = " -> "
-    private static let TypeSeparator = " : "
+    private static let Module = "LookAtThat_AppKit"
+    private static let StopCharacters = CharacterSet(charactersIn: "():")
     
+    static func cleanComponent(_ component: String) -> (String, foundStop: Bool) {
+        var foundStop = false
+        let prefixed = component.prefix(while: { character in
+            foundStop = !character.unicodeScalars.allSatisfy { !StopCharacters.contains($0) }
+            return !foundStop
+        })
+        let trimmed = String(prefixed).trimmingCharacters(in: CharacterSet.whitespaces)
+        return (trimmed, foundStop)
+    }
+    
+    var callComponents: (callPath: String, allComponents: [String]) {
+        var shouldContinue = true
+        var allComponents = [String]()
+        let simplifiedStack = signature
+            .components(separatedBy: ".")
+            .reduce(into: "") { currentPath, component in
+                guard shouldContinue, component != Self.Module else { return }
+                let (cleanedComponent, foundStop) = Self.cleanComponent(component)
+                
+                shouldContinue = !foundStop
+                allComponents.append(cleanedComponent)
+                if currentPath.isEmpty {
+                    currentPath.append(cleanedComponent)
+                } else {
+                    currentPath.append(".\(cleanedComponent)")
+                }
+            }
+        return (simplifiedStack, allComponents)
+    }
+}
+
+extension TraceOutput {
     var name: String {
         switch self {
         case .entry: return "-> "
@@ -126,32 +159,13 @@ extension TraceOutput {
         }
     }
     
-    func cleanFunction(_ rawFunction: String) -> String {
-        let argIndex = rawFunction.firstIndex(of: "(") ?? rawFunction.endIndex
-        let strippedArgs = rawFunction.prefix(upTo: argIndex)
-        return String(strippedArgs)
-    }
-    
-    func cleanModule(_ line: String) -> String {
-        line.replacingOccurrences(of: Self.Module, with: "")
-    }
-    
-    var callComponents: (callPath: String, returnType: String) {
-        let splitFunction = decorated.components(separatedBy: Self.CallSeparator)
-        if splitFunction.count == 2 {
-            let rawFunction = splitFunction[0]
-            let strippedArgs = cleanModule(
-                cleanFunction(rawFunction)
-            )
-            return (String(strippedArgs), splitFunction[1])
+    var signature: String {
+        switch self {
+        case .entry(let invocation, _, _, _):
+            return invocation.swizzle.signature
+        case .exit(let invocation, _, _, _):
+            return invocation.swizzle.signature
         }
-        
-        let splitField = decorated.components(separatedBy: Self.TypeSeparator)
-        if splitField.count == 2 {
-            return (cleanModule(splitField[0]), splitField[1])
-        }
-        
-        return (decorated, "")
     }
     
     #if TARGETING_SUI

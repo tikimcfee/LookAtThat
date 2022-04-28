@@ -15,7 +15,7 @@ class SemanticMapTracer {
     private var sourceGrids: [CodeGrid]
     private var sourceTracer: TracingRoot
     
-    private var matchedReferenceCache = [String: TraceValue]()
+    private var matchedReferenceCache = [String: [TraceValue]]() // v2
     private lazy var referenceableInfoCache = makeInfoCache()
     
     private init(sourceGrids: [CodeGrid],
@@ -56,7 +56,8 @@ class ThreadInfoExtract {
 
 extension SemanticMapTracer {
     func lookupInfo(_ tuple: ThreadStorageTuple) -> MatchedTraceOutput {
-        if let firstMatch = findPossibleSemanticMatches(tuple.out).first {
+        if let firstMatch = findPossibleSemanticMatches(tuple.out).last {
+            //        if let firstMatch = findPossibleSemanticMatches(tuple.out).first { // v2
             return .found(.init(
                 out: tuple.out,
                 trace: firstMatch,
@@ -73,52 +74,79 @@ extension SemanticMapTracer {
     }
 }
 
+//MARK: - Lookup v3
+
+private typealias CacheType = [CodeGrid: [String: Set<SemanticInfo>]]
+
 extension SemanticMapTracer {
+    private func makeInfoCache() -> CacheType {
+        sourceGrids.reduce(into: CacheType()) { result, sourceGrid in
+            result[sourceGrid] = sourceGrid.semanticInfoBuilder.localCallStackCache
+        }
+    }
+    
     private func findPossibleSemanticMatches(
         _ output: TraceOutput
     ) -> [TraceValue] {
-        let callPath = output.callComponents.callPath
-        let callPathComponents = callPath.split(separator: ".").map { String($0) }
-        var matches = [TraceValue]()
+        let (callPath, allComponents) = output.callComponents
+        if let cachedResult = matchedReferenceCache[callPath] {
+            print("_CACHED: \(callPath) (\(cachedResult.count)")
+            return cachedResult
+        }
         
-        for component in callPathComponents.reversed() {
-            if let found = firstSemanticInfoMatching(component) {
-                matches.append(found)
+        print("ON:\t\(callPath)\t\(allComponents)")
+        
+        var matches = [TraceValue]()
+        var currentGrids = referenceableInfoCache
+        var didReduce = false
+        for component in allComponents {
+            print("\tCHECK: \(component)")
+            let rereduce = gridsMatching(component, currentGrids)
+            print("\tRereduce has: \(rereduce.count)")
+            didReduce = didReduce || rereduce.count > 0
+            if component == "CodeGrid" {
+                print("welcome to my nightmare")
+            }
+            currentGrids = rereduce.count > 0 ? rereduce : currentGrids
+        }
+        
+        if !didReduce {
+            print("Nothing found for \(callPath), skipping matches")
+            return matches
+        }
+        
+        print("Found candidate grids: \(currentGrids.count)")
+        for (grid, gridLocalLookup) in currentGrids {
+            print("Found candidate info on \(grid.id)); final filter")
+            
+            for expectedComponent in allComponents {
+                guard let matchingInfoSet = gridLocalLookup[expectedComponent] else {
+                    print("Found candidate missing \(expectedComponent) -> \(grid.fileName)")
+                    continue
+                }
+                
+                for match in matchingInfoSet {
+                    guard expectedComponent == match.callStackName else {
+                        print("Found candidate skipping \(expectedComponent)!=\(match.callStackName)")
+                        continue
+                    }
+                    matches.append((grid, match))
+                }
             }
         }
         
+        matchedReferenceCache[callPath] = matches
         return matches
     }
     
-    private func firstSemanticInfoMatching(
-        _ callStackName: String
-    ) -> TraceValue? {
-        if let cached = matchedReferenceCache[callStackName] { return cached }
-        
-        // print out all callstack names, see what was found
-        //        referenceableInfoCache.forEach { tuple in
-        //            tuple.info.forEach { semanticInfo in
-        //                print(semanticInfo.callStackName)
-        //            }
-        //        }
-        
-        for filtered in referenceableInfoCache {
-            if let firstMatch = filtered.info.first(where: { $0.callStackName == callStackName }) {
-                matchedReferenceCache[callStackName] = (filtered.grid, firstMatch)
-                return (filtered.grid, firstMatch)
+    private func gridsMatching(_ searchComponent: String, _ source: CacheType) -> CacheType {
+        var reducedInfo = CacheType()
+        for (grid, callStackDictionary) in source {
+            if let _ = callStackDictionary[searchComponent] {
+                print("\t\tFound '\(searchComponent)' --> \(grid.fileName)")
+                reducedInfo[grid] = grid.semanticInfoBuilder.localCallStackCache
             }
         }
-        
-        return nil
-    }
-    
-    private func makeInfoCache() -> [(grid: CodeGrid, info: [SemanticInfo])] {
-        sourceGrids.map { grid in
-            let filtered = grid.codeGridSemanticInfo
-                .semanticsLookupBySyntaxId
-                .values
-                .filter { !$0.callStackName.isEmpty }
-            return (grid, filtered)
-        }
+        return reducedInfo
     }
 }
