@@ -24,7 +24,6 @@ struct MacAppRootView: View {
                     HStack(alignment: .top) {
                         SourceInfoPanelView()
                     }.padding(.bottom, 4.0)
-                    FingerSUI()
                     extras()
                 }
             }

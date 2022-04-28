@@ -34,15 +34,10 @@ struct SourceInfoPanelView: View {
 //    )
     
     var body: some View {
-        return VStack {
+        VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 if state.sections.contains(.directories) {
-                    VStack {
-                        FileBrowserView()
-                        searchControlView()
-                    }
-                    .border(.black, width: 2.0)
-                    .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+                    fileBrowserViews()
                 }
                 
                 Spacer()
@@ -59,13 +54,22 @@ struct SourceInfoPanelView: View {
                     semanticCategoryViews()
                 }
             }
-            HStack {
-                ForEach(PanelSections.allCases, id: \.self) { section in
-                    Button("Toggle \(section.rawValue)", action: { state.toggleSection(section) })
+            
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading) {
+                    ForEach(PanelSections.allCases, id: \.self) { section in
+                        Button(state.sectionControlTitle(section), action: {
+                            state.toggleSection(section)
+                        })
+                    }
+                }
+                
+                if state.sections.contains(.tappingControls) {
+                    FingerSUI()
                 }
             }
         }
-        .frame(alignment: .trailing)
+        .frame(alignment: .leading)
         .padding(8)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
@@ -79,7 +83,70 @@ struct SourceInfoPanelView: View {
 //        }
     }
     
-    @ViewBuilder
+    func newFocusRequested() {
+        SceneLibrary.global.codePagesController.compat
+            .inputCompat.focus.setNewFocus()
+    }
+    
+    func selected(id: SyntaxIdentifier) {
+        SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
+    }
+}
+
+// MARK: - Hover Info
+
+extension SourceInfoPanelView {
+    func hoveredNodeInfoView(_ hoveredId: String) -> some View {
+        VStack {
+            Text("Target: \(hoveredId)")
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
+                        semanticRow(semantics: semantics)
+                    }
+                }
+                .padding(4.0)
+                .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
+            }
+        }
+        .frame(
+            minWidth: 256.0, maxWidth: 296.0,
+            minHeight: 128.0
+        )
+        .padding(4.0)
+    }
+
+    func semanticRow(semantics: SemanticInfo) -> some View {
+        VStack(alignment: .leading) {
+            Text(semantics.syntaxTypeName)
+                .font(.caption)
+                .underline()
+            Text(semantics.referenceName)
+                .font(.caption)
+        }
+        .padding([.horizontal], 8.0)
+        .padding([.vertical], 4.0)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .border(Color(red: 0.4, green: 0.4, blue: 0.4, opacity: 1.0), width: 1.0)
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+        .onTapGesture {
+            selected(id: semantics.syntaxId)
+        }
+    }
+}
+
+// MARK: - File Browser
+
+extension SourceInfoPanelView {
+    func fileBrowserViews() -> some View {
+        VStack {
+            FileBrowserView()
+            searchControlView()
+        }
+        .border(.black, width: 2.0)
+        .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+    }
+    
     func searchControlView() -> some View {
         HStack {
             TextField(
@@ -93,8 +160,11 @@ struct SourceInfoPanelView: View {
                 .onTapGesture { newFocusRequested() }
         }
     }
-    
-    @ViewBuilder
+}
+
+// MARK: - Semantic Category
+
+extension SourceInfoPanelView {
     func semanticCategoryViews() -> some View {
         VStack(spacing: 0) {
             if !sourceInfo.structs.isEmpty {
@@ -123,47 +193,6 @@ struct SourceInfoPanelView: View {
         }
     }
     
-    @ViewBuilder
-    func hoveredNodeInfoView(_ hoveredId: String) -> some View {
-        VStack {
-            Text("Target: \(hoveredId)")
-            ScrollView {
-                LazyVStack(alignment: .leading) {
-                    ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
-                        semanticRow(semantics: semantics)
-                    }
-                }
-                .padding(4.0)
-                .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
-            }
-        }
-        .frame(
-            minWidth: 256.0, maxWidth: 296.0,
-            minHeight: 128.0
-        )
-        .padding(4.0)
-    }
-    
-    @ViewBuilder
-    func semanticRow(semantics: SemanticInfo) -> some View {
-        VStack(alignment: .leading) {
-            Text(semantics.syntaxTypeName)
-                .font(.caption)
-                .underline()
-            Text(semantics.referenceName)
-                .font(.caption)
-        }
-        .padding([.horizontal], 8.0)
-        .padding([.vertical], 4.0)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .border(Color(red: 0.4, green: 0.4, blue: 0.4, opacity: 1.0), width: 1.0)
-        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
-        .onTapGesture {
-            selected(id: semantics.syntaxId)
-        }
-    }
-    
-    @ViewBuilder
     func infoRows(named: String, from pair: AssociatedSyntaxMap) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(named).underline().padding(.top, 8)
@@ -185,16 +214,9 @@ struct SourceInfoPanelView: View {
         .padding(4.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
     }
-    
-    func newFocusRequested() {
-        SceneLibrary.global.codePagesController.compat
-            .inputCompat.focus.setNewFocus()
-    }
-    
-    func selected(id: SyntaxIdentifier) {
-        SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
-    }
 }
+
+// MARK: - -- Previews --
 
 #if DEBUG
 import SwiftSyntax
@@ -250,7 +272,7 @@ func helloWorld() {
         return Group {
             SemanticTracingOutView(state: semanticTracingOutState)
             SourceInfoPanelView(state: sourceState)
-        }
+        }.environmentObject(TapObserving.shared)
     }
 }
 #endif

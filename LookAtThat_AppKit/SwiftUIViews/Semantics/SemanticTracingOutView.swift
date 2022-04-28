@@ -28,6 +28,7 @@ struct SemanticTracingOutView: View {
         }
         .padding()
         .frame(maxWidth: 480, maxHeight: 540)
+        .overlay(Rectangle().stroke(Color.gray))
     }
     
     @ViewBuilder

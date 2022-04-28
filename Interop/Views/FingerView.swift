@@ -42,7 +42,7 @@ struct FingerSUI: View {
         VStack {
             allFingers
         }
-        .padding(32.0)
+        .padding(8.0)
     }
     
     var allFingers: some View {
@@ -76,6 +76,7 @@ struct FingerSUI_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             FingerSUI()
+                .environmentObject(TapObserving.shared)
         }
     }
 }

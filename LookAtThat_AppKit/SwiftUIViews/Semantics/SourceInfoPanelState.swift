@@ -14,11 +14,13 @@ enum PanelSections: String, CaseIterable, Equatable {
     case semanticCategories = "Semantic Categories"
     case hoverInfo = "Hover Info"
     case tracingInfo = "Tracing Info"
+    case tappingControls = "Taps"
 }
 
 class SourceInfoPanelState: ObservableObject {
     @Published var sections: [PanelSections] = [.directories, .tracingInfo]
     @Published var error: SceneControllerError?
+    
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     @Published var hoveredToken: String = ""
     @Published var searchText: String = ""
@@ -36,6 +38,12 @@ class SourceInfoPanelState: ObservableObject {
 #if !TARGETING_SUI
         setupBindings()
 #endif
+    }
+    
+    func sectionControlTitle(_ section: PanelSections) -> String {
+        return sections.contains(section)
+            ? "Hide \(section.rawValue)"
+            : "Show \(section.rawValue)"
     }
     
     func toggleSection(_ section: PanelSections) {
