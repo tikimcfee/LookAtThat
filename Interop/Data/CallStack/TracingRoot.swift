@@ -73,6 +73,7 @@ typealias ThreadStorageTuple = (out: TraceOutput, thread: Thread, queueName: Str
 
 extension Thread {
     private static let logStorage = ConcurrentDictionary<Thread, ThreadStorageType>()
+    private static let threadNameStorage = ConcurrentDictionary<Thread, String>()
     
     func getTraceLogs() -> [ThreadStorageTuple] {
         let capturedType = Self.logStorage[self]
@@ -100,14 +101,18 @@ extension Thread {
     }
     
     var threadName: String {
+        if let name = Self.threadNameStorage[self] { return name }
+        let threadName: String
         if isMainThread {
-            return "main"
-        } else if let threadName = Thread.current.name, !threadName.isEmpty {
-            return threadName
+            threadName = "main"
+        } else if let directName = Thread.current.name, !directName.isEmpty {
+            threadName = directName
         } else {
             let info = ThreadInfoExtract.from(description)
-            return info.number
+            threadName = info.number
         }
+        Self.threadNameStorage[self] = threadName
+        return threadName
     }
 }
 

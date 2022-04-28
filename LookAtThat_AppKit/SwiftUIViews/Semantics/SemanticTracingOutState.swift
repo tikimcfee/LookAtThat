@@ -36,6 +36,10 @@ class SemanticTracingOutState: ObservableObject {
         })
     }
     
+    var slices: [ArraySlice<Thread>] {
+        loggedThreads.slices(sliceSize: 5)
+    }
+    
     func logs(for thread: Thread) -> [(TraceOutput, Thread, String)] {
         // It's on `thread`, but using it here for now to do other transforms if needed
         return thread.getTraceLogs()
@@ -44,8 +48,8 @@ class SemanticTracingOutState: ObservableObject {
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
         isAutoPlaying = true
-        var looper = QuickLooper(
-            interval: .seconds(1),
+        let looper = QuickLooper(
+            interval: .milliseconds(Int(interval)),
             loop: { self.increment() }
         )
         looper.runUntil { !self.isAutoPlaying }

@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0233C0DD-75DE-4FE7-909B-202092BF2B1B"
-            shouldBeEnabled = "Yes"
+            uuid = "3048436F-B634-4CFD-8BC4-93CFB2BFDD72"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Interop/Data/CallStack/SemanticMapTracer.swift"
+            filePath = "Interop/UtilityGlobalsAndExtensions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "findPossibleSemanticMatches(_:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "runUntil(onStop:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -22,10 +22,12 @@ extension Array {
     }
 }
 
-struct QuickLooper {
+class QuickLooper {
     let loop: () -> Void
     let queue: DispatchQueue
+    
     var interval: DispatchTimeInterval
+    var nextDispatch: DispatchTime { .now() + interval }
     
     init(interval: DispatchTimeInterval = .seconds(1),
          loop: @escaping () -> Void,
@@ -43,10 +45,9 @@ struct QuickLooper {
             onStop?()
             return
         }
-        
         loop()
-        queue.asyncAfter(deadline: .now() + interval) {
-            runUntil(stopCondition)
+        queue.asyncAfter(deadline: nextDispatch) {
+            self.runUntil(stopCondition)
         }
     }
 }

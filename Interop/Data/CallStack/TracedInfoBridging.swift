@@ -159,6 +159,11 @@ extension TraceOutput {
         }
     }
     
+    #if TARGETING_SUI
+    static var randomInvoke: String { "" }
+    var signature: String { decorated }
+    #else
+    static var randomInvoke: SwiftTrace.Swizzle.Invocation { .current }
     var signature: String {
         switch self {
         case .entry(let invocation, _, _, _):
@@ -167,11 +172,6 @@ extension TraceOutput {
             return invocation.swizzle.signature
         }
     }
-    
-    #if TARGETING_SUI
-    static var randomInvoke: String { "" }
-    #else
-    static var randomInvoke: SwiftTrace.Swizzle.Invocation { .current }
     #endif
     
     static var random: TraceOutput {

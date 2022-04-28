@@ -27,7 +27,7 @@ struct SemanticTracingOutView: View {
             }
         }
         .padding()
-        .frame(maxWidth: 480, maxHeight: 540)
+        .frame(maxWidth: 640, maxHeight: 540)
         .overlay(Rectangle().stroke(Color.gray))
     }
     
@@ -78,16 +78,21 @@ struct SemanticTracingOutView: View {
                 .font(Font.system(.body, design: .monospaced))
                 .padding(4.0)
             
-            ForEach(state.loggedThreads, id: \.hash) { thread in
-                Text("[ \(thread.threadName) ]")
-                    .font(Font.system(.body, design: .monospaced))
-                    .padding(4.0)
-                    .background(threadColor(thread))
-                    .onTapGesture {
-                        state.focusedThread = thread
+            HStack(alignment: .top) {
+                ForEach(state.slices, id: \.hashValue) { threadSlice in
+                    VStack {
+                        ForEach(threadSlice, id: \.hash) { thread in
+                            Text("[ \(thread.threadName) ]")
+                                .font(Font.system(.body, design: .monospaced))
+                                .padding(4.0)
+                                .background(threadColor(thread))
+                                .onTapGesture {
+                                    state.focusedThread = thread
+                                }
+                        }.listRowInsets(.none)
                     }
-            }
-            .overlay(Rectangle().stroke(Color.gray))
+                }
+            }.overlay(Rectangle().stroke(Color.gray))
         }
     }
     
@@ -146,12 +151,13 @@ struct SemanticTracingOutView: View {
                         .font(Font.system(.footnote, design: .monospaced))
                         .lineLimit(1)
                 }
+                
+                Text("\(found.queueName)")
+                    .font(Font.system(.callout, design: .monospaced))
             }
             Spacer()
             VStack(alignment: .trailing) {
                 Text("\(found.threadName)")
-                    .font(Font.system(.callout, design: .monospaced))
-                Text("\(found.queueName)")
                     .font(Font.system(.callout, design: .monospaced))
             }
         }
@@ -225,6 +231,9 @@ func helloWorld() {
         let state = SemanticTracingOutState()
 //        state.setupTracing()
         TracingRoot.shared.capturedLoggingThreads[Thread.current] = 1
+        TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
+        TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
+        TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         state.isSetup = true
         (0...10).forEach { _ in
             Thread.storeTraceLog(TraceOutput.random)

@@ -9,6 +9,7 @@ import Foundation
 
 #if !TARGETING_SUI
 import SwiftTrace
+import SwiftUI
 #endif
 
 class SemanticMapTracer {
@@ -55,9 +56,47 @@ class ThreadInfoExtract {
 }
 
 extension SemanticMapTracer {
+    private static let INIT_SYNTHETIC = "__allocating_init"
+    
+    private static func findBestMatch(_ tuple: ThreadStorageTuple, _ source: [TraceValue]) -> TraceValue? {
+        let allComponents = tuple.out.callComponents.allComponents
+        
+        // print(Array(repeating: "-", count: 10).joined())
+        
+        // print("Lookup found \(source.count) potential semantic matches")
+        // print("Source: \(tuple.out.signature)")
+        // print("Cmpnts: \(allComponents)")
+//        for match in source {
+            // print("\(match.info.callStackName) | \(match.info.referenceName) | \(match.grid.fileName)")
+//        }
+        
+        if allComponents.last == INIT_SYNTHETIC {
+            // print("Found <init>, finding first Class or Struct declaration")
+            let initInfo: [TraceValue] = source.compactMap { grid, matchedInfo in
+                let nodeType = grid.semanticInfoBuilder[matchedInfo.node]
+                switch nodeType {
+                case .classDecl, .structDecl:
+                    return (grid, matchedInfo)
+                default:
+                    return nil
+                }
+            }
+            // print("Found <init>, matches: \(initInfo.count)")
+            // print("Taking: \(initInfo.first?.grid.fileName ?? "nil")")
+            return initInfo.first
+        }
+        
+        // print("No rule matching call stack, return last value")
+        // print(Array(repeating: "-", count: 10).joined())
+        
+        return source.last
+    }
+    
     func lookupInfo(_ tuple: ThreadStorageTuple) -> MatchedTraceOutput {
-        if let firstMatch = findPossibleSemanticMatches(tuple.out).last {
-            //        if let firstMatch = findPossibleSemanticMatches(tuple.out).first { // v2
+        let allFoundMatches = findPossibleSemanticMatches(tuple.out)
+        let bestMatch = Self.findBestMatch(tuple, allFoundMatches)
+        
+        if let firstMatch = bestMatch {
             return .found(.init(
                 out: tuple.out,
                 trace: firstMatch,
@@ -90,51 +129,53 @@ extension SemanticMapTracer {
     ) -> [TraceValue] {
         let (callPath, allComponents) = output.callComponents
         if let cachedResult = matchedReferenceCache[callPath] {
-            print("_CACHED: \(callPath) (\(cachedResult.count)")
+            // print("_CACHED: \(callPath) (\(cachedResult.count)")
             return cachedResult
         }
         
-        print("ON:\t\(callPath)\t\(allComponents)")
+        // print("ON:\t\(callPath)\t\(allComponents)")
         
         var matches = [TraceValue]()
         var currentGrids = referenceableInfoCache
         var didReduce = false
         for component in allComponents {
-            print("\tCHECK: \(component)")
+            // print("\tCHECK: \(component)")
             let rereduce = gridsMatching(component, currentGrids)
-            print("\tRereduce has: \(rereduce.count)")
+            // print("\tRereduce has: \(rereduce.count)")
             didReduce = didReduce || rereduce.count > 0
-            if component == "CodeGrid" {
-                print("welcome to my nightmare")
-            }
             currentGrids = rereduce.count > 0 ? rereduce : currentGrids
         }
         
         if !didReduce {
-            print("Nothing found for \(callPath), skipping matches")
+            // print("Nothing found for \(callPath), skipping matches")
             return matches
         }
         
-        print("Found candidate grids: \(currentGrids.count)")
+        // print("Found candidate grids: \(currentGrids.count)")
         for (grid, gridLocalLookup) in currentGrids {
-            print("Found candidate info on \(grid.id)); final filter")
+            // print("Found candidate info on \(grid.id)); final filter")
             
             for expectedComponent in allComponents {
                 guard let matchingInfoSet = gridLocalLookup[expectedComponent] else {
-                    print("Found candidate missing \(expectedComponent) -> \(grid.fileName)")
+                    // print("Found candidate missing \(expectedComponent) -> \(grid.fileName)")
                     continue
                 }
                 
                 for match in matchingInfoSet {
-                    guard expectedComponent == match.callStackName else {
-                        print("Found candidate skipping \(expectedComponent)!=\(match.callStackName)")
-                        continue
+                    switch expectedComponent {
+                    case match.callStackName:
+                        // print("Found adding \(match.callStackName) -> \(grid.fileName) -> \(match.referenceName)")
+                        matches.append((grid, match))
+                        
+                    default:
+                        // print("Found candidate skipping \(expectedComponent)!=\(match.callStackName)")
+                        break
                     }
-                    matches.append((grid, match))
                 }
             }
         }
         
+        // print("Total matches found: \(matches.count)")
         matchedReferenceCache[callPath] = matches
         return matches
     }
@@ -143,7 +184,7 @@ extension SemanticMapTracer {
         var reducedInfo = CacheType()
         for (grid, callStackDictionary) in source {
             if let _ = callStackDictionary[searchComponent] {
-                print("\t\tFound '\(searchComponent)' --> \(grid.fileName)")
+                // print("\t\tFound '\(searchComponent)' --> \(grid.fileName)")
                 reducedInfo[grid] = grid.semanticInfoBuilder.localCallStackCache
             }
         }

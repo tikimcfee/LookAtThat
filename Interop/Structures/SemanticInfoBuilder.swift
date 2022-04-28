@@ -104,13 +104,15 @@ class SemanticInfoBuilder {
     public func cachedCallStackInfo(_ callStackName: String) -> Set<SemanticInfo>? {
         localCallStackCache[callStackName]
     }
-    
-    private func addToCallStackCache(_ info: SemanticInfo) {
+	
+	subscript(_ node: Syntax) -> SyntaxEnum {
+		get { localSemanticCache[node].nodeEnum }
+	}
+}
+
+private extension SemanticInfoBuilder {
+    func addToCallStackCache(_ info: SemanticInfo) {
         guard !info.callStackName.isEmpty else { return }
         localCallStackCache[info.callStackName, default: []].insert(info)
     }
-	
-	private subscript(_ node: Syntax) -> SyntaxEnum {
-		get { localSemanticCache[node].nodeEnum }
-	}
 }
