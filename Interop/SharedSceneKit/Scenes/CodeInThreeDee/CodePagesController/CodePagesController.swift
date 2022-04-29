@@ -7,8 +7,12 @@ import FileKit
 class CodePagesController: BaseSceneController, ObservableObject {
 
     var bumped = Set<Int>()
-    var selectedSheets = Set<SyntaxIdentifier>()
+    var selectedIdentifiers = Set<SyntaxIdentifier>()
     let highlightCache = HighlightCache()
+    
+    typealias Focus = [(SemanticInfo, SortedNodeSet)]
+    var currentFocus: Focus? // todo: use sets to have multiple threads focused on different nodes
+    var currentFocusGrid: CodeGrid? // todo: use sets to have multiple threads focused on different nodes
 
     let wordNodeBuilder: WordNodeBuilder
     let codeGridParser: CodeGridParser
@@ -134,25 +138,44 @@ extension Set where Element == SyntaxIdentifier {
     }
 }
 
+//MARK: - Path tracing
+
 extension CodePagesController {
-    func selected(name: String) {
-        bumpNodes (
-            allTokensWith(name: name)
-        )
+    func setNewFocus(id: SyntaxIdentifier, in grid: CodeGrid) {
+        var didSwap = false
+        if let lastFocus = currentFocus,
+           let lastFocusGrid = currentFocusGrid
+        {
+            swapFocusHighlight(lastFocus)
+            if lastFocusGrid != grid {
+                lastFocusGrid.swapOutRootGlyphs()
+//                lastFocusGrid.rawGlyphsNode.translate(dZ: -25)
+                didSwap = true
+            }
+        }
+        let focus = (try? grid.codeGridSemanticInfo.collectAssociatedNodes(id, grid.tokenCache)) ?? []
+        currentFocus = focus
+        currentFocusGrid = grid
+        swapFocusHighlight(focus)
+        if didSwap {
+            grid.swapInRootGlyphs()
+//            grid.rawGlyphsNode.translate(dZ: 25)
+        }
     }
-	
-	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
-        let isSelected = selectedSheets.toggle(id)
-        sceneTransaction {
-            try? source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
-                nodes.forEach { node in
-                    node.position = node.position.translated(
-                        dZ: isSelected ? 25 : -25
-                    )
+    
+    private func swapFocusHighlight(_ focus: Focus) {
+        for (_, nodeSet) in focus {
+            for node in nodeSet {
+                // swap between the geometries instead of another cache
+                if let highlightCache = codeGridParser.glyphCache[node],
+                   let lastGeometry = node.geometry
+                {
+                    node.geometry = highlightCache.0
+                    codeGridParser.glyphCache[node] = (lastGeometry, highlightCache.1)
                 }
             }
         }
-	}
+    }
     
     func zoom(id: SyntaxIdentifier, in grid: CodeGrid) {
         sceneTransaction {
@@ -167,6 +190,7 @@ extension CodePagesController {
         node.geometry?.materials.first?.diffuse.contents = NSUIColor(red: 0.2, green: 0.8, blue: 0.3, alpha: 1.0)
         return node
     }
+    
     func moveExecutionPointer(id: SyntaxIdentifier, in grid: CodeGrid) {
         sceneTransaction {
             if pointerNode.parent == nil {
@@ -174,6 +198,7 @@ extension CodePagesController {
             }
             
             let allCollectedNodes = try? grid.codeGridSemanticInfo.collectAssociatedNodes(id, grid.tokenCache)
+            
             if let firstNodeSet = allCollectedNodes?.first,
                let firstNode = firstNodeSet.1.first {
                 
@@ -182,12 +207,13 @@ extension CodePagesController {
                     dY: firstNode.position.y,
                     dZ: firstNode.position.z
                 )
-
+                
                 sceneState.cameraNode.worldPosition = SCNVector3(
                     x: pointerNode.worldPosition.x,
                     y: pointerNode.worldPosition.y,
                     z: sceneState.cameraNode.worldPosition.z
                 )
+                
                 sceneState.cameraNode.look(
                     at: pointerNode.worldPosition,
                     up: sceneState.rootGeometryNode.worldUp,
@@ -196,6 +222,25 @@ extension CodePagesController {
             }
         }
     }
+}
+
+extension CodePagesController {
+    func selected(name: String) {
+        bumpNodes(allTokensWith(name: name))
+    }
+	
+	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
+        let isSelected = selectedIdentifiers.toggle(id)
+        sceneTransaction {
+            try? source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
+                nodes.forEach { node in
+                    node.position = node.position.translated(
+                        dZ: isSelected ? 25 : -25
+                    )
+                }
+            }
+        }
+	}
 
     func toggleNodeHighlight(_ node: SCNNode) {
         for letter in node.childNodes {
@@ -221,16 +266,8 @@ extension CodePagesController {
     }
 
     func allTokensWith(name: String) -> [SCNNode] {
-        return sceneState.rootGeometryNode.childNodes{ testNode, _ in
+        return sceneState.rootGeometryNode.childNodes { testNode, _ in
             return testNode.name == name
-        }
-    }
-
-    func onTokensWith(type: String, _ operation: (SCNNode) -> Void) {
-        sceneState.rootGeometryNode.enumerateChildNodes{ testNode, _ in
-            if testNode.name?.contains(type) ?? false {
-                operation(testNode)
-            }
         }
     }
 	

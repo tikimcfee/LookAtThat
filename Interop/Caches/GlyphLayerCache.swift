@@ -9,11 +9,14 @@ import UniformTypeIdentifiers
 public struct GlyphCacheKey: Hashable, Equatable {
     public let glyph: String
     public let foreground: NSUIColor
+    public let background: NSUIColor
     
     public init(_ glyph: String,
-                _ foreground: NSUIColor) {
+                _ foreground: NSUIColor,
+                _ background: NSUIColor = NSUIColor.black) {
         self.glyph = glyph
         self.foreground = foreground
+        self.background = background
     }
 }
 
@@ -30,8 +33,19 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
     #endif
     
     private static let MONO_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
+    
     let layoutQueue = DispatchQueue(label: "GlyphLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     let fontRenderer = FontRenderer()
+    private var highlightCache = ConcurrentDictionary<SCNNode, SizedText>()
+    
+    subscript(key: SCNNode) -> SizedText? {
+        get {
+            highlightCache[key]
+        }
+        set {
+            highlightCache[key] = newValue
+        }
+    }
     
     override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
 //        print("--- Caching \(key.glyph) || Size == \(store.count)")
@@ -59,7 +73,7 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
         let boxPlane = SCNPlane(width: descaledWidth, height: descaledHeight)
         
         textLayer.display()
-        let bitmap = textLayer.getBitmapImage()
+        let bitmap = textLayer.getBitmapImage(using: key)
         DispatchQueue.main.async {
             boxPlane.firstMaterial?.diffuse.contents = bitmap
         }
@@ -71,12 +85,15 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
 import CoreServices
 extension CALayer {
 #if os(iOS)
-    func getBitmapImage() -> NSUIImage? {
+    
+    func getBitmapImage(
+        using key: GlyphCacheKey
+    ) -> NSUIImage? {
         defer { UIGraphicsEndImageContext() }
         UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
         
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        context.setFillColor(NSUIColor.black.cgColor)
+        context.setFillColor(key.background)
         context.fill(frame)
         render(in: context)
         
@@ -96,17 +113,63 @@ extension CALayer {
         return UIImage(cgImage: finalImage)
 //        return outputImage
     }
+    
 #elseif os(OSX)
     
-    func compressedJpegRepresentation(from source: NSBitmapImageRep) -> NSBitmapImageRep? {
+    func getBitmapImage(
+        using key: GlyphCacheKey
+    ) -> NSUIImage? {
+        guard var representation = defaultRepresentation() else {
+            print("Failed to make bitmap representation")
+            return nil
+        }
+        
+        guard let compressed = compressedJpegRepresentation(from: representation, using: key)
+        else {
+            print("Failed to make compressed jpeg representation")
+            return nil
+        }
+        representation = compressed
+        
+        guard let nsContext = NSGraphicsContext(
+            bitmapImageRep: representation
+        ) else {
+            print("Failed to create new NSGraphicsContext")
+            return nil
+        }
+        
+        let cgContext = nsContext.cgContext
+        render(in: cgContext)
+        
+        guard let cgImage = cgContext.makeImage()
+        else {
+            print("Failed to retreive cgContext image")
+            return nil
+        }
+        
+        let finalImage = cgImage
+        
+        //        guard let finalImage = cgImagePrimitivesJPEG(from: cgImage) else {
+        //            print("Failed to recreate as JPEG")
+        //            return nil
+        //        }
+        
+        return NSImage(
+            cgImage: finalImage,
+            size: CGSize(width: frame.width, height: frame.height)
+        )
+    }
+    
+    func compressedJpegRepresentation(
+        from source: NSBitmapImageRep,
+        using key: GlyphCacheKey
+    ) -> NSBitmapImageRep? {
         guard
             let jpegData = source.representation(
                 using: .jpeg,
                 properties: [
-//                    .compressionFactor: 0.0,
-                    .fallbackBackgroundColor: NSUIColor.black
+                    .fallbackBackgroundColor: key.background
                 ]
-//                properties: [:]
             ),
             let jpegRepresentation = NSBitmapImageRep(data: jpegData)
         else {
@@ -141,48 +204,6 @@ extension CALayer {
         return finalImage
     }
     
-    func getBitmapImage() -> NSUIImage? {
-        guard var representation = defaultRepresentation() else {
-            print("Failed to make bitmap representation")
-            return nil
-        }
-        
-        guard let compressed = compressedJpegRepresentation(from: representation)
-        else {
-            print("Failed to make compressed jpeg representation")
-            return nil
-        }
-        representation = compressed
-                
-        guard let nsContext = NSGraphicsContext(
-            bitmapImageRep: representation
-        ) else {
-            print("Failed to create new NSGraphicsContext")
-            return nil
-        }
-        
-        let cgContext = nsContext.cgContext
-        render(in: cgContext)
-        
-        guard let cgImage = cgContext.makeImage()
-        else {
-            print("Failed to retreive cgContext image")
-            return nil
-        }
-        
-        let finalImage = cgImage
-        
-//        guard let finalImage = cgImagePrimitivesJPEG(from: cgImage) else {
-//            print("Failed to recreate as JPEG")
-//            return nil
-//        }
-        
-        return NSImage(
-            cgImage: finalImage,
-            size: CGSize(width: frame.width, height: frame.height)
-        )
-    }
-    
     func defaultRepresentation() -> NSBitmapImageRep? {
         return NSBitmapImageRep(
             bitmapDataPlanes: nil,
@@ -197,5 +218,6 @@ extension CALayer {
             bitsPerPixel: 32
         )
     }
+    
 #endif
 }

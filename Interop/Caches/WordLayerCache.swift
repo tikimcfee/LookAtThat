@@ -60,7 +60,7 @@ class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
             // For whatever reason, we need to call display() manually. Or at least,
             // in this particular commit, the image is just blank without it.
             textLayer.display()
-            let bitmap = textLayer.getBitmapImage()
+            let bitmap = textLayer.getBitmapImage(using: GlyphCacheKey(key.word, NSUIColor.black))
             DispatchQueue.main.async {
                 boxPlane.firstMaterial?.diffuse.contents = bitmap
             }

@@ -79,26 +79,32 @@ extension CodeGridSemanticMap {
         }
     }
     
+    private func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
+        return left.position.y > right.position.y
+        && left.position.x < right.position.x
+    }
+    
+    private func sortTuplesTopLeft(
+        _ left: (SemanticInfo, SortedNodeSet),
+        _ right: (SemanticInfo, SortedNodeSet)
+    ) -> Bool {
+        guard let left = left.1.first else { return false }
+        guard let right = right.1.first else { return true }
+        return sortTopLeft(left, right)
+    }
+    
     func collectAssociatedNodes(
         _ nodeId: SyntaxIdentifier,
-        _ cache: CodeGridTokenCache
+        _ cache: CodeGridTokenCache,
+        _ sort: Bool = false
     ) throws -> [(SemanticInfo, SortedNodeSet)] {
-        func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
-            return left.position.y > right.position.y
-                && left.position.x < right.position.x
-        }
-        
         var allFound = [(SemanticInfo, SortedNodeSet)]()
         try forAllNodesAssociatedWith(nodeId, cache, { infoForNodeSet, nodeSet in
-            let sortedTopMost = nodeSet.sorted(by: sortTopLeft)
+            let sortedTopMost = sort ? nodeSet.sorted(by: sortTopLeft) : Array(nodeSet)
             allFound.append((infoForNodeSet, sortedTopMost))
         })
         
-        return allFound.sorted(by: { leftTuple, rightTuple in
-            guard let left = leftTuple.1.first else { return false }
-            guard let right = rightTuple.1.first else { return true }
-            return sortTopLeft(left, right)
-        })
+        return sort ? allFound.sorted(by: sortTuplesTopLeft) : allFound
     }
     
     func walkToRootFrom(

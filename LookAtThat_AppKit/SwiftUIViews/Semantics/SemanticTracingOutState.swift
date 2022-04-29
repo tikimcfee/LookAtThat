@@ -24,7 +24,7 @@ class SemanticTracingOutState: ObservableObject {
     
     @Published var isAutoPlaying = false
     @Published var interval = 1000.0
-    let loopRange = 100.0...2000.0
+    let loopRange = 16.0...2000.0
     
     private let tracer = TracingRoot.shared
     private lazy var cache = SemanticLookupCache(self)
@@ -36,7 +36,7 @@ class SemanticTracingOutState: ObservableObject {
         })
     }
     
-    var slices: [ArraySlice<Thread>] {
+    var threadSlices: [ArraySlice<Thread>] {
         loggedThreads.slices(sliceSize: 5)
     }
     
@@ -66,33 +66,14 @@ class SemanticTracingOutState: ObservableObject {
     
     func increment() {
         currentIndex += 1
-        zoomTrace(self[currentIndex]?.maybeTrace)
+        highlightTrace(self[currentIndex]?.maybeTrace)
         resetFocus()
     }
     
     func decrement() {
         currentIndex -= 1
-        zoomTrace(self[currentIndex]?.maybeTrace)
+        highlightTrace(self[currentIndex]?.maybeTrace)
         resetFocus()
-    }
-    
-    func toggleTrace(_ trace: TraceValue) {
-        trace.grid.toggleGlyphs()
-        SceneLibrary.global.codePagesController.selected(
-            id: trace.info.syntaxId,
-            in: trace.grid.codeGridSemanticInfo
-        )
-    }
-    
-    func zoomTrace(_ trace: TraceValue?) {
-        guard let trace = trace else {
-            return
-        }
-        
-        SceneLibrary.global.codePagesController.moveExecutionPointer(
-            id: trace.info.syntaxId,
-            in: trace.grid
-        )
     }
     
     func resetFocus() {
@@ -132,6 +113,40 @@ class SemanticTracingOutState: ObservableObject {
         
         self.focusTrace = newFocusTrace
         self.focusContext = final
+    }
+}
+
+// MARK: - Scene interactions
+
+extension SemanticTracingOutState {
+    func toggleTrace(_ trace: TraceValue) {
+        trace.grid.toggleGlyphs()
+        SceneLibrary.global.codePagesController.selected(
+            id: trace.info.syntaxId,
+            in: trace.grid.codeGridSemanticInfo
+        )
+    }
+    
+    func zoomTrace(_ trace: TraceValue?) {
+        guard let trace = trace else {
+            return
+        }
+        
+        SceneLibrary.global.codePagesController.moveExecutionPointer(
+            id: trace.info.syntaxId,
+            in: trace.grid
+        )
+    }
+    
+    func highlightTrace(_ trace: TraceValue?) {
+        guard let trace = trace else {
+            return
+        }
+        
+        SceneLibrary.global.codePagesController.setNewFocus(
+            id: trace.info.syntaxId,
+            in: trace.grid
+        )
     }
 }
 

@@ -79,7 +79,7 @@ struct SemanticTracingOutView: View {
                 .padding(4.0)
             
             HStack(alignment: .top) {
-                ForEach(state.slices, id: \.hashValue) { threadSlice in
+                ForEach(state.threadSlices, id: \.hashValue) { threadSlice in
                     VStack {
                         ForEach(threadSlice, id: \.hash) { thread in
                             Text("[ \(thread.threadName) ]")

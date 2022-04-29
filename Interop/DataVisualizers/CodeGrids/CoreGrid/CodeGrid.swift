@@ -260,6 +260,7 @@ extension CodeGrid {
         rootContainerNode.addChildNode(rawGlyphsNode)
         rawGlyphsNode.isHidden = false
         showingRawGlyphs = true
+        flattenedGlyphsNode?.isHidden = true
         
 //        flattenedGlyphsNode?.isHidden = true
     }
@@ -270,6 +271,7 @@ extension CodeGrid {
         rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
         rawGlyphsNode.isHidden = true
         showingRawGlyphs = false
+        flattenedGlyphsNode?.isHidden = false
         
 //        flattenedGlyphsNode?.isHidden = false
     }
