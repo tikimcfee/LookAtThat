@@ -12,10 +12,10 @@ import SwiftUI
 #endif
 
 class SemanticMapTracer {
-    private var sourceGrids: [CodeGrid]
+    private(set) var sourceGrids: [CodeGrid]
     private var sourceTracer: TracingRoot
     
-    private var matchedReferenceCache = [String: [TraceValue]]() // v2
+    private(set) var matchedReferenceCache = [String: [TraceValue]]() // v2
     private lazy var referenceableInfoCache = makeInfoCache()
     
     private init(sourceGrids: [CodeGrid],
@@ -40,8 +40,8 @@ extension SemanticMapTracer {
 extension SemanticMapTracer {
     private static let INIT_SYNTHETIC = "__allocating_init"
     
-    private static func findBestMatch(_ tuple: ThreadStorageObjectType, _ source: [TraceValue]) -> TraceValue? {
-        let allComponents = tuple.out.callPathComponents
+    private static func findBestMatch(_ traceLine: TraceLine, _ source: [TraceValue]) -> TraceValue? {
+        let allComponents = traceLine.callPathComponents
         
         // print(Array(repeating: "-", count: 10).joined())
         
@@ -74,18 +74,18 @@ extension SemanticMapTracer {
         return source.last
     }
     
-    func lookupInfo(_ tuple: ThreadStorageObjectType) -> MatchedTraceOutput {
-        let allFoundMatches = findPossibleSemanticMatches(tuple.out)
-        let bestMatch = Self.findBestMatch(tuple, allFoundMatches)
+    func lookupInfo(_ traceLine: TraceLine) -> MatchedTraceOutput {
+        let allFoundMatches = findPossibleSemanticMatches(traceLine)
+        let bestMatch = Self.findBestMatch(traceLine, allFoundMatches)
         
         if let bestMatch = bestMatch {
             return .found(.init(
-                out: tuple.out,
+                out: traceLine,
                 trace: bestMatch
             ))
         } else {
             return .missing(.init(
-                out: tuple.out
+                out: traceLine
             ))
         }
     }

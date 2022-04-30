@@ -11,42 +11,29 @@ struct SemanticTracingOutView: View {
     @ObservedObject var state: SemanticTracingOutState
     
     var body: some View {
-        VStack(alignment: .center, spacing: 16.0) {
-            if !state.isSetup {
-                makeSetupView()
-            }
-            else if !state.isWrapperLoaded {
-                makeRequestLoadView()
-            }
-            else {
-                makeControlsView()
-            }
-        }
-        .padding()
-        .frame(maxWidth: 640, maxHeight: 540)
-        .overlay(Rectangle().stroke(Color.gray))
+        makeControlsView()
+            .padding()
+            .frame(width: 640, height: 640)
+            .overlay(Rectangle().stroke(Color.gray))
     }
     
-    @ViewBuilder
-    func makeSetupView() -> some View {
-        Button("Setup Tracing", action: { state.setupTracing() })
-    }
-    
-    @ViewBuilder
-    func makeRequestLoadView() -> some View {
-        Button("Load from trace", action: { state.prepareQueryWrapper() })
-    }
-    
-    @ViewBuilder
     func makeControlsView() -> some View {
         VStack {
-            makeButtonsGroup()
+            HStack {
+                VStack(alignment: .trailing) {
+                    Button("Start Tracing", action: { state.setupTracing() })
+                    Button("Reload Wrapper", action: { state.reloadQueryWrapper() })
+                    Text(state.wrapperInfo)
+                }
+                makeLoggedThreadsView()
+                makeButtonsGroup()
+            }
             makeFocusedTraceRows()
-            makeLoggedThreadsView()
+            makeFileIOControlsView()
         }
+        .padding(4)
     }
     
-    @ViewBuilder
     func makeButtonsGroup() -> some View {
         VStack(alignment: .center) {
             if state.isAutoPlaying {
@@ -68,6 +55,41 @@ struct SemanticTracingOutView: View {
     }
     
     @ViewBuilder
+    func makeFileIOToggleButton() -> some View {
+        if state.isFileLoggingEnabled {
+            Button("Disable writers", action: {
+                state.isFileLoggingEnabled = false
+            })
+        } else {
+            Button("Enable writers", action: {
+                state.isFileLoggingEnabled = true
+            })
+        }
+    }
+
+    func makeFileIOControlsView() -> some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .center, spacing: 16) {
+                Button("Load logs", action: { reloadsLogs() })
+                Button("Delete all logs", action: { removeAllLogs() })
+                makeFileIOToggleButton()
+            }
+
+            List {
+                ForEach(state.traceLogFiles, id: \.self) { url in
+                    Text("> \(url.lastPathComponent)")
+                        .font(Font.system(.body, design: .monospaced))
+                        .padding(4.0)
+                        .onTapGesture {
+                            state.loadTrace(at: url)
+                        }
+                }.listRowInsets(.none)
+            }
+        }
+        .padding(4)
+        .overlay(Rectangle().stroke(Color.gray))
+    }
+    
     func makeLoggedThreadsView() -> some View {
         VStack {
             Text("Threads (found \(state.loggedThreads.count))")
@@ -83,7 +105,7 @@ struct SemanticTracingOutView: View {
                                 .padding(4.0)
                                 .background(threadColor(thread))
                                 .onTapGesture {
-                                    state.focusedThread = thread
+                                    state.setCurrentThread(thread)
                                 }
                         }.listRowInsets(.none)
                     }
@@ -92,7 +114,6 @@ struct SemanticTracingOutView: View {
         }
     }
     
-    @ViewBuilder
     func makeFocusedTraceRows() -> some View {
         List {
             ForEach(state.focusContext, id: \.id) { match in
@@ -112,7 +133,8 @@ struct SemanticTracingOutView: View {
                 }
             }
             .overlay(Rectangle().stroke(Color.gray))
-        }.listStyle(.plain)
+        }
+        .listStyle(.plain)
     }
     
     func matchColor(_ match: MatchedTraceOutput) -> Color {
@@ -127,7 +149,12 @@ struct SemanticTracingOutView: View {
             : Color.gray.opacity(0.1)
     }
     
-    @ViewBuilder
+    func logFileColor(_ url: URL) -> Color {
+        state.isCurrent(file: url)
+            ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 1.0)
+            : Color.gray.opacity(0.1)
+    }
+    
     func makeTextRow(
         _ source: MatchedTraceOutput,
         _ found: MatchedTraceOutput.Found
@@ -172,6 +199,14 @@ struct SemanticTracingOutView: View {
         }
         .padding(4)
 //        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
+    }
+    
+    func reloadsLogs() {
+        state.reloadTraceFiles()
+    }
+    
+    func removeAllLogs() {
+        Thread.removeAllLogTraces()
     }
     
     func forward() {
@@ -230,9 +265,8 @@ func helloWorld() {
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
-        state.isSetup = true
         (0...10).forEach { _ in
-            Thread.logStorage[Thread.current]?.add(TraceLine.random)
+            Thread.storeTraceLine(TraceLine.random)
         }
 #if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
@@ -248,7 +282,7 @@ func helloWorld() {
                 ))
             }
 #endif
-        state.prepareQueryWrapper()
+        state.reloadQueryWrapper()
         state.focusedThread = Thread.current
         return state
     }()

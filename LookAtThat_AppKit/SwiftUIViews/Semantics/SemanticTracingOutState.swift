@@ -9,14 +9,17 @@ import SwiftUI
 import Combine
 
 class SemanticTracingOutState: ObservableObject {
-    @Published var isSetup = false
-    @Published var isWrapperLoaded = false
-    @Published var wrapper: SemanticMapTracer?
-    @Published var focusedThread: Thread? { didSet { resetFocus() } }
     
-    @Published var focusContext = [MatchedTraceOutput]()
-    private var focusTrace: MatchedTraceOutput?
-    @Published var currentIndex = 0
+    @Published private(set) var wrapper: SemanticMapTracer?
+    
+    @Published var isFileLoggingEnabled = false
+    @Published private(set) var traceLogFiles = [URL]()
+    @Published private(set) var focusContext = [MatchedTraceOutput]()
+    @Published private(set) var currentIndex = 0
+    @Published private(set) var focusTraceLines: [TraceLine] = []
+    @Published private(set) var focusTrace: MatchedTraceOutput?
+    var focusedThread: Thread?
+    var focusedFile: URL?
     
     @Published var isAutoPlaying = false
     @Published var interval = 1000.0
@@ -32,13 +35,32 @@ class SemanticTracingOutState: ObservableObject {
         })
     }
     
+    var wrapperInfo: String {
+        wrapper.map {
+            "\($0.sourceGrids.count) grids, \($0.matchedReferenceCache.count) call names"
+        } ?? "No loaded query wrapper"
+    }
+    
     var threadSlices: [ArraySlice<Thread>] {
         loggedThreads.slices(sliceSize: 5)
     }
     
-    func logs(for thread: Thread) -> [(TraceLine, Thread)] {
-        // It's on `thread`, but using it here for now to do other transforms if needed
-        return thread.getTraceLogs()
+    func reloadTraceFiles() {
+        traceLogFiles = AppFiles.allTraceFiles()
+    }
+    
+    func loadTrace(at url: URL) {
+        WorkerPool.shared.nextConcurrentWorker().async {
+            print("Starting trace load at \(url)")
+            let loadedTrace = Thread.loadPersistedTrace(at: url)
+            print("Load completed for \(url); lines loaded = \(loadedTrace.count)")
+            DispatchQueue.main.async {
+                print("Dispatched new trace for state")
+                self.focusedThread = nil
+                self.focusedFile = url
+                self.resetTraceLines(loadedTrace)
+            }
+        }
     }
     
     func startAutoPlay() {
@@ -58,6 +80,12 @@ class SemanticTracingOutState: ObservableObject {
     func stopAutoPlay() {
         isAutoPlaying = false
         bag.removeAll()
+    }
+    
+    func setCurrentThread(_ thread: Thread) {
+        focusedThread = thread
+        focusedFile = nil
+        resetTraceLines(thread.getTraceLogs())
     }
     
     func increment() {
@@ -110,6 +138,14 @@ class SemanticTracingOutState: ObservableObject {
         self.focusTrace = newFocusTrace
         self.focusContext = final
     }
+    
+    private func resetTraceLines(_ newLines: [TraceLine]) {
+        cache.lockAndDo { $0.removeAll(keepingCapacity: true) }
+        focusTraceLines = newLines
+        currentIndex = 0
+        focusContext = []
+        resetFocus()
+    }
 }
 
 // MARK: - Scene interactions
@@ -151,17 +187,15 @@ extension SemanticTracingOutState {
 extension SemanticTracingOutState {
     func setupTracing() {
         tracer.setupTracing()
-        isSetup = true
     }
     
-    func prepareQueryWrapper() {
+    func reloadQueryWrapper() {
         let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
         let allGrid = cache.cachedGrids.values.map { $0.source }
         wrapper = SemanticMapTracer.wrapForLazyLoad(
             sourceGrids: allGrid,
             sourceTracer: tracer
         )
-        isWrapperLoaded = true
     }
 }
 
@@ -178,18 +212,19 @@ extension SemanticTracingOutState {
         return thread == focusedThread
     }
     
-    func maybeInfoFromIndex(_ index: Int) -> MatchedTraceOutput? {
-        guard let thread = focusedThread else {
-            print("No thread focused")
-            return nil
-        }
+    func isCurrent(file: URL) -> Bool {
+        return focusedFile == file
+    }
+    
+    func maybeInfoFromFocusedTraceLines(at index: Int) -> MatchedTraceOutput? {
+//        guard let thread = focusedThread else {
+//            print("No thread focused")
+//            return nil
+//        }
+//        let outputSnapshot = thread.getTraceLogs()
         
-        let outputSnapshot = thread.getTraceLogs()
-        guard outputSnapshot.indices.contains(index) else {
-            return nil
-        }
-        
-        let output = outputSnapshot[index]
+        guard focusTraceLines.indices.contains(index) else { return nil }
+        let output = focusTraceLines[index]
         let maybeInfo = wrapper?.lookupInfo(output)
         return maybeInfo
     }
@@ -210,7 +245,7 @@ private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
         _ key: Int,
         _ store: inout [Int : MatchedTraceOutput?]
     ) -> MatchedTraceOutput? {
-        sourceState.maybeInfoFromIndex(key)
+        sourceState.maybeInfoFromFocusedTraceLines(at: key)
     }
 }
 

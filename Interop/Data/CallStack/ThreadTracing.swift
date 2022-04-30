@@ -7,17 +7,40 @@
 
 import Foundation
 
-#if !TARGETING_SUI
+#if !TARGETING_SUI && !os(iOS)
 import SwiftTrace
 #endif
 
 typealias ThreadStorageRootType = NSMutableArray
 typealias ThreadStorageTypeDowncast = NSArray
-typealias ThreadStorageObjectType = (out: TraceLine, thread: Thread)
+typealias ThreadStorageObjectType = TraceLine
+
+class DirectedThreadLogger {
+    private static let newLine = "\n"
+    
+    let fileReader: SplittingFileReader
+    let store: AppendingStore
+    
+    init(fileReader: SplittingFileReader,
+         store: AppendingStore) {
+        self.fileReader = fileReader
+        self.store = store
+    }
+    
+    static var AllWritersEnabled = false
+    
+    func consume(_ line: TraceLine) {
+        guard Self.AllWritersEnabled else { return }
+        let serialized = line.serialize()
+        store.appendText(serialized)
+        store.appendText(Self.newLine)
+    }
+}
 
 extension Thread {
-    static let logStorage = ConcurrentDictionary<Thread, ThreadStorageRootType>()
-    static let threadNameStorage = ConcurrentDictionary<Thread, String>()
+    private static let fileIOStorage = ConcurrentDictionary<Thread, DirectedThreadLogger>()
+    private static let logStorage = ConcurrentDictionary<Thread, ThreadStorageRootType>()
+    private static let threadNameStorage = ConcurrentDictionary<Thread, String>()
     
     func getTraceLogs() -> [ThreadStorageObjectType] {
         let capturedType = Self.logStorage[self]
@@ -25,17 +48,31 @@ extension Thread {
         return maybeArray ?? []
     }
     
+    static func removeAllLogTraces() {
+        AppFiles.allTraceFiles().forEach {
+            print("Removing log file ", $0.lastPathComponent)
+            AppendingStore(targetFile: $0).cleanFile()
+        }
+    }
+    
+    static func loadPersistedTrace(at url: URL) -> [TraceLine] {
+        SplittingFileReader(targetURL: url)
+            .lazyLoadSplits
+            .compactMap { TraceLine.deserialize(traceLine: $0) }
+    }
+    
+    static func storeTraceLine(_ output: TraceLine) {
+        let thread = Thread.current
+        storageForThread(thread).add((output, thread))
+    }
+    
     static func storeTraceLog(_ output: TraceOutput) {
         let thread = Thread.current
-        let outputStore = logStorage[thread] ?? {
-            let type = ThreadStorageRootType()
-            logStorage[thread] = type
-            return type
-        }()
+        let outputStore = storageForThread(thread)
         
         // Skip storing functions with the same decorated signature
         if let last = outputStore.lastObject as? ThreadStorageObjectType,
-           last.out.signature == output.signature {
+           last.signature == output.signature {
             return
         }
         
@@ -46,9 +83,32 @@ extension Thread {
             threadName: thread.threadName,
             queueName: currentQueueName()
         )
-        let tuple = (line, thread)
+        let tuple = line
         let safeTuple = tuple as ThreadStorageObjectType
+        
+        // Store in memory, write to FileIO
         outputStore.add(safeTuple)
+        fileIOFor(thread, line).consume(line)
+    }
+    
+    private static func storageForThread(_ thread: Thread) -> ThreadStorageRootType {
+        logStorage[thread] ?? {
+            let type = ThreadStorageRootType()
+            logStorage[thread] = type
+            return type
+        }()
+    }
+    
+    private static func fileIOFor(_ thread: Thread, _ traceLine: TraceLine) -> DirectedThreadLogger {
+        fileIOStorage[thread] ?? {
+            let targetTraceFileURL = AppFiles.createTraceFile(named: traceLine.queueName)
+            let logger = DirectedThreadLogger(
+                fileReader: SplittingFileReader(targetURL: targetTraceFileURL),
+                store: AppendingStore(targetFile: targetTraceFileURL)
+            )
+            fileIOStorage[thread] = logger
+            return logger
+        }()
     }
     
     var threadName: String {

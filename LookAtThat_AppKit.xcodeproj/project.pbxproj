@@ -251,7 +251,7 @@
 		B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
 		B798103B281CC6BC009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
 		B798103C281CC6BC009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
-		B798103D281CC6BC009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
+		B798103E281CE32A009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */; };
@@ -1666,7 +1666,7 @@
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */,
-				B798103D281CC6BC009A82BD /* ThreadTracing.swift in Sources */,
+				B798103E281CE32A009A82BD /* ThreadTracing.swift in Sources */,
 				B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */,
 				B74A22FA2814FFF300F6F727 /* CodeGrid+Clones.swift in Sources */,
 				B74A22FB2814FFF300F6F727 /* CodeGridControl.swift in Sources */,

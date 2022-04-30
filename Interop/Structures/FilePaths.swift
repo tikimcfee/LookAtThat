@@ -34,17 +34,38 @@ public struct AppFiles {
     }
 }
 
-// MARK: -- Flat files
+// MARK: -- Rewrites
+
 extension AppFiles {
     public static var rewritesDirectory: URL {
         directory(named: "rewrites")
     }
+}
+
+
+// MARK: - Tracing
+
+extension AppFiles {
+    private static let traceNamePrefix = "app-trace-output-"
     
     public static var tracesDirectory: URL {
         directory(named: "traces")
     }
+        
+    public static func createTraceFile(named newFileName: String) -> URL {
+        let newFileName = "\(traceNamePrefix)\(newFileName).txt"
+        print("Created new trace file: \(newFileName)")
+        return file(named: newFileName, in: tracesDirectory)
+    }
     
-    public static var defaultTraceFile: URL {
-        file(named: "defaultTrace.txt", in: tracesDirectory)
+    public static func allTraceFiles() -> [URL] {
+        guard let tracesRoot = FileKitPath(url: tracesDirectory) else {
+            print("Cannot make path: \(tracesDirectory)")
+            return []
+        }
+        
+        return tracesRoot.children().filter {
+            !$0.isDirectory && $0.fileName.starts(with: traceNamePrefix)
+        }.map { $0.url }
     }
 }

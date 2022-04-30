@@ -90,27 +90,15 @@ extension TraceLine {
 
 extension TraceLine {
     static let fieldSeparator = "|@@@|"
-    static let expectedFields = 5
+    static let expectedFields = 4
     
-    static func serializeAndTransform(
-        _ output: TraceOutput,
-        threadName: String,
-        queueName: String
-    ) -> (line: TraceLine, writable: String) {
-        let name = output.entryExitName
-        // serialize the invocation?
-        
-        let writableLine = [name, output.signature, threadName, queueName]
-            .joined(separator: Self.fieldSeparator)
-        
-        let line = TraceLine(
-            entryExitName: name,
-            signature: output.signature,
-            threadName: threadName,
-            queueName: queueName
-        )
-        
-        return (line: line, writable: writableLine)
+    func serialize() -> String {
+        return [
+            entryExitName,
+            signature,
+            threadName,
+            queueName
+        ].joined(separator: Self.fieldSeparator)
     }
     
     static func deserialize(
