@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-#if !TARGETING_SUI
-import SwiftTrace
-#endif
-
 struct SemanticTracingOutView: View {
     @ObservedObject var state: SemanticTracingOutState
     
@@ -109,7 +105,7 @@ struct SemanticTracingOutView: View {
                     
                 case let .missing(missing):
                     makeEmptyRow("""
-                    \(missing.out.name) <?> \(missing.out.callComponents.callPath)
+                    \(missing.out.entryExitName) <?> \(missing.out.callPath)
                     \(missing.threadName)|\(missing.queueName)
                     """)
                     .listRowInsets(.none)
@@ -138,7 +134,7 @@ struct SemanticTracingOutView: View {
     ) -> some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(found.out.name) \(found.out.callComponents.callPath)")
+                Text("\(found.out.entryExitName) \(found.callPath)")
                     .font(Font.system(.body, design: .monospaced))
                     .lineLimit(1)
                 
@@ -236,7 +232,7 @@ func helloWorld() {
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         state.isSetup = true
         (0...10).forEach { _ in
-            Thread.storeTraceLog(TraceOutput.random)
+            Thread.logStorage[Thread.current]?.add(TraceLine.random)
         }
 #if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
@@ -244,15 +240,11 @@ func helloWorld() {
             .map {
                 Bool.random()
                 ? .found(MatchedTraceOutput.Found(
-                    out: TraceOutput.random,
-                    trace: (sourceGrid, $0),
-                    threadName: Thread.current.threadName,
-                    queueName: "MainThread"
+                    out: TraceLine.random,
+                    trace: (sourceGrid, $0)
                 ))
                 : .missing(MatchedTraceOutput.Missing(
-                    out: TraceOutput.random,
-                    threadName: "Thread.current.threadName",
-                    queueName: "NoQueueTestz"
+                    out: TraceLine.random
                 ))
             }
 #endif

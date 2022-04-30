@@ -9,11 +9,6 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxParser
 
-func currentQueueName() -> String {
-    let name = __dispatch_queue_get_label(nil)
-    return String(cString: name, encoding: .utf8) ?? "<unknown-queue>"
-}
-
 let traceBox = LaZTraceBox()
 
 @inline(__always)

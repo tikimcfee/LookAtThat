@@ -12,12 +12,6 @@ import FileKit
 import SwiftSyntax
 import Combine
 
-#if !TARGETING_SUI && !os(iOS)
-import SwiftTrace
-#else
-
-#endif
-
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()

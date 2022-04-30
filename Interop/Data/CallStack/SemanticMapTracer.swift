@@ -8,7 +8,6 @@
 import Foundation
 
 #if !TARGETING_SUI
-import SwiftTrace
 import SwiftUI
 #endif
 
@@ -38,28 +37,11 @@ extension SemanticMapTracer {
     }
 }
 
-class ThreadInfoExtract {
-    static let rawInfoRegex = #"\{(.*), (.*)\}"#
-    static let infoRegex = try! NSRegularExpression(pattern: rawInfoRegex)
-    private init() {}
-    static func from(_ string: String) -> (number: String, name: String) {
-        let range = NSRange(string.range(of: string)!, in: string)
-        let matches = Self.infoRegex.matches(in: string, range: range)
-        
-        for match in matches {
-            let maybeNumber = Range(match.range(at: 1), in: string).map { string[$0] } ?? ""
-            let maybeName = Range(match.range(at: 2), in: string).map { string[$0] } ?? ""
-            return (String(maybeNumber), String(maybeName))
-        }
-        return ("", "")
-    }
-}
-
 extension SemanticMapTracer {
     private static let INIT_SYNTHETIC = "__allocating_init"
     
-    private static func findBestMatch(_ tuple: ThreadStorageTuple, _ source: [TraceValue]) -> TraceValue? {
-        let allComponents = tuple.out.callComponents.allComponents
+    private static func findBestMatch(_ tuple: ThreadStorageObjectType, _ source: [TraceValue]) -> TraceValue? {
+        let allComponents = tuple.out.callPathComponents
         
         // print(Array(repeating: "-", count: 10).joined())
         
@@ -92,42 +74,36 @@ extension SemanticMapTracer {
         return source.last
     }
     
-    func lookupInfo(_ tuple: ThreadStorageTuple) -> MatchedTraceOutput {
+    func lookupInfo(_ tuple: ThreadStorageObjectType) -> MatchedTraceOutput {
         let allFoundMatches = findPossibleSemanticMatches(tuple.out)
         let bestMatch = Self.findBestMatch(tuple, allFoundMatches)
         
-        if let firstMatch = bestMatch {
+        if let bestMatch = bestMatch {
             return .found(.init(
                 out: tuple.out,
-                trace: firstMatch,
-                threadName: tuple.thread.threadName,
-                queueName: tuple.queueName
+                trace: bestMatch
             ))
         } else {
             return .missing(.init(
-                out: tuple.out,
-                threadName: tuple.thread.threadName,
-                queueName: tuple.queueName
+                out: tuple.out
             ))
         }
     }
 }
 
 //MARK: - Lookup v3
-
 private typealias CacheType = [CodeGrid: [String: Set<SemanticInfo>]]
-
-extension SemanticMapTracer {
-    private func makeInfoCache() -> CacheType {
+private extension SemanticMapTracer {
+    func makeInfoCache() -> CacheType {
         sourceGrids.reduce(into: CacheType()) { result, sourceGrid in
             result[sourceGrid] = sourceGrid.semanticInfoBuilder.localCallStackCache
         }
     }
     
-    private func findPossibleSemanticMatches(
-        _ output: TraceOutput
+    func findPossibleSemanticMatches(
+        _ output: TraceLine
     ) -> [TraceValue] {
-        let (callPath, allComponents) = output.callComponents
+        let (callPath, allComponents) = (output.callPath, output.callPathComponents)
         if let cachedResult = matchedReferenceCache[callPath] {
             // print("_CACHED: \(callPath) (\(cachedResult.count)")
             return cachedResult
@@ -180,7 +156,7 @@ extension SemanticMapTracer {
         return matches
     }
     
-    private func gridsMatching(_ searchComponent: String, _ source: CacheType) -> CacheType {
+    func gridsMatching(_ searchComponent: String, _ source: CacheType) -> CacheType {
         var reducedInfo = CacheType()
         for (grid, callStackDictionary) in source {
             if let _ = callStackDictionary[searchComponent] {

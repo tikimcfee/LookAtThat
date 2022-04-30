@@ -8,10 +8,6 @@
 import SwiftUI
 import Combine
 
-#if !TARGETING_SUI
-import SwiftTrace
-#endif
-
 class SemanticTracingOutState: ObservableObject {
     @Published var isSetup = false
     @Published var isWrapperLoaded = false
@@ -40,7 +36,7 @@ class SemanticTracingOutState: ObservableObject {
         loggedThreads.slices(sliceSize: 5)
     }
     
-    func logs(for thread: Thread) -> [(TraceOutput, Thread, String)] {
+    func logs(for thread: Thread) -> [(TraceLine, Thread)] {
         // It's on `thread`, but using it here for now to do other transforms if needed
         return thread.getTraceLogs()
     }
@@ -97,7 +93,7 @@ class SemanticTracingOutState: ObservableObject {
                 continue
             }
             
-            if final.last?.out.callComponents.callPath == matchAtIndex.out.callComponents.callPath {
+            if final.last?.out.callPath == matchAtIndex.out.callPath {
 //                print("Skip: \(matchAtIndex.out.name) \(matchAtIndex.out.callComponents.callPath)")
                 continue
             }

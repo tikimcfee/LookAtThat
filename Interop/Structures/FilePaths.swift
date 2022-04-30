@@ -39,4 +39,12 @@ extension AppFiles {
     public static var rewritesDirectory: URL {
         directory(named: "rewrites")
     }
+    
+    public static var tracesDirectory: URL {
+        directory(named: "traces")
+    }
+    
+    public static var defaultTraceFile: URL {
+        file(named: "defaultTrace.txt", in: tracesDirectory)
+    }
 }
