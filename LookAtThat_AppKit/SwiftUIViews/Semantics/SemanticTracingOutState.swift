@@ -28,6 +28,12 @@ class SemanticTracingOutState: ObservableObject {
     private let tracer = TracingRoot.shared
     private lazy var cache = SemanticLookupCache(self)
     private lazy var bag = Set<AnyCancellable>()
+    
+    init() {
+        $isFileLoggingEnabled.sink {
+            DirectedThreadLogger.AllWritersEnabled = $0
+        }.store(in: &bag)
+    }
         
     var loggedThreads: [Thread] {
         tracer.capturedLoggingThreads.keys.sorted(by: {
