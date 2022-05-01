@@ -177,9 +177,14 @@ extension CodePagesController {
         }
     }
     
-    func zoom(id: SyntaxIdentifier, in grid: CodeGrid) {
+    func zoom(to grid: CodeGrid) {
         sceneTransaction {
-            sceneState.cameraNode.worldPosition = grid.rootNode.worldPosition.translated(dZ: 150)
+            let newPosition = grid.rootNode.worldPosition.translated(
+                dX: grid.measures.lengthX / 2.0,
+                dY: 0,
+                dZ: 125
+            )
+            sceneState.cameraNode.worldPosition = newPosition
         }
     }
     

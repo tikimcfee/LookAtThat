@@ -19,6 +19,8 @@ class TracingRoot {
     }
     
     func onLog(_ out: TraceOutput) {
+        // TODO: entry/exit tends to follow because of shallow function call stacks
+        // do some processing on the flow to handle entry/exit of same signature
         guard out.isEntry else { return }
         
         capturedLoggingThreads[Thread.current] = 1
@@ -29,30 +31,33 @@ class TracingRoot {
 #if !TARGETING_SUI
 import SwiftTrace
 extension TracingRoot {
+    static let trackedTypes: [AnyClass] = [
+        CodeGrid.self,
+        CodeGridParser.self,
+//        CodeGrid.Measures.self,
+//        CodeGrid.Renderer.self,
+//        CodeGridSemanticMap.self,
+//        SemanticInfoBuilder.self,
+//        CodeGrid.AttributedGlyphs.self,
+//        CodeGridTokenCache.self,
+        GridCache.self,
+        GlyphLayerCache.self,
+        ConcurrentGridRenderer.self,
+        GridCache.self,
+//        WorkerPool.self,
+        SceneLibrary.self,
+        CodePagesController.self,
+        WorldGridEditor.self,
+        WorldGridSnapping.self,
+    ]
+    
     func setupTracing() {
         SwiftTrace.logOutput.onOutput = onLog(_:)
         SwiftTrace.swiftDecorateArgs.onEntry = false
         SwiftTrace.swiftDecorateArgs.onExit = false
         SwiftTrace.typeLookup = true
         
-        let types = [
-            CodeGrid.self,
-            CodeGridParser.self,
-            CodeGrid.Measures.self,
-            CodeGrid.Renderer.self,
-            CodeGridSemanticMap.self,
-            SemanticInfoBuilder.self,
-            //            CodeGrid.AttributedGlyphs.self,
-            //            CodeGridTokenCache.self,
-            //            GlyphLayerCache.self,
-            //            ConcurrentGridRenderer.self,
-            //            GridCache.self,
-            //            WorkerPool.self,
-            //            SceneLibrary.self,
-            //            CodePagesController.self,
-        ] as [AnyClass]
-        
-        types.forEach {
+        Self.trackedTypes.forEach {
             SwiftTrace.trace(aClass: $0)
             let parser = SwiftTrace.interpose(aType: $0)
             print("interposed '\($0)': \(parser)")

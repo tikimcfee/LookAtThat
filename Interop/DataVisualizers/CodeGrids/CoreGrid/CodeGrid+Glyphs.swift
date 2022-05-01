@@ -26,10 +26,13 @@ extension CodeGrid {
         
         let targetGrid: CodeGrid
         var lineCount = 0
-        private var currentPosition: SCNVector3 { targetGrid.pointer.position.translated() }
         
         init(targetGrid: CodeGrid) {
             self.targetGrid = targetGrid
+        }
+        
+        private var currentPosition: SCNVector3 {
+            targetGrid.pointer.position.translated()
         }
         
         func insert(

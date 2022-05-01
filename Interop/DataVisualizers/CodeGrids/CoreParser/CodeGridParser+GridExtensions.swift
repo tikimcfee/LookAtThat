@@ -20,7 +20,7 @@ extension CodeGridParser {
     
     func createGridFromSyntax(_ syntax: SourceFileSyntax, _ sourceURL: URL?) -> CodeGrid {
         let grid = createNewGrid()
-            .consume(syntax: Syntax(syntax))
+            .consume(rootSyntaxNode: Syntax(syntax))
             .sizeGridToContainerNode()
             .applying {
                 if let url = sourceURL, let path = FileKitPath(url: url) {

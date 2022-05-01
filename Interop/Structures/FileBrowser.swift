@@ -80,6 +80,7 @@ extension FileBrowser {
         enum SelectType {
             case addToFocus
             case addToWorld
+            case focusOnExistingGrid
         }
         
         case noSelection

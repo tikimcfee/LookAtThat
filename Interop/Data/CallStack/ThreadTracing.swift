@@ -31,6 +31,7 @@ class DirectedThreadLogger {
     
     func consume(_ line: TraceLine) {
         guard Self.AllWritersEnabled else { return }
+        
         let serialized = line.serialize()
         store.appendText(serialized)
         store.appendText(Self.newLine)
@@ -56,9 +57,21 @@ extension Thread {
     }
     
     static func loadPersistedTrace(at url: URL) -> [TraceLine] {
+        let target = NSMutableArray()
         SplittingFileReader(targetURL: url)
-            .lazyLoadSplits
-            .compactMap { TraceLine.deserialize(traceLine: $0) }
+            .cancellableRead { newLine, shouldStop in
+                guard let traceLine = TraceLine.deserialize(traceLine: newLine) else {
+                    print("Trace line failed to deserialize: \(newLine)")
+                    shouldStop = true
+                    return
+                }
+                target.add(traceLine)
+            }
+        let mappedArray = target as NSArray as? [TraceLine]
+        return mappedArray ?? {
+            print("Failed to cast trace line array")
+            return []
+        }()
     }
     
     static func storeTraceLine(_ output: TraceLine) {

@@ -121,13 +121,13 @@ extension CodeGrid {
 extension CodeGrid {
     
     @discardableResult
-    func consume(syntax: Syntax) -> CodeGrid {
-        laztrace(#fileID,#function,syntax)
+    func consume(rootSyntaxNode: Syntax) -> CodeGrid {
+        laztrace(#fileID,#function,rootSyntaxNode)
         
         let attributedGlyphsWriter = vendAttributedGlyphsWriter
         let writeGlyphs = [.all, .glyphs].contains(displayMode)
         
-        for token in syntax.tokens {
+        for token in rootSyntaxNode.tokens {
             // Setup identifiers and build out token text
             let tokenId = token.id
             let tokenIdNodeName = tokenId.stringIdentifier
@@ -159,7 +159,7 @@ extension CodeGrid {
             
             if walkSemantics {
                 walkHierarchyForSemantics(
-                    rootSyntax: syntax,
+                    rootSyntax: rootSyntaxNode,
                     token,
                     tokenId,
                     tokenIdNodeName,
@@ -168,8 +168,14 @@ extension CodeGrid {
             }
         }
         
+        consumedRootSyntaxNodes.append(rootSyntaxNode)
+        
         if writeGlyphs {
             attributedGlyphsWriter.finalize()
+        }
+        
+        if walkSemantics {
+            codeGridSemanticInfo.associateWithAllCurrentIDs(syntax: rootSyntaxNode)
         }
         
         recomputeDisplayMode()

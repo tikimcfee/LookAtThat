@@ -13,13 +13,9 @@ import SwiftUI
 class GridCache {
     typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
     let parser: CodeGridParser
-    var cachedGrids = [CodeGrid.ID: CacheValue]()
-    var cachedControls = [CodeGrid.ID: CodeGridControl]()
-    var cachedFiles = [FileKitPath: CodeGrid.ID]()
-    
-    private var semaphore = DispatchSemaphore(value: 1)
-    func lock()   { semaphore.wait() }
-    func unlock() { semaphore.signal() }
+    let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
+    var cachedControls = ConcurrentDictionary<CodeGrid.ID, CodeGridControl>()
+    var cachedFiles = ConcurrentDictionary<FileKitPath, CodeGrid.ID>()
     
     init(parser: CodeGridParser) {
         self.parser = parser
@@ -33,30 +29,32 @@ class GridCache {
         cachedControls[key.displayGrid.id] = key
     }
     
-    func setCache(_ key: FileKitPath) -> CodeGrid {
+    func setCache(_ key: FileKitPath, _ setOriginalAsClone: Bool = true) -> CodeGrid {
         let newGrid = parser.renderGrid(key.url) ?? {
             print("Could not render path \(key)")
             return parser.createNewGrid()
         }()
         
-        let newClone = newGrid.makeClone()
+        let newCacheValue = setOriginalAsClone
+            ? (source: newGrid, clone: newGrid)
+            : (source: newGrid, clone: newGrid.makeClone())
         
-        lock()
-        cachedGrids[newGrid.id] = (source: newGrid, clone: newClone)
+        cachedGrids[newGrid.id] = newCacheValue
         cachedFiles[key] = newGrid.id
-        unlock()
         return newGrid
     }
     
     func getOrCache(_ key: FileKitPath) -> CodeGrid {
-        lock()
         if let gridId = cachedFiles[key],
            let grid = cachedGrids[gridId] {
-            unlock()
             return grid.source
         }
-        unlock()
         
         return setCache(key)
+    }
+    
+    func get(_ key: FileKitPath) -> CacheValue? {
+        guard let cachedId = cachedFiles[key] else { return nil }
+        return cachedGrids[cachedId]
     }
 }

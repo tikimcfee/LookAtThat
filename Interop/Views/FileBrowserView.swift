@@ -8,13 +8,20 @@
 import SwiftUI
 import Foundation
 
+extension FileBrowserView {
+    var fileBrowser: FileBrowser {
+        SceneLibrary.global.codePagesController.fileBrowser
+    }
+    
+    func pathDepths(_ scope: FileBrowser.Scope) -> Int {
+        fileBrowser.distanceToRoot(scope)
+    }
+}
+
 struct FileBrowserView: View {
     
     typealias RowType = [FileBrowser.Scope]
     @State var files: RowType = []
-    
-    var fileBrowser: FileBrowser { SceneLibrary.global.codePagesController.fileBrowser }
-    func pathDepths(_ scope: FileBrowser.Scope) -> Int { fileBrowser.distanceToRoot(scope) }
     
     var body: some View {
         fileRows(files)
@@ -22,8 +29,8 @@ struct FileBrowserView: View {
                 SceneLibrary.global.codePagesController.fileStream
                     .subscribe(on: DispatchQueue.global())
                     .receive(on: DispatchQueue.main)
-            ) { scopes in
-                self.files = scopes
+            ) { selectedScopes in
+                self.files = selectedScopes
             }
     }
     
@@ -42,7 +49,6 @@ struct FileBrowserView: View {
         )
     }
     
-    @ViewBuilder
     func actionButton(
         _ text: String,
         _ path: FileKitPath,
@@ -53,16 +59,17 @@ struct FileBrowserView: View {
             .onTapGesture { genericSelection(event) }
             .padding(8.0)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-            .padding(4.0)
+            .padding(2.0)
     }
     
     @ViewBuilder
     func rowForScope(_ scope: FileBrowser.Scope) -> some View {
         switch scope {
         case let .file(path):
-            HStack {
+            HStack(spacing: 2) {
+                Spacer().frame(width: 2.0)
                 makeSpacer(pathDepths(scope))
-                Text("📄")
+                Text("􀡫")
                     .font(.footnote)
                     .truncationMode(.middle)
                 Text(path.components.last?.rawValue ?? "")
@@ -70,12 +77,13 @@ struct FileBrowserView: View {
                 
                 Spacer()
 
-                actionButton("📦", path, event: .newSingleCommand(path, .addToWorld))
+                actionButton("􀐩+", path, event: .newSingleCommand(path, .addToFocus))
+                actionButton("􀈚 v3", path, event: .newSingleCommand(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
             .onTapGesture {
-                genericSelection(.newSingleCommand(path, .addToFocus))
+                genericSelection(.newSingleCommand(path, .focusOnExistingGrid))
             }
         case let .directory(path):
             HStack {
@@ -87,8 +95,7 @@ struct FileBrowserView: View {
                 
                 Spacer()
                 
-                actionButton("📦", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
-                actionButton("📦🔂", path, event: .newMultiCommandRecursiveAllCache(path))
+                actionButton("􀈚 v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -104,8 +111,7 @@ struct FileBrowserView: View {
                 
                 Spacer()
                 
-                actionButton("📦", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
-                actionButton("📦🔂", path, event: .newMultiCommandRecursiveAllCache(path))
+                actionButton("􀈚 v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
@@ -132,7 +138,7 @@ struct FileBrowserView: View {
     @ViewBuilder
     func makeSpacer(_ depth: Int?) -> some View {
         HStack(spacing: 2.0) {
-            Spacer()
+//            RectangleDivider()
             RectangleDivider()
         }.frame(
             width: 16.0 * CGFloat(depth ?? 1),
@@ -145,11 +151,32 @@ struct FileBrowserView: View {
 struct RectangleDivider: View {
     let color: Color = .secondary
     let height: CGFloat = 8.0
-    let width: CGFloat = 1.0
+    let width: CGFloat = 2.0
     var body: some View {
         Rectangle()
             .fill(color)
             .frame(width: width)
-            .edgesIgnoringSafeArea(.horizontal)
+//            .edgesIgnoringSafeArea(.horizontal)
     }
 }
+
+#if DEBUG
+struct FileBrowserView_Previews: PreviewProvider {
+    
+    static let testPaths = [
+        "/Users/lugos/udev/manicmind/LookAtThat",
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/",
+        "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
+    ]
+    
+    static let testFiles = {
+        testPaths.reduce(into: [FileBrowser.Scope]()) { result, path in
+            result.append(.file(FileKitPath(path)))
+        }
+    }()
+    
+    static var previews: some View {
+        FileBrowserView(files: testFiles)
+    }
+}
+#endif

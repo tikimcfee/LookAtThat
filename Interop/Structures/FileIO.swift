@@ -12,7 +12,8 @@
 import Foundation
 
 class SplittingFileReader {
-    static private let asciiSeparator = UInt8(ascii: "\n")
+    typealias Receiver = (String, inout Bool) -> Void
+    
     private(set) lazy var lazyLoadSplits: [String] = doSplit()
     
     let targetURL: URL
@@ -20,11 +21,23 @@ class SplittingFileReader {
     init(targetURL: URL) {
         self.targetURL = targetURL
     }
+    
+    func cancellableRead(_ receiver: Receiver) {
+        doSplit(receiver: receiver)
+    }
 }
 
 private extension SplittingFileReader {
+    static private let asciiSeparator = UInt8(ascii: "\n")
+    
     func doSplit() -> [String] {
-        return getDataBlock().withUnsafeBytes(Self.splitLinesFromUnsafeBuffer)
+        getDataBlock().withUnsafeBytes(Self.immediateSplitBuffer)
+    }
+    
+    func doSplit(receiver: Receiver) {
+        getDataBlock().withUnsafeBytes {
+            Self.cancellableSplitBuffer($0, to: receiver)
+        }
     }
     
     func getDataBlock() -> Data {
@@ -36,7 +49,24 @@ private extension SplittingFileReader {
         }
     }
     
-    static func splitLinesFromUnsafeBuffer(_ body: UnsafeRawBufferPointer) -> [String] {
+    static func cancellableSplitBuffer(_ body: UnsafeRawBufferPointer, to receiver: Receiver) {
+        var start = 0
+        var stop = 0
+        var stopProcessing = false
+        for pointerElement in body where !stopProcessing {
+            if pointerElement == asciiSeparator {
+                let slice = Slice<UnsafeRawBufferPointer>(base: body, bounds: start..<stop)
+                let decoded = decodeStringFromSlice(slice)
+                receiver(decoded, &stopProcessing)
+                stop += 1
+                start = stop
+            } else {
+                stop += 1
+            }
+        }
+    }
+    
+    static func immediateSplitBuffer(_ body: UnsafeRawBufferPointer) -> [String] {
         body.split(separator: asciiSeparator)
             .map(decodeStringFromSlice)
     }

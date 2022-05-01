@@ -49,6 +49,7 @@ class CodeGrid: Identifiable, Equatable {
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
     
+    var consumedRootSyntaxNodes: [Syntax] = []
     var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     

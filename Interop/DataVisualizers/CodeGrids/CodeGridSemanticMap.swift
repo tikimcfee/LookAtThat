@@ -137,6 +137,17 @@ extension CodeGridSemanticMap {
 		semanticsLookupBySyntaxId[syntaxId] = newInfo
 	}
     
+    func associateWithAllCurrentIDs(syntax: Syntax) {
+        let syntaxId = syntax.id
+        let currentValues = Array(syntaxIdToAssociatedIds.values)
+        currentValues.forEach { knownAssociations in
+            knownAssociations.keys.forEach { associationKey in
+                syntaxIdToAssociatedIds[syntaxId, default: [:]][associationKey] = 1
+            }
+        }
+    }
+    
+    
     // Uses a nested dictionary to associate a node with an arbitrary set of
     // other nodes. The first key is lookup for associations. The second is
     // to quickly determine if a given node is associated with the former. 1

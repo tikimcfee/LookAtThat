@@ -13,6 +13,10 @@ class ControlleriOSCompat {
     let inputCompat: CodePagesInput
     let engine: FocusBoxLayoutEngine
     
+    lazy var resizeCommand = inputCompat.focus.resize
+    lazy var layoutCommand = inputCompat.focus.layout
+    lazy var insertControl = parser.gridCache.insertControl
+    
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesInput(controller: controller)
@@ -46,78 +50,89 @@ let Constants = (
 
 extension ControlleriOSCompat: CommandHandler {
     func handleSingleCommand(_ path: FileKitPath, _ style: FileBrowser.Event.SelectType) {
-        guard let newGrid = renderAndCache(path) else { return }
-                
-        let resizeCommand = inputCompat.focus.resize
-        let layoutCommand = inputCompat.focus.layout
-        let insertControl = parser.gridCache.insertControl
-        
         switch style {
         case .addToFocus:
-            resizeCommand { _, box in
-                addToFocus()
-                sceneTransaction {
-                    #if os(macOS)
-                    moveNewGrid(box)
-                    #endif
-                    addControls(box)
-                }
-            }
+            guard let newGrid = renderAndCache(path) else { return }
+            doAddToFocus(newGrid)
+        case .focusOnExistingGrid:
+            guard let cachedGrid = parser.gridCache.get(path)?.source else { return }
+            doHighlightFocus(cachedGrid)
         case .addToWorld:
             break
         }
-        
-        func addToFocus() {
+    }
+}
+
+extension ControlleriOSCompat {
+    func doHighlightFocus(_ codeGrid: CodeGrid) {
+        guard let firstRootNode = codeGrid.consumedRootSyntaxNodes.first else { return }
+        controller.setNewFocus(
+            id: firstRootNode.id,
+            in: codeGrid
+        )
+    }
+}
+
+extension ControlleriOSCompat {
+    func doAddToFocus(_ newGrid: CodeGrid) {
+        resizeCommand { _, box in
             sceneTransaction(0) { layoutCommand { focus, box in
                 focus.addGridToFocus(newGrid, box.deepestDepth + 1)
             }}
-        }
-        
-        func moveNewGrid(_ box: FocusBox) {
-            guard box.deepestDepth >= 0 else { return }
             
             sceneTransaction {
-                switch box.layoutMode {
-                case .horizontal:
-                    box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
-                case .stacked:
-                    box.rootNode.simdTranslate(dZ: Constants.stackOffset)
-                case .userStack:
-                    print("iOS move new grid")
-                }
+                #if os(macOS)
+                moveNewGrid(newGrid, box)
+                #endif
+                addControls(newGrid, box)
             }
+        }
+    }
+    
+    func moveNewGrid(_ newGrid: CodeGrid, _ box: FocusBox) {
+        guard box.deepestDepth >= 0 else { return }
+        
+        sceneTransaction {
+            switch box.layoutMode {
+            case .horizontal:
+                box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
+            case .stacked:
+                box.rootNode.simdTranslate(dZ: Constants.stackOffset)
+            case .userStack:
+                print("iOS move new grid")
+            }
+        }
+    }
+    
+    func addControls(_ newGrid: CodeGrid, _ box: FocusBox) {
+        //TODO: The control is off by a few points.. WHY!?
+        let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
+            insertControl($0)
+            newGrid.addingChild($0)
         }
         
-        func addControls(_ box: FocusBox) {
-            //TODO: The control is off by a few points.. WHY!?
-            let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
-                insertControl($0)
-                newGrid.addingChild($0)
-            }
-            
-            swapControl.setPositionConstraint(
-                target: newGrid.rootNode,
-                positionOffset: SCNVector3(
-                    x: 0,
-                    y: swapControl.displayGrid.measures.lengthY + Constants.topOffsetPad,
-                    z: 0
-                )
+        swapControl.setPositionConstraint(
+            target: newGrid.rootNode,
+            positionOffset: SCNVector3(
+                x: 0,
+                y: swapControl.displayGrid.measures.lengthY + Constants.topOffsetPad,
+                z: 0
             )
-            print("swap:----\n", swapControl.displayGrid.measures.dumpstats)
-            
-            let focusControl = GridControlAddToFocus(newGrid, inputCompat.focus).applying {
-                insertControl($0)
-                newGrid.addingChild($0)
-            }
-            focusControl.setPositionConstraint(
-                target: swapControl.displayGrid.rootNode,
-                positionOffset: SCNVector3(
-                    x: focusControl.displayGrid.measures.lengthX + Constants.trailingOffsetPad,
-                    y: 0,
-                    z: 0
-                )
-            )
-            print("focusControl:----\n", focusControl.displayGrid.measures.dumpstats)
+        )
+        print("swap:----\n", swapControl.displayGrid.measures.dumpstats)
+        
+        let focusControl = GridControlAddToFocus(newGrid, inputCompat.focus).applying {
+            insertControl($0)
+            newGrid.addingChild($0)
         }
+        focusControl.setPositionConstraint(
+            target: swapControl.displayGrid.rootNode,
+            positionOffset: SCNVector3(
+                x: focusControl.displayGrid.measures.lengthX + Constants.trailingOffsetPad,
+                y: 0,
+                z: 0
+            )
+        )
+        print("focusControl:----\n", focusControl.displayGrid.measures.dumpstats)
     }
 }

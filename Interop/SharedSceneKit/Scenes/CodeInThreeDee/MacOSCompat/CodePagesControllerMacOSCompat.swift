@@ -16,6 +16,11 @@ class CodePagesControllerMacOSCompat {
     let controller: CodePagesController
     let inputCompat: CodePagesControllerMacOSInputCompat
     let engine: FocusBoxLayoutEngine
+    
+    lazy var resizeCommand = inputCompat.focus.resize
+    lazy var layoutCommand = inputCompat.focus.layout
+    lazy var insertControl = parser.gridCache.insertControl
+    
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesControllerMacOSInputCompat(controller: controller)
@@ -35,67 +40,80 @@ class CodePagesControllerMacOSCompat {
 
 extension CodePagesControllerMacOSCompat: CommandHandler {
     func handleSingleCommand(_ path: FileKitPath, _ style: FileBrowser.Event.SelectType) {
-        guard let newGrid = renderAndCache(path) else { return }
-        
-        let resizeCommand = inputCompat.focus.resize
-        let layoutCommand = inputCompat.focus.layout
-        let insertControl = parser.gridCache.insertControl
-        
         switch style {
         case .addToFocus:
-            resizeCommand { _, box in
-                sceneTransaction(0) { layoutCommand { focus, box in
-                    focus.addGridToFocus(newGrid, box.deepestDepth + 1)
-                }}
-                
-                if box.deepestDepth != 0 {
-                    sceneTransaction {
-                        switch box.layoutMode {
-                        case .horizontal:
-                            box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
-                        case .stacked:
-                            box.rootNode.simdTranslate(dZ: VectorVal(-150.0).vector)
-                        case .userStack:
-                            print("Seriously userStack isn't supported on mac yet")
-                        }
+            guard let newGrid = renderAndCache(path) else { return }
+            doAddToFocus(newGrid)
+        case .addToWorld:
+            guard let newGrid = renderAndCache(path) else { return }
+            doAddToRoot(rootGrid: newGrid)
+        case .focusOnExistingGrid:
+            guard let cachedGrid = parser.gridCache.get(path)?.source else { return }
+            focusOnGrid(target: cachedGrid)
+        }
+    }
+}
+
+private extension CodePagesControllerMacOSCompat {
+    func focusOnGrid(target: CodeGrid) {
+        controller.zoom(to: target)
+    }
+}
+
+
+private extension CodePagesControllerMacOSCompat {
+    func doAddToRoot(rootGrid: CodeGrid) {
+        controller.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
+    }
+}
+
+private extension CodePagesControllerMacOSCompat {
+    func doAddToFocus(_ newGrid: CodeGrid) {
+        resizeCommand { _, box in
+            sceneTransaction(0) { layoutCommand { focus, box in
+                focus.addGridToFocus(newGrid, box.deepestDepth + 1)
+            }}
+            
+            if box.deepestDepth != 0 {
+                sceneTransaction {
+                    switch box.layoutMode {
+                    case .horizontal:
+                        box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
+                    case .stacked:
+                        box.rootNode.simdTranslate(dZ: VectorVal(-150.0).vector)
+                    case .userStack:
+                        print("Seriously userStack isn't supported on mac yet")
                     }
-                }
-                
-                //TODO: The control is off by a few points.. WHY!?
-                let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
-                    insertControl($0)
-                    newGrid.addingChild($0)
-                    
-                    $0.setPositionConstraint(
-                        target: newGrid.rootContainerNode,
-                        positionOffset: SCNVector3(
-                            0, $0.displayGrid.measures.lengthY + 2.0, 0
-                        )
-                    )
-                }
-                
-                GridControlAddToFocus(newGrid, inputCompat.focus).applying {
-                    insertControl($0)
-                    newGrid.addingChild($0)
-                    
-                    $0.setPositionConstraint(
-                        target: swapControl.displayGrid.rootNode,
-                        positionOffset: SCNVector3(
-                            swapControl.displayGrid.measures.lengthX + 4.0, 0, 0
-                        )
-                    )
                 }
             }
             
-        case .addToWorld:
-            self.addToRoot(rootGrid: newGrid)
+            //TODO: The control is off by a few points.. WHY!?
+            let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
+                insertControl($0)
+                newGrid.addingChild($0)
+                
+                $0.setPositionConstraint(
+                    target: newGrid.rootContainerNode,
+                    positionOffset: SCNVector3(
+                        0, $0.displayGrid.measures.lengthY + 2.0, 0
+                    )
+                )
+            }
+            
+            GridControlAddToFocus(newGrid, inputCompat.focus).applying {
+                insertControl($0)
+                newGrid.addingChild($0)
+                
+                $0.setPositionConstraint(
+                    target: swapControl.displayGrid.rootNode,
+                    positionOffset: SCNVector3(
+                        swapControl.displayGrid.measures.lengthX + 4.0, 0, 0
+                    )
+                )
+            }
         }
+        
     }
-    
-    func addToRoot(rootGrid: CodeGrid) {
-        controller.sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
-    }
-
 }
 
 extension CodePagesControllerMacOSCompat {
