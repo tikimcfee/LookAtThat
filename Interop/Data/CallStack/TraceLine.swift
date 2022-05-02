@@ -28,6 +28,10 @@ class TraceLine: TraceLineType, Identifiable {
         CallStackParsing.callComponents(from: signature)
     }()
     
+    static var missing: TraceLine {
+        TraceLine(entryExitName: "?? ", signature: "No signature found", threadName: "NoThread", queueName: "NoQueue")
+    }
+    
     init(entryExitName: String,
          signature: String,
          threadName: String,
@@ -36,5 +40,21 @@ class TraceLine: TraceLineType, Identifiable {
         self.signature = signature
         self.threadName = threadName
         self.queueName = queueName
+    }
+}
+
+extension TraceLine: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(entryExitName)
+        hasher.combine(signature)
+        hasher.combine(threadName)
+        hasher.combine(queueName)
+    }
+    
+    static func == (_ left: TraceLine, _ right: TraceLine) -> Bool {
+        return left.entryExitName == right.entryExitName
+            && left.signature == right.signature
+            && left.threadName == right.threadName
+            && left.queueName == right.queueName
     }
 }

@@ -60,8 +60,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         let firstThread = try XCTUnwrap(tracer.capturedLoggingThreads.keys.first, "Expected at least one log thread")
-        let logs = firstThread.getTraceLogs()
-        
+        let logs = try XCTUnwrap(firstThread.getTraceLogs())
         XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
     }
     
@@ -80,7 +79,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testFileBackArrays() throws {
         let traceFile = bundle.testTraceFile
-        let traceFileSpec = AppFiles.createTraceFileSpec(named: "test-spec")
+        let traceFileSpec = AppFiles.createTraceIDFile(named: "test-spec")
         let idMap = TraceLineIDMap()
         
         let specFileWriter = AppendingStore(targetFile: traceFileSpec)
@@ -90,7 +89,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
 //        var testStop = 10
         SplittingFileReader(targetURL: traceFile)
             .cancellableRead { newLine, shouldStop in
-                let generatedTraceId = idMap[newLine]
+                guard let generatedTraceId = try? XCTUnwrap(idMap.insertRawLine(newLine), "Must get ID from new trace line")
+                else {
+                    shouldStop = true
+                    return
+                }
                 specFileWriter.appendText(generatedTraceId.uuidString)
                 startingLineCount += 1
                 
@@ -101,7 +104,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printStart()
         print("Trace reads from: \(traceFile)")
         print("Spec  reads from: \(traceFileSpec)")
-        print("Map: \(idMap.bimap.keysToValues.keys.count) keys")
+        print("Map: \(idMap.persistedBiMap.keysToValues.keys.count) keys")
         print("Had lines: \(startingLineCount)")
         
         let uuidArray = try XCTUnwrap(
@@ -122,7 +125,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print("Encoded new map size: \(enodedMap)")
         
         let decodedMap = try TraceLineIDMap.decodeFrom(enodedMap)
-        print("Decoded map keys: \(decodedMap.bimap.valuesToKeys.keys.count)")
+        print("Decoded map keys: \(decodedMap.persistedBiMap.valuesToKeys.keys.count)")
         
         let recodedMap = try decodedMap.encodeValues()
         XCTAssertEqual(enodedMap.count, recodedMap.count, "ID map must be resilient to reencode")
@@ -135,6 +138,27 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         print("Total lines matched: \(finalMatchedCount)")
         XCTAssertEqual(finalMatchedCount, startingLineCount, "All lines must be matchable from decoded store")
+        
+        printEnd()
+    }
+    
+    func testTracingGroup() throws {
+        printStart()
+        let group = PersistentThreadGroup()
+        PersistentThreadTracer.AllWritesEnabled = true
+        let tracer = try XCTUnwrap(
+            group.tracer(for: Thread.current),
+            "Must recreate from the same thread during runtime"
+        )
+        try tracer.eraseTargetAndReset()
+        
+        let testWrites = (0..<5000)
+        for _ in testWrites {
+            group.multiplextNewLine(thread: Thread.current, line: .random)
+        }
+        print("Wrote: \(testWrites.upperBound)")
+        print("CachedIds: \(group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count)")
+        print("Tracer reports count: \(tracer.count)")
         
         printEnd()
     }

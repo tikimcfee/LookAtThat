@@ -211,9 +211,14 @@
 		B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
 		B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
 		B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
-		B768B656281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceFileIDMap.swift */; };
-		B768B657281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceFileIDMap.swift */; };
-		B768B658281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceFileIDMap.swift */; };
+		B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
+		B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
+		B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
+		B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
+		B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
+		B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
+		B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */; };
+		B768B65F281F7B3B0098F8D0 /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
 		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -557,7 +562,8 @@
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
-		B768B655281F4F8D0098F8D0 /* TraceFileIDMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceFileIDMap.swift; sourceTree = "<group>"; };
+		B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLineIDMap.swift; sourceTree = "<group>"; };
+		B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersisentThreadTracer.swift; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
@@ -824,6 +830,7 @@
 				B7981032281CBAF5009A82BD /* TraceLine.swift */,
 				B7981036281CC279009A82BD /* ThreadInfoExtract.swift */,
 				B798103A281CC6BC009A82BD /* ThreadTracing.swift */,
+				B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */,
 			);
 			path = CallStack;
 			sourceTree = "<group>";
@@ -1208,7 +1215,7 @@
 				B74A234228161C4600F6F727 /* SemanticInfo.swift */,
 				453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */,
 				B768B64D281F16260098F8D0 /* SplittingFileReader.swift */,
-				B768B655281F4F8D0098F8D0 /* TraceFileIDMap.swift */,
+				B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -1590,7 +1597,7 @@
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
 				B74A22A62814FFF300F6F727 /* GridControlSwapModes.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
-				B768B658281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */,
+				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B74A22A82814FFF300F6F727 /* SCNBezierPath.swift in Sources */,
 				B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
@@ -1711,6 +1718,7 @@
 				B74A23112814FFF300F6F727 /* WireDataTransformer.swift in Sources */,
 				B74A23122814FFF300F6F727 /* WordLayerCache.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
+				B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B74A23142814FFF300F6F727 /* SceneKitRepresentableView.swift in Sources */,
 				B7981031281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */,
@@ -1735,7 +1743,7 @@
 				B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
-				B768B656281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */,
+				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
@@ -1856,6 +1864,7 @@
 				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B735A9E92676AAE400F351B4 /* WordLayerCache.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
+				B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */,
 				B798102F281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
@@ -1899,7 +1908,9 @@
 				B7F44C46276E68D600522B45 /* FocusBoxEngine_iOS.swift in Sources */,
 				F057D217252042F80094BD83 /* WordPositionIterator.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
+				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
+				B768B65F281F7B3B0098F8D0 /* ThreadTracing.swift in Sources */,
 				B7C756FE280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
 				B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
@@ -1908,6 +1919,7 @@
 				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */,
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
+				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,
@@ -1919,7 +1931,6 @@
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
-				B768B657281F4F8D0098F8D0 /* TraceFileIDMap.swift in Sources */,
 				B7C75704280CECBA0005A233 /* TAPInputMode.swift in Sources */,
 				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
 				B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
@@ -1988,6 +1999,7 @@
 				F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */,
 				B78159EE273E059500212176 /* SceneKit+BoundsCaching.swift in Sources */,
 				B78159EA273E057B00212176 /* WordGeometryCache.swift in Sources */,
+				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,
 				F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */,
 				B7C7571B280CEE040005A233 /* Structures.swift in Sources */,
 				B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */,

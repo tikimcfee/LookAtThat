@@ -26,15 +26,10 @@ struct FileUUIDArray: RandomAccessCollection {
 extension FileUUIDArray {
     private static let UUID_LENGTH = 36
     
-    static func from(fileURL: URL) -> FileUUIDArray? {
-        do {
-            let elementPointer = try MappedElementPointer<CharType>(file: fileURL)
-            let source = FileBlockStringArray(base: elementPointer, lineLength: UUID_LENGTH)
-            return FileUUIDArray(source: source)
-        } catch {
-            print(error)
-            return nil
-        }
+    static func from(fileURL: URL) throws -> FileUUIDArray {
+        let elementPointer = try MappedElementPointer<CharType>(file: fileURL)
+        let source = FileBlockStringArray(base: elementPointer, lineLength: UUID_LENGTH)
+        return FileUUIDArray(source: source)
     }
 }
 

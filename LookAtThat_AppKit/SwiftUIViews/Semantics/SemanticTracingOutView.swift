@@ -265,9 +265,7 @@ func helloWorld() {
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
-        (0...10).forEach { _ in
-            Thread.storeTraceLine(TraceLine.random)
-        }
+        (0...10).forEach { _ in Thread.addRandomEvent() }
 #if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }

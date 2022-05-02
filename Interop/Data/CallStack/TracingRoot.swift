@@ -19,10 +19,6 @@ class TracingRoot {
     }
     
     func onLog(_ out: TraceOutput) {
-        // TODO: entry/exit tends to follow because of shallow function call stacks
-        // do some processing on the flow to handle entry/exit of same signature
-        guard out.isEntry else { return }
-        
         capturedLoggingThreads[Thread.current] = 1
         Thread.storeTraceLog(out)
     }

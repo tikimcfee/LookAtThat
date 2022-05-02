@@ -16,7 +16,7 @@ class SemanticTracingOutState: ObservableObject {
     @Published private(set) var traceLogFiles = [URL]()
     @Published private(set) var focusContext = [MatchedTraceOutput]()
     @Published private(set) var currentIndex = 0
-    @Published private(set) var focusTraceLines: [TraceLine] = []
+    @Published private(set) var focusTraceLines: PersistentThreadTracer?
     @Published private(set) var focusTrace: MatchedTraceOutput?
     var focusedThread: Thread?
     var focusedFile: URL?
@@ -31,7 +31,7 @@ class SemanticTracingOutState: ObservableObject {
     
     init() {
         $isFileLoggingEnabled.sink {
-            DirectedThreadLogger.AllWritersEnabled = $0
+            PersistentThreadTracer.AllWritesEnabled = $0
         }.store(in: &bag)
     }
         
@@ -58,13 +58,17 @@ class SemanticTracingOutState: ObservableObject {
     func loadTrace(at url: URL) {
         WorkerPool.shared.nextConcurrentWorker().async {
             print("Starting trace load at \(url)")
-            let loadedTrace = Thread.loadPersistedTrace(at: url)
-            print("Load completed for \(url); lines loaded = \(loadedTrace.count)")
-            DispatchQueue.main.async {
-                print("Dispatched new trace for state")
-                self.focusedThread = nil
-                self.focusedFile = url
-                self.resetTraceLines(loadedTrace)
+            do {
+                let loadedTrace = try Thread.threadTracer(from: url)
+                print("Load completed for \(url); lines loaded = \(loadedTrace.count)")
+                DispatchQueue.main.async {
+                    print("Dispatched new trace for state")
+                    self.focusedThread = nil
+                    self.focusedFile = url
+                    self.resetTraceLines(loadedTrace)
+                }
+            } catch {
+                print("ThreadTracer load error", error)
             }
         }
     }
@@ -97,60 +101,17 @@ class SemanticTracingOutState: ObservableObject {
     func increment() {
         currentIndex += 1
         highlightTrace(self[currentIndex]?.maybeTrace)
-        resetFocus()
     }
     
     func decrement() {
         currentIndex -= 1
         highlightTrace(self[currentIndex]?.maybeTrace)
-        resetFocus()
     }
     
-    func resetFocus() {
-        // lookahead and skip repeated cache entries
-        var newFocusTrace: MatchedTraceOutput?
-        var final = [MatchedTraceOutput]()
-        let lookAheadMax = 128
-        let goalSize = 10
-        var offset = 0
-        
-        while offset < lookAheadMax && final.count < goalSize {
-            defer {
-                offset += 1
-//                print("\t\tNew offset: \(offset)")
-            }
-            
-            let focusIndex = currentIndex + offset
-            
-            guard let matchAtIndex = self[focusIndex] else {
-//                print("Missing: \(focusIndex)")
-                continue
-            }
-            
-            if final.last?.out.callPath == matchAtIndex.out.callPath {
-//                print("Skip: \(matchAtIndex.out.name) \(matchAtIndex.out.callComponents.callPath)")
-                continue
-            }
-            
-            if newFocusTrace == nil {
-                newFocusTrace = matchAtIndex
-//                print("Set focus: \(matchAtIndex.out.callComponents.callPath)")
-            }
-            
-//            print("Found for focus: \(matchAtIndex.out.callComponents.callPath)")
-            final.append(matchAtIndex)
-        }
-        
-        self.focusTrace = newFocusTrace
-        self.focusContext = final
-    }
-    
-    private func resetTraceLines(_ newLines: [TraceLine]) {
+    private func resetTraceLines(_ newTracker: PersistentThreadTracer?) {
         cache.lockAndDo { $0.removeAll(keepingCapacity: true) }
-        focusTraceLines = newLines
+        focusTraceLines = newTracker
         currentIndex = 0
-        focusContext = []
-        resetFocus()
     }
 }
 
@@ -223,14 +184,9 @@ extension SemanticTracingOutState {
     }
     
     func maybeInfoFromFocusedTraceLines(at index: Int) -> MatchedTraceOutput? {
-//        guard let thread = focusedThread else {
-//            print("No thread focused")
-//            return nil
-//        }
-//        let outputSnapshot = thread.getTraceLogs()
-        
-        guard focusTraceLines.indices.contains(index) else { return nil }
-        let output = focusTraceLines[index]
+        guard let tracer = focusTraceLines else { return nil }
+        guard tracer.indices.contains(index) else { return nil }
+        let output = tracer[index]
         let maybeInfo = wrapper?.lookupInfo(output)
         return maybeInfo
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-#if !TARGETING_SUI
+#if !TARGETING_SUI && !os(iOS)
 import SwiftTrace
 #else
 enum TraceOutput {
@@ -52,11 +52,21 @@ extension TraceOutput {
         }
     }
     
-    #if TARGETING_SUI
+    #if TARGETING_SUI || os(iOS)
     static var randomInvoke: String { "" }
     var signature: String { decorated }
     #else
-    static var randomInvoke: SwiftTrace.Swizzle.Invocation { .current }
+    static var randomInvoke: SwiftTrace.Swizzle.Invocation {
+        SwiftTrace.Swizzle.Invocation(
+            stackDepth: 10,
+            swizzle: SwiftTrace.Swizzle(
+                name: "TestSwizzle",
+                original: OpaquePointer(bitPattern: 69420)
+            )!,
+            returnAddress: UnsafeRawPointer(bitPattern: 69)!,
+            stackPointer: UnsafeMutablePointer<UInt64>(bitPattern: 420)!
+        )
+    }
     var signature: String {
         switch self {
         case .entry(let invocation, _, _, _):
@@ -81,11 +91,35 @@ extension TraceLine {
     static var random: TraceLine {
         return TraceLine(
             entryExitName: Bool.random() ? "-> " : "<- ",
-            signature: Bool.random() ? "helloWorld()" : "peaceWorld()",
+            signature: randomSignatures.randomElement()!,
             threadName: Thread.current.threadName,
             queueName: currentQueueName()
         )
     }
+    static var randomSignatures: [String] = {
+        let baseChars = "qwertyuiopasdfghjklzxcvbnm"
+        let allChars = "\(baseChars)\(baseChars.uppercased())"
+        let set = [
+            "helloWorld()",
+            "peaceWorld()",
+            "bungleMuk()",
+            "reticulateAllSplines(butNot: )",
+            "splineOnlyWhenGrunked(outside: withExtra: seeking: )",
+            "checkingTheOutsideFPAC(includingSecure: )",
+            "makeMoney(buyMedicine: )",
+            "ensure(butNotAlways: )",
+        ]
+        return (0..<100).reduce(into: [String]()) { result, _ in
+            if Bool.random() {
+                let randomChars = (0..<50)
+                    .filter { _ in Bool.random() }
+                    .compactMap { _ in allChars.randomElement() }
+                result.append(String(randomChars) + "()")
+            } else {
+                result.append(set.randomElement()!)
+            }
+        }
+    }()
 }
 
 extension TraceLine {

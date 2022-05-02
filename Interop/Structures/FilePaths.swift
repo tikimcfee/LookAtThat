@@ -53,7 +53,8 @@ extension AppFiles {
 
 extension AppFiles {
     private static let traceNamePrefix = "app-trace-output-"
-    private static let traceNameSpecPrefix = "app-trace-spec-"
+    private static let traceNameIDsPrefix = "app-trace-spec-"
+    private static let traceNameDefaultMapName = "app-trace-map-default.txt"
     
     public static var tracesDirectory: URL {
         directory(named: "traces")
@@ -65,10 +66,14 @@ extension AppFiles {
         return file(named: prefixedName, in: tracesDirectory)
     }
     
-    public static func createTraceFileSpec(named newFileName: String) -> URL {
-        let prefixedName = "\(traceNameSpecPrefix)\(newFileName).txt"
+    public static func createTraceIDFile(named newFileName: String) -> URL {
+        let prefixedName = "\(traceNameIDsPrefix)\(newFileName).txt"
         print("Created new trace spec file: \(prefixedName)")
         return file(named: prefixedName, in: tracesDirectory)
+    }
+    
+    public static func getDefaultTraceMapFile() -> URL {
+        return file(named: traceNameDefaultMapName, in: tracesDirectory)
     }
     
     public static func allTraceFiles() -> [URL] {
@@ -78,7 +83,10 @@ extension AppFiles {
         }
         
         return tracesRoot.children().filter {
-            !$0.isDirectory && $0.fileName.starts(with: traceNamePrefix)
+            !($0.isDirectory
+              || $0.fileName.starts(with: traceNamePrefix)
+              || $0.fileName.starts(with: traceNameIDsPrefix)
+              || $0.fileName.starts(with: traceNameDefaultMapName))
         }.map { $0.url }
     }
 }
