@@ -18,6 +18,7 @@ class PersistentThreadGroup {
     
     private var allErrorThreads = ConcurrentArray<Thread>()
     private let tracerMap = ConcurrentDictionary<Thread, PersistentThreadTracer>()
+    var lastSkipSignature: String?
     let sharedSignatureMap = TraceLineIDMap()
     
     init() {

@@ -8,18 +8,21 @@
 import Foundation
 
 class TraceLineIDMap {
-    private(set) var persistedBiMap = ConcurrentBiMap<String, UUID>()
-    private var memoryMap = ConcurrentBiMap<TraceLine, UUID>()
+    private(set) var persistedBiMap = ConcurrentBiMap<UUID, String>()
+    private var memoryMap = ConcurrentBiMap<UUID, TraceLine>()
     
     subscript(line: TraceLine) -> UUID {
         if let memory = memoryMap[line] { return memory }
         
         let lineKey = line.serialize()
-        return persistedBiMap[lineKey] ?? {
+        if let traceForKey = persistedBiMap[lineKey] {
+            return traceForKey
+        } else {
             let id = UUID()
             persistedBiMap[lineKey] = id
+            memoryMap[id] = line
             return id
-        }()
+        }
     }
     
     subscript(id: UUID) -> TraceLine? {
@@ -31,6 +34,8 @@ class TraceLineIDMap {
             print("Missing trace line for: \(id)")
             return nil
         }
+        
+        memoryMap[id] = trace
         return trace
     }
 }
@@ -40,10 +45,16 @@ extension TraceLineIDMap {
         var map: [UUID: String] = [:]
     }
     
+    func consumeSerialized(_ serialized: Serialized) {
+        serialized.map.forEach { uuid, rawLine in
+            persistedBiMap[uuid] = rawLine
+            memoryMap[uuid] = TraceLine.deserialize(traceLine: rawLine)
+        }
+    }
+    
     @discardableResult
     func insertRawLine(_ rawTraceLine: String) -> UUID? {
-        guard let trace = TraceLine.deserialize(traceLine: rawTraceLine)
-            else { return nil }
+        guard let trace = TraceLine.deserialize(traceLine: rawTraceLine) else { return nil }
         return self[trace]
     }
     
@@ -51,7 +62,7 @@ extension TraceLineIDMap {
         let toEncode = Serialized()
         persistedBiMap.valuesToKeys.lockAndDo { store in
             store.forEach { (key, value) in
-                toEncode.map[key] = value
+                toEncode.map[value] = key
             }
         }
         let jsonData = try JSONEncoder().encode(toEncode)
@@ -70,6 +81,7 @@ extension TraceLineIDMap {
     
     private func reload(from source: TraceLineIDMap) {
         self.persistedBiMap = source.persistedBiMap
+        self.memoryMap = source.memoryMap
     }
     
     static func decodeFrom(file: URL) throws -> TraceLineIDMap {
@@ -81,9 +93,8 @@ extension TraceLineIDMap {
         
         let decoded = try JSONDecoder().decode(Serialized.self, from: mapData)
         let newMap = TraceLineIDMap()
-        decoded.map.forEach { key, value in
-            newMap.persistedBiMap[key] = value
-        }
+        newMap.consumeSerialized(decoded)
+        
         return newMap
     }
     

@@ -57,11 +57,12 @@ struct SemanticTracingOutView: View {
     @ViewBuilder
     func makeFileIOToggleButton() -> some View {
         if state.isFileLoggingEnabled {
-            Button("Disable writers", action: {
+            Button("Stop writing & Save", action: {
                 state.isFileLoggingEnabled = false
+                Thread.commitGroupTracerState()
             })
         } else {
-            Button("Enable writers", action: {
+            Button("Start writing", action: {
                 state.isFileLoggingEnabled = true
             })
         }
@@ -114,25 +115,31 @@ struct SemanticTracingOutView: View {
         }
     }
     
+    @ViewBuilder
     func makeFocusedTraceRows() -> some View {
-        List {
-            ForEach(state.focusContext, id: \.id) { match in
-                switch match {
-                case let .found(found):
-                    makeTextRow(match, found)
-                        .onTapGesture { state.toggleTrace(found.trace) }
-                        .listRowInsets(.none)
-                        .listRowBackground(matchColor(match))
-                    
-                case let .missing(missing):
-                    makeEmptyRow("""
+        ScrollView {
+            LazyVStack {
+                ForEach(state, id: \.id) { match in
+                    switch match {
+                    case let .indexFault(fault):
+                        Text("> Index fault! \(fault.position)")
+                        
+                    case let .found(found):
+                        makeTextRow(match, found)
+                            .onTapGesture { state.toggleTrace(found.trace) }
+                            .listRowInsets(.none)
+                            .listRowBackground(matchColor(match))
+                        
+                    case let .missing(missing):
+                        makeEmptyRow("""
                     \(missing.out.entryExitName) <?> \(missing.out.callPath)
                     \(missing.threadName)|\(missing.queueName)
                     """)
-                    .listRowInsets(.none)
+                        .listRowInsets(.none)
+                    }
                 }
+                .overlay(Rectangle().stroke(Color.gray))
             }
-            .overlay(Rectangle().stroke(Color.gray))
         }
         .listStyle(.plain)
     }
@@ -281,7 +288,7 @@ func helloWorld() {
             }
 #endif
         state.reloadQueryWrapper()
-        state.focusedThread = Thread.current
+        state.setCurrentThread(Thread.current)
         return state
     }()
     

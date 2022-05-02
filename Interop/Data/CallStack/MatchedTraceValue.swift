@@ -25,6 +25,13 @@ extension CallStateSource {
 enum MatchedTraceOutput {
     case missing(Missing)
     case found(Found)
+    case indexFault(IndexFault)
+    
+    struct IndexFault {
+        let out = TraceLine.missing
+        let position: Int
+        let stamp: String = UUID().uuidString
+    }
     
     struct Missing: CallStateSource {
         let out: TraceLine
@@ -55,6 +62,7 @@ extension MatchedTraceOutput {
         switch self {
         case let .missing(missing): return missing.out
         case let .found(found): return found.out
+        case let .indexFault(fault): return fault.out
         }
     }
     
@@ -62,6 +70,7 @@ extension MatchedTraceOutput {
         switch self {
         case let .missing(missing): return missing.stamp
         case let .found(found): return found.stamp
+        case let .indexFault(fault): return fault.stamp
         }
     }
     
@@ -69,6 +78,7 @@ extension MatchedTraceOutput {
         switch self {
         case let .missing(missing): return missing.out.threadName
         case let .found(found): return found.out.threadName
+        case let .indexFault(fault): return fault.out.threadName
         }
     }
     
@@ -76,6 +86,7 @@ extension MatchedTraceOutput {
         switch self {
         case let .missing(missing): return missing.out.queueName
         case let .found(found): return found.out.queueName
+        case let .indexFault(fault): return fault.out.queueName
         }
     }
     

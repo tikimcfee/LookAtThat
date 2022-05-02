@@ -37,7 +37,7 @@ extension TracingRoot {
 //        CodeGrid.AttributedGlyphs.self,
 //        CodeGridTokenCache.self,
         GridCache.self,
-        GlyphLayerCache.self,
+//        GlyphLayerCache.self,
         ConcurrentGridRenderer.self,
         GridCache.self,
 //        WorkerPool.self,

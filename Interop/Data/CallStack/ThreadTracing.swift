@@ -83,12 +83,17 @@ extension PersistentThreadGroup {
     func multiplextNewOutput(thread: Thread, output: TraceOutput) {
         guard let tracer = tracer(for: thread) else { return }
         
+        if output.isExit { return }
+        if lastSkipSignature == output.signature { return }
+        lastSkipSignature = output.signature
+        
         let line = TraceLine(
             entryExitName: output.entryExitName,
             signature: output.signature,
             threadName: thread.threadName,
             queueName: currentQueueName()
         )
+        
         tracer.onNewTraceLine(line)
     }
 }

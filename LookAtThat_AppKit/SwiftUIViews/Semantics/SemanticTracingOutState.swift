@@ -14,19 +14,18 @@ class SemanticTracingOutState: ObservableObject {
     
     @Published var isFileLoggingEnabled = false
     @Published private(set) var traceLogFiles = [URL]()
-    @Published private(set) var focusContext = [MatchedTraceOutput]()
     @Published private(set) var currentIndex = 0
+    private var indexCache = ConcurrentDictionary<Int, MatchedTraceOutput>()
+    
     @Published private(set) var focusTraceLines: PersistentThreadTracer?
-    @Published private(set) var focusTrace: MatchedTraceOutput?
-    var focusedThread: Thread?
-    var focusedFile: URL?
+    @Published private var focusedThread: Thread?
+    @Published private var focusedFile: URL?
     
     @Published var isAutoPlaying = false
     @Published var interval = 1000.0
     let loopRange = 16.0...2000.0
     
     private let tracer = TracingRoot.shared
-    private lazy var cache = SemanticLookupCache(self)
     private lazy var bag = Set<AnyCancellable>()
     
     init() {
@@ -63,9 +62,10 @@ class SemanticTracingOutState: ObservableObject {
                 print("Load completed for \(url); lines loaded = \(loadedTrace.count)")
                 DispatchQueue.main.async {
                     print("Dispatched new trace for state")
+                    self.indexCache = .init()
                     self.focusedThread = nil
                     self.focusedFile = url
-                    self.resetTraceLines(loadedTrace)
+                    self.focusTraceLines = loadedTrace
                 }
             } catch {
                 print("ThreadTracer load error", error)
@@ -76,6 +76,7 @@ class SemanticTracingOutState: ObservableObject {
     func startAutoPlay() {
         guard !isAutoPlaying else { return }
         isAutoPlaying = true
+        
         let looper = QuickLooper(
             interval: .milliseconds(Int(interval)),
             loop: { self.increment() }
@@ -93,25 +94,19 @@ class SemanticTracingOutState: ObservableObject {
     }
     
     func setCurrentThread(_ thread: Thread) {
+        print("\n\n\t\tDisabled thread setting!\n\n")
         focusedThread = thread
         focusedFile = nil
-        resetTraceLines(thread.getTraceLogs())
     }
     
     func increment() {
         currentIndex += 1
-        highlightTrace(self[currentIndex]?.maybeTrace)
+        highlightTrace(self[currentIndex].maybeTrace)
     }
     
     func decrement() {
         currentIndex -= 1
-        highlightTrace(self[currentIndex]?.maybeTrace)
-    }
-    
-    private func resetTraceLines(_ newTracker: PersistentThreadTracer?) {
-        cache.lockAndDo { $0.removeAll(keepingCapacity: true) }
-        focusTraceLines = newTracker
-        currentIndex = 0
+        highlightTrace(self[currentIndex].maybeTrace)
     }
 }
 
@@ -170,9 +165,8 @@ extension SemanticTracingOutState {
 
 extension SemanticTracingOutState {
     
-    func isCurrent(_ info: MatchedTraceOutput?) -> Bool {
-        return info?.maybeFoundInfo?.syntaxId
-            == focusTrace?.maybeFoundInfo?.syntaxId
+    func isCurrent(_ info: MatchedTraceOutput) -> Bool {
+        return self[currentIndex].stamp == info.stamp
     }
     
     func isCurrent(_ thread: Thread?) -> Bool {
@@ -182,40 +176,14 @@ extension SemanticTracingOutState {
     func isCurrent(file: URL) -> Bool {
         return focusedFile == file
     }
-    
-    func maybeInfoFromFocusedTraceLines(at index: Int) -> MatchedTraceOutput? {
-        guard let tracer = focusTraceLines else { return nil }
-        guard tracer.indices.contains(index) else { return nil }
-        let output = tracer[index]
-        let maybeInfo = wrapper?.lookupInfo(output)
-        return maybeInfo
-    }
-}
-
-// MARK: - Lookup Cache
-
-// Pass through index to use the easy cache semantics.
-private class SemanticLookupCache: LockingCache<Int, MatchedTraceOutput?> {
-    let sourceState: SemanticTracingOutState
-    
-    init(_ state: SemanticTracingOutState) {
-        self.sourceState = state
-        super.init()
-    }
-    
-    override func make(
-        _ key: Int,
-        _ store: inout [Int : MatchedTraceOutput?]
-    ) -> MatchedTraceOutput? {
-        sourceState.maybeInfoFromFocusedTraceLines(at: key)
-    }
 }
 
 // MARK: - Subscripting
 
 #if TARGETING_SUI
-extension SemanticTracingOutState {
+extension SemanticTracingOutState{
     static var randomTestData = [MatchedTraceOutput]()
+    
     subscript(_ index: Int) -> MatchedTraceOutput? {
         return Self.randomTestData.indices.contains(index)
             ? Self.randomTestData[index]
@@ -223,9 +191,21 @@ extension SemanticTracingOutState {
     }
 }
 #else
-extension SemanticTracingOutState {
-    subscript(_ index: Int) -> MatchedTraceOutput? {
-        cache[index]
+extension SemanticTracingOutState: RandomAccessCollection {
+    var startIndex: Int { return focusTraceLines?.startIndex ?? 0 }
+    var endIndex: Int { return focusTraceLines?.endIndex ?? 0 }
+    
+    subscript(_ index: Int) -> MatchedTraceOutput {
+        if let cached = indexCache[index] { return cached }
+        guard let tracer = focusTraceLines,
+              tracer.indices.contains(index),
+              let output = Optional(tracer[index]),
+              let matchedInfo = wrapper?.lookupInfo(output)
+        else {
+            return .indexFault(.init(position: index))
+        }
+        indexCache[index] = matchedInfo
+        return matchedInfo
     }
 }
 #endif
