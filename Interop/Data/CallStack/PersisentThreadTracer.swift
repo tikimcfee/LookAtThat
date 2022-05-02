@@ -40,13 +40,14 @@ class PersistentThreadTracer {
         let traceId = sourceMap[traceLine]
         
         guard Self.AllWritesEnabled else { return }
-        isBackingCacheDirty = true
         idFileWriter.appendText(traceId.uuidString)
+        isBackingCacheDirty = true
     }
     
-    func eraseTargetAndReset() throws {
+    func eraseTargetAndReset() {
         idFileWriter.cleanFile()
-        idFileReader = try FileUUIDArray.from(fileURL: idFileTarget)
+        isOneTimeResetFlag = true
+        evaluateArrayState()
     }
     
     func evaluateArrayState() {
@@ -85,65 +86,5 @@ extension PersistentThreadTracer: RandomAccessCollection {
         }
         deserializedCache[position] = trace
         return trace
-    }
-}
-
-// MARK: Thread->Tracer group
-
-typealias StorageCollectionType = NSMutableArray
-typealias StorageCollectionDowncast = NSArray
-typealias StorageElement = TraceLine
-
-class PersistentThreadGroup {
-    private var failedThreads = ConcurrentArray<Thread>()
-    private let fileIOStorage = ConcurrentDictionary<Thread, PersistentThreadTracer>()
-    var sharedSignatureMap: TraceLineIDMap
-    var lastKey: String?
-    
-    init() {
-        do {
-            let defaultMapFile = AppFiles.getDefaultTraceMapFile()
-            self.sharedSignatureMap = try TraceLineIDMap.decodeFrom(file: defaultMapFile)
-        } catch {
-            print("Unable to load persisted trace IDs, starting with empty store", error)
-            self.sharedSignatureMap = TraceLineIDMap()
-        }
-    }
-    
-    // TODO: load from file set, currently lazy loads from thread name if loaded from file
-    func tracer(for thread: Thread) -> PersistentThreadTracer? {
-        guard !failedThreads.values.contains(thread) else { return nil }
-        
-        do {
-            return try fileIOStorage[thread] ?? {
-                let idFileName = probablySafeThreadName(thread)
-                let newTracer = try createNewTracer(fileName: idFileName)
-                fileIOStorage[thread] = newTracer
-                print("Created new thread tracer: \(newTracer)")
-                return newTracer
-            }()
-        } catch {
-            print("Tracer could not be created: \(thread), \(error)")
-            failedThreads.append(thread)
-            return nil
-        }
-    }
-}
-
-private extension PersistentThreadGroup {
-    func probablySafeThreadName(_ thread: Thread) -> String {
-        thread.threadName.components(separatedBy:
-            .alphanumerics
-            .inverted
-        ).joined(separator: "_")
-    }
-    
-    func createNewTracer(fileName: String) throws -> PersistentThreadTracer {
-        print("Creating new thread tracer: \(fileName)")
-        let newIDFile = AppFiles.createTraceIDFile(named: fileName)
-        return try PersistentThreadTracer(
-            idFileTarget: newIDFile,
-            sourceMap: sharedSignatureMap
-        )
     }
 }

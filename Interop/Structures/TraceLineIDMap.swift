@@ -8,9 +8,9 @@
 import Foundation
 
 class TraceLineIDMap {
-    let persistedBiMap = ConcurrentBiMap<String, UUID>()
+    private(set) var persistedBiMap = ConcurrentBiMap<String, UUID>()
     private var memoryMap = ConcurrentBiMap<TraceLine, UUID>()
-        
+    
     subscript(line: TraceLine) -> UUID {
         if let memory = memoryMap[line] { return memory }
         
@@ -56,6 +56,20 @@ extension TraceLineIDMap {
         }
         let jsonData = try JSONEncoder().encode(toEncode)
         return jsonData
+    }
+    
+    func decodeAndReload(from file: URL) {
+        do {
+            let newReload = try Self.decodeFrom(file: file)
+            reload(from: newReload)
+            print("TraceIDMap reloaded: \(file)")
+        } catch {
+            print("TraceIDMap reload error", error)
+        }
+    }
+    
+    private func reload(from source: TraceLineIDMap) {
+        self.persistedBiMap = source.persistedBiMap
     }
     
     static func decodeFrom(file: URL) throws -> TraceLineIDMap {

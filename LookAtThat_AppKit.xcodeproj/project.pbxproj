@@ -219,6 +219,9 @@
 		B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */; };
 		B768B65F281F7B3B0098F8D0 /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
+		B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
+		B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
+		B768B663281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
 		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -564,6 +567,7 @@
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
 		B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLineIDMap.swift; sourceTree = "<group>"; };
 		B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersisentThreadTracer.swift; sourceTree = "<group>"; };
+		B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentThreadGroup.swift; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
@@ -831,6 +835,7 @@
 				B7981036281CC279009A82BD /* ThreadInfoExtract.swift */,
 				B798103A281CC6BC009A82BD /* ThreadTracing.swift */,
 				B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */,
+				B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */,
 			);
 			path = CallStack;
 			sourceTree = "<group>";
@@ -1730,6 +1735,7 @@
 				B74A231A2814FFF300F6F727 /* CodeGrid+Writing.swift in Sources */,
 				B74A231B2814FFF300F6F727 /* RawSensorData.swift in Sources */,
 				B74A231C2814FFF300F6F727 /* TAPCBUUID.swift in Sources */,
+				B768B663281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B74A231D2814FFF300F6F727 /* ConcurrentPriorityQueue.swift in Sources */,
 				B74A231E2814FFF300F6F727 /* FingerView.swift in Sources */,
 				B7981029281C3050009A82BD /* FileIO.swift in Sources */,
@@ -1876,6 +1882,7 @@
 				B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */,
 				B7C75707280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C756FD280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
+				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B73EF76E28111E2C008BEE85 /* ConcurrentPriorityQueue.swift in Sources */,
 				B7C7570F280CED4D0005A233 /* FingerView.swift in Sources */,
 				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
@@ -2024,6 +2031,7 @@
 				B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 				B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
+				B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

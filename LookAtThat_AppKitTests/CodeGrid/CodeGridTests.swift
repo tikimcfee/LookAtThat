@@ -150,15 +150,35 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             group.tracer(for: Thread.current),
             "Must recreate from the same thread during runtime"
         )
-        try tracer.eraseTargetAndReset()
+        tracer.eraseTargetAndReset()
+        group.eraseTraceMap()
         
-        let testWrites = (0..<5000)
+        let testWrites = (0..<10_000)
         for _ in testWrites {
             group.multiplextNewLine(thread: Thread.current, line: .random)
         }
         print("Wrote: \(testWrites.upperBound)")
         print("CachedIds: \(group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count)")
         print("Tracer reports count: \(tracer.count)")
+        XCTAssertEqual(tracer.count, testWrites.upperBound, "All writes must be recorded")
+        
+        let commitDidSucceed = group.commitTraceMapToTarget()
+        XCTAssertTrue(commitDidSucceed, "Group must succeed in writing to target file")
+        let data = try Data(contentsOf: PersistentThreadGroup.defaultMapFile)
+        print("Final traceIdMap: \(data)")
+        XCTAssertGreaterThan(data.count, 0, "Commited target map must have some data written")
+        let allTraceFileSizes = AppFiles.allTraceFiles().reduce(into: 0) { total, url in
+            let data = try? Data(contentsOf: url)
+            let count = data?.count ?? 0
+            print("\(url): \(count)")
+            total += data?.count ?? 0
+        }
+        print("Final id list totals: \(allTraceFileSizes)")
+        
+        let groupMapKeyCount = group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count
+        group.reloadTraceMap()
+        let reloadedKeyCount = group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count
+        XCTAssertEqual(groupMapKeyCount, reloadedKeyCount, "Reload must not mutate data")
         
         printEnd()
     }

@@ -52,18 +52,11 @@ extension AppFiles {
 // MARK: - Tracing
 
 extension AppFiles {
-    private static let traceNamePrefix = "app-trace-output-"
-    private static let traceNameIDsPrefix = "app-trace-spec-"
+    private static let traceNameIDsPrefix = "app-trace-id-list-"
     private static let traceNameDefaultMapName = "app-trace-map-default.txt"
     
     public static var tracesDirectory: URL {
         directory(named: "traces")
-    }
-        
-    public static func createTraceFile(named newFileName: String) -> URL {
-        let prefixedName = "\(traceNamePrefix)\(newFileName).txt"
-        print("Created new trace file: \(prefixedName)")
-        return file(named: prefixedName, in: tracesDirectory)
     }
     
     public static func createTraceIDFile(named newFileName: String) -> URL {
@@ -83,10 +76,7 @@ extension AppFiles {
         }
         
         return tracesRoot.children().filter {
-            !($0.isDirectory
-              || $0.fileName.starts(with: traceNamePrefix)
-              || $0.fileName.starts(with: traceNameIDsPrefix)
-              || $0.fileName.starts(with: traceNameDefaultMapName))
+            $0.fileName.starts(with: traceNameIDsPrefix)
         }.map { $0.url }
     }
 }
