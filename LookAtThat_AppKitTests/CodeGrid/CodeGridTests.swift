@@ -50,7 +50,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printStart()
         let grid = bundle.gridParser.createNewGrid()
             .applying { _ in printStart() }
-            .consume(syntax: sourceSyntax)
+            .consume(rootSyntaxNode: sourceSyntax)
             .sizeGridToContainerNode()
         printEnd()
         
@@ -63,6 +63,80 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let logs = firstThread.getTraceLogs()
         
         XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
+    }
+    
+    func testTracingCompression() throws {
+        let traceFile = bundle.testTraceFile
+        let data = try Data(contentsOf: traceFile, options: .mappedIfSafe)
+        print("Data size: \(data.kb)")
+        let transformer = WireDataTransformer()
+        transformer.mode = .standard
+        
+        let watch = Stopwatch(running: true)
+        let result = try XCTUnwrap(transformer.compress(data), "Must compress trace correctly")
+        print("\(transformer.mode) compressed size: \(result.count), \(watch.elapsedTimeString())")
+        watch.stop()
+    }
+    
+    func testFileBackArrays() throws {
+        let traceFile = bundle.testTraceFile
+        let traceFileSpec = AppFiles.createTraceFileSpec(named: "test-spec")
+        let idMap = TraceLineIDMap()
+        
+        let specFileWriter = AppendingStore(targetFile: traceFileSpec)
+        specFileWriter.cleanFile()
+        
+        var startingLineCount = 0
+//        var testStop = 10
+        SplittingFileReader(targetURL: traceFile)
+            .cancellableRead { newLine, shouldStop in
+                let generatedTraceId = idMap[newLine]
+                specFileWriter.appendText(generatedTraceId.uuidString)
+                startingLineCount += 1
+                
+//                testStop -= 1
+//                shouldStop = testStop <= 0
+            }
+
+        printStart()
+        print("Trace reads from: \(traceFile)")
+        print("Spec  reads from: \(traceFileSpec)")
+        print("Map: \(idMap.bimap.keysToValues.keys.count) keys")
+        print("Had lines: \(startingLineCount)")
+        
+        let uuidArray = try XCTUnwrap(
+            FileUUIDArray.from(fileURL: traceFileSpec)
+        )
+        
+        print("File array: start  \(uuidArray.startIndex)")
+        print("File array: end    \(uuidArray.endIndex)")
+        print("File array: count  \(uuidArray.count)")
+        
+        
+        let finalData = try Data(contentsOf: traceFileSpec)
+        let originalData = try Data(contentsOf: traceFile)
+        print("End spec file size: \(finalData.kb)")
+        print("Original file size: \(originalData.kb)")
+        
+        let enodedMap = try idMap.encodeValues()
+        print("Encoded new map size: \(enodedMap)")
+        
+        let decodedMap = try TraceLineIDMap.decodeFrom(enodedMap)
+        print("Decoded map keys: \(decodedMap.bimap.valuesToKeys.keys.count)")
+        
+        let recodedMap = try decodedMap.encodeValues()
+        XCTAssertEqual(enodedMap.count, recodedMap.count, "ID map must be resilient to reencode")
+        
+        print("Checking for all matched lines...")
+        var finalMatchedCount = 0
+        for case .some(let uuid) in uuidArray {
+            let _ = try XCTUnwrap(decodedMap[uuid], "Must have mapped trace for \(uuid)")
+            finalMatchedCount += 1
+        }
+        print("Total lines matched: \(finalMatchedCount)")
+        XCTAssertEqual(finalMatchedCount, startingLineCount, "All lines must be matchable from decoded store")
+        
+        printEnd()
     }
     
     func testTracingMulti() throws {
@@ -156,7 +230,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
         let firstGrid = bundle.gridParser.createNewGrid()
-            .consume(syntax: sourceSyntax)
+            .consume(rootSyntaxNode: sourceSyntax)
             .sizeGridToContainerNode()
         
         var firstGridGlyphs = Set<SCNNode>()
@@ -307,7 +381,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             CodeGrid(glyphCache: bundle.glyphs,
                      tokenCache: bundle.tokenCache)
                 .withFileName(bundle.testFile.lastPathComponent)
-                .consume(syntax: parsed.root)
+                .consume(rootSyntaxNode: parsed.root)
                 .sizeGridToContainerNode()
         }
         let testGrid = newGrid()
@@ -348,7 +422,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         func newGrid() -> CodeGrid {
             CodeGrid(glyphCache: bundle.glyphs,
                      tokenCache: bundle.tokenCache)
-                .consume(syntax: parsed.root)
+                .consume(rootSyntaxNode: parsed.root)
                 .sizeGridToContainerNode()
         }
         
@@ -459,7 +533,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         func newGrid() -> CodeGrid {
             let newGrid = CodeGrid(glyphCache: bundle.glyphs,
                                    tokenCache: bundle.tokenCache)
-                .consume(syntax: parsed.root)
+                .consume(rootSyntaxNode: parsed.root)
                 .sizeGridToContainerNode()
             
             allGrids.append(newGrid)

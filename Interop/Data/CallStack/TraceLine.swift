@@ -16,7 +16,7 @@ protocol TraceLineType {
     var queueName: String { get }
 }
 
-class TraceLine: TraceLineType {
+class TraceLine: TraceLineType, Identifiable {
     let entryExitName: String
     let signature: String
     let threadName: String

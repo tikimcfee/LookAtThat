@@ -3,7 +3,7 @@ import Brotli
 
 final class WireDataTransformer {
     enum DataError: Error { case decompression, compression, decodeString }
-    enum Mode { case brotli, standard }
+    enum Mode: CaseIterable { case brotli, standard }
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
     private let compressionFormat = NSData.CompressionAlgorithm.lzma
@@ -12,8 +12,6 @@ final class WireDataTransformer {
     init() {
         jsonEncoder.outputFormatting = .withoutEscapingSlashes
     }
-
-
 }
 
 // MARK: - CodeSheets

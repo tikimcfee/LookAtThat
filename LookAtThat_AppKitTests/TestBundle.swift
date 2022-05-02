@@ -23,6 +23,8 @@ class TestBundle {
         "SmallFile"
     ]
     
+    static let testTraceFile = URL(fileURLWithPath: "/Users/lugos/udev/manicmind/LookAtThat-FirstTrace/traces/app-trace-output-LugoWorkerPool-Serial-1.txt")
+    
     static let coreGridDirectory = "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/CoreGrid/"
     static let testFilesAbsolute = [
         URL(fileURLWithPath: coreGridDirectory + "CodeGrid.swift")
@@ -40,6 +42,7 @@ class TestBundle {
     
     lazy var testFile = Self.testFileResourceURLs[0]
     lazy var testFileRaw = Self.testFilesAbsolute[0]
+    lazy var testTraceFile = Self.testTraceFile
     var glyphs: GlyphLayerCache!
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!

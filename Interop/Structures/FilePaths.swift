@@ -32,6 +32,12 @@ public struct AppFiles {
         }
         return fileUrl
     }
+    
+    public static func touch(in fileURL: URL) {
+        if !fileManager.fileExists(atPath: fileURL.path) {
+            fileManager.createFile(atPath: fileURL.path, contents: Data(), attributes: nil)
+        }
+    }
 }
 
 // MARK: -- Rewrites
@@ -47,15 +53,22 @@ extension AppFiles {
 
 extension AppFiles {
     private static let traceNamePrefix = "app-trace-output-"
+    private static let traceNameSpecPrefix = "app-trace-spec-"
     
     public static var tracesDirectory: URL {
         directory(named: "traces")
     }
         
     public static func createTraceFile(named newFileName: String) -> URL {
-        let newFileName = "\(traceNamePrefix)\(newFileName).txt"
-        print("Created new trace file: \(newFileName)")
-        return file(named: newFileName, in: tracesDirectory)
+        let prefixedName = "\(traceNamePrefix)\(newFileName).txt"
+        print("Created new trace file: \(prefixedName)")
+        return file(named: prefixedName, in: tracesDirectory)
+    }
+    
+    public static func createTraceFileSpec(named newFileName: String) -> URL {
+        let prefixedName = "\(traceNameSpecPrefix)\(newFileName).txt"
+        print("Created new trace spec file: \(prefixedName)")
+        return file(named: prefixedName, in: tracesDirectory)
     }
     
     public static func allTraceFiles() -> [URL] {
