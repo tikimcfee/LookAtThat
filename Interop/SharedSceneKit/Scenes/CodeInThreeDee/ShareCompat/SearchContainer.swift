@@ -26,7 +26,7 @@ private class State {
 
 class SearchContainer {
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
-    private var currentWorkItem = DispatchWorkItem { print("hola, amigo") }
+    private var currentWorkItem: DispatchWorkItem?
     
     var hovers = TokenHoverInteractionTracker()
     var codeGridFocus: CodeGridFocusController
@@ -51,20 +51,21 @@ class SearchContainer {
     }
     
     private func setupNewSearch(_ newInput: String, _ sceneState: SceneState) {
-        currentWorkItem.cancel()
-        currentWorkItem = DispatchWorkItem(block: searchBlock)
-        searchQueue.async(execute: currentWorkItem)
-        
-        func searchBlock() {
-            RenderTask(
-                codeGridFocus: codeGridFocus,
-                codeGridParser: codeGridParser,
-                task: currentWorkItem,
-                newInput: newInput,
-                state: sceneState,
-                searchState: state
-            ).start()
+        if currentWorkItem == nil && newInput.isEmpty {
+            print("Skipping search; input empty, nothing to reset")
+            return
         }
+        
+        let renderTask = RenderTask(
+            codeGridFocus: codeGridFocus,
+            codeGridParser: codeGridParser,
+            newInput: newInput,
+            state: sceneState,
+            searchState: state
+        )
+        currentWorkItem?.cancel()
+        currentWorkItem = renderTask.task
+        searchQueue.async(execute: renderTask.task)
     }
 }
 
@@ -75,22 +76,20 @@ private class RenderTask {
     
     let codeGridFocus: CodeGridFocusController
     let codeGridParser: CodeGridParser
-    let task: DispatchWorkItem
     let newInput: String
     let sceneState: SceneState
     let searchState: State
+    lazy var task: DispatchWorkItem = DispatchWorkItem(block: { self.start() })
     
     init(
         codeGridFocus: CodeGridFocusController,
         codeGridParser: CodeGridParser,
-        task: DispatchWorkItem,
         newInput: String,
         state: SceneState,
         searchState: State
     ) {
         self.codeGridFocus = codeGridFocus
         self.codeGridParser = codeGridParser
-        self.task = task
         self.newInput = newInput
         self.sceneState = state
         self.searchState = searchState

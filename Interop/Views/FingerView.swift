@@ -43,6 +43,8 @@ struct FingerSUI: View {
             allFingers
         }
         .padding(8.0)
+        .onAppear { observing.start() }
+        .onDisappear { observing.stop() }
     }
     
     var allFingers: some View {

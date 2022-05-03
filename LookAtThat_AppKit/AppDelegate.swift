@@ -18,12 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
             .environmentObject(TapObserving.shared)
-            .onAppear {
-                TapObserving.shared.start()
-            }
-            .onDisappear {
-                TapObserving.shared.stop()
-            }
         
         // Create the window and set the content view.
         window = NSWindow(

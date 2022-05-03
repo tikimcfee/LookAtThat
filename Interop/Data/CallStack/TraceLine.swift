@@ -7,30 +7,15 @@
 
 import Foundation
 
-protocol TraceLineType {
-    var entryExitName: String { get }
-    var callPath: String { get }
-    var callPathComponents: [String] { get }
-    var signature: String { get }
-    var threadName: String { get }
-    var queueName: String { get }
-}
-
-class TraceLine: TraceLineType, Identifiable {
+class TraceLine: Identifiable {
     let entryExitName: String
     let signature: String
     let threadName: String
     let queueName: String
     
-    var callPath: String { callComponentsParsed.callPath }
-    var callPathComponents: [String] { callComponentsParsed.allComponents }
     private lazy var callComponentsParsed: (callPath: String, allComponents: [String]) = {
         CallStackParsing.callComponents(from: signature)
     }()
-    
-    static var missing: TraceLine {
-        TraceLine(entryExitName: "?? ", signature: "No signature found", threadName: "NoThread", queueName: "NoQueue")
-    }
     
     init(entryExitName: String,
          signature: String,
@@ -40,6 +25,20 @@ class TraceLine: TraceLineType, Identifiable {
         self.signature = signature
         self.threadName = threadName
         self.queueName = queueName
+    }
+}
+
+extension TraceLine {
+    static var missing: TraceLine {
+        TraceLine(entryExitName: "?? ", signature: "No signature found", threadName: "NoThread", queueName: "NoQueue")
+    }
+    
+    var callPath: String {
+        callComponentsParsed.callPath
+    }
+    
+    var callPathComponents: [String] {
+        callComponentsParsed.allComponents
     }
 }
 
