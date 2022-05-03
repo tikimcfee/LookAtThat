@@ -13,6 +13,8 @@ class TracingRoot {
     static var shared = TracingRoot()
     
     lazy var capturedLoggingThreads = ConcurrentDictionary<Thread, Int>()
+    lazy var capturedLoggingQueues = ConcurrentDictionary<String, Int>()
+    let tracingConsumer = TracingRootConsumer()
     
     private init() {
         
@@ -20,7 +22,37 @@ class TracingRoot {
     
     func onLog(_ out: TraceOutput) {
         capturedLoggingThreads[Thread.current] = 1
-        Thread.storeTraceLog(out)
+        capturedLoggingQueues[currentQueueName()] = 1
+        tracingConsumer.storeTraceLog(out)
+    }
+    
+    func getCurrentQueueTraceLogs() -> PersistentThreadTracer? {
+        tracingConsumer.getTraceLogs()
+    }
+    
+    func loadTrace(from file: URL) throws -> PersistentThreadTracer {
+        try tracingConsumer.threadTracer(from: file)
+    }
+    
+    func addRandomEvent() {
+        tracingConsumer.addRandomEvent()
+    }
+    
+    func commitMappingState() {
+        tracingConsumer.commitGroupTracerState()
+    }
+    
+    func removeAllTraces() {
+        tracingConsumer.removeAllLogTraces()
+    }
+    
+    func removeMapping() {
+        tracingConsumer.removeMapping()
+    }
+    
+    func setWritingEnabled(isEnabled: Bool) {
+        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
+        PersistentThreadTracer.AllWritesEnabled = isEnabled
     }
 }
 
@@ -40,11 +72,14 @@ extension TracingRoot {
 //        GlyphLayerCache.self,
         ConcurrentGridRenderer.self,
         GridCache.self,
-//        WorkerPool.self,
+        WorkerPool.self,
         SceneLibrary.self,
         CodePagesController.self,
         WorldGridEditor.self,
         WorldGridSnapping.self,
+        
+        TraceLineIDMap.self,
+        TraceLineIDMap.Serialized.self,
     ]
     
     func setupTracing() {

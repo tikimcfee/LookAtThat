@@ -61,7 +61,7 @@ extension AppFiles {
     
     public static func createTraceIDFile(named newFileName: String) -> URL {
         let prefixedName = "\(traceNameIDsPrefix)\(newFileName).txt"
-        print("Created new trace spec file: \(prefixedName)")
+        print("Created new trace ID list file: \(prefixedName)")
         return file(named: prefixedName, in: tracesDirectory)
     }
     

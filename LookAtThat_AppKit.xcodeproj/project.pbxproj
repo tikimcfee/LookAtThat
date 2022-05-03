@@ -218,10 +218,13 @@
 		B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
 		B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */; };
-		B768B65F281F7B3B0098F8D0 /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
+		B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
 		B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
 		B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
 		B768B663281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */; };
+		B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
+		B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
+		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
 		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -266,8 +269,8 @@
 		B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
 		B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
 		B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
-		B798103B281CC6BC009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
-		B798103E281CE32A009A82BD /* ThreadTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadTracing.swift */; };
+		B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
+		B798103E281CE32A009A82BD /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F930A2750683B00E46A96 /* CodePagesControllerMacOSCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */; };
@@ -568,6 +571,8 @@
 		B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLineIDMap.swift; sourceTree = "<group>"; };
 		B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersisentThreadTracer.swift; sourceTree = "<group>"; };
 		B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentThreadGroup.swift; sourceTree = "<group>"; };
+		B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRootConsumer.swift; sourceTree = "<group>"; };
+		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
@@ -579,7 +584,7 @@
 		B798102E281CBA70009A82BD /* MatchedTraceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedTraceValue.swift; sourceTree = "<group>"; };
 		B7981032281CBAF5009A82BD /* TraceLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLine.swift; sourceTree = "<group>"; };
 		B7981036281CC279009A82BD /* ThreadInfoExtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadInfoExtract.swift; sourceTree = "<group>"; };
-		B798103A281CC6BC009A82BD /* ThreadTracing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadTracing.swift; sourceTree = "<group>"; };
+		B798103A281CC6BC009A82BD /* ThreadExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadExtensions.swift; sourceTree = "<group>"; };
 		B79F93052750528B00E46A96 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
 		B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSCompat.swift; sourceTree = "<group>"; };
 		B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+GridExtensions.swift"; sourceTree = "<group>"; };
@@ -831,9 +836,10 @@
 				B74A233A2815265300F6F727 /* SemanticMapTracer.swift */,
 				B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */,
 				B77DCAB326781E4F002DF299 /* TracingRoot.swift */,
+				B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */,
 				B7981032281CBAF5009A82BD /* TraceLine.swift */,
 				B7981036281CC279009A82BD /* ThreadInfoExtract.swift */,
-				B798103A281CC6BC009A82BD /* ThreadTracing.swift */,
+				B798103A281CC6BC009A82BD /* ThreadExtensions.swift */,
 				B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */,
 				B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */,
 			);
@@ -1261,6 +1267,7 @@
 			children = (
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
+				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
 				B7AB37132745696000CEC7DD /* TestBundle.swift */,
 				F07C49C9251C095200F28173 /* Info.plist */,
 			);
@@ -1645,6 +1652,7 @@
 				B74A22CA2814FFF300F6F727 /* FocusBoxControl.swift in Sources */,
 				B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */,
 				B74A22CC2814FFF300F6F727 /* TAPKitDelegateController.swift in Sources */,
+				B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B74A22CD2814FFF300F6F727 /* WordColorCache.swift in Sources */,
 				B74A22CE2814FFF300F6F727 /* CodeGridFocusController.swift in Sources */,
 				B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */,
@@ -1694,7 +1702,7 @@
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */,
-				B798103E281CE32A009A82BD /* ThreadTracing.swift in Sources */,
+				B798103E281CE32A009A82BD /* ThreadExtensions.swift in Sources */,
 				B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */,
 				B74A22FA2814FFF300F6F727 /* CodeGrid+Clones.swift in Sources */,
 				B74A22FB2814FFF300F6F727 /* CodeGridControl.swift in Sources */,
@@ -1792,6 +1800,7 @@
 				B7C756F3280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
 				B735A9ED2676AB4500F351B4 /* WordColorCache.swift in Sources */,
+				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */,
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B79F930D275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
@@ -1841,7 +1850,7 @@
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
-				B798103B281CC6BC009A82BD /* ThreadTracing.swift in Sources */,
+				B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */,
 				B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				B74A233D2815267E00F6F727 /* TracingInfoBridging.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
@@ -1896,6 +1905,7 @@
 				B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
 				B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */,
+				B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1917,7 +1927,7 @@
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
-				B768B65F281F7B3B0098F8D0 /* ThreadTracing.swift in Sources */,
+				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B7C756FE280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
 				B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,

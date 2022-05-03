@@ -32,6 +32,7 @@ class TestBundle {
     
     static let testDirectoriesAbsolute = [
         "/Users/lugos/udev/manicmind/LookAtThat",
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/",
         "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/",
         "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
     ]

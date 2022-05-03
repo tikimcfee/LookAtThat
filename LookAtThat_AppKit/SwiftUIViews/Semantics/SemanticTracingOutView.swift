@@ -59,7 +59,7 @@ struct SemanticTracingOutView: View {
         if state.isFileLoggingEnabled {
             Button("Stop writing & Save", action: {
                 state.isFileLoggingEnabled = false
-                Thread.commitGroupTracerState()
+                TracingRoot.shared.commitMappingState()
             })
         } else {
             Button("Start writing", action: {
@@ -213,7 +213,7 @@ struct SemanticTracingOutView: View {
     }
     
     func removeAllLogs() {
-        Thread.removeAllLogTraces()
+        TracingRoot.shared.removeAllTraces()
     }
     
     func forward() {
@@ -272,7 +272,7 @@ func helloWorld() {
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
-        (0...10).forEach { _ in Thread.addRandomEvent() }
+        (0...10).forEach { _ in TracingRoot.shared.addRandomEvent() }
 #if TARGETING_SUI
         SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }

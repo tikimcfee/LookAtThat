@@ -30,7 +30,7 @@ class SemanticTracingOutState: ObservableObject {
     
     init() {
         $isFileLoggingEnabled.sink {
-            PersistentThreadTracer.AllWritesEnabled = $0
+            TracingRoot.shared.setWritingEnabled(isEnabled: $0)
         }.store(in: &bag)
     }
         
@@ -58,7 +58,7 @@ class SemanticTracingOutState: ObservableObject {
         WorkerPool.shared.nextConcurrentWorker().async {
             print("Starting trace load at \(url)")
             do {
-                let loadedTrace = try Thread.threadTracer(from: url)
+                let loadedTrace = try TracingRoot.shared.loadTrace(from: url)
                 print("Load completed for \(url); lines loaded = \(loadedTrace.count)")
                 DispatchQueue.main.async {
                     print("Dispatched new trace for state")

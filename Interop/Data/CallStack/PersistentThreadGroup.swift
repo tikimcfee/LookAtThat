@@ -16,18 +16,44 @@ typealias StorageElement = TraceLine
 class PersistentThreadGroup {
     static var defaultMapFile: URL { AppFiles.getDefaultTraceMapFile() }
     
-    private var allErrorThreads = ConcurrentArray<Thread>()
-    private let tracerMap = ConcurrentDictionary<Thread, PersistentThreadTracer>()
+    private var allErrorQueues = ConcurrentArray<String>()
+    private let tracerMap = ConcurrentDictionary<String, PersistentThreadTracer>()
+    
+//    private var allErrorThreads = ConcurrentArray<Thread>()
+//    private let tracerMap = ConcurrentDictionary<Thread, PersistentThreadTracer>()
+    
     var lastSkipSignature: String?
     let sharedSignatureMap = TraceLineIDMap()
     
     init() {
         reloadTraceMap()
     }
+    
+    func tracer(for queueName: String) -> PersistentThreadTracer? {
+        guard !allErrorQueues.values.contains(queueName) else { return nil }
+        
+        do {
+            return try tracerMap[queueName] ?? {
+                let idFileName = probablySafeQueueName(queueName)
+                let newTracer = try createNewTracer(fileName: idFileName)
+                tracerMap[queueName] = newTracer
+                print("Created new thread tracer: \(newTracer)")
+                return newTracer
+            }()
+        } catch {
+            print("Tracer could not be created: \(queueName), \(error)")
+            allErrorQueues.append(queueName)
+            return nil
+        }
+    }
+}
 
+// MARK: - Thread Tracing
+/*
+extension PersistentThreadGroup {
     func tracer(for thread: Thread) -> PersistentThreadTracer? {
         guard !allErrorThreads.values.contains(thread) else { return nil }
-        
+
         do {
             return try tracerMap[thread] ?? {
                 let idFileName = probablySafeThreadName(thread)
@@ -43,6 +69,7 @@ class PersistentThreadGroup {
         }
     }
 }
+*/
 
 //MARK: - Data loading
 extension PersistentThreadGroup {
@@ -68,9 +95,16 @@ extension PersistentThreadGroup {
 }
 
 private extension PersistentThreadGroup {
+    func probablySafeQueueName(_ queue: String) -> String {
+        queue.components(separatedBy:
+            .alphanumerics
+            .inverted
+        ).joined(separator: "_")
+    }
+    
     func probablySafeThreadName(_ thread: Thread) -> String {
         thread.threadName.components(separatedBy:
-                .alphanumerics
+            .alphanumerics
             .inverted
         ).joined(separator: "_")
     }
