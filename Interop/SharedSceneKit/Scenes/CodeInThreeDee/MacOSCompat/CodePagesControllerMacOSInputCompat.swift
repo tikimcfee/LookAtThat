@@ -156,7 +156,7 @@ class CodePagesControllerMacOSInputCompat {
     
     private func onGridHovered(_ grid: CodeGrid) {
         guard !grid.codeGridSemanticInfo.isEmpty else {
-            print("Skip grid hover: \(grid.id)")
+//            print("Skip grid hover: \(grid.id)")
             return
         }
         hoveredInfo = grid.codeGridSemanticInfo

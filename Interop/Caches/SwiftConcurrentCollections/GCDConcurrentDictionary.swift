@@ -29,12 +29,6 @@ public final class GCDConcurrentDictionary<Key: Hashable, Value> {
     var isEmpty: Bool {
         return containerAccessQueue.sync { self.container.isEmpty }
     }
-    
-    func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        containerAccessQueue.sync(flags: .barrier) {
-            op(&self.container)
-        }
-    }
 
     /// Sets the value for key
     ///

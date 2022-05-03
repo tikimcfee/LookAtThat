@@ -33,8 +33,7 @@ public extension SCNNode {
     }
     
     class BoundsCaching {
-        private static var boundsCacheLocking = LockingCache<BoundsKey, Bounds>()
-        private static var boundsCache: [BoundsKey: Bounds] = [:]
+        private static var boundsCache = ConcurrentDictionary<BoundsKey, Bounds>()
         private static let BoundsZero: Bounds = (min: SCNVector3Zero, max: SCNVector3Zero)
         
         public static func Clear() {
@@ -43,9 +42,7 @@ public extension SCNNode {
         
         internal static func getOrUpdate(_ node: SCNNode, presentation: Bool) -> Bounds {
             var bounds: Bounds?
-            boundsCacheLocking.lockAndDo { cache in
-                bounds = cache[node.cacheKey]
-            }
+            bounds = boundsCache[node.cacheKey]
             guard let cached = bounds else {
                 return Update(node, presentation)
             }
@@ -54,23 +51,17 @@ public extension SCNNode {
         
         internal static func Update(_ node: SCNNode, _ presentation: Bool) -> Bounds {
             let box = node.computeBoundingBox(presentation)
-            boundsCacheLocking.lockAndDo { cache in
-                cache[node.cacheKey] = box
-            }
+            boundsCache[node.cacheKey] = box
             return box
         }
         
         internal static func Set(_ node: SCNNode, _ bounds: Bounds) {
-            boundsCacheLocking.lockAndDo { cache in
-                cache[node.cacheKey] = bounds
-            }
+            boundsCache[node.cacheKey] = bounds
         }
         
         internal static func ClearRoot(_ root: SCNNode) {
-            boundsCacheLocking.lockAndDo { cache in
-                root.enumerateHierarchy { node, _ in
-                    cache[node.cacheKey] = nil
-                }
+            root.enumerateHierarchy { node, _ in
+                boundsCache[node.cacheKey] = nil
             }
         }
     }

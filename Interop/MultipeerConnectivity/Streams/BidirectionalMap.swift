@@ -10,10 +10,8 @@ class ConcurrentBiMap<Key: Hashable, Value: Hashable>: ExpressibleByDictionaryLi
     
     init(forward: Forward) {
         let newBackward = Backward()
-        forward.lockAndDo { store in
-            for (key, value) in store {
-                newBackward[value] = key
-            }
+        forward.directCopy().forEach { pair in
+            newBackward[pair.value] = pair.key
         }
         self.keysToValues = forward
         self.valuesToKeys = newBackward
@@ -21,10 +19,8 @@ class ConcurrentBiMap<Key: Hashable, Value: Hashable>: ExpressibleByDictionaryLi
     
     init(backward: Backward) {
         let newForward = Forward()
-        backward.lockAndDo { store in
-            for (key, value) in store {
-                newForward[value] = key
-            }
+        backward.directCopy().forEach { pair in
+            newForward[pair.value] = pair.key
         }
         self.keysToValues = newForward
         self.valuesToKeys = backward

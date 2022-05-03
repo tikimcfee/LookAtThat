@@ -60,11 +60,8 @@ extension TraceLineIDMap {
     
     func encodeValues() throws -> Data {
         let toEncode = Serialized()
-        persistedBiMap.valuesToKeys.lockAndDo { store in
-            store.forEach { (key, value) in
-                toEncode.map[value] = key
-            }
-        }
+        toEncode.map = persistedBiMap.keysToValues.directCopy()
+        
         let jsonData = try JSONEncoder().encode(toEncode)
         return jsonData
     }

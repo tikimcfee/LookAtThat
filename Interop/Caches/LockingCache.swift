@@ -35,10 +35,6 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
             action(key, value)
         }
     }
-    
-    func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        cache.lockAndDo(op)
-    }
 	
 	private func lockAndSet(key: Key, value: Value) {
 		cache[key] = value

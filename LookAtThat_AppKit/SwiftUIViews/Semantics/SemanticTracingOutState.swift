@@ -181,13 +181,15 @@ extension SemanticTracingOutState {
 // MARK: - Subscripting
 
 #if TARGETING_SUI
-extension SemanticTracingOutState{
+extension SemanticTracingOutState: RandomAccessCollection {
+    var startIndex: Int { return Self.randomTestData.startIndex }
+    var endIndex: Int { return Self.randomTestData.endIndex }
     static var randomTestData = [MatchedTraceOutput]()
     
-    subscript(_ index: Int) -> MatchedTraceOutput? {
+    subscript(_ index: Int) -> MatchedTraceOutput {
         return Self.randomTestData.indices.contains(index)
             ? Self.randomTestData[index]
-            : nil
+        : .indexFault(.init(position: index))
     }
 }
 #else

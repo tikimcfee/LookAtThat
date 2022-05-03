@@ -7,12 +7,6 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
     private var container: [Key: Value] = [:]
     private let rwlock = RWLock()
     
-    func lockAndDo(_ op: (inout [Key: Value]) -> Void) {
-        rwlock.writeLock()
-        op(&container)
-        rwlock.unlock()
-    }
-    
     public var isEmpty: Bool {
         let result: Bool
         rwlock.readLock()
@@ -36,7 +30,21 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
         rwlock.unlock()
         return result
     }
+    
+    public func directCopy() -> [Key: Value] {
+        let result: [Key: Value]
+        rwlock.readLock()
+        result = container
+        rwlock.unlock()
+        return result
+    }
 
+    public func removeAll() {
+        rwlock.writeLock()
+        container.removeAll()
+        rwlock.unlock()
+    }
+    
     public init() {}
 
     /// Sets the value for key
