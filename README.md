@@ -3,8 +3,8 @@ See Swift in Space
 
 <table style="padding:10px">
   <tr>
-    <td><img src="./repo_info/DemoAnimation-Gif.gif"      alt="A visualization of Swift code being rapidly highlighted in green" width = 279px height = 496px ></td>
-    <td><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 279px height = 496px ></td>
+    <td><img src="./repo_info/DemoAnimation-Gif.gif"      alt="A visualization of Swift code being rapidly highlighted in green" width = 384 ></td>
+    <td><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
   </tr>
 </table>
 
