@@ -14,7 +14,7 @@ Plenty of reasons why. Here are some smarter people with better presentation ski
 - https://embodiedcode.net/
 - https://divan.dev/posts/visual_programming_go/
 - https://futureofcoding.org/
-- https://stars.library.ucf.edu/cgi/viewcontent.cgi?article=6511&context=etd (<3 UCF)
+- https://stars.library.ucf.edu/etd/5511/ (<3 UCF)
 - <your name here / link here>
   
 ### How?
