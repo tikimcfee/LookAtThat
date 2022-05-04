@@ -9,12 +9,28 @@ import SwiftUI
 import Combine
 
 class SemanticTracingOutState: ObservableObject {
+    enum Sections: CaseIterable {
+        case fullTraceList
+        case logLoading
+        case threadList
+    }
     
     @Published private(set) var wrapper: SemanticMapTracer?
     
     @Published var isFileLoggingEnabled = false
+    @Published var visibleSections: Set<Sections> = [.fullTraceList, .logLoading]
+    func toggleSection(_ section: Sections) {
+        if visibleSections.contains(section) {
+            visibleSections.remove(section)
+        } else {
+            visibleSections.insert(section)
+        }
+    }
+    
     @Published private(set) var traceLogFiles = [URL]()
     @Published private(set) var currentIndex = 0
+    
+    @Published var currentMatch = MatchedTraceOutput.indexFault(.init(position: -1))
     private var indexCache = ConcurrentDictionary<Int, MatchedTraceOutput>()
     
     @Published private(set) var focusTraceLines: PersistentThreadTracer?
@@ -101,12 +117,14 @@ class SemanticTracingOutState: ObservableObject {
     
     func increment() {
         currentIndex += 1
-        highlightTrace(self[currentIndex].maybeTrace)
+        currentMatch = self[currentIndex]
+        highlightTrace(currentMatch.maybeTrace)
     }
     
     func decrement() {
         currentIndex -= 1
-        highlightTrace(self[currentIndex].maybeTrace)
+        currentMatch = self[currentIndex]
+        highlightTrace(currentMatch.maybeTrace)
     }
 }
 
@@ -126,10 +144,7 @@ extension SemanticTracingOutState {
             return
         }
         
-        SceneLibrary.global.codePagesController.moveExecutionPointer(
-            id: trace.info.syntaxId,
-            in: trace.grid
-        )
+        SceneLibrary.global.codePagesController.zoom(to: trace.grid)
     }
     
     func highlightTrace(_ trace: TraceValue?) {
@@ -199,13 +214,12 @@ extension SemanticTracingOutState: RandomAccessCollection {
     
     subscript(_ index: Int) -> MatchedTraceOutput {
         if let cached = indexCache[index] { return cached }
+        
         guard let tracer = focusTraceLines,
               tracer.indices.contains(index),
-              let output = Optional(tracer[index]),
-              let matchedInfo = wrapper?.lookupInfo(output)
-        else {
-            return .indexFault(.init(position: index))
-        }
+              let matchedInfo = wrapper?.lookupInfo(tracer[index])
+        else { return .indexFault(.init(position: index)) }
+
         indexCache[index] = matchedInfo
         return matchedInfo
     }

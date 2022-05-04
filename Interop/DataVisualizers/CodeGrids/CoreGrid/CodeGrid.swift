@@ -29,7 +29,7 @@ extension CodeGrid {
 extension CodeGrid: CustomStringConvertible {
     var description: String {
 """
-CodeGrid(\(id.trimmingCharacters(in: CharacterSet(charactersIn: kCodeGridContainerName)))
+CodeGrid(\(id))
 """.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
@@ -44,7 +44,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
-    private(set) var showingRawGlyphs = false
+    private(set) var showingRawGlyphs = true // start with true, finalize() will flatten and set first
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
@@ -253,7 +253,15 @@ extension CodeGrid {
         }
     }
     
-    func swapInRootGlyphs() {
+    func swapInRootGlyphs(
+        _ function: String = #function,
+        _ line: Int = #line
+    ) {
+        guard !showingRawGlyphs else {
+            print("Unneeded node swap from \(function)::\(line)")
+            return
+        }
+        
         rootContainerNode.childNode(
             withName: glyphNodeName,
             recursively: false
@@ -266,7 +274,15 @@ extension CodeGrid {
 //        flattenedGlyphsNode?.isHidden = true
     }
     
-    func swapOutRootGlyphs() {
+    func swapOutRootGlyphs(
+        _ function: String = #function,
+        _ line: Int = #line
+    ) {
+        guard showingRawGlyphs else {
+            print("Unneeded node swap from \(function)::\(line)")
+            return
+        }
+        
         let new = SCNNode()
         new.name = rawGlyphsNode.name
         rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)

@@ -47,12 +47,12 @@ extension CodeGridSemanticMap {
         return syntaxSemantics
     }
     
-    func parentList(_ nodeId: NodeID) -> [SemanticInfo] {
+    func parentList(_ nodeId: NodeID, _ reversed: Bool = false) -> [SemanticInfo] {
         var parentList = [SemanticInfo]()
         walkToRootFrom(nodeId) { info in
             parentList.append(info)
         }
-        return parentList.reversed()
+        return reversed ? parentList.reversed() : parentList
     }
 
     func forAllNodesAssociatedWith(

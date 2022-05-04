@@ -36,10 +36,30 @@ class CodePagesControllerMacOSInputCompat {
     var keyboardInterceptor: KeyboardInterceptor { controller.compat.keyboardInterceptor }
     
     var hoveredGrid: CodeGrid? {
-        willSet {
-            guard newValue?.id != hoveredGrid?.id else { return }
-            hoveredGrid?.swapOutRootGlyphs()
-            newValue?.swapInRootGlyphs()
+        get { controller.hoveredGrid }
+        set {
+            switch (controller.hoveredGrid, newValue) {
+            case let (.some(grid), .some(newGrid)) where newGrid.id == grid.id:
+//                print("Skipping grid set on hover, ids match: \(grid.id == newGrid.id)")
+                break
+
+            case let (.some(grid), .some(newGrid)):
+                grid.swapOutRootGlyphs()
+                controller.hoveredGrid = newGrid
+                newGrid.swapInRootGlyphs()
+            
+            case (.none, .none):
+                controller.hoveredGrid?.swapOutRootGlyphs()
+                controller.hoveredGrid = newValue
+
+            case let (.some(grid), .none):
+                grid.swapOutRootGlyphs()
+                controller.hoveredGrid = newValue
+                
+            case let (.none, .some(newGrid)):
+                newGrid.swapInRootGlyphs()
+                controller.hoveredGrid = newGrid
+            }
         }
     }
     

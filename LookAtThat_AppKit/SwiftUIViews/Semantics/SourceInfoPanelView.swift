@@ -17,6 +17,13 @@ struct SourceInfoPanelView: View {
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
     var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
+    var sourceGrid: CodeGrid? { state.sourceGrid }
+    
+    var sourceGridName: String {
+        state.sourceGrid.map {
+            "Target grid: \($0.fileName)"
+        } ?? "No target grid"
+    }
     
 //    // I have absolutely no idea how this works. The window is retained somehow and not recreated?
 //    // So the onAppear only creates a single window and view, apparently.
@@ -92,7 +99,7 @@ struct SourceInfoPanelView: View {
 extension SourceInfoPanelView {
     func hoveredNodeInfoView(_ hoveredId: String) -> some View {
         VStack {
-            Text("Target: \(hoveredId)")
+            Text("\(sourceGridName)")
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in

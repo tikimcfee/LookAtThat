@@ -22,6 +22,7 @@ class SourceInfoPanelState: ObservableObject {
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
+    @Published var sourceGrid: CodeGrid?
     @Published var hoveredToken: String = ""
     @Published var searchText: String = ""
     
@@ -63,16 +64,13 @@ class SourceInfoPanelState: ObservableObject {
             }
             .store(in: &bag)
         
-        SceneLibrary.global.codePagesController.hoverInfoStream
+        Publishers.CombineLatest(SceneLibrary.global.codePagesController.hoverInfoStream,
+                                 SceneLibrary.global.codePagesController.hoverGridStream)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
-            .sink { event in
-                switch (event) {
-                case (.some(let info)):
-                    self.sourceInfo = info
-                default:
-                    break
-                }
+            .sink { tupleEvent in
+                self.sourceInfo = tupleEvent.0 ?? self.sourceInfo
+                self.sourceGrid = tupleEvent.1
             }
             .store(in: &bag)
     }

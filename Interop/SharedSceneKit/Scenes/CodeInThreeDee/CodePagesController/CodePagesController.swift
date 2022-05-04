@@ -3,6 +3,7 @@ import SceneKit
 import SwiftSyntax
 import Combine
 import FileKit
+import SwiftUI
 
 class CodePagesController: BaseSceneController, ObservableObject {
 
@@ -141,6 +142,41 @@ extension Set where Element == SyntaxIdentifier {
 //MARK: - Path tracing
 
 extension CodePagesController {
+    // TODO: Both of these focus setters are buggy. The new one highlights more than one real ID (maybe there's a bug in the map?)
+    // The old one is either really slow or misses things, I can't tell. Weirdly, it's showing off that two back-to-back calls
+    // are coming back with the same node set. So either the map is bugged, the lookup is bugged, or... something else.
+    
+//    func setNewFocus(id newFocusID: SyntaxIdentifier, in newFocusGrid: CodeGrid) {
+//        // Swap last highlight
+//        if let lastFocus = currentFocus {
+//            swapFocusHighlight(lastFocus)
+//        }
+//
+//        // Ensure glyphs are visible
+//        switch currentFocusGrid {
+//        case .none:
+//            newFocusGrid.swapInRootGlyphs()
+//        case .some(let lastGrid):
+//            guard lastGrid.id != newFocusGrid.id else {
+//                //                print("Skipping grid node toggle: \(lastGrid.id)")
+//                return
+//            }
+//            lastGrid.swapOutRootGlyphs()
+//            newFocusGrid.swapInRootGlyphs()
+//        }
+//
+//        do {
+//            let newFocus = try newFocusGrid
+//                .codeGridSemanticInfo
+//                .collectAssociatedNodes(newFocusID, newFocusGrid.tokenCache)
+//            swapFocusHighlight(newFocus)
+//            currentFocus = newFocus
+//            currentFocusGrid = newFocusGrid
+//        } catch {
+//            print("Failed to find associated nodes during focus: ", error)
+//        }
+//    }
+    
     func setNewFocus(id: SyntaxIdentifier, in grid: CodeGrid) {
         var didSwap = false
         if let lastFocus = currentFocus,
@@ -164,6 +200,15 @@ extension CodePagesController {
     }
     
     private func swapFocusHighlight(_ focus: Focus) {
+        // Swapping highlight is super janky, should be able to do it on the fly.. maybe.
+        // Need to map the semantic object back to a set of GlyphCacheKeys, get those nodes -
+        // cached or otherwise - and swap their backing geometries / contents.
+        // Sounds like some kind of SemanticInfo.mapAllTextToGlyphCacheKeys()
+        
+//        let highlightedKey = GlyphCacheKey("\(syntaxTokenCharacter)", color, NSUIColor.green)
+//        let highlightedResult = glyphCache[highlightedKey]
+//        glyphCache[letterNode] = highlightedResult
+        
         for (_, nodeSet) in focus {
             for node in nodeSet {
                 // swap between the geometries instead of another cache

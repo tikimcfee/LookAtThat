@@ -20,12 +20,10 @@ struct SemanticTracingOutView: View {
     func makeControlsView() -> some View {
         VStack {
             HStack {
-                VStack(alignment: .trailing) {
-                    Button("Start Tracing", action: { state.setupTracing() })
-                    Button("Reload Wrapper", action: { state.reloadQueryWrapper() })
-                    Text(state.wrapperInfo)
+                if state.visibleSections.contains(.threadList) {
+                    makeLoggedThreadsView()
                 }
-                makeLoggedThreadsView()
+                Spacer()
                 makeButtonsGroup()
             }
             makeFocusedTraceRows()
@@ -70,12 +68,17 @@ struct SemanticTracingOutView: View {
 
     func makeFileIOControlsView() -> some View {
         HStack(alignment: .center) {
-            VStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .trailing) {
+                makeFileIOToggleButton()
+                Button("Start Tracing", action: { state.setupTracing() })
                 Button("Load logs", action: { reloadsLogs() })
                 Button("Delete all logs", action: { removeAllLogs() })
-                makeFileIOToggleButton()
+                Button("Reload Wrapper", action: { state.reloadQueryWrapper() })
+                Text(state.wrapperInfo)
             }
-
+            .padding(4)
+            .overlay(Rectangle().stroke(Color.gray))
+            
             List {
                 ForEach(state.traceLogFiles, id: \.self) { url in
                     Text("> \(url.lastPathComponent)")
@@ -108,7 +111,7 @@ struct SemanticTracingOutView: View {
                                 .onTapGesture {
                                     state.setCurrentThread(thread)
                                 }
-                        }.listRowInsets(.none)
+                        }
                     }
                 }
             }.overlay(Rectangle().stroke(Color.gray))
@@ -117,31 +120,45 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeFocusedTraceRows() -> some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(state, id: \.id) { match in
-                    switch match {
-                    case let .indexFault(fault):
-                        Text("> Index fault! \(fault.position)")
-                        
-                    case let .found(found):
-                        makeTextRow(match, found)
-                            .onTapGesture { state.toggleTrace(found.trace) }
-                            .listRowInsets(.none)
-                            .listRowBackground(matchColor(match))
-                        
-                    case let .missing(missing):
-                        makeEmptyRow("""
+        VStack {
+            if state.visibleSections.contains(.fullTraceList) {
+                Button("Hide Trace List (\(state.count) entries)", action: { state.toggleSection(.fullTraceList) })
+                ScrollView {
+                    LazyVStack {
+                        ForEach(state, id: \.id) { match in
+                            matchedLineFor(for: match)
+                        }
+                        .overlay(Rectangle().stroke(Color.gray))
+                    }
+                }
+            } else {
+                Button("Show List (\(state.count) entries)", action: { state.toggleSection(.fullTraceList) })
+                matchedLineFor(for: state.currentMatch)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func matchedLineFor(
+        for match: MatchedTraceOutput
+    ) -> some View {
+        switch match {
+        case let .indexFault(fault):
+            Text("> Index fault! \(fault.position)")
+            
+        case let .found(found):
+            makeTextRow(match, found)
+                .onTapGesture {
+                    state.zoomTrace(found.trace)
+                }
+                .background(matchColor(match))
+            
+        case let .missing(missing):
+            makeEmptyRow("""
                     \(missing.out.entryExitName) <?> \(missing.out.callPath)
                     \(missing.threadName)|\(missing.queueName)
                     """)
-                        .listRowInsets(.none)
-                    }
-                }
-                .overlay(Rectangle().stroke(Color.gray))
-            }
         }
-        .listStyle(.plain)
     }
     
     func matchColor(_ match: MatchedTraceOutput) -> Color {
