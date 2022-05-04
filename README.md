@@ -10,7 +10,7 @@ See Swift in Space
 
 ### What?
 
-A tool to load up Swift files, render them into a SceneKit layer, and view the results in a 3D VR (macOS) or AR (iOS) environment. iPad support is totally unknown.
+A tool to load up Swift files, render them into a SceneKit layer, visualize the results of a SwiftTrace, and view the results in a 3D VR (macOS) or AR (iOS) environment. iPad support is totally unknown.
 
 ### Why?
 
