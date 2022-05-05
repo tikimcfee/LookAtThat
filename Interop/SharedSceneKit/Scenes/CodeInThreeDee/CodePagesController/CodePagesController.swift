@@ -145,7 +145,7 @@ extension CodePagesController {
     func setNewFocus(id newFocusID: SyntaxIdentifier, in newFocusGrid: CodeGrid) {
         // Swap last highlight
         if let lastFocus = currentFocus {
-            swapFocusHighlight(lastFocus)
+            updateFocusHighlight(lastFocus, isFocused: false)
         }
 
         // Ensure glyphs are visible
@@ -163,7 +163,7 @@ extension CodePagesController {
             let newFocus = try newFocusGrid
                 .codeGridSemanticInfo
                 .collectAssociatedNodes(newFocusID, newFocusGrid.tokenCache)
-            swapFocusHighlight(newFocus)
+            updateFocusHighlight(newFocus, isFocused: true)
             currentFocus = newFocus
             currentFocusGrid = newFocusGrid
         } catch {
@@ -171,7 +171,7 @@ extension CodePagesController {
         }
     }
     
-    private func swapFocusHighlight(_ focus: Focus) {
+    private func updateFocusHighlight(_ focus: Focus, isFocused: Bool) {
         // Swapping highlight is super janky, should be able to do it on the fly.. maybe.
         // Need to map the semantic object back to a set of GlyphCacheKeys, get those nodes -
         // cached or otherwise - and swap their backing geometries / contents.
@@ -181,15 +181,10 @@ extension CodePagesController {
 //        let highlightedResult = glyphCache[highlightedKey]
 //        glyphCache[letterNode] = highlightedResult
         
+        let focusIndex = isFocused ? 1 : 0
         for (_, nodeSet) in focus {
             for node in nodeSet {
-                // swap between the geometries instead of another cache
-                if let highlightCache = codeGridParser.glyphCache[node],
-                   let lastGeometry = node.geometry
-                {
-                    node.geometry = highlightCache.0
-                    codeGridParser.glyphCache[node] = (lastGeometry, highlightCache.1)
-                }
+                node.updateDiffuseContents(focusIndex)
             }
         }
     }

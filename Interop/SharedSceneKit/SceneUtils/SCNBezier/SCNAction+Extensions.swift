@@ -47,3 +47,42 @@ public extension SCNAction {
 		)
 	}
 }
+
+//func makeLineNodeBetween(
+//    positionA: SCNVector3,
+//    positionB: SCNVector3,
+//    inScene: SCNScene
+//) -> (SCNNode, SCNCylinder) {
+//    let vector = SCNVector3(
+//        positionA.x - positionB.x,
+//        positionA.y - positionB.y,
+//        positionA.z - positionB.z
+//    )
+//    
+//    let distance = sqrt(
+//        vector.x * vector.x
+//        + vector.y * vector.y
+//        + vector.z * vector.z
+//    )
+//    
+//    let midPosition = SCNVector3 (
+//        x: (positionA.x + positionB.x) / 2,
+//        y: (positionA.y + positionB.y) / 2,
+//        z: (positionA.z + positionB.z) / 2
+//    )
+//    
+//    let lineGeometry = SCNCylinder()
+//    lineGeometry.radius = 0.05
+//    lineGeometry.height = distance
+//    lineGeometry.radialSegmentCount = 5
+//    
+//    let lineNode = SCNNode(geometry: lineGeometry)
+//    lineNode.position = midPosition
+//    lineNode.look(
+//        at: positionB,
+//        up: inScene.rootNode.worldUp,
+//        localFront: lineNode.worldUp
+//    )
+//    
+//    return (lineNode, lineGeometry)
+//}

@@ -15,8 +15,6 @@ struct AppDelegate: App {
          WindowGroup {
             MobileAppRootView()
                  .environmentObject(TapObserving.shared)
-                 .onAppear { TapObserving.shared.start() }
-                 .onDisappear { TapObserving.shared.stop() }
          }
      }
 }

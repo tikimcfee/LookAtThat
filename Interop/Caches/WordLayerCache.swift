@@ -13,17 +13,10 @@ struct LayerCacheKey: Hashable, Equatable {
     let foreground: NSUIColor
 }
 
-struct FontRenderer {
-    private static let kDefaultSCNTextFont = NSUIFont.monospacedSystemFont(ofSize: WORD_FONT_POINT_SIZE, weight: .regular)
-    private(set) static var shared: FontRenderer = FontRenderer()
-    
-    let font: NSUIFont = kDefaultSCNTextFont
-}
-
 class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
     let layoutQueue = DispatchQueue(label: "WordLayerCache=\(UUID())", qos: .userInitiated, attributes: [.concurrent])
     
-    let fontRenderer = FontRenderer()
+    let fontRenderer = FontRenderer.shared
     let backgroundColor = NSUIColor.black.cgColor
     let foregroundColor = NSUIColor.white.cgColor
     

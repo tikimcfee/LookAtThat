@@ -9,8 +9,6 @@ let PAGE_EXTRUSION_DEPTH = CGFloat(0.75)
 let POINTS_BETWEEN_WORDS = CGFloat(1)
 let LINE_MARGIN_HEIGHT = CGFloat(1.5)
 
-public typealias SizedText = (SCNGeometry, CGSize)
-
 enum BuildMode {
     case words
     case characters

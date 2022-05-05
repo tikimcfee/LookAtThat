@@ -31,11 +31,11 @@ extension CodeGrid {
         letterNode.geometry = geometry
         letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
         
-        // TODO: move highlighting somewhere else? This seems gross.
-        // return regular node, and store a highlighted version for swapping materials later
-        let highlightedKey = GlyphCacheKey("\(syntaxTokenCharacter)", color, NSUIColor.green)
-        let highlightedResult = glyphCache[highlightedKey]
-        glyphCache[letterNode] = highlightedResult
+//        // TODO: move highlighting somewhere else? This seems gross.
+//        // return regular node, and store a highlighted version for swapping materials later
+//        let highlightedKey = GlyphCacheKey("\(syntaxTokenCharacter)", color, NSUIColor.green)
+//        let highlightedResult = glyphCache[highlightedKey]
+//        glyphCache[letterNode] = highlightedResult
         
         return (letterNode, size)
     }

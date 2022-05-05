@@ -125,7 +125,7 @@ extension CodeGrid {
         sheetGeometry.name = backgroundNodeGeometry
         sheetGeometry.chamferRadius = 4.0
         sheetGeometry.firstMaterial?.diffuse.contents = NSUIColor.black
-        sheetGeometry.length = PAGE_EXTRUSION_DEPTH
+        sheetGeometry.length = 0.75
         return sheetGeometry
     }
 }
