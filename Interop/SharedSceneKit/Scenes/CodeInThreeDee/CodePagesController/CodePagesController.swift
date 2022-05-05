@@ -142,60 +142,32 @@ extension Set where Element == SyntaxIdentifier {
 //MARK: - Path tracing
 
 extension CodePagesController {
-    // TODO: Both of these focus setters are buggy. The new one highlights more than one real ID (maybe there's a bug in the map?)
-    // The old one is either really slow or misses things, I can't tell. Weirdly, it's showing off that two back-to-back calls
-    // are coming back with the same node set. So either the map is bugged, the lookup is bugged, or... something else.
-    
-//    func setNewFocus(id newFocusID: SyntaxIdentifier, in newFocusGrid: CodeGrid) {
-//        // Swap last highlight
-//        if let lastFocus = currentFocus {
-//            swapFocusHighlight(lastFocus)
-//        }
-//
-//        // Ensure glyphs are visible
-//        switch currentFocusGrid {
-//        case .none:
-//            newFocusGrid.swapInRootGlyphs()
-//        case .some(let lastGrid):
-//            guard lastGrid.id != newFocusGrid.id else {
-//                //                print("Skipping grid node toggle: \(lastGrid.id)")
-//                return
-//            }
-//            lastGrid.swapOutRootGlyphs()
-//            newFocusGrid.swapInRootGlyphs()
-//        }
-//
-//        do {
-//            let newFocus = try newFocusGrid
-//                .codeGridSemanticInfo
-//                .collectAssociatedNodes(newFocusID, newFocusGrid.tokenCache)
-//            swapFocusHighlight(newFocus)
-//            currentFocus = newFocus
-//            currentFocusGrid = newFocusGrid
-//        } catch {
-//            print("Failed to find associated nodes during focus: ", error)
-//        }
-//    }
-    
-    func setNewFocus(id: SyntaxIdentifier, in grid: CodeGrid) {
-        var didSwap = false
-        if let lastFocus = currentFocus,
-           let lastFocusGrid = currentFocusGrid
-        {
+    func setNewFocus(id newFocusID: SyntaxIdentifier, in newFocusGrid: CodeGrid) {
+        // Swap last highlight
+        if let lastFocus = currentFocus {
             swapFocusHighlight(lastFocus)
-            if lastFocusGrid != grid {
-                lastFocusGrid.swapOutRootGlyphs()
-//                lastFocusGrid.rawGlyphsNode.translate(dZ: -25)
-                didSwap = true
+        }
+
+        // Ensure glyphs are visible
+        switch currentFocusGrid {
+        case .none:
+            newFocusGrid.swapInRootGlyphs()
+        case .some(let lastGrid):
+            if lastGrid.id != newFocusGrid.id {
+                lastGrid.swapOutRootGlyphs()
+                newFocusGrid.swapInRootGlyphs()
             }
         }
-        let focus = (try? grid.codeGridSemanticInfo.collectAssociatedNodes(id, grid.tokenCache)) ?? []
-        currentFocus = focus
-        currentFocusGrid = grid
-        swapFocusHighlight(focus)
-        if didSwap {
-            grid.swapInRootGlyphs()
-//            grid.rawGlyphsNode.translate(dZ: 25)
+
+        do {
+            let newFocus = try newFocusGrid
+                .codeGridSemanticInfo
+                .collectAssociatedNodes(newFocusID, newFocusGrid.tokenCache)
+            swapFocusHighlight(newFocus)
+            currentFocus = newFocus
+            currentFocusGrid = newFocusGrid
+        } catch {
+            print("Failed to find associated nodes during focus: ", error)
         }
     }
     

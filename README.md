@@ -10,7 +10,7 @@ See Swift in Space
 
 ### What?
 
-A tool to load up Swift files, render them into a SceneKit layer, visualize the results of a SwiftTrace, and view the results in a 3D VR (macOS) or AR (iOS) environment. iPad support is totally unknown.
+A tool to load up Swift files, render them into a SceneKit layer, and view the results in a 3D VR (macOS) or AR (iOS) environment.
 
 ### Why?
 
@@ -33,11 +33,11 @@ Lots and lots of other people's tools and code suggestions. Primarily:
 
 ### When?
 
-Whenever I can, and even soon if you help! All questions, contributors, ideas, thoughts, issues, suggestions, hopes, dreams, and pull requests are welcome!
+Whenever I can, and even sooner if you help! All questions, contributors, ideas, thoughts, issues, suggestions, hopes, dreams, and pull requests are welcome!
 
 ## How to run it
 
-You will need everything in this repository, including the syntax parsing libraries for SwiftSyntax targeting macOS and iOS.
+You will need everything in this repository, including the syntax parsing libraries for SwiftSyntax targeting macOS and iOS. iPad support is totally unknown.
 
 The current goal is to allow you to:
 
