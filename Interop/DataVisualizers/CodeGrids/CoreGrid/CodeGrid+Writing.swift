@@ -174,6 +174,21 @@ extension CodeGrid {
         return self
     }
     
+    func allTokenSyntaxParents(
+        rootSyntax: Syntax,
+        _ token: TokenSyntax
+    ) -> AssociatedSyntaxSet {
+        var allSyntaxIDs = Set<SyntaxIdentifier>()
+        var tokenParent: Syntax? = Syntax(token)
+        while tokenParent != nil && tokenParent?.id != rootSyntax.id {
+            guard let parent = tokenParent else { continue }
+            let parentId = parent.id
+            allSyntaxIDs.insert(parentId)
+            tokenParent = parent.parent
+        }
+        return allSyntaxIDs
+    }
+    
     func walkHierarchyForSemantics(
         rootSyntax: Syntax,
         _ token: TokenSyntax,

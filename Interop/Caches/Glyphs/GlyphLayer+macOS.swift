@@ -30,7 +30,7 @@ extension CALayer {
         backgroundColor = key.background.cgColor
         render(in: requestedContext.cgContext)
         
-        backgroundColor = NSUIColor.green.cgColor
+        backgroundColor = NSUIColor(displayP3Red: 0.0, green: 0.8, blue: 0.6, alpha: 0.9).cgColor
         render(in: templateContext.cgContext)
         
         guard let requestedImage = requestedContext.cgContext.makeImage(),
@@ -42,21 +42,6 @@ extension CALayer {
             NSImage(cgImage: requestedImage,size: cgSize),
             NSImage(cgImage: templateImage,size: cgSize)
         )
-    }
-    
-    func compressedJpegRepresentation(
-        from source: NSBitmapImageRep,
-        using key: GlyphCacheKey
-    ) -> (requested: NSBitmapImageRep?, template: NSBitmapImageRep?) {
-        let requestedJpegBitmap: NSBitmapImageRep? = source
-            .representation(using: .jpeg, properties: [.fallbackBackgroundColor: key.background])
-            .flatMap { NSBitmapImageRep(data: $0) }
-        
-        let templateJpegBitmap: NSBitmapImageRep? = source
-            .representation(using: .jpeg, properties: [.fallbackBackgroundColor: NSUIColor.green])
-            .flatMap { NSBitmapImageRep(data: $0) }
-        
-        return (requestedJpegBitmap, templateJpegBitmap)
     }
     
     func defaultRepresentation() -> NSBitmapImageRep? {

@@ -13,7 +13,7 @@ import SceneKit
 // - given a token, return the nodes that represent it
 // - use that set to highlight, move, do stuff to
 
-typealias CodeGridNodes = Set<SCNNode>
+typealias CodeGridNodes = Set<GlyphNode>
 class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
     override func make(
         _ key: String,

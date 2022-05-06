@@ -18,7 +18,7 @@ enum PanelSections: String, CaseIterable, Equatable {
 }
 
 class SourceInfoPanelState: ObservableObject {
-    @Published var sections: [PanelSections] = [.directories, .tracingInfo]
+    @Published var sections: [PanelSections] = [.directories]
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()

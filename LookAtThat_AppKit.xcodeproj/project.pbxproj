@@ -34,6 +34,9 @@
 		B720D58A2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
 		B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
 		B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */; };
+		B720FF852824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
+		B720FF862824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
+		B720FF872824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
 		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
@@ -552,6 +555,7 @@
 		B720D585282470CA00BF0602 /* FontRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRenderer.swift; sourceTree = "<group>"; };
 		B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphLayer+macOS.swift"; sourceTree = "<group>"; };
 		B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphLayer+iOS.swift"; sourceTree = "<group>"; };
+		B720FF842824C6DC00C23E6B /* GlyphNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphNode.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
 		B7321510275858F800BD5C17 /* CodeGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridFocusController.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
@@ -815,6 +819,7 @@
 				B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */,
 				B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */,
 				B7EA883127238C1E0098541C /* GlyphLayerCache.swift */,
+				B720FF842824C6DC00C23E6B /* GlyphNode.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -1645,6 +1650,7 @@
 				B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */,
 				B74A22B02814FFF300F6F727 /* RawSensorDataParser.swift in Sources */,
 				B7981035281CBAF5009A82BD /* TraceLine.swift in Sources */,
+				B720FF872824C6DC00C23E6B /* GlyphNode.swift in Sources */,
 				B768B650281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */,
 				B74A22B22814FFF300F6F727 /* BaseSceneController.swift in Sources */,
@@ -1796,6 +1802,7 @@
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				B7C75705280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				B7981033281CBAF5009A82BD /* TraceLine.swift in Sources */,
+				B720FF852824C6DC00C23E6B /* GlyphNode.swift in Sources */,
 				B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
@@ -1966,6 +1973,7 @@
 				B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */,
 				B7F44C3E276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */,
 				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
+				B720FF862824C6DC00C23E6B /* GlyphNode.swift in Sources */,
 				B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */,
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,

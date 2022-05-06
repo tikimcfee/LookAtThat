@@ -12,6 +12,7 @@ import SceneKit
 typealias NodeID = String
 typealias NodeSet = Set<SCNNode>
 typealias SortedNodeSet = [SCNNode]
+typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
@@ -58,24 +59,13 @@ extension CodeGridSemanticMap {
     func forAllNodesAssociatedWith(
         _ nodeId: SyntaxIdentifier,
         _ cache: CodeGridTokenCache,
-        _ walker: (SemanticInfo, NodeSet) throws -> Void
+        _ walker: (SemanticInfo, CodeGridNodes) throws -> Void
     ) throws {
-        // Specifically avoiding a map / map+reduce here to reduce copying
-        for (associatedId, _) in syntaxIdToAssociatedIds[nodeId] ?? [:] {
-            
-            // todo: formalize this little hack around not having trivia have a separate node
-            var associatedNodes = cache[associatedId.stringIdentifier]
-            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-leadingTrivia"])
-            associatedNodes.formUnion(cache[associatedId.stringIdentifier + "-trailingTrivia"])
-            
-            if let info = semanticsLookupBySyntaxId[associatedId] {
-                do {
-                    try walker(info, associatedNodes)
-                } catch {
-                    print("Semantic association lookup stopped: \(error)")
-                    throw error
-                }
-            }
+        try syntaxIdToAssociatedIds[nodeId]?.forEach { associatedId, _ in
+            guard let info = semanticsLookupBySyntaxId[associatedId] else { return }
+            try walker(info, cache[associatedId.stringIdentifier])
+            try walker(info, cache[associatedId.stringIdentifier + "-leadingTrivia"])
+            try walker(info, cache[associatedId.stringIdentifier + "-trailingTriva"])
         }
     }
     

@@ -180,7 +180,7 @@ extension CodePagesController {
                 if let glyph = (node as? GlyphNode) {
                     isFocused
                         ? glyph.focus()
-                        : glyph.reset()
+                        : glyph.unfocus()
                 }
             }
         }
@@ -248,9 +248,8 @@ extension CodePagesController {
         sceneTransaction {
             try? source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
                 nodes.forEach { node in
-                    node.position = node.position.translated(
-                        dZ: isSelected ? 25 : -25
-                    )
+                    node.translate(dZ: isSelected ? 8 : -8)
+                    isSelected ? node.focus() : node.unfocus()
                 }
             }
         }
