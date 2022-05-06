@@ -172,19 +172,16 @@ extension CodePagesController {
     }
     
     private func updateFocusHighlight(_ focus: Focus, isFocused: Bool) {
-        // Swapping highlight is super janky, should be able to do it on the fly.. maybe.
-        // Need to map the semantic object back to a set of GlyphCacheKeys, get those nodes -
-        // cached or otherwise - and swap their backing geometries / contents.
-        // Sounds like some kind of SemanticInfo.mapAllTextToGlyphCacheKeys()
-        
-//        let highlightedKey = GlyphCacheKey("\(syntaxTokenCharacter)", color, NSUIColor.green)
-//        let highlightedResult = glyphCache[highlightedKey]
-//        glyphCache[letterNode] = highlightedResult
-        
-        let focusIndex = isFocused ? 1 : 0
+        // So now we're using wrapper nodes which I think I avoided at the very
+        // beginning. So far it's fragile, and now I have SCNNodes and GlyphNodes
+        // everywhere, which isn't exactly ideal.
         for (_, nodeSet) in focus {
             for node in nodeSet {
-                node.updateDiffuseContents(focusIndex)
+                if let glyph = (node as? GlyphNode) {
+                    isFocused
+                        ? glyph.focus()
+                        : glyph.reset()
+                }
             }
         }
     }

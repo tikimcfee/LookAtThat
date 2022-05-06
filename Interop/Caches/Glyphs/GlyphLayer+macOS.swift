@@ -53,7 +53,7 @@ extension CALayer {
             .flatMap { NSBitmapImageRep(data: $0) }
         
         let templateJpegBitmap: NSBitmapImageRep? = source
-            .representation(using: .jpeg, properties: [.fallbackBackgroundColor: NSUIColor.clear])
+            .representation(using: .jpeg, properties: [.fallbackBackgroundColor: NSUIColor.green])
             .flatMap { NSBitmapImageRep(data: $0) }
         
         return (requestedJpegBitmap, templateJpegBitmap)

@@ -22,22 +22,13 @@ extension CodeGrid {
     private func createNodeFor(
         _ syntaxTokenCharacter: Character,
         _ color: NSUIColor
-    ) -> (SCNNode, CGSize) {
+    ) -> GlyphNode {
         laztrace(#fileID,#function,syntaxTokenCharacter,color)
         let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
-        let (geometry, size) = glyphCache[key]
-        
-        let letterNode = SCNNode()
-        letterNode.geometry = geometry
+        let (rootLayer, focusLayer, size) = glyphCache[key]
+        let letterNode = GlyphNode.make(rootLayer, focusLayer, size)
         letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
-        
-//        // TODO: move highlighting somewhere else? This seems gross.
-//        // return regular node, and store a highlighted version for swapping materials later
-//        let highlightedKey = GlyphCacheKey("\(syntaxTokenCharacter)", color, NSUIColor.green)
-//        let highlightedResult = glyphCache[highlightedKey]
-//        glyphCache[letterNode] = highlightedResult
-        
-        return (letterNode, size)
+        return letterNode
     }
 }
 
@@ -66,13 +57,9 @@ extension CodeGrid {
         
         private func writeString(_ string: String, _ name: String, _ color: NSUIColor) {
             for newCharacter in string {
-                let (letterNode, size) = grid.createNodeFor(newCharacter, color)
-                
-                let limit = name.index(name.startIndex, offsetBy: 32, limitedBy: name.endIndex)
-                let name = String(name.prefix(upTo: limit ?? name.startIndex))
-                
-                letterNode.name = name
-                grid.renderer.insert(newCharacter, letterNode, size)
+                let glyphNode = grid.createNodeFor(newCharacter, color)
+                glyphNode.name = name
+                grid.renderer.insert(newCharacter, glyphNode, glyphNode.size)
             }
         }
     }
@@ -85,10 +72,10 @@ extension CodeGrid {
             _ set: inout CodeGridNodes
         ) {
             for newCharacter in string {
-                let (letterNode, size) = grid.createNodeFor(newCharacter, color)
-                letterNode.name = name
-                set.insert(letterNode)
-                grid.renderer.insert(newCharacter, letterNode, size)
+                let glyphNode = grid.createNodeFor(newCharacter, color)
+                glyphNode.name = name
+                set.insert(glyphNode)
+                grid.renderer.insert(newCharacter, glyphNode, glyphNode.size)
             }
         }
         

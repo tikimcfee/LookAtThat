@@ -5,8 +5,6 @@
 import Foundation
 import SceneKit
 
-public typealias SizedText = (SCNGeometry, CGSize)
-
 public struct GlyphCacheKey: Hashable, Equatable {
     public let glyph: String
     public let foreground: NSUIColor
@@ -47,28 +45,29 @@ extension SCNNode {
     }
 }
 
-class FocusNode: SCNNode {
-    var rootGeometry: SCNGeometry
-    var focusGeometry: SCNGeometry
+class GlyphNode: SCNNode {
+    var rootGeometry: SCNGeometry!
+    var focusGeometry: SCNGeometry!
+    var size: CGSize!
     
-    init(
+    static func make(
         _ root: SCNGeometry,
-        _ focus: SCNGeometry
-    ) {
-        self.rootGeometry = root
-        self.focusGeometry = focus
-        super.init()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        _ focus: SCNGeometry,
+        _ size: CGSize
+    ) -> GlyphNode {
+        let node = GlyphNode()
+        node.rootGeometry = root
+        node.focusGeometry = focus
+        node.size = size
+        node.geometry = root
+        return node
     }
     
     func focus() {
         geometry = focusGeometry
     }
     
-    func defocus() {
+    func reset() {
         geometry = rootGeometry
     }
 }

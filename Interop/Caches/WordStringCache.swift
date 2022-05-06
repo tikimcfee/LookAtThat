@@ -14,7 +14,7 @@ class WordStringCache: LockingCache<String, SizedText> {
         let textGeometry = SCNText(string: word, extrusionDepth: WORD_EXTRUSION_SIZE)
         textGeometry.font = kDefaultSCNTextFont
         textGeometry.firstMaterial?.diffuse.contents = color
-        let sizedText = (textGeometry, String(key).fontedSize)
+        let sizedText = (textGeometry, textGeometry, String(key).fontedSize)
         return sizedText
     }
 }

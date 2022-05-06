@@ -19,7 +19,7 @@ class WordGeometryCache: LockingCache<Character, SizedText> {
         textGeometry.font = kDefaultSCNTextFont
         textGeometry.firstMaterial?.diffuse.contents = color
         
-        let sizedText = (textGeometry, String(key).fontedSize)
+        let sizedText = (textGeometry, textGeometry, String(key).fontedSize)
         return sizedText
     }
 }

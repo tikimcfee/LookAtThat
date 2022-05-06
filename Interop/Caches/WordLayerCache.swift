@@ -59,6 +59,6 @@ class WordLayerCache: LockingCache<LayerCacheKey, SizedText> {
             }
         }
         
-        return (boxPlane, descaledSize)
+        return (boxPlane, boxPlane, descaledSize)
     }
 }

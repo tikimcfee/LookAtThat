@@ -810,11 +810,11 @@
 		B720D58028246FDE00BF0602 /* Glyphs */ = {
 			isa = PBXGroup;
 			children = (
-				B7EA883127238C1E0098541C /* GlyphLayerCache.swift */,
-				B720D58128246FF400BF0602 /* GlyphBuilder.swift */,
-				B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */,
-				B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */,
 				B720D585282470CA00BF0602 /* FontRenderer.swift */,
+				B720D58128246FF400BF0602 /* GlyphBuilder.swift */,
+				B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */,
+				B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */,
+				B7EA883127238C1E0098541C /* GlyphLayerCache.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";

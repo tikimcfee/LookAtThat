@@ -87,8 +87,8 @@ class WordNodeBuilder {
             containerNode.addChildNode(letterNode)
             letterNode.position = lastPosition
             letterNode.geometry = sizedText.0
-            lastPosition.x += sizedText.1.width.vector + WORD_CHARACTER_SPACING.vector
-            maxHeight = max(sizedText.1.height, maxHeight)
+            lastPosition.x += sizedText.2.width.vector + WORD_CHARACTER_SPACING.vector
+            maxHeight = max(sizedText.2.height, maxHeight)
         }
         
         containerNode.boundingBox = (
