@@ -52,6 +52,30 @@ extension CodeGridParser {
         }
     }
     
+    func __versionThree_RenderImmediate(
+        _ rootPath: FileKitPath,
+        _ onGridLoaded: @escaping (FileKitPath, CodeGrid) -> Void
+    ) {
+        // Two passes: render all the source, then position it all again with the same cache.
+        renderQueue.async {
+            let dispatchGroup = DispatchGroup()
+            Self.startTimer()
+            
+            FileBrowser.recursivePaths(rootPath)
+                .filter { !$0.isDirectory }
+                .forEach { childPath in
+                    dispatchGroup.enter()
+                    self.concurrency.asyncAccess(childPath) { loadedGrid in
+                        onGridLoaded(childPath, loadedGrid)
+                        dispatchGroup.leave()
+                    }
+                }
+            
+            dispatchGroup.wait()
+            Self.stopTimer()
+        }
+    }
+    
     func __versionThree_RenderConcurrent(
         _ rootPath: FileKitPath,
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil

@@ -8,32 +8,13 @@
 import Foundation
 import SceneKit
 
-private class State {
-    private let check = DispatchQueue(label: "GridTextState", qos: .userInitiated)
-    
-    private var _input = ""
-    var input: String {
-        get { check.sync { _input } }
-        set { check.sync { _input = newValue } }
-    }
-    
-    private var _count = 0
-    var count: Int {
-        get { check.sync { _count } }
-        set { check.sync { _count = newValue } }
-    }
-}
-
 class SearchContainer {
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
-    private var currentWorkItem: DispatchWorkItem?
+    private var currentRenderTask: RenderTask?
     
     var hovers = TokenHoverInteractionTracker()
     var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
-    
-    private var state = State()
-    var hasActiveSearch: Bool { !state.input.isEmpty }
     
     init(codeGridParser: CodeGridParser,
          codeGridFocus: CodeGridFocusController) {
@@ -47,11 +28,12 @@ class SearchContainer {
     }
         
     func search(_ newInput: String, _ state: SceneState) {
+        print("\n\n\t\tnewInput: [\(newInput)]\n\n")
         setupNewSearch(newInput, state)
     }
     
     private func setupNewSearch(_ newInput: String, _ sceneState: SceneState) {
-        if currentWorkItem == nil && newInput.isEmpty {
+        if currentRenderTask == nil && newInput.isEmpty {
             print("Skipping search; input empty, nothing to reset")
             return
         }
@@ -60,39 +42,38 @@ class SearchContainer {
             codeGridFocus: codeGridFocus,
             codeGridParser: codeGridParser,
             newInput: newInput,
-            state: sceneState,
-            searchState: state
+            state: sceneState
         )
-        currentWorkItem?.cancel()
-        currentWorkItem = renderTask.task
+        currentRenderTask?.task.cancel()
+        currentRenderTask?.task = renderTask.task
         searchQueue.async(execute: renderTask.task)
     }
 }
 
 private class RenderTask {
-    typealias FocusType = (source: CodeGrid, clone: CodeGrid)
-    var toRemove: [FocusType] = []
-    var toFocus: [FocusType] = []
+    typealias FocusType = CodeGrid
+//    var toRemove: Set<FocusType> = []
+//    var toFocus: Set<FocusType> = []
+    
+    var matchedInfo: [CodeGrid: Set<SemanticInfo>] = [:]
+    var missedInfo: [CodeGrid] = []
     
     let codeGridFocus: CodeGridFocusController
     let codeGridParser: CodeGridParser
     let newInput: String
     let sceneState: SceneState
-    let searchState: State
     lazy var task: DispatchWorkItem = DispatchWorkItem(block: { self.start() })
     
     init(
         codeGridFocus: CodeGridFocusController,
         codeGridParser: CodeGridParser,
         newInput: String,
-        state: SceneState,
-        searchState: State
+        state: SceneState
     ) {
         self.codeGridFocus = codeGridFocus
         self.codeGridParser = codeGridParser
         self.newInput = newInput
         self.sceneState = state
-        self.searchState = searchState
     }
     
     var displayMode: CodeGrid.DisplayMode {
@@ -100,98 +81,69 @@ private class RenderTask {
     }
     
     func start() {
-        do {
-            try doSearch()
-        } catch {
-            print(error)
+        func doIt() {
+            do {
+                try doSearch()
+            } catch {
+                print(error)
+            }
         }
+        doIt()
+//        DispatchQueue.main.async { doIt() }
     }
     
     private func doSearch() throws {
         printStart(newInput)
-        
-        codeGridFocus.resetState()
-        codeGridFocus.setLayoutModel(.stacked)
         sceneTransaction {
-            switch newInput.count {
-            case 0:
-                removeAllGrids()
-            case 3...Int.max:
-                try doSearchWalk()
-            default:
-                break
-            }
+            codeGridFocus.resetState()
+            codeGridFocus.setLayoutModel(.stacked)
+            try doSearchWalk()
+            try updateGrids()
         }
-        sceneTransaction { updateGrids() }
-        sceneTransaction { addClones() }
-        
         printStop(newInput + " ++ end of call")
-    }
-    
-    func throwIfCancelled() throws {
-        if task.isCancelled { throw Condition.cancelled(input: newInput) }
-    }
-    
-    // Collect all nodes from all semantic info that contributed to passed test
-    func onSemanticSetFound(foundInGrid: CodeGrid,
-                            clone: CodeGrid,
-                            _ matchingSemanticSet: Set<SemanticInfo>) throws {
-        var allNodeNames = Set<String>()
-        
-        // Collect all nodes for set
-        for matchingInfo in matchingSemanticSet {
-            foundInGrid.codeGridSemanticInfo.walkFlattened(
-                from: matchingInfo.syntaxId,
-                in: codeGridParser.tokenCache
-            ) { info, associatedMatchingNodes in
-                try self.throwIfCancelled()
-                
-                allNodeNames = associatedMatchingNodes.reduce(into: allNodeNames) {
-                    $0.insert($1.name ?? "")
-                }
-            }
-        }
-        
-        // Iterate through all glyphs, and transforms the ones not associated with search
-        clone.rawGlyphsNode.enumerateChildNodes { node, stopFlag in
-            guard !task.isCancelled else {
-                print("early stop on enumerate")
-                stopFlag.pointee = true
-                return
-            }
-
-            guard let nodeName = node.name else {
-                node.isHidden = true
-                print("node is missing name! -> \(node) in \(foundInGrid.id)")
-                return
-            }
-
-            if allNodeNames.contains(nodeName) {
-                node.isHidden = false
-                node.materialMultiply(NSUIColor.red)
-            } else {
-                node.isHidden = true
-                node.materialMultiply(NSUIColor.white)
-            }
-        }
     }
     
     // Start search
     func doSearchWalk() throws {
         try codeGridParser.query.walkGridsForSearch(
             newInput,
-            onPositive: { foundInGrid, clone, leafInfo in
+            onPositive: { source, clone, matchInfo in
                 try throwIfCancelled()
-                
-                toFocus.append((foundInGrid, clone))
-                try onSemanticSetFound(foundInGrid: foundInGrid, clone: clone, leafInfo)
+                matchedInfo[source] = matchInfo
             },
-            onNegative: { excludedGrid, clone, leafInfo in
+            onNegative: { source, clone in
                 try throwIfCancelled()
-                
-                toRemove.append((excludedGrid, clone))
+                missedInfo.append(source)
             }
         )
+    }
+    
+    // Collect all nodes from all semantic info that contributed to passed test
+    func onSemanticInfoFound(source: CodeGrid,
+                             clone: CodeGrid,
+                             _ matchingSemanticInfo: SemanticInfo) throws {
+        try source.codeGridSemanticInfo.tokenNodes(
+            from: matchingSemanticInfo.syntaxId,
+            in: source.tokenCache
+        ) { info, associatedMatchingNodes in
+            try self.throwIfCancelled()
+            for node in associatedMatchingNodes {
+                node.focus()
+            }
+        }
+    }
+    
+    func onSemanticInfoNegative(source: CodeGrid,
+                                clone: CodeGrid) throws {
+        try source.codeGridSemanticInfo.walkFlattened(
+            from: source.consumedRootSyntaxNodes.first!.id,
+            in: codeGridParser.tokenCache
+        ) { info, associatedMatchingNodes in
+            try self.throwIfCancelled()
+            for node in associatedMatchingNodes {
+                node.focus(level: 0)
+            }
+        }
     }
     
     func removeAllGrids() {
@@ -201,21 +153,26 @@ private class RenderTask {
         }
     }
     
-    func updateGrids() {
-        searchState.input = newInput
-        searchState.count = toRemove.count
-        
-        toRemove.forEach { (source, clone) in
-            codeGridFocus.removeGridFromFocus(source)
-            clone.rootNode.removeFromParentNode()
+    func updateGrids() throws {
+        try missedInfo.forEach { missedGrid in
+            codeGridFocus.removeGridFromFocus(missedGrid)
+            missedGrid.swapOutRootGlyphs()
+            try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
         }
         
-        toFocus
-            .sorted(by: { $0.source.measures.lengthY < $1.source.measures.lengthY})
+        let swapIn = matchedInfo.count < 5
+        try matchedInfo
+            .sorted(by: { leftMatch, rightMatch in
+                leftMatch.key.measures.lengthY < rightMatch.key.measures.lengthY
+            })
             .enumerated()
-            .forEach {
-                $0.element.source.displayMode = displayMode
-                codeGridFocus.addGridToFocus($0.element.source, $0.offset)
+            .forEach { index, matchPair in
+                if swapIn { matchPair.key.swapInRootGlyphs() }
+                codeGridFocus.addGridToFocus(matchPair.key, index)
+                
+                for info in matchPair.value {
+                    try onSemanticInfoFound(source: matchPair.key, clone: matchPair.key, info)
+                }
             }
         
         // Layout pass on grids to give first set of focus positions
@@ -223,21 +180,13 @@ private class RenderTask {
         codeGridFocus.resetBounds()
         codeGridFocus.setFocusedDepth(0)
     }
-    
-    func addClones() {
-        guard toFocus.count <= 20 else { return }
-        
-        // Add search result clones, resize the focus after all updates
-        for (sourceGrid, clone) in toFocus {
-            clone.displayMode = .glyphs
-            clone.backgroundColor(NSUIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.166))
-            clone.rootNode.position = sourceGrid.rootNode.position
-            clone.measures.alignedToTrailingOf(sourceGrid, pad: 4.0)
-            codeGridFocus.addNodeToMainFocusGrid(clone.rootNode)
-        }
-        
-        codeGridFocus.resetBounds()
+}
+
+extension RenderTask {
+    func throwIfCancelled() throws {
+        if task.isCancelled { throw Condition.cancelled(input: newInput) }
     }
+    
     
     func printStart(_ input: String) {
         print("new search ---------------------- [\(input)]")

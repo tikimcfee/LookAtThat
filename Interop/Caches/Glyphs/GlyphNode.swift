@@ -28,15 +28,26 @@ class GlyphNode: SCNNode {
         return node
     }
     
+    func focus(level: Int) {
+        focusCount = level
+        checkCount()
+    }
+    
     func focus() {
         focusCount += 1
-        geometry = focusGeometry
+        checkCount()
     }
     
     func unfocus() {
         focusCount = max(0, focusCount - 1)
+        checkCount()
+    }
+    
+    func checkCount() {
         if focusCount == 0 {
             geometry = rootGeometry
+        } else {
+            geometry = focusGeometry
         }
     }
 }

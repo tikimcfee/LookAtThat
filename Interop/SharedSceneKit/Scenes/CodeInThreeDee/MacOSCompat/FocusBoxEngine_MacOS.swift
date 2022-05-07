@@ -73,7 +73,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
                 if let previous = previous {
                     current.measures
                         .setTop(previous.measures.top)
-                        .alignedCenterX(previous)
+                        .setLeading(previous.measures.leading)
                         .setBack(previous.measures.back - zLengthPadding)
                 } else {
                     current.zeroedPosition()

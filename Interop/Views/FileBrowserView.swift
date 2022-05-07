@@ -8,6 +8,12 @@
 import SwiftUI
 import Foundation
 
+let FileIcon = "📄"
+let FocusIcon = "👁️‍🗨️"
+let AddToOriginIcon = "🌐"
+let DirectoryIconCollapsed = "▶️"
+let DirectoryIconExpanded = "🔽"
+
 extension FileBrowserView {
     var fileBrowser: FileBrowser {
         SceneLibrary.global.codePagesController.fileBrowser
@@ -69,7 +75,7 @@ struct FileBrowserView: View {
             HStack(spacing: 2) {
                 Spacer().frame(width: 2.0)
                 makeSpacer(pathDepths(scope))
-                Text("􀡫")
+                Text(FileIcon)
                     .font(.footnote)
                     .truncationMode(.middle)
                 Text(path.components.last?.rawValue ?? "")
@@ -77,8 +83,8 @@ struct FileBrowserView: View {
                 
                 Spacer()
 
-                actionButton("􀐩+", path, event: .newSingleCommand(path, .addToFocus))
-                actionButton("􀈚 v3", path, event: .newSingleCommand(path, .addToWorld))
+                actionButton("\(FocusIcon)+", path, event: .newSingleCommand(path, .addToFocus))
+                actionButton("\(AddToOriginIcon) v3", path, event: .newSingleCommand(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
@@ -88,14 +94,15 @@ struct FileBrowserView: View {
         case let .directory(path):
             HStack {
                 makeSpacer(pathDepths(scope))
-                Text("▶️")
+                Text(DirectoryIconCollapsed)
                 
                 Text(path.components.last?.rawValue ?? "")
                     .fontWeight(.medium)
                 
                 Spacer()
                 
-                actionButton("􀈚 v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+                actionButton("\(FocusIcon)+", path, event: .newMultiCommandRecursiveAllLayout(path, .addToFocus))
+                actionButton("\(AddToOriginIcon) v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -103,7 +110,7 @@ struct FileBrowserView: View {
         case let .expandedDirectory(path):
             HStack {
                 makeSpacer(pathDepths(scope))
-                Text("🔽")
+                Text(DirectoryIconExpanded)
                 
                 Text(path.components.last?.rawValue ?? "")
                     .underline()
@@ -111,7 +118,8 @@ struct FileBrowserView: View {
                 
                 Spacer()
                 
-                actionButton("􀈚 v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+                actionButton("\(FocusIcon)+", path, event: .newMultiCommandRecursiveAllLayout(path, .addToFocus))
+                actionButton("\(AddToOriginIcon) v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
             }
             .padding(0.5)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))

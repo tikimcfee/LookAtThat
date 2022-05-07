@@ -68,11 +68,22 @@ class CodePagesController: BaseSceneController, ObservableObject {
         case let .newSingleCommand(path, style):
             commandHandler.handleSingleCommand(path, style)
             
-        case let .newMultiCommandRecursiveAllLayout(parent, _):
-            codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-//            codeGridParser.__versionFour_RenderConcurrent(parent) { rootGrid in
-                self.addToRoot(rootGrid: rootGrid)
+        case let .newMultiCommandRecursiveAllLayout(parent, style):
+            switch style {
+            case .addToFocus:
+                let sem = DispatchSemaphore(value: 1)
+                codeGridParser.__versionThree_RenderImmediate(parent) { path, grid in
+                    sem.wait()
+                    self.compat.doAddToFocus(grid)
+                    sem.signal()
+                }
+            case .addToWorld:
+                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+                    self.addToRoot(rootGrid: rootGrid)
+                }
+            default: break
             }
+
             
         case let .newMultiCommandRecursiveAllCache(parent):
             print("Start cache: \(parent.fileName)")

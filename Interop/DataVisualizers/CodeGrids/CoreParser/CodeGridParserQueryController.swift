@@ -7,48 +7,56 @@
 
 import Foundation
 
+//MARK: - Observable controller
+
 class CodeGridParserQueryController: ObservableObject {
+    let parser: CodeGridParser
+    private var cache: GridCache { parser.gridCache }
+    
+    @Published var searchInput: String = ""
+
+    init(parser: CodeGridParser) {
+        self.parser = parser
+    }
+}
+
+//MARK: - Search walk
+
+extension CodeGridParserQueryController {
+    func walkGridsForSearch(
+        _ searchText: String,
+        onPositive: SearchReceiver,
+        onNegative: NegativeReceiver
+    ) throws {
+        for cloneTuple in cache.cachedGrids.values {
+            var matches = Set<SemanticInfo>()
+            
+            for (_, info) in cloneTuple.source.codeGridSemanticInfo.semanticsLookupBySyntaxId {
+                if info.referenceName.containsMatch(searchText) {
+                    matches.insert(info)
+                }
+            }
+            
+            if matches.isEmpty {
+                try onNegative(cloneTuple.source, cloneTuple.clone)
+            } else {
+                try onPositive(cloneTuple.source, cloneTuple.clone, matches)
+            }
+        }
+    }
+}
+
+//MARK: - Aliases
+
+extension CodeGridParserQueryController {
     typealias SearchReceiver = (
         _ source: CodeGrid,
         _ clone: CodeGrid,
         _ semantics: Set<SemanticInfo>
     ) throws -> Void
     
-    let parser: CodeGridParser
-    var tokenCache: CodeGridTokenCache { parser.tokenCache }
-    var cache: GridCache { parser.gridCache }
-    
-    @Published var searchInput: String = ""
-    lazy var searchBinding = WrappedBinding("", onSet: { self.searchInput = $0 })
-    lazy var searchStream = $searchInput.share().eraseToAnyPublisher()
-    
-    init(parser: CodeGridParser) {
-        self.parser = parser
-    }
-    
-    func walkGridsForSearch(
-        _ searchText: String,
-        onPositive: SearchReceiver,
-        onNegative: SearchReceiver
-    ) throws {
-        try onAllCachedInfo { sourceGrid, clone, infoSet in
-            let filteredSemantics = infoSet.filter { info in
-                return info.referenceName.containsMatch(searchText)
-            }
-            let toCall = filteredSemantics.isEmpty ? onNegative : onPositive
-            try toCall(sourceGrid, clone, filteredSemantics)
-        }
-    }
-    
-    // Loops through all grids, iterates over all SemanticInfo constructed for it
-    func onAllCachedInfo(_ receiver: SearchReceiver) throws {
-        for (cachedGrid, clone) in cache.cachedGrids.values {
-            let items = Set(
-                cachedGrid.codeGridSemanticInfo
-                    .semanticsLookupBySyntaxId
-                    .values
-            )
-            try receiver(cachedGrid, clone, items)
-        }
-    }
+    typealias NegativeReceiver = (
+        _ source: CodeGrid,
+        _ clone: CodeGrid
+    ) throws -> Void
 }

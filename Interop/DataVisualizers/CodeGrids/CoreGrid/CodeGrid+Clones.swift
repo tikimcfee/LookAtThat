@@ -42,6 +42,8 @@ extension CodeGrid {
         clone.rootContainerNode.name = clone.rootContainerNodeName
         clone.rawGlyphsNode = clonedGlyphs
         clone.rawGlyphsNode.name = clone.glyphNodeName
+        clone.flattenedGlyphsNode = clonedContainer.childNode(withName: flattedGlyphNodeName, recursively: false)
+        clone.flattenedGlyphsNode?.name = clone.flattedGlyphNodeName
         clone.backgroundGeometryNode = clonedBackground
         clone.backgroundGeometryNode.name = clone.backgroundNodeName
         clone.backgroundGeometry = clonedGeometry

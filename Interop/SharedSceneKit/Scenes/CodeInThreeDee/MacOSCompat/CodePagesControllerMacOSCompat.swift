@@ -67,52 +67,21 @@ private extension CodePagesControllerMacOSCompat {
     }
 }
 
-private extension CodePagesControllerMacOSCompat {
+extension CodePagesControllerMacOSCompat {
     func doAddToFocus(_ newGrid: CodeGrid) {
         resizeCommand { _, box in
-            sceneTransaction(0) { layoutCommand { focus, box in
-                focus.addGridToFocus(newGrid, box.deepestDepth + 1)
-            }}
             
-            if box.deepestDepth != 0 {
-                sceneTransaction {
-                    switch box.layoutMode {
-                    case .horizontal:
-                        box.rootNode.simdTranslate(dX: -newGrid.measures.lengthX)
-                    case .stacked:
-                        box.rootNode.simdTranslate(dZ: VectorVal(-150.0).vector)
-                    case .userStack:
-                        print("Seriously userStack isn't supported on mac yet")
-                    }
+            sceneTransaction(0) {
+                layoutCommand { focus, box in
+                    focus.addGridToFocus(newGrid, box.deepestDepth + 1)
                 }
             }
             
-            //TODO: The control is off by a few points.. WHY!?
-            let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
-                insertControl($0)
-                newGrid.addingChild($0)
-                
-                $0.setPositionConstraint(
-                    target: newGrid.rootContainerNode,
-                    positionOffset: SCNVector3(
-                        0, $0.displayGrid.measures.lengthY + 2.0, 0
-                    )
-                )
-            }
-            
-            GridControlAddToFocus(newGrid, inputCompat.focus).applying {
-                insertControl($0)
-                newGrid.addingChild($0)
-                
-                $0.setPositionConstraint(
-                    target: swapControl.displayGrid.rootNode,
-                    positionOffset: SCNVector3(
-                        swapControl.displayGrid.measures.lengthX + 4.0, 0, 0
-                    )
-                )
-            }
+            box.rootNode.worldPosition = inputCompat
+                .sceneCameraNode
+                .worldPosition
+                .translated(dZ: -200)
         }
-        
     }
 }
 
@@ -159,8 +128,10 @@ extension CodePagesControllerMacOSCompat {
     }
     
     func attachSearchInputSink() {
-        SceneLibrary.global.codePagesController.codeGridParser.query.searchStream
-            .receive(on: DispatchQueue.global(qos: .userInteractive))
+        SceneLibrary.global.codePagesController
+            .codeGridParser
+            .query
+            .$searchInput
             .sink { [inputCompat] searchEvent in
                 inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
             }
@@ -188,25 +159,12 @@ private extension CodePagesControllerMacOSCompat {
                 return
             }
             
-            var startPosition: SCNVector3 = parent
+            let startPosition: SCNVector3 = parent
                 .convertPosition(nextGrid.rootNode.position, to: nil)
                 .translated(
                     dX: nextGrid.measures.lengthX / 2.0,
                     dY: -min(32, nextGrid.measures.lengthY / 4.0)
                 )
-            
-            
-            if inputCompat.searchController.hasActiveSearch,
-               let clone = findClone(of: nextGrid) {
-//                let clonePosition = parent.convertPosition(clone.rootNode.position, to: nil)
-                startPosition = startPosition.translated(dX: clone.measures.lengthX / 2.0)
-                
-//                let centerX = (clone.measures.centerX + nextGrid.measures.centerX) / 2.0
-//                let centerY = (clone.measures.centerY + nextGrid.measures.centerY) / 2.0
-//                let centerZ = startPosition.z + (clone.measures.centerZ + nextGrid.measures.centerZ) / 2.0
-//                let center = SCNVector3(centerX, centerY, centerZ)
-//                controller.sceneCameraNode.look(at: center)
-            }
             
             controller.sceneCameraNode.position = startPosition.translated(
                 dZ: default__CameraSpacingFromPlaneOnShift

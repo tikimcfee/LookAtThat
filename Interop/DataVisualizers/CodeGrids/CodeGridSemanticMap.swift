@@ -43,17 +43,41 @@ extension CodeGridSemanticMap {
     func addFlattened(_ syntax: Syntax) {
         flattenedSyntax[syntax.id] = syntax
     }
+    
     func insertSemanticInfo(_ id: SyntaxIdentifier, _ info: SemanticInfo) {
         semanticsLookupBySyntaxId[id] = info
     }
+    
     func insertNodeInfo(_ nodeId: NodeID, _ syntaxId: SyntaxIdentifier) {
         syntaxIDLookupByNodeId[nodeId] = syntaxId
     }
+
+    func tokenNodes(
+        from syntaxIdentifer: SyntaxIdentifier,
+        in cache: CodeGridTokenCache,
+        _ walker: @escaping (SemanticInfo, CodeGridNodes) throws -> Void
+    ) rethrows {
+        // Just get all nodes directly underneath this one
+        guard let originalSynax = flattenedSyntax[syntaxIdentifer] else {
+            print("Cache missing on id: \(syntaxIdentifer)")
+            return
+        }
+
+        try originalSynax.tokens.forEach { token in
+            let tokenId = token.id
+            guard let info = semanticsLookupBySyntaxId[tokenId] else { return }
+            
+            try walker(info, cache[tokenId.stringIdentifier])
+            try walker(info, cache[tokenId.stringIdentifier + "-leadingTrivia"])
+            try walker(info, cache[tokenId.stringIdentifier + "-trailingTriva"])
+        }
+    }
+    
     func walkFlattened(
         from syntaxIdentifer: SyntaxIdentifier,
         in cache: CodeGridTokenCache,
         _ walker: @escaping (SemanticInfo, CodeGridNodes) throws -> Void
-    ) {
+    ) rethrows {
         guard let toWalk = flattenedSyntax[syntaxIdentifer] else {
             print("Cache missing on id: \(syntaxIdentifer)")
             return
@@ -63,10 +87,9 @@ extension CodeGridSemanticMap {
             let syntaxId = syntax.id
             guard let info = semanticsLookupBySyntaxId[syntaxId] else { return }
             
-            try? walker(info, cache[syntaxId.stringIdentifier])
-            try? walker(info, cache[syntaxId.stringIdentifier + "-leadingTrivia"])
-            try? walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
-            
+            try walker(info, cache[syntaxId.stringIdentifier])
+            try walker(info, cache[syntaxId.stringIdentifier + "-leadingTrivia"])
+            try walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
         }).walk(toWalk)
     }
 }

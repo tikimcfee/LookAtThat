@@ -152,7 +152,7 @@ extension SourceInfoPanelView {
         HStack {
             TextField(
                 "🔍 Find",
-                text: state.searchBinding
+                text: .init(get: { state.searchInput }, set: { newText in state.searchInput = newText })
             ).frame(width: 256)
             Text("New Focus")
                 .padding(8.0)

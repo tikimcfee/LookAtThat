@@ -270,8 +270,6 @@ extension CodeGrid {
         rawGlyphsNode.isHidden = false
         showingRawGlyphs = true
         flattenedGlyphsNode?.isHidden = true
-        
-//        flattenedGlyphsNode?.isHidden = true
     }
     
     func swapOutRootGlyphs(
@@ -289,8 +287,6 @@ extension CodeGrid {
         rawGlyphsNode.isHidden = true
         showingRawGlyphs = false
         flattenedGlyphsNode?.isHidden = false
-        
-//        flattenedGlyphsNode?.isHidden = false
     }
     
     @discardableResult

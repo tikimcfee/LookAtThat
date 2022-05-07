@@ -12,23 +12,36 @@ import SwiftSyntax
 // walking is apparently dangerous as hell when trying to cast between protocols so...
 // we use the flattening visitor instead
 class StateCapturingVisitor: SyntaxAnyVisitor {
-    let onVisit: (Syntax) -> SyntaxVisitorContinueKind
-    let onVisitAnyPost: (Syntax) -> Void
+    let onVisit: (Syntax) throws -> SyntaxVisitorContinueKind
+    let onVisitAnyPost: (Syntax) throws -> Void
+    private var vistAnyPostDidThrow: Bool = false
     
     init(
-        onVisitAny: @escaping (Syntax) -> SyntaxVisitorContinueKind = { _ in .visitChildren },
-        onVisitAnyPost: @escaping (Syntax) -> Void = { _ in }
+        onVisitAny: @escaping (Syntax) throws -> SyntaxVisitorContinueKind = { _ in .visitChildren },
+        onVisitAnyPost: @escaping (Syntax) throws -> Void = { _ in }
     ) {
         self.onVisit = onVisitAny
         self.onVisitAnyPost = onVisitAnyPost
     }
     
     public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        onVisit(node)
+        if vistAnyPostDidThrow {
+            return .skipChildren
+        }
+        
+        do {
+            return try onVisit(node)
+        } catch {
+            return .skipChildren
+        }
     }
     
     public override func visitAnyPost(_ node: Syntax) {
-        onVisitAnyPost(node)
+        do {
+            try onVisitAnyPost(node)
+        } catch {
+            vistAnyPostDidThrow = true
+        }
     }
 }
 
@@ -44,6 +57,7 @@ class FlatteningVisitor {
     }
     
     func walkRecursiveFromSyntax(_ root: Syntax) {
+        tryMap(root)
         consumeRecursiveStart(root.children)
     }
     
