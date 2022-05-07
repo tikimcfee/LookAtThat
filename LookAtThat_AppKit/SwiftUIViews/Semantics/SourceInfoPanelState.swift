@@ -28,11 +28,6 @@ class SourceInfoPanelState: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
     
-    var searchInput: String {
-        get { SceneLibrary.global.codePagesController.codeGridParser.query.searchInput }
-        set { SceneLibrary.global.codePagesController.codeGridParser.query.searchInput = newValue }
-    }
-    
     init() {
 #if !TARGETING_SUI
         setupBindings()
