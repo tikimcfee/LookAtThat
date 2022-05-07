@@ -13,35 +13,41 @@ class SemanticInfoBuilder {
     private(set) var localCallStackCache = [String: Set<SemanticInfo>]()
     private(set) var localInfoCache = [Syntax: SemanticInfo]()
     
-    func semanticInfo(for node: Syntax, fileName: String? = nil) -> SemanticInfo {
+    func semanticInfo(
+        for node: Syntax,
+        type: SyntaxEnum? = nil,
+        fileName: String? = nil
+    ) -> SemanticInfo {
         if let cached = localInfoCache[node] { return cached }
         
-        let info: SemanticInfo
-        switch self[node] {
+        let newInfo: SemanticInfo
+        lazy var DANGEROUS_CAST = self[node] // Trying to read enum type during walk can be.. dangerous? it randomly crashes trying to read `raw`
+        switch type ?? DANGEROUS_CAST {
         case .variableDecl(let varl):
-            info = makeVariableInfo(for: node, fileName: fileName, varl)
+            newInfo = makeVariableInfo(for: node, fileName: fileName, varl)
             
         case .extensionDecl(let extenl):
-            info = makeExtensionInfo(for: node, fileName: fileName, extenl)
+            newInfo = makeExtensionInfo(for: node, fileName: fileName, extenl)
             
         case .classDecl(let classl):
-            info = makeClassInfo(for: node, fileName: fileName, classl)
+            newInfo = makeClassInfo(for: node, fileName: fileName, classl)
             
         case .structDecl(let structl):
-            info = makeStructInfo(for: node, fileName: fileName, structl)
+            newInfo = makeStructInfo(for: node, fileName: fileName, structl)
             
         case .functionDecl(let funcl):
-            info = makeFunctionInfo(for: node, fileName: fileName, funcl)
+            newInfo = makeFunctionInfo(for: node, fileName: fileName, funcl)
             
         case .protocolDecl(let protol):
-            info = makeProtocolInfo(for: node, fileName: fileName, protol)
+            newInfo = makeProtocolInfo(for: node, fileName: fileName, protol)
             
         default:
-            info = makeDefaultInfo(for: node, fileName : fileName)
+            newInfo = makeDefaultInfo(for: node, fileName : fileName)
         }
         
-        localInfoCache[node] = info
-        return info
+        addToCallStackCache(newInfo)
+        localInfoCache[node] = newInfo
+        return newInfo
     }
 }
 
@@ -56,7 +62,8 @@ extension SemanticInfoBuilder {
     }
     
     subscript(_ node: Syntax) -> SyntaxEnum {
-        get { localSemanticCache[node].nodeEnum }
+        get { localSemanticCache[node] }
+        set { localSemanticCache[node] = newValue }
     }
 }
 
@@ -80,7 +87,6 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: stackName
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
@@ -93,7 +99,6 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: extendedTypeName.trimmingCharacters(in: .whitespaces)
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
@@ -105,7 +110,6 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: "\(classl.identifier)".trimmingCharacters(in: .whitespaces)
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
@@ -117,7 +121,6 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: "\(structl.identifier)".trimmingCharacters(in: .whitespaces)
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
@@ -130,7 +133,6 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: "\(funcl.identifier)".trimmingCharacters(in: .whitespaces)
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
@@ -142,11 +144,13 @@ private extension SemanticInfoBuilder {
             fileName: fileName,
             callStackName: "\(protol.identifier)".trimmingCharacters(in: .whitespaces)
         )
-        addToCallStackCache(newInfo)
         return newInfo
     }
     
-    func makeDefaultInfo(for node: Syntax, fileName: String? = nil) -> SemanticInfo {
+    func makeDefaultInfo(
+        for node: Syntax,
+        fileName: String? = nil
+    ) -> SemanticInfo {
         return SemanticInfo(
             node: node,
             fileName: fileName

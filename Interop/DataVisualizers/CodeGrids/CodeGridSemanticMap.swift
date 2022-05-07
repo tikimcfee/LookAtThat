@@ -16,11 +16,15 @@ typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
 public class CodeGridSemanticMap {
-	var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()
-	var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
     
-    var syntaxIdToAssociatedIds = AssociatedSyntaxMap()
+    // MARK: - Core association sets
+    
+    // TODO: *1 = these can be merged! SemanticInfo wraps Syntax
+    var flattenedSyntax = [SyntaxIdentifier: Syntax]()  //TODO: *1
+    var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()  //TODO: *1
+    var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
 
+    // MARK: - Categories
 	var structs = AssociatedSyntaxMap()
 	var classes = AssociatedSyntaxMap()
 	var enumerations = AssociatedSyntaxMap()
@@ -33,21 +37,49 @@ public class CodeGridSemanticMap {
 	var extensions = AssociatedSyntaxMap()
 }
 
+// MARK: - Simplified mapping
+
+extension CodeGridSemanticMap {
+    func addFlattened(_ syntax: Syntax) {
+        flattenedSyntax[syntax.id] = syntax
+    }
+    func insertSemanticInfo(_ id: SyntaxIdentifier, _ info: SemanticInfo) {
+        semanticsLookupBySyntaxId[id] = info
+    }
+    func insertNodeInfo(_ nodeId: NodeID, _ syntaxId: SyntaxIdentifier) {
+        syntaxIDLookupByNodeId[nodeId] = syntaxId
+    }
+    func walkFlattened(
+        from syntaxIdentifer: SyntaxIdentifier,
+        in cache: CodeGridTokenCache,
+        _ walker: @escaping (SemanticInfo, CodeGridNodes) throws -> Void
+    ) {
+        guard let toWalk = flattenedSyntax[syntaxIdentifer] else {
+            print("Cache missing on id: \(syntaxIdentifer)")
+            return
+        }
+        
+        StateCapturingVisitor(onVisitAnyPost: { [semanticsLookupBySyntaxId] syntax in
+            let syntaxId = syntax.id
+            guard let info = semanticsLookupBySyntaxId[syntaxId] else { return }
+            
+            try? walker(info, cache[syntaxId.stringIdentifier])
+            try? walker(info, cache[syntaxId.stringIdentifier + "-leadingTrivia"])
+            try? walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
+            
+        }).walk(toWalk)
+    }
+}
+
 extension CodeGridSemanticMap {
     var allSemanticInfo: [SemanticInfo] {
         return Array(semanticsLookupBySyntaxId.values)
     }
 }
 
+// MARK: Parent Hierarchy
+
 extension CodeGridSemanticMap {
-    func semanticsFromNodeId(_ nodeId: NodeID?) -> SemanticInfo? {
-        guard let nodeId = nodeId,
-              let syntaxId = syntaxIDLookupByNodeId[nodeId],
-              let syntaxSemantics = semanticsLookupBySyntaxId[syntaxId]
-        else { return nil }
-        return syntaxSemantics
-    }
-    
     func parentList(_ nodeId: NodeID, _ reversed: Bool = false) -> [SemanticInfo] {
         var parentList = [SemanticInfo]()
         walkToRootFrom(nodeId) { info in
@@ -55,49 +87,8 @@ extension CodeGridSemanticMap {
         }
         return reversed ? parentList.reversed() : parentList
     }
-
-    func forAllNodesAssociatedWith(
-        _ nodeId: SyntaxIdentifier,
-        _ cache: CodeGridTokenCache,
-        _ walker: (SemanticInfo, CodeGridNodes) throws -> Void
-    ) throws {
-        try syntaxIdToAssociatedIds[nodeId]?.forEach { associatedId, _ in
-            guard let info = semanticsLookupBySyntaxId[associatedId] else { return }
-            try walker(info, cache[associatedId.stringIdentifier])
-            try walker(info, cache[associatedId.stringIdentifier + "-leadingTrivia"])
-            try walker(info, cache[associatedId.stringIdentifier + "-trailingTriva"])
-        }
-    }
     
-    private func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
-        return left.position.y > right.position.y
-        && left.position.x < right.position.x
-    }
-    
-    private func sortTuplesTopLeft(
-        _ left: (SemanticInfo, SortedNodeSet),
-        _ right: (SemanticInfo, SortedNodeSet)
-    ) -> Bool {
-        guard let left = left.1.first else { return false }
-        guard let right = right.1.first else { return true }
-        return sortTopLeft(left, right)
-    }
-    
-    func collectAssociatedNodes(
-        _ nodeId: SyntaxIdentifier,
-        _ cache: CodeGridTokenCache,
-        _ sort: Bool = false
-    ) throws -> [(SemanticInfo, SortedNodeSet)] {
-        var allFound = [(SemanticInfo, SortedNodeSet)]()
-        try forAllNodesAssociatedWith(nodeId, cache, { infoForNodeSet, nodeSet in
-            let sortedTopMost = sort ? nodeSet.sorted(by: sortTopLeft) : Array(nodeSet)
-            allFound.append((infoForNodeSet, sortedTopMost))
-        })
-        
-        return sort ? allFound.sorted(by: sortTuplesTopLeft) : allFound
-    }
-    
-    func walkToRootFrom(
+    private func walkToRootFrom(
         _ nodeId: NodeID?,
         _ walker: (SemanticInfo) -> Void
     ) {
@@ -116,53 +107,40 @@ extension CodeGridSemanticMap {
             }
         }
     }
-    
-	func saveSemanticInfo(_ syntaxId: SyntaxIdentifier,
-                          _ nodeId: NodeID,
-                          _ makeSemanticInfo: @autoclosure () -> SemanticInfo) {
-		guard semanticsLookupBySyntaxId[syntaxId] == nil else { return }
-		
-        let newInfo = makeSemanticInfo()
-		syntaxIDLookupByNodeId[nodeId] = syntaxId
-		semanticsLookupBySyntaxId[syntaxId] = newInfo
-	}
-    
-    func associateWithAllCurrentIDs(syntax: Syntax) {
-        let syntaxId = syntax.id
-        let currentValues = Array(syntaxIdToAssociatedIds.values)
-        currentValues.forEach { knownAssociations in
-            knownAssociations.keys.forEach { associationKey in
-                syntaxIdToAssociatedIds[syntaxId, default: [:]][associationKey] = 1
-            }
-        }
-    }
-    
-    
-    // Uses a nested dictionary to associate a node with an arbitrary set of
-    // other nodes. The first key is lookup for associations. The second is
-    // to quickly determine if a given node is associated with the former. 1
-    // is a placeholder for hash lookup instead of Set.
-    func associate(
-        syntax: Syntax,
-        withLookupId newValue: SyntaxIdentifier
-    ) {
-        let syntaxId = syntax.id
-        if syntaxIdToAssociatedIds[syntaxId] == nil {
-            syntaxIdToAssociatedIds[syntaxId] = [newValue: 1]
-            return
-        }
-        syntaxIdToAssociatedIds[syntaxId]?[newValue] = 1
+}
+
+// MARK: Node Sorting
+
+extension CodeGridSemanticMap {
+    func collectAssociatedNodes(
+        _ nodeId: SyntaxIdentifier,
+        _ cache: CodeGridTokenCache,
+        _ sort: Bool = false
+    ) throws -> [(SemanticInfo, SortedNodeSet)] {
+        var allFound = [(SemanticInfo, SortedNodeSet)]()
         
-        if let decl = syntax.asProtocol(DeclSyntaxProtocol.self) {
-            category(for: decl) { category in
-                if category[syntaxId] == nil {
-                    category[syntaxId] = [newValue: 1]
-                    return
-                }
-                category[syntaxId]?[newValue] = 1
-            }
+        walkFlattened(from: nodeId, in: cache) { infoForNodeSet, nodeSet in
+            let sortedTopMost = sort ? nodeSet.sorted(by: self.sortTopLeft) : Array(nodeSet)
+            allFound.append((infoForNodeSet, sortedTopMost))
         }
+        
+        return sort ? allFound.sorted(by: sortTuplesTopLeft) : allFound
     }
+    
+    private func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
+        return left.position.y > right.position.y
+        && left.position.x < right.position.x
+    }
+    
+    private func sortTuplesTopLeft(
+        _ left: (SemanticInfo, SortedNodeSet),
+        _ right: (SemanticInfo, SortedNodeSet)
+    ) -> Bool {
+        guard let left = left.1.first else { return false }
+        guard let right = right.1.first else { return true }
+        return sortTopLeft(left, right)
+    }
+    
 }
 
 // MARK: - Major Categories
@@ -194,10 +172,35 @@ extension CodeGridSemanticMap {
         }
     }
     
+    func category(
+        for syntaxEnum: SyntaxEnum,
+        _ action: (inout AssociatedSyntaxMap) -> Void)
+    {
+        switch syntaxEnum {
+        case .protocolDecl:
+            action(&protocols)
+        case .typealiasDecl:
+            action(&typeAliases)
+        case .variableDecl:
+            action(&variables)
+        case .classDecl:
+            action(&classes)
+        case .enumDecl:
+            action(&enumerations)
+        case .extensionDecl:
+            action(&extensions)
+        case .functionDecl:
+            action(&functions)
+        case .structDecl:
+            action(&structs)
+        default:
+            break
+        }
+    }
+    
     var isEmpty: Bool {
         semanticsLookupBySyntaxId.isEmpty
         && syntaxIDLookupByNodeId.isEmpty
-        && syntaxIdToAssociatedIds.isEmpty
         && structs.isEmpty
         && classes.isEmpty
         && enumerations.isEmpty

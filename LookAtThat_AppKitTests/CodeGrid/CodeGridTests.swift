@@ -30,13 +30,14 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         bundle.gridParser.loadSourceUrl(bundle.testFile)?.tokens.forEach {
             print($0.triviaAndText)
             $0.triviaAndText.forEach {
-                let (geometry, size) = bundle.glyphs[
+                let (geometry, template, size) = bundle.glyphs[
                     GlyphCacheKey("\($0)", NSUIColor.white)
                 ]
                 
                 print(size, "--", geometry.lengthX, geometry.lengthY, geometry.lengthZ)
+                print("\(geometry)\n\(template)")
                 XCTAssertEqual(size.width, geometry.lengthX, accuracy: 0.0)
-                XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)
+                XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)   
             }
         }
     }
@@ -46,10 +47,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let sourceSyntax = Syntax(sourceFile)
         
         for token in sourceSyntax.tokens {
-            print(token.id.stringIdentifier, "\n\n---\n\(token.text) | \(token.typeName)\n---")
+            print(token.id.stringIdentifier, "\n\n---\n\(token.text)\n---")
             var nextParent: Syntax? = token._syntaxNode
             while let next = nextParent?.parent {
-                print("<--> \(next.id.stringIdentifier) | \(next.cachedType)")
+                print("<--> \(next.id.stringIdentifier)")
                 nextParent = next
             }
         }

@@ -87,6 +87,7 @@ public extension TokenSyntax {
 	static let selfClassKeyword = NSUIColor(displayP3Red: 1.0, green: 0.8, blue: 0.9, alpha: 1.0)
 	static let standardScopeColor = NSUIColor(displayP3Red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 	static let actionableTokenColor = NSUIColor(displayP3Red: 1.0, green: 0.5, blue: 0.5, alpha: 1.0)
+    static let rawRegexString = NSUIColor(displayP3Red: 0.4, green: 0.4, blue: 0.9, alpha: 1.0)
 	static let valueToken = NSUIColor(displayP3Red: 0.5, green: 0.5, blue: 0.0, alpha: 1.0)
 	static let unknownToken = NSUIColor(displayP3Red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
     
@@ -338,6 +339,9 @@ public extension TokenSyntax {
 				return Self.valueToken
 			case .yield:
 				return Self.controlFlowKeyword
+            // 0.50006.01
+//            case .regexLiteral(_):
+//                return Self.rawRegexString
             case .poundUnavailableKeyword:
                 return Self.actionableTokenColor
         }

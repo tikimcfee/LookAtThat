@@ -114,6 +114,14 @@ extension CodeGrid {
         let attributedGlyphsWriter = vendAttributedGlyphsWriter
         let writeGlyphs = [.all, .glyphs].contains(displayMode)
         
+        // Precache all known syntax
+        if walkSemantics {
+            FlatteningVisitor(
+                target: codeGridSemanticInfo,
+                builder: semanticInfoBuilder
+            ).walkRecursiveFromSyntax(rootSyntaxNode)
+        }
+
         for token in rootSyntaxNode.tokens {
             // Setup identifiers and build out token text
             let tokenId = token.id
@@ -144,15 +152,9 @@ extension CodeGrid {
             tokenCache[tokenIdNodeName] = tokenTextNodes
             tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
             
-            if walkSemantics {
-                walkHierarchyForSemantics(
-                    rootSyntax: rootSyntaxNode,
-                    token,
-                    tokenId,
-                    tokenIdNodeName,
-                    fileName
-                )
-            }
+            codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
+            codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
+            codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
         }
         
         consumedRootSyntaxNodes.append(rootSyntaxNode)
@@ -161,61 +163,12 @@ extension CodeGrid {
             attributedGlyphsWriter.finalize()
         }
         
-        if walkSemantics {
-            codeGridSemanticInfo.associateWithAllCurrentIDs(syntax: rootSyntaxNode)
-        }
-        
         recomputeDisplayMode()
         
         // Flushing implicit transaction immediately saves a few cycles
         // and removes need to 'wait' for elements to appear after finalization..
         flushSceneKitTransactions()
-        
         return self
-    }
-    
-    func allTokenSyntaxParents(
-        rootSyntax: Syntax,
-        _ token: TokenSyntax
-    ) -> AssociatedSyntaxSet {
-        var allSyntaxIDs = Set<SyntaxIdentifier>()
-        var tokenParent: Syntax? = Syntax(token)
-        while tokenParent != nil && tokenParent?.id != rootSyntax.id {
-            guard let parent = tokenParent else { continue }
-            let parentId = parent.id
-            allSyntaxIDs.insert(parentId)
-            tokenParent = parent.parent
-        }
-        return allSyntaxIDs
-    }
-    
-    func walkHierarchyForSemantics(
-        rootSyntax: Syntax,
-        _ token: TokenSyntax,
-        _ tokenId: SyntaxIdentifier,
-        _ tokenIdNodeName: String,
-        _ sourceFileName: String
-    ) {
-        // Walk the parenty hierarchy and associate these nodes with that parent.
-        // Add semantic info to lookup for each parent node found.
-        var tokenParent: Syntax? = Syntax(token)
-        while tokenParent != nil && tokenParent?.id != rootSyntax.id {
-            guard let parent = tokenParent else { continue }
-            let parentId = parent.id
-            codeGridSemanticInfo.saveSemanticInfo(
-                parentId,
-                tokenIdNodeName,
-                semanticInfoBuilder.semanticInfo(
-                    for: parent,
-                    fileName: sourceFileName
-                )
-            )
-            codeGridSemanticInfo.associate(
-                syntax: parent,
-                withLookupId: tokenId
-            )
-            tokenParent = parent.parent
-        }
     }
 }
 

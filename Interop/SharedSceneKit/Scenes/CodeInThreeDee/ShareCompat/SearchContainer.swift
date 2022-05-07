@@ -140,11 +140,11 @@ private class RenderTask {
         
         // Collect all nodes for set
         for matchingInfo in matchingSemanticSet {
-            try foundInGrid.codeGridSemanticInfo.forAllNodesAssociatedWith(
-                matchingInfo.syntaxId,
-                codeGridParser.tokenCache
+            foundInGrid.codeGridSemanticInfo.walkFlattened(
+                from: matchingInfo.syntaxId,
+                in: codeGridParser.tokenCache
             ) { info, associatedMatchingNodes in
-                try throwIfCancelled()
+                try self.throwIfCancelled()
                 
                 allNodeNames = associatedMatchingNodes.reduce(into: allNodeNames) {
                     $0.insert($1.name ?? "")

@@ -246,7 +246,10 @@ extension CodePagesController {
 	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
         let isSelected = selectedIdentifiers.toggle(id)
         sceneTransaction {
-            try? source.forAllNodesAssociatedWith(id, codeGridParser.tokenCache) { info, nodes in
+            source.walkFlattened(
+                from: id,
+                in: codeGridParser.tokenCache
+            ) { info, nodes in
                 nodes.forEach { node in
                     node.translate(dZ: isSelected ? 8 : -8)
                     isSelected ? node.focus() : node.unfocus()
