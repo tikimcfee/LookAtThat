@@ -44,6 +44,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
+    private(set) var glyphSwapLocked = false // transient switch to disallow swapping
     private(set) var showingRawGlyphs = true // start with true, finalize() will flatten and set first
     
     let tokenCache: CodeGridTokenCache
@@ -253,10 +254,19 @@ extension CodeGrid {
         }
     }
     
+    func lockGlyphSwapping() {
+        glyphSwapLocked = true
+    }
+    
+    func unlockGlyphSwapping() {
+        glyphSwapLocked = false
+    }
+    
     func swapInRootGlyphs(
         _ function: String = #function,
         _ line: Int = #line
     ) {
+        if glyphSwapLocked { return }
         guard !showingRawGlyphs else {
             print("Unneeded node swap from \(function)::\(line)")
             return
@@ -276,6 +286,7 @@ extension CodeGrid {
         _ function: String = #function,
         _ line: Int = #line
     ) {
+        if glyphSwapLocked { return }
         guard showingRawGlyphs else {
             print("Unneeded node swap from \(function)::\(line)")
             return

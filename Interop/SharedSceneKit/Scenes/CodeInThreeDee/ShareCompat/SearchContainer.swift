@@ -156,6 +156,7 @@ private class RenderTask {
         try missedInfo.forEach { missedGrid in
             codeGridFocus.removeGridFromFocus(missedGrid)
             missedGrid.swapOutRootGlyphs()
+            missedGrid.unlockGlyphSwapping()
             try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
         }
         
@@ -166,7 +167,11 @@ private class RenderTask {
             })
             .enumerated()
             .forEach { index, matchPair in
-                if swapIn { matchPair.key.swapInRootGlyphs() }
+                if swapIn {
+                    matchPair.key.unlockGlyphSwapping()
+                    matchPair.key.swapInRootGlyphs()
+                    matchPair.key.lockGlyphSwapping()
+                }
                 codeGridFocus.addGridToFocus(matchPair.key, index)
                 
                 for info in matchPair.value {
