@@ -84,11 +84,6 @@ struct SourceInfoPanelView: View {
 //        }
     }
     
-    func newFocusRequested() {
-        SceneLibrary.global.codePagesController.compat
-            .inputCompat.focus.setNewFocus()
-    }
-    
     func selected(id: SyntaxIdentifier) {
         SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
     }
@@ -149,17 +144,31 @@ extension SourceInfoPanelView {
     }
     
     func searchControlView() -> some View {
+        FocusSearchInputView(state: state)
+    }
+}
+
+struct FocusSearchInputView: View {
+    @ObservedObject var state: SourceInfoPanelState
+    
+    var body: some View {
         HStack {
             TextField(
                 "🔍 Find",
                 text: .init(get: { state.searchInput }, set: { newText in state.searchInput = newText })
             ).frame(width: 256)
+            
             Text("New Focus")
                 .padding(8.0)
                 .font(.headline)
                 .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
                 .onTapGesture { newFocusRequested() }
         }
+    }
+    
+    func newFocusRequested() {
+        SceneLibrary.global.codePagesController.compat
+            .inputCompat.focus.setNewFocus()
     }
 }
 

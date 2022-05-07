@@ -28,7 +28,6 @@ class SearchContainer {
     }
         
     func search(_ newInput: String, _ state: SceneState) {
-        print("\n\n\t\tnewInput: [\(newInput)]\n\n")
         setupNewSearch(newInput, state)
     }
     
