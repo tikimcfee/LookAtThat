@@ -23,7 +23,7 @@ class FocusBox: Hashable, Identifiable {
     var focus: CodeGridFocusController
     
     var focusedGrid: CodeGrid?
-    var layoutMode: LayoutMode = .horizontal
+    var layoutMode: LayoutMode = .stacked
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
         
     init(id: String, inFocus focus: CodeGridFocusController) {

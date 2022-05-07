@@ -29,16 +29,19 @@ class GlyphNode: SCNNode {
     }
     
     func focus(level: Int) {
+        position = position.translated(dZ: 8.0 * VectorVal((level - focusCount)))
         focusCount = level
         checkCount()
     }
     
     func focus() {
+        position = position.translated(dZ: 8)
         focusCount += 1
         checkCount()
     }
     
     func unfocus() {
+        position = position.translated(dZ: -8)
         focusCount = max(0, focusCount - 1)
         checkCount()
     }

@@ -159,7 +159,7 @@ private class RenderTask {
             try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
         }
         
-        let swapIn = matchedInfo.count < 5
+        let swapIn = matchedInfo.count < 10
         try matchedInfo
             .sorted(by: { leftMatch, rightMatch in
                 leftMatch.key.measures.lengthY < rightMatch.key.measures.lengthY

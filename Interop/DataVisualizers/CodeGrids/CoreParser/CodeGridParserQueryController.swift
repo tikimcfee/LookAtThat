@@ -23,11 +23,18 @@ class CodeGridParserQueryController: ObservableObject {
 //MARK: - Search walk
 
 extension CodeGridParserQueryController {
+    func resetAllGridFocusLevels() {
+        cache.parser.tokenCache.doOnEach { _, nodeSet in
+            nodeSet.forEach { $0.focus(level: 0) }
+        }
+    }
+    
     func walkGridsForSearch(
         _ searchText: String,
         onPositive: SearchReceiver,
         onNegative: NegativeReceiver
     ) throws {
+        resetAllGridFocusLevels()
         for cloneTuple in cache.cachedGrids.values {
             var matches = Set<SemanticInfo>()
             
