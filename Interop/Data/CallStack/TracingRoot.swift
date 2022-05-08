@@ -11,6 +11,7 @@ import AppKit
 
 class TracingRoot {
     static var shared = TracingRoot()
+    static var defaultWriteEnableState = false
     
     lazy var capturedLoggingThreads = ConcurrentDictionary<Thread, Int>()
     lazy var capturedLoggingQueues = ConcurrentDictionary<String, Int>()
@@ -64,12 +65,13 @@ extension TracingRoot {
         CodeGridParser.self,
 //        CodeGrid.Measures.self,
 //        CodeGrid.Renderer.self,
-//        CodeGridSemanticMap.self,
+        CodeGridSemanticMap.self,
 //        SemanticInfoBuilder.self,
 //        CodeGrid.AttributedGlyphs.self,
 //        CodeGridTokenCache.self,
         GridCache.self,
 //        GlyphLayerCache.self,
+        FileBrowser.self,
         ConcurrentGridRenderer.self,
         GridCache.self,
         WorkerPool.self,
@@ -78,8 +80,8 @@ extension TracingRoot {
         WorldGridEditor.self,
         WorldGridSnapping.self,
         
-        TraceLineIDMap.self,
-        TraceLineIDMap.Serialized.self,
+//        TraceLineIDMap.self,
+//        TraceLineIDMap.Serialized.self,
     ]
     
     func setupTracing() {

@@ -17,7 +17,7 @@ class SemanticTracingOutState: ObservableObject {
     
     @Published private(set) var wrapper: SemanticMapTracer?
     
-    @Published var isFileLoggingEnabled = false
+    @Published var isFileLoggingEnabled = TracingRoot.defaultWriteEnableState
     @Published var visibleSections: Set<Sections> = []
     func toggleSection(_ section: Sections) {
         if visibleSections.contains(section) {

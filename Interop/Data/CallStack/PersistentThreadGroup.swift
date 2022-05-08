@@ -23,7 +23,7 @@ class PersistentThreadGroup {
 //    private let tracerMap = ConcurrentDictionary<Thread, PersistentThreadTracer>()
     
     var lastSkipSignature: String?
-    let sharedSignatureMap = TraceLineIDMap()
+    var sharedSignatureMap = TraceLineIDMap()
     
     init() {
         reloadTraceMap()
@@ -74,7 +74,11 @@ extension PersistentThreadGroup {
 //MARK: - Data loading
 extension PersistentThreadGroup {
     func reloadTraceMap() {
-        sharedSignatureMap.decodeAndReload(from: Self.defaultMapFile)
+        do{
+            sharedSignatureMap = try TraceLineIDMap.decodeFrom(file: Self.defaultMapFile)
+        } catch {
+            print(error)
+        }
     }
     
     func eraseTraceMap() {
