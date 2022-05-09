@@ -134,8 +134,12 @@ private class RenderTask {
     
     func onSemanticInfoNegative(source: CodeGrid,
                                 clone: CodeGrid) throws {
+        guard let rootSyntax = source.consumedRootSyntaxNodes.first else {
+            print("Missing consumed syntax node for: \(source.fileName)")
+            return
+        }
         try source.codeGridSemanticInfo.walkFlattened(
-            from: source.consumedRootSyntaxNodes.first!.id,
+            from: rootSyntax.id,
             in: codeGridParser.tokenCache
         ) { info, associatedMatchingNodes in
             try self.throwIfCancelled()
