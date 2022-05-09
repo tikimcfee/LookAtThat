@@ -15,7 +15,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
     var currentFocus: Focus? // todo: use sets to have multiple threads focused on different nodes
     var currentFocusGrid: CodeGrid? // todo: use sets to have multiple threads focused on different nodes
 
-    let wordNodeBuilder: WordNodeBuilder
     let codeGridParser: CodeGridParser
     let fileBrowser = FileBrowser()
     
@@ -45,9 +44,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     var commandHandler: CommandHandler { compat }
 #endif
 
-    init(sceneView: CustomSceneView,
-         wordNodeBuilder: WordNodeBuilder) {
-        self.wordNodeBuilder = wordNodeBuilder
+    override init(sceneView: CustomSceneView) {
         self.codeGridParser = CodeGridParser()
         super.init(sceneView: sceneView)
         

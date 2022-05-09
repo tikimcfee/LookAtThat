@@ -35,7 +35,7 @@ class TapObserving: ObservableObject {
     }
 }
 
-struct FingerSUI: View {
+struct FingerTapView: View {
     @EnvironmentObject var observing: TapObserving
     
     var body: some View {
@@ -77,7 +77,7 @@ struct FingerButton: View {
 struct FingerSUI_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            FingerSUI()
+            FingerTapView()
                 .environmentObject(TapObserving.shared)
         }
     }

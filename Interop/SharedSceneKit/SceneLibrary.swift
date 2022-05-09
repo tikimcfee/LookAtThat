@@ -4,7 +4,6 @@ import Combine
 
 enum SceneType {
     case source
-    case dictionary
 }
 
 #if os(OSX)
@@ -14,9 +13,7 @@ extension SceneLibrary: KeyDownReceiver { }
 class SceneLibrary: ObservableObject, MousePositionReceiver  {
     public static let global = SceneLibrary()
 
-    let wordNodeBuilder = WordNodeBuilder()
     let codePagesController: CodePagesController
-    let dictionaryController: DictionarySceneController
 
     let sharedSceneView: CustomSceneView = {
         let sceneView = CustomSceneView()
@@ -70,12 +67,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     #endif
 
     private init() {
-        self.codePagesController =
-            CodePagesController(sceneView: sharedSceneView,
-                                wordNodeBuilder: wordNodeBuilder)
-        self.dictionaryController =
-            DictionarySceneController(sceneView: sharedSceneView,
-                                      wordNodeBuilder: wordNodeBuilder)
+        self.codePagesController = CodePagesController(sceneView: sharedSceneView)
 
         // Unsafe initialization from .global ... more refactoring inc?
         
@@ -126,14 +118,6 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
         codePagesController.codeGridParser.withNewGrid(sourceString) { world, grid in
             world.addInFrontOfCamera(grid: grid)
         }
-    }
-
-    func dictionary() {
-        currentController.sceneInactive()
-        dictionaryController.setupScene()
-        currentController = dictionaryController
-        currentMode = .dictionary
-        currentController.sceneActive()
     }
 
     func codePages() {

@@ -37,20 +37,9 @@ struct TestButtons_Debugging: View {
             Button(action: resetScene) {
                 Text("Reset scene")
             }
-//            Button(action: dictionaryDemo) {
-//                Text("Dictionary demo")
-//            }
-//            Button(action: sourceDemo) {
-//                Text("Source demo")
-//            }
         }
     }
 #endif
-
-    
-    private func dictionaryDemo() {
-        SceneLibrary.global.dictionary()
-    }
     
     private func sourceDemo() {
         SceneLibrary.global.codePages()

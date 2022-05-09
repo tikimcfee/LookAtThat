@@ -74,7 +74,9 @@ extension MultipeerConnectionManager {
         currentConnection.send(quickMessage, to: peer)
 
         mainQueue.async {
-            self.sentMessages[peer].append(message)
+            self.sentMessages.directWriteAccess {
+                $0[peer, default: []].append(message)
+            }
             self.updatePeerState()
         }
     }

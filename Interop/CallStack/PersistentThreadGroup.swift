@@ -19,9 +19,6 @@ class PersistentThreadGroup {
     private var allErrorQueues = ConcurrentArray<String>()
     private let tracerMap = ConcurrentDictionary<String, PersistentThreadTracer>()
     
-//    private var allErrorThreads = ConcurrentArray<Thread>()
-//    private let tracerMap = ConcurrentDictionary<Thread, PersistentThreadTracer>()
-    
     var lastSkipSignature: String?
     var sharedSignatureMap = TraceLineIDMap()
     
@@ -47,29 +44,6 @@ class PersistentThreadGroup {
         }
     }
 }
-
-// MARK: - Thread Tracing
-/*
-extension PersistentThreadGroup {
-    func tracer(for thread: Thread) -> PersistentThreadTracer? {
-        guard !allErrorThreads.values.contains(thread) else { return nil }
-
-        do {
-            return try tracerMap[thread] ?? {
-                let idFileName = probablySafeThreadName(thread)
-                let newTracer = try createNewTracer(fileName: idFileName)
-                tracerMap[thread] = newTracer
-                print("Created new thread tracer: \(newTracer)")
-                return newTracer
-            }()
-        } catch {
-            print("Tracer could not be created: \(thread), \(error)")
-            allErrorThreads.append(thread)
-            return nil
-        }
-    }
-}
-*/
 
 //MARK: - Data loading
 extension PersistentThreadGroup {

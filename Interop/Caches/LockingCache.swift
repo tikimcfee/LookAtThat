@@ -36,7 +36,7 @@ open class LockingCache<Key: Hashable, Value>: CacheBuilder {
         }
     }
     
-    func doOnEachThrowing(_ action: (Key, Value) throws -> Void) throws {
+    func doOnEachThrowing(_ action: (Key, Value) throws -> Void) rethrows {
         var keys = cache.keys.makeIterator()
         var values = cache.values.makeIterator()
         while let key = keys.next(),

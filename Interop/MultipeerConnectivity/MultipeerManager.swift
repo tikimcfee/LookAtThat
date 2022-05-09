@@ -3,7 +3,7 @@ import MultipeerConnectivity
 import Combine
 import SwiftUI
 
-typealias MessageHistory = AutoListValueDict<MCPeerID, String>
+typealias MessageHistory = ConcurrentDictionary<MCPeerID, [String]>
 
 class MultipeerConnectionManager: NSObject, ObservableObject {
     public static let shared = MultipeerConnectionManager()

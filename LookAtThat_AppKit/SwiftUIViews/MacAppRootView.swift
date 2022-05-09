@@ -14,11 +14,6 @@ struct MacAppRootView: View {
                           // "This would eventually crash when the view is freed. The first responder will be set to nil"
             
             switch library.currentMode {
-            case .dictionary:
-                VStack(spacing: 0) {
-                    TestButtons_Dictionary()
-                    TestButtons_Debugging()
-                }.padding(.bottom, 16.0)
             case .source:
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {

@@ -66,7 +66,7 @@ struct SourceInfoPanelView: View {
                 }
                 
                 if state.sections.contains(.tappingControls) {
-                    FingerSUI()
+                    FingerTapView()
                 }
             }
         }

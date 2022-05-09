@@ -45,6 +45,12 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
         rwlock.unlock()
     }
     
+    public func directWriteAccess(_ action: (inout [Key: Value]) -> Void) {
+        rwlock.writeLock()
+        action(&container)
+        rwlock.unlock()
+    }
+    
     public init() {}
 
     /// Sets the value for key
@@ -97,31 +103,36 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
             return value(forKey: key)
         }
         set {
-            rwlock.writeLock()
-            defer {
-                rwlock.unlock()
-            }
-            guard let newValue = newValue else {
-                _remove(key)
-                return
-            }
-            _set(value: newValue, forKey: key)
+            _setSubscript(key, newValue: newValue)
         }
     }
+}
 
-    // MARK: Private
+extension ConcurrentDictionary {
+    @inline(__always)
+    private func _setSubscript(_ key: Key, newValue: Value?) {
+        rwlock.writeLock()
+        defer {
+            rwlock.unlock()
+        }
+        guard let newValue = newValue else {
+            _remove(key)
+            return
+        }
+        _set(value: newValue, forKey: key)
+    }
+    
     @inline(__always)
     private func _set(value: Value, forKey key: Key) {
         self.container[key] = value
     }
-
+    
     @inline(__always)
     @discardableResult
     private func _remove(_ key: Key) -> Value? {
         guard let index = container.index(forKey: key) else { return nil }
-
+        
         let tuple = container.remove(at: index)
         return tuple.value
     }
-
 }
