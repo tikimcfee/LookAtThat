@@ -133,7 +133,7 @@ class SemanticTracingOutState: ObservableObject {
 extension SemanticTracingOutState {
     func toggleTrace(_ trace: TraceValue) {
         trace.grid.toggleGlyphs()
-        SceneLibrary.global.codePagesController.selected(
+        CodePagesController.shared.selection.selected(
             id: trace.info.syntaxId,
             in: trace.grid.codeGridSemanticInfo
         )
@@ -151,8 +151,7 @@ extension SemanticTracingOutState {
         guard let trace = trace else {
             return
         }
-        
-        SceneLibrary.global.codePagesController.setNewFocus(
+        CodePagesController.shared.trace.setNewFocus(
             id: trace.info.syntaxId,
             in: trace.grid
         )

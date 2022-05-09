@@ -46,6 +46,12 @@
 		B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
+		B7241AFE2828AD63006A6A3E /* ControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AFD2828AD63006A6A3E /* ControllerState.swift */; };
+		B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AFD2828AD63006A6A3E /* ControllerState.swift */; };
+		B7241B002828AD63006A6A3E /* ControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AFD2828AD63006A6A3E /* ControllerState.swift */; };
+		B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
+		B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
+		B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
@@ -529,6 +535,8 @@
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
 		B7241AEE28270F21006A6A3E /* FocusSearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSearchInputView.swift; sourceTree = "<group>"; };
 		B7241AF928288C26006A6A3E /* InputStreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStreamReader.swift; sourceTree = "<group>"; };
+		B7241AFD2828AD63006A6A3E /* ControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerState.swift; sourceTree = "<group>"; };
+		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
 		B7321510275858F800BD5C17 /* CodeGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridFocusController.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
@@ -910,6 +918,7 @@
 				B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */,
 				B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */,
 				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
+				B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */,
 				B74A23352815197000F6F727 /* SourceInfoPanelState.swift */,
 			);
 			path = Semantics;
@@ -946,6 +955,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A82EF32510819B00BEA636 /* CodePagesController.swift */,
+				B7241AFD2828AD63006A6A3E /* ControllerState.swift */,
 			);
 			path = CodePagesController;
 			sourceTree = "<group>";
@@ -1594,6 +1604,7 @@
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B74A22A82814FFF300F6F727 /* SCNBezierPath.swift in Sources */,
+				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
 				B74A22AB2814FFF300F6F727 /* CodeGrid+Glyphs.swift in Sources */,
@@ -1611,6 +1622,7 @@
 				B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */,
 				B74A22B52814FFF300F6F727 /* FocusBoxEngine_MacOS.swift in Sources */,
 				B74A22B62814FFF300F6F727 /* GridControlAddToFocus.swift in Sources */,
+				B7241B002828AD63006A6A3E /* ControllerState.swift in Sources */,
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* CodeGrid+Measures.swift in Sources */,
@@ -1735,6 +1747,7 @@
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
+				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B7A6F2AD275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
@@ -1752,6 +1765,7 @@
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */,
 				B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
+				B7241AFE2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
@@ -1971,6 +1985,7 @@
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
+				B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
@@ -1997,6 +2012,7 @@
 				B7F44C38276D9A2100522B45 /* ControlleriOSCompat.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
 				B7C75721280CEE040005A233 /* BasicIO.swift in Sources */,
+				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
 				B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7C75702280CECBA0005A233 /* VersionNumber.swift in Sources */,

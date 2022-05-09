@@ -35,43 +35,6 @@ class CodePagesControllerMacOSInputCompat {
     var codeGridParser: CodeGridParser { controller.codeGridParser }
     var keyboardInterceptor: KeyboardInterceptor { controller.compat.keyboardInterceptor }
     
-    var hoveredGrid: CodeGrid? {
-        get { controller.hoveredGrid }
-        set {
-            switch (controller.hoveredGrid, newValue) {
-            case let (.some(grid), .some(newGrid)) where newGrid.id == grid.id:
-//                print("Skipping grid set on hover, ids match: \(grid.id == newGrid.id)")
-                break
-
-            case let (.some(grid), .some(newGrid)):
-                grid.swapOutRootGlyphs()
-                controller.hoveredGrid = newGrid
-                newGrid.swapInRootGlyphs()
-            
-            case (.none, .none):
-                controller.hoveredGrid?.swapOutRootGlyphs()
-                controller.hoveredGrid = newValue
-
-            case let (.some(grid), .none):
-                grid.swapOutRootGlyphs()
-                controller.hoveredGrid = newValue
-                
-            case let (.none, .some(newGrid)):
-                newGrid.swapInRootGlyphs()
-                controller.hoveredGrid = newGrid
-            }
-        }
-    }
-    
-    var hoveredInfo: CodeGridSemanticMap? {
-        get { controller.hoveredInfo }
-        set { controller.hoveredInfo = newValue }
-    }
-    var hoveredToken: String {
-        get { controller.hoveredToken }
-        set { controller.hoveredToken = newValue }
-    }
-    
     func newScrollEvent(_ event: NSEvent) {
         
         let sensitivity = CGFloat(1.5)
@@ -169,8 +132,10 @@ class CodePagesControllerMacOSInputCompat {
     private func onTokenHovered(_ node: SCNNode, _ name: String) {
         let hovered = codeGridParser.tokenCache[name]
         if !hovered.isEmpty {
-            touchState.mouse.hoverTracker.newSetHovered(hovered)
-            hoveredToken = name
+            self.touchState.mouse.hoverTracker.newSetHovered(hovered)
+            DispatchQueue.main.async {
+                self.globalHoveredToken = name
+            }
         }
     }
     
@@ -179,7 +144,54 @@ class CodePagesControllerMacOSInputCompat {
 //            print("Skip grid hover: \(grid.id)")
             return
         }
-        hoveredInfo = grid.codeGridSemanticInfo
-        hoveredGrid = grid
+        DispatchQueue.main.async {
+            self.globalHoveredInfo = grid.codeGridSemanticInfo
+            self.hoveredGrid = grid
+        }
+    }
+}
+
+extension CodePagesControllerMacOSInputCompat {
+    private var globalHoveredGrid: CodeGrid? {
+        get { CodePagesController.shared.hover.state.hoveredGrid }
+        set { CodePagesController.shared.hover.state.hoveredGrid = newValue }
+    }
+    
+    private var globalHoveredInfo: CodeGridSemanticMap {
+        get { CodePagesController.shared.hover.state.hoveredInfo }
+        set { CodePagesController.shared.hover.state.hoveredInfo = newValue }
+    }
+    
+    private var globalHoveredToken: String? {
+        get { CodePagesController.shared.hover.state.hoveredTokenId }
+        set { CodePagesController.shared.hover.state.hoveredTokenId = newValue }
+    }
+    
+    var hoveredGrid: CodeGrid? {
+        get { globalHoveredGrid }
+        set {
+            switch (globalHoveredGrid, newValue) {
+            case let (.some(grid), .some(newGrid)) where newGrid.id == grid.id:
+                //                print("Skipping grid set on hover, ids match: \(grid.id == newGrid.id)")
+                break
+                
+            case let (.some(grid), .some(newGrid)):
+                grid.swapOutRootGlyphs()
+                globalHoveredGrid = newGrid
+                newGrid.swapInRootGlyphs()
+                
+            case (.none, .none):
+                globalHoveredGrid?.swapOutRootGlyphs()
+                globalHoveredGrid = newValue
+                
+            case let (.some(grid), .none):
+                grid.swapOutRootGlyphs()
+                globalHoveredGrid = newValue
+                
+            case let (.none, .some(newGrid)):
+                newGrid.swapInRootGlyphs()
+                globalHoveredGrid = newGrid
+            }
+        }
     }
 }

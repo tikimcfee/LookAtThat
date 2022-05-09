@@ -19,12 +19,6 @@ struct SourceInfoPanelView: View {
     var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
     var sourceGrid: CodeGrid? { state.sourceGrid }
     
-    var sourceGridName: String {
-        state.sourceGrid.map {
-            "Target grid: \($0.fileName)"
-        } ?? "No target grid"
-    }
-    
 //    // I have absolutely no idea how this works. The window is retained somehow and not recreated?
 //    // So the onAppear only creates a single window and view, apparently.
 //    var metaWindowContainer = NSWindow(
@@ -48,7 +42,7 @@ struct SourceInfoPanelView: View {
                 }
                 
                 if state.sections.contains(.hoverInfo) {
-                    hoveredNodeInfoView(state.hoveredToken)
+                    SyntaxHierarchyView()
                 }
                 
                 if state.sections.contains(.semanticCategories) {
@@ -85,51 +79,12 @@ struct SourceInfoPanelView: View {
     }
     
     func selected(id: SyntaxIdentifier) {
-        SceneLibrary.global.codePagesController.selected(id: id, in: sourceInfo)
+        CodePagesController.shared.selection.selected(id: id, in: sourceInfo)
     }
 }
 
 // MARK: - Hover Info
 
-extension SourceInfoPanelView {
-    func hoveredNodeInfoView(_ hoveredId: String) -> some View {
-        VStack {
-            Text("\(sourceGridName)")
-            ScrollView {
-                LazyVStack(alignment: .leading) {
-                    ForEach(sourceInfo.parentList(hoveredId), id: \.self) { semantics in
-                        semanticRow(semantics: semantics)
-                    }
-                }
-                .padding(4.0)
-                .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
-            }
-        }
-        .frame(
-            minWidth: 256.0, maxWidth: 296.0,
-            minHeight: 128.0
-        )
-        .padding(4.0)
-    }
-
-    func semanticRow(semantics: SemanticInfo) -> some View {
-        VStack(alignment: .leading) {
-            Text(semantics.syntaxTypeName)
-                .font(.caption)
-                .underline()
-            Text(semantics.referenceName)
-                .font(.caption)
-        }
-        .padding([.horizontal], 8.0)
-        .padding([.vertical], 4.0)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .border(Color(red: 0.4, green: 0.4, blue: 0.4, opacity: 1.0), width: 1.0)
-        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.8)) // needed to fill tap space on macOS
-        .onTapGesture {
-            selected(id: semantics.syntaxId)
-        }
-    }
-}
 
 // MARK: - File Browser
 

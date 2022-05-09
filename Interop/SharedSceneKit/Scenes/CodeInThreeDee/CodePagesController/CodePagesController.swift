@@ -5,31 +5,24 @@ import Combine
 import FileKit
 import SwiftUI
 
+extension CodePagesController {
+    static var shared: CodePagesController {
+        SceneLibrary.global.codePagesController
+    }
+}
+
 class CodePagesController: BaseSceneController, ObservableObject {
-
-    var bumped = Set<Int>()
-    var selectedIdentifiers = Set<SyntaxIdentifier>()
-    let highlightCache = HighlightCache()
-    
-    typealias Focus = [(SemanticInfo, SortedNodeSet)]
-    var currentFocus: Focus? // todo: use sets to have multiple threads focused on different nodes
-    var currentFocusGrid: CodeGrid? // todo: use sets to have multiple threads focused on different nodes
-
+        
     let codeGridParser: CodeGridParser
-    let fileBrowser = FileBrowser()
     
+    lazy var hover = CodeGridHoverController()
+    lazy var selection = CodeGridSelectionController(parser: codeGridParser)
+    lazy var trace = CodeGridTraceController()
+    
+    let fileBrowser = FileBrowser()
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
 
-    @Published var hoveredToken: String = ""
-    @Published var hoveredInfo: CodeGridSemanticMap?
-    @Published var hoveredGrid: CodeGrid?
-    lazy var pointerNode: SCNNode = makePointerNode()
-
-	lazy var hoverStream = $hoveredToken.share().eraseToAnyPublisher()
-    lazy var hoverInfoStream = $hoveredInfo.share().eraseToAnyPublisher()
-    lazy var hoverGridStream = $hoveredGrid.share().eraseToAnyPublisher()
-    
     var cancellables = Set<AnyCancellable>()
 
 #if os(macOS)
@@ -150,50 +143,6 @@ extension Set where Element == SyntaxIdentifier {
 //MARK: - Path tracing
 
 extension CodePagesController {
-    func setNewFocus(id newFocusID: SyntaxIdentifier, in newFocusGrid: CodeGrid) {
-        // Swap last highlight
-        if let lastFocus = currentFocus {
-            updateFocusHighlight(lastFocus, isFocused: false)
-        }
-
-        // Ensure glyphs are visible
-        switch currentFocusGrid {
-        case .none:
-            newFocusGrid.swapInRootGlyphs()
-        case .some(let lastGrid):
-            if lastGrid.id != newFocusGrid.id {
-                lastGrid.swapOutRootGlyphs()
-                newFocusGrid.swapInRootGlyphs()
-            }
-        }
-
-        do {
-            let newFocus = try newFocusGrid
-                .codeGridSemanticInfo
-                .collectAssociatedNodes(newFocusID, newFocusGrid.tokenCache)
-            updateFocusHighlight(newFocus, isFocused: true)
-            currentFocus = newFocus
-            currentFocusGrid = newFocusGrid
-        } catch {
-            print("Failed to find associated nodes during focus: ", error)
-        }
-    }
-    
-    private func updateFocusHighlight(_ focus: Focus, isFocused: Bool) {
-        // So now we're using wrapper nodes which I think I avoided at the very
-        // beginning. So far it's fragile, and now I have SCNNodes and GlyphNodes
-        // everywhere, which isn't exactly ideal.
-        for (_, nodeSet) in focus {
-            for node in nodeSet {
-                if let glyph = (node as? GlyphNode) {
-                    isFocused
-                        ? glyph.focus()
-                        : glyph.unfocus()
-                }
-            }
-        }
-    }
-    
     func zoom(to grid: CodeGrid) {
         sceneTransaction {
             let newPosition = grid.rootNode.worldPosition.translated(
@@ -202,121 +151,6 @@ extension CodePagesController {
                 dZ: 125
             )
             sceneState.cameraNode.worldPosition = newPosition
-        }
-    }
-    
-    func makePointerNode() -> SCNNode {
-        let node = SCNNode()
-        node.name = "ExecutionPointer"
-        node.geometry = SCNSphere(radius: 4.0)
-        node.geometry?.materials.first?.diffuse.contents = NSUIColor(red: 0.2, green: 0.8, blue: 0.3, alpha: 1.0)
-        return node
-    }
-    
-    func moveExecutionPointer(id: SyntaxIdentifier, in grid: CodeGrid) {
-        sceneTransaction {
-            if pointerNode.parent == nil {
-                sceneState.rootGeometryNode.addChildNode(pointerNode)
-            }
-            
-            let allCollectedNodes = try? grid.codeGridSemanticInfo.collectAssociatedNodes(id, grid.tokenCache)
-            
-            if let firstNodeSet = allCollectedNodes?.first,
-               let firstNode = firstNodeSet.1.first {
-                
-                pointerNode.worldPosition = grid.rootNode.worldPosition.translated(
-                    dX: firstNode.position.x,
-                    dY: firstNode.position.y,
-                    dZ: firstNode.position.z
-                )
-                
-                sceneState.cameraNode.worldPosition = SCNVector3(
-                    x: pointerNode.worldPosition.x,
-                    y: pointerNode.worldPosition.y,
-                    z: sceneState.cameraNode.worldPosition.z
-                )
-                
-                sceneState.cameraNode.look(
-                    at: pointerNode.worldPosition,
-                    up: sceneState.rootGeometryNode.worldUp,
-                    localFront: SCNNode.localFront
-                )
-            }
-        }
-    }
-}
-
-extension CodePagesController {
-    func selected(name: String) {
-        bumpNodes(allTokensWith(name: name))
-    }
-	
-	func selected(id: SyntaxIdentifier, in source: CodeGridSemanticMap) {
-        let isSelected = selectedIdentifiers.toggle(id)
-        sceneTransaction {
-            source.walkFlattened(
-                from: id,
-                in: codeGridParser.tokenCache
-            ) { info, nodes in
-                nodes.forEach { node in
-                    node.translate(dZ: isSelected ? 8 : -8)
-                    isSelected ? node.focus() : node.unfocus()
-                }
-            }
-        }
-	}
-
-    func toggleNodeHighlight(_ node: SCNNode) {
-        for letter in node.childNodes {
-            letter.geometry = highlightCache[letter.geometry!]
-        }
-    }
-
-    func bumpNodes(_ nodes: [SCNNode]) {
-        sceneTransaction {
-            for node in nodes {
-                let hash = node.hash
-                if bumped.contains(hash) {
-                    bumped.remove(hash)
-                    node.position = node.position.translated(dZ: -50)
-                    toggleNodeHighlight(node)
-                } else {
-                    bumped.insert(hash)
-                    node.position = node.position.translated(dZ: 50)
-                    toggleNodeHighlight(node)
-                }
-            }
-        }
-    }
-
-    func allTokensWith(name: String) -> [SCNNode] {
-        return sceneState.rootGeometryNode.childNodes { testNode, _ in
-            return testNode.name == name
-        }
-    }
-	
-	func renderSyntax(_ handler: @escaping (CodeGridSemanticMap) -> Void) {
-        requestSourceFile { fileUrl in
-            self.workerQueue.async {
-                guard let newSyntaxGlyphGrid = self.codeGridParser.renderGrid(fileUrl) else { return }
-				
-				// this is generally a UI component looking for the current requested syntax glyphs
-				// they're getting the result new file, and it's assumed the total state of the global
-				// underlying parser and controller are known.
-				handler(newSyntaxGlyphGrid.codeGridSemanticInfo)
-				
-				// the grid is assumed to be as 0,0,0 at its root inititally. sorry, just makes life easier from here.
-				// past this transaction, you do what ya like.
-				
-				// this lets us do cool tricks like be in 'editor mode'
-				// editor mode assumes that your current perspective is your preferred one, and calling the single
-				// renderSyntax function will apply some layout goodies to add the result root glyph, and make it look really cool. 
-				// when this mode is off, it will do some necessarily sane thing like defaulting to a value that produces
-				// the least known human harm when implemented.
-                sceneTransaction {
-                    self.codeGridParser.editorWrapper.addGrid(style: .trailingFromLastGrid(newSyntaxGlyphGrid))
-                }
-            }
         }
     }
 }

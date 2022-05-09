@@ -18,7 +18,7 @@ enum PanelSections: String, CaseIterable, Equatable {
 }
 
 class SourceInfoPanelState: ObservableObject {
-    @Published var sections: [PanelSections] = [.directories]
+    @Published var sections: [PanelSections] = [.directories, .hoverInfo]
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
@@ -49,21 +49,12 @@ class SourceInfoPanelState: ObservableObject {
     }
     
     func setupBindings() {
-        SceneLibrary.global.codePagesController.hoverStream
-            .subscribe(on: DispatchQueue.global())
+        CodePagesController.shared.hover.$state
             .receive(on: DispatchQueue.main)
             .sink {
-                self.hoveredToken = $0
-            }
-            .store(in: &bag)
-        
-        Publishers.CombineLatest(SceneLibrary.global.codePagesController.hoverInfoStream,
-                                 SceneLibrary.global.codePagesController.hoverGridStream)
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink { tupleEvent in
-                self.sourceInfo = tupleEvent.0 ?? self.sourceInfo
-                self.sourceGrid = tupleEvent.1
+                self.hoveredToken = $0.hoveredTokenId ?? self.hoveredToken
+                self.sourceInfo = $0.hoveredInfo
+                self.sourceGrid = $0.hoveredGrid
             }
             .store(in: &bag)
     }
