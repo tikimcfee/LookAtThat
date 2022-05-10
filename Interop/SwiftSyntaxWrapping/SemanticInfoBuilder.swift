@@ -36,13 +36,16 @@ class SemanticInfoBuilder {
             newInfo = makeStructInfo(for: node, fileName: fileName, structl)
             
         case .functionDecl(let funcl):
-            newInfo = makeFunctionInfo(for: node, fileName: fileName, funcl)
+            newInfo = makeFunctionDeclInfo(for: node, fileName: fileName, funcl)
             
         case .token(let token):
             newInfo = makeTokenInfo(for: node, token)
             
-//        case .functionCallExpr(let expressl):
-//            newInfo = makeDefaultInfo(for: node, fileName: fileName)
+        case .functionCallExpr(let fcall):
+            newInfo = makeFunctionCallInfo(for: node, fileName: fileName, fcall)
+            
+        case .memberAccessExpr(let memal):
+            newInfo = makeMemberAccessInfo(for: node, fileName: fileName, memal)
             
         case .protocolDecl(let protol):
             newInfo = makeProtocolInfo(for: node, fileName: fileName, protol)
@@ -139,7 +142,18 @@ private extension SemanticInfoBuilder {
         return newInfo
     }
     
-    func makeFunctionInfo(for node: Syntax, fileName: String? = nil, _ funcl: FunctionDeclSyntax) -> SemanticInfo {
+    func makeMemberAccessInfo(for node: Syntax, fileName: String? = nil, _ memal: MemberAccessExprSyntax) -> SemanticInfo {
+        let readableFunctionSignataure = node.strippedText
+        let newInfo = SemanticInfo(
+            node: node,
+            referenceName: readableFunctionSignataure,
+            color: CodeGridColors.functionDecl,
+            fileName: fileName
+        )
+        return newInfo
+    }
+    
+    func makeFunctionDeclInfo(for node: Syntax, fileName: String? = nil, _ funcl: FunctionDeclSyntax) -> SemanticInfo {
         let readableFunctionSignataure = "\(funcl.identifier)\(funcl.signature._syntaxNode.strippedText)"
         let newInfo = SemanticInfo(
             node: node,
@@ -151,18 +165,16 @@ private extension SemanticInfoBuilder {
         return newInfo
     }
     
-//    func makeFunctionCallInfo(for node: Syntax, fileName: String? = nil, _ expressl: FunctionCallExprSyntax) -> SemanticInfo {
-//
-//        let readableFunctionSignataure = ""
-//        let newInfo = SemanticInfo(
-//            node: node,
-//            referenceName: readableFunctionSignataure,
-//            color: CodeGridColors.functionDecl,
-//            fileName: fileName,
-//            callStackName: "\(funcl.identifier)".trimmingCharacters(in: .whitespaces)
-//        )
-//        return newInfo
-//    }
+    func makeFunctionCallInfo(for node: Syntax, fileName: String? = nil, _ expressl: FunctionCallExprSyntax) -> SemanticInfo {
+        let readableFunctionSignataure = node.strippedText
+        let newInfo = SemanticInfo(
+            node: node,
+            referenceName: readableFunctionSignataure,
+            color: CodeGridColors.functionDecl,
+            fileName: fileName
+        )
+        return newInfo
+    }
     
     func makeProtocolInfo(for node: Syntax, fileName: String? = nil, _ protol: ProtocolDeclSyntax) -> SemanticInfo {
         let newInfo = SemanticInfo(

@@ -9,25 +9,6 @@ import Foundation
 import SwiftSyntax
 
 public extension TokenSyntax {
-    var typeName: String { return String(describing: tokenKind) }
-    
-    var triviaAndText: String {
-        leadingTrivia.stringified
-            .appending(text)
-            .appending(trailingTrivia.stringified)
-    }
-    
-    var splitText: [String] {
-        switch tokenKind {
-        case let .stringSegment(literal):
-            return literal.stringLines
-        case let .stringLiteral(literal):
-            return literal.stringLines
-        default:
-            return [text]
-        }
-    }
-    
     static let languageKeywords = NSUIColor(displayP3Red: 0.8, green: 0.2, blue: 0.2, alpha: 1.0)
     static let controlFlowKeyword = NSUIColor(displayP3Red: 0.4, green: 0.6, blue: 0.6, alpha: 1.0)
     static let enumSwitchKeyword = NSUIColor(displayP3Red: 0.5, green: 0.5, blue: 0.7, alpha: 1.0)

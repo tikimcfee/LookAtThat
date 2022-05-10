@@ -45,6 +45,25 @@ extension Syntax {
     }
 }
 
+extension TokenSyntax {
+    var triviaAndText: String {
+        leadingTrivia.stringified
+            .appending(text)
+            .appending(trailingTrivia.stringified)
+    }
+    
+    var splitText: [String] {
+        switch tokenKind {
+        case let .stringSegment(literal):
+            return literal.stringLines
+        case let .stringLiteral(literal):
+            return literal.stringLines
+        default:
+            return [text]
+        }
+    }
+}
+
 extension SyntaxChildren {
     func listOfChildren() -> String {
         reduce(into: "") { result, element in

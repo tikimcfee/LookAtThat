@@ -19,6 +19,7 @@ class CodeGridColors {
     static let structDecl    = color(0.30, 0.20, 0.30, 1.00)
     static let typealiasDecl = color(0.50, 0.30, 0.50, 1.00)
     static let variableDecl  = color(0.30, 0.30, 0.30, 1.00)
+    static let memberAccess  = color(0.15, 0.15, 0.15, 1.00)
     
     static func color(_ red: VectorFloat,
                       _ green: VectorFloat,
