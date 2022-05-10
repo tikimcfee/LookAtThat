@@ -44,6 +44,7 @@ class CodeGrid: Identifiable, Equatable {
     lazy var backgroundNodeGeometry = { "\(id)-background-geometry" }()
     var cloneId: ID { "\(id)-clone" }
     var fileName: String = ""
+    var sourcePath: FileKitPath?
     private(set) var glyphSwapLocked = false // transient switch to disallow swapping
     private(set) var showingRawGlyphs = true // start with true, finalize() will flatten and set first
     
@@ -241,6 +242,12 @@ extension CodeGrid {
     @discardableResult
     func withFileName(_ fileName: String) -> Self {
         self.fileName = fileName
+        return self
+    }
+    
+    @discardableResult
+    func withSourcePath(_ filePath: FileKitPath) -> Self {
+        self.sourcePath = filePath
         return self
     }
 }

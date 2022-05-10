@@ -25,6 +25,7 @@ extension CodeGridParser {
             .applying {
                 if let url = sourceURL, let path = FileKitPath(url: url) {
                     $0.withFileName(path.fileName)
+                      .withSourcePath(path)
                 }
             }
         

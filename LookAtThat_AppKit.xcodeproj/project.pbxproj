@@ -350,6 +350,9 @@
 		B7C75721280CEE040005A233 /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
+		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
+		B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
+		B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
@@ -624,6 +627,7 @@
 		B7C75718280CEE040005A233 /* RawFingerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawFingerData.swift; sourceTree = "<group>"; };
 		B7C75719280CEE040005A233 /* BasicIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicIO.swift; sourceTree = "<group>"; };
 		B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFocusController.swift; sourceTree = "<group>"; };
+		B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Coloring.swift"; sourceTree = "<group>"; };
 		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
@@ -824,6 +828,7 @@
 				453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */,
 				B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */,
 				F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */,
+				B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */,
 				B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */,
 				B79F93052750528B00E46A96 /* Syntax+Caching.swift */,
 			);
@@ -1689,6 +1694,7 @@
 				B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */,
 				B74A22F02814FFF300F6F727 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
+				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */,
@@ -1776,6 +1782,7 @@
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
+				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				B7C75703280CECBA0005A233 /* TAPInputMode.swift in Sources */,
 				B7241AEF28270F21006A6A3E /* FocusSearchInputView.swift in Sources */,
@@ -1949,6 +1956,7 @@
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
+				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
 				B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,

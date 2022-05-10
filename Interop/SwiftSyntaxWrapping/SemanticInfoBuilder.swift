@@ -38,6 +38,12 @@ class SemanticInfoBuilder {
         case .functionDecl(let funcl):
             newInfo = makeFunctionInfo(for: node, fileName: fileName, funcl)
             
+        case .token(let token):
+            newInfo = makeTokenInfo(for: node, token)
+            
+//        case .functionCallExpr(let expressl):
+//            newInfo = makeDefaultInfo(for: node, fileName: fileName)
+            
         case .protocolDecl(let protol):
             newInfo = makeProtocolInfo(for: node, fileName: fileName, protol)
             
@@ -68,6 +74,15 @@ extension SemanticInfoBuilder {
 }
 
 private extension SemanticInfoBuilder {
+    func makeTokenInfo(for node: Syntax, fileName: String? = nil, _ tokl: TokenSyntax) -> SemanticInfo {
+        SemanticInfo(
+            node: node,
+            referenceName: tokl.text,
+            fullTextSearchable: false,
+            fileName: fileName
+        )
+    }
+    
     func makeVariableInfo(for node: Syntax, fileName: String? = nil, _ varl: VariableDeclSyntax) -> SemanticInfo {
         var name: String
         var stackName: String?
@@ -135,6 +150,19 @@ private extension SemanticInfoBuilder {
         )
         return newInfo
     }
+    
+//    func makeFunctionCallInfo(for node: Syntax, fileName: String? = nil, _ expressl: FunctionCallExprSyntax) -> SemanticInfo {
+//
+//        let readableFunctionSignataure = ""
+//        let newInfo = SemanticInfo(
+//            node: node,
+//            referenceName: readableFunctionSignataure,
+//            color: CodeGridColors.functionDecl,
+//            fileName: fileName,
+//            callStackName: "\(funcl.identifier)".trimmingCharacters(in: .whitespaces)
+//        )
+//        return newInfo
+//    }
     
     func makeProtocolInfo(for node: Syntax, fileName: String? = nil, _ protol: ProtocolDeclSyntax) -> SemanticInfo {
         let newInfo = SemanticInfo(
