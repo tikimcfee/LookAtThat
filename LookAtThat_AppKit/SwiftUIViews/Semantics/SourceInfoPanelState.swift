@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 
 enum PanelSections: String, CaseIterable, Equatable {
+    case editor = "2D Editor"
     case directories = "Directories"
     case semanticCategories = "Semantic Categories"
     case hoverInfo = "Hover Info"
@@ -18,7 +19,7 @@ enum PanelSections: String, CaseIterable, Equatable {
 }
 
 class SourceInfoPanelState: ObservableObject {
-    @Published var sections: [PanelSections] = [.directories, .hoverInfo]
+    @Published var sections: [PanelSections] = [.directories, .hoverInfo, .editor]
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()

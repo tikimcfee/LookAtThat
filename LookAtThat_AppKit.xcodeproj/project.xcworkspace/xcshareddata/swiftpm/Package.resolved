@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "codeeditorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mchakravarty/CodeEditorView.git",
+      "state" : {
+        "revision" : "325759c1cc2873fd5eba0f8d4eedd0233ac9eca7",
+        "version" : "0.10.0"
+      }
+    },
+    {
       "identity" : "filekit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nvzqz/FileKit",

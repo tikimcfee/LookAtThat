@@ -35,6 +35,12 @@ struct SourceInfoPanelView: View {
                     fileBrowserViews()
                 }
                 
+                if state.sections.contains(.editor) {
+                    CodePagesPopupEditor(
+                        state: CodePagesController.shared.editorState
+                    )
+                }
+                
                 Spacer()
                 
                 if state.sections.contains(.tracingInfo) {

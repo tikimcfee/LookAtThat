@@ -15,6 +15,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
         
     let codeGridParser: CodeGridParser
     
+    lazy var editorState = CodePagesPopupEditorState()
     lazy var hover = CodeGridHoverController()
     lazy var selection = CodeGridSelectionController(parser: codeGridParser)
     lazy var trace = CodeGridTraceController()
