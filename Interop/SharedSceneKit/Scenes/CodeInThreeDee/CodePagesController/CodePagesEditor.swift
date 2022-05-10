@@ -27,12 +27,18 @@ class CodePagesPopupEditorState: ObservableObject {
     }
     
     struct UI {
+        enum Mode {
+            case floating
+            case asSibling
+        }
+        
         var rootPositionOffsetLast: CGSize = .zero
         var rootPositionOffset: CGSize = .zero
-        { didSet { print(rootPositionOffset) } }
         
         var resizeOffsetLast: CGSize = .zero
         var resizeOffset: CGSize = .zero
+        
+        var mode: Mode = .asSibling
     }
     
     @Published var text: String = "No file opened."
@@ -66,7 +72,17 @@ struct CodePagesPopupEditor: View {
     
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
+    @ViewBuilder
     var body: some View {
+        switch state.ui.mode {
+        case .asSibling:
+            rootSiblingGeometryReader
+        case .floating:
+            coreEditorView
+        }
+    }
+    
+    var rootSiblingGeometryReader: some View {
         GeometryReader { reader in
             rootPositionableView
                 .frame(
@@ -79,6 +95,7 @@ struct CodePagesPopupEditor: View {
     
     var rootPositionableView: some View {
         VStack(alignment: .trailing, spacing: 0) {
+            actionsView.padding(4)
             ZStack(alignment: .topTrailing) {
                 dragBar
                 HStack {
@@ -88,7 +105,6 @@ struct CodePagesPopupEditor: View {
                 }
             }
             coreEditorView
-            actionsView.padding(4)
             ZStack(alignment: .topTrailing) {
                 dragBar
                 HStack {
