@@ -9,20 +9,39 @@ import SwiftUI
 import CodeEditorView
 import Combine
 
+extension CGSize: AdditiveArithmetic {
+    public static func - (lhs: CGSize, rhs: CGSize) -> CGSize {
+        return CGSize(width: lhs.width - rhs.width,
+                      height: lhs.height - rhs.height)
+    }
+    
+    public static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
+        return CGSize(width: lhs.width + rhs.width,
+                      height: lhs.height + rhs.height)
+    }
+}
+
 class CodePagesPopupEditorState: ObservableObject {
     struct Files {
         var currentFile: FileKitPath?
+    }
+    
+    struct UI {
+        var rootPositionOffsetLast: CGSize = .zero
+        var rootPositionOffset: CGSize = .zero
+        { didSet { print(rootPositionOffset) } }
+        
+        var resizeOffsetLast: CGSize = .zero
+        var resizeOffset: CGSize = .zero
     }
     
     @Published var text: String = "No file opened."
     @Published var position: CodeEditor.Position  = CodeEditor.Position()
     @Published var messages: Set<Located<Message>> = Set()
     
-    @Published var centerOffset = CGPoint(x: 0, y: 0)
-    @Published var topLeftOffset = CGPoint(x: 0, y: 0)
-    
-    @Published var files = Files()
     @Published var popupEditorVisible: Bool = false
+    @Published var files = Files()
+    @Published var ui = UI()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -48,16 +67,67 @@ struct CodePagesPopupEditor: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
     var body: some View {
-//        GeometryReader { reader in
-//            coreEditorView
-//                .position(x: reader.size.width / 2.0 + state.centerOffset.x,
-//                          y: reader.size.height / 2.0 + state.centerOffset.y)
-//        }
-        ZStack(alignment: .topTrailing) {
-            coreEditorView
-            actionsView
-                .padding(4)
+        GeometryReader { reader in
+            rootPositionableView
+                .frame(
+                    width: max(0, reader.size.width + state.ui.resizeOffset.width),
+                    height: max(0, reader.size.height + state.ui.resizeOffset.height)
+                )
+                .offset(state.ui.rootPositionOffset)
         }
+    }
+    
+    var rootPositionableView: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            ZStack(alignment: .topTrailing) {
+                dragBar
+                HStack {
+                    resizeBox
+                    Spacer()
+                    resizeBox
+                }
+            }
+            coreEditorView
+            actionsView.padding(4)
+            ZStack(alignment: .topTrailing) {
+                dragBar
+                HStack {
+                    resizeBox
+                    Spacer()
+                    resizeBox
+                }
+            }
+        }
+    }
+    
+    var resizeBox: some View {
+        Color.red
+            .frame(width: 24.0, height: 24.0)
+            .highPriorityGesture(
+                DragGesture(
+                    minimumDistance: 1,
+                    coordinateSpace: .global
+                ).onChanged {
+                    state.ui.resizeOffset = $0.translation + state.ui.resizeOffsetLast
+                }.onEnded { _ in
+                    state.ui.resizeOffsetLast = state.ui.resizeOffset
+                }
+            )
+    }
+    
+    var dragBar: some View {
+        Color.green
+            .frame(maxWidth: .infinity, maxHeight: 24.0)
+            .highPriorityGesture(
+                DragGesture(
+                    minimumDistance: 1,
+                    coordinateSpace: .global
+                ).onChanged {
+                    state.ui.rootPositionOffset = $0.translation + state.ui.rootPositionOffsetLast
+                }.onEnded { _ in
+                    state.ui.rootPositionOffsetLast = state.ui.rootPositionOffset
+                }
+            )
     }
     
     var coreEditorView: some View {
