@@ -31,44 +31,35 @@ struct SourceInfoPanelView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                if state.sections.contains(.directories) {
+                if state.show(.directories) {
                     fileBrowserViews()
                 }
                 
-                if state.sections.contains(.editor) {
-                    CodePagesPopupEditor(
-                        state: CodePagesController.shared.editorState
-                    )
+                if state.show(.editor) {
+//                    CodePagesPopupEditor(
+//                        state: CodePagesController.shared.editorState
+//                    )
                 }
                 
                 Spacer()
                 
-                if state.sections.contains(.tracingInfo) {
+                if state.show(.tracingInfo) {
                     SemanticTracingOutView(state: tracingState)
                 }
                 
-                if state.sections.contains(.hoverInfo) {
+                if state.show(.hoverInfo) {
                     SyntaxHierarchyView()
                 }
                 
-                if state.sections.contains(.semanticCategories) {
+                if state.show(.semanticCategories) {
                     semanticCategoryViews()
                 }
             }
             FocusSearchInputView()
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    ForEach(PanelSections.allCases, id: \.self) { section in
-                        Button(state.sectionControlTitle(section), action: {
-                            state.toggleSection(section)
-                        })
-                    }
-                }
-                
-                if state.sections.contains(.tappingControls) {
-                    FingerTapView()
-                }
+            if state.show(.tappingControls) {
+                FingerTapView()
             }
+            windowToggles()
         }
         .frame(alignment: .leading)
         .padding(8)
@@ -78,10 +69,22 @@ struct SourceInfoPanelView: View {
         )
         .padding(8)
 //        .onAppear {
-//            let windowView = SemanticTracingOutView(state: tracingState)
+//            let windowView = windowToggles()
 //            self.metaWindowContainer.contentView = NSHostingView(rootView: windowView)
 //            self.metaWindowContainer.makeKeyAndOrderFront(nil)
 //        }
+    }
+    
+    func windowToggles() -> some View {
+        HStack(alignment: .bottom) {
+            VStack(alignment: .leading) {
+                ForEach(PanelSections.sorted, id: \.self) { section in
+                    Toggle(section.rawValue,
+                               isOn: state.vendBinding(section)
+                    )
+                }
+            }
+        }.padding()
     }
     
     func selected(id: SyntaxIdentifier) {

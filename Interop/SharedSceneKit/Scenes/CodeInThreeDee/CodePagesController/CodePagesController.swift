@@ -15,10 +15,11 @@ class CodePagesController: BaseSceneController, ObservableObject {
         
     let codeGridParser: CodeGridParser
     
-    lazy var editorState = CodePagesPopupEditorState()
+//    lazy var editorState = CodePagesPopupEditorState()
     lazy var hover = CodeGridHoverController()
     lazy var selection = CodeGridSelectionController(parser: codeGridParser)
     lazy var trace = CodeGridTraceController()
+    lazy var semantics = CodeGridGlobalSemantics(source: codeGridParser.gridCache)
     
     let fileBrowser = FileBrowser()
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()

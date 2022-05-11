@@ -15,6 +15,31 @@ typealias SortedNodeSet = [SCNNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
+public struct CodeGridGlobalSemantics {
+    let source: GridCache
+    
+    func forEachMap(
+        _ receiver: (CodeGridSemanticMap) -> Void
+    ) {
+        source.cachedGrids.directWriteAccess { mutableGridStore in
+            for (_, cacheValue) in mutableGridStore {
+                receiver(cacheValue.source.codeGridSemanticInfo)
+            }
+        }
+    }
+    
+    func forEachCategory(
+        _ category: CodeGridSemanticMap.Category,
+        _ receiver: (inout AssociatedSyntaxMap) -> Void)
+    {
+        source.cachedGrids.directWriteAccess { mutableGridStore in
+            for (_, cacheValue) in mutableGridStore {
+                cacheValue.source.codeGridSemanticInfo.category(category, receiver)
+            }
+        }
+    }
+}
+
 public class CodeGridSemanticMap {
     
     // MARK: - Core association sets
@@ -35,6 +60,42 @@ public class CodeGridSemanticMap {
 	var initializers = AssociatedSyntaxMap()
 	var deinitializers = AssociatedSyntaxMap()
 	var extensions = AssociatedSyntaxMap()
+    var switches = AssociatedSyntaxMap()
+}
+
+extension CodeGridSemanticMap {
+    enum Category: String, CaseIterable {
+        case structs
+        case classes
+        case enumerations
+        case functions
+        case variables
+        case typeAliases
+        case protocols
+        case initializers
+        case deinitializers
+        case extensions
+        case switches
+    }
+    
+    func category(
+        _ category: CodeGridSemanticMap.Category,
+        _ receiver: (inout AssociatedSyntaxMap) -> Void
+    ) {
+        switch category {
+        case .structs: receiver(&structs)
+        case .classes: receiver(&classes)
+        case .enumerations: receiver(&enumerations)
+        case .functions: receiver(&functions)
+        case .variables: receiver(&variables)
+        case .typeAliases: receiver(&typeAliases)
+        case .protocols: receiver(&protocols)
+        case .initializers: receiver(&initializers)
+        case .deinitializers: receiver(&deinitializers)
+        case .extensions: receiver(&extensions)
+        case .switches: receiver(&switches)
+        }
+    }
 }
 
 // MARK: - Simplified mapping
@@ -190,6 +251,8 @@ extension CodeGridSemanticMap {
             action(&functions)
         case is StructDeclSyntax.Type:
             action(&structs)
+        case is SwitchStmtSyntax.Type:
+            action(&switches)
         default:
             break
         }

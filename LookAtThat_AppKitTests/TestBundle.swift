@@ -48,6 +48,7 @@ class TestBundle {
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
+    var controller: CodePagesController!
     
     var testSourceDirectory: FileKitPath? {
         let absolutePath = Self.testDirectoriesAbsolute[1]
@@ -66,6 +67,7 @@ class TestBundle {
         glyphs = gridParser.glyphCache
         tokenCache = gridParser.tokenCache
         semanticBuilder = SemanticInfoBuilder()
+        controller = CodePagesController(sceneView: CustomSceneView(frame: .zero))
     }
     
     func tearDownWithError() throws {
