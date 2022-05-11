@@ -73,7 +73,7 @@ extension ControlleriOSCompat: CommandHandler {
 extension ControlleriOSCompat {
     func doHighlightFocus(_ codeGrid: CodeGrid) {
         guard let firstRootNode = codeGrid.consumedRootSyntaxNodes.first else { return }
-        controller.setNewFocus(
+        controller.trace.setNewFocus(
             id: firstRootNode.id,
             in: codeGrid
         )
