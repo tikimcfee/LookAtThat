@@ -96,6 +96,25 @@ class CodeGridSelectionController: ObservableObject {
             }
         }
     }
+    
+    func selected(
+        id: SyntaxIdentifier,
+        in grid: CodeGrid
+    ) {
+        let isSelected = state.selectedIdentifiers.toggle(id)
+        grid.swapInRootGlyphs() //  TODO: ruh roh. hitting the wall of single selection. Need to track to swap better.
+        sceneTransaction {
+            grid.codeGridSemanticInfo.walkFlattened(
+                from: id,
+                in: parser.tokenCache
+            ) { info, nodes in
+                nodes.forEach { node in
+                    node.translate(dZ: isSelected ? 8 : -8)
+                    isSelected ? node.focus() : node.unfocus()
+                }
+            }
+        }
+    }
 }
 
 class CodeGridTraceController: ObservableObject {

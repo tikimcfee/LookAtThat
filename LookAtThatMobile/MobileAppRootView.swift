@@ -8,6 +8,23 @@
 import SwiftUI
 import ARKit
 
+// TODO: Use this to make an iPad Layout
+// seriously search is so easy.. dragging editing window
+// .. SUI is legit fantastic.
+// GlyphXR?
+func idiom() {
+    switch UIDevice.current.userInterfaceIdiom {
+    case .phone:
+        break
+    case .pad:
+        break
+    case .mac:
+        break
+    default:
+        break
+    }
+}
+
 struct MobileAppRootView : View {
     @State var showInfoView = false
     

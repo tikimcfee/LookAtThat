@@ -35,9 +35,11 @@ struct SourceInfoPanelView: View {
                 }
                 
                 if state.show(.editor) {
+                    #if !TARGETING_SUI
                     CodePagesPopupEditor(
                         state: CodePagesController.shared.editorState
                     )
+                    #endif
                 }
                 
                 Spacer()
@@ -138,6 +140,7 @@ func helloWorld() {
         let state = SourceInfoPanelState()
         state.sourceInfo = Self.sourceInfo.binding.wrappedValue
         state.hoveredToken = Self.randomId
+        state.categories.showGlobalMap = true
         return state
     }()
     
@@ -155,8 +158,10 @@ func helloWorld() {
 
     static var previews: some View {
         return Group {
-            SemanticTracingOutView(state: semanticTracingOutState)
-            SourceInfoPanelView(state: sourceState)
+//            SemanticTracingOutView(state: semanticTracingOutState)
+//            SourceInfoPanelView(state: sourceState)
+            SourceInfoCategoryView()
+                .environmentObject(sourceState)
         }.environmentObject(TapObserving.shared)
     }
 }

@@ -14,8 +14,8 @@ import Combine
 struct SourceInfoCategoryView: View {
     @EnvironmentObject var sourceState: SourceInfoPanelState
     
-    var targetedInfo: CodeGridSemanticMap { sourceState.sourceInfo }
-    var targetedGrid: CodeGrid? { sourceState.sourceGrid }
+    @State var targetedInfo: CodeGridSemanticMap = .init()
+    @State var targetedGrid: CodeGrid?
     
     var body: some View {
         VStack {
@@ -25,28 +25,32 @@ struct SourceInfoCategoryView: View {
             }.padding(4)
             
             if sourceState.categories.showGlobalMap {
-                globalInfoRows.onAppear {
-                    CodePagesController.shared.globalSemantics.snapshotDefault()
-                }
+                globalInfoRows
             } else {
                 targetInfoRows
             }
-        }.background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
+        }
+        .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
+        .onReceive(sourceState.$sourceGrid, perform: { grid in
+            targetedGrid = grid
+        })
+        .onReceive(sourceState.$sourceInfo, perform: { info in
+            targetedInfo = info
+        })
+        .onAppear {
+            CodePagesController.shared.globalSemantics.snapshotDefault()
+        }
+        .frame(width: 384.0)
     }
     
     @ViewBuilder
     var targetInfoRows: some View {
         if let targetedGrid = targetedGrid  {
             ScrollView {
-                ForEach(
-                    CodePagesController.shared.globalSemantics.defaultCategories,
-                    id: \.self
-                ) { category in
-                    if let categoryMap = targetedGrid.codeGridSemanticInfo.map(for: category), !categoryMap.isEmpty {
-                        Text(category.rawValue).underline().padding(.top, 8)
-                        infoRows(from: targetedGrid, categoryMap)
-                    }
-                }
+                makeInfoRowGroup(
+                    for: CodePagesController.shared.globalSemantics.defaultCategories,
+                    in: targetedGrid
+                )
             }.padding(4.0)
         } else {
             EmptyView()
@@ -60,48 +64,60 @@ struct SourceInfoCategoryView: View {
                     CodePagesController.shared.globalSemantics.categorySnapshot,
                     id: \.self
                 ) { snapshotParticipant in
-                    Text(snapshotParticipant.sourceGrid.fileName)
-                        .underline()
-                        .padding(.top, 8)
-                    
-                    // TODO: Make up a prettier global view
-//                    LazyVStack {
-//                        ForEach(
-//                            CodePagesController.shared.globalSemantics.getSnapshot(category: category),
-//                            id: \.grid.id
-//                        ) { tuple in
-//                            infoRows(from: tuple.grid, tuple.map)
-//                        }
-//                    }
+                    VStack {
+                        Text(snapshotParticipant.sourceGrid.fileName)
+                            .underline()
+                            .padding(.top, 8)
+                        
+                        // TODO: Use a tab view for categories, they're enumerable.
+                        List {
+                            makeInfoRowGroup(
+                                for: snapshotParticipant.queryCategories,
+                                in: snapshotParticipant.sourceGrid
+                            )
+                        }
+                        .frame(height: 256.0)
+                    }
+                    .padding(4.0)
                 }
             }
         }
-        .frame(minWidth: 256.0)
         .padding(4.0)
+    }
+    
+    func makeInfoRowGroup(
+        for categories: [CodeGridSemanticMap.Category],
+        in targetGrid: CodeGrid
+    ) -> some View {
+        ForEach(categories, id: \.self) { category in
+            if let categoryMap = targetGrid.codeGridSemanticInfo.map(for: category), !categoryMap.isEmpty {
+                Text(category.rawValue).underline().padding(.top, 8)
+                infoRows(from: targetGrid, categoryMap)
+            }
+        }
     }
     
     func infoRows(from grid: CodeGrid, _ map: AssociatedSyntaxMap) -> some View {
         List {
             ForEach(Array(map.keys), id:\.self) { (id: SyntaxIdentifier) in
                 if let info = grid.codeGridSemanticInfo.semanticsLookupBySyntaxId[id] {
-                    semanticInfoRow(info, grid.codeGridSemanticInfo)
+                    semanticInfoRow(info, grid)
                 } else {
                     Text("No SemanticInfo")
                 }
             }
         }
-        .frame(minHeight: max(32.0, CGFloat((Float(map.count) / 3.0) * 32.0)))
+        .frame(minHeight: max(96.0, CGFloat((Float(map.count) / 3.0) * 64.0)))
         .padding(4.0)
     }
     
-    @ViewBuilder
-    func semanticInfoRow(_ info: SemanticInfo, _ map: CodeGridSemanticMap) -> some View {
+    func semanticInfoRow(_ info: SemanticInfo, _ grid: CodeGrid) -> some View {
         Text(info.referenceName)
             .font(Font.system(.caption, design: .monospaced))
             .padding(4)
             .overlay(Rectangle().stroke(Color.gray))
             .onTapGesture {
-                CodePagesController.shared.selection.selected(id: info.syntaxId, in: map)
+                CodePagesController.shared.selection.selected(id: info.syntaxId, in: grid)
             }
     }
 }
