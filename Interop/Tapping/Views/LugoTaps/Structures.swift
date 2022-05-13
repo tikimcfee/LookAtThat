@@ -8,6 +8,20 @@
 
 import Foundation
 
+class IDCache<CacheType: Identifiable> {
+    var source = [CacheType.ID: CacheType]()
+    func retrieve(
+        key: CacheType.ID,
+        defaulting: @autoclosure () -> CacheType
+    ) -> CacheType {
+        source[key] ?? {
+            let new = defaulting()
+            source[key] = new
+            return new
+        }()
+    }
+}
+
 class LList<NodeValue>: Sequence {
 	typealias Node = LNode<NodeValue>
 

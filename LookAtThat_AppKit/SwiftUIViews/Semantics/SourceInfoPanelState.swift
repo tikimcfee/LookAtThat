@@ -22,7 +22,10 @@ enum PanelSections: String, CaseIterable, Equatable {
 }
 
 class SourceInfoPanelState: ObservableObject {
-//    @Published var sections: [PanelSections] = [.directories, .hoverInfo]
+    struct Categories {
+        var showGlobalMap: Bool = false
+    }
+    
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
@@ -30,6 +33,7 @@ class SourceInfoPanelState: ObservableObject {
     @Published var hoveredToken: String = ""
     @Published var searchText: String = ""
     @Published var panels: Set<PanelSections> = [.directories, .hoverInfo]
+    @Published var categories: Categories = Categories()
     
     private var bag = Set<AnyCancellable>()
     

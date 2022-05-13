@@ -5,7 +5,6 @@
 //  Created by Ivan Lugo on 11/25/21.
 //
 
-import Foundation
 import SceneKit
 import SwiftUI
 import FileKit
@@ -36,9 +35,9 @@ struct SourceInfoPanelView: View {
                 }
                 
                 if state.show(.editor) {
-//                    CodePagesPopupEditor(
-//                        state: CodePagesController.shared.editorState
-//                    )
+                    CodePagesPopupEditor(
+                        state: CodePagesController.shared.editorState
+                    )
                 }
                 
                 Spacer()
@@ -52,7 +51,8 @@ struct SourceInfoPanelView: View {
                 }
                 
                 if state.show(.semanticCategories) {
-                    semanticCategoryViews()
+                    SourceInfoCategoryView()
+                        .environmentObject(state)
                 }
             }
             FocusSearchInputView()
@@ -86,13 +86,7 @@ struct SourceInfoPanelView: View {
             }
         }.padding()
     }
-    
-    func selected(id: SyntaxIdentifier) {
-        CodePagesController.shared.selection.selected(id: id, in: sourceInfo)
-    }
 }
-
-// MARK: - Hover Info
 
 
 // MARK: - File Browser
@@ -104,60 +98,6 @@ extension SourceInfoPanelView {
         }
         .border(.black, width: 2.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
-    }
-}
-
-// MARK: - Semantic Category
-
-extension SourceInfoPanelView {
-    func semanticCategoryViews() -> some View {
-        VStack(spacing: 0) {
-            if !sourceInfo.structs.isEmpty {
-                infoRows(named: "Structs", from: sourceInfo.structs)
-            }
-            
-            if !sourceInfo.classes.isEmpty {
-                infoRows(named: "Classes", from: sourceInfo.classes)
-            }
-            
-            if !sourceInfo.enumerations.isEmpty {
-                infoRows(named: "Enumerations", from: sourceInfo.enumerations)
-            }
-            
-            if !sourceInfo.extensions.isEmpty {
-                infoRows(named: "Extensions", from: sourceInfo.extensions)
-            }
-            
-            if !sourceInfo.functions.isEmpty {
-                infoRows(named: "Functions", from: sourceInfo.functions)
-            }
-            
-            if !sourceInfo.variables.isEmpty {
-                infoRows(named: "Variables", from: sourceInfo.variables)
-            }
-        }
-    }
-    
-    func infoRows(named: String, from pair: AssociatedSyntaxMap) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(named).underline().padding(.top, 8)
-            List {
-                ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
-                    if let info = sourceInfo.semanticsLookupBySyntaxId[id] {
-                        Text(info.referenceName)
-                            .font(Font.system(.caption, design: .monospaced))
-                            .padding(4)
-                            .overlay(Rectangle().stroke(Color.gray))
-                            .onTapGesture { selected(id: info.syntaxId) }
-                    } else {
-                        Text("No SemanticInfo")
-                    }
-                }
-            }
-        }
-        .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64.0)
-        .padding(4.0)
-        .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
     }
 }
 

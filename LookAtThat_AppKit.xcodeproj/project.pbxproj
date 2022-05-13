@@ -204,6 +204,13 @@
 		B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233A2815265300F6F727 /* SemanticMapTracer.swift */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
+		B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
+		B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
+		B7501499282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
+		B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */; };
+		B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */; };
+		B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */; };
+		B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
 		B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
@@ -567,6 +574,8 @@
 		B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticTracingOutState.swift; sourceTree = "<group>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
 		B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+BoundsCaching.swift"; sourceTree = "<group>"; };
+		B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoCategoryView.swift; sourceTree = "<group>"; };
+		B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlobalSemantics.swift; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
@@ -939,6 +948,7 @@
 				B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */,
 				B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */,
 				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
+				B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */,
 				B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */,
 				B74A23352815197000F6F727 /* SourceInfoPanelState.swift */,
 			);
@@ -1099,6 +1109,7 @@
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
 				45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */,
+				B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */,
 			);
 			path = CodeGrids;
 			sourceTree = "<group>";
@@ -1690,6 +1701,7 @@
 				B74A22D82814FFF300F6F727 /* CodeGridParser+Rendering.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B74A22DB2814FFF300F6F727 /* SCNVector3+Extensions.swift in Sources */,
+				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B74A22DC2814FFF300F6F727 /* TAPCombination.swift in Sources */,
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */,
@@ -1763,6 +1775,7 @@
 				B74A23192814FFF300F6F727 /* KeyboardInterceptor.swift in Sources */,
 				B74A231A2814FFF300F6F727 /* CodeGrid+Writing.swift in Sources */,
 				B74A231B2814FFF300F6F727 /* RawSensorData.swift in Sources */,
+				B7501499282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B74A231C2814FFF300F6F727 /* TAPCBUUID.swift in Sources */,
 				B768B663281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B74A231E2814FFF300F6F727 /* FingerView.swift in Sources */,
@@ -1807,6 +1820,7 @@
 				B7241AEF28270F21006A6A3E /* FocusSearchInputView.swift in Sources */,
 				B7C7571C280CEE040005A233 /* StartingTapDelegate.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
+				B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
@@ -1819,6 +1833,7 @@
 				B7EAA4CA27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
 				B7C756F3280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
+				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */,
@@ -1959,6 +1974,7 @@
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
+				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,
 				B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
@@ -2009,6 +2025,7 @@
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
+				B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,
 				B7C756F8280CECBA0005A233 /* TAPKitLog.swift in Sources */,
@@ -2043,6 +2060,7 @@
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */,
+				B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
 				B720D587282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B7C75710280CED4D0005A233 /* FingerView.swift in Sources */,

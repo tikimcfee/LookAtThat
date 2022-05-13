@@ -15,31 +15,6 @@ typealias SortedNodeSet = [SCNNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 
-public struct CodeGridGlobalSemantics {
-    let source: GridCache
-    
-    func forEachMap(
-        _ receiver: (CodeGridSemanticMap) -> Void
-    ) {
-        source.cachedGrids.directWriteAccess { mutableGridStore in
-            for (_, cacheValue) in mutableGridStore {
-                receiver(cacheValue.source.codeGridSemanticInfo)
-            }
-        }
-    }
-    
-    func forEachCategory(
-        _ category: CodeGridSemanticMap.Category,
-        _ receiver: (inout AssociatedSyntaxMap) -> Void)
-    {
-        source.cachedGrids.directWriteAccess { mutableGridStore in
-            for (_, cacheValue) in mutableGridStore {
-                cacheValue.source.codeGridSemanticInfo.category(category, receiver)
-            }
-        }
-    }
-}
-
 public class CodeGridSemanticMap {
     
     // MARK: - Core association sets
@@ -49,7 +24,6 @@ public class CodeGridSemanticMap {
     var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()  //TODO: *1
     var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
 
-    // MARK: - Categories
 	var structs = AssociatedSyntaxMap()
 	var classes = AssociatedSyntaxMap()
 	var enumerations = AssociatedSyntaxMap()
@@ -65,17 +39,17 @@ public class CodeGridSemanticMap {
 
 extension CodeGridSemanticMap {
     enum Category: String, CaseIterable {
-        case structs
-        case classes
-        case enumerations
-        case functions
-        case variables
-        case typeAliases
-        case protocols
-        case initializers
-        case deinitializers
-        case extensions
-        case switches
+        case structs = "Structs"
+        case classes = "Classes"
+        case enumerations = "Enumerations"
+        case functions = "Functions"
+        case variables = "Variables"
+        case typeAliases = "Type Aliases"
+        case protocols = "Protocols"
+        case initializers = "Initializers"
+        case deinitializers = "Deinitializers"
+        case extensions = "Extensions"
+        case switches = "Switches"
     }
     
     func category(
@@ -94,6 +68,22 @@ extension CodeGridSemanticMap {
         case .deinitializers: receiver(&deinitializers)
         case .extensions: receiver(&extensions)
         case .switches: receiver(&switches)
+        }
+    }
+    
+    func map(for category: CodeGridSemanticMap.Category) -> AssociatedSyntaxMap {
+        switch category {
+        case .structs: return structs
+        case .classes: return classes
+        case .enumerations: return enumerations
+        case .functions: return functions
+        case .variables: return variables
+        case .typeAliases: return typeAliases
+        case .protocols: return protocols
+        case .initializers: return initializers
+        case .deinitializers: return deinitializers
+        case .extensions: return extensions
+        case .switches: return switches
         }
     }
 }
@@ -279,6 +269,8 @@ extension CodeGridSemanticMap {
             action(&functions)
         case .structDecl:
             action(&structs)
+        case .switchStmt:
+            action(&switches)
         default:
             break
         }
@@ -297,6 +289,7 @@ extension CodeGridSemanticMap {
         && initializers.isEmpty
         && deinitializers.isEmpty
         && extensions.isEmpty
+        && switches.isEmpty
     }
 }
 

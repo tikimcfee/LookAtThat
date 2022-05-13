@@ -7,6 +7,14 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
     private var container: [Key: Value] = [:]
     private let rwlock = RWLock()
     
+    public var count: Int {
+        let result: Int
+        rwlock.readLock()
+        result = container.count
+        rwlock.unlock()
+        return result
+    }
+    
     public var isEmpty: Bool {
         let result: Bool
         rwlock.readLock()
