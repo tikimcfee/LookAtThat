@@ -72,11 +72,14 @@ extension PersistentThreadGroup {
         queueName: String,
         output: TraceOutput
     ) {
-        guard let tracer = tracer(for: queueName) else { return }
+        guard let tracer = tracer(for: queueName) else {
+            print("\t\tMissing tracer for \(queueName)!")
+            return
+        }
         
         if output.isExit { return }
-        if lastSkipSignature == output.signature { return }
-        lastSkipSignature = output.signature
+//        if lastSkipSignature == output.signature { return }
+//        lastSkipSignature = output.signature
         
         let line = TraceLine(
             entryExitName: output.entryExitName,

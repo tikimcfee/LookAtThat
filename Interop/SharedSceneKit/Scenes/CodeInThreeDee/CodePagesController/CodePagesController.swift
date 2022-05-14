@@ -21,7 +21,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
 
     lazy var hover = CodeGridHoverController()
     lazy var selection = CodeGridSelectionController(parser: codeGridParser)
-    lazy var trace = CodeGridTraceController()
+    lazy var trace = CodeGridTraceController(parser: codeGridParser)
     lazy var globalSemantics = CodeGridGlobalSemantics(source: codeGridParser.gridCache)
     
     let fileBrowser = FileBrowser()

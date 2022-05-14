@@ -17,6 +17,7 @@ class PersistentThreadTracer {
     
     private var isBackingCacheDirty: Bool = false
     private var isOneTimeResetFlag: Bool = false
+
     private var shouldRemakeArray: Bool {
         let willReset = isBackingCacheDirty || isOneTimeResetFlag
         isOneTimeResetFlag = false
@@ -34,12 +35,19 @@ class PersistentThreadTracer {
         self.idFileReader = try FileUUIDArray.from(fileURL: idFileTarget)
     }
     
-    static var AllWritesEnabled = false
+    // Holy crap I'm confused.
+    // Setting this static field from AppDelegate somehow
+    // didn't allow multiple instances to read the value..
+    // it WAS being set to true, but was false for some instances..
+    // This has to be some sort of threading + static field madness.
+    private static let AllWritesEnabled = true
     
     func onNewTraceLine(_ traceLine: TraceLine) {
         let traceId = sourceMap[traceLine]
-        
-        guard Self.AllWritesEnabled else { return }
+        guard Self.AllWritesEnabled else {
+            print("\n\n\t\tWrites disabled!")
+            return
+        }
         idFileWriter.appendText(traceId.uuidString)
         isBackingCacheDirty = true
     }

@@ -16,8 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         
-//        TracingRoot.shared.setWritingEnabled(isEnabled: true)
-//        TracingRoot.shared.setupTracing()
+//        __ENABLE_STARTUP_LOG_WRITES__()
         
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
@@ -38,5 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    func __ENABLE_STARTUP_LOG_WRITES__() {
+        print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
+//        TracingRoot.shared.setWritingEnabled(isEnabled: true)
+        TracingRoot.shared.setupTracing()
     }
 }

@@ -52,8 +52,8 @@ class TracingRoot {
     }
     
     func setWritingEnabled(isEnabled: Bool) {
-        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
-        PersistentThreadTracer.AllWritesEnabled = isEnabled
+//        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
+//        PersistentThreadTracer.AllWritesEnabled = isEnabled
     }
 }
 
@@ -65,12 +65,12 @@ extension TracingRoot {
         CodeGridParser.self,
 //        CodeGrid.Measures.self,
 //        CodeGrid.Renderer.self,
-        CodeGridSemanticMap.self,
 //        SemanticInfoBuilder.self,
+//        CodeGridSemanticMap.self,
 //        CodeGrid.AttributedGlyphs.self,
 //        CodeGridTokenCache.self,
         GridCache.self,
-//        GlyphLayerCache.self,
+        GlyphLayerCache.self,
         FileBrowser.self,
         ConcurrentGridRenderer.self,
         GridCache.self,
@@ -79,7 +79,6 @@ extension TracingRoot {
         CodePagesController.self,
         WorldGridEditor.self,
         WorldGridSnapping.self,
-        
 //        TraceLineIDMap.self,
 //        TraceLineIDMap.Serialized.self,
     ]

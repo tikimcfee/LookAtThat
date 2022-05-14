@@ -11,7 +11,7 @@ import SceneKit
 
 typealias NodeID = String
 typealias NodeSet = Set<SCNNode>
-typealias SortedNodeSet = [SCNNode]
+typealias SortedNodeSet = [GlyphNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 

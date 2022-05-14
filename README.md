@@ -1,16 +1,42 @@
 # AR/VR Code Visualizing
 See Swift in Space
 
-<table style="padding:10px">
-  <tr>
-    <td><img src="./repo_info/DemoAnimation-Gif.gif"      alt="A visualization of Swift code being rapidly highlighted in green" width = 384 ></td>
-    <td><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
-  </tr>
-</table>
-
 ### What?
 
 A tool to load up Swift files, render them into a SceneKit layer, and view the results in a 3D VR (macOS) or AR (iOS) environment.
+
+# Some things you can do!
+<table style="padding:10px">
+  <tr>
+    <span>Load and analyze</span>
+    <td><img src="./features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
+    <td><img src="./features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
+  </tr>
+
+  <tr>
+    <span>Query categories and type info</span>
+    <td><img src="./features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
+    <td><img src="./features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
+  </tr>
+
+
+  <tr>
+    <span>Group files and perform searches</span>
+    <td><img src="./features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
+    <td><img src="./features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
+  </tr>
+
+  <tr>
+    <span>Trace execution, edit files</span>
+    <td><img src="./features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
+    <td><img src="./features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
+  </tr>
+  
+  <tr>
+    <span>Walk around your code in AR on iOS and iPad!</span>
+    <td><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
+  </tr>
+</table>
 
 ### Why?
 
@@ -28,7 +54,7 @@ Lots and lots of other people's tools and code suggestions. Primarily:
 
 - SceneKit and a light AR wrapper for iOS support.
 - [SwiftSyntax](https://github.com/apple/swift-syntax) for parsing Swift files and grabbing an Abstract Syntax Tree.
-- [SwiftTrace](https://github.com/johnno1962/SwiftTrace) to capture executation traces and generate small tracing corpuses for visualization.
+- [SwiftTrace](https://github.com/johnno1962/SwiftTrace) to capture execution traces and generate small tracing corpuses for visualization.
 - [FileKit](https://github.com/nvzqz/FileKit) just because it's a nice abstraction.
 
 ### When?
@@ -37,7 +63,7 @@ Whenever I can, and even sooner if you help! All questions, contributors, ideas,
 
 ## How to run it
 
-You will need everything in this repository, including the syntax parsing libraries for SwiftSyntax targeting macOS and iOS. iPad support is totally unknown.
+You will need everything in this repository, including the syntax parsing libraries for SwiftSyntax targeting macOS, and iOS - play along with your phone or tablet!
 
 The current goal is to allow you to:
 

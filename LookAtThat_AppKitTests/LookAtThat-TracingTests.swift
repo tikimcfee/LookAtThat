@@ -144,7 +144,7 @@ class LookAtThat_TracingTests: XCTestCase {
     func testTracingGroup() throws {
         printStart()
         let group = PersistentThreadGroup()
-        PersistentThreadTracer.AllWritesEnabled = true
+//        PersistentThreadTracer.AllWritesEnabled = true
         let tracer = try XCTUnwrap(
             group.tracer(for: currentQueueName()),
             "Must recreate from the same thread during runtime"

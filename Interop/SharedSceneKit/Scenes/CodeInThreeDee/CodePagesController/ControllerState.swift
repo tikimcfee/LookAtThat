@@ -152,6 +152,12 @@ class CodeGridTraceController: ObservableObject {
     }
     @Published var state: State = State()
     
+    let parser: CodeGridParser
+    
+    init(parser: CodeGridParser) {
+        self.parser = parser
+    }
+    
     func setNewFocus(
         id newFocusID: SyntaxIdentifier,
         in newFocusGrid: CodeGrid
@@ -179,6 +185,17 @@ class CodeGridTraceController: ObservableObject {
             updateFocusHighlight(newFocus, isFocused: true)
             state.currentFocus = newFocus
             state.currentFocusGrid = newFocusGrid
+            
+            if let root = parser.editorWrapper.rootProvider?(),
+               let camera = parser.editorWrapper.cameraProvider?() {
+                sceneTransaction {
+                    camera.look(
+                        at: newFocusGrid.rootNode.worldPosition,
+                        up: root.worldUp,
+                        localFront: SCNNode.localFront
+                    )
+                }
+            }
         } catch {
             print("Failed to find associated nodes during focus: ", error)
         }
@@ -189,12 +206,10 @@ class CodeGridTraceController: ObservableObject {
         // beginning. So far it's fragile, and now I have SCNNodes and GlyphNodes
         // everywhere, which isn't exactly ideal.
         for (_, nodeSet) in focus {
-            for node in nodeSet {
-                if let glyph = (node as? GlyphNode) {
-                    isFocused
-                        ? glyph.focus()
-                        : glyph.unfocus()
-                }
+            for glyph in nodeSet {
+                isFocused
+                    ? glyph.focus()
+                    : glyph.unfocus()
             }
         }
     }
