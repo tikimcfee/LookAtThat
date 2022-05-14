@@ -94,6 +94,6 @@ extension SyntaxHierarchyView {
     }
     
     func isSelected(info: SemanticInfo) -> Bool {
-        return selection.state.selectedIdentifiers.contains(info.syntaxId)
+        return selection.state.isSelected(info.syntaxId)
     }
 }
