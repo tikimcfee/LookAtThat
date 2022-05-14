@@ -74,3 +74,24 @@ At the moment, none of the important things with respect to building a functioni
 Anything is fine, and if something might be project related, feel free to create an Issue. It's a boring but functional discussion place, and doesn't require bumping around to other chat platforms or external wikis. We can get there later if needed.
 
 You can also free fring to ping me directly from my GitHub profile. And, if you can't seem to find a pingagle thing, make an issue and bug me about it! I want to make sure those with interest in working on this have an easy way to get a hold of me, and everyone else with a curious eye.
+
+
+### What's next?
+
+Likely to be out of date sooner rather than later, here's a running list of target features, fixes, and ideas being worked on now-ish!
+
+* Editing: using a standard 2D editor to select and edit selected files in-line, rendering as necessary.
+* Update GlyphNode to support smarter focusing; more geometry slots, better caching flow, etc.
+* Tracing
+** Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
+** Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
+* Update mobiles interfaces
+** Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device
+** iPhone - editor is modal, iPad - editor is resizable
+* Update mainframe interfaces
+** Add support to dock/popout panel windows (fun feature!)
+* LSP integration
+** Jump to definition to auto-render and jump to grid syntax nodes
+** Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
+* TapKit
+** I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
