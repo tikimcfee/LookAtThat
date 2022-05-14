@@ -117,7 +117,7 @@ class CodeGridSelectionController: ObservableObject {
         }
         state.trackedGridSelections[grid] = selectionSet
         
-        let focusDepth = 8.0
+        let focusDepth = VectorVal(8.0)
         let updateFocus: (GlyphNode) -> Void = isCurrentlySelected
             ? { $0.translated(dZ: -focusDepth).unfocus() }
             : { $0.translated(dZ: focusDepth).focus() }

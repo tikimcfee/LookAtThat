@@ -217,6 +217,11 @@
 		B75014A528305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
 		B75014A628305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
 		B75014A728305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
+		B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */; };
+		B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */; };
+		B75014AE283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
+		B75014AF283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
+		B75014B0283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
 		B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
@@ -584,6 +589,8 @@
 		B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlobalSemantics.swift; sourceTree = "<group>"; };
 		B75014A02830505C0024B7C0 /* DragSizableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragSizableView.swift; sourceTree = "<group>"; };
 		B75014A428305B160024B7C0 /* FloatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatableView.swift; sourceTree = "<group>"; };
+		B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalWindowDelegate.swift; sourceTree = "<group>"; };
+		B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+ViewExtension.swift"; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
@@ -883,6 +890,16 @@
 				B73EF75A28111E2C008BEE85 /* RWLock.swift */,
 			);
 			path = ConcurrentCollections;
+			sourceTree = "<group>";
+		};
+		B75014B1283072ED0024B7C0 /* FloatableView */ = {
+			isa = PBXGroup;
+			children = (
+				B75014A428305B160024B7C0 /* FloatableView.swift */,
+				B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */,
+				B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */,
+			);
+			path = FloatableView;
 			sourceTree = "<group>";
 		};
 		B77DCAB226781E40002DF299 /* CallStack */ = {
@@ -1387,7 +1404,7 @@
 				B7C2319827645F14003B1C3D /* FileBrowserView.swift */,
 				B7F44C39276DB2B300522B45 /* TestButtonsView.swift */,
 				B75014A02830505C0024B7C0 /* DragSizableView.swift */,
-				B75014A428305B160024B7C0 /* FloatableView.swift */,
+				B75014B1283072ED0024B7C0 /* FloatableView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1687,6 +1704,7 @@
 				B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */,
 				B74A22C22814FFF300F6F727 /* CodeGridParser+WorldEditing.swift in Sources */,
 				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
+				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */,
 				B74A22C52814FFF300F6F727 /* SceneKit+BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
@@ -1741,6 +1759,7 @@
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */,
 				B74A22F42814FFF300F6F727 /* SCNAction+Extensions.swift in Sources */,
+				B75014B0283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
 				B74A22F52814FFF300F6F727 /* TAPKitLog.swift in Sources */,
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
@@ -1808,6 +1827,7 @@
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B7A6F2AD275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
+				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7C756FF280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
 				F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */,
 				B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
@@ -1818,6 +1838,7 @@
 				B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
+				B75014AE283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */,
@@ -1988,6 +2009,7 @@
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
+				B75014AF283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,
