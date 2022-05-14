@@ -92,6 +92,7 @@ class DragSizableViewState: ObservableObject {
 struct DragSizableModifer: ViewModifier {
     // TODO: If you sant to save window position, make this owned by the invoker
     @StateObject var state = DragSizableViewState()
+    let buttonHeight = 16.0
     
     @ViewBuilder
     public func body(content: Content) -> some View {
@@ -128,8 +129,11 @@ struct DragSizableModifer: ViewModifier {
     }
     
     func resizeBox(_ target: DragSizableViewState.ResizeCorner) -> some View {
-        Color.red
-            .frame(width: 24.0, height: 24.0)
+        cornerView(target)
+            .font(.headline)
+            .fontWeight(.bold)
+            .frame(width: buttonHeight, height: buttonHeight)
+            .background(Color.gray)
             .highPriorityGesture(
                 DragGesture(
                     minimumDistance: 1,
@@ -142,9 +146,22 @@ struct DragSizableModifer: ViewModifier {
             )
     }
     
+    func cornerView(_ target: DragSizableViewState.ResizeCorner) -> Text {
+        switch target {
+        case .topLeft:
+            return Text("⎡")
+        case .topRight:
+            return Text("⎤")
+        case .botLeft:
+            return Text("⎣")
+        case .botRight:
+            return Text("⎦")
+        }
+    }
+    
     var dragBar: some View {
-        Color.green
-            .frame(maxWidth: .infinity, maxHeight: 24.0)
+        Color.gray.opacity(0.8)
+            .frame(maxWidth: .infinity, maxHeight: buttonHeight)
             .highPriorityGesture(
                 DragGesture(
                     minimumDistance: 1,
