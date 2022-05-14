@@ -22,14 +22,35 @@ extension CGSize: AdditiveArithmetic {
 }
 
 class CodePagesPopupEditorState: ObservableObject {
-    struct Files {
-        var currentFile: FileKitPath?
+    enum RootMode {
+        case idol
+        case editing(grid: CodeGrid, path: FileKitPath)
     }
     
     struct UI {
         enum Mode {
             case floating
             case asSibling
+        }
+        
+        enum ResizeCorner {
+            case topLeft
+            case botLeft
+            case topRight
+            case botRight
+            
+            func apply(newLocation: CGSize, to offset: CGSize) {
+                switch self {
+                case .topLeft:
+                    break
+                case .botLeft:
+                    break
+                case .topRight:
+                    break
+                case .botRight:
+                    break
+                }
+            }
         }
         
         var rootPositionOffsetLast: CGSize = .zero
@@ -46,19 +67,27 @@ class CodePagesPopupEditorState: ObservableObject {
     @Published var messages: Set<Located<Message>> = Set()
     
     @Published var popupEditorVisible: Bool = false
-    @Published var files = Files()
+    @Published var rootMode = RootMode.idol
     @Published var ui = UI()
     
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        $files.sink(receiveValue: { files in
-            self.load(files: files)
+        $rootMode.sink(receiveValue: { mode in
+            self.onRootModeChange(mode: mode)
         }).store(in: &cancellables)
     }
     
-    private func load(files: Files) {
-        guard let toLoad = files.currentFile else { return }
+    fileprivate func onRootModeChange(mode: RootMode) {
+        switch mode {
+        case .idol:
+            print("Editor idling")
+        case .editing(_, let path):
+            load(path: path)
+        }
+    }
+    
+    fileprivate func load(path toLoad: FileKitPath) {
         print("Loading editor file: \(toLoad.fileName)")
         let maybeText = try? String(contentsOf: toLoad.url)
         print("Loaded text count: \(maybeText?.count ?? -1)")
@@ -95,7 +124,7 @@ struct CodePagesPopupEditor: View {
     
     var rootPositionableView: some View {
         VStack(alignment: .trailing, spacing: 0) {
-            actionsView.padding(4)
+//            actionsView.padding(4)
             ZStack(alignment: .topTrailing) {
                 dragBar
                 HStack {
@@ -170,7 +199,12 @@ struct CodePagesPopupEditor: View {
         openFile { fileReslt in
             switch fileReslt {
             case let .success(url):
-                state.files.currentFile = FileKitPath(url: url)
+//                print("\n\n\t\tFile open disabled for now; render grid first and click: \(url)\n\n")
+                guard let path = FileKitPath(url: url) else {
+                    print("Could not load path: \(url)")
+                    return
+                }
+                state.load(path: path) // TODO: add an interaction to render the grid if it's not already visible
             case let .failure(error):
                 print(error)
             }

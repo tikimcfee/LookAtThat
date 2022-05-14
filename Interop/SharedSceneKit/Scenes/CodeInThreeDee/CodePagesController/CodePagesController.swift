@@ -143,7 +143,15 @@ class CodePagesController: BaseSceneController, ObservableObject {
         for result in found {
             switch result {
             case let .grid(codeGrid):
+                #if !TARGETING_SUI
+                guard let path = codeGrid.sourcePath else {
+                    print("Grid does not have active path: \(codeGrid.fileName) -> \(codeGrid)")
+                    return
+                }
+                editorState.rootMode = .editing(grid: codeGrid, path: path)
+                #else
                 codeGrid.toggleGlyphs()
+                #endif
             case let .control(codeGridControl):
                 codeGridControl.activate()
             default:

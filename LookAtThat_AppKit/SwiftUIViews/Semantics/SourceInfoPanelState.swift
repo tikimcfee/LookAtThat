@@ -28,11 +28,18 @@ class SourceInfoPanelState: ObservableObject {
     
     @Published var error: SceneControllerError?
     
+    // Individual hovering stuff
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     @Published var sourceGrid: CodeGrid?
     @Published var hoveredToken: String = ""
+    
+    // Current 'focus box' search input
     @Published var searchText: String = ""
+    
+    // Visible subsections
     @Published var panels: Set<PanelSections> = [.directories, .hoverInfo]
+    
+    // Category pannel state
     @Published var categories: Categories = Categories()
     
     private var bag = Set<AnyCancellable>()

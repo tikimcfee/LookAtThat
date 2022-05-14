@@ -71,6 +71,7 @@ class CodeGridSelectionController: ObservableObject {
     struct State {
         var trackedGridSelections = [CodeGrid: Set<SyntaxIdentifier>]()
         var trackedMapSelections = Set<SyntaxIdentifier>()
+        
         func isSelected(_ id: SyntaxIdentifier) -> Bool {
             trackedMapSelections.contains(id)
             || trackedGridSelections.values.contains(where: { $0.contains(id) })
