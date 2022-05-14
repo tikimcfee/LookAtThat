@@ -8,9 +8,8 @@ A tool to load up Swift files, render them into a SceneKit layer, and view the r
 # Some things you can do!
 <table style="padding:10px">
   <tr>
-    <span>Load and analyze</span>
-    <td><img src="./repo_info/features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
-    <td><img src="./repo_info/features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
+    <td><span>Load directories</span><img src="./repo_info/features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
+    <td><span>Analyze syntax</span><img src="./repo_info/features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
   </tr>
 
   <tr>
