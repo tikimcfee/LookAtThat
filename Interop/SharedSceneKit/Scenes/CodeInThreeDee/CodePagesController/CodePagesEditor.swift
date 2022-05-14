@@ -19,6 +19,18 @@ extension CGSize: AdditiveArithmetic {
         return CGSize(width: lhs.width + rhs.width,
                       height: lhs.height + rhs.height)
     }
+    
+    public func negated() -> CGSize {
+        CGSize(width: width * -1, height: height * -1)
+    }
+    
+    public func negatedWidth() -> CGSize {
+        CGSize(width: width * -1, height: height)
+    }
+    
+    public func negatedHeight() -> CGSize {
+        CGSize(width: width, height: height * -1)
+    }
 }
 
 class CodePagesPopupEditorState: ObservableObject {
@@ -33,31 +45,78 @@ class CodePagesPopupEditorState: ObservableObject {
             case asSibling
         }
         
-        enum ResizeCorner {
+        struct Offset {
+            var current: CGSize = .zero
+            var last: CGSize = .zero
+        }
+        
+        enum ResizeCorner: CaseIterable {
             case topLeft
             case botLeft
             case topRight
             case botRight
-            
-            func apply(newLocation: CGSize, to offset: CGSize) {
-                switch self {
-                case .topLeft:
-                    break
-                case .botLeft:
-                    break
-                case .topRight:
-                    break
-                case .botRight:
-                    break
+        }
+        
+        var resizeOffets: [ResizeCorner: Offset] = {
+            ResizeCorner.allCases
+                .reduce(into: [ResizeCorner: Offset]()) { map, type in
+                    map[type] = Offset()
                 }
+        }()
+        
+        mutating func updateResize(
+            _ corner: ResizeCorner,
+            _ translation: CGSize,
+            _ isFinal: Bool
+        ) {
+            var newResizeOffset = resizeOffets[corner, default: Offset()]
+            switch corner {
+            case .topLeft:
+                newResizeOffset.current = translation.negated() + newResizeOffset.last
+                rootPositionOffset = translation + rootPositionOffsetLast
+                
+            case .topRight:
+                newResizeOffset.current = translation.negatedHeight() + newResizeOffset.last
+                rootPositionOffset.height = translation.height + rootPositionOffsetLast.height
+                
+            case .botLeft:
+                newResizeOffset.current = translation.negatedWidth() + newResizeOffset.last
+                rootPositionOffset.width = translation.width + rootPositionOffsetLast.width
+                
+            case .botRight:
+                newResizeOffset.current = translation + newResizeOffset.last
             }
+            if isFinal {
+                newResizeOffset.last = newResizeOffset.current
+                rootPositionOffsetLast = rootPositionOffset
+            }
+            resizeOffets[corner] = newResizeOffset
+        }
+        
+        var sumOffsetWidth: CGFloat {
+            resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
+                total += pair.value.current.width
+            }
+        }
+        
+        var sumOffsetHeight: CGFloat {
+            resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
+                total += pair.value.current.height
+            }
+        }
+        
+        func offsetWidth(original: CGSize) -> CGFloat {
+            let total = original.width + sumOffsetWidth
+            return total
+        }
+        
+        func offsetHeight(original: CGSize) -> CGFloat {
+            let total = original.height + sumOffsetHeight
+            return total
         }
         
         var rootPositionOffsetLast: CGSize = .zero
         var rootPositionOffset: CGSize = .zero
-        
-        var resizeOffsetLast: CGSize = .zero
-        var resizeOffset: CGSize = .zero
         
         var mode: Mode = .asSibling
     }
@@ -115,8 +174,8 @@ struct CodePagesPopupEditor: View {
         GeometryReader { reader in
             rootPositionableView
                 .frame(
-                    width: max(0, reader.size.width + state.ui.resizeOffset.width),
-                    height: max(0, reader.size.height + state.ui.resizeOffset.height)
+                    width: max(0, state.ui.offsetWidth(original: reader.size)),
+                    height: max(0, state.ui.offsetHeight(original: reader.size))
                 )
                 .offset(state.ui.rootPositionOffset)
         }
@@ -128,24 +187,24 @@ struct CodePagesPopupEditor: View {
             ZStack(alignment: .topTrailing) {
                 dragBar
                 HStack {
-                    resizeBox
+                    resizeBox(.topLeft)
                     Spacer()
-                    resizeBox
+                    resizeBox(.topRight)
                 }
             }
             coreEditorView
             ZStack(alignment: .topTrailing) {
                 dragBar
                 HStack {
-                    resizeBox
+                    resizeBox(.botLeft)
                     Spacer()
-                    resizeBox
+                    resizeBox(.botRight)
                 }
             }
         }
     }
     
-    var resizeBox: some View {
+    func resizeBox(_ target: CodePagesPopupEditorState.UI.ResizeCorner) -> some View {
         Color.red
             .frame(width: 24.0, height: 24.0)
             .highPriorityGesture(
@@ -153,9 +212,9 @@ struct CodePagesPopupEditor: View {
                     minimumDistance: 1,
                     coordinateSpace: .global
                 ).onChanged {
-                    state.ui.resizeOffset = $0.translation + state.ui.resizeOffsetLast
-                }.onEnded { _ in
-                    state.ui.resizeOffsetLast = state.ui.resizeOffset
+                    state.ui.updateResize(target, $0.translation, false)
+                }.onEnded {
+                    state.ui.updateResize(target, $0.translation, true)
                 }
             )
     }
