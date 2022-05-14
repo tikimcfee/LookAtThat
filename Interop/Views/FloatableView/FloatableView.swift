@@ -49,14 +49,15 @@ extension FloatableView {
         }
     #elseif os(macOS)
         switch state.currentMode {
+        case .displayedAsSibling where resizableAsSibling:
+            VStack(alignment: .trailing) {
+                switchModeButton()
+                innerViewBuilder().modifier(DragSizableModifer())
+            }
         case .displayedAsSibling:
             VStack(alignment: .trailing) {
                 switchModeButton()
-                if resizableAsSibling {
-                    innerViewBuilder().modifier(DragSizableModifer())
-                } else {
-                    innerViewBuilder()
-                }
+                innerViewBuilder()
             }
         case .displayedAsWindow:
             EmptyView()
