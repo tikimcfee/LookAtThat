@@ -9,27 +9,27 @@ A tool to load up Swift files, render them into a SceneKit layer, and view the r
 <table style="padding:10px">
   <tr>
     <span>Load and analyze</span>
-    <td><img src="./features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
-    <td><img src="./features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
+    <td><img src="./repo_info/features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
+    <td><img src="./repo_info/features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
   </tr>
 
   <tr>
     <span>Query categories and type info</span>
-    <td><img src="./features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
-    <td><img src="./features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
+    <td><img src="./repo_info/features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
+    <td><img src="./repo_info/features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
   </tr>
 
 
   <tr>
     <span>Group files and perform searches</span>
-    <td><img src="./features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
-    <td><img src="./features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
+    <td><img src="./repo_info/features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
+    <td><img src="./repo_info/features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
   </tr>
 
   <tr>
     <span>Trace execution, edit files</span>
-    <td><img src="./features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
-    <td><img src="./features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
+    <td><img src="./repo_info/features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
+    <td><img src="./repo_info/features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
   </tr>
   
   <tr>
