@@ -40,12 +40,7 @@ class CodePagesPopupEditorState: ObservableObject {
     }
     
     struct UI {
-        enum Mode {
-            case floating
-            case asSibling
-        }
         
-        var mode: Mode = .asSibling
     }
     
     @Published var text: String = "No file opened."
@@ -89,17 +84,10 @@ struct CodePagesPopupEditor: View {
     
     @ViewBuilder
     var body: some View {
-        switch state.ui.mode {
-        case .asSibling:
-            rootSiblingGeometryReader
-        case .floating:
-            coreEditorView
-        }
-    }
-    
-    var rootSiblingGeometryReader: some View {
-        coreEditorView
-            .modifier(DragSizableModifer())
+        FloatableView(
+            windowKey: .twoDimensionalEditor,
+            resizableAsSibling: true
+        ) { coreEditorView }
     }
     
     var coreEditorView: some View {
@@ -114,6 +102,7 @@ struct CodePagesPopupEditor: View {
         )
     }
     
+    @ViewBuilder
     var actionsView: some View {
         HStack {
             Button("[x] Close", action: { state.popupEditorVisible = false })

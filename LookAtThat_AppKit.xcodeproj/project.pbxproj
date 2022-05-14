@@ -214,6 +214,9 @@
 		B75014A12830505C0024B7C0 /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
 		B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
 		B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
+		B75014A528305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
+		B75014A628305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
+		B75014A728305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
 		B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
@@ -580,6 +583,7 @@
 		B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoCategoryView.swift; sourceTree = "<group>"; };
 		B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlobalSemantics.swift; sourceTree = "<group>"; };
 		B75014A02830505C0024B7C0 /* DragSizableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragSizableView.swift; sourceTree = "<group>"; };
+		B75014A428305B160024B7C0 /* FloatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatableView.swift; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
@@ -1383,6 +1387,7 @@
 				B7C2319827645F14003B1C3D /* FileBrowserView.swift */,
 				B7F44C39276DB2B300522B45 /* TestButtonsView.swift */,
 				B75014A02830505C0024B7C0 /* DragSizableView.swift */,
+				B75014A428305B160024B7C0 /* FloatableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1760,6 +1765,7 @@
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */,
 				B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */,
+				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
 				B74A230A2814FFF300F6F727 /* CustomAnimations.swift in Sources */,
 				B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */,
 				B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */,
@@ -1818,6 +1824,7 @@
 				B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B7241AFE2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
+				B75014A528305B160024B7C0 /* FloatableView.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
@@ -2045,6 +2052,7 @@
 				B7C7571D280CEE040005A233 /* StartingTapDelegate.swift in Sources */,
 				B7C756F4280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
+				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
 				B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */,

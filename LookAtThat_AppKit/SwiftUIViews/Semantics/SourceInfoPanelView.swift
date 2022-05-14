@@ -18,15 +18,6 @@ struct SourceInfoPanelView: View {
     var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
     var sourceGrid: CodeGrid? { state.sourceGrid }
     
-//    // I have absolutely no idea how this works. The window is retained somehow and not recreated?
-//    // So the onAppear only creates a single window and view, apparently.
-//    var metaWindowContainer = NSWindow(
-//        contentRect: NSRect(x: 0, y: 0, width: 480, height: 600),
-//        styleMask: [.fullSizeContentView, .titled],
-//        backing: .buffered,
-//        defer: false
-//    )
-    
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
@@ -70,11 +61,6 @@ struct SourceInfoPanelView: View {
                 .stroke(Color.gray)
         )
         .padding(8)
-//        .onAppear {
-//            let windowView = windowToggles()
-//            self.metaWindowContainer.contentView = NSHostingView(rootView: windowView)
-//            self.metaWindowContainer.makeKeyAndOrderFront(nil)
-//        }
     }
     
     func windowToggles() -> some View {
