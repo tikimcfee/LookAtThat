@@ -27,16 +27,16 @@ extension CodeGrid {
 }
 
 extension CodeGrid: CustomStringConvertible {
-    var description: String {
+    public var description: String {
 """
 CodeGrid(\(id))
 """.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 
-class CodeGrid: Identifiable, Equatable {
+public class CodeGrid: Identifiable, Equatable {
     
-    lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
+    public lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()
     lazy var rootContainerNodeName = { "\(id)-container" }()
     lazy var glyphNodeName = { "\(id)-glyphs" }()
     lazy var flattedGlyphNodeName = { "\(id)-glyphs-flattened" }()
@@ -134,7 +134,7 @@ extension CodeGrid {
 
 // MARK: -- Hashing
 extension CodeGrid: Hashable {
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         laztrace(#fileID,#function,hasher)
         hasher.combine(id)
     }

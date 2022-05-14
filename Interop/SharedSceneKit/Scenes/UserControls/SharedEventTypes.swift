@@ -37,7 +37,7 @@ struct PanEvent {
     var pressingControl: Bool { controlStart != nil }
 }
 
-struct GestureEvent {
+public struct GestureEvent {
     let state: EventState?
     let type: EventType?
     

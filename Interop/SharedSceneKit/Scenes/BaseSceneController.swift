@@ -119,6 +119,10 @@ open class BaseSceneController: SceneControls {
     open func onSceneStateReset() {
         print("BaseSceneController resetting for '\(type(of: self))'")
     }
+    
+    open func onTapGesture(_ event: GestureEvent) {
+        print("Base tap gesture: \(event)")
+    }
 }
 
 extension SceneControls {

@@ -86,22 +86,7 @@ extension BaseSceneController {
     }
     
     func onTap(_ event: GestureEvent) {
-        guard event.type == .deviceTap else { return }
-        
-        let location = event.currentLocation
-        let found = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
-            .testAndEval(location, [.codeGridControl, .codeGrid])
-            
-        for result in found {
-            switch result {
-            case let .grid(codeGrid):
-                codeGrid.toggleGlyphs()
-            case let .control(codeGridControl):
-                codeGridControl.activate()
-            default:
-                break
-            }
-        }
+        onTapGesture(event)
     }
 }
 
