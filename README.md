@@ -82,16 +82,10 @@ Likely to be out of date sooner rather than later, here's a running list of targ
 
 * Editing: using a standard 2D editor to select and edit selected files in-line, rendering as necessary.
 * Update GlyphNode to support smarter focusing; more geometry slots, better caching flow, etc.
-* Tracing
-** Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
-** Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
-* Update mobiles interfaces
-** Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device
-** iPhone - editor is modal, iPad - editor is resizable
-* Update mainframe interfaces
-** Add support to dock/popout panel windows (fun feature!)
-* LSP integration
-** Jump to definition to auto-render and jump to grid syntax nodes
-** Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
-* TapKit
-** I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
+* Tracing: Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
+* Tracing: Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
+* Update mobiles interfaces. Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device.
+* Update mainframe interfaces: add support to dock/popout panel windows (fun!)
+* LSP integration: Jump to definition to auto-render and jump to grid syntax nodes
+* LSP integration: Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
+* TapKit: I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
