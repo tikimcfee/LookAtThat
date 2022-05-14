@@ -13,27 +13,24 @@ A tool to load up Swift files, render them into a SceneKit layer, and view the r
   </tr>
 
   <tr>
-    <span>Query categories and type info</span>
-    <td><img src="./repo_info/features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
-    <td><img src="./repo_info/features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
+    <td><span>Query categories and type info</span><img src="./repo_info/features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
+    <td><span>.. globally, too!<img src="./repo_info/features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
   </tr>
 
 
   <tr>
-    <span>Group files and perform searches</span>
-    <td><img src="./repo_info/features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
-    <td><img src="./repo_info/features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
+    <td><span>Group files</span><img src="./repo_info/features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
+    <td><span>Search reference names</span><img src="./repo_info/features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
   </tr>
 
   <tr>
-    <span>Trace execution, edit files</span>
-    <td><img src="./repo_info/features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
-    <td><img src="./repo_info/features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
+    <td><span>Trace app execution</span><img src="./repo_info/features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
+    <td><span>[WIP] Editing!</span><img src="./repo_info/features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
   </tr>
   
   <tr>
-    <span>Walk around your code in AR on iOS and iPad!</span>
-    <td><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
+    <td>
+      <span>Walk around your code in AR on iOS and iPad!</span><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
   </tr>
 </table>
 
