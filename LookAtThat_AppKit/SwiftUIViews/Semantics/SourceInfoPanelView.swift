@@ -5,7 +5,6 @@
 //  Created by Ivan Lugo on 11/25/21.
 //
 
-import Foundation
 import SceneKit
 import SwiftUI
 import FileKit
@@ -31,44 +30,38 @@ struct SourceInfoPanelView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                if state.sections.contains(.directories) {
+                if state.show(.directories) {
                     fileBrowserViews()
                 }
                 
-                if state.sections.contains(.editor) {
+                if state.show(.editor) {
+                    #if !TARGETING_SUI
                     CodePagesPopupEditor(
                         state: CodePagesController.shared.editorState
                     )
+                    #endif
                 }
                 
                 Spacer()
                 
-                if state.sections.contains(.tracingInfo) {
+                if state.show(.tracingInfo) {
                     SemanticTracingOutView(state: tracingState)
                 }
                 
-                if state.sections.contains(.hoverInfo) {
+                if state.show(.hoverInfo) {
                     SyntaxHierarchyView()
                 }
                 
-                if state.sections.contains(.semanticCategories) {
-                    semanticCategoryViews()
+                if state.show(.semanticCategories) {
+                    SourceInfoCategoryView()
+                        .environmentObject(state)
                 }
             }
             FocusSearchInputView()
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    ForEach(PanelSections.allCases, id: \.self) { section in
-                        Button(state.sectionControlTitle(section), action: {
-                            state.toggleSection(section)
-                        })
-                    }
-                }
-                
-                if state.sections.contains(.tappingControls) {
-                    FingerTapView()
-                }
+            if state.show(.tappingControls) {
+                FingerTapView()
             }
+            windowToggles()
         }
         .frame(alignment: .leading)
         .padding(8)
@@ -78,18 +71,24 @@ struct SourceInfoPanelView: View {
         )
         .padding(8)
 //        .onAppear {
-//            let windowView = SemanticTracingOutView(state: tracingState)
+//            let windowView = windowToggles()
 //            self.metaWindowContainer.contentView = NSHostingView(rootView: windowView)
 //            self.metaWindowContainer.makeKeyAndOrderFront(nil)
 //        }
     }
     
-    func selected(id: SyntaxIdentifier) {
-        CodePagesController.shared.selection.selected(id: id, in: sourceInfo)
+    func windowToggles() -> some View {
+        HStack(alignment: .bottom) {
+            VStack(alignment: .leading) {
+                ForEach(PanelSections.sorted, id: \.self) { section in
+                    Toggle(section.rawValue,
+                               isOn: state.vendBinding(section)
+                    )
+                }
+            }
+        }.padding()
     }
 }
-
-// MARK: - Hover Info
 
 
 // MARK: - File Browser
@@ -101,60 +100,6 @@ extension SourceInfoPanelView {
         }
         .border(.black, width: 2.0)
         .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
-    }
-}
-
-// MARK: - Semantic Category
-
-extension SourceInfoPanelView {
-    func semanticCategoryViews() -> some View {
-        VStack(spacing: 0) {
-            if !sourceInfo.structs.isEmpty {
-                infoRows(named: "Structs", from: sourceInfo.structs)
-            }
-            
-            if !sourceInfo.classes.isEmpty {
-                infoRows(named: "Classes", from: sourceInfo.classes)
-            }
-            
-            if !sourceInfo.enumerations.isEmpty {
-                infoRows(named: "Enumerations", from: sourceInfo.enumerations)
-            }
-            
-            if !sourceInfo.extensions.isEmpty {
-                infoRows(named: "Extensions", from: sourceInfo.extensions)
-            }
-            
-            if !sourceInfo.functions.isEmpty {
-                infoRows(named: "Functions", from: sourceInfo.functions)
-            }
-            
-            if !sourceInfo.variables.isEmpty {
-                infoRows(named: "Variables", from: sourceInfo.variables)
-            }
-        }
-    }
-    
-    func infoRows(named: String, from pair: AssociatedSyntaxMap) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(named).underline().padding(.top, 8)
-            List {
-                ForEach(Array(pair.keys), id:\.self) { (id: SyntaxIdentifier) in
-                    if let info = sourceInfo.semanticsLookupBySyntaxId[id] {
-                        Text(info.referenceName)
-                            .font(Font.system(.caption, design: .monospaced))
-                            .padding(4)
-                            .overlay(Rectangle().stroke(Color.gray))
-                            .onTapGesture { selected(id: info.syntaxId) }
-                    } else {
-                        Text("No SemanticInfo")
-                    }
-                }
-            }
-        }
-        .frame(minWidth: 296.0, maxWidth: 296.0, minHeight: 64.0)
-        .padding(4.0)
-        .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
     }
 }
 
@@ -195,6 +140,7 @@ func helloWorld() {
         let state = SourceInfoPanelState()
         state.sourceInfo = Self.sourceInfo.binding.wrappedValue
         state.hoveredToken = Self.randomId
+        state.categories.showGlobalMap = true
         return state
     }()
     
@@ -212,8 +158,10 @@ func helloWorld() {
 
     static var previews: some View {
         return Group {
-            SemanticTracingOutView(state: semanticTracingOutState)
-            SourceInfoPanelView(state: sourceState)
+//            SemanticTracingOutView(state: semanticTracingOutState)
+//            SourceInfoPanelView(state: sourceState)
+            SourceInfoCategoryView()
+                .environmentObject(sourceState)
         }.environmentObject(TapObserving.shared)
     }
 }

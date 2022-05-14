@@ -16,16 +16,24 @@ enum PanelSections: String, CaseIterable, Equatable {
     case hoverInfo = "Hover Info"
     case tracingInfo = "Tracing Info"
     case tappingControls = "Taps"
+    static var sorted: [PanelSections] {
+        allCases.sorted(by: { $0.rawValue < $1.rawValue} )
+    }
 }
 
 class SourceInfoPanelState: ObservableObject {
-    @Published var sections: [PanelSections] = [.directories, .hoverInfo]
+    struct Categories {
+        var showGlobalMap: Bool = false
+    }
+    
     @Published var error: SceneControllerError?
     
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     @Published var sourceGrid: CodeGrid?
     @Published var hoveredToken: String = ""
     @Published var searchText: String = ""
+    @Published var panels: Set<PanelSections> = [.directories, .hoverInfo]
+    @Published var categories: Categories = Categories()
     
     private var bag = Set<AnyCancellable>()
     
@@ -35,18 +43,20 @@ class SourceInfoPanelState: ObservableObject {
 #endif
     }
     
-    func sectionControlTitle(_ section: PanelSections) -> String {
-        return sections.contains(section)
-            ? "Hide \(section.rawValue)"
-            : "Show \(section.rawValue)"
+    func show(_ panel: PanelSections) -> Bool {
+        panels.contains(panel)
     }
     
-    func toggleSection(_ section: PanelSections) {
-        if sections.contains(section) {
-            sections.removeAll(where: { $0 == section })
-        } else {
-            sections.append(section)
-        }
+    func vendBinding(_ panel: PanelSections) -> Binding<Bool> {
+        Binding<Bool>(
+            get: { self.panels.contains(panel) },
+            set: { isSelected in
+                switch isSelected {
+                case true: self.panels.insert(panel)
+                case false: self.panels.remove(panel)
+                }
+            }
+        )
     }
     
     func setupBindings() {

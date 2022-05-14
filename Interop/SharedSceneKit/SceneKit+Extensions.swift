@@ -153,6 +153,15 @@ extension SCNNode {
         position.z += dZ
     }
     
+    func translated(dX: VectorFloat = 0,
+                    dY: VectorFloat = 0,
+                    dZ: VectorFloat = 0) -> Self {
+        position.x += dX
+        position.y += dY
+        position.z += dZ
+        return self
+    }
+    
     func materialMultiply(_ any: Any?) {
         geometry?.firstMaterial?.multiply.contents = any
     }

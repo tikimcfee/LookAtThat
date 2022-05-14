@@ -50,6 +50,12 @@ class SemanticInfoBuilder {
         case .protocolDecl(let protol):
             newInfo = makeProtocolInfo(for: node, fileName: fileName, protol)
             
+        case .typealiasDecl(let typel):
+            newInfo = makeTypeAliasInfo(for: node, fileName: fileName, typel)
+            
+        case .enumDecl(let enuml):
+            newInfo = makeEnumDeclInfo(for: node, fileName: fileName, enuml)
+            
         default:
             newInfo = makeDefaultInfo(for: node, fileName : fileName)
         }
@@ -82,6 +88,26 @@ private extension SemanticInfoBuilder {
             node: node,
             referenceName: tokl.text,
             fullTextSearchable: false,
+            fileName: fileName
+        )
+    }
+    
+    func makeTypeAliasInfo(for node: Syntax, fileName: String? = nil, _ typel: TypealiasDeclSyntax) -> SemanticInfo {
+        let aliasName = "\(typel.identifier) = \(typel.initializer?.value.description ?? "<No initializer>")"
+        return SemanticInfo(
+            node: node,
+            referenceName: aliasName,
+            color: CodeGridColors.typealiasDecl,
+            fileName: fileName
+        )
+    }
+    
+    func makeEnumDeclInfo(for node: Syntax, fileName: String? = nil, _ enuml: EnumDeclSyntax) -> SemanticInfo {
+        let name = "\(enuml.identifier)"
+        return SemanticInfo(
+            node: node,
+            referenceName: name,
+            color: CodeGridColors.enumDecl,
             fileName: fileName
         )
     }

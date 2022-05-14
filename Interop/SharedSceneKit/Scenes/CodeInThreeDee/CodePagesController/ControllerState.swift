@@ -69,7 +69,12 @@ class CodeGridHoverController: ObservableObject {
 
 class CodeGridSelectionController: ObservableObject {
     struct State {
-        var selectedIdentifiers = Set<SyntaxIdentifier>()
+        var trackedGridSelections = [CodeGrid: Set<SyntaxIdentifier>]()
+        var trackedMapSelections = Set<SyntaxIdentifier>()
+        func isSelected(_ id: SyntaxIdentifier) -> Bool {
+            trackedMapSelections.contains(id)
+            || trackedGridSelections.values.contains(where: { $0.contains(id) })
+        }
     }
     @Published var state: State = State()
     
@@ -83,7 +88,7 @@ class CodeGridSelectionController: ObservableObject {
         id: SyntaxIdentifier,
         in source: CodeGridSemanticMap
     ) {
-        let isSelected = state.selectedIdentifiers.toggle(id)
+        let isSelected = state.trackedMapSelections.toggle(id)
         sceneTransaction {
             source.walkFlattened(
                 from: id,
@@ -94,6 +99,45 @@ class CodeGridSelectionController: ObservableObject {
                     isSelected ? node.focus() : node.unfocus()
                 }
             }
+        }
+    }
+    
+    func selected(
+        id: SyntaxIdentifier,
+        in grid: CodeGrid
+    ) {
+        // Update set first
+        var selectionSet = state.trackedGridSelections[grid, default: []]
+        let isCurrentlySelected = selectionSet.contains(id)
+        if isCurrentlySelected {
+            selectionSet.remove(id)
+        } else {
+            selectionSet.insert(id)
+        }
+        state.trackedGridSelections[grid] = selectionSet
+        
+        let focusDepth = 8.0
+        let updateFocus: (GlyphNode) -> Void = isCurrentlySelected
+            ? { $0.translated(dZ: -focusDepth).unfocus() }
+            : { $0.translated(dZ: focusDepth).focus() }
+        
+        // TODO: This is a slightly uglier animation, the drop back in depth
+        // gets cut off because it's being removed. Be specific with this placement.
+        // Swap in *before* focusing nodes, swap out *out* unfocusing
+        switch selectionSet.count {
+        case 0: // Updated set is empty; remove glyphs
+            grid.swapOutRootGlyphs()
+        case 1: // First selection was made; add glyphs
+            grid.swapInRootGlyphs()
+        default: // Nothing to do; glyphs are already shown
+            break
+        }
+        
+        sceneTransaction {
+            grid.codeGridSemanticInfo
+                .walkFlattened(from: id, in: parser.tokenCache) { info, nodes in
+                    nodes.forEach(updateFocus)
+                }
         }
     }
 }
