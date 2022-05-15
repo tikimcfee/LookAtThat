@@ -25,7 +25,13 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
         super.init()
     }
     
-    func window(for key: GlobalWindowKey, _ makeWindow: () -> NSWindow) -> NSWindow {
+    func windowIsDisplayed(for key: GlobalWindowKey) -> Bool {
+        knownWindowMap[key]?.isVisible == true
+    }
+    
+    func window(
+        for key: GlobalWindowKey,
+        _ makeWindow: @autoclosure () -> NSWindow) -> NSWindow {
         knownWindowMap[key] ?? {
             let newWindow = makeWindow()
             register(key, newWindow)
@@ -33,13 +39,13 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
         }()
     }
     
+    func dismissWindow(for key: GlobalWindowKey) {
+        knownWindowMap[key]?.close()
+    }
+    
     private func register(_ key: GlobalWindowKey, _ window: NSWindow) {
         knownWindowMap[key] = window
         window.delegate = self
-    }
-    
-    func dismissWindow(for key: GlobalWindowKey) {
-        knownWindowMap[key]?.close()
     }
     
     func windowWillClose(_ notification: Notification) {

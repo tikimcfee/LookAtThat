@@ -11,9 +11,7 @@ extension View {
     
     @discardableResult
     func openInWindow(key: GlobalWindowKey, sender: Any?) -> NSWindow {
-        let window = GlobablWindowDelegate.instance.window(
-            for: key, { makeNewWindow(for: key) }
-        )
+        let window = GlobablWindowDelegate.instance.window(for: key, makeNewWindow(for: key))
         window.contentView = NSHostingView(rootView: self)
         window.makeKeyAndOrderFront(sender)
         return window

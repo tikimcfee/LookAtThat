@@ -7,31 +7,16 @@
 
 import SwiftUI
 
-class FloatableViewState: ObservableObject {
+struct FloatableView<Inner: View>: View {
     enum Mode {
         case displayedAsWindow
         case displayedAsSibling
     }
-    @Published var currentMode: Mode = .displayedAsSibling
-}
-
-struct FloatableView<Inner: View>: View {
-    @StateObject var state = FloatableViewState()
     
+    @State var displayMode: FloatableView.Mode = .displayedAsSibling
     let windowKey: GlobalWindowKey
     let resizableAsSibling: Bool
     let innerViewBuilder: () -> Inner
-    
-    init(
-        windowKey: GlobalWindowKey,
-        resizableAsSibling: Bool,
-        @ViewBuilder innerViewBuilder: @escaping () -> Inner
-    ) {
-        self.windowKey = windowKey
-        self.resizableAsSibling = resizableAsSibling
-        self.innerViewBuilder = innerViewBuilder
-        
-    }
     
     var body: some View {
         makePlatformBody()
@@ -48,7 +33,7 @@ extension FloatableView {
             innerViewBuilder()
         }
     #elseif os(macOS)
-        switch state.currentMode {
+        switch displayMode {
         case .displayedAsSibling where resizableAsSibling:
             VStack(alignment: .trailing, spacing: 0) {
                 switchModeButton()
@@ -60,38 +45,43 @@ extension FloatableView {
                 innerViewBuilder()
             }
         case .displayedAsWindow:
-            EmptyView()
+            Spacer()
+                .onAppear { performUndock() }
+                .onDisappear { performDock() }
         }
     #endif
     }
 }
 
 #if os(macOS)
-extension FloatableViewState {
-    func dismissWindow(for key: GlobalWindowKey) {
-        GlobablWindowDelegate.instance.dismissWindow(for: key)
-    }
-}
-
-extension FloatableView {
+private extension FloatableView {
+    var delegate: GlobablWindowDelegate { GlobablWindowDelegate.instance }
+    
     @ViewBuilder
-    private func switchModeButton() -> some View {
-        switch state.currentMode {
+    func switchModeButton() -> some View {
+        switch displayMode {
         case .displayedAsSibling:
             Button("Undock", action: {
-                state.currentMode = .displayedAsWindow
-                displayNewBuilderInstance()
+                displayMode = .displayedAsWindow
             }).padding(2)
         case .displayedAsWindow:
             Button("Dock", action: {
-                state.currentMode = .displayedAsSibling
-                state.dismissWindow(for: windowKey)
+                displayMode = .displayedAsSibling
             }).padding(2)
         }
     }
     
-    func displayNewBuilderInstance() {
-        VStack(alignment: .trailing) {
+    func performUndock() {
+        guard !delegate.windowIsDisplayed(for: windowKey) else { return }
+        displayWindowWithNewBuilderInstance()
+    }
+    
+    func performDock() {
+        delegate.dismissWindow(for: windowKey)
+    }
+    
+    func displayWindowWithNewBuilderInstance() {
+        VStack(alignment: .trailing, spacing: 0) {
             switchModeButton()
             innerViewBuilder()
         }.openInWindow(key: windowKey, sender: self)
