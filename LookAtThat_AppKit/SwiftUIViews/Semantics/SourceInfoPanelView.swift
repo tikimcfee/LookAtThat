@@ -52,7 +52,14 @@ struct SourceInfoPanelView: View {
             if state.show(.tappingControls) {
                 FingerTapView()
             }
-            windowToggles()
+            
+            FloatableView(
+                displayMode: .displayedAsSibling,
+                windowKey: .viewPanels,
+                innerViewBuilder: {
+                    SourceInfoPanelToggles(state: state)
+                }
+            )
         }
         .frame(alignment: .leading)
         .padding(8)
@@ -61,18 +68,6 @@ struct SourceInfoPanelView: View {
                 .stroke(Color.gray)
         )
         .padding(8)
-    }
-    
-    func windowToggles() -> some View {
-        HStack(alignment: .bottom) {
-            VStack(alignment: .leading) {
-                ForEach(PanelSections.sorted, id: \.self) { section in
-                    Toggle(section.rawValue,
-                               isOn: state.vendBinding(section)
-                    )
-                }
-            }
-        }.padding()
     }
 }
 

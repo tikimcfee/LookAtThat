@@ -87,8 +87,9 @@ struct CodePagesPopupEditor: View {
         FloatableView(
             displayMode: .displayedAsWindow,
             windowKey: .twoDimensionalEditor,
-            resizableAsSibling: true
-        ) { coreEditorView }
+            resizableAsSibling: true,
+            innerViewBuilder: { coreEditorView }
+        )
     }
     
     var coreEditorView: some View {

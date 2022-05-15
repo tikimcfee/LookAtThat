@@ -12,6 +12,7 @@ import SwiftUI
 enum GlobalWindowKey: String, Identifiable, Hashable {
     case twoDimensionalEditor = "2D Editor"
     case fileBrowser = "File Browser"
+    case viewPanels = "View Panels"
     var id: String { rawValue }
     var title: String { rawValue }
 }

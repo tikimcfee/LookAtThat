@@ -15,7 +15,7 @@ struct FloatableView<Inner: View>: View {
     
     @State var displayMode: FloatableView.Mode = .displayedAsSibling
     let windowKey: GlobalWindowKey
-    let resizableAsSibling: Bool
+    var resizableAsSibling: Bool = false
     let innerViewBuilder: () -> Inner
     
     var body: some View {
