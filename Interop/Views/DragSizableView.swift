@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 extension DragSizableViewState {
     struct Offset {
         var current: CGSize = .zero
@@ -26,6 +25,18 @@ class DragSizableViewState: ObservableObject {
     @Published var rootPositionOffsetLast: CGSize = .zero
     @Published var rootPositionOffset: CGSize = .zero
     @Published var resizeOffets = [ResizeCorner: Offset]()
+    
+    private var sumOffsetWidth: CGFloat {
+        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
+            total += pair.value.current.width
+        }
+    }
+    
+    private var sumOffsetHeight: CGFloat {
+        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
+            total += pair.value.current.height
+        }
+    }
     
     func updateDrag(
         _ translation: CGSize,
@@ -64,18 +75,6 @@ class DragSizableViewState: ObservableObject {
             rootPositionOffsetLast = rootPositionOffset
         }
         resizeOffets[corner] = newResizeOffset
-    }
-    
-    private var sumOffsetWidth: CGFloat {
-        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
-            total += pair.value.current.width
-        }
-    }
-    
-    private var sumOffsetHeight: CGFloat {
-        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
-            total += pair.value.current.height
-        }
     }
     
     func offsetWidth(original: CGSize) -> CGFloat {

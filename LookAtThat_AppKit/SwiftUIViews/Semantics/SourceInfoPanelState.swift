@@ -37,7 +37,7 @@ class SourceInfoPanelState: ObservableObject {
     @Published var searchText: String = ""
     
     // Visible subsections
-    @Published var panels: Set<PanelSections> = [.directories, .hoverInfo]
+    @Published var panels: Set<PanelSections> = [.directories]
     
     // Category pannel state
     @Published var categories: Categories = Categories()

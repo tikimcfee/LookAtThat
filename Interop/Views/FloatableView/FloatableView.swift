@@ -50,12 +50,12 @@ extension FloatableView {
     #elseif os(macOS)
         switch state.currentMode {
         case .displayedAsSibling where resizableAsSibling:
-            VStack(alignment: .trailing) {
+            VStack(alignment: .trailing, spacing: 0) {
                 switchModeButton()
                 innerViewBuilder().modifier(DragSizableModifer())
             }
         case .displayedAsSibling:
-            VStack(alignment: .trailing) {
+            VStack(alignment: .trailing, spacing: 0) {
                 switchModeButton()
                 innerViewBuilder()
             }
@@ -78,15 +78,15 @@ extension FloatableView {
     private func switchModeButton() -> some View {
         switch state.currentMode {
         case .displayedAsSibling:
-            Button("Make window", action: {
+            Button("Undock", action: {
                 state.currentMode = .displayedAsWindow
                 displayNewBuilderInstance()
-            })
+            }).padding(2)
         case .displayedAsWindow:
-            Button("Dock view", action: {
+            Button("Dock", action: {
                 state.currentMode = .displayedAsSibling
                 state.dismissWindow(for: windowKey)
-            })
+            }).padding(2)
         }
     }
     
