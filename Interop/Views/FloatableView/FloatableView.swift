@@ -77,13 +77,15 @@ private extension FloatableView {
             }).padding(2)
         }
     }
-    
+
+    // `Undock` is called when review is rebuilt, check state before calling window actions
     func performUndock() {
         guard displayMode == .displayedAsWindow else { return }
         guard !delegate.windowIsDisplayed(for: windowKey) else { return }
         displayWindowWithNewBuilderInstance()
     }
     
+    // `Dock` is called when review is rebuilt, check state before calling window actions
     func performDock() {
         guard displayMode == .displayedAsSibling else { return }
         delegate.dismissWindow(for: windowKey)

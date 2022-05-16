@@ -27,9 +27,11 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable {
 }
 
 class SourceInfoPanelState: ObservableObject {
+    // Category pannel state
     struct Categories {
         var showGlobalMap: Bool = false
     }
+    @Published var categories: Categories = Categories()
 
     // Individual hovering stuff
     @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
@@ -43,12 +45,8 @@ class SourceInfoPanelState: ObservableObject {
     var panelGroups = 3
     @Published private(set) var visiblePanelStates = AutoCache<PanelSections, FloatableViewMode>()
     @Published private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
-    @Published private(set) var visiblePanels: Set<PanelSections> = [.windowControls, .directories] {
-        didSet { updatePanelGroups() }
-    }
-    
-    // Category pannel state
-    @Published var categories: Categories = Categories()
+    @Published private(set) var visiblePanels: Set<PanelSections> = [.windowControls, .directories]
+        { didSet { updatePanelGroups() } }
     
     private var bag = Set<AnyCancellable>()
     
@@ -71,7 +69,7 @@ class SourceInfoPanelState: ObservableObject {
 // when the view is focused again.
 
 // Gosh darn it fine I'll try WindowGroups soon.
-extension SourceInfoPanelState {    
+extension SourceInfoPanelState {
     func vendPanelBinding(_ panel: PanelSections) -> Binding<FloatableViewMode> {
         func makeNewBinding() -> Binding<FloatableViewMode> {
             Binding<FloatableViewMode>(
