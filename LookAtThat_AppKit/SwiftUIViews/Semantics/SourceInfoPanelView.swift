@@ -21,7 +21,6 @@ struct SourceInfoPanelView: View {
     var body: some View {
         HStack(alignment: .top) {
             allPanelsGroup
-            windowToggles
         }
         .frame(alignment: .leading)
         .padding(8)
@@ -35,25 +34,49 @@ struct SourceInfoPanelView: View {
 
 extension SourceInfoPanelView {
     
-    @ViewBuilder
     var allPanelsGroup: some View {
-        ForEach(state.panelList, id: \.self) { panel in
-            switch panel {
-            case .globalSearch:
-                globalSearchView
-            case .editor:
-                editorView
-            case .directories:
-                fileBrowserView
-            case .semanticCategories:
-                semanticCategoriesView
-            case .hoverInfo:
-                hoverInfoView
-            case .tracingInfo:
-                traceInfoView
-            case .tappingControls:
-                tapControlsView
+        ForEach(state.visiblePanelSlices, id: \.self) { panelSlice in
+            ForEach(panelSlice, id: \.self) { panel in
+                floatingView(for: panel)
+                if (panelSlice.last != panel) {
+                    Spacer()
+                }
             }
+        }
+    }
+    
+    @ViewBuilder
+    func floatingView(for panel: PanelSections) -> some View {
+        FloatableView(
+            displayMode: state.vendPanelBinding(panel),
+            windowKey: panel,
+            innerViewBuilder: {
+                panelView(for: panel)
+                    .border(.black, width: 2.0)
+                    .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+            }
+        )
+    }
+    
+    @ViewBuilder
+    func panelView(for panel: PanelSections) -> some View {
+        switch panel {
+        case .globalSearch:
+            globalSearchView
+        case .editor:
+            editorView
+        case .directories:
+            fileBrowserView
+        case .semanticCategories:
+            semanticCategoriesView
+        case .hoverInfo:
+            hoverInfoView
+        case .tracingInfo:
+            traceInfoView
+        case .tappingControls:
+            tapControlsView
+        case .windowControls:
+            windowControlsView
         }
     }
     
@@ -90,7 +113,7 @@ extension SourceInfoPanelView {
     
     @ViewBuilder
     var fileBrowserView: some View {
-        fileBrowserViews()
+        FileBrowserView()
     }
         
     @ViewBuilder
@@ -98,27 +121,8 @@ extension SourceInfoPanelView {
         FingerTapView()
     }
     
-    var windowToggles: some View {
-        FloatableView(
-            displayMode: .displayedAsWindow,
-            windowKey: .viewPanels,
-            innerViewBuilder: {
-                SourceInfoPanelToggles(state: state)
-            }
-        )
-    }
-}
-
-
-// MARK: - File Browser
-
-extension SourceInfoPanelView {
-    func fileBrowserViews() -> some View {
-        VStack {
-            FileBrowserView()
-        }
-        .border(.black, width: 2.0)
-        .background(Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 0.2))
+    var windowControlsView: some View {
+        SourceInfoPanelToggles(state: state)
     }
 }
 

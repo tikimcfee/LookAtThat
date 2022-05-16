@@ -9,30 +9,6 @@ import SwiftUI
 import CodeEditorView
 import Combine
 
-extension CGSize: AdditiveArithmetic {
-    public static func - (lhs: CGSize, rhs: CGSize) -> CGSize {
-        return CGSize(width: lhs.width - rhs.width,
-                      height: lhs.height - rhs.height)
-    }
-    
-    public static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
-        return CGSize(width: lhs.width + rhs.width,
-                      height: lhs.height + rhs.height)
-    }
-    
-    public func negated() -> CGSize {
-        CGSize(width: width * -1, height: height * -1)
-    }
-    
-    public func negatedWidth() -> CGSize {
-        CGSize(width: width * -1, height: height)
-    }
-    
-    public func negatedHeight() -> CGSize {
-        CGSize(width: width, height: height * -1)
-    }
-}
-
 class CodePagesPopupEditorState: ObservableObject {
     enum RootMode {
         case idol
@@ -84,12 +60,7 @@ struct CodePagesPopupEditor: View {
     
     @ViewBuilder
     var body: some View {
-        FloatableView(
-            displayMode: .displayedAsWindow,
-            windowKey: .twoDimensionalEditor,
-            resizableAsSibling: true,
-            innerViewBuilder: { coreEditorView }
-        )
+        coreEditorView
     }
     
     var coreEditorView: some View {

@@ -13,7 +13,10 @@ struct SourceInfoPanelToggles: View {
     var body: some View {
         VStack(alignment: .leading) {
             ForEach(PanelSections.sorted, id: \.self) { section in
-                Toggle(section.rawValue, isOn: state.vendBinding(section))
+                HStack {
+                    Toggle(section.rawValue, isOn: state.vendPanelVisibleBinding(section))
+                    Toggle("Windowed", isOn: state.vendPanelIsWindowBinding(section))
+                }
             }
         }
         .fixedSize()

@@ -219,9 +219,8 @@
 		B75014A728305B160024B7C0 /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
 		B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */; };
 		B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */; };
-		B75014AE283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
-		B75014AF283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
-		B75014B0283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */; };
+		B75014AE283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */; };
+		B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */; };
 		B75014B32831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
@@ -593,7 +592,7 @@
 		B75014A02830505C0024B7C0 /* DragSizableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragSizableView.swift; sourceTree = "<group>"; };
 		B75014A428305B160024B7C0 /* FloatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatableView.swift; sourceTree = "<group>"; };
 		B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalWindowDelegate.swift; sourceTree = "<group>"; };
-		B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+ViewExtension.swift"; sourceTree = "<group>"; };
+		B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+WindowOpen.swift"; sourceTree = "<group>"; };
 		B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelToggles.swift; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
@@ -900,7 +899,7 @@
 			isa = PBXGroup;
 			children = (
 				B75014A428305B160024B7C0 /* FloatableView.swift */,
-				B75014AD283071D50024B7C0 /* FloatableView+ViewExtension.swift */,
+				B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */,
 				B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */,
 			);
 			path = FloatableView;
@@ -1765,7 +1764,7 @@
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */,
 				B74A22F42814FFF300F6F727 /* SCNAction+Extensions.swift in Sources */,
-				B75014B0283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
+				B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B74A22F52814FFF300F6F727 /* TAPKitLog.swift in Sources */,
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
@@ -1844,7 +1843,7 @@
 				B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
-				B75014AE283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
+				B75014AE283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */,
@@ -2017,7 +2016,6 @@
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
-				B75014AF283071D50024B7C0 /* FloatableView+ViewExtension.swift in Sources */,
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,

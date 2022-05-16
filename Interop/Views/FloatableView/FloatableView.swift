@@ -7,13 +7,20 @@
 
 import SwiftUI
 
+typealias GlobalWindowKey = PanelSections
+
+extension GlobalWindowKey: Identifiable, Hashable {
+    var id: String { rawValue }
+    var title: String { rawValue }
+}
+
+enum FloatableViewMode {
+    case displayedAsWindow
+    case displayedAsSibling
+}
+
 struct FloatableView<Inner: View>: View {
-    enum Mode {
-        case displayedAsWindow
-        case displayedAsSibling
-    }
-    
-    @State var displayMode: FloatableView.Mode = .displayedAsSibling
+    @Binding var displayMode: FloatableViewMode
     let windowKey: GlobalWindowKey
     var resizableAsSibling: Bool = false
     let innerViewBuilder: () -> Inner
@@ -72,11 +79,13 @@ private extension FloatableView {
     }
     
     func performUndock() {
+        guard displayMode == .displayedAsWindow else { return }
         guard !delegate.windowIsDisplayed(for: windowKey) else { return }
         displayWindowWithNewBuilderInstance()
     }
     
     func performDock() {
+        guard displayMode == .displayedAsSibling else { return }
         delegate.dismissWindow(for: windowKey)
     }
     

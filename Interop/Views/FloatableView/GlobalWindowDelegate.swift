@@ -8,15 +8,6 @@
 import SwiftUI
 
 // TODO: just use the WindowGroup API..
-
-enum GlobalWindowKey: String, Identifiable, Hashable {
-    case twoDimensionalEditor = "2D Editor"
-    case fileBrowser = "File Browser"
-    case viewPanels = "View Panels"
-    var id: String { rawValue }
-    var title: String { rawValue }
-}
-
 class GlobablWindowDelegate: NSObject, NSWindowDelegate {
     static let instance = GlobablWindowDelegate()
     

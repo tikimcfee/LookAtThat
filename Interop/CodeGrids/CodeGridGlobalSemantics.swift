@@ -77,7 +77,7 @@ public class CodeGridGlobalSemantics: ObservableObject {
     }
     
     func snapshot(categories: [CodeGridSemanticMap.Category]) -> Snapshot {
-        let globalParticipants = IDCache<GlobalSemanticParticipant>()
+        var globalParticipants = AutoCache<GlobalSemanticParticipant.ID, GlobalSemanticParticipant>()
         
         // Two passes
         // 1. collect all the participating grids that have values

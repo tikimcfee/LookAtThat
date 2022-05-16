@@ -8,9 +8,9 @@
 
 import Foundation
 
-class AutoCache<Key: Hashable, Value> {
+struct AutoCache<Key: Hashable, Value> {
     var source = [Key: Value]()
-    func retrieve(
+    mutating func retrieve(
         key: Key,
         defaulting: @autoclosure () -> Value
     ) -> Value {
@@ -21,8 +21,6 @@ class AutoCache<Key: Hashable, Value> {
         }()
     }
 }
-
-class IDCache<CacheType: Identifiable>: AutoCache<CacheType.ID, CacheType> { }
 
 class LList<NodeValue>: Sequence {
 	typealias Node = LNode<NodeValue>
