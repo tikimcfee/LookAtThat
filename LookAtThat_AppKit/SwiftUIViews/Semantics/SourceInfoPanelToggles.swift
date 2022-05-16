@@ -15,6 +15,8 @@ struct SourceInfoPanelToggles: View {
             ForEach(PanelSections.sorted, id: \.self) { section in
                 Toggle(section.rawValue, isOn: state.vendBinding(section))
             }
-        }.padding()
+        }
+        .fixedSize()
+        .padding()
     }
 }

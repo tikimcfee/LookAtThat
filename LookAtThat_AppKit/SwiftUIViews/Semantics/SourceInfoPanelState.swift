@@ -9,13 +9,17 @@ import Foundation
 import Combine
 import SwiftUI
 
-enum PanelSections: String, CaseIterable, Equatable {
+enum PanelSections: String, CaseIterable, Equatable, Comparable {
     case editor = "2D Editor"
     case directories = "Directories"
     case semanticCategories = "Semantic Categories"
     case hoverInfo = "Hover Info"
     case tracingInfo = "Tracing Info"
     case tappingControls = "Taps"
+    case globalSearch = "Global Search"
+    static func < (lhs: PanelSections, rhs: PanelSections) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
     static var sorted: [PanelSections] {
         allCases.sorted(by: { $0.rawValue < $1.rawValue} )
     }
@@ -38,6 +42,7 @@ class SourceInfoPanelState: ObservableObject {
     
     // Visible subsections
     @Published var panels: Set<PanelSections> = [.directories]
+    var panelList: [PanelSections] { Array(panels).sorted(by: <) }
     
     // Category pannel state
     @Published var categories: Categories = Categories()
@@ -48,10 +53,6 @@ class SourceInfoPanelState: ObservableObject {
 #if !TARGETING_SUI
         setupBindings()
 #endif
-    }
-    
-    func show(_ panel: PanelSections) -> Bool {
-        panels.contains(panel)
     }
     
     func vendBinding(_ panel: PanelSections) -> Binding<Bool> {

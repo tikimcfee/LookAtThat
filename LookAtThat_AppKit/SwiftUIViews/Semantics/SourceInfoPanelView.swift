@@ -19,47 +19,9 @@ struct SourceInfoPanelView: View {
     var sourceGrid: CodeGrid? { state.sourceGrid }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .top) {
-                if state.show(.directories) {
-                    fileBrowserViews()
-                }
-                
-                if state.show(.editor) {
-                    #if !TARGETING_SUI
-                    CodePagesPopupEditor(
-                        state: CodePagesController.shared.editorState
-                    )
-                    #endif
-                }
-                
-                Spacer()
-                
-                if state.show(.tracingInfo) {
-                    SemanticTracingOutView(state: tracingState)
-                }
-                
-                if state.show(.hoverInfo) {
-                    SyntaxHierarchyView()
-                }
-                
-                if state.show(.semanticCategories) {
-                    SourceInfoCategoryView()
-                        .environmentObject(state)
-                }
-            }
-            FocusSearchInputView()
-            if state.show(.tappingControls) {
-                FingerTapView()
-            }
-            
-            FloatableView(
-                displayMode: .displayedAsSibling,
-                windowKey: .viewPanels,
-                innerViewBuilder: {
-                    SourceInfoPanelToggles(state: state)
-                }
-            )
+        HStack(alignment: .top) {
+            allPanelsGroup
+            windowToggles
         }
         .frame(alignment: .leading)
         .padding(8)
@@ -68,6 +30,82 @@ struct SourceInfoPanelView: View {
                 .stroke(Color.gray)
         )
         .padding(8)
+    }
+}
+
+extension SourceInfoPanelView {
+    
+    @ViewBuilder
+    var allPanelsGroup: some View {
+        ForEach(state.panelList, id: \.self) { panel in
+            switch panel {
+            case .globalSearch:
+                globalSearchView
+            case .editor:
+                editorView
+            case .directories:
+                fileBrowserView
+            case .semanticCategories:
+                semanticCategoriesView
+            case .hoverInfo:
+                hoverInfoView
+            case .tracingInfo:
+                traceInfoView
+            case .tappingControls:
+                tapControlsView
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var globalSearchView: some View {
+        // TODO: This isn't global yet, but it can / should / will be
+        FocusSearchInputView()
+    }
+    
+    @ViewBuilder
+    var semanticCategoriesView: some View {
+        SourceInfoCategoryView()
+            .environmentObject(state)
+    }
+    
+    @ViewBuilder
+    var hoverInfoView: some View {
+        SyntaxHierarchyView()
+    }
+
+    @ViewBuilder
+    var traceInfoView: some View {
+        SemanticTracingOutView(state: tracingState)
+    }
+    
+    @ViewBuilder
+    var editorView: some View {
+#if !TARGETING_SUI
+        CodePagesPopupEditor(
+            state: CodePagesController.shared.editorState
+        )
+#endif
+    }
+    
+    @ViewBuilder
+    var fileBrowserView: some View {
+        fileBrowserViews()
+    }
+        
+    @ViewBuilder
+    var tapControlsView: some View {
+        FingerTapView()
+    }
+    
+    var windowToggles: some View {
+        FloatableView(
+            displayMode: .displayedAsWindow,
+            windowKey: .viewPanels,
+            innerViewBuilder: {
+                SourceInfoPanelToggles(state: state)
+            }
+        )
     }
 }
 

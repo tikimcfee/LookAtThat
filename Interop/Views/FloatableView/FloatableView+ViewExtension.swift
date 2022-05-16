@@ -20,11 +20,12 @@ extension View {
     private func makeNewWindow(for key: GlobalWindowKey) -> NSWindow {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 600),
-            styleMask: [.titled, .resizable, .fullSizeContentView],
+            styleMask: [.titled, .fullSizeContentView, .resizable],
             backing: .buffered,
             defer: false
         )
-        window.center()
+        // TODO: make this configurable. Options object, attached to key, something
+        window.level = .floating
         window.title = key.title
         
         // THIS IS CRITICAL!

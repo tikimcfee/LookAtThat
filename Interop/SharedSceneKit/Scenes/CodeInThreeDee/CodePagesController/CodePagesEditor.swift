@@ -99,7 +99,9 @@ struct CodePagesPopupEditor: View {
             messages: $state.messages,
             language: .swift,
             layout: .init(showMinimap: false)
-        ).environment(
+        )
+        .frame(minWidth: 128.0, minHeight: 64.0)
+        .environment(
             \.codeEditorTheme, colorScheme == .dark ? Theme.defaultDark : Theme.defaultLight
         )
     }
