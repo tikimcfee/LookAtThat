@@ -45,15 +45,20 @@ class SourceInfoPanelState: ObservableObject {
     var panelGroups = 3
     @Published private(set) var visiblePanelStates = AutoCache<PanelSections, FloatableViewMode>()
     @Published private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
-    @Published private(set) var visiblePanels: Set<PanelSections> = [.windowControls, .directories]
-        { didSet { updatePanelGroups() } }
+    @Published private(set) var visiblePanels: Set<PanelSections> {
+        didSet { updatePanelSlices() }
+    }
     
     private var bag = Set<AnyCancellable>()
     
-    init() {
-        setupBindings()
-        updatePanelGroups()
+    init(
+        _ initialPanels: Set<PanelSections> = [.windowControls, .directories]
+    ) {
+        self.visiblePanels = initialPanels
         visiblePanelStates.source[.windowControls] = .displayedAsWindow
+        
+        setupBindings()
+        updatePanelSlices()
     }
 }
 
@@ -70,6 +75,14 @@ class SourceInfoPanelState: ObservableObject {
 
 // Gosh darn it fine I'll try WindowGroups soon.
 extension SourceInfoPanelState {
+    func isWindow(_ panel: PanelSections) -> Bool {
+        visiblePanelStates.source[panel] == .displayedAsWindow
+    }
+    
+    func isVisible(_ panel: PanelSections) -> Bool {
+        visiblePanels.contains(panel)
+    }
+    
     func vendPanelBinding(_ panel: PanelSections) -> Binding<FloatableViewMode> {
         func makeNewBinding() -> Binding<FloatableViewMode> {
             Binding<FloatableViewMode>(
@@ -120,7 +133,7 @@ extension SourceInfoPanelState {
 }
 
 private extension SourceInfoPanelState {
-    func updatePanelGroups() {
+    func updatePanelSlices() {
         guard !visiblePanels.isEmpty else {
             visiblePanelSlices = []
             return

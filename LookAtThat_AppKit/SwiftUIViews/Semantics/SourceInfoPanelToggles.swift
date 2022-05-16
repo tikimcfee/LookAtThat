@@ -29,8 +29,11 @@ struct SourceInfoPanelToggles: View {
         HStack {
             Text("\(section.rawValue)")
                 .frame(minWidth: 160.0, alignment: .leading)
-            dockControl(section)
+            
             visibilityControl(section)
+                .disabled(state.isWindow(section))
+            dockControl(section)
+                .disabled(!state.isVisible(section))
         }
     }
     
