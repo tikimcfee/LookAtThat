@@ -9,13 +9,6 @@
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
-		B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; };
-		B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8222740DAC100303CB8 /* SwiftSyntaxParser */; };
-		B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8242740DB7C00303CB8 /* SwiftSyntax */; };
-		B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; };
-		B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */; };
-		B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
 		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -172,9 +165,6 @@
 		B74A231B2814FFF300F6F727 /* RawSensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756EE280CECBA0005A233 /* RawSensorData.swift */; };
 		B74A231C2814FFF300F6F727 /* TAPCBUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756E8280CECBA0005A233 /* TAPCBUUID.swift */; };
 		B74A231E2814FFF300F6F727 /* FingerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7570E280CED4D0005A233 /* FingerView.swift */; };
-		B74A23212814FFF300F6F727 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; };
-		B74A23222814FFF300F6F727 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B74A229E2814FFF300F6F727 /* SwiftSyntaxParser */; };
-		B74A23232814FFF300F6F727 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B74A22A02814FFF300F6F727 /* SwiftSyntax */; };
 		B74A23242814FFF300F6F727 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B74A229A2814FFF300F6F727 /* Brotli */; };
 		B74A23252814FFF300F6F727 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B74A229C2814FFF300F6F727 /* FileKit */; };
 		B74A23272814FFF300F6F727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
@@ -184,7 +174,6 @@
 		B74A232B2814FFF300F6F727 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B74A232C2814FFF300F6F727 /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		B74A232D2814FFF300F6F727 /* RidiculousFile in Resources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
-		B74A232F2814FFF300F6F727 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
 		B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
 		B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
@@ -225,7 +214,24 @@
 		B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
-		B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */; };
+		B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F37283346DF008DAA88 /* SwiftSyntax */; };
+		B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */; };
+		B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */; };
+		B7623F3D28334766008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
+		B7623F3F2833476E008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7623F4028334771008DAA88 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7623F412833495A008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		B7623F4228334960008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
+		B7623F4328334964008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7623F4628334978008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4528334978008DAA88 /* SwiftSyntax */; };
+		B7623F4828334978008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */; };
+		B7623F4A28334978008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4928334978008DAA88 /* SwiftSyntaxParser */; };
+		B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4B28334984008DAA88 /* SwiftSyntax */; };
+		B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */; };
+		B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4F28334984008DAA88 /* SwiftSyntaxParser */; };
+		B7623F5328334A17008DAA88 /* SourceKittenFramework in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F5228334A17008DAA88 /* SourceKittenFramework */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
 		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
@@ -248,13 +254,11 @@
 		B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
-		B775C78E2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B7811993282B76C600960535 /* LanguageClient in Frameworks */ = {isa = PBXBuildFile; productRef = B7811992282B76C600960535 /* LanguageClient */; };
-		B78159DB273E041B00212176 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DA273E041B00212176 /* SwiftSyntax */; };
 		B78159DD273E045000212176 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DC273E045000212176 /* FileKit */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		B78159E9273E057B00212176 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -425,7 +429,6 @@
 		F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
 		F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
 		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
-		F04D816D250C9210008210C1 /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051FD2C251B17E6005448AE /* TokenHoverInteractionTracker.swift */; };
 		F056927A252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
 		F056927B252081CF006A10C9 /* WireData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0569279252081CF006A10C9 /* WireData.swift */; };
@@ -467,7 +470,6 @@
 		F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A82EF32510819B00BEA636 /* CodePagesController.swift */; };
-		F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
 		F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
@@ -475,8 +477,6 @@
 		F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
-		F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */ = {isa = PBXBuildFile; fileRef = F0BA5F8A25107925009A726C /* WordNodeIntrospect */; };
-		F0E3F425251D327600FC02ED /* dict.json in Resources */ = {isa = PBXBuildFile; fileRef = F04D816C250C9210008210C1 /* dict.json */; };
 		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
@@ -485,7 +485,6 @@
 		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */ = {isa = PBXBuildFile; fileRef = F0F205812522EB35009B6D2C /* RidiculousFile */; };
 		F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -513,7 +512,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B74A232F2814FFF300F6F727 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,7 +532,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B712C8272740DC1A00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B7623F3F2833476E008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B7623F4028334771008DAA88 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +543,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B712C82A2740DC9E00303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
+				B7623F4328334964008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
+				B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,8 +554,6 @@
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
-		B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
 		B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Writing.swift"; sourceTree = "<group>"; };
 		B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTokenCache.swift; sourceTree = "<group>"; };
@@ -565,6 +563,14 @@
 		B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphLayer+iOS.swift"; sourceTree = "<group>"; };
 		B720FF842824C6DC00C23E6B /* GlyphNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphNode.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
+		B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
+		B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
+		B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
+		B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
+		B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B7241AEE28270F21006A6A3E /* FocusSearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSearchInputView.swift; sourceTree = "<group>"; };
 		B7241AF928288C26006A6A3E /* InputStreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStreamReader.swift; sourceTree = "<group>"; };
 		B7241AFD2828AD63006A6A3E /* ControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerState.swift; sourceTree = "<group>"; };
@@ -577,7 +583,6 @@
 		B73EF75A28111E2C008BEE85 /* RWLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWLock.swift; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B74A23342814FFF300F6F727 /* LookAtThat_AppKit copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit copy-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit copy-Info.plist"; sourceTree = "<absolute>"; };
 		B74A23352815197000F6F727 /* SourceInfoPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelState.swift; sourceTree = "<group>"; };
 		B74A233A2815265300F6F727 /* SemanticMapTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticMapTracer.swift; sourceTree = "<group>"; };
 		B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingInfoBridging.swift; sourceTree = "<group>"; };
@@ -743,12 +748,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B74A23212814FFF300F6F727 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
-				B74A23222814FFF300F6F727 /* SwiftSyntaxParser in Frameworks */,
-				B74A23232814FFF300F6F727 /* SwiftSyntax in Frameworks */,
+				B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
+				B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B74A23252814FFF300F6F727 /* FileKit in Frameworks */,
 				B7811993282B76C600960535 /* LanguageClient in Frameworks */,
+				B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,13 +761,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7623F3D28334766008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
+				B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
 				B7241AF428288647006A6A3E /* Algorithms in Frameworks */,
-				B712C8262740DC1300303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
-				B712C8232740DAC100303CB8 /* SwiftSyntaxParser in Frameworks */,
+				B7623F5328334A17008DAA88 /* SourceKittenFramework in Frameworks */,
 				B7D79AAD282B241F000F99EB /* LanguageClient in Frameworks */,
-				B712C8252740DB7C00303CB8 /* SwiftSyntax in Frameworks */,
+				B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
 			);
@@ -781,12 +789,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B712C8292740DC6E00303CB8 /* SwiftSyntaxParser in Frameworks */,
+				B7623F412833495A008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7623F4228334960008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
 				B7241AF62828865E006A6A3E /* Algorithms in Frameworks */,
-				B78159DB273E041B00212176 /* SwiftSyntax in Frameworks */,
+				B7623F4A28334978008DAA88 /* SwiftSyntaxParser in Frameworks */,
+				B7623F4628334978008DAA88 /* SwiftSyntax in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
-				B76136732740B78E0000E9EA /* SwiftSyntaxBuilder in Frameworks */,
-				B712C81F2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7623F4828334978008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 				B78159DD273E045000212176 /* FileKit in Frameworks */,
 			);
@@ -798,33 +807,19 @@
 		45BF82CD2728E29700B2024A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				B712C8192740D4BD00303CB8 /* parserDylib-RELEASE-5.5 */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
 		};
-		B712C8192740D4BD00303CB8 /* parserDylib-RELEASE-5.5 */ = {
+		B7161472283338AF00C70DC0 /* ExternalFrameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B712C81A2740D4BD00303CB8 /* lib_InternalSwiftSyntaxParser.dylib */,
+				B723D292283342AB000901C8 /* macosx-arm */,
+				B723D28F283342AB000901C8 /* macosx-x64 */,
+				B723D28A283340F3000901C8 /* ios */,
+				B723D284283340F3000901C8 /* ios-sim */,
 			);
-			path = "parserDylib-RELEASE-5.5";
-			sourceTree = "<group>";
-		};
-		B712C81C2740D4D900303CB8 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				B712C81D2740D4D900303CB8 /* swift-RELEASE-5.5 */,
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
-		B712C81D2740D4D900303CB8 /* swift-RELEASE-5.5 */ = {
-			isa = PBXGroup;
-			children = (
-				B712C81E2740D4D900303CB8 /* lib_InternalSwiftSyntaxParser.dylib */,
-			);
-			path = "swift-RELEASE-5.5";
+			path = ExternalFrameworks;
 			sourceTree = "<group>";
 		};
 		B720D58028246FDE00BF0602 /* CoreGlyphs */ = {
@@ -847,6 +842,42 @@
 				B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */,
 			);
 			path = WorldGrid;
+			sourceTree = "<group>";
+		};
+		B723D284283340F3000901C8 /* ios-sim */ = {
+			isa = PBXGroup;
+			children = (
+				B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
+				B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
+			);
+			path = "ios-sim";
+			sourceTree = "<group>";
+		};
+		B723D28A283340F3000901C8 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
+				B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		B723D28F283342AB000901C8 /* macosx-x64 */ = {
+			isa = PBXGroup;
+			children = (
+				B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
+				B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
+			);
+			path = "macosx-x64";
+			sourceTree = "<group>";
+		};
+		B723D292283342AB000901C8 /* macosx-arm */ = {
+			isa = PBXGroup;
+			children = (
+				B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
+				B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
+			);
+			path = "macosx-arm";
 			sourceTree = "<group>";
 		};
 		B7241AF7282887E0006A6A3E /* IOArrays */ = {
@@ -1174,6 +1205,7 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
 				B7F44C43276E66F700522B45 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
@@ -1181,7 +1213,6 @@
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
-				B74A23342814FFF300F6F727 /* LookAtThat_AppKit copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1326,7 +1357,6 @@
 		F07C49E8251C5AE800F28173 /* LookAtThatMobile */ = {
 			isa = PBXGroup;
 			children = (
-				B712C81C2740D4D900303CB8 /* Libraries */,
 				F07C49F1251C5AE900F28173 /* Preview Content */,
 				B7C23195276450EE003B1C3D /* SampleFiles.bundle */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
@@ -1471,9 +1501,10 @@
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B74A229C2814FFF300F6F727 /* FileKit */,
-				B74A229E2814FFF300F6F727 /* SwiftSyntaxParser */,
-				B74A22A02814FFF300F6F727 /* SwiftSyntax */,
 				B7811992282B76C600960535 /* LanguageClient */,
+				B7623F4B28334984008DAA88 /* SwiftSyntax */,
+				B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */,
+				B7623F4F28334984008DAA88 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -1497,12 +1528,14 @@
 			packageProductDependencies = (
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
 				B73286A4273367B400C9C82A /* FileKit */,
-				B712C8222740DAC100303CB8 /* SwiftSyntaxParser */,
-				B712C8242740DB7C00303CB8 /* SwiftSyntax */,
 				B75250F32814CEF500820412 /* SwiftTrace */,
 				B7241AF328288647006A6A3E /* Algorithms */,
 				B7661B572829DF0C001F185B /* CodeEditorView */,
 				B7D79AAC282B241F000F99EB /* LanguageClient */,
+				B7623F37283346DF008DAA88 /* SwiftSyntax */,
+				B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */,
+				B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */,
+				B7623F5228334A17008DAA88 /* SourceKittenFramework */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1550,12 +1583,12 @@
 			name = LookAtThatMobile;
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
-				B78159DA273E041B00212176 /* SwiftSyntax */,
 				B78159DC273E045000212176 /* FileKit */,
-				B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */,
-				B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */,
 				B7241AF52828865E006A6A3E /* Algorithms */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
+				B7623F4528334978008DAA88 /* SwiftSyntax */,
+				B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */,
+				B7623F4928334978008DAA88 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1594,12 +1627,13 @@
 			mainGroup = F00FC723250C53460092AFF9;
 			packageReferences = (
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
-				F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B7241AF228288647006A6A3E /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 				B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */,
+				B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */,
+				B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1635,10 +1669,6 @@
 				F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */,
 				F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */,
 				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
-				F04D816D250C9210008210C1 /* dict.json in Resources */,
-				B775C78E2671A1BE00414972 /* SmallFile in Resources */,
-				F0BA5F8B25107925009A726C /* WordNodeIntrospect in Resources */,
-				F0F205882522EFA6009B6D2C /* RidiculousFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1655,8 +1685,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7F44C44276E66F700522B45 /* Interop in Resources */,
-				F0E3F424251D327600FC02ED /* WordNodeIntrospect in Resources */,
-				F0E3F425251D327600FC02ED /* dict.json in Resources */,
 				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
 				B7C23196276450EE003B1C3D /* SampleFiles.bundle in Resources */,
 				F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */,
@@ -2170,7 +2198,6 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = "LookAtThat_AppKit copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2180,9 +2207,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2208,7 +2232,6 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = "LookAtThat_AppKit copy-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2218,9 +2241,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2368,7 +2388,6 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2377,10 +2396,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
+					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2405,7 +2421,6 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2414,10 +2429,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib5_5_dev_2012_11_12",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries/parserDylib-RELEASE-5.5",
+					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2494,8 +2506,9 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
-					"$(PROJECT_DIR)/LookAtThatMobile/Libraries/swift-RELEASE-5.5",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
@@ -2527,8 +2540,9 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThatMobile/Libraries",
-					"$(PROJECT_DIR)/LookAtThatMobile/Libraries/swift-RELEASE-5.5",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
@@ -2624,20 +2638,28 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		B74A229F2814FFF300F6F727 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
-			requirement = {
-				kind = revision;
-				revision = 4c46b31770a775b08124ed16419bf926d963f200;
-			};
-		};
 		B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
 			requirement = {
 				branch = "logging-output";
 				kind = branch;
+			};
+		};
+		B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-syntax";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/SourceKitten.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
 			};
 		};
 		B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */ = {
@@ -2656,14 +2678,6 @@
 				kind = branch;
 			};
 		};
-		F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
-			requirement = {
-				kind = revision;
-				revision = 4c46b31770a775b08124ed16419bf926d963f200;
-			};
-		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/karlvr/Brotli";
@@ -2675,21 +2689,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B712C8222740DAC100303CB8 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
-		B712C8242740DB7C00303CB8 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B712C8282740DC6E00303CB8 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
 		B713405528170F88005E0E31 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
@@ -2725,25 +2724,60 @@
 			package = B74A229D2814FFF300F6F727 /* XCRemoteSwiftPackageReference "FileKit" */;
 			productName = FileKit;
 		};
-		B74A229E2814FFF300F6F727 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B74A229F2814FFF300F6F727 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
-		B74A22A02814FFF300F6F727 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B74A229F2814FFF300F6F727 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
 		B75250F32814CEF500820412 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
 		};
-		B76136722740B78E0000E9EA /* SwiftSyntaxBuilder */ = {
+		B7623F37283346DF008DAA88 /* SwiftSyntax */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntax;
+		};
+		B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxBuilder;
+		};
+		B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
+		B7623F4528334978008DAA88 /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntax;
+		};
+		B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxBuilder;
+		};
+		B7623F4928334978008DAA88 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
+		B7623F4B28334984008DAA88 /* SwiftSyntax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntax;
+		};
+		B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxBuilder;
+		};
+		B7623F4F28334984008DAA88 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
+		B7623F5228334A17008DAA88 /* SourceKittenFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */;
+			productName = SourceKittenFramework;
 		};
 		B7661B572829DF0C001F185B /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2754,11 +2788,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */;
 			productName = LanguageClient;
-		};
-		B78159DA273E041B00212176 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F029F640255A4D67006D4E03 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
 		};
 		B78159DC273E045000212176 /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;

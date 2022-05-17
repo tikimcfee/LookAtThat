@@ -269,9 +269,8 @@ public extension TokenSyntax {
             return Self.valueToken
         case .yield:
             return Self.controlFlowKeyword
-            // 0.50006.01
-            //            case .regexLiteral(_):
-            //                return Self.rawRegexString
+        case .regexLiteral(_): // 0.50006.01
+            return Self.rawRegexString
         case .poundUnavailableKeyword:
             return Self.actionableTokenColor
         }

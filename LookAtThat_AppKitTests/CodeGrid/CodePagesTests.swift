@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxParser
 import SceneKit
 import Foundation
+import SourceKittenFramework
 @testable import LookAtThat_AppKit
 
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {
@@ -36,6 +37,33 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         }
         wait(for: [expected], timeout: 5)
         
+        printEnd()
+    }
+    
+    func testKitten() throws {
+        printStart()
+        
+        SourceKittenConfiguration.preferInProcessSourceKit = false
+        let swiftFilePath = bundle.testFileAbsolute
+        print(swiftFilePath)
+        
+        let file = try XCTUnwrap(
+            File(path: swiftFilePath),
+            "Must create valid file path"
+        )
+        
+        // String array of args, like in CLI:
+        // $ > sourcekit -j4 /path/to/swiftfile.swift
+        let docArguments = [
+            "-j4", swiftFilePath
+        ]
+        
+        let docs = try XCTUnwrap(
+            SwiftDocs(file: file, arguments: docArguments),
+            "Must load SwiftDocs from target file: \(file)"
+        )
+        
+        print(docs)
         printEnd()
     }
 }

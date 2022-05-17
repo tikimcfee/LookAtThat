@@ -173,7 +173,7 @@ struct FileBrowserView_Previews: PreviewProvider {
     
     static let testPaths = [
         "/Users/lugos/udev/manicmind/LookAtThat",
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/",
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/",
         "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
     ]
     

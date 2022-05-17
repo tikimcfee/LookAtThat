@@ -9,6 +9,12 @@ import Foundation
 import LanguageClient
 import LanguageServerProtocol
 
+class CodePagesKitten {
+    func testKitten() {
+        
+    }
+}
+
 class CodePagesGridLSP {
     func start(_ done: @escaping () -> Void) {
         let lspPath = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"

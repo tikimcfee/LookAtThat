@@ -25,7 +25,11 @@ class TestBundle {
     
     static let testTraceFile = URL(fileURLWithPath: "/Users/lugos/udev/manicmind/LookAtThat-FirstTrace/traces/app-trace-output-LugoWorkerPool-Serial-1.txt")
     
-    static let coreGridDirectory = "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/CoreGrid/"
+    static let coreGridDirectory = "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/"
+    static let testFilesRawPath = [
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid.swift",
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid+Measures.swift"
+    ]
     static let testFilesAbsolute = [
         URL(fileURLWithPath: coreGridDirectory + "CodeGrid.swift")
     ]
@@ -33,7 +37,7 @@ class TestBundle {
     static let testDirectoriesAbsolute = [
         "/Users/lugos/udev/manicmind/LookAtThat",
         "/Users/lugos/udev/manicmind/LookAtThat/Interop/",
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/DataVisualizers/CodeGrids/",
+        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/",
         "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
     ]
     
@@ -43,6 +47,7 @@ class TestBundle {
     
     lazy var testFile = Self.testFileResourceURLs[0]
     lazy var testFileRaw = Self.testFilesAbsolute[0]
+    lazy var testFileAbsolute = Self.testFilesRawPath[0]
     lazy var testTraceFile = Self.testTraceFile
     var glyphs: GlyphLayerCache!
     var gridParser: CodeGridParser!
