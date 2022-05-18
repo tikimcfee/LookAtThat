@@ -34,8 +34,6 @@
 		B7241AEF28270F21006A6A3E /* FocusSearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AEE28270F21006A6A3E /* FocusSearchInputView.swift */; };
 		B7241AF028270F21006A6A3E /* FocusSearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AEE28270F21006A6A3E /* FocusSearchInputView.swift */; };
 		B7241AF128270F21006A6A3E /* FocusSearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AEE28270F21006A6A3E /* FocusSearchInputView.swift */; };
-		B7241AF428288647006A6A3E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7241AF328288647006A6A3E /* Algorithms */; };
-		B7241AF62828865E006A6A3E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7241AF52828865E006A6A3E /* Algorithms */; };
 		B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
@@ -231,7 +229,6 @@
 		B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4B28334984008DAA88 /* SwiftSyntax */; };
 		B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */; };
 		B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4F28334984008DAA88 /* SwiftSyntaxParser */; };
-		B7623F5328334A17008DAA88 /* SourceKittenFramework in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F5228334A17008DAA88 /* SourceKittenFramework */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
 		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
@@ -258,7 +255,6 @@
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
-		B7811993282B76C600960535 /* LanguageClient in Frameworks */ = {isa = PBXBuildFile; productRef = B7811992282B76C600960535 /* LanguageClient */; };
 		B78159DD273E045000212176 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DC273E045000212176 /* FileKit */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		B78159E9273E057B00212176 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -378,7 +374,6 @@
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
-		B7D79AAD282B241F000F99EB /* LanguageClient in Frameworks */ = {isa = PBXBuildFile; productRef = B7D79AAC282B241F000F99EB /* LanguageClient */; };
 		B7D79AAF282B2443000F99EB /* CodePagesGridLSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AAE282B2443000F99EB /* CodePagesGridLSP.swift */; };
 		B7D79AB1282B2443000F99EB /* CodePagesGridLSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AAE282B2443000F99EB /* CodePagesGridLSP.swift */; };
 		B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */; };
@@ -752,7 +747,6 @@
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
 				B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B74A23252814FFF300F6F727 /* FileKit in Frameworks */,
-				B7811993282B76C600960535 /* LanguageClient in Frameworks */,
 				B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,11 +759,8 @@
 				B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
 				B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
-				B7241AF428288647006A6A3E /* Algorithms in Frameworks */,
 				B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
-				B7623F5328334A17008DAA88 /* SourceKittenFramework in Frameworks */,
-				B7D79AAD282B241F000F99EB /* LanguageClient in Frameworks */,
 				B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
@@ -791,7 +782,6 @@
 			files = (
 				B7623F412833495A008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B7623F4228334960008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
-				B7241AF62828865E006A6A3E /* Algorithms in Frameworks */,
 				B7623F4A28334978008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				B7623F4628334978008DAA88 /* SwiftSyntax in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
@@ -1205,12 +1195,12 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
-				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
 				B7F44C43276E66F700522B45 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
+				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
 			);
@@ -1501,7 +1491,6 @@
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B74A229C2814FFF300F6F727 /* FileKit */,
-				B7811992282B76C600960535 /* LanguageClient */,
 				B7623F4B28334984008DAA88 /* SwiftSyntax */,
 				B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */,
 				B7623F4F28334984008DAA88 /* SwiftSyntaxParser */,
@@ -1529,13 +1518,10 @@
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
 				B73286A4273367B400C9C82A /* FileKit */,
 				B75250F32814CEF500820412 /* SwiftTrace */,
-				B7241AF328288647006A6A3E /* Algorithms */,
 				B7661B572829DF0C001F185B /* CodeEditorView */,
-				B7D79AAC282B241F000F99EB /* LanguageClient */,
 				B7623F37283346DF008DAA88 /* SwiftSyntax */,
 				B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */,
 				B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */,
-				B7623F5228334A17008DAA88 /* SourceKittenFramework */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1584,7 +1570,6 @@
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B78159DC273E045000212176 /* FileKit */,
-				B7241AF52828865E006A6A3E /* Algorithms */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7623F4528334978008DAA88 /* SwiftSyntax */,
 				B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */,
@@ -1629,11 +1614,8 @@
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
-				B7241AF228288647006A6A3E /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
-				B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */,
 				B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -2606,14 +2588,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B7241AF228288647006A6A3E /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nvzqz/FileKit";
@@ -2654,28 +2628,12 @@
 				kind = branch;
 			};
 		};
-		B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jpsim/SourceKitten.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.0;
-			};
-		};
 		B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mchakravarty/CodeEditorView.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.9.0;
-			};
-		};
-		B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ChimeHQ/LanguageClient.git";
-			requirement = {
-				branch = main;
-				kind = branch;
 			};
 		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
@@ -2698,16 +2656,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
-		};
-		B7241AF328288647006A6A3E /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7241AF228288647006A6A3E /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
-		B7241AF52828865E006A6A3E /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7241AF228288647006A6A3E /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
 		};
 		B73286A4273367B400C9C82A /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2774,20 +2722,10 @@
 			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
 		};
-		B7623F5228334A17008DAA88 /* SourceKittenFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F5128334A17008DAA88 /* XCRemoteSwiftPackageReference "SourceKitten" */;
-			productName = SourceKittenFramework;
-		};
 		B7661B572829DF0C001F185B /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
-		};
-		B7811992282B76C600960535 /* LanguageClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */;
-			productName = LanguageClient;
 		};
 		B78159DC273E045000212176 /* FileKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2798,11 +2736,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
-		};
-		B7D79AAC282B241F000F99EB /* LanguageClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7D79AAB282B241F000F99EB /* XCRemoteSwiftPackageReference "LanguageClient" */;
-			productName = LanguageClient;
 		};
 		B7D79AB9282B2DF5000F99EB /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;

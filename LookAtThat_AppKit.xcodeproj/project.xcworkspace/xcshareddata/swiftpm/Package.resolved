@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "anycodable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Flight-School/AnyCodable",
-      "state" : {
-        "revision" : "b1a7a8a6186f2fcb28f7bda67cfc545de48b3c80",
-        "version" : "0.6.2"
-      }
-    },
-    {
       "identity" : "brotli",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/karlvr/Brotli",
@@ -37,105 +28,6 @@
       }
     },
     {
-      "identity" : "fseventswrapper",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Frizlab/FSEventsWrapper",
-      "state" : {
-        "revision" : "e0c59a2ce2775e5f6642da6d19207445f10112d0",
-        "version" : "1.0.2"
-      }
-    },
-    {
-      "identity" : "glob",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Bouke/Glob",
-      "state" : {
-        "revision" : "deda6e163d2ff2a8d7e138e2c3326dbd71157faf",
-        "version" : "1.0.5"
-      }
-    },
-    {
-      "identity" : "jsonrpc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/JSONRPC",
-      "state" : {
-        "revision" : "55071da13d109e61584750f39c0941d49711b962",
-        "version" : "0.5.0"
-      }
-    },
-    {
-      "identity" : "languageclient",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/LanguageClient.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "d979e5416b16e8130f87b8e46f60f82cac4d64cb"
-      }
-    },
-    {
-      "identity" : "languageserverprotocol",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/LanguageServerProtocol",
-      "state" : {
-        "revision" : "3275cfada1e368ede24f50416659ff962a9f21ff",
-        "version" : "0.6.0"
-      }
-    },
-    {
-      "identity" : "operationplus",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/OperationPlus",
-      "state" : {
-        "revision" : "f5d2899e113943d7ea8f73462639217acc6b92b9",
-        "version" : "1.5.4"
-      }
-    },
-    {
-      "identity" : "processenv",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/ProcessEnv",
-      "state" : {
-        "revision" : "7bcb6c11593be08456f48042fad1a7bf875f217a",
-        "version" : "0.3.0"
-      }
-    },
-    {
-      "identity" : "sourcekitten",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jpsim/SourceKitten.git",
-      "state" : {
-        "revision" : "817dfa6f2e09b0476f3a6c9dbc035991f02f0241",
-        "version" : "0.32.0"
-      }
-    },
-    {
-      "identity" : "swift-algorithms",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-algorithms.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "195e0316d7ba71e134d0f6c677f64b4db6160c46"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser.git",
-      "state" : {
-        "revision" : "f3c9084a71ef4376f2fabbdf1d3d90a49f1fabdb",
-        "version" : "1.1.2"
-      }
-    },
-    {
-      "identity" : "swift-numerics",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-numerics",
-      "state" : {
-        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
-        "version" : "1.0.2"
-      }
-    },
-    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax",
@@ -151,24 +43,6 @@
       "state" : {
         "branch" : "logging-output",
         "revision" : "eee29f192e2af1d0dbb6076cd24a8c0afd091c46"
-      }
-    },
-    {
-      "identity" : "swxmlhash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/drmohundro/SWXMLHash.git",
-      "state" : {
-        "revision" : "6469881a3f30417c5bb02404ea4b69207f297592",
-        "version" : "6.0.0"
-      }
-    },
-    {
-      "identity" : "yams",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jpsim/Yams.git",
-      "state" : {
-        "revision" : "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
-        "version" : "4.0.6"
       }
     }
   ],
