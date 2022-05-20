@@ -51,6 +51,7 @@ Lots and lots of other people's tools and code suggestions. Primarily:
 - SceneKit and a light AR wrapper for iOS support.
 - [SwiftSyntax](https://github.com/apple/swift-syntax) for parsing Swift files and grabbing an Abstract Syntax Tree.
 - [SwiftTrace](https://github.com/johnno1962/SwiftTrace) to capture execution traces and generate small tracing corpuses for visualization.
+- [CodeEditorView](https://github.com/mchakravarty/CodeEditorView) because it's a great simple drop in for text-field editing in SwiftUI
 - [FileKit](https://github.com/nvzqz/FileKit) just because it's a nice abstraction.
 
 ### When?
@@ -64,7 +65,7 @@ You will need everything in this repository, including the syntax parsing librar
 The current goal is to allow you to:
 
 - Pull the project
-- Run it from XCode, targeting your iPhone or Mac laptop
+- Run it from XCode, targeting your iPhone, iPad or Mac
 - See code in space
 
 At the moment, none of the important things with respect to building a functioning release binary are in place. Everything is experimental, unstable, and ready to explode at any moment. It's very exciting.
@@ -80,12 +81,24 @@ You can also free fring to ping me directly from my GitHub profile. And, if you 
 
 Likely to be out of date sooner rather than later, here's a running list of target features, fixes, and ideas being worked on now-ish!
 
-* Editing: using a standard 2D editor to select and edit selected files in-line, rendering as necessary.
-* Update GlyphNode to support smarter focusing; more geometry slots, better caching flow, etc.
-* Tracing: Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
-* Tracing: Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
-* Update mobiles interfaces. Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device.
-* Update mainframe interfaces: add support to dock/popout panel windows (fun!)
-* LSP integration: Jump to definition to auto-render and jump to grid syntax nodes
-* LSP integration: Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
-* TapKit: I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
+# Editing
+-  Using a standard 2D editor to select and edit selected files in-line, rendering as necessary.
+
+# Focusing and Highlighting
+- Update GlyphNode to support smarter focusing; more geometry slots, better caching flow, etc.
+
+# Tracing
+- Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
+- Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
+
+# UI
+- Update mobiles interfaces. Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device.
+- Update mainframe interfaces: add support to dock/popout panel windows (fun!)
+
+# Language Server / Sourcekit
+- Jump to definition to auto-render and jump to grid syntax nodes
+- Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
+
+# Misc Experiments
+- TapKit: I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
+-- [Cool sample from Zack Qattan!](https://youtube.com/shorts/5J7k5tu-MZ8?feature=share) -> [They're on YouTube!](https://www.youtube.com/c/ZackQattan)

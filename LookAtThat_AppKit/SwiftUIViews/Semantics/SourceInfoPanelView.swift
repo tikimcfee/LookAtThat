@@ -61,6 +61,8 @@ extension SourceInfoPanelView {
     @ViewBuilder
     func panelView(for panel: PanelSections) -> some View {
         switch panel {
+        case .appStateInfo:
+            appStateView
         case .globalSearch:
             globalSearchView
         case .editor:
@@ -78,6 +80,12 @@ extension SourceInfoPanelView {
         case .windowControls:
             windowControlsView
         }
+    }
+    
+    @ViewBuilder
+    var appStateView: some View {
+        // TODO: This isn't global yet, but it can / should / will be
+        CodeGridInfoView()
     }
     
     @ViewBuilder

@@ -18,6 +18,7 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable {
     case tappingControls = "Taps"
     case globalSearch = "Global Search"
     case windowControls = "Window Controls"
+    case appStateInfo = "App State Info"
     static func < (lhs: PanelSections, rhs: PanelSections) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
@@ -51,11 +52,11 @@ class SourceInfoPanelState: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
     
-    init(
-        _ initialPanels: Set<PanelSections> = [.windowControls, .directories]
-    ) {
-        self.visiblePanels = initialPanels
+    init() {
+        self.visiblePanels = [.windowControls, .directories]
         visiblePanelStates.source[.windowControls] = .displayedAsWindow
+        visiblePanelStates.source[.appStateInfo] = .displayedAsWindow
+        visiblePanelStates.source[.directories] = .displayedAsWindow
         
         setupBindings()
         updatePanelSlices()
