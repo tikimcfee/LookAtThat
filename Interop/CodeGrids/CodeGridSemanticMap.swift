@@ -134,14 +134,14 @@ extension CodeGridSemanticMap {
             return
         }
         
-        StateCapturingVisitor(onVisitAnyPost: { [semanticsLookupBySyntaxId] syntax in
+        IterativeRecursiveVisitor.walkRecursiveFromSyntax(toWalk) { [semanticsLookupBySyntaxId] syntax in
             let syntaxId = syntax.id
             guard let info = semanticsLookupBySyntaxId[syntaxId] else { return }
             
             try walker(info, cache[syntaxId.stringIdentifier])
             try walker(info, cache[syntaxId.stringIdentifier + "-leadingTrivia"])
             try walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
-        }).walk(toWalk)
+        }
     }
 }
 
