@@ -26,7 +26,7 @@ extension View {
         )
         // TODO: make this configurable. Options object, attached to key, something
         window.setFrameAutosaveName(key.title)
-        window.level = .floating
+        window.level = .normal
         window.title = key.title
         
         // THIS IS CRITICAL!
