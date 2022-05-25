@@ -21,6 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
             .environmentObject(TapObserving.shared)
+            .onAppear {
+                // Set initial state on appearance
+//                CodePagesController.shared.fileBrowser.loadRootScopeFromDefaults()
+            }
         
         // Create the window and set the content view.
         window = NSWindow(

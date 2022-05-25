@@ -1,22 +1,17 @@
 //
-//  FileBrowser.swift
+//  FileBrowser+Scope.swift
 //  LookAtThat_AppKit
 //
-//  Created by Ivan Lugo on 11/3/21.
+//  Created by Ivan Lugo on 5/24/22.
 //
 
 import Foundation
 import FileKit
-import Combine
 
-// TODO: FileKit.Path vs SwiftUI.Path
-// find a better way to disambiguate
-typealias FileKitPath = Path
+extension FileKitPath: Codable { }
+extension FileBrowser.Scope: Codable { }
 
-class FileBrowser: ObservableObject {
-    @Published var scopes: [Scope] = []
-    @Published var fileSeletionEvents: FileBrowser.Event = .noSelection
-    
+extension FileBrowser {
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
         case file(Path)
         case directory(Path)
@@ -76,21 +71,6 @@ class FileBrowser: ObservableObject {
 }
 
 extension FileBrowser {
-    enum Event {
-        enum SelectType {
-            case addToFocus
-            case addToWorld
-            case focusOnExistingGrid
-        }
-        
-        case noSelection
-        
-        case newSingleCommand(Path, SelectType)
-        
-        case newMultiCommandRecursiveAllCache(Path)
-        case newMultiCommandRecursiveAllLayout(Path, SelectType)
-    }
-    
     var rootScope: Scope? {
         return scopes.first
     }
@@ -108,13 +88,43 @@ extension FileBrowser {
         return depth
     }
     
+    func loadRootScopeFromDefaults() {
+        if let lastScope = AppStatePreferences.shared.securedScopeData {
+            if let bookmarkedPath = Path(bookmarkData: lastScope.1) {
+                _ = bookmarkedPath.url.startAccessingSecurityScopedResource()
+                setRootScope(bookmarkedPath)
+                bookmarkedPath.url.stopAccessingSecurityScopedResource()
+            }
+        }
+    }
+    
     func setRootScope(_ path: Path) {
         scopes.removeAll()
         if path.isDirectory {
-            scopes.append(.expandedDirectory(path))
+            let expanded = Scope.expandedDirectory(path)
+            scopes.append(expanded)
             expandCollapsedDirectory(rootIndex: 0, path)
+            
+//            if let scoped = try? path.url.bookmarkData(
+//                options: .withSecurityScope,
+//                includingResourceValuesForKeys: nil,
+//                relativeTo: nil) {
+//                AppStatePreferences.shared.securedScopeData = (
+//                    expanded, scoped
+//                )
+//            }
         } else {
-            scopes.append(.file(path))
+            let file = Scope.file(path)
+            scopes.append(file)
+            
+//            if let scoped = try? path.url.bookmarkData(
+//                options: .withSecurityScope,
+//                includingResourceValuesForKeys: nil,
+//                relativeTo: nil) {
+//                AppStatePreferences.shared.securedScopeData = (
+//                    file, scoped
+//                )
+//            }
         }
     }
     
@@ -177,39 +187,5 @@ extension FileBrowser {
             }
             scopes.remove(at: removeIndex)
         }
-    }
-    
-    // This is fragile. Both collapse/expand need to filter repeatedly.
-    static func isFileObserved(_ path: Path) -> Bool {
-        path.isDirectoryFile || isSwiftFile(path)
-    }
-    
-    static func isSwiftFile(_ path: Path) -> Bool {
-        path.pathExtension == "swift"
-    }
-    
-    static func directChildren(_ path: Path) -> [Path] {
-        path.children(recursive: false).filter { isFileObserved($0) }
-    }
-    
-    static func recursivePaths(_ path: Path) -> [Path] {
-        path.children(recursive: true).filter { isFileObserved($0) }
-    }
-    
-    static func sortedFilesFirst(_ left: Path, _ right: Path) -> Bool {
-        switch (left.isDirectory, right.isDirectory) {
-        case (true, true): return left.url.path < right.url.path
-        case (false, true): return true
-        case (true, false): return false
-        case (false, false): return left.url.path < right.url.path
-        }
-    }
-}
-
-private extension Path {
-    func filterdChildren(_ filter: (Path) -> Bool) -> [Path] {
-        children()
-            .filter(filter)
-            .sorted(by: FileBrowser.sortedFilesFirst)
     }
 }

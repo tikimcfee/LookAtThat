@@ -25,4 +25,28 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     override func tearDownWithError() throws {
         try bundle.tearDownWithError()
     }
+    
+    func testPathEncoding() throws {
+        printStart()
+        
+        let pathSource = FileKitPath(bundle.testFileAbsolute)
+        print(pathSource)
+        let pathJson = try JSONEncoder().encode(pathSource)
+        print("encoded", pathJson.count)
+        let pathStringRep = try XCTUnwrap(String(data: pathJson, encoding: .utf8), "json must be decodable as utf8")
+        print(pathStringRep)
+        
+        let scopeSource = FileBrowser.Scope.file(pathSource)
+        print("scope source:\n", scopeSource)
+        let scopeJson = try JSONEncoder().encode(scopeSource)
+        print("encoded", scopeJson.count)
+        let scopeStringRep = try XCTUnwrap(String(data: scopeJson, encoding: .utf8), "json must be decodable as utf8")
+        print(scopeStringRep)
+        
+        let reified = try JSONDecoder().decode(FileBrowser.Scope.self, from: scopeJson)
+        print("scope reified:\n", reified)
+        XCTAssertEqual(reified, scopeSource, "Round trip encoding must succeed")
+        
+        printEnd()
+    }
 }
