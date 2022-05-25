@@ -170,10 +170,10 @@
 		B70FDCF6283EAE9900170D5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		B70FDCF7283EAE9900170D5F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
 		B70FDCF8283EAE9900170D5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
-		B70FDCFA283EAE9900170D5F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B70FDCFB283EAE9900170D5F /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B70FDD01283EAEC400170D5F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
-		B70FDD02283EAEC700170D5F /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
+		B70FDD05283EB11100170D5F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		B70FDD06283EB11300170D5F /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
+		B70FDD07283EB11A00170D5F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B70FDD08283EB11C00170D5F /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
 		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -685,8 +685,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B70FDCFA283EAE9900170D5F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
-				B70FDCFB283EAE9900170D5F /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
+				B70FDD07283EB11A00170D5F /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B70FDD08283EB11C00170D5F /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,7 +740,7 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit copy-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit copy-Info.plist"; sourceTree = "<absolute>"; };
+		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
 		B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Writing.swift"; sourceTree = "<group>"; };
 		B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTokenCache.swift; sourceTree = "<group>"; };
@@ -940,8 +940,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B70FDD01283EAEC400170D5F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
-				B70FDD02283EAEC700170D5F /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
+				B70FDD05283EB11100170D5F /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B70FDD06283EB11300170D5F /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
 				B70FDCEE283EAE9900170D5F /* SwiftSyntaxBuilder in Frameworks */,
 				B70FDCEF283EAE9900170D5F /* SwiftTrace in Frameworks */,
 				B70FDCF0283EAE9900170D5F /* SwiftSyntax in Frameworks */,
@@ -1435,7 +1435,7 @@
 				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
-				B70FDD00283EAE9900170D5F /* LookAtThat_AppKit copy-Info.plist */,
+				B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2632,7 +2632,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "LookAtThat_AppKit copy-Info.plist";
+				INFOPLIST_FILE = "LookAtThat_AppKit_x86-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -2642,6 +2642,7 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-x64",
+					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2666,7 +2667,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "LookAtThat_AppKit copy-Info.plist";
+				INFOPLIST_FILE = "LookAtThat_AppKit_x86-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -2676,6 +2677,7 @@
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-x64",
+					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
