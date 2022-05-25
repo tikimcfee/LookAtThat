@@ -24,6 +24,7 @@ class FocusBox: Hashable, Identifiable {
     
     var focusedGrid: CodeGrid?
     var layoutMode: LayoutMode = .stacked
+    var displayMode: DisplayMode = .boundingBox
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
         
     init(id: String, inFocus focus: CodeGridFocusController) {
@@ -112,6 +113,18 @@ extension FocusBox {
 }
 
 extension FocusBox {
+    enum DisplayMode {
+        case invisible
+        case boundingBox
+    }
+    
+    func updateDisplayMode(_ mode: DisplayMode) {
+        displayMode = mode
+        updateNodeDisplay()
+    }
+}
+
+extension FocusBox {
     enum LayoutMode: CaseIterable {
         case horizontal
         case stacked
@@ -174,6 +187,7 @@ private extension FocusBox {
         rootNode.addWireframeBox()
         
         geometryNode.geometry = rootGeometry
+        updateNodeDisplay()
     }
     
     func makeRootNode() -> SCNNode {
@@ -193,9 +207,28 @@ private extension FocusBox {
     func makeGeometryNode() -> SCNNode {
         let root = SCNNode()
         root.name = id
-        root.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
         root.renderingOrder = 1
         return root
+    }
+    
+    func updateNodeDisplay() {
+        switch displayMode {
+        case .invisible:
+            geometryNode.categoryBitMask = 0
+            rootGeometry.firstMaterial?.diffuse.contents = nil
+            
+        case .boundingBox:
+            geometryNode.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
+            rootGeometry.firstMaterial?.diffuse.contents = geometryContents
+        }
+    }
+    
+    var geometryContents: Any? {
+#if os(macOS)
+        NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.65)
+#else
+        NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
+#endif
     }
     
     func makeGeometry() -> SCNBox {
@@ -204,7 +237,7 @@ private extension FocusBox {
 #if os(macOS)
             box.chamferRadius = 4.0
             material.transparency = 0.125
-            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.65)
+            material.diffuse.contents = geometryContents
             material.transparencyMode = .dualLayer
 #elseif os(iOS)
             box.chamferRadius = 4.0
@@ -212,7 +245,7 @@ private extension FocusBox {
             box.height = DeviceScale.cg
             box.length = DeviceScale.cg
             material.transparency = 0.40
-            material.diffuse.contents = NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
+            material.diffuse.contents = geometryContents
             material.transparencyMode = .dualLayer
 #endif
         }

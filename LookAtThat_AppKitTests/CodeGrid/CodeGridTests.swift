@@ -137,6 +137,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(firstNames, secondNames)
     }
     
+    func testFileRecursion() throws {
+        printStart()
+        
+        let path = FileKitPath(bundle.rootDirectory)
+        FileBrowser.recursivePaths(path).forEach {
+            print("\($0.description)")
+        }
+        
+        printEnd()
+    }
+    
     func testFileBrowser() throws {
         let testFile = bundle.testFile
         let testPathStart = try XCTUnwrap(FileKitPath(url: testFile), "Need a working url to test")

@@ -395,6 +395,9 @@
 		B7EAA4CB27718F3C00E91C29 /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
 		B7EAA4CE2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
+		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
+		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
+		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
 		B7F44C2F276D946A00522B45 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B7F44C35276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */; };
@@ -679,6 +682,7 @@
 		B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlAddToFocus.swift; sourceTree = "<group>"; };
 		B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxControl.swift; sourceTree = "<group>"; };
 		B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusControlShiftFocus.swift; sourceTree = "<group>"; };
+		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F44C31276D983A00522B45 /* ControlleriOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSCompat.swift; sourceTree = "<group>"; };
 		B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSInputCompat.swift; sourceTree = "<group>"; };
 		B7F44C39276DB2B300522B45 /* TestButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonsView.swift; sourceTree = "<group>"; };
@@ -999,6 +1003,7 @@
 		B79F931227508F5600E46A96 /* CoreRendering */ = {
 			isa = PBXGroup;
 			children = (
+				B7F344CD2839C89400629932 /* RenderPlan.swift */,
 				B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */,
 				B79F931527508FB300E46A96 /* RenderingVersionThree.swift */,
 				B7B18C60276991220043DA1B /* RenderingVersionFour.swift */,
@@ -1697,6 +1702,7 @@
 			files = (
 				B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
+				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
 				B74A22A62814FFF300F6F727 /* GridControlSwapModes.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
@@ -1924,6 +1930,7 @@
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
+				B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */,
 				B7C756F9280CECBA0005A233 /* TAPKitCentral.swift in Sources */,
 				45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */,
 				B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */,
@@ -2110,6 +2117,7 @@
 				B7C756F4280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
+				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
 				B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */,

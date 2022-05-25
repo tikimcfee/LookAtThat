@@ -65,14 +65,12 @@ struct CodeGridInfoView: View {
 
 class CodeGridInfoViewSingleState: ObservableObject {
     @Published var node = SCNNode()
-    @Published var labels = [(String, VectorVal)]()
+    @Published var labels = [(String, String)]()
     
     var tokens = Set<NSKeyValueObservation>()
     var cancellables = Set<AnyCancellable>()
     let codeGrid: CodeGrid
     let formatter = NumberFormatter()
-    
-    
     
     init(
         codeGrid: CodeGrid
@@ -87,17 +85,6 @@ class CodeGridInfoViewSingleState: ObservableObject {
         formatter.maximumFractionDigits = 8
         formatter.minimumFractionDigits = 8
         
-        tokens = [
-//            codeGrid.rootNode.observe(\.position, changeHandler: { node, _ in
-//                self.node = node
-//            }),
-//            codeGrid.rootNode.observe(\.orientation, changeHandler: { node, _ in
-//                self.node = node
-//            }),
-//            codeGrid.rootNode.observe(\.isHidden, changeHandler: { _, _ in self.onNodeChanged() }),
-//            codeGrid.rootNode.observe(\.name, changeHandler: { _, _ in self.onNodeChanged() })
-        ]
-        
         [
             codeGrid.rootNode.publisher(for: \.position).sink { _ in self.onNodeChanged() },
             codeGrid.rootNode.publisher(for: \.orientation).sink { _ in self.onNodeChanged() }
@@ -107,18 +94,22 @@ class CodeGridInfoViewSingleState: ObservableObject {
     func onNodeChanged() {
         node = codeGrid.rootNode
         labels = buildLabels()
+        
     }
     
-    private func buildLabels() -> [(String, VectorVal)] {
+    private func buildLabels() -> [(String, String)] {
         [
-            ("position-x", node.position.x),
-            ("position-y", node.position.y),
-            ("position-z", node.position.z),
-            ("orient-x", node.orientation.x),
-            ("orient-y", node.orientation.y),
-            ("orient-z", node.orientation.z),
-            ("orient-w", node.orientation.w)
-        ]
+            ("position-x", formatter.string(from: node.position.x as NSNumber)),
+            ("position-y", formatter.string(from: node.position.y as NSNumber)),
+            ("position-z", formatter.string(from: node.position.z as NSNumber)),
+            ("orient-x", formatter.string(from: node.orientation.x as NSNumber)),
+            ("orient-y", formatter.string(from: node.orientation.y as NSNumber)),
+            ("orient-z", formatter.string(from: node.orientation.z as NSNumber)),
+            ("orient-w", formatter.string(from: node.orientation.w as NSNumber))
+        ].compactMap { tuple -> (String, String)? in
+            guard let formatted = tuple.1 else { return nil }
+            return (tuple.0, formatted)
+        }
     }
 }
 
@@ -150,7 +141,7 @@ struct CodeGridInfoViewSingle: View {
                         HStack {
                             Text(label.0).frame(minWidth: labelWidth, alignment: .trailing)
                             Text(" | ")
-                            Text(label.1, format: .number).frame(width: inputWidth, alignment: .leading)
+                            Text(label.1).frame(width: inputWidth, alignment: .leading)
                         }
                     }
                 }

@@ -11,7 +11,6 @@ import SceneKit
 import SwiftUI
 
 extension CodeGridParser {
-    #if os(OSX)
     static let stopwatch = Stopwatch(running: false)
     static func startTimer() {
         print("* Starting grid cache...")
@@ -23,10 +22,6 @@ extension CodeGridParser {
         let time = Self.stopwatch.elapsedTimeString()
         print("* Cache complete. Rendering time: \(time)")
     }
-    #else
-    static func startTimer() { }
-    static func stopTimer() { }
-    #endif
     
     func cacheConcurrent(
         _ rootPath: FileKitPath,

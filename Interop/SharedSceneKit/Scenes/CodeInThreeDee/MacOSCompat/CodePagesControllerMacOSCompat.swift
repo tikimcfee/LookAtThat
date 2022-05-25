@@ -70,17 +70,11 @@ private extension CodePagesControllerMacOSCompat {
 extension CodePagesControllerMacOSCompat {
     func doAddToFocus(_ newGrid: CodeGrid) {
         resizeCommand { _, box in
-            
             sceneTransaction(0) {
                 layoutCommand { focus, box in
-                    focus.addGridToFocus(newGrid, box.deepestDepth + 1)
+                    focus.appendToTarget(grid: newGrid)
                 }
             }
-            
-            box.rootNode.worldPosition = inputCompat
-                .sceneCameraNode
-                .worldPosition
-                .translated(dZ: -200)
         }
     }
 }

@@ -52,19 +52,7 @@ extension CodeGridFocusController {
     }
     
     func setNewFocus() {
-        // ------------------------------------------------
-        // This is absolutely freaking nuts.
-        // Because most of the highlight selection stuff is metainfo based,
-        // and because the `clone()` function is so damn beautifully recursive,
-        // cloning the root of the focus gets you an instant and free copy of your
-        // state. Names are preserved, so hit tests work as well.
-        if let parent = currentTargetFocus.rootNode.parent {
-            currentTargetFocus.rootNode.removeFromParentNode()
-            currentTargetFocus.rootNode = currentTargetFocus.rootNode.clone()
-            parent.addChildNode(currentTargetFocus.rootNode)
-        }
-        // ------------------------------------------------
-        
+        // NOTE: this does not clone grids, and does not guard against other actions in
         currentTargetFocus = makeNewFocusBox()
     }
     
@@ -91,6 +79,10 @@ extension CodeGridFocusController {
     
     func addNodeToMainFocusGrid(_ node: SCNNode) {
         currentTargetFocus.gridNode.addChildNode(node)
+    }
+    
+    func appendToTarget(grid: CodeGrid) {
+        currentTargetFocus.attachGrid(grid, deepestDepth + 1)
     }
     
     func addGridToFocus(_ grid: CodeGrid, _ depth: Int) {

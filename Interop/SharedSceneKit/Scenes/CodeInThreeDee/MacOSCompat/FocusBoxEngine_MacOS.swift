@@ -9,6 +9,9 @@ import Foundation
 import SceneKit
 
 class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
+    var xLengthPadding: VectorFloat = 8.0
+    var zLengthPadding: VectorFloat = 16.0
+    
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
         // Set the size of the box to match
         let pad: VectorFloat = 32.0
@@ -41,56 +44,62 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
             return
         }
         
-        let xLengthPadding: VectorFloat = 8.0
-        let zLengthPadding: VectorFloat = 192.0
-        
         sceneTransaction {
             switch container.box.layoutMode {
             case .horizontal:
-                horizontalLayout()
+                horizontalLayout(first, container)
             case .stacked:
-                stackLayout()
+                stackLayout(first, container)
             case .userStack:
-                userLayout()
+                userLayout(first, container)
             }
         }
-        
-        func horizontalLayout() {
-            container.box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .setLeading(previous.measures.trailing + xLengthPadding)
-                        .setBack(previous.measures.back)
-                } else {
-                    current.zeroedPosition()
-                }
+    }
+    
+    func userLayout(
+        _ first: CodeGrid,
+        _ container: FBLEContainer
+    ) {
+        container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+            if let previous = previous {
+                current.measures
+                    .setTop(previous.measures.top)
+                    .alignedCenterX(previous)
+                    .setBack(previous.measures.back - self.zLengthPadding)
+            } else {
+                current.zeroedPosition()
             }
         }
-        
-        func stackLayout() {
-            container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .setLeading(previous.measures.leading)
-                        .setBack(previous.measures.back - zLengthPadding)
-                } else {
-                    current.zeroedPosition()
-                }
+    }
+    
+    func stackLayout(
+        _ first: CodeGrid,
+        _ container: FBLEContainer
+    ) {
+        container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+            if let previous = previous {
+                current.measures
+                    .setTop(previous.measures.top)
+                    .setLeading(previous.measures.leading)
+                    .setBack(previous.measures.back - self.zLengthPadding)
+            } else {
+                current.zeroedPosition()
             }
         }
-        
-        func userLayout() {
-            container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .alignedCenterX(previous)
-                        .setBack(previous.measures.back - zLengthPadding)
-                } else {
-                    current.zeroedPosition()
-                }
+    }
+    
+    func horizontalLayout(
+        _ first: CodeGrid,
+        _ container: FBLEContainer
+    ) {
+        container.box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
+            if let previous = previous {
+                current.measures
+                    .setTop(previous.measures.top)
+                    .setLeading(previous.measures.trailing + self.xLengthPadding)
+                    .setBack(previous.measures.back)
+            } else {
+                current.zeroedPosition()
             }
         }
     }

@@ -17,15 +17,10 @@ class TestBundle {
         "/Users/lugos/udev/manicmind/LookAtThat"
     ]
     
-    static let testFileNames = [
-        "WordNodeIntrospect",
-        "RidiculousFile",
-        "SmallFile"
-    ]
-    
     static let testTraceFile = URL(fileURLWithPath: "/Users/lugos/udev/manicmind/LookAtThat-FirstTrace/traces/app-trace-output-LugoWorkerPool-Serial-1.txt")
     
     static let coreGridDirectory = "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/"
+    
     static let testFilesRawPath = [
         "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid.swift",
         "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid+Measures.swift"
@@ -41,11 +36,8 @@ class TestBundle {
         "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
     ]
     
-    static let testFileResourceURLs = testFileNames.compactMap {
-        Bundle.main.url(forResource: $0, withExtension: "")
-    }
-    
-    lazy var testFile = Self.testFileResourceURLs[0]
+    lazy var rootDirectory = "/Users/lugos/udev/manicmind/LookAtThat/"
+    lazy var testFile = URL(string: Self.testFilesRawPath[0])!
     lazy var testFileRaw = Self.testFilesAbsolute[0]
     lazy var testFileAbsolute = Self.testFilesRawPath[0]
     lazy var testTraceFile = Self.testTraceFile
