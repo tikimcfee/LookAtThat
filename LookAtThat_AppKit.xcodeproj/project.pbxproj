@@ -369,6 +369,10 @@
 		B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
+		B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
+		B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
+		B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
+		B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F37283346DF008DAA88 /* SwiftSyntax */; };
 		B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */; };
 		B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */; };
@@ -782,6 +786,7 @@
 		B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalWindowDelegate.swift; sourceTree = "<group>"; };
 		B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+WindowOpen.swift"; sourceTree = "<group>"; };
 		B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelToggles.swift; sourceTree = "<group>"; };
+		B75D961B2840385A00912EB0 /* AppStatePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatePreferences.swift; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
 		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
 		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
@@ -1623,6 +1628,7 @@
 				B7241AF928288C26006A6A3E /* InputStreamReader.swift */,
 				F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */,
 				B7C7565E280B82E80005A233 /* WorkerPool.swift */,
+				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
 				F043BB0F2515369000FB1EF6 /* Caches */,
 				B77DCAB226781E40002DF299 /* CallStack */,
 				B7EA8835272394AB0098541C /* CodeGrids */,
@@ -2091,6 +2097,7 @@
 				B70FDCE1283EAE9900170D5F /* FileBackedArray.swift in Sources */,
 				B70FDCE2283EAE9900170D5F /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B70FDCE3283EAE9900170D5F /* SwiftSyntax+Extensions.swift in Sources */,
+				B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B70FDCE4283EAE9900170D5F /* KeyboardInterceptor.swift in Sources */,
 				B70FDCE5283EAE9900170D5F /* CodeGrid+Writing.swift in Sources */,
 				B70FDCE6283EAE9900170D5F /* RawSensorData.swift in Sources */,
@@ -2236,6 +2243,7 @@
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B74A230F2814FFF300F6F727 /* Structures.swift in Sources */,
+				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
 				B74A23112814FFF300F6F727 /* WireDataTransformer.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
@@ -2406,6 +2414,7 @@
 				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
+				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
 				B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */,
 				B7C75707280CECBA0005A233 /* RawSensorData.swift in Sources */,
@@ -2480,6 +2489,7 @@
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
+				B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,

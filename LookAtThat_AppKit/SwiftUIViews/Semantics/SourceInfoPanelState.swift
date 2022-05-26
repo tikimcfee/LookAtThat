@@ -43,20 +43,35 @@ class SourceInfoPanelState: ObservableObject {
     @Published var searchText: String = ""
     
     // Visible subsections
-    var panelGroups = 3
-    @Published private(set) var visiblePanelStates = AutoCache<PanelSections, FloatableViewMode>()
-    @Published private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
-    @Published private(set) var visiblePanels: Set<PanelSections> {
-        didSet { updatePanelSlices() }
+    @Published private(set) var visiblePanelStates = CodableAutoCache<PanelSections, FloatableViewMode>() {
+        didSet {
+            savePanelWindowStates()
+        }
     }
+    
+    @Published private(set) var visiblePanels: Set<PanelSections> {
+        didSet {
+            savePanelStates()
+            updatePanelSlices()
+        }
+    }
+    
+    var panelGroups = 3
+    @Published private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
     
     private var bag = Set<AnyCancellable>()
     
     init() {
-        self.visiblePanels = [.windowControls, .directories]
-        visiblePanelStates.source[.windowControls] = .displayedAsWindow
-        visiblePanelStates.source[.appStateInfo] = .displayedAsWindow
-        visiblePanelStates.source[.directories] = .displayedAsWindow
+        self.visiblePanels = AppStatePreferences.shared.visiblePanels
+            ?? [.windowControls, .directories]
+        self.visiblePanelStates = AppStatePreferences.shared.panelStates
+            ?? {
+                var states = CodableAutoCache<PanelSections, FloatableViewMode>()
+                states.source[.windowControls] = .displayedAsWindow
+                states.source[.appStateInfo] = .displayedAsWindow
+                states.source[.directories] = .displayedAsWindow
+                return states
+            }()
         
         setupBindings()
         updatePanelSlices()
@@ -142,6 +157,14 @@ private extension SourceInfoPanelState {
         let sortedPanelList = Array(visiblePanels).sorted(by: <)
         visiblePanelSlices = sortedPanelList
             .slices(sliceSize: panelGroups)
+    }
+    
+    func savePanelStates() {
+        AppStatePreferences.shared.visiblePanels = visiblePanels
+    }
+    
+    func savePanelWindowStates() {
+        AppStatePreferences.shared.panelStates = visiblePanelStates
     }
     
     func setupBindings() {

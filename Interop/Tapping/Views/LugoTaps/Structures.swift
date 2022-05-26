@@ -8,6 +8,21 @@
 
 import Foundation
 
+struct CodableAutoCache<Key: Hashable & Codable, Value: Codable>: Codable {
+    var source = [Key: Value]()
+    mutating func retrieve(
+        key: Key,
+        defaulting: @autoclosure () -> Value
+    ) -> Value {
+        source[key] ?? {
+            let new = defaulting()
+            source[key] = new
+            return new
+        }()
+    }
+}
+
+
 struct AutoCache<Key: Hashable, Value> {
     var source = [Key: Value]()
     mutating func retrieve(

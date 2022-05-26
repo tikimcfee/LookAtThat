@@ -10,45 +10,6 @@ extension CodePagesController {
     }
 }
 
-class AppStatePreferences {
-    private let store = UserDefaults(suiteName: "AppStatePreferences")
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
-    static let shared = AppStatePreferences()
-    
-    var securedScopeData: (FileBrowser.Scope, Data)? {
-        get {
-            guard let scope: FileBrowser.Scope = _getEncoded("lastScope"),
-                  let data: Data = _getRaw("securedScopeData")
-            else { return nil }
-            return (scope, data)
-        }
-        set {
-            _setEncoded(newValue?.0, "lastScope")
-            _setRaw(newValue?.1, "securedScopeData")
-        }
-    }
-    
-    private func _setEncoded<T: Codable>(_ any: T?, _ key: String) {
-        print(">>Encoded preference '\(key)' updating to: \(String(describing: any))")
-        store?.set(try? encoder.encode(any), forKey: key)
-    }
-    
-    private func _getEncoded<T: Codable>(_ key: String) -> T? {
-        guard let encoded = store?.object(forKey: key) as? Data else { return nil }
-        return try? decoder.decode(T.self, from: encoded)
-    }
-    
-    private func _setRaw<T: Codable>(_ any: T?, _ key: String) {
-        print(">>Raw preference '\(key)' updating to: \(String(describing: any))")
-        store?.set(any, forKey: key)
-    }
-    
-    private func _getRaw<T: Codable>(_ key: String) -> T? {
-        store?.object(forKey: key) as? T
-    }
-}
-
 class CodePagesController: BaseSceneController, ObservableObject {
         
     let codeGridParser: CodeGridParser
