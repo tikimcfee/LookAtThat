@@ -166,7 +166,6 @@
 		B70FDCF1283EAE9900170D5F /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B70FDC4C283EAE9900170D5F /* CodeEditorView */; };
 		B70FDCF2283EAE9900170D5F /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B70FDC51283EAE9900170D5F /* SwiftSyntaxParser */; };
 		B70FDCF3283EAE9900170D5F /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B70FDC46283EAE9900170D5F /* Brotli */; };
-		B70FDCF4283EAE9900170D5F /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B70FDC48283EAE9900170D5F /* FileKit */; };
 		B70FDCF6283EAE9900170D5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		B70FDCF7283EAE9900170D5F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
 		B70FDCF8283EAE9900170D5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -327,7 +326,6 @@
 		B74A231C2814FFF300F6F727 /* TAPCBUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756E8280CECBA0005A233 /* TAPCBUUID.swift */; };
 		B74A231E2814FFF300F6F727 /* FingerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7570E280CED4D0005A233 /* FingerView.swift */; };
 		B74A23242814FFF300F6F727 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B74A229A2814FFF300F6F727 /* Brotli */; };
-		B74A23252814FFF300F6F727 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B74A229C2814FFF300F6F727 /* FileKit */; };
 		B74A23272814FFF300F6F727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		B74A23282814FFF300F6F727 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
 		B74A23292814FFF300F6F727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -946,7 +944,6 @@
 				B70FDCF1283EAE9900170D5F /* CodeEditorView in Frameworks */,
 				B70FDCF2283EAE9900170D5F /* SwiftSyntaxParser in Frameworks */,
 				B70FDCF3283EAE9900170D5F /* Brotli in Frameworks */,
-				B70FDCF4283EAE9900170D5F /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,7 +955,6 @@
 				B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
 				B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
-				B74A23252814FFF300F6F727 /* FileKit in Frameworks */,
 				B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1730,7 +1726,6 @@
 			name = "LookAtThat_AppKit - x86";
 			packageProductDependencies = (
 				B70FDC46283EAE9900170D5F /* Brotli */,
-				B70FDC48283EAE9900170D5F /* FileKit */,
 				B70FDC4A283EAE9900170D5F /* SwiftTrace */,
 				B70FDC4C283EAE9900170D5F /* CodeEditorView */,
 				B70FDC4E283EAE9900170D5F /* SwiftSyntax */,
@@ -1758,7 +1753,6 @@
 			name = "LookAtThat_AppKit - Previews";
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
-				B74A229C2814FFF300F6F727 /* FileKit */,
 				B7623F4B28334984008DAA88 /* SwiftSyntax */,
 				B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */,
 				B7623F4F28334984008DAA88 /* SwiftSyntaxParser */,
@@ -3122,14 +3116,6 @@
 				kind = branch;
 			};
 		};
-		B70FDC49283EAE9900170D5F /* XCRemoteSwiftPackageReference "FileKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nvzqz/FileKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		B70FDC4B283EAE9900170D5F /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
@@ -3160,14 +3146,6 @@
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		B74A229D2814FFF300F6F727 /* XCRemoteSwiftPackageReference "FileKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nvzqz/FileKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
 			};
 		};
 		B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
@@ -3210,11 +3188,6 @@
 			package = B70FDC47283EAE9900170D5F /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
 		};
-		B70FDC48283EAE9900170D5F /* FileKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B70FDC49283EAE9900170D5F /* XCRemoteSwiftPackageReference "FileKit" */;
-			productName = FileKit;
-		};
 		B70FDC4A283EAE9900170D5F /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B70FDC4B283EAE9900170D5F /* XCRemoteSwiftPackageReference "SwiftTrace" */;
@@ -3254,11 +3227,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B74A229B2814FFF300F6F727 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
-		};
-		B74A229C2814FFF300F6F727 /* FileKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B74A229D2814FFF300F6F727 /* XCRemoteSwiftPackageReference "FileKit" */;
-			productName = FileKit;
 		};
 		B75250F32814CEF500820412 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
