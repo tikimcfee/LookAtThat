@@ -52,7 +52,7 @@ class TracingRoot {
     }
     
     func setWritingEnabled(isEnabled: Bool) {
-//        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
+        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
 //        PersistentThreadTracer.AllWritesEnabled = isEnabled
     }
 }

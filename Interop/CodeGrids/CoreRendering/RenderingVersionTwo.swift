@@ -44,7 +44,7 @@ extension CodeGridParser {
             var lastDirectChildGrid: CodeGrid?
             while let last = fileStack.popLast() {
                 //                print("File *** \(last.url.lastPathComponent)")
-                guard let newGrid = renderGrid(last.url) else {
+                guard let newGrid = renderGrid(last) else {
                     print("No grid rendered for \(last)")
                     continue
                 }
@@ -61,7 +61,7 @@ extension CodeGridParser {
                 lastDirectChildGrid = newGrid
                 rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
                 
-                let fileName = makeFileNameGrid(last.url.lastPathComponent)
+                let fileName = makeFileNameGrid(last.lastPathComponent)
                 fileName.rootNode.position = SCNVector3Zero.translated(
                     dY: fileName.measures.lengthY + 2.0,
                     dZ: 4.0
@@ -87,7 +87,7 @@ extension CodeGridParser {
                 rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
                 childDirectory.rootNode.position = nexRowStartPosition
                 
-                let fileName = makeFileNameGrid(last.url.lastPathComponent).backgroundColor(.blue)
+                let fileName = makeFileNameGrid(last.lastPathComponent).backgroundColor(.blue)
                 fileName.rootNode.position = SCNVector3Zero.translated(
                     dY: fileName.measures.lengthY * 6 + 2.0,
                     dZ: 8.0

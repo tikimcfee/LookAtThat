@@ -42,7 +42,7 @@ class CodePagesPopupEditorState: ObservableObject {
     
     func load(path toLoad: FileKitPath) {
         print("Loading editor file: \(toLoad.fileName)")
-        let maybeText = try? String(contentsOf: toLoad.url)
+        let maybeText = try? String(contentsOf: toLoad)
         print("Loaded text count: \(maybeText?.count ?? -1)")
         guard let newText = maybeText else { return }
         self.text = newText

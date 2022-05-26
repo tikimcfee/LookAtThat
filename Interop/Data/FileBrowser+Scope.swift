@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import FileKit
 
-extension FileKitPath: Codable { }
 extension FileBrowser.Scope: Codable { }
 
 extension FileBrowser {
@@ -40,7 +38,7 @@ extension FileBrowser {
             case let (.file(lPath), .file(rPath)),
                 let (.directory(lPath), .directory(rPath)),
                 let (.expandedDirectory(lPath), .expandedDirectory(rPath)):
-                return lPath.rawValue <= rPath.rawValue
+                return lPath.lastPathComponent <= rPath.lastPathComponent
             default:
                 return false
             }
@@ -60,11 +58,11 @@ extension FileBrowser {
         var description: String {
             switch self {
             case let .file(path):
-                return path.absolute.rawValue
+                return path.path
             case let .directory(path):
-                return path.absolute.rawValue
+                return path.path
             case let .expandedDirectory(path):
-                return path.absolute.rawValue
+                return path.path
             }
         }
     }
@@ -81,19 +79,30 @@ extension FileBrowser {
         var depth = 0
         var pointer: FileKitPath? = start.path
         while pointer != nil && pointer != rootPath {
-            pointer = pointer?.parent
+            pointer = pointer?.deletingLastPathComponent()
             depth += 1
         }
         
         return depth
     }
     
+    func saveScope(_ scope: Scope) {
+        do {
+            let scopedData = try scope.path.bookmarkData(
+                options: .withSecurityScope,
+                includingResourceValuesForKeys: nil,
+                relativeTo: nil
+            )
+            AppStatePreferences.shared.securedScopeData = (scope, scopedData)
+        } catch {
+            print("Failed to create secure url scope: ", error)
+        }
+    }
+    
     func loadRootScopeFromDefaults() {
         if let lastScope = AppStatePreferences.shared.securedScopeData {
-            if let bookmarkedPath = Path(bookmarkData: lastScope.1) {
-                _ = bookmarkedPath.url.startAccessingSecurityScopedResource()
-                setRootScope(bookmarkedPath)
-                bookmarkedPath.url.stopAccessingSecurityScopedResource()
+            URL.doWithScopedBookmark(lastScope.1) { scopedURL in
+                setRootScope(scopedURL)
             }
         }
     }
@@ -104,27 +113,11 @@ extension FileBrowser {
             let expanded = Scope.expandedDirectory(path)
             scopes.append(expanded)
             expandCollapsedDirectory(rootIndex: 0, path)
-            
-//            if let scoped = try? path.url.bookmarkData(
-//                options: .withSecurityScope,
-//                includingResourceValuesForKeys: nil,
-//                relativeTo: nil) {
-//                AppStatePreferences.shared.securedScopeData = (
-//                    expanded, scoped
-//                )
-//            }
+            saveScope(expanded)
         } else {
             let file = Scope.file(path)
             scopes.append(file)
-            
-//            if let scoped = try? path.url.bookmarkData(
-//                options: .withSecurityScope,
-//                includingResourceValuesForKeys: nil,
-//                relativeTo: nil) {
-//                AppStatePreferences.shared.securedScopeData = (
-//                    file, scoped
-//                )
-//            }
+            saveScope(file)
         }
     }
     

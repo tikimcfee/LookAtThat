@@ -78,7 +78,7 @@ struct FileBrowserView: View {
                 Text(FileIcon)
                     .font(.footnote)
                     .truncationMode(.middle)
-                Text(path.components.last?.rawValue ?? "")
+                Text(path.lastPathComponent)
                     .fontWeight(.light)
                 
                 Spacer()
@@ -96,7 +96,7 @@ struct FileBrowserView: View {
                 makeSpacer(pathDepths(scope))
                 Text(DirectoryIconCollapsed)
                 
-                Text(path.components.last?.rawValue ?? "")
+                Text(path.lastPathComponent)
                     .fontWeight(.medium)
                 
                 Spacer()
@@ -112,7 +112,7 @@ struct FileBrowserView: View {
                 makeSpacer(pathDepths(scope))
                 Text(DirectoryIconExpanded)
                 
-                Text(path.components.last?.rawValue ?? "")
+                Text(path.lastPathComponent)
                     .underline()
                     .fontWeight(.heavy)
                 
@@ -179,7 +179,7 @@ struct FileBrowserView_Previews: PreviewProvider {
     
     static let testFiles = {
         testPaths.reduce(into: [FileBrowser.Scope]()) { result, path in
-            result.append(.file(FileKitPath(path)))
+            result.append(.file(URL(fileURLWithPath: path)))
         }
     }()
     

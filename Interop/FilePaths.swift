@@ -70,13 +70,8 @@ extension AppFiles {
     }
     
     public static func allTraceFiles() -> [URL] {
-        guard let tracesRoot = FileKitPath(url: tracesDirectory) else {
-            print("Cannot make path: \(tracesDirectory)")
-            return []
+        return tracesDirectory.children().filter {
+            $0.lastPathComponent.starts(with: traceNameIDsPrefix)
         }
-        
-        return tracesRoot.children().filter {
-            $0.fileName.starts(with: traceNameIDsPrefix)
-        }.map { $0.url }
     }
 }

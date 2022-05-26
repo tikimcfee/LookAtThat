@@ -23,9 +23,9 @@ extension CodeGridParser {
             .consume(rootSyntaxNode: Syntax(syntax))
             .sizeGridToContainerNode()
             .applying {
-                if let url = sourceURL, let path = FileKitPath(url: url) {
-                    $0.withFileName(path.fileName)
-                      .withSourcePath(path)
+                if let url = sourceURL {
+                    $0.withFileName(url.fileName)
+                      .withSourcePath(url)
                 }
             }
         

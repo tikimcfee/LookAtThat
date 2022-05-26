@@ -9,7 +9,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 import Combine
-import FileKit
 import SwiftUI
 
 class CodePagesControllerMacOSCompat {

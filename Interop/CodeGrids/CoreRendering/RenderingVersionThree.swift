@@ -140,7 +140,7 @@ extension CodeGridParser {
             lastDirectChildGrid = newGrid
             rootDirectoryGrid.rootNode.addChildNode(newGrid.rootNode)
             
-            let fileName = makeFileNameGrid(last.url.lastPathComponent)
+            let fileName = makeFileNameGrid(last.lastPathComponent)
             fileName.rootNode.position = SCNVector3Zero.translated(
                 dY: fileName.measures.lengthY + 2.0,
                 dZ: 4.0
@@ -167,7 +167,7 @@ extension CodeGridParser {
             rootDirectoryGrid.rootNode.addChildNode(childDirectory.rootNode)
             childDirectory.rootNode.position = nexRowStartPosition
             
-            let fileName = makeFileNameGrid(last.url.lastPathComponent).backgroundColor(.blue)
+            let fileName = makeFileNameGrid(last.lastPathComponent).backgroundColor(.blue)
             fileName.rootNode.position = SCNVector3Zero.translated(
                 dY: fileName.measures.lengthY * 6 + 2.0,
                 dZ: 8.0

@@ -24,7 +24,7 @@ class PersistentThreadTracer {
         return willReset
     }
     
-    internal init(
+    init(
         idFileTarget: URL,
         sourceMap: TraceLineIDMap // share json map to avoid repeated function writes
     ) throws {

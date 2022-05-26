@@ -209,7 +209,6 @@
 		B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
-		B73286A5273367B400C9C82A /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B73286A4273367B400C9C82A /* FileKit */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
@@ -418,7 +417,6 @@
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
-		B78159DD273E045000212176 /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = B78159DC273E045000212176 /* FileKit */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		B78159E9273E057B00212176 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
@@ -977,7 +975,6 @@
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
 				B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
-				B73286A5273367B400C9C82A /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,7 +998,6 @@
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				B7623F4828334978008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
-				B78159DD273E045000212176 /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1788,7 +1784,6 @@
 			name = LookAtThat_AppKit;
 			packageProductDependencies = (
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
-				B73286A4273367B400C9C82A /* FileKit */,
 				B75250F32814CEF500820412 /* SwiftTrace */,
 				B7661B572829DF0C001F185B /* CodeEditorView */,
 				B7623F37283346DF008DAA88 /* SwiftSyntax */,
@@ -1841,7 +1836,6 @@
 			name = LookAtThatMobile;
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
-				B78159DC273E045000212176 /* FileKit */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7623F4528334978008DAA88 /* SwiftSyntax */,
 				B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */,
@@ -1884,7 +1878,6 @@
 			mainGroup = F00FC723250C53460092AFF9;
 			packageReferences = (
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
-				B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */,
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 				B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */,
@@ -3161,14 +3154,6 @@
 				kind = branch;
 			};
 		};
-		B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nvzqz/FileKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		B74A229B2814FFF300F6F727 /* XCRemoteSwiftPackageReference "Brotli" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/karlvr/Brotli";
@@ -3265,11 +3250,6 @@
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
 		};
-		B73286A4273367B400C9C82A /* FileKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */;
-			productName = FileKit;
-		};
 		B74A229A2814FFF300F6F727 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B74A229B2814FFF300F6F727 /* XCRemoteSwiftPackageReference "Brotli" */;
@@ -3334,11 +3314,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
-		};
-		B78159DC273E045000212176 /* FileKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B73286A3273367B400C9C82A /* XCRemoteSwiftPackageReference "FileKit" */;
-			productName = FileKit;
 		};
 		B796DEF8280D2AD8006AC749 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

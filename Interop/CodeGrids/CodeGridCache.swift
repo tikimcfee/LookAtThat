@@ -30,7 +30,7 @@ class GridCache {
     }
     
     func setCache(_ key: FileKitPath, _ setOriginalAsClone: Bool = true) -> CodeGrid {
-        let newGrid = parser.renderGrid(key.url) ?? {
+        let newGrid = parser.renderGrid(key) ?? {
             print("Could not render path \(key)")
             return parser.createNewGrid()
         }()

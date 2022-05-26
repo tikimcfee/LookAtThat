@@ -2,7 +2,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 import Combine
-import FileKit
 import SwiftUI
 
 extension CodePagesController {
@@ -19,33 +18,33 @@ class AppStatePreferences {
     
     var securedScopeData: (FileBrowser.Scope, Data)? {
         get {
-            guard let scope: FileBrowser.Scope = _get("lastScope"),
-                  let data: Data = _getr("securedScopeData")
+            guard let scope: FileBrowser.Scope = _getEncoded("lastScope"),
+                  let data: Data = _getRaw("securedScopeData")
             else { return nil }
             return (scope, data)
         }
         set {
-            _set(newValue?.0, "lastScope")
-            _setr(newValue?.1, "securedScopeData")
+            _setEncoded(newValue?.0, "lastScope")
+            _setRaw(newValue?.1, "securedScopeData")
         }
     }
     
-    private func _set<T: Codable>(_ any: T?, _ key: String) {
-        print(">> preference '\(key)' updating to: \(String(describing: any))")
+    private func _setEncoded<T: Codable>(_ any: T?, _ key: String) {
+        print(">>Encoded preference '\(key)' updating to: \(String(describing: any))")
         store?.set(try? encoder.encode(any), forKey: key)
     }
     
-    private func _get<T: Codable>(_ key: String) -> T? {
+    private func _getEncoded<T: Codable>(_ key: String) -> T? {
         guard let encoded = store?.object(forKey: key) as? Data else { return nil }
         return try? decoder.decode(T.self, from: encoded)
     }
     
-    private func _setr<T: Codable>(_ any: T?, _ key: String) {
-        print("R>> preference '\(key)' updating to: \(String(describing: any))")
+    private func _setRaw<T: Codable>(_ any: T?, _ key: String) {
+        print(">>Raw preference '\(key)' updating to: \(String(describing: any))")
         store?.set(any, forKey: key)
     }
     
-    private func _getr<T: Codable>(_ key: String) -> T? {
+    private func _getRaw<T: Codable>(_ key: String) -> T? {
         store?.object(forKey: key) as? T
     }
 }
@@ -109,14 +108,14 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     sem.signal()
                 }
             case .addToWorld:
-                RenderPlan(
-                    rootPath: parent,
-                    queue: codeGridParser.renderQueue,
-                    renderer: codeGridParser.concurrency
-                ).startRender()
-//                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-//                    self.addToRoot(rootGrid: rootGrid)
-//                }
+//                RenderPlan(
+//                    rootPath: parent,
+//                    queue: codeGridParser.renderQueue,
+//                    renderer: codeGridParser.concurrency
+//                ).startRender()
+                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+                    self.addToRoot(rootGrid: rootGrid)
+                }
             default: break
             }
 
@@ -240,8 +239,7 @@ extension CodePagesController {
                 print(error)
                 
             case .success(let directory):
-                let path: FileKitPath = Path(directory.parent.path)
-                self.fileBrowser.setRootScope(path)
+                self.fileBrowser.setRootScope(directory.parent)
             }
         }
         #endif

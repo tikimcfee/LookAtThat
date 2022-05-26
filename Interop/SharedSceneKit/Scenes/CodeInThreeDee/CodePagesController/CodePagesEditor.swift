@@ -49,11 +49,7 @@ struct CodePagesPopupEditor: View {
             switch fileReslt {
             case let .success(url):
 //                print("\n\n\t\tFile open disabled for now; render grid first and click: \(url)\n\n")
-                guard let path = FileKitPath(url: url) else {
-                    print("Could not load path: \(url)")
-                    return
-                }
-                state.load(path: path) // TODO: add an interaction to render the grid if it's not already visible
+                state.load(path: url) // TODO: add an interaction to render the grid if it's not already visible
             case let .failure(error):
                 print(error)
             }

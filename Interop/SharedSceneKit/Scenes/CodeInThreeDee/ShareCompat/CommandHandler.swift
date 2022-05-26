@@ -9,7 +9,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 import Combine
-import FileKit
 
 protocol CommandHandler {
     var controller: CodePagesController { get }
@@ -20,7 +19,7 @@ extension CommandHandler {
     var parser: CodeGridParser { controller.codeGridParser }
     
     func renderAndCache(_ path: FileKitPath) -> CodeGrid? {
-        guard let newGrid = parser.renderGrid(path.url) else {
+        guard let newGrid = parser.renderGrid(path) else {
             print("No code grid we cry")
             return nil
         }

@@ -7,7 +7,6 @@
 
 import SceneKit
 import SwiftUI
-import FileKit
 import SwiftSyntax
 import Combine
 

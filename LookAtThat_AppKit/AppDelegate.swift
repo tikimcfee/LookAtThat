@@ -21,10 +21,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
             .environmentObject(TapObserving.shared)
-            .onAppear {
-                // Set initial state on appearance
-//                CodePagesController.shared.fileBrowser.loadRootScopeFromDefaults()
-            }
+            .onAppear { self.onRootViewAppeared() }
+            .onDisappear { self.onRootViewDisappeared() }
         
         // Create the window and set the content view.
         window = NSWindow(
@@ -42,10 +40,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-    
+}
+
+extension AppDelegate {
     func __ENABLE_STARTUP_LOG_WRITES__() {
         print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
-//        TracingRoot.shared.setWritingEnabled(isEnabled: true)
         TracingRoot.shared.setupTracing()
+    }
+    
+    private func onRootViewAppeared() {
+        // Set initial state on appearance
+        CodePagesController.shared.fileBrowser.loadRootScopeFromDefaults()
+    }
+    
+    private func onRootViewDisappeared() {
+        URL.dumpAndDescopeAllKnownBookmarks()
     }
 }

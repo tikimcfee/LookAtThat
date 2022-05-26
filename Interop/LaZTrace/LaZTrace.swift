@@ -85,10 +85,10 @@ class TraceFileWriter {
     func addTracesToFile(_ path: FileKitPath) {
         guard !path.isDirectoryFile else { return }
         do {
-            let parsed = try SyntaxParser.parse(path.url)
+            let parsed = try SyntaxParser.parse(path)
             let rewritten = rewriter.visit(parsed)
             if let rewrittenData = rewritten.allText.data(using: .utf8) {
-                try rewrite(data: rewrittenData, toPath: path.url, name: path.fileName)
+                try rewrite(data: rewrittenData, toPath: path, name: path.fileName)
             }
         } catch {
             print("Failed to parse [\(path.fileName)]: \(error)")
@@ -117,14 +117,14 @@ class TracingFileFinder {
     ]
     
     func findFiles(_ root: String) -> [FileKitPath] {
-        FileKitPath(root)
+        URL(fileURLWithPath: root)
             .children(recursive: true)
             .filter(fileMatches)
     }
     
     private func fileMatches(_ path: FileKitPath) -> Bool {
         return path.pathExtension == "swift"
-            && toSkip.allSatisfy { !path.url.absoluteString.contains($0) }
+            && toSkip.allSatisfy { !path.absoluteString.contains($0) }
     }
 }
 
