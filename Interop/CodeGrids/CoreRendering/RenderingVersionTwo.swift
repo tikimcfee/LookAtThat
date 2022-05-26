@@ -12,12 +12,12 @@ import SwiftUI
 
 extension CodeGridParser {
     func __versionTwo__RenderPathAsRoot(
-        _ rootPath: FileKitPath,
+        _ rootPath: URL,
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         let snapping = WorldGridSnapping()
         
-        func makeGridForDirectory2(_ rootDirectory: FileKitPath, _ depth: Int) -> CodeGrid {
+        func makeGridForDirectory2(_ rootDirectory: URL, _ depth: Int) -> CodeGrid {
 #if os(macOS)
             let alpha = rootGridColor.alphaComponent * VectorFloat(depth)
 #elseif os(iOS)
@@ -28,8 +28,8 @@ extension CodeGridParser {
                 rootGridColor.withAlphaComponent(alpha)
             )
             
-            var fileStack: [FileKitPath] = []
-            var directoryStack: [FileKitPath] = []
+            var fileStack: [URL] = []
+            var directoryStack: [URL] = []
             
             // Add each child to stack for processing
             forEachChildOf(rootDirectory) { index, childPath in

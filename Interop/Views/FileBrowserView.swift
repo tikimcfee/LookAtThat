@@ -57,7 +57,7 @@ struct FileBrowserView: View {
     
     func actionButton(
         _ text: String,
-        _ path: FileKitPath,
+        _ path: URL,
         event: FileBrowser.Event
     ) -> some View {
         Text(text)
@@ -127,7 +127,7 @@ struct FileBrowserView: View {
         }
     }
     
-    func fileSelected(_ path: FileKitPath, _ selectType: FileBrowser.Event.SelectType) {
+    func fileSelected(_ path: URL, _ selectType: FileBrowser.Event.SelectType) {
         SceneLibrary.global.codePagesController
             .fileBrowser
             .fileSeletionEvents = .newSingleCommand(path, selectType)

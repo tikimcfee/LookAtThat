@@ -11,13 +11,13 @@ extension FileBrowser.Scope: Codable { }
 
 extension FileBrowser {
     enum Scope: Equatable, CustomStringConvertible, Identifiable {
-        case file(Path)
-        case directory(Path)
-        case expandedDirectory(Path)
+        case file(URL)
+        case directory(URL)
+        case expandedDirectory(URL)
         
         var id: String { description }
         
-        static func from(_ path: Path) -> Scope {
+        static func from(_ path: URL) -> Scope {
             return path.isDirectory
             ? .directory(path)
             : .file(path)
@@ -44,7 +44,7 @@ extension FileBrowser {
             }
         }
         
-        var path: FileKitPath {
+        var path: URL {
             switch self {
             case let .file(path):
                 return path
@@ -77,7 +77,7 @@ extension FileBrowser {
         guard let rootPath = rootScope?.path else { return 0 }
         
         var depth = 0
-        var pointer: FileKitPath? = start.path
+        var pointer: URL? = start.path
         while pointer != nil && pointer != rootPath {
             pointer = pointer?.deletingLastPathComponent()
             depth += 1
@@ -107,7 +107,7 @@ extension FileBrowser {
         }
     }
     
-    func setRootScope(_ path: Path) {
+    func setRootScope(_ path: URL) {
         scopes.removeAll()
         if path.isDirectory {
             let expanded = Scope.expandedDirectory(path)
@@ -151,7 +151,7 @@ extension FileBrowser {
         }
     }
     
-    private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: Path) {
+    private func expandCollapsedDirectory(rootIndex: Array.Index, _ path: URL) {
         let subpaths = path.filterdChildren(Self.isFileObserved)
         let expandedChildren = subpaths
             .reduce(into: [Scope]()) { result, path in
@@ -160,7 +160,7 @@ extension FileBrowser {
         scopes.insert(contentsOf: expandedChildren, at: rootIndex + 1)
     }
     
-    private func collapseExpandedDirectory(rootIndex: Array.Index, _ path: Path) {
+    private func collapseExpandedDirectory(rootIndex: Array.Index, _ path: URL) {
         // Remove starting from the largest offset.
         // Stop at 1 to leave the new .directory() in place.
         // Needs to be inclusive because the count is equivalent

@@ -29,7 +29,7 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     func testPathEncoding() throws {
         printStart()
         
-        let pathSource = FileKitPath(bundle.testFileAbsolute)
+        let pathSource = URL(bundle.testFileAbsolute)
         print(pathSource)
         let pathJson = try JSONEncoder().encode(pathSource)
         print("encoded", pathJson.count)

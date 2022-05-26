@@ -26,7 +26,7 @@ class WatchWrap {
 }
 
 struct RenderPlan {
-    let rootPath: FileKitPath
+    let rootPath: URL
     let queue: DispatchQueue
     
     let renderer: ConcurrentGridRenderer

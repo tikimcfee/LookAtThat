@@ -140,7 +140,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testFileRecursion() throws {
         printStart()
         
-        let path = FileKitPath(bundle.rootDirectory)
+        let path = URL(bundle.rootDirectory)
         FileBrowser.recursivePaths(path).forEach {
             print("\($0.description)")
         }
@@ -150,7 +150,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testFileBrowser() throws {
         let testFile = bundle.testFile
-        let testPathStart = try XCTUnwrap(FileKitPath(url: testFile), "Need a working url to test")
+        let testPathStart = try XCTUnwrap(URL(url: testFile), "Need a working url to test")
         let testPathParent = try XCTUnwrap(testPathStart.parent.parent.parent, "Need a working url to test")
         
         let scopeStart = FileBrowser.Scope.file(testPathStart)
@@ -167,7 +167,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testAttributedWrites() throws {
         let testFile = bundle.testFile
-        let fileData = try Data(contentsOfPath: FileKitPath(testFile.path))
+        let fileData = try Data(contentsOfPath: URL(testFile.path))
         let dataString = try XCTUnwrap(String(data: fileData, encoding: .utf8))
         
         let dataStringAttributed = NSMutableAttributedString(
@@ -195,7 +195,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
         
         let fileRewriter = TraceFileWriter()
-        fileRewriter.addTracesToFile(FileKitPath(bundle.testFileRaw.path))
+        fileRewriter.addTracesToFile(URL(bundle.testFileRaw.path))
     }
     
     func test__RewritingAll() throws {

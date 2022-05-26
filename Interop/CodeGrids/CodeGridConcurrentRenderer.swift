@@ -22,7 +22,7 @@ class ConcurrentGridRenderer {
         return cache.cachedGrids[id]?.source
     }
     
-    func renderConcurrent(_ path: FileKitPath, _ onRender: @escaping (CodeGrid) -> Void) {
+    func renderConcurrent(_ path: URL, _ onRender: @escaping (CodeGrid) -> Void) {
         if path.isDirectory {
             print("<!!> Warning - Trying to create a grid for a directory; are you sure you wanted to do this?")
         }
@@ -32,14 +32,14 @@ class ConcurrentGridRenderer {
         }
     }
     
-    func asyncAccess(_ path: FileKitPath, _ receiver: @escaping (CodeGrid) -> Void) {
+    func asyncAccess(_ path: URL, _ receiver: @escaping (CodeGrid) -> Void) {
         nextWorkerQueue.async { [cache] in
             let foundGrid = cache.getOrCache(path)
             receiver(foundGrid)
         }
     }
     
-    func syncAccess(_ path: FileKitPath) -> CodeGrid {
+    func syncAccess(_ path: URL) -> CodeGrid {
         nextWorkerQueue.sync { [cache] in
             return cache.getOrCache(path)
         }

@@ -82,7 +82,7 @@ class LaZTraceBox {
 class TraceFileWriter {
     let rewriter = TraceCapturingRewriter()
     
-    func addTracesToFile(_ path: FileKitPath) {
+    func addTracesToFile(_ path: URL) {
         guard !path.isDirectoryFile else { return }
         do {
             let parsed = try SyntaxParser.parse(path)
@@ -116,13 +116,13 @@ class TracingFileFinder {
         "AppKitTests",
     ]
     
-    func findFiles(_ root: String) -> [FileKitPath] {
+    func findFiles(_ root: String) -> [URL] {
         URL(fileURLWithPath: root)
             .children(recursive: true)
             .filter(fileMatches)
     }
     
-    private func fileMatches(_ path: FileKitPath) -> Bool {
+    private func fileMatches(_ path: URL) -> Bool {
         return path.pathExtension == "swift"
             && toSkip.allSatisfy { !path.absoluteString.contains($0) }
     }

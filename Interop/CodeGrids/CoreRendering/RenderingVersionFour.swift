@@ -14,7 +14,7 @@ import SwiftUI
 
 extension CodeGridParser {
     func __versionFour_RenderConcurrent(
-        _ rootPath: FileKitPath,
+        _ rootPath: URL,
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         
@@ -27,13 +27,13 @@ extension CodeGridParser {
     }
     
     private func doRenderV4(
-        _ rootPath: FileKitPath,
+        _ rootPath: URL,
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         let rootGridColor  = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
         let directoryColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
         
-        var allDirectoryPaths = [FileKitPath]()
+        var allDirectoryPaths = [URL]()
         allDirectoryPaths.append(rootPath)
         let allGridFiles = FileBrowser.recursivePaths(rootPath)
             .filter { path in
@@ -44,7 +44,7 @@ extension CodeGridParser {
                     return false
                 }
             }
-            .reduce(into: [FileKitPath: CodeGrid]()) { result, path in
+            .reduce(into: [URL: CodeGrid]()) { result, path in
                 result[path] = self.concurrency.syncAccess(path)
             }
         

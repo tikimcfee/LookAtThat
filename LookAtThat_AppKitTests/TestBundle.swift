@@ -47,7 +47,7 @@ class TestBundle {
     var semanticBuilder: SemanticInfoBuilder!
     var controller: CodePagesController!
     
-    var testSourceDirectory: FileKitPath? {
+    var testSourceDirectory: URL? {
         let absolutePath = Self.testDirectoriesAbsolute[1]
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
@@ -56,7 +56,7 @@ class TestBundle {
             return nil
         }
         
-        return FileKitPath(absolutePath)
+        return URL(absolutePath)
     }
     
     func setUpWithError() throws {

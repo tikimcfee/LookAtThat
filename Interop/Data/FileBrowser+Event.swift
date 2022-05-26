@@ -17,9 +17,9 @@ extension FileBrowser {
         
         case noSelection
         
-        case newSingleCommand(Path, SelectType)
+        case newSingleCommand(URL, SelectType)
         
-        case newMultiCommandRecursiveAllCache(Path)
-        case newMultiCommandRecursiveAllLayout(Path, SelectType)
+        case newMultiCommandRecursiveAllCache(URL)
+        case newMultiCommandRecursiveAllLayout(URL, SelectType)
     }
 }

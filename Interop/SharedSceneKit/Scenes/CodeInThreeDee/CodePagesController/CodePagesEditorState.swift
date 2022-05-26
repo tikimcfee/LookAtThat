@@ -11,7 +11,7 @@ import Combine
 class CodePagesPopupEditorState: ObservableObject {
     enum RootMode {
         case idol
-        case editing(grid: CodeGrid, path: FileKitPath)
+        case editing(grid: CodeGrid, path: URL)
     }
     
     struct UI {
@@ -40,7 +40,7 @@ class CodePagesPopupEditorState: ObservableObject {
         }
     }
     
-    func load(path toLoad: FileKitPath) {
+    func load(path toLoad: URL) {
         print("Loading editor file: \(toLoad.fileName)")
         let maybeText = try? String(contentsOf: toLoad)
         print("Loaded text count: \(maybeText?.count ?? -1)")

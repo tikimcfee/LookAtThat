@@ -15,7 +15,7 @@ class GridCache {
     let parser: CodeGridParser
     let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
     var cachedControls = ConcurrentDictionary<CodeGrid.ID, CodeGridControl>()
-    var cachedFiles = ConcurrentDictionary<FileKitPath, CodeGrid.ID>()
+    var cachedFiles = ConcurrentDictionary<URL, CodeGrid.ID>()
     
     init(parser: CodeGridParser) {
         self.parser = parser
@@ -29,7 +29,7 @@ class GridCache {
         cachedControls[key.displayGrid.id] = key
     }
     
-    func setCache(_ key: FileKitPath, _ setOriginalAsClone: Bool = true) -> CodeGrid {
+    func setCache(_ key: URL, _ setOriginalAsClone: Bool = true) -> CodeGrid {
         let newGrid = parser.renderGrid(key) ?? {
             print("Could not render path \(key)")
             return parser.createNewGrid()
@@ -44,7 +44,7 @@ class GridCache {
         return newGrid
     }
     
-    func getOrCache(_ key: FileKitPath) -> CodeGrid {
+    func getOrCache(_ key: URL) -> CodeGrid {
         if let gridId = cachedFiles[key],
            let grid = cachedGrids[gridId] {
             return grid.source
@@ -53,7 +53,7 @@ class GridCache {
         return setCache(key)
     }
     
-    func get(_ key: FileKitPath) -> CacheValue? {
+    func get(_ key: URL) -> CacheValue? {
         guard let cachedId = cachedFiles[key] else { return nil }
         return cachedGrids[cachedId]
     }

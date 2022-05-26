@@ -24,7 +24,7 @@ extension CodeGridParser {
     }
     
     func cacheConcurrent(
-        _ rootPath: FileKitPath,
+        _ rootPath: URL,
         _ onLoadComplete: (() -> Void)? = nil
     ) {
         renderQueue.async { [concurrency] in
@@ -48,8 +48,8 @@ extension CodeGridParser {
     }
     
     func __versionThree_RenderImmediate(
-        _ rootPath: FileKitPath,
-        _ onGridLoaded: @escaping (FileKitPath, CodeGrid) -> Void
+        _ rootPath: URL,
+        _ onGridLoaded: @escaping (URL, CodeGrid) -> Void
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
@@ -72,7 +72,7 @@ extension CodeGridParser {
     }
     
     func __versionThree_RenderConcurrent(
-        _ rootPath: FileKitPath,
+        _ rootPath: URL,
         _ onLoadComplete: ((CodeGrid) -> Void)? = nil
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
@@ -98,12 +98,12 @@ extension CodeGridParser {
     }
     
     private func kickoffRecursiveRender(
-        _ rootDirectory: FileKitPath,
+        _ rootDirectory: URL,
         _ depth: Int,
         _ state: RecurseState
     ) -> CodeGrid {
-        var fileStack: [FileKitPath] = []
-        var directoryStack: [FileKitPath] = []
+        var fileStack: [URL] = []
+        var directoryStack: [URL] = []
         
 #if os(macOS)
         let alpha = rootGridColor.alphaComponent * VectorFloat(depth)

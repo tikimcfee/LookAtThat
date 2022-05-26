@@ -12,13 +12,13 @@ import Combine
 
 protocol CommandHandler {
     var controller: CodePagesController { get }
-    func handleSingleCommand(_ path: FileKitPath, _ style: FileBrowser.Event.SelectType)
+    func handleSingleCommand(_ path: URL, _ style: FileBrowser.Event.SelectType)
 }
 
 extension CommandHandler {
     var parser: CodeGridParser { controller.codeGridParser }
     
-    func renderAndCache(_ path: FileKitPath) -> CodeGrid? {
+    func renderAndCache(_ path: URL) -> CodeGrid? {
         guard let newGrid = parser.renderGrid(path) else {
             print("No code grid we cry")
             return nil

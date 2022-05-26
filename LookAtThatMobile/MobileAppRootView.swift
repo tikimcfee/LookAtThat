@@ -52,12 +52,12 @@ struct MobileAppRootView : View {
     var sampleFilesUrl: URL {
         let rootDirectoryName = "Interop"
         let mainBundlePath = Bundle.main.bundlePath
-        let sampleFilesUrl = FileKitPath(mainBundlePath).url.appendingPathComponent(rootDirectoryName)
+        let sampleFilesUrl = URL(mainBundlePath).url.appendingPathComponent(rootDirectoryName)
         return sampleFilesUrl
     }
     
-    var sampleFilesKitPath: FileKitPath? {
-        FileKitPath(url: sampleFilesUrl)
+    var sampleFilesKitPath: URL? {
+        URL(url: sampleFilesUrl)
     }
     
     func setRootScope() {

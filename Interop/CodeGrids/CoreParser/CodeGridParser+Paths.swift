@@ -8,13 +8,13 @@
 import Foundation
 
 extension CodeGridParser {
-    func allChildrenOf(_ path: FileKitPath) -> [FileKitPath] {
+    func allChildrenOf(_ path: URL) -> [URL] {
         path.children()
             .filter(FileBrowser.isFileObserved)
             .sorted(by: FileBrowser.sortedFilesFirst)
     }
     
-    func forEachChildOf(_ path: FileKitPath, _ receiver: (Int, FileKitPath) -> Void) {
+    func forEachChildOf(_ path: URL, _ receiver: (Int, URL) -> Void) {
         path.children()
             .filter(FileBrowser.isFileObserved)
             .sorted(by: FileBrowser.sortedFilesFirst)

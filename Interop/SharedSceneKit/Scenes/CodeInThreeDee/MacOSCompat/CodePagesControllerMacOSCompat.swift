@@ -38,7 +38,7 @@ class CodePagesControllerMacOSCompat {
 }
 
 extension CodePagesControllerMacOSCompat: CommandHandler {
-    func handleSingleCommand(_ path: FileKitPath, _ style: FileBrowser.Event.SelectType) {
+    func handleSingleCommand(_ path: URL, _ style: FileBrowser.Event.SelectType) {
         switch style {
         case .addToFocus:
             guard let newGrid = renderAndCache(path) else { return }

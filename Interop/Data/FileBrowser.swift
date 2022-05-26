@@ -15,23 +15,23 @@ class FileBrowser: ObservableObject {
 
 extension FileBrowser {    
     // This is fragile. Both collapse/expand need to filter repeatedly.
-    static func isFileObserved(_ path: Path) -> Bool {
+    static func isFileObserved(_ path: URL) -> Bool {
         path.isDirectory || isSwiftFile(path)
     }
     
-    static func isSwiftFile(_ path: Path) -> Bool {
+    static func isSwiftFile(_ path: URL) -> Bool {
         path.pathExtension == "swift"
     }
     
-    static func directChildren(_ path: Path) -> [Path] {
+    static func directChildren(_ path: URL) -> [URL] {
         path.children(recursive: false).filter { isFileObserved($0) }
     }
     
-    static func recursivePaths(_ path: Path) -> [Path] {
+    static func recursivePaths(_ path: URL) -> [URL] {
         path.children(recursive: true).filter { isFileObserved($0) }
     }
     
-    static func sortedFilesFirst(_ left: Path, _ right: Path) -> Bool {
+    static func sortedFilesFirst(_ left: URL, _ right: URL) -> Bool {
         switch (left.isDirectory, right.isDirectory) {
         case (true, true): return left.path < right.path
         case (false, true): return true
@@ -41,9 +41,6 @@ extension FileBrowser {
     }
 }
 
-
-typealias Path = URL
-typealias FileKitPath = URL
 
 extension URL {
     // This is gross, but the scope must remain open for the duration of usage
@@ -92,7 +89,7 @@ extension URL {
     }
 }
 
-extension Path {
+extension URL {
     private static let _fileManager = FileManager.default
     private var fileManager: FileManager { Self._fileManager }
     
@@ -100,7 +97,7 @@ extension Path {
     var isDirectoryFile: Bool { isFileURL }
     var fileName: String { lastPathComponent }
     
-    func children(recursive: Bool = false) -> [Path] {
+    func children(recursive: Bool = false) -> [URL] {
         let obtainFunc = recursive
         ? fileManager.subpathsOfDirectory(atPath:)
         : fileManager.contentsOfDirectory(atPath:)
@@ -116,7 +113,7 @@ extension Path {
         }
     }
     
-    func filterdChildren(_ filter: (Path) -> Bool) -> [Path] {
+    func filterdChildren(_ filter: (URL) -> Bool) -> [URL] {
         children()
             .filter(filter)
             .sorted(by: FileBrowser.sortedFilesFirst)
