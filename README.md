@@ -52,7 +52,6 @@ Lots and lots of other people's tools and code suggestions. Primarily:
 - [SwiftSyntax](https://github.com/apple/swift-syntax) for parsing Swift files and grabbing an Abstract Syntax Tree.
 - [SwiftTrace](https://github.com/johnno1962/SwiftTrace) to capture execution traces and generate small tracing corpuses for visualization.
 - [CodeEditorView](https://github.com/mchakravarty/CodeEditorView) because it's a great simple drop in for text-field editing in SwiftUI
-- [FileKit](https://github.com/nvzqz/FileKit) just because it's a nice abstraction.
 
 ### When?
 

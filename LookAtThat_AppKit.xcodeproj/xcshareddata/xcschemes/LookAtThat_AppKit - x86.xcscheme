@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B70FDC45283EAE9900170D5F"
-               BuildableName = "LookAtThat_AppKit copy.app"
+               BuildableName = "LookAtThat_AppKit - x86.app"
                BlueprintName = "LookAtThat_AppKit - x86"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B70FDC45283EAE9900170D5F"
-            BuildableName = "LookAtThat_AppKit copy.app"
+            BuildableName = "LookAtThat_AppKit - x86.app"
             BlueprintName = "LookAtThat_AppKit - x86"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B70FDC45283EAE9900170D5F"
-            BuildableName = "LookAtThat_AppKit copy.app"
+            BuildableName = "LookAtThat_AppKit - x86.app"
             BlueprintName = "LookAtThat_AppKit - x86"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>

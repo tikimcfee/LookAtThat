@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-enum PanelSections: String, CaseIterable, Equatable, Comparable {
+enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
     case editor = "2D Editor"
     case directories = "Directories"
     case semanticCategories = "Semantic Categories"

@@ -14,7 +14,7 @@ extension GlobalWindowKey: Identifiable, Hashable {
     var title: String { rawValue }
 }
 
-enum FloatableViewMode {
+enum FloatableViewMode: Codable {
     case displayedAsWindow
     case displayedAsSibling
 }
