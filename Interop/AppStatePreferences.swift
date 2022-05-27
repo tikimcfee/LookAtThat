@@ -13,55 +13,63 @@ class AppStatePreferences {
     private let decoder = JSONDecoder()
     static let shared = AppStatePreferences()
     
+    enum Key: String {
+        case panelStates
+        case panelSections
+        
+        case lastScope
+        case securedScopeData
+    }
+    
     var panelStates: CodableAutoCache<PanelSections, FloatableViewMode>? {
-        get {
-            _getEncoded("panelStates")
-        }
-        set {
-            _setEncoded(newValue, "panelStates")
-        }
+        get { _getEncoded(.panelStates) }
+        set { _setEncoded(newValue, .panelStates) }
     }
     
     var visiblePanels: Set<PanelSections>? {
-        get {
-            _getEncoded("panelSections")
-        }
-        set {
-            _setEncoded(newValue, "panelSections")
-        }
+        get { _getEncoded(.panelSections) }
+        set { _setEncoded(newValue, .panelSections) }
     }
     
-    var securedScopeData: (FileBrowser.Scope, Data)? {
-        get {
-            guard let scope: FileBrowser.Scope = _getEncoded("lastScope"),
-                  let data: Data = _getRaw("securedScopeData")
-            else { return nil }
-            return (scope, data)
-        }
-        set {
-            _setEncoded(newValue?.0, "lastScope")
-            _setRaw(newValue?.1, "securedScopeData")
-        }
+    var securedScopeData: PeristedSecureScope? {
+        get { getPersistedSecureScope() }
+        set { setPersistedSecureScope(newValue) }
+    }
+}
+
+typealias PeristedSecureScope = (FileBrowser.Scope, Data)
+private extension AppStatePreferences {
+    func getPersistedSecureScope() -> PeristedSecureScope? {
+        guard let scope: FileBrowser.Scope = _getEncoded(.lastScope),
+              let data: Data = _getRaw(.securedScopeData)
+        else { return nil }
+        return (scope, data)
+    }
+    
+    func setPersistedSecureScope(_ newValue: PeristedSecureScope?) {
+        _setEncoded(newValue?.0, .lastScope)
+        _setRaw(newValue?.1, .securedScopeData)
     }
 }
 
 private extension AppStatePreferences {
-    func _setEncoded<T: Codable>(_ any: T?, _ key: String) {
+    func _setEncoded<T: Codable>(_ any: T?, _ key: Key) {
         print(">>Encoded preference '\(key)' updating to: \(String(describing: any))")
-        store?.set(try? encoder.encode(any), forKey: key)
+        store?.set(try? encoder.encode(any), forKey: key.rawValue)
     }
     
-    func _getEncoded<T: Codable>(_ key: String) -> T? {
-        guard let encoded = store?.object(forKey: key) as? Data else { return nil }
+    func _getEncoded<T: Codable>(_ key: Key) -> T? {
+        guard let encoded = store?.object(forKey: key.rawValue) as? Data else { return nil }
         return try? decoder.decode(T.self, from: encoded)
     }
     
-    func _setRaw<T: Codable>(_ any: T?, _ key: String) {
+    func _setRaw<T: Codable>(_ any: T?, _ key: Key) {
         print(">>Raw preference '\(key)' updating to: \(String(describing: any))")
-        store?.set(any, forKey: key)
+        store?.set(any, forKey: key.rawValue)
     }
     
-    func _getRaw<T: Codable>(_ key: String) -> T? {
-        store?.object(forKey: key) as? T
+    func _getRaw<T: Codable>(_ key: Key) -> T? {
+        store?.object(forKey: key.rawValue) as? T
     }
 }
+
