@@ -2637,9 +2637,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-x64",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2672,9 +2670,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
 					"$(PROJECT_DIR)/ExternalFrameworks/macosx-x64",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
