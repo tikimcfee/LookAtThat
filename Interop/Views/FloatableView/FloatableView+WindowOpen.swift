@@ -11,9 +11,10 @@ extension View {
     
     @discardableResult
     func openInWindow(key: GlobalWindowKey, sender: Any?) -> NSWindow {
-        let window = GlobablWindowDelegate.instance.window(for: key, makeNewWindow(for: key))
+        let window = GlobablWindowDelegate.instance
+            .window(for: key, makeNewWindow(for: key))
         window.contentView = NSHostingView(rootView: self)
-        window.makeKeyAndOrderFront(sender)
+//        window.makeKeyAndOrderFront(sender)
         return window
     }
     
@@ -26,7 +27,7 @@ extension View {
         )
         // TODO: make this configurable. Options object, attached to key, something
         window.setFrameAutosaveName(key.title)
-        window.level = .normal
+//        window.level = .floating
         window.title = key.title
         
         // THIS IS CRITICAL!

@@ -12,9 +12,14 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
     static let instance = GlobablWindowDelegate()
     
     private var knownWindowMap = BiMap<GlobalWindowKey, NSWindow>()
+    private var rootWindow: NSWindow?
     
     override private init() {
         super.init()
+    }
+    
+    func registerRootWindow(_ window: NSWindow) {
+        self.rootWindow = window
     }
     
     func windowIsDisplayed(for key: GlobalWindowKey) -> Bool {
@@ -37,6 +42,7 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
     
     private func register(_ key: GlobalWindowKey, _ window: NSWindow) {
         knownWindowMap[key] = window
+        rootWindow?.addChildWindow(window, ordered: .above)
         window.delegate = self
     }
     
