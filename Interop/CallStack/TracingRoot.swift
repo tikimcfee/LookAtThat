@@ -9,13 +9,27 @@ import Foundation
 import SwiftSyntax
 import AppKit
 
+extension TracingRoot: TraceDelegate {
+    class State: ObservableObject {
+        @Published var traceWritesEnabled = false
+    }
+    
+    var writesEnabled: Bool {
+        get { state.traceWritesEnabled }
+        set {
+            print("<!> Thread trace writes: enabled=\(newValue)")
+            state.traceWritesEnabled = newValue
+        }
+    }
+}
+
 class TracingRoot {
     static var shared = TracingRoot()
-    static var defaultWriteEnableState = false
     
     lazy var capturedLoggingThreads = ConcurrentDictionary<Thread, Int>()
     lazy var capturedLoggingQueues = ConcurrentDictionary<String, Int>()
     let tracingConsumer = TracingRootConsumer()
+    let state = State()
     
     private init() {
         
@@ -50,30 +64,27 @@ class TracingRoot {
     func removeMapping() {
         tracingConsumer.removeMapping()
     }
-    
-    func setWritingEnabled(isEnabled: Bool) {
-        print("Setting thread tracer writer: isEnabled=\(isEnabled)")
-//        PersistentThreadTracer.AllWritesEnabled = isEnabled
-    }
 }
 
 #if !TARGETING_SUI
 import SwiftTrace
 extension TracingRoot {
     static let trackedTypes: [AnyClass] = [
+        FileBrowser.self,
+        CodeGridWorld.self,
+        CodeGridGlobalSemantics.self,
         CodeGrid.self,
         CodeGridParser.self,
 //        CodeGrid.Measures.self,
-//        CodeGrid.Renderer.self,
-//        SemanticInfoBuilder.self,
+        CodeGrid.Renderer.self,
+        SemanticInfoBuilder.self,
 //        CodeGridSemanticMap.self,
-//        CodeGrid.AttributedGlyphs.self,
+        CodeGrid.AttributedGlyphs.self,
 //        CodeGridTokenCache.self,
         GridCache.self,
         GlyphLayerCache.self,
         FileBrowser.self,
         ConcurrentGridRenderer.self,
-        GridCache.self,
         WorkerPool.self,
         SceneLibrary.self,
         CodePagesController.self,

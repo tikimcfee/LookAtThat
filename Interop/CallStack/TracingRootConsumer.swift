@@ -46,7 +46,8 @@ class TracingRootConsumer {
     func threadTracer(from url: URL) throws -> PersistentThreadTracer {
         try PersistentThreadTracer(
             idFileTarget: url,
-            sourceMap: group.sharedSignatureMap
+            sourceMap: group.sharedSignatureMap,
+            traceDelegate: TracingRoot.shared
         )
     }
     

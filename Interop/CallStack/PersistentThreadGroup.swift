@@ -92,7 +92,16 @@ private extension PersistentThreadGroup {
         let newIDFile = AppFiles.createTraceIDFile(named: fileName)
         return try PersistentThreadTracer(
             idFileTarget: newIDFile,
-            sourceMap: sharedSignatureMap
+            sourceMap: sharedSignatureMap,
+            traceDelegate: TracingRoot.shared
         )
     }
 }
+
+#if os(iOS)
+class TracingRoot: TraceDelegate {
+    static let shared = TracingRoot()
+    var writesEnabled: Bool = false
+    private init() { }
+}
+#endif

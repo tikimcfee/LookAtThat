@@ -41,12 +41,25 @@ extension FileBrowser {
     }
 }
 
-
 extension URL {
     // This is gross, but the scope must remain open for the duration of usage
     // since we actively read from arbitrary paths in the tree. Track to at least
     // have a record and descope if needed.
     private static var openScopedBookmarks = Set<URL>()
+    private static var scopeCreationOptions: URL.BookmarkCreationOptions {
+        #if os(macOS)
+        [.withSecurityScope]
+        #else
+        []
+        #endif
+    }
+    private static var scopeResolutionOptions: URL.BookmarkResolutionOptions {
+        #if os(macOS)
+        [.withSecurityScope]
+        #else
+        []
+        #endif
+    }
     private static func newOpenScope(_ url: URL) {
         if openScopedBookmarks.contains(url) {
             print("Warning, set already contains this url!")
@@ -62,6 +75,14 @@ extension URL {
         openScopedBookmarks = []
     }
     
+    func createDefaultBookmark() throws -> Data {
+        try bookmarkData(
+            options: Self.scopeCreationOptions,
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        )
+    }
+    
     static func doWithScopedBookmark(
         _ data: Data,
         _ receiver: (URL) -> Void
@@ -70,7 +91,7 @@ extension URL {
             var isStale = false
             let scopedBookmarkURL = try URL(
                 resolvingBookmarkData: data,
-                options: .withSecurityScope,
+                options: scopeResolutionOptions,
                 relativeTo: nil,
                 bookmarkDataIsStale: &isStale
             )

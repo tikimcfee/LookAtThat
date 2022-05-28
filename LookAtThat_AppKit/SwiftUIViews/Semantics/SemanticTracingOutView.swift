@@ -54,14 +54,14 @@ struct SemanticTracingOutView: View {
     
     @ViewBuilder
     func makeFileIOToggleButton() -> some View {
-        if state.isFileLoggingEnabled {
+        if state.tracerState.traceWritesEnabled {
             Button("Stop writing & Save", action: {
-                state.isFileLoggingEnabled = false
+                state.tracerState.traceWritesEnabled = false
                 TracingRoot.shared.commitMappingState()
             })
         } else {
             Button("Start writing", action: {
-                state.isFileLoggingEnabled = true
+                state.tracerState.traceWritesEnabled = true
             })
         }
     }

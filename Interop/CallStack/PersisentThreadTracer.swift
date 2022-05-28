@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol TraceDelegate {
+    var writesEnabled: Bool { get set }
+}
+
 class PersistentThreadTracer {
     private let idFileTarget: URL
     private let idFileWriter: AppendingStore // TODO: combine reader/writer to consolidate proper inserts
@@ -17,34 +21,31 @@ class PersistentThreadTracer {
     
     private var isBackingCacheDirty: Bool = false
     private var isOneTimeResetFlag: Bool = false
-
+    
+    private var traceDelegate: TraceDelegate
+    
+    init(
+        idFileTarget: URL,
+        sourceMap: TraceLineIDMap,
+        traceDelegate: TraceDelegate
+    ) throws {
+        self.idFileTarget = idFileTarget
+        self.sourceMap = sourceMap
+        self.traceDelegate = traceDelegate
+        
+        self.idFileWriter = AppendingStore(targetFile: idFileTarget)
+        self.idFileReader = try FileUUIDArray.from(fileURL: idFileTarget)
+    }
+    
     private var shouldRemakeArray: Bool {
         let willReset = isBackingCacheDirty || isOneTimeResetFlag
         isOneTimeResetFlag = false
         return willReset
     }
     
-    init(
-        idFileTarget: URL,
-        sourceMap: TraceLineIDMap // share json map to avoid repeated function writes
-    ) throws {
-        self.idFileTarget = idFileTarget
-        self.sourceMap = sourceMap
-        
-        self.idFileWriter = AppendingStore(targetFile: idFileTarget)
-        self.idFileReader = try FileUUIDArray.from(fileURL: idFileTarget)
-    }
-    
-    // Holy crap I'm confused.
-    // Setting this static field from AppDelegate somehow
-    // didn't allow multiple instances to read the value..
-    // it WAS being set to true, but was false for some instances..
-    // This has to be some sort of threading + static field madness.
-    private static let AllWritesEnabled = true
-    
     func onNewTraceLine(_ traceLine: TraceLine) {
         let traceId = sourceMap[traceLine]
-        guard Self.AllWritesEnabled else {
+        guard traceDelegate.writesEnabled else {
             print("\n\n\t\tWrites disabled!")
             return
         }

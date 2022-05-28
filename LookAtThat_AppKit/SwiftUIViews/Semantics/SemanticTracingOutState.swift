@@ -16,8 +16,6 @@ class SemanticTracingOutState: ObservableObject {
     }
     
     @Published private(set) var wrapper: SemanticMapTracer?
-    
-    @Published var isFileLoggingEnabled = TracingRoot.defaultWriteEnableState
     @Published var visibleSections: Set<Sections> = []
     func toggleSection(_ section: Sections) {
         if visibleSections.contains(section) {
@@ -42,12 +40,11 @@ class SemanticTracingOutState: ObservableObject {
     let loopRange = 16.0...2000.0
     
     private let tracer = TracingRoot.shared
+    var tracerState: TracingRoot.State { tracer.state }
     private lazy var bag = Set<AnyCancellable>()
     
     init() {
-        $isFileLoggingEnabled.sink {
-            TracingRoot.shared.setWritingEnabled(isEnabled: $0)
-        }.store(in: &bag)
+        
     }
         
     var loggedThreads: [Thread] {

@@ -29,7 +29,7 @@ class LookAtThat_TracingTests: XCTestCase {
     func testTracing() throws {
         let tracer = TracingRoot.shared
         tracer.setupTracing()
-        tracer.setWritingEnabled(isEnabled: true)
+        tracer.state.traceWritesEnabled = true
         
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -186,7 +186,7 @@ class LookAtThat_TracingTests: XCTestCase {
         let tracer = TracingRoot.shared
         tracer.removeAllTraces()
         tracer.removeMapping()
-        tracer.setWritingEnabled(isEnabled: true)
+        tracer.state.traceWritesEnabled = true
         tracer.setupTracing()
         
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)

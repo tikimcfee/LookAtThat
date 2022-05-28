@@ -68,6 +68,17 @@ extension FileBrowser {
     }
 }
 
+private extension AppStatePreferences {
+    func persistAsCurrentScope(_ scope: FileBrowser.Scope) {
+        do {
+            let scopeData = try scope.path.createDefaultBookmark()
+            securedScopeData = (scope, scopeData)
+        } catch {
+            print("Failed to create secure url scope: ", error)
+        }
+    }
+}
+
 extension FileBrowser {
     var rootScope: Scope? {
         return scopes.first
@@ -87,16 +98,7 @@ extension FileBrowser {
     }
     
     func saveScope(_ scope: Scope) {
-        do {
-            let scopedData = try scope.path.bookmarkData(
-                options: .withSecurityScope,
-                includingResourceValuesForKeys: nil,
-                relativeTo: nil
-            )
-            AppStatePreferences.shared.securedScopeData = (scope, scopedData)
-        } catch {
-            print("Failed to create secure url scope: ", error)
-        }
+        AppStatePreferences.shared.persistAsCurrentScope(scope)
     }
     
     func loadRootScopeFromDefaults() {
