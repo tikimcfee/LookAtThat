@@ -42,7 +42,8 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
     
     private func register(_ key: GlobalWindowKey, _ window: NSWindow) {
         knownWindowMap[key] = window
-        rootWindow?.addChildWindow(window, ordered: .above)
+        window.orderFrontRegardless()
+//        rootWindow?.addChildWindow(window, ordered: .above)
         window.delegate = self
     }
     
@@ -53,5 +54,19 @@ class GlobablWindowDelegate: NSObject, NSWindowDelegate {
         }
         print("Window closing:", knownWindowMap[window]?.rawValue ?? "<No known key!>", "->", window.title)
         knownWindowMap[window] = nil
+    }
+    
+    func setupScreens() {
+        print("Available screens:")
+        NSScreen.screens.forEach { screen in
+            print(screen)
+            print("-> name  ", screen.localizedName)
+            print("-> frame ", screen.frame)
+            print("->vframe ", screen.visibleFrame)
+            print("-> safe  ", screen.safeAreaInsets)
+            screen.deviceDescription.forEach {
+                print("-> \($0.key)", $0.value)
+            }
+        }
     }
 }

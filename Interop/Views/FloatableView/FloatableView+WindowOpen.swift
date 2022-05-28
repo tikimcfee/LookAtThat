@@ -14,7 +14,6 @@ extension View {
         let window = GlobablWindowDelegate.instance
             .window(for: key, makeNewWindow(for: key))
         window.contentView = NSHostingView(rootView: self)
-//        window.makeKeyAndOrderFront(sender)
         return window
     }
     
@@ -40,4 +39,3 @@ extension View {
         return window
     }
 }
-
