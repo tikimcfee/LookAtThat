@@ -115,13 +115,13 @@ class SemanticTracingOutState: ObservableObject {
     func increment() {
         currentIndex += 1
         currentMatch = self[currentIndex]
-        highlightTrace(currentMatch.maybeTrace)
+        highlightTrace()
     }
     
     func decrement() {
         currentIndex -= 1
         currentMatch = self[currentIndex]
-        highlightTrace(currentMatch.maybeTrace)
+        highlightTrace()
     }
 }
 
@@ -144,13 +144,15 @@ extension SemanticTracingOutState {
         SceneLibrary.global.codePagesController.zoom(to: trace.grid)
     }
     
-    func highlightTrace(_ trace: TraceValue?) {
-        guard let trace = trace else {
+    func highlightTrace() {
+        guard let trace = currentMatch.maybeTrace else {
             return
         }
-        CodePagesController.shared.trace.setNewFocus(
+        
+        CodePagesController.shared.trace.updateFocus(
             id: trace.info.syntaxId,
-            in: trace.grid
+            in: trace.grid,
+            focus: currentMatch.out.isEntry
         )
     }
 }

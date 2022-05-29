@@ -158,6 +158,46 @@ class CodeGridTraceController: ObservableObject {
         self.parser = parser
     }
     
+    func updateFocus(
+        id newFocusID: SyntaxIdentifier,
+        in newFocusGrid: CodeGrid,
+        focus: Bool
+    ) {
+        if focus {
+            if !newFocusGrid.showingRawGlyphs {
+                newFocusGrid.swapInRootGlyphs()
+            }
+            newFocusGrid.incrementLock()
+        } else {
+            newFocusGrid.decrementLock()
+            if newFocusGrid.lockLevel == 0 {
+                newFocusGrid.swapOutRootGlyphs()
+            }
+        }
+        
+        newFocusGrid
+            .codeGridSemanticInfo
+            .doOnAssociatedNodes(newFocusID, newFocusGrid.tokenCache) { info, nodes in
+                for glyph in nodes {
+                    focus
+                        ? glyph.focus()
+                        : glyph.unfocus()
+                }
+            }
+        
+        
+        if let root = parser.editorWrapper.rootProvider?(),
+           let camera = parser.editorWrapper.cameraProvider?() {
+            sceneTransaction {
+                camera.look(
+                    at: newFocusGrid.rootNode.worldPosition,
+                    up: root.worldUp,
+                    localFront: SCNNode.localFront
+                )
+            }
+        }
+    }
+    
     func setNewFocus(
         id newFocusID: SyntaxIdentifier,
         in newFocusGrid: CodeGrid

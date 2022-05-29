@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftTrace
 
 class TraceLine: Identifiable {
     let entryExitName: String
@@ -31,6 +32,10 @@ class TraceLine: Identifiable {
 extension TraceLine {
     static var missing: TraceLine {
         TraceLine(entryExitName: "?? ", signature: "No signature found", threadName: "NoThread", queueName: "NoQueue")
+    }
+    
+    var isEntry: Bool {
+        TraceOutput.lineIsEntry(self)
     }
     
     var callPath: String {

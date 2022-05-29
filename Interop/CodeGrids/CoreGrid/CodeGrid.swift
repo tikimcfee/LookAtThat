@@ -47,6 +47,7 @@ public class CodeGrid: Identifiable, Equatable {
     var sourcePath: URL?
     private(set) var glyphSwapLocked = false // transient switch to disallow swapping
     private(set) var showingRawGlyphs = true // start with true, finalize() will flatten and set first
+    private(set) var lockLevel = 0
     
     let tokenCache: CodeGridTokenCache
     let glyphCache: GlyphLayerCache
@@ -263,6 +264,20 @@ extension CodeGrid {
     
     func lockGlyphSwapping() {
         glyphSwapLocked = true
+    }
+    
+    func incrementLock() {
+        if lockLevel == 0 {
+            lockGlyphSwapping()
+        }
+        lockLevel += 1
+    }
+    
+    func decrementLock() {
+        lockLevel -= 1
+        if lockLevel == 0 {
+            unlockGlyphSwapping()
+        }
     }
     
     func unlockGlyphSwapping() {

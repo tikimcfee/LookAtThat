@@ -143,6 +143,26 @@ extension CodeGridSemanticMap {
             try walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
         }
     }
+    
+    func walkFlattenedNonEscaping(
+        from syntaxIdentifer: SyntaxIdentifier,
+        in cache: CodeGridTokenCache,
+        _ walker: (SemanticInfo, CodeGridNodes) throws -> Void
+    ) rethrows {
+        guard let toWalk = flattenedSyntax[syntaxIdentifer] else {
+            print("Cache missing on id: \(syntaxIdentifer)")
+            return
+        }
+        
+        IterativeRecursiveVisitor.walkRecursiveFromSyntax(toWalk) { [semanticsLookupBySyntaxId] syntax in
+            let syntaxId = syntax.id
+            guard let info = semanticsLookupBySyntaxId[syntaxId] else { return }
+            
+            try walker(info, cache[syntaxId.stringIdentifier])
+            try walker(info, cache[syntaxId.stringIdentifier + "-leadingTrivia"])
+            try walker(info, cache[syntaxId.stringIdentifier + "-trailingTriva"])
+        }
+    }
 }
 
 extension CodeGridSemanticMap {
@@ -186,6 +206,16 @@ extension CodeGridSemanticMap {
 // MARK: Node Sorting
 
 extension CodeGridSemanticMap {
+    func doOnAssociatedNodes(
+        _ nodeId: SyntaxIdentifier,
+        _ cache: CodeGridTokenCache,
+        _ receiver: ((SemanticInfo, SortedNodeSet)) -> Void
+    ) {
+        walkFlattenedNonEscaping(from: nodeId, in: cache) { infoForNodeSet, nodeSet in
+            receiver((infoForNodeSet, Array(nodeSet)))
+        }
+    }
+    
     func collectAssociatedNodes(
         _ nodeId: SyntaxIdentifier,
         _ cache: CodeGridTokenCache,

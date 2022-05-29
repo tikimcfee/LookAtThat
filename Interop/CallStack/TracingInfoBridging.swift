@@ -31,10 +31,26 @@ extension TraceOutput {
 }
 
 extension TraceOutput {
+    static let EntryName = "-> "
+    static let ExitName =  "<- "
+    
+    static func lineIsExit(_ traceLine: TraceLine) -> Bool {
+        return !lineIsEntry(traceLine)
+    }
+    
+    static func lineIsEntry(_ traceLine: TraceLine) -> Bool {
+        switch traceLine.entryExitName {
+        case EntryName:
+            return true
+        default:
+            return false
+        }
+    }
+    
     var entryExitName: String {
         switch self {
-        case .entry: return "-> "
-        case .exit:  return "<- "
+        case .entry: return Self.EntryName
+        case .exit:  return Self.ExitName
         }
     }
     
