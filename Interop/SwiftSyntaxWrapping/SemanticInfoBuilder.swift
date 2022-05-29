@@ -82,6 +82,79 @@ extension SemanticInfoBuilder {
     }
 }
 
+extension SemanticInfoBuilder {
+    func buildRecursiveParentName(_ info: Syntax) -> String {
+        switch self[info] {
+        case .classDecl(let classDecl):
+            var finalId = "\(classDecl.identifier._syntaxNode.strippedText)"
+            buildNameWalkingUp(
+                from: classDecl,
+                targetId: &finalId
+            )
+            return finalId
+        case .structDecl(let structDecl):
+            var finalId = "\(structDecl.identifier._syntaxNode.strippedText)"
+            buildNameWalkingUp(
+                from: structDecl,
+                targetId: &finalId
+            )
+            return finalId
+        case .functionDecl(let funcDecl):
+            var finalId = "\(funcDecl.identifier._syntaxNode.strippedText)"
+            buildNameWalkingUp(
+                from: funcDecl,
+                targetId: &finalId
+            )
+            return finalId
+        case .enumDecl(let enumDecl):
+            var finalId = "\(enumDecl.identifier._syntaxNode.strippedText)"
+            buildNameWalkingUp(
+                from: enumDecl,
+                targetId: &finalId
+            )
+            return finalId
+        case .extensionDecl(let extensionDecl):
+            var finalId = "\(extensionDecl.extendedType._syntaxNode.strippedText)"
+            buildNameWalkingUp(
+                from: extensionDecl,
+                targetId: &finalId
+            )
+            return finalId
+        default:
+            return ""
+        }
+    }
+    
+    func buildNameWalkingUp(
+        from node: SyntaxProtocol,
+        targetId: inout String
+    ) {
+        var current: Syntax? = node.parent
+        while let next = current {
+            switch self[next] {
+            case .classDecl(let outerD):
+                targetId = "\(outerD.identifier._syntaxNode.strippedText).\(targetId)"
+                
+            case .extensionDecl(let outerExt):
+                targetId = "\(outerExt.extendedType._syntaxNode.strippedText).\(targetId)"
+                
+            case .functionDecl(let outerF):
+                targetId = "\(outerF.identifier._syntaxNode.strippedText).\(targetId)"
+                
+            case .enumDecl(let outerEnum):
+                targetId = "\(outerEnum.identifier._syntaxNode.strippedText).\(targetId)"
+                
+            case .structDecl(let outStruct):
+                targetId = "\(outStruct.identifier._syntaxNode.strippedText).\(targetId)"
+                
+            default:
+                break
+            }
+            current = current?.parent
+        }
+    }
+}
+
 private extension SemanticInfoBuilder {
     func makeTokenInfo(for node: Syntax, fileName: String? = nil, _ tokl: TokenSyntax) -> SemanticInfo {
         SemanticInfo(
@@ -103,7 +176,7 @@ private extension SemanticInfoBuilder {
     }
     
     func makeEnumDeclInfo(for node: Syntax, fileName: String? = nil, _ enuml: EnumDeclSyntax) -> SemanticInfo {
-        let name = "\(enuml.identifier)"
+        let name = buildRecursiveParentName(node)
         return SemanticInfo(
             node: node,
             referenceName: name,
@@ -149,7 +222,7 @@ private extension SemanticInfoBuilder {
     func makeClassInfo(for node: Syntax, fileName: String? = nil, _ classl: ClassDeclSyntax) -> SemanticInfo {
         let newInfo = SemanticInfo(
             node: node,
-            referenceName: "\(classl.identifier)",
+            referenceName: buildRecursiveParentName(node),
             color: CodeGridColors.classDecl,
             fileName: fileName,
             callStackName: "\(classl.identifier)".trimmingCharacters(in: .whitespaces)
@@ -160,7 +233,7 @@ private extension SemanticInfoBuilder {
     func makeStructInfo(for node: Syntax, fileName: String? = nil, _ structl: StructDeclSyntax) -> SemanticInfo {
         let newInfo = SemanticInfo(
             node: node,
-            referenceName: "\(structl.identifier)",
+            referenceName: buildRecursiveParentName(node),
             color: CodeGridColors.structDecl,
             fileName: fileName,
             callStackName: "\(structl.identifier)".trimmingCharacters(in: .whitespaces)

@@ -37,6 +37,40 @@ class LookAtThat_TracingTests: XCTestCase {
         printEnd()
     }
     
+    func testClassCollection() throws {
+        let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
+        printStart()
+        
+        
+        let dummyGrid = bundle.gridParser.createNewGrid()
+        let visitor = FlatteningVisitor(
+            target: dummyGrid.codeGridSemanticInfo,
+            builder: dummyGrid.semanticInfoBuilder
+        )
+        
+        try rootUrl.enumeratedChildren().forEach { url in
+            guard !url.isDirectory else {
+                return
+            }
+            let sourceFile = try XCTUnwrap(bundle.gridParser.loadSourceUrl(url), "Must render syntax from file")
+            let sourceSyntax = Syntax(sourceFile)
+            visitor.walkRecursiveFromSyntax(sourceSyntax)
+        }
+        
+        let classes = dummyGrid.codeGridSemanticInfo.classes.keys.compactMap {
+            dummyGrid.codeGridSemanticInfo.semanticsLookupBySyntaxId[$0]
+        }.compactMap { (info: SemanticInfo) -> String? in
+            "\(info.referenceName).self"
+        }
+        .sorted()
+        .joined(separator: ",\n")
+        
+        
+        print(classes)
+        
+        printEnd()
+    }
+    
     func testTracing() throws {
         let tracer = TracingRoot.shared
         tracer.setupTracing()
