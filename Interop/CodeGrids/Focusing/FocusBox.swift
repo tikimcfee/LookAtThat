@@ -94,6 +94,33 @@ extension FocusBox {
         }
     }
     
+    func bringToDeepest(_ grid: CodeGrid) {
+        guard let _ = bimap[grid] else { return }
+        bimap[grid] = nil
+        snapping.detachRetaining(grid)
+        bimap.valuesToKeys
+            .sorted(by: { $0.key < $1.key })
+            .enumerated()
+            .forEach { index, element in
+                bimap[index] = element.value
+            }
+        bimap[deepestDepth + 1] = grid
+        focusedGrid = grid
+        
+        if let previous = bimap[deepestDepth - 1] {
+            snapping.connectWithInverses(sourceGrid: previous, to: makeNextDirection(grid))
+        }
+    }
+        
+    
+    func contains(grid: CodeGrid) -> Bool {
+        bimap[grid] != nil
+    }
+    
+    func depthOf(grid: CodeGrid) -> Int? {
+        bimap[grid]
+    }
+    
     func setFocusedGrid(_ depth: Int) {
         focusedGrid = bimap[depth]
     }

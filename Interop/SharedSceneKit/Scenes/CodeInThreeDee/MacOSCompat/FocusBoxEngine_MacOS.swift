@@ -10,7 +10,7 @@ import SceneKit
 
 class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
     var xLengthPadding: VectorFloat = 8.0
-    var zLengthPadding: VectorFloat = 16.0
+    var zLengthPadding: VectorFloat = 196.0
     
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
         // Set the size of the box to match
@@ -31,7 +31,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
         /// Note: -1.0 as multiple is explicit to remain compatiable between iOS macOS; '-' operand isn't universal
         let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
         let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
-        let translateZ = -newValue.min.z / 2.0
+        let translateZ = -newValue.max.z / 2.0
         
         container.geometryNode.pivot = SCNMatrix4MakeTranslation(
             translateX, translateY, translateZ
@@ -81,7 +81,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
                 current.measures
                     .setTop(previous.measures.top)
                     .setLeading(previous.measures.leading)
-                    .setBack(previous.measures.back - self.zLengthPadding)
+                    .setBack(previous.measures.front + self.zLengthPadding)
             } else {
                 current.zeroedPosition()
             }

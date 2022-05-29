@@ -209,10 +209,10 @@ extension CodeGridSemanticMap {
     func doOnAssociatedNodes(
         _ nodeId: SyntaxIdentifier,
         _ cache: CodeGridTokenCache,
-        _ receiver: ((SemanticInfo, SortedNodeSet)) -> Void
+        _ receiver: ((SemanticInfo, CodeGridNodes)) -> Void
     ) {
         walkFlattenedNonEscaping(from: nodeId, in: cache) { infoForNodeSet, nodeSet in
-            receiver((infoForNodeSet, Array(nodeSet)))
+            receiver((infoForNodeSet, nodeSet))
         }
     }
     

@@ -76,6 +76,16 @@ extension CodePagesControllerMacOSCompat {
             }
         }
     }
+    
+    func doOnTargetFocus(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
+        resizeCommand { _, box in
+            sceneTransaction {
+                layoutCommand { focus, box in
+                    receiver(focus, box)
+                }
+            }
+        }
+    }
 }
 
 extension CodePagesControllerMacOSCompat {

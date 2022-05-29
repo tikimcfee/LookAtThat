@@ -74,7 +74,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
 //                    queue: codeGridParser.renderQueue,
 //                    renderer: codeGridParser.concurrency
 //                ).startRender()
-                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+                    codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
                     self.addToRoot(rootGrid: rootGrid)
                 }
             default: break

@@ -154,6 +154,17 @@ extension SemanticTracingOutState {
             in: trace.grid,
             focus: currentMatch.out.isEntry
         )
+        
+        CodePagesController.shared.compat.doOnTargetFocus { controller, box in
+            if box.depthOf(grid: trace.grid) == box.deepestDepth {
+                return
+            }
+            if box.contains(grid: trace.grid) {
+                box.bringToDeepest(trace.grid)
+            } else {
+                controller.appendToTarget(grid: trace.grid)
+            }
+        }
     }
 }
 
