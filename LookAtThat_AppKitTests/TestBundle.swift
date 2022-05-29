@@ -48,7 +48,7 @@ class TestBundle {
     var controller: CodePagesController!
     
     var testSourceDirectory: URL? {
-        let absolutePath = Self.testDirectoriesAbsolute[1]
+        let absolutePath = Self.testDirectoriesAbsolute[0]
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
         guard exists, isDirectory.boolValue else {
@@ -56,7 +56,7 @@ class TestBundle {
             return nil
         }
         
-        return URL(string: absolutePath)
+        return URL(fileURLWithPath: absolutePath, isDirectory: true)
     }
     
     func setUpWithError() throws {

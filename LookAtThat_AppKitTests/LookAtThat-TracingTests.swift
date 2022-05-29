@@ -26,6 +26,17 @@ class LookAtThat_TracingTests: XCTestCase {
         try bundle.tearDownWithError()
     }
     
+    func testDeepRecursion() throws {
+        let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
+//        let enumerator = try XCTUnwrap(FileManager.default.enumerator(atPath: rootUrl.path), "Need enumerator")
+        
+        printStart()
+        
+        rootUrl.enumeratedChildren().forEach { print($0) }
+        
+        printEnd()
+    }
+    
     func testTracing() throws {
         let tracer = TracingRoot.shared
         tracer.setupTracing()
@@ -49,7 +60,7 @@ class LookAtThat_TracingTests: XCTestCase {
         //        let firstThread = try XCTUnwrap(tracer.capturedLoggingThreads.keys.first, "Expected at least one log thread")
         //        let logs = try XCTUnwrap(firstThread.getTraceLogs())
         
-        let firstQueue = try XCTUnwrap(tracer.capturedLoggingQueues.keys.first, "Expected at least one log queue")
+        let _ = try XCTUnwrap(tracer.capturedLoggingQueues.keys.first, "Expected at least one log queue")
         let logs = try XCTUnwrap(tracer.getCurrentQueueTraceLogs())
         
         XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")

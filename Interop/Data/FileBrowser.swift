@@ -16,10 +16,12 @@ class FileBrowser: ObservableObject {
 extension FileBrowser {    
     // This is fragile. Both collapse/expand need to filter repeatedly.
     static func isFileObserved(_ path: URL) -> Bool {
-        path.isDirectory || isSwiftFile(path)
+        ( path.isDirectory || isSupportedFileType(path) )
+        &&
+        !(path.lastPathComponent.starts(with: "."))
     }
     
-    static func isSwiftFile(_ path: URL) -> Bool {
+    static func isSupportedFileType(_ path: URL) -> Bool {
         path.pathExtension == "swift"
     }
     
@@ -28,7 +30,7 @@ extension FileBrowser {
     }
     
     static func recursivePaths(_ path: URL) -> [URL] {
-        path.children(recursive: true).filter { isFileObserved($0) }
+        path.children(recursive: true)
     }
     
     static func sortedFilesFirst(_ left: URL, _ right: URL) -> Bool {
@@ -119,18 +121,18 @@ extension URL {
     var fileName: String { lastPathComponent }
     
     func children(recursive: Bool = false) -> [URL] {
-        let obtainFunc = recursive
-        ? fileManager.subpathsOfDirectory(atPath:)
-        : fileManager.contentsOfDirectory(atPath:)
-        
-        do {
-            let found = try obtainFunc(path)
-            return found.map { pathComponent in
-                appendingPathComponent(pathComponent)
+        if recursive {
+            return enumeratedChildren()
+        } else {
+            do {
+                let found = try fileManager.contentsOfDirectory(atPath: path)
+                return found.map { pathComponent in
+                    appendingPathComponent(pathComponent)
+                }
+            } catch {
+                print("Failed to iterate children, recursive=\(recursive): ", error)
+                return []
             }
-        } catch {
-            print("Failed to iterate children, recursive=\(recursive): ", error)
-            return []
         }
     }
     
@@ -138,5 +140,32 @@ extension URL {
         children()
             .filter(filter)
             .sorted(by: FileBrowser.sortedFilesFirst)
+    }
+    
+    func enumeratedChildren() -> [URL] {
+        guard let enumerator = fileManager
+            .enumerator(
+                at: self,
+                includingPropertiesForKeys: [],
+                errorHandler: { print($1, $0); return false }
+            )
+        else {
+            print("\t\tCould not create enumerator for \(self)")
+            return []
+        }
+        
+        var result = [URL]()
+        while let url = enumerator.nextObject() as? URL {
+            let isReadableFile = FileBrowser.isFileObserved(url)
+            if !isReadableFile {
+                if url.isDirectory {
+                    enumerator.skipDescendants()
+                }
+                continue
+            }
+            
+            result.append(url)
+        }
+        return result
     }
 }
