@@ -7,6 +7,41 @@
 
 import SwiftUI
 import Combine
+import SCNLine
+
+class TraceLineIncrementalTracker {
+    var traceLine = SCNLineNode()
+    
+    func handleMatch(_ match: MatchedTraceOutput) {
+        switch match {
+        case .found(let found):
+            handleFound(found)
+        default:
+            break
+        }
+    }
+    
+    func handleFound(_ found: MatchedTraceOutput.Found) {
+        if found.out.isEntry {
+            print("\(found.out.entryExitName) Adding point")
+            representativePoint(for: found.trace)
+        } else {
+            print("\(found.out.entryExitName) Removing point")
+//            traceLine.remove(index: traceLine.points.endIndex - 1)
+        }
+    }
+    
+    func representativePoint(for value: TraceValue) {
+        let bounds = BoundsComputing()
+        value.grid.codeGridSemanticInfo
+            .doOnAssociatedNodes(value.info.syntaxId, value.grid.tokenCache) { info, nodeSet in
+                nodeSet.forEach { node in
+                    bounds.consumeBounds(node.manualBoundingBox)
+                }
+            }
+        print("Found bounds for: \(value)", bounds, bounds.bounds)
+    }
+}
 
 class SemanticTracingOutState: ObservableObject {
     enum Sections: CaseIterable {
@@ -42,6 +77,7 @@ class SemanticTracingOutState: ObservableObject {
     private let tracer = TracingRoot.shared
     var tracerState: TracingRoot.State { tracer.state }
     private lazy var bag = Set<AnyCancellable>()
+    private lazy var lineTracker = TraceLineIncrementalTracker()
     
     init() {
         
@@ -145,24 +181,27 @@ extension SemanticTracingOutState {
     }
     
     func highlightTrace() {
-        guard let trace = currentMatch.maybeTrace else {
+        guard case let MatchedTraceOutput.found(found) = currentMatch else {
             return
         }
         
+        lineTracker.handleFound(found)
+        
+        let currentTrace = found.trace
         CodePagesController.shared.trace.updateFocus(
-            id: trace.info.syntaxId,
-            in: trace.grid,
+            id: currentTrace.info.syntaxId,
+            in: currentTrace.grid,
             focus: currentMatch.out.isEntry
         )
         
         CodePagesController.shared.compat.doOnTargetFocus { controller, box in
-            if box.depthOf(grid: trace.grid) == box.deepestDepth {
+            if box.depthOf(grid: currentTrace.grid) == box.deepestDepth {
                 return
             }
-            if box.contains(grid: trace.grid) {
-                box.bringToDeepest(trace.grid)
+            if box.contains(grid: currentTrace.grid) {
+                box.bringToDeepest(currentTrace.grid)
             } else {
-                controller.appendToTarget(grid: trace.grid)
+                controller.appendToTarget(grid: currentTrace.grid)
             }
         }
     }
