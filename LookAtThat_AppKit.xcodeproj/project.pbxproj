@@ -546,6 +546,7 @@
 		B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
 		B7C75720280CEE040005A233 /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B7C75721280CEE040005A233 /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
+		B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7C9AFB1284352D60077BCA7 /* SCNLine */; };
 		B7C9F6EF27B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
@@ -969,6 +970,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7623F3D28334766008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+				B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */,
 				B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
 				B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
@@ -1789,6 +1791,7 @@
 				B7623F37283346DF008DAA88 /* SwiftSyntax */,
 				B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */,
 				B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */,
+				B7C9AFB1284352D60077BCA7 /* SCNLine */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1881,6 +1884,7 @@
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 				B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */,
+				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -3178,6 +3182,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tikimcfee/SceneKit-SCNLine.git";
+			requirement = {
+				branch = "feature/point-removal";
+				kind = branch;
+			};
+		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/karlvr/Brotli";
@@ -3293,6 +3305,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
+		};
+		B7C9AFB1284352D60077BCA7 /* SCNLine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
+			productName = SCNLine;
 		};
 		B7D79AB9282B2DF5000F99EB /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
