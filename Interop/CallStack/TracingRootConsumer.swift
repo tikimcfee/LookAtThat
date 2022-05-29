@@ -78,7 +78,7 @@ extension PersistentThreadGroup {
             return
         }
         
-        if output.isExit { return }
+//        if output.isExit { return }
 //        if lastSkipSignature == output.signature { return }
 //        lastSkipSignature = output.signature
         

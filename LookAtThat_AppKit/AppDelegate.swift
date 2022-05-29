@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        __ENABLE_STARTUP_LOG_WRITES__()
+        
         let rootWindow = makeRootWindow()
         GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
         rootWindow.contentView = makeRootContentView()
@@ -54,6 +55,9 @@ extension AppDelegate {
 extension AppDelegate {
     func __ENABLE_STARTUP_LOG_WRITES__() {
         print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
+        TracingRoot.shared.state.traceWritesEnabled = true
+        TracingRoot.shared.removeAllTraces()
+        TracingRoot.shared.removeMapping()
         TracingRoot.shared.setupTracing()
     }
     
