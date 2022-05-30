@@ -172,7 +172,7 @@ func helloWorld() {
         let parser = CodeGridParser()
         let grid = parser.renderGrid(sourceString)!
         grid.fileName = "Raw Source File"
-        grid.sourcePath = URL("/usr/bin/bashable/fizzbuzzer")
+        grid.sourcePath = URL(string: "/usr/bin/bashable/fizzbuzzer")
         grid.rootNode.translate(dX: -12.33112312313, dY: 231.22000999, dZ: -0.23123312)
         return grid
     }()

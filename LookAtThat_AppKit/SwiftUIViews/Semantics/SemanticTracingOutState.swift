@@ -8,6 +8,13 @@
 import SwiftUI
 import Combine
 import SCNLine
+import SwiftTrace
+
+extension TraceLine {
+    var isEntry: Bool {
+        TraceOutput.lineIsEntry(self)
+    }
+}
 
 class TraceLineIncrementalTracker {
     var traceLine = SCNLineNode()

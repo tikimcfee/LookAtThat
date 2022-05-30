@@ -373,23 +373,10 @@
 		B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
-		B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F37283346DF008DAA88 /* SwiftSyntax */; };
-		B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */; };
-		B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */; };
-		B7623F3D28334766008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
-		B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
-		B7623F3F2833476E008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7623F4028334771008DAA88 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7623F412833495A008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
 		B7623F4228334960008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; };
 		B7623F4328334964008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7623F4628334978008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4528334978008DAA88 /* SwiftSyntax */; };
-		B7623F4828334978008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */; };
-		B7623F4A28334978008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4928334978008DAA88 /* SwiftSyntaxParser */; };
-		B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4B28334984008DAA88 /* SwiftSyntax */; };
-		B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */; };
-		B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7623F4F28334984008DAA88 /* SwiftSyntaxParser */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
 		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
@@ -569,6 +556,9 @@
 		B7EAA4CB27718F3C00E91C29 /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
 		B7EAA4CE2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
+		B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71072844119800313633 /* SwiftSyntaxParser */; };
+		B7EB7109284448A100313633 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -718,8 +708,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B7623F3F2833476E008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
-				B7623F4028334771008DAA88 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
+				B7EB7109284448A100313633 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,10 +948,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7C404D8283497D50079F00B /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
-				B7623F5028334984008DAA88 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
-				B7623F4E28334984008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
-				B7623F4C28334984008DAA88 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,14 +956,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7623F3D28334766008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */,
-				B7623F3E28334768008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
-				B7623F3A283346DF008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
-				B7623F38283346DF008DAA88 /* SwiftSyntax in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
-				B7623F3C283346DF008DAA88 /* SwiftSyntaxParser in Frameworks */,
+				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -996,10 +979,7 @@
 			files = (
 				B7623F412833495A008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
 				B7623F4228334960008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Frameworks */,
-				B7623F4A28334978008DAA88 /* SwiftSyntaxParser in Frameworks */,
-				B7623F4628334978008DAA88 /* SwiftSyntax in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
-				B7623F4828334978008DAA88 /* SwiftSyntaxBuilder in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1761,9 +1741,6 @@
 			name = "LookAtThat_AppKit - Previews";
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
-				B7623F4B28334984008DAA88 /* SwiftSyntax */,
-				B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */,
-				B7623F4F28334984008DAA88 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -1788,10 +1765,8 @@
 				F0F0D8D42526897E00EC8E75 /* Brotli */,
 				B75250F32814CEF500820412 /* SwiftTrace */,
 				B7661B572829DF0C001F185B /* CodeEditorView */,
-				B7623F37283346DF008DAA88 /* SwiftSyntax */,
-				B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */,
-				B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */,
 				B7C9AFB1284352D60077BCA7 /* SCNLine */,
+				B7EB71072844119800313633 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1840,9 +1815,6 @@
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
-				B7623F4528334978008DAA88 /* SwiftSyntax */,
-				B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */,
-				B7623F4928334978008DAA88 /* SwiftSyntaxParser */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1883,8 +1855,8 @@
 				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
-				B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
+				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -3144,7 +3116,7 @@
 		};
 		B70FDC4F283EAE9900170D5F /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
+			repositoryURL = "https://github.com/tikimcfee/swift-syntax";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -3166,14 +3138,6 @@
 				kind = branch;
 			};
 		};
-		B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mchakravarty/CodeEditorView.git";
@@ -3187,6 +3151,14 @@
 			repositoryURL = "https://github.com/tikimcfee/SceneKit-SCNLine.git";
 			requirement = {
 				branch = "feature/point-removal";
+				kind = branch;
+			};
+		};
+		B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tikimcfee/swift-syntax";
+			requirement = {
+				branch = main;
 				kind = branch;
 			};
 		};
@@ -3251,51 +3223,6 @@
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
 		};
-		B7623F37283346DF008DAA88 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B7623F39283346DF008DAA88 /* SwiftSyntaxBuilder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxBuilder;
-		};
-		B7623F3B283346DF008DAA88 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
-		B7623F4528334978008DAA88 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B7623F4728334978008DAA88 /* SwiftSyntaxBuilder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxBuilder;
-		};
-		B7623F4928334978008DAA88 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
-		B7623F4B28334984008DAA88 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B7623F4D28334984008DAA88 /* SwiftSyntaxBuilder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxBuilder;
-		};
-		B7623F4F28334984008DAA88 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7623F36283346DE008DAA88 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
 		B7661B572829DF0C001F185B /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
@@ -3315,6 +3242,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
+		};
+		B7EB71072844119800313633 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -19,12 +19,21 @@
       }
     },
     {
+      "identity" : "scenekit-scnline",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/SceneKit-SCNLine.git",
+      "state" : {
+        "branch" : "feature/point-removal",
+        "revision" : "e25ff3e7ac684a91620bbba0359ab79ef46a9ba9"
+      }
+    },
+    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-syntax",
+      "location" : "https://github.com/tikimcfee/swift-syntax",
       "state" : {
         "branch" : "main",
-        "revision" : "dcf98b2cd13edeebb89cda4b456693b67356fdd7"
+        "revision" : "43ccbb69b050a261bcf9c85a9498468fe116a3f5"
       }
     },
     {
@@ -33,7 +42,7 @@
       "location" : "https://github.com/tikimcfee/SwiftTrace",
       "state" : {
         "branch" : "logging-output",
-        "revision" : "eee29f192e2af1d0dbb6076cd24a8c0afd091c46"
+        "revision" : "5c924cc464e49d4f534a2915ada4b3ba555267b5"
       }
     }
   ],
