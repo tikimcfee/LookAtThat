@@ -77,6 +77,18 @@ extension SCNNode {
         )
         return convertPosition(vector, to: parent)
     }
+    
+    var boundsInParent: Bounds {
+        let minVector = convertPosition(manualBoundingBox.min, to: parent)
+        let maxVector = convertPosition(manualBoundingBox.max, to: parent)
+        return (minVector, maxVector)
+    }
+    
+    var boundsInWorld: Bounds {
+        let minVector = convertPosition(manualBoundingBox.min, to: nil)
+        let maxVector = convertPosition(manualBoundingBox.max, to: nil)
+        return (minVector, maxVector)
+    }
 }
 
 public typealias Bounds = (min: SCNVector3, max: SCNVector3)

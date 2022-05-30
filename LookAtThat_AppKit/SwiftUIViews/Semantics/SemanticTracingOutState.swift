@@ -42,11 +42,9 @@ class TraceLineIncrementalTracker {
         let bounds = BoundsComputing()
         value.grid.codeGridSemanticInfo
             .doOnAssociatedNodes(value.info.syntaxId, value.grid.tokenCache) { info, nodeSet in
-                nodeSet.forEach { node in
-                    bounds.consumeBounds(node.manualBoundingBox)
-                }
+                bounds.consumeNodeSet(nodeSet)
             }
-        print("Found bounds for: \(value)", bounds, bounds.bounds)
+        print("Bounds: \(value.grid.fileName) -> \(bounds.bounds)")
     }
 }
 

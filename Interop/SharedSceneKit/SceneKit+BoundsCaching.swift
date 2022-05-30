@@ -85,6 +85,14 @@ public extension SCNNode {
     }
 }
 
+extension BoundsComputing {
+    func consumeNodeSet(_ nodes: Set<SCNNode>) {
+        nodes.forEach {
+            consumeBounds($0.boundsInWorld)
+        }
+    }
+}
+
 public extension SCNNode {
     
     var manualBoundingBox: Bounds {

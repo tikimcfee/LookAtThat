@@ -148,6 +148,31 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printEnd()
     }
     
+    func testNodeBoundsFinding() throws {
+        printStart()
+        
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        func newGrid() -> CodeGrid {
+            CodeGrid(glyphCache: bundle.glyphs,
+                     tokenCache: bundle.tokenCache)
+            .withFileName(bundle.testFile.lastPathComponent)
+            .consume(rootSyntaxNode: parsed.root)
+            .sizeGridToContainerNode()
+        }
+        let testGrid = newGrid()
+        let testClass = try XCTUnwrap(testGrid.codeGridSemanticInfo.classes.first, "Must have id to test")
+
+        let computing = BoundsComputing()
+        testGrid
+            .codeGridSemanticInfo
+            .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in
+                computing.consumeNodeSet(nodes)
+            }
+        print(computing.bounds)
+        
+        printEnd()
+    }
+    
     func testFileBrowser() throws {
         let testFile = bundle.testFile
         let testPathStart = testFile
