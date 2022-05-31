@@ -74,7 +74,9 @@ extension CodeGrid {
             for newCharacter in string {
                 let glyphNode = grid.createNodeFor(newCharacter, color)
                 glyphNode.name = name
-                set.insert(glyphNode)
+                if !newCharacter.isWhitespace {
+                    set.insert(glyphNode)
+                }
                 grid.renderer.insert(newCharacter, glyphNode, glyphNode.size)
             }
         }
