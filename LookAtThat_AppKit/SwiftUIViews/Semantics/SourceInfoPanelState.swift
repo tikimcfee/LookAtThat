@@ -63,7 +63,7 @@ class SourceInfoPanelState: ObservableObject {
     
     init() {
         self.visiblePanels = AppStatePreferences.shared.visiblePanels
-            ?? [.windowControls, .directories]
+            ?? [.windowControls, .directories, .appStateInfo]
         self.visiblePanelStates = AppStatePreferences.shared.panelStates
             ?? {
                 var states = CodableAutoCache<PanelSections, FloatableViewMode>()

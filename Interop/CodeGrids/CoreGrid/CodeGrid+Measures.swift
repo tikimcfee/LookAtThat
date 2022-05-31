@@ -9,6 +9,39 @@ import Foundation
 import SceneKit
 
 // MARK: -- Measuring and layout
+extension SCNNode {
+    var worldLeading: VectorFloat {
+        get { worldPosition.x - abs(manualBoundingBox.min.x) }
+    }
+    var worldTrailing: VectorFloat {
+        get { worldPosition.x + abs(manualBoundingBox.max.x) }
+    }
+    var worldTop: VectorFloat {
+        get { worldPosition.y + abs(manualBoundingBox.max.y) }
+    }
+    var worldBottom: VectorFloat {
+        get { worldPosition.y - abs(manualBoundingBox.min.y) }
+    }
+    var worldFront: VectorFloat {
+        get { worldPosition.z + abs(manualBoundingBox.max.z) }
+    }
+    var worldBack: VectorFloat {
+        get { worldPosition.z - abs(manualBoundingBox.min.z) }
+    }
+    
+    var worldBoundsMin: SCNVector3 {
+        SCNVector3(worldLeading, worldBottom, worldBack)
+    }
+    
+    var worldBoundsMax: SCNVector3 {
+        SCNVector3(worldTrailing, worldTop, worldFront)
+    }
+    
+    var worldBounds: Bounds {
+        (min: worldBoundsMin, max: worldBoundsMax)
+    }
+}
+
 extension CodeGrid {
     class Measures {
         private let target: CodeGrid
@@ -37,6 +70,11 @@ extension CodeGrid {
             set { positionNode.position = newValue }
         }
         
+        var worldPosition: SCNVector3 {
+            get { positionNode.worldPosition }
+            set { positionNode.worldPosition = newValue }
+        }
+        
         var lengthX: VectorFloat { scaledLengthX }
         var lengthY: VectorFloat { scaledLengthY }
         var lengthZ: VectorFloat { scaledLengthZ }
@@ -60,6 +98,18 @@ extension CodeGrid {
                 SCNVector3(localTrailing, localTop, localFront),
                 to: positionNode.parent
             )
+        }
+        
+        var worldBoundsMin: SCNVector3 {
+            SCNVector3(worldLeading, worldBottom, worldBack)
+        }
+        
+        var worldBoundsMax: SCNVector3 {
+            SCNVector3(worldTrailing, worldTop, worldFront)
+        }
+        
+        var worldBounds: Bounds {
+            (min: worldBoundsMin, max: worldBoundsMax)
         }
         
         var centerPosition: SCNVector3 {
@@ -211,6 +261,25 @@ private extension CodeGrid.Measures {
 extension CodeGrid.Measures {
     private var positionNode: SCNNode { target.rootNode }
     private var sizeNode: SCNNode { target.rootNode }
+    
+    var worldLeading: VectorFloat {
+        get { positionNode.worldPosition.x - positionNode.manualBoundingBox.min.x }
+    }
+    var worldTrailing: VectorFloat {
+        get { positionNode.worldPosition.x + positionNode.manualBoundingBox.max.x }
+    }
+    var worldTop: VectorFloat {
+        get { positionNode.worldPosition.y + positionNode.manualBoundingBox.max.y }
+    }
+    var worldBottom: VectorFloat {
+        get { positionNode.worldPosition.y - positionNode.manualBoundingBox.min.y }
+    }
+    var worldFront: VectorFloat {
+        get { positionNode.worldPosition.z + positionNode.manualBoundingBox.max.z }
+    }
+    var worldBack: VectorFloat {
+        get { positionNode.worldPosition.z - positionNode.manualBoundingBox.min.z }
+    }
     
     var localLeading: VectorFloat {
         get { positionNode.manualBoundingBox.min.x }

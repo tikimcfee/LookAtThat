@@ -60,6 +60,7 @@ class CodeGridPointerController: ObservableObject {
 
 class CodeGridHoverController: ObservableObject {
     struct State {
+        var hoveredNode: SCNNode?
         var hoveredTokenId: String? = ""
         var hoveredInfo: CodeGridSemanticMap = .init()
         var hoveredGrid: CodeGrid?

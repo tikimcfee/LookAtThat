@@ -7,6 +7,99 @@
 
 import SwiftUI
 import Combine
+import SCNLine
+import SwiftTrace
+import SceneKit
+
+extension TraceLine {
+    var isEntry: Bool {
+        TraceOutput.lineIsEntry(self)
+    }
+}
+
+class TraceLineIncrementalTracker {
+    var visualExecutionPath: SCNLineNode
+    
+    init() {
+        self.visualExecutionPath = SCNLineNode(
+            radius: 4.0
+        )
+        CodePagesController.shared
+            .sceneState
+            .rootGeometryNode
+            .addChildNode(visualExecutionPath)
+    }
+    
+    deinit {
+        visualExecutionPath.removeFromParentNode()
+    }
+    
+    func handleMatch(_ match: MatchedTraceOutput) {
+        switch match {
+        case .found(let found):
+            handleFound(found)
+        default:
+            break
+        }
+    }
+    
+    func handleFound(_ found: MatchedTraceOutput.Found) {
+        if found.out.isEntry {
+            let position = representativePosition(for: found.trace)
+            visualExecutionPath.add(point: position)
+//            CodePagesController.shared
+//                .sceneState
+//                .cameraNode.look(
+//                    at: position,
+//                    up: CodePagesController.shared.sceneState.rootGeometryNode.worldUp,
+//                    localFront: SCNNode.localFront
+//                )
+        } else {
+            visualExecutionPath.remove(index: visualExecutionPath.points.endIndex - 1)
+        }
+    }
+    
+    func representativePosition(for value: TraceValue) -> SCNVector3 {
+        let computing = BoundsComputing()
+        value.grid.codeGridSemanticInfo
+            .doOnAssociatedNodes(value.info.syntaxId, value.grid.tokenCache) { info, nodeSet in
+                nodeSet.forEach { node in
+                    computing.consumeBounds(node.worldBounds)
+                }
+            }
+        return computing.bounds.min
+    }
+    
+//    func circumscribeNodes(for value: TraceValue) {
+//        visualExecutionPath.removeFromParentNode()
+//        visualExecutionPath = SCNLineNode()
+//        CodePagesController.shared
+//            .sceneState
+//            .rootGeometryNode
+//            .addChildNode(visualExecutionPath)
+//
+//        // Convert to root geometry node space
+//        let root = CodePagesController.shared
+//            .sceneState
+//            .rootGeometryNode
+//
+//        let bounds = BoundsComputing()
+//        value.grid.codeGridSemanticInfo
+//            .doOnAssociatedNodes(value.info.syntaxId, value.grid.tokenCache) { info, nodeSet in
+//                nodeSet.forEach { node in
+//                    bounds.consumeBounds(node.worldBounds)
+//                }
+//            }
+//
+//        visualExecutionPath.add(points: [
+//            .init(x: bounds.minX, y: bounds.maxY, z: bounds.maxZ),
+//            .init(x: bounds.maxX, y: bounds.maxY, z: bounds.maxZ),
+//            .init(x: bounds.maxX, y: bounds.minY, z: bounds.maxZ),
+//            .init(x: bounds.minX, y: bounds.minY, z: bounds.maxZ),
+//            .init(x: bounds.minX, y: bounds.maxY, z: bounds.maxZ)
+//        ])
+//    }
+}
 
 class SemanticTracingOutState: ObservableObject {
     enum Sections: CaseIterable {
@@ -42,6 +135,7 @@ class SemanticTracingOutState: ObservableObject {
     private let tracer = TracingRoot.shared
     var tracerState: TracingRoot.State { tracer.state }
     private lazy var bag = Set<AnyCancellable>()
+    private lazy var lineTracker = TraceLineIncrementalTracker()
     
     init() {
         
@@ -145,26 +239,29 @@ extension SemanticTracingOutState {
     }
     
     func highlightTrace() {
-        guard let trace = currentMatch.maybeTrace else {
+        guard case let MatchedTraceOutput.found(found) = currentMatch else {
             return
         }
         
+        let currentTrace = found.trace
         CodePagesController.shared.trace.updateFocus(
-            id: trace.info.syntaxId,
-            in: trace.grid,
+            id: currentTrace.info.syntaxId,
+            in: currentTrace.grid,
             focus: currentMatch.out.isEntry
         )
         
-        CodePagesController.shared.compat.doOnTargetFocus { controller, box in
-            if box.depthOf(grid: trace.grid) == box.deepestDepth {
-                return
-            }
-            if box.contains(grid: trace.grid) {
-                box.bringToDeepest(trace.grid)
-            } else {
-                controller.appendToTarget(grid: trace.grid)
-            }
-        }
+        lineTracker.handleFound(found)
+        
+//        CodePagesController.shared.compat.doOnTargetFocus { controller, box in
+//            if box.depthOf(grid: currentTrace.grid) == box.deepestDepth {
+//                return
+//            }
+//            if box.contains(grid: currentTrace.grid) {
+//                box.bringToDeepest(currentTrace.grid)
+//            } else {
+//                controller.appendToTarget(grid: currentTrace.grid)
+//            }
+//        }
     }
 }
 

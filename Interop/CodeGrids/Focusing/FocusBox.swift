@@ -20,6 +20,7 @@ class FocusBox: Hashable, Identifiable {
     private var engine: FocusBoxLayoutEngine { focus.controller.compat.engine }
     
     var id: String
+    var gridId: String { id + "-grid" }
     var focus: CodeGridFocusController
     
     var focusedGrid: CodeGrid?
@@ -203,7 +204,8 @@ private extension FocusBox {
         // aren't changing bounds, so we just need to calculate
         // this grid itself. Not really useful to cache it either
         // since it's expected to update frequently.
-        return gridNode.computeBoundingBox(false)
+//        return gridNode.computeBoundingBox(false)
+        return gridNode.boundingBox
     }
 }
 
@@ -226,7 +228,7 @@ private extension FocusBox {
     
     func makeGridNode() -> SCNNode {
         let root = SCNNode()
-        root.name = id
+        root.name = gridId
         root.renderingOrder = -1
         return root
     }

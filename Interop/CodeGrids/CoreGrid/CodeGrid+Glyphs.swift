@@ -40,6 +40,8 @@ extension CodeGrid {
             _ letterNode: SCNNode,
             _ size: CGSize
         ) {
+            let isWhitespace = syntaxTokenCharacter.isWhitespace
+            
             // add node directly to root container grid
             let nodeLengthX = size.width.vector
             let nodeLengthY = size.height.vector
@@ -49,6 +51,7 @@ extension CodeGrid {
                 dX: nodeLengthX / 2.0,
                 dY: -nodeLengthY / 2.0
             )
+
             targetGrid.rawGlyphsNode.addChildNode(letterNode)
             
             // we're writing left-to-right.
@@ -58,7 +61,7 @@ extension CodeGrid {
                 newLine(size)
             }
             
-            if syntaxTokenCharacter.isWhitespace {
+            if isWhitespace {
                 letterNode.name?.append("-\(kWhitespaceNodeName)")
             }
         }
