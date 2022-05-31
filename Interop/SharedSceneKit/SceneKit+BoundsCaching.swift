@@ -86,9 +86,14 @@ public extension SCNNode {
 }
 
 extension BoundsComputing {
-    func consumeNodeSet(_ nodes: Set<SCNNode>) {
+    func consumeNodeSet(
+        _ nodes: Set<SCNNode>,
+        convertingTo node: SCNNode?
+    ) {
         nodes.forEach {
-            consumeBounds($0.boundsInWorld)
+            consumeBounds(
+                $0.bounds(convertedTo: node)
+            )
         }
     }
 }
@@ -133,6 +138,17 @@ public extension SCNNode {
     
     var centerPosition: SCNVector3 {
         return SCNVector3(x: centerX, y: centerY, z: centerZ)
+    }
+    
+    func positionConstraint(
+        _ worldSpace: Bool = true,
+        with receiver: @escaping (SCNNode, SCNVector3) -> SCNVector3
+    ) {
+        let constraint = SCNTransformConstraint.positionConstraint(
+            inWorldSpace: worldSpace,
+            with: receiver
+        )
+        addConstraint(constraint)
     }
     
     func chainLinkTo(to target: SCNNode) {

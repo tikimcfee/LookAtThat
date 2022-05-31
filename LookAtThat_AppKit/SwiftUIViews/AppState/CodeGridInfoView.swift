@@ -16,6 +16,13 @@ class CodeGridInfoViewState: ObservableObject {
     @Published var selection: Selection = .none
     
     init() {
+        CodePagesController.shared.hover
+            .$state.sink(receiveValue: { state in
+                if let node = state.hoveredNode {
+                    self.selection = .node(node)
+                }
+            }).store(in: &cancellables)
+        
         CodePagesController.shared.editorState
             .$rootMode.sink(receiveValue: { mode in
                 switch mode {
@@ -32,6 +39,7 @@ extension CodeGridInfoViewState {
     enum Selection {
         case none
         case single(CodeGrid)
+        case node(SCNNode)
     }
 }
 
@@ -43,6 +51,7 @@ struct CodeGridInfoView: View {
     var body: some View {
         rootView
             .padding()
+            .fixedSize()
     }
     
     @ViewBuilder
@@ -52,6 +61,8 @@ struct CodeGridInfoView: View {
             Text("No Grid Selected")
         case .single(let grid):
             singleGridView(grid)
+        case .node(let node):
+            singleNodeView(node)
         }
     }
     
@@ -60,6 +71,69 @@ struct CodeGridInfoView: View {
         CodeGridInfoViewSingle(
             state: CodeGridInfoViewSingleState(codeGrid: grid)
         )
+    }
+    
+    @ViewBuilder
+    func singleNodeView(_ node: SCNNode) -> some View {
+        VStack(alignment: .leading) {
+            ForEach(parentsFrom(node: node), id: \.hashValue) { node in
+                HStack(alignment: .firstTextBaseline) {
+                    Text("- \(node.name ?? "no_name")")
+                    VStack(alignment: .leading) {
+                        Text("pos = \(position(of: node))")
+                            .onTapGesture { addNodeAt(node.worldPosition) }
+                        Text("pos_w = \(worldPosition(of: node))")
+                        Text("bounds= \(worldBounds(of: node))")
+                    }
+                }
+            }
+        }
+    }
+    
+    func makePointerNode() -> SCNNode {
+        let node = SCNNode()
+        node.geometry = SCNSphere(radius: 4.0)
+        node.geometry?.materials.first?.diffuse.contents = NSUIColor(red: 0.2, green: 0.8, blue: 0.3, alpha: 1.0)
+        return node
+    }
+    
+    func addNodeAt(_ pos: SCNVector3) {
+        let pointer = makePointerNode()
+        pointer.position = pos
+        CodePagesController.shared.sceneState
+            .rootGeometryNode
+            .addChildNode(pointer)
+    }
+    
+    var root: SCNNode {
+        CodePagesController.shared.sceneState.rootGeometryNode.parent!
+    }
+    
+    func position(of node: SCNNode) -> String {
+        "\(node.position.x), \(node.position.y), \(node.position.z)"
+    }
+    
+    func worldPosition(of node: SCNNode) -> String {
+        "\(node.worldPosition.x), \(node.worldPosition.y), \(node.worldPosition.z)"
+    }
+    
+    func worldBounds(of node: SCNNode) -> String {
+        "\(node.worldBoundsMin)\n\(node.worldBoundsMax)"
+    }
+    
+    func position(of node: SCNNode, converted: SCNNode?) -> String {
+        let converted = node.convertPosition(node.position, to: converted)
+        return "\(converted.x), \(converted.y), \(converted.z)"
+    }
+    
+    func parentsFrom(node: SCNNode) -> [SCNNode] {
+        var target = node
+        var parents = [node]
+        while let parent = target.parent {
+            parents.append(parent)
+            target = parent
+        }
+        return parents
     }
 }
 

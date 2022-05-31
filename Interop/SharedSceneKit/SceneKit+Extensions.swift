@@ -78,6 +78,12 @@ extension SCNNode {
         return convertPosition(vector, to: parent)
     }
     
+    func bounds(convertedTo requestParent: SCNNode?) -> Bounds {
+        let minVector = convertPosition(manualBoundingBox.min, to: requestParent)
+        let maxVector = convertPosition(manualBoundingBox.max, to: requestParent)
+        return (minVector, maxVector)
+    }
+    
     var boundsInParent: Bounds {
         let minVector = convertPosition(manualBoundingBox.min, to: parent)
         let maxVector = convertPosition(manualBoundingBox.max, to: parent)
@@ -93,13 +99,13 @@ extension SCNNode {
 
 public typealias Bounds = (min: SCNVector3, max: SCNVector3)
 class BoundsComputing {
-    var minX: VectorFloat = 0
-    var minY: VectorFloat = 0
-    var minZ: VectorFloat = 0
+    var minX: VectorFloat = .infinity
+    var minY: VectorFloat = .infinity
+    var minZ: VectorFloat = .infinity
     
-    var maxX: VectorFloat = 0
-    var maxY: VectorFloat = 0
-    var maxZ: VectorFloat = 0
+    var maxX: VectorFloat = -.infinity
+    var maxY: VectorFloat = -.infinity
+    var maxZ: VectorFloat = -.infinity
     
     func consumeBounds(_ bounds: Bounds) {
         minX = min(bounds.min.x, minX)

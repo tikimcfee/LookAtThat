@@ -166,7 +166,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         testGrid
             .codeGridSemanticInfo
             .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in
-                computing.consumeNodeSet(nodes)
+                computing.consumeNodeSet(nodes, convertingTo: nil)
             }
         print(computing.bounds)
         

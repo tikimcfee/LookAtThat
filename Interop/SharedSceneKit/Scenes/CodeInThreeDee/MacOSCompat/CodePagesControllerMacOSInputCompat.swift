@@ -130,12 +130,17 @@ class CodePagesControllerMacOSInputCompat {
     }
     
     private func onTokenHovered(_ node: SCNNode, _ name: String) {
+        
         let hovered = codeGridParser.tokenCache[name]
         if !hovered.isEmpty {
             self.touchState.mouse.hoverTracker.newSetHovered(hovered)
             DispatchQueue.main.async {
                 self.globalHoveredToken = name
             }
+        }
+        
+        DispatchQueue.main.async {
+            self.globalHoveredNode = node
         }
     }
     
@@ -165,6 +170,11 @@ extension CodePagesControllerMacOSInputCompat {
     private var globalHoveredToken: String? {
         get { CodePagesController.shared.hover.state.hoveredTokenId }
         set { CodePagesController.shared.hover.state.hoveredTokenId = newValue }
+    }
+    
+    private var globalHoveredNode: SCNNode? {
+        get { CodePagesController.shared.hover.state.hoveredNode }
+        set { CodePagesController.shared.hover.state.hoveredNode = newValue }
     }
     
     var hoveredGrid: CodeGrid? {

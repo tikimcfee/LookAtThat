@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 import SCNLine
 import SwiftTrace
+import SceneKit
 
 extension TraceLine {
     var isEntry: Bool {
@@ -17,7 +18,18 @@ extension TraceLine {
 }
 
 class TraceLineIncrementalTracker {
-    var traceLine = SCNLineNode()
+    var visualExecutionPath = SCNLineNode()
+    
+    init() {
+//        CodePagesController.shared
+//            .sceneState
+//            .rootGeometryNode
+//            .addChildNode(visualExecutionPath)
+    }
+    
+    deinit {
+//        visualExecutionPath.removeFromParentNode()
+    }
     
     func handleMatch(_ match: MatchedTraceOutput) {
         switch match {
@@ -29,22 +41,47 @@ class TraceLineIncrementalTracker {
     }
     
     func handleFound(_ found: MatchedTraceOutput.Found) {
-        if found.out.isEntry {
-            print("\(found.out.entryExitName) Adding point")
-            representativePoint(for: found.trace)
-        } else {
-            print("\(found.out.entryExitName) Removing point")
-//            traceLine.remove(index: traceLine.points.endIndex - 1)
-        }
+//        if found.out.isEntry {
+//            print("\(found.out.entryExitName) Adding point")
+//            representativePoint(for: found.trace)
+//        } else {
+//            print("\(found.out.entryExitName) Removing point")
+//            visualExecutionPath.remove(index: visualExecutionPath.points.endIndex - 1)
+//        }
+        
+//        DispatchQueue.main.async {
+//            self.representativePoint(for: found.trace)
+//        }
     }
     
     func representativePoint(for value: TraceValue) {
+        visualExecutionPath.removeFromParentNode()
+        visualExecutionPath = SCNLineNode()
+        CodePagesController.shared
+            .sceneState
+            .rootGeometryNode
+            .addChildNode(visualExecutionPath)
+
+        // Convert to root geometry node space
+        let root = CodePagesController.shared
+            .sceneState
+            .rootGeometryNode
+
         let bounds = BoundsComputing()
         value.grid.codeGridSemanticInfo
             .doOnAssociatedNodes(value.info.syntaxId, value.grid.tokenCache) { info, nodeSet in
-                bounds.consumeNodeSet(nodeSet)
+                nodeSet.forEach { node in
+                    bounds.consumeBounds(node.worldBounds)
+                }
             }
-        print("Bounds: \(value.grid.fileName) -> \(bounds.bounds)")
+
+        visualExecutionPath.add(points: [
+            .init(x: bounds.minX, y: bounds.maxY, z: bounds.maxZ),
+            .init(x: bounds.maxX, y: bounds.maxY, z: bounds.maxZ),
+            .init(x: bounds.maxX, y: bounds.minY, z: bounds.maxZ),
+            .init(x: bounds.minX, y: bounds.minY, z: bounds.maxZ),
+            .init(x: bounds.minX, y: bounds.maxY, z: bounds.maxZ)
+        ])
     }
 }
 
