@@ -101,9 +101,10 @@ extension BoundsComputing {
 public extension SCNNode {
     
     var manualBoundingBox: Bounds {
-        return childNodes.isEmpty
-            ? boundingBox
-            : computeBoundingBox(false)
+        return boundingBox
+//        return childNodes.isEmpty
+//            ? boundingBox
+//            : computeBoundingBox(false)
     }
     
     var lengthX: VectorFloat {

@@ -204,7 +204,8 @@ private extension FocusBox {
         // aren't changing bounds, so we just need to calculate
         // this grid itself. Not really useful to cache it either
         // since it's expected to update frequently.
-        return gridNode.computeBoundingBox(false)
+//        return gridNode.computeBoundingBox(false)
+        return gridNode.boundingBox
     }
 }
 
