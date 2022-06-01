@@ -9,9 +9,13 @@ import Foundation
 
 extension CodeGridParser {
     func renderGrid(_ url: URL) -> CodeGrid? {
-        guard let sourceFile = loadSourceUrl(url) else { return nil }
-        let newGrid = createGridFromSyntax(sourceFile, url)
-        return newGrid
+        if FileBrowser.isSwiftFile(url) {
+            guard let sourceFile = loadSourceUrl(url) else { return nil }
+            let newGrid = createGridFromSyntax(sourceFile, url)
+            return newGrid
+        } else {
+            return createGridFromFile(url)
+        }
     }
     
     func renderGrid(_ source: String) -> CodeGrid? {

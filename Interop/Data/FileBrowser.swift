@@ -13,15 +13,30 @@ class FileBrowser: ObservableObject {
     @Published var fileSeletionEvents: FileBrowser.Event = .noSelection
 }
 
-extension FileBrowser {    
+extension FileBrowser {
+    static let supportedTextExtensions: Set<String> = [
+        "swift", "m", "mm",
+        "cpp", "c", "cs", "h",
+        "python",
+        "java", "kotlin", "scala",
+        "txt", "md"
+    ]
+    
     // This is fragile. Both collapse/expand need to filter repeatedly.
     static func isFileObserved(_ path: URL) -> Bool {
-        ( path.isDirectory || isSupportedFileType(path) )
-        &&
-        !(path.lastPathComponent.starts(with: "."))
+        (
+            path.isDirectory
+            || isSupportedFileType(path)
+        ) && !(
+            path.lastPathComponent.starts(with: ".")
+        )
     }
     
     static func isSupportedFileType(_ path: URL) -> Bool {
+        supportedTextExtensions.contains(path.pathExtension)
+    }
+    
+    static func isSwiftFile(_ path: URL) -> Bool {
         path.pathExtension == "swift"
     }
     
