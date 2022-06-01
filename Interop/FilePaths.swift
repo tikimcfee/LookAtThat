@@ -38,6 +38,18 @@ public struct AppFiles {
             fileManager.createFile(atPath: fileURL.path, contents: Data(), attributes: nil)
         }
     }
+    
+    public static func move(
+        fileUrl: URL,
+        to targetUrl: URL
+    ) {
+        print("Moving:\n\t\(fileUrl)\n\t\(targetUrl)")
+        do {
+            try fileManager.moveItem(at: fileUrl, to: targetUrl)
+        } catch {
+            print("Could not move file", error)
+        }
+    }
 }
 
 // MARK: -- Rewrites
@@ -45,6 +57,30 @@ public struct AppFiles {
 extension AppFiles {
     public static var rewritesDirectory: URL {
         directory(named: "rewrites")
+    }
+}
+
+// MARK: - Downloaded Repos
+
+extension AppFiles {
+    public static var githubRepos: URL {
+        directory(named: "github-repositories")
+    }
+    
+    public static var allRepositoryURLs: [URL] {
+        githubRepos.children()
+    }
+    
+    public static func delete(fileUrl: URL) {
+        guard fileManager.isDeletableFile(atPath: fileUrl.path) else {
+            print("Not deletable: \(fileUrl)")
+            return
+        }
+        do {
+            try fileManager.removeItem(at: fileUrl)
+        } catch {
+            print("Failed to remove item", error)
+        }
     }
 }
 

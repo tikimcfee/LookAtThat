@@ -12,6 +12,48 @@ import SceneKit
 import Foundation
 @testable import LookAtThat_AppKit
 
+class GitHubClient {
+    static let shared = GitHubClient()
+    
+    let basePath = "https://api.github.com/"
+    lazy var baseURL = URL(string: basePath)!
+    
+    private init() { }
+}
+
+extension GitHubClient {
+    private func getRepoZipEndpointUrl(
+        owner: String,
+        repo: String,
+        branchRef: String
+    ) -> URL {
+        let apiPath = "repos/\(owner)/\(repo)/zipball/\(branchRef)"
+        return baseURL.appendingPathComponent(apiPath)
+    }
+    
+    func downloadRepoZip(
+        owner: String,
+        repo: String,
+        branchRef: String,
+        _ receiver: @escaping (URL) -> Void
+    ) {
+        let moveTargetUrl = AppFiles.githubRepos
+            .appendingPathComponent(repo)
+            .appendingPathExtension("zip")
+        let zipURL = GitHubClient.shared
+            .getRepoZipEndpointUrl(owner: owner, repo: repo, branchRef: branchRef)
+        
+        URLSession.shared.downloadTask(with: zipURL, completionHandler: { url, response, error in
+            guard let url = url, error == nil else {
+                print("Download task failed: \(String(describing: error))")
+                return
+            }
+            AppFiles.move(fileUrl: url, to: moveTargetUrl)
+            receiver(moveTargetUrl)
+        }).resume()
+    }
+}
+
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     var bundle: TestBundle!
 
@@ -19,11 +61,38 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         // Fields reset on each test!
         bundle = TestBundle()
         try bundle.setUpWithError()
-
     }
 
     override func tearDownWithError() throws {
         try bundle.tearDownWithError()
+    }
+    
+    func testGitStuff() throws {
+        printStart()
+        let repoGet = expectation(description: "Retrieve repo")
+        let repoName = "SceneKit-SCNLine"
+        GitHubClient.shared.downloadRepoZip(owner: "tikimcfee", repo: repoName, branchRef: "main") { zipUrl in
+            print("Got zip url: \(zipUrl)")
+            repoGet.fulfill()
+        }
+        
+        wait(for: [repoGet], timeout: 5.0)
+        
+        print("Have URLs:")
+        AppFiles.allRepositoryURLs.forEach { url in
+            print(url)
+        }
+        
+        AppFiles.allRepositoryURLs.forEach {
+            AppFiles.delete(fileUrl: $0)
+        }
+        
+        print("After deletion:")
+        AppFiles.allRepositoryURLs.forEach { url in
+            print(url)
+        }
+        
+        printEnd()
     }
     
     func testPathEncoding() throws {
@@ -49,4 +118,5 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         
         printEnd()
     }
+    
 }
