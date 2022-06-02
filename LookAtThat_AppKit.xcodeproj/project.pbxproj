@@ -554,6 +554,15 @@
 		B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710B28444D2A00313633 /* SwiftSyntaxParser */; };
 		B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710D28444D9200313633 /* SwiftSyntaxParser */; };
+		B7EB71302848128700313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB712F2848128700313633 /* ZIPFoundation */; };
+		B7EB71322848129E00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71312848129E00313633 /* ZIPFoundation */; };
+		B7EB7134284812A300313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7133284812A300313633 /* ZIPFoundation */; };
+		B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7135284812AA00313633 /* ZIPFoundation */; };
+		B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7137284812AF00313633 /* ZIPFoundation */; };
+		B7EB713B284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
+		B7EB713C284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
+		B7EB713D284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
+		B7EB713E284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -856,6 +865,7 @@
 		B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlAddToFocus.swift; sourceTree = "<group>"; };
 		B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxControl.swift; sourceTree = "<group>"; };
 		B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusControlShiftFocus.swift; sourceTree = "<group>"; };
+		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F44C31276D983A00522B45 /* ControlleriOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSCompat.swift; sourceTree = "<group>"; };
 		B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSInputCompat.swift; sourceTree = "<group>"; };
@@ -931,6 +941,7 @@
 				B70FDCF1283EAE9900170D5F /* CodeEditorView in Frameworks */,
 				B70FDCF2283EAE9900170D5F /* SwiftSyntaxParser in Frameworks */,
 				B70FDCF3283EAE9900170D5F /* Brotli in Frameworks */,
+				B7EB71322848129E00313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,6 +951,7 @@
 			files = (
 				B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
+				B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +964,7 @@
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
 				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
+				B7EB71302848128700313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,6 +974,7 @@
 			files = (
 				B713405828170F92005E0E31 /* SwiftTrace in Frameworks */,
 				B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */,
+				B7EB7134284812A300313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -971,6 +985,7 @@
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
+				B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1374,6 +1389,14 @@
 			path = FocusBoxControls;
 			sourceTree = "<group>";
 		};
+		B7EB71392848748E00313633 /* GitHubIO */ = {
+			isa = PBXGroup;
+			children = (
+				B7EB713A284874A800313633 /* GitHubClient.swift */,
+			);
+			path = GitHubIO;
+			sourceTree = "<group>";
+		};
 		B7F44C30276D981800522B45 /* iOSCompat */ = {
 			isa = PBXGroup;
 			children = (
@@ -1451,6 +1474,7 @@
 		F00FC742250C53820092AFF9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B7EB71392848748E00313633 /* GitHubIO */,
 				B73286A62733833C00C9C82A /* FileBrowser.swift */,
 				B790E696283DF078002F6512 /* FileBrowser+Event.swift */,
 				B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */,
@@ -1707,6 +1731,7 @@
 				B70FDC4A283EAE9900170D5F /* SwiftTrace */,
 				B70FDC4C283EAE9900170D5F /* CodeEditorView */,
 				B70FDC51283EAE9900170D5F /* SwiftSyntaxParser */,
+				B7EB71312848129E00313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */;
@@ -1730,6 +1755,7 @@
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B7EB710D28444D9200313633 /* SwiftSyntaxParser */,
+				B7EB7137284812AF00313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -1756,6 +1782,7 @@
 				B7661B572829DF0C001F185B /* CodeEditorView */,
 				B7C9AFB1284352D60077BCA7 /* SCNLine */,
 				B7EB71072844119800313633 /* SwiftSyntaxParser */,
+				B7EB712F2848128700313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1781,6 +1808,7 @@
 			packageProductDependencies = (
 				B796DEF8280D2AD8006AC749 /* Brotli */,
 				B713405728170F92005E0E31 /* SwiftTrace */,
+				B7EB7133284812A300313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKitTests;
 			productReference = F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */;
@@ -1805,6 +1833,7 @@
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
+				B7EB7135284812AA00313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1847,6 +1876,7 @@
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
 				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
+				B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -2069,6 +2099,7 @@
 				B70FDCE6283EAE9900170D5F /* RawSensorData.swift in Sources */,
 				B70FDCE7283EAE9900170D5F /* TAPCBUUID.swift in Sources */,
 				B70FDCE8283EAE9900170D5F /* PersistentThreadGroup.swift in Sources */,
+				B7EB713C284874A800313633 /* GitHubClient.swift in Sources */,
 				B70FDCE9283EAE9900170D5F /* FingerView.swift in Sources */,
 				B70FDCEA283EAE9900170D5F /* FileIO.swift in Sources */,
 			);
@@ -2181,6 +2212,7 @@
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */,
+				B7EB713E284874A800313633 /* GitHubClient.swift in Sources */,
 				B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */,
 				B798103E281CE32A009A82BD /* ThreadExtensions.swift in Sources */,
 				B720D588282470CA00BF0602 /* FontRenderer.swift in Sources */,
@@ -2386,6 +2418,7 @@
 				B7C75707280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C756FD280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
 				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
+				B7EB713B284874A800313633 /* GitHubClient.swift in Sources */,
 				B7C7570F280CED4D0005A233 /* FingerView.swift in Sources */,
 				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
 			);
@@ -2522,6 +2555,7 @@
 				F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */,
 				B7C7571B280CEE040005A233 /* Structures.swift in Sources */,
 				B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */,
+				B7EB713D284874A800313633 /* GitHubClient.swift in Sources */,
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
@@ -3152,6 +3186,14 @@
 				kind = branch;
 			};
 		};
+		B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.9;
+			};
+		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/karlvr/Brotli";
@@ -3237,6 +3279,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
+		};
+		B7EB712F2848128700313633 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		B7EB71312848129E00313633 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		B7EB7133284812A300313633 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		B7EB7135284812AA00313633 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		B7EB7137284812AF00313633 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

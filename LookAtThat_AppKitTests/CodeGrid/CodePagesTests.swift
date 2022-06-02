@@ -12,48 +12,6 @@ import SceneKit
 import Foundation
 @testable import LookAtThat_AppKit
 
-class GitHubClient {
-    static let shared = GitHubClient()
-    
-    let basePath = "https://api.github.com/"
-    lazy var baseURL = URL(string: basePath)!
-    
-    private init() { }
-}
-
-extension GitHubClient {
-    private func getRepoZipEndpointUrl(
-        owner: String,
-        repo: String,
-        branchRef: String
-    ) -> URL {
-        let apiPath = "repos/\(owner)/\(repo)/zipball/\(branchRef)"
-        return baseURL.appendingPathComponent(apiPath)
-    }
-    
-    func downloadRepoZip(
-        owner: String,
-        repo: String,
-        branchRef: String,
-        _ receiver: @escaping (URL) -> Void
-    ) {
-        let moveTargetUrl = AppFiles.githubRepos
-            .appendingPathComponent(repo)
-            .appendingPathExtension("zip")
-        let zipURL = GitHubClient.shared
-            .getRepoZipEndpointUrl(owner: owner, repo: repo, branchRef: branchRef)
-        
-        URLSession.shared.downloadTask(with: zipURL, completionHandler: { url, response, error in
-            guard let url = url, error == nil else {
-                print("Download task failed: \(String(describing: error))")
-                return
-            }
-            AppFiles.move(fileUrl: url, to: moveTargetUrl)
-            receiver(moveTargetUrl)
-        }).resume()
-    }
-}
-
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     var bundle: TestBundle!
 
@@ -71,12 +29,19 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         printStart()
         let repoGet = expectation(description: "Retrieve repo")
         let repoName = "SceneKit-SCNLine"
-        GitHubClient.shared.downloadRepoZip(owner: "tikimcfee", repo: repoName, branchRef: "main") { zipUrl in
-            print("Got zip url: \(zipUrl)")
+        let owner = "tikimcfee"
+        let branchName = "main"
+        
+        GitHubClient.shared.downloadAndUnzipRepository(
+            owner: owner, repositoryName: repoName, branchName: branchName
+        ) { unzippedRootUrl in
+            unzippedRootUrl.children(recursive: true).forEach {
+                print("\($0.fileName)")
+            }
             repoGet.fulfill()
         }
         
-        wait(for: [repoGet], timeout: 5.0)
+        wait(for: [repoGet], timeout: 15.0)
         
         print("Have URLs:")
         AppFiles.allRepositoryURLs.forEach { url in

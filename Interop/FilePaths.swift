@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ZIPFoundation
 
 // MARK: - File Operations
 public struct AppFiles {
@@ -39,16 +40,25 @@ public struct AppFiles {
         }
     }
     
-    public static func move(
-        fileUrl: URL,
-        to targetUrl: URL
-    ) {
+    public static func move(fileUrl: URL, to targetUrl: URL) throws {
         print("Moving:\n\t\(fileUrl)\n\t\(targetUrl)")
-        do {
-            try fileManager.moveItem(at: fileUrl, to: targetUrl)
-        } catch {
-            print("Could not move file", error)
+        try fileManager.moveItem(at: fileUrl, to: targetUrl)
+    }
+    
+    public static func delete(fileUrl: URL) {
+        guard fileManager.isDeletableFile(atPath: fileUrl.path) else {
+            print("Not deletable: \(fileUrl)")
+            return
         }
+        do {
+            try fileManager.removeItem(at: fileUrl)
+        } catch {
+            print("Failed to remove item", error)
+        }
+    }
+    
+    public static func unzip(fileUrl: URL, to targetUrl: URL) throws {
+        try fileManager.unzipItem(at: fileUrl, to: targetUrl)
     }
 }
 
@@ -69,18 +79,6 @@ extension AppFiles {
     
     public static var allRepositoryURLs: [URL] {
         githubRepos.children()
-    }
-    
-    public static func delete(fileUrl: URL) {
-        guard fileManager.isDeletableFile(atPath: fileUrl.path) else {
-            print("Not deletable: \(fileUrl)")
-            return
-        }
-        do {
-            try fileManager.removeItem(at: fileUrl)
-        } catch {
-            print("Failed to remove item", error)
-        }
     }
 }
 

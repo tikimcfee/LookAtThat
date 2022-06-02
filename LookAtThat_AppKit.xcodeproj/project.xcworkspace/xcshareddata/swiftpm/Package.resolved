@@ -44,6 +44,15 @@
         "branch" : "logging-output",
         "revision" : "5c924cc464e49d4f534a2915ada4b3ba555267b5"
       }
+    },
+    {
+      "identity" : "zipfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/weichsel/ZIPFoundation.git",
+      "state" : {
+        "revision" : "7254c74b49cec2cb81520523ba993c671f71b066",
+        "version" : "0.9.14"
+      }
     }
   ],
   "version" : 2
