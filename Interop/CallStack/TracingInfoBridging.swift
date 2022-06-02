@@ -104,6 +104,12 @@ extension TraceOutput {
 }
 
 extension TraceLine {
+    var isEntry: Bool {
+        TraceOutput.lineIsEntry(self)
+    }
+}
+
+extension TraceLine {
     static var random: TraceLine {
         return TraceLine(
             entryExitName: Bool.random() ? "-> " : "<- ",

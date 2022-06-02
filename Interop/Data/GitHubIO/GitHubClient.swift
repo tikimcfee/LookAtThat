@@ -17,7 +17,7 @@ class GitHubClient {
 }
 
 extension GitHubClient {
-    enum Error: Swift.Error {
+    enum ClientError: Swift.Error {
         case missingResultURL
     }
     
@@ -30,7 +30,7 @@ extension GitHubClient {
     }
     
     enum Endpoint {
-        case repositoryZip(RepositoryZipArgs, (URL) -> Void)
+        case repositoryZip(RepositoryZipArgs, (Result<URL, Error>) -> Void)
         
         var apiPath: String {
             switch self {
@@ -47,16 +47,17 @@ extension GitHubClient {
 
 extension GitHubClient {
 
-    func fetch(endpoint: Endpoint) {
+    private func fetch(endpoint: Endpoint) {
         switch endpoint {
         case let .repositoryZip(repositoryZipArgs, receiver):
             URLSession.shared.downloadTask(with: endpoint.apiUrl) { url, response, error in
                 do {
-                    guard let savedUrl = url else { throw Error.missingResultURL }
+                    guard let savedUrl = url else { throw ClientError.missingResultURL }
                     try AppFiles.unzip(fileUrl: savedUrl, to: repositoryZipArgs.unzippedResultTargetUrl)
-                    receiver(repositoryZipArgs.unzippedResultTargetUrl)
+                    receiver(.success(repositoryZipArgs.unzippedResultTargetUrl))
                 } catch {
                     print("Failed during file io: \(error)")
+                    receiver(.failure(error))
                 }
             }.resume()
         }
@@ -66,10 +67,10 @@ extension GitHubClient {
         owner: String,
         repositoryName: String,
         branchName: String,
-        _ unzippedRepoReceiver: @escaping (URL) -> Void
+        _ unzippedRepoReceiver: @escaping (Result<URL, Error>) -> Void
     ) {
-        let repoFileDownloadTarget = AppFiles.githubRepos
-            .appendingPathComponent(repositoryName)
+        let repoFileDownloadTarget = AppFiles.githubRepositoriesRoot
+            .appendingPathComponent(repositoryName, isDirectory: true)
         
         fetch(endpoint: .repositoryZip(
             RepositoryZipArgs(

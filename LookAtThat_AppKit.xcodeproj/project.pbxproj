@@ -563,6 +563,11 @@
 		B7EB713C284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7EB713D284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7EB713E284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
+		B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
+		B7EB7141284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
+		B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
+		B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
+		B7EB714528487C1800313633 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB714428487C1800313633 /* SCNLine */; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -866,6 +871,7 @@
 		B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxControl.swift; sourceTree = "<group>"; };
 		B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusControlShiftFocus.swift; sourceTree = "<group>"; };
 		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
+		B7EB713F284878B100313633 /* GitHubClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientView.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F44C31276D983A00522B45 /* ControlleriOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSCompat.swift; sourceTree = "<group>"; };
 		B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSInputCompat.swift; sourceTree = "<group>"; };
@@ -952,6 +958,7 @@
 				B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
 				B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */,
+				B7EB714528487C1800313633 /* SCNLine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,6 +1134,7 @@
 			isa = PBXGroup;
 			children = (
 				B76E4FEE283493B4005CCAFE /* CodeGridInfoView.swift */,
+				B7EB713F284878B100313633 /* GitHubClientView.swift */,
 			);
 			path = AppState;
 			sourceTree = "<group>";
@@ -1756,6 +1764,7 @@
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B7EB710D28444D9200313633 /* SwiftSyntaxParser */,
 				B7EB7137284812AF00313633 /* ZIPFoundation */,
+				B7EB714428487C1800313633 /* SCNLine */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -1961,6 +1970,7 @@
 				B70FDC5D283EAE9900170D5F /* GlobalWindowDelegate.swift in Sources */,
 				B70FDC5E283EAE9900170D5F /* TAPAirGesture.swift in Sources */,
 				B70FDC5F283EAE9900170D5F /* TokenHoverInteractionTracker.swift in Sources */,
+				B7EB7141284878B100313633 /* GitHubClientView.swift in Sources */,
 				B70FDC60283EAE9900170D5F /* CodeGridParserQueryController.swift in Sources */,
 				B70FDC61283EAE9900170D5F /* SharedEventTypes.swift in Sources */,
 				B70FDC62283EAE9900170D5F /* RawSensorDataParser.swift in Sources */,
@@ -2143,6 +2153,7 @@
 				B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* CodeGrid+Measures.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
+				B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */,
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */,
 				B74A22BC2814FFF300F6F727 /* TAPInputMode.swift in Sources */,
@@ -2280,6 +2291,7 @@
 				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7C756FF280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
 				F051FD2D251B17E6005448AE /* TokenHoverInteractionTracker.swift in Sources */,
+				B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */,
 				B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				B7C75705280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
@@ -2453,6 +2465,7 @@
 				B720D58328246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
+				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B7C756FE280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
@@ -3304,6 +3317,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
+		};
+		B7EB714428487C1800313633 /* SCNLine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
+			productName = SCNLine;
 		};
 		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

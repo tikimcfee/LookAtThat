@@ -130,7 +130,7 @@ struct FileBrowserView: View {
     func fileSelected(_ path: URL, _ selectType: FileBrowser.Event.SelectType) {
         SceneLibrary.global.codePagesController
             .fileBrowser
-            .fileSeletionEvents = .newSingleCommand(path, selectType)
+            .fileSelectionEvents = .newSingleCommand(path, selectType)
     }
     
     func fileScopeSelected(_ scope: FileBrowser.Scope) {
@@ -140,7 +140,7 @@ struct FileBrowserView: View {
     func genericSelection(_ action: FileBrowser.Event) {
         SceneLibrary.global.codePagesController
             .fileBrowser
-            .fileSeletionEvents = action
+            .fileSelectionEvents = action
     }
     
     @ViewBuilder

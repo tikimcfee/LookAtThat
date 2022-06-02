@@ -73,12 +73,12 @@ extension AppFiles {
 // MARK: - Downloaded Repos
 
 extension AppFiles {
-    public static var githubRepos: URL {
+    public static var githubRepositoriesRoot: URL {
         directory(named: "github-repositories")
     }
     
-    public static var allRepositoryURLs: [URL] {
-        githubRepos.children()
+    public static var allDownloadedRepositories: [URL] {
+        githubRepositoriesRoot.children()
     }
 }
 

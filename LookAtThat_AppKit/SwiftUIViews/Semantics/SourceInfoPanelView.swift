@@ -49,6 +49,7 @@ extension SourceInfoPanelView {
         FloatableView(
             displayMode: state.vendPanelBinding(panel),
             windowKey: panel,
+            resizableAsSibling: true,
             innerViewBuilder: {
                 panelView(for: panel)
                     .border(.black, width: 2.0)
@@ -78,8 +79,16 @@ extension SourceInfoPanelView {
             tapControlsView
         case .windowControls:
             windowControlsView
+        case .githubTools:
+            gitHubTools
         }
     }
+    
+    @ViewBuilder
+    var gitHubTools: some View {
+        GitHubClientView()
+    }
+
     
     @ViewBuilder
     var appStateView: some View {

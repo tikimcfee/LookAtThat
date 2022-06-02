@@ -22,7 +22,7 @@ class CodePagesController: BaseSceneController, ObservableObject {
     
     let fileBrowser = FileBrowser()
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
-    lazy var fileEventStream = fileBrowser.$fileSeletionEvents.share().eraseToAnyPublisher()
+    lazy var fileEventStream = fileBrowser.$fileSelectionEvents.share().eraseToAnyPublisher()
 
     var cancellables = Set<AnyCancellable>()
 

@@ -44,16 +44,16 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         wait(for: [repoGet], timeout: 15.0)
         
         print("Have URLs:")
-        AppFiles.allRepositoryURLs.forEach { url in
+        AppFiles.allDownloadedRepositories.forEach { url in
             print(url)
         }
         
-        AppFiles.allRepositoryURLs.forEach {
+        AppFiles.allDownloadedRepositories.forEach {
             AppFiles.delete(fileUrl: $0)
         }
         
         print("After deletion:")
-        AppFiles.allRepositoryURLs.forEach { url in
+        AppFiles.allDownloadedRepositories.forEach { url in
             print(url)
         }
         

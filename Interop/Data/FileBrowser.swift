@@ -10,7 +10,7 @@ import Combine
 
 class FileBrowser: ObservableObject {
     @Published var scopes: [Scope] = []
-    @Published var fileSeletionEvents: FileBrowser.Event = .noSelection
+    @Published var fileSelectionEvents: FileBrowser.Event = .noSelection
 }
 
 extension FileBrowser {

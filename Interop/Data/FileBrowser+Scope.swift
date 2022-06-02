@@ -143,7 +143,7 @@ extension FileBrowser {
         
         switch scopes[index] {
         case let .file(newPathSelection):
-            fileSeletionEvents = .newSingleCommand(newPathSelection, .addToFocus)
+            fileSelectionEvents = .newSingleCommand(newPathSelection, .addToFocus)
         case let .directory(path):
             scopes[index] = .expandedDirectory(path)
             expandCollapsedDirectory(rootIndex: index, path)
