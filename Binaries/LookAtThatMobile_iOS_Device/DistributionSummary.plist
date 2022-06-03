@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>LookAtThatMobile.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
+				<key>dateExpires</key>
+				<string>3/26/23</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
+						<key>dateExpires</key>
+						<string>3/26/23</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>lib_InternalSwiftStaticMirror.dylib</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>XR2HQNSZ68</string>
+						<key>name</key>
+						<string>Ivan Lugo</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
+						<key>dateExpires</key>
+						<string>3/26/23</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>lib_InternalSwiftSyntaxParser.dylib</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>XR2HQNSZ68</string>
+						<key>name</key>
+						<string>Ivan Lugo</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>XR2HQNSZ68</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>LookAtThatMobile.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>68b258b8-2b3a-4ce4-8a65-8ecc579ed3cc</string>
+				<key>dateExpires</key>
+				<string>5/12/23</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: com.wallspaghetti.LookAtThatMobile</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>XR2HQNSZ68</string>
+				<key>name</key>
+				<string>Ivan Lugo</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
