@@ -15,9 +15,9 @@ struct TestButtons_Debugging: View {
             Button(action: toggleBoundingBoxes) {
                 Text("🔳")
             }
-            Button(action: dumpLogs) {
-                Text("LZT")
-            }
+//            Button(action: dumpLogs) {
+//                Text("LZT")
+//            }
             Button(action: resetScene) {
                 Text("Reset")
             }

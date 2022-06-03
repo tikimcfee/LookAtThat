@@ -81,11 +81,26 @@ struct GitHubClientView: View {
     
     @ViewBuilder
     var rootBodyView: some View {
+        #if os(iOS)
+        VStack(alignment: .leading) {
+            repoListView
+                .padding()
+                .border(.gray, width: 1.0)
+            Spacer()
+            repoInfoCaptureView
+                .padding()
+                .border(.gray, width: 1.0)
+            repoDownloadStateView
+                .padding()
+                .border(.gray, width: 1.0)
+        }
+        #elseif os(macOS)
         HStack(alignment: .top) {
             repoInfoCaptureView
             repoDownloadStateView
             repoListView
         }
+        #endif
     }
     
     @ViewBuilder
@@ -131,8 +146,6 @@ struct GitHubClientView: View {
             }
         }
         .frame(width: 256.0)
-        .padding(8)
-        .border(.gray, width: 1.0)
     }
     
     func onRepositoryUrlSelected(_ url: URL) {
@@ -158,5 +171,6 @@ struct GitHubClientView_Preview: PreviewProvider {
     
     static var previews: some View {
         GitHubClientView(clientState: sampleState)
+            
     }
 }

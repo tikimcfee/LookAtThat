@@ -27,6 +27,7 @@ func idiom() {
 
 struct MobileAppRootView : View {
     @State var showInfoView = false
+    @State var showGitFetch = false
     
     var body: some View {
         return ZStack(alignment: .bottomTrailing) {
@@ -35,15 +36,25 @@ struct MobileAppRootView : View {
             ).edgesIgnoringSafeArea(.all)
 
             VStack(alignment: .trailing) {
-                Button(action: { showInfoView = true }) {
-                    Text("📶").padding()
+                HStack {
+                    Button(action: { showInfoView = true }) {
+                        Text("📶").padding()
+                    }
+                    
+                    Button(action: { showGitFetch = true }) {
+                        Text("Fetch GitHub").padding()
+                    }
                 }
                 TestButtons_Debugging()
                 FileBrowserView()
                     .onAppear { setRootScope() }
                     .frame(maxHeight: 192.0)
             }
-        }.sheet(isPresented: $showInfoView) {
+        }
+        .sheet(isPresented: $showGitFetch) {
+            GitHubClientView()
+        }
+        .sheet(isPresented: $showInfoView) {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
         }
