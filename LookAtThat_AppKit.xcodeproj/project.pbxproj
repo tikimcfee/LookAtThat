@@ -567,6 +567,7 @@
 		B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB714528487C1800313633 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB714428487C1800313633 /* SCNLine */; };
+		B7EB714628499F9200313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -695,6 +696,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B7C404D9283497DC0079F00B /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+				B7EB714628499F9200313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2690,6 +2692,7 @@
 		B74A23312814FFF300F6F727 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -2726,6 +2729,7 @@
 		B74A23322814FFF300F6F727 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -2751,6 +2755,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TARGETING_SUI;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
