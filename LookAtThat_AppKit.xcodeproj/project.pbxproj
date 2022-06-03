@@ -480,7 +480,6 @@
 		B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
-		B7C23196276450EE003B1C3D /* SampleFiles.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B7C23195276450EE003B1C3D /* SampleFiles.bundle */; };
 		B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
@@ -581,7 +580,6 @@
 		B7F44C3D276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */; };
 		B7F44C3E276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */; };
 		B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */; };
-		B7F44C44276E66F700522B45 /* Interop in Resources */ = {isa = PBXBuildFile; fileRef = B7F44C43276E66F700522B45 /* Interop */; };
 		B7F44C46276E68D600522B45 /* FocusBoxEngine_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C45276E68D600522B45 /* FocusBoxEngine_iOS.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
@@ -878,7 +876,6 @@
 		B7F44C39276DB2B300522B45 /* TestButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestButtonsView.swift; sourceTree = "<group>"; };
 		B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlleriOSInputCompat.swift; sourceTree = "<group>"; };
 		B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_MacOS.swift; sourceTree = "<group>"; };
-		B7F44C43276E66F700522B45 /* Interop */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Interop; sourceTree = "<group>"; };
 		B7F44C45276E68D600522B45 /* FocusBoxEngine_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_iOS.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1428,7 +1425,6 @@
 			isa = PBXGroup;
 			children = (
 				F0C91E01251EB7B80082E3B2 /* Interop */,
-				B7F44C43276E66F700522B45 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
@@ -1943,9 +1939,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7F44C44276E66F700522B45 /* Interop in Resources */,
 				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
-				B7C23196276450EE003B1C3D /* SampleFiles.bundle in Resources */,
 				F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */,
 				F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */,
 			);

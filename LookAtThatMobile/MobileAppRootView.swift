@@ -47,7 +47,6 @@ struct MobileAppRootView : View {
                 }
                 TestButtons_Debugging()
                 FileBrowserView()
-                    .onAppear { setRootScope() }
                     .frame(maxHeight: 192.0)
             }
         }
@@ -58,28 +57,6 @@ struct MobileAppRootView : View {
             MultipeerInfoView()
                 .environmentObject(MultipeerConnectionManager.shared)
         }
-    }
-    
-    var sampleFilesUrl: URL {
-        let rootDirectoryName = "Interop"
-        let mainBundlePath = Bundle.main.bundleURL
-        let sampleFilesUrl = mainBundlePath.appendingPathComponent(rootDirectoryName)
-        return sampleFilesUrl
-    }
-    
-    var sampleFilesKitPath: URL? {
-        sampleFilesUrl
-    }
-    
-    func setRootScope() {
-        guard let sampleFilesPath = sampleFilesKitPath else {
-            return
-        }
-
-        SceneLibrary.global
-            .codePagesController
-            .fileBrowser
-            .setRootScope(sampleFilesPath)
     }
 }
 
