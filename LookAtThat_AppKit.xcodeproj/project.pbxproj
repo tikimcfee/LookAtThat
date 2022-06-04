@@ -172,8 +172,10 @@
 		45BA15772849A39100617DE7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = 45BA15762849A39100617DE7 /* SCNLine */; };
 		45BA15782849A42500617DE7 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		45BA15792849A42700617DE7 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B707ACFB284AC10B006B5209 /* syntax_parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B707ACFA284AC10B006B5209 /* syntax_parser.framework */; };
-		B707ACFC284AC125006B5209 /* syntax_parser.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B707ACFA284AC10B006B5209 /* syntax_parser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B707AD05284AF01E006B5209 /* SyntaxParserWrapped.h in Headers */ = {isa = PBXBuildFile; fileRef = B707AD04284AF01E006B5209 /* SyntaxParserWrapped.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B707AD0D284AF039006B5209 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; };
+		B707AD10284AF067006B5209 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B707AD12284AF3BD006B5209 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B707AD11284AF3BD006B5209 /* SwiftSyntaxParser */; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -643,6 +645,7 @@
 		B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
+		B7BC3705284AF52B000859A2 /* SyntaxParserWrapped.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B707AD02284AF01E006B5209 /* SyntaxParserWrapped.framework */; };
 		B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
@@ -714,7 +717,6 @@
 		B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71072844119800313633 /* SwiftSyntaxParser */; };
 		B7EB7109284448A100313633 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710B28444D2A00313633 /* SwiftSyntaxParser */; };
 		B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710D28444D9200313633 /* SwiftSyntaxParser */; };
 		B7EB71302848128700313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB712F2848128700313633 /* ZIPFoundation */; };
 		B7EB71322848129E00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71312848129E00313633 /* ZIPFoundation */; };
@@ -851,6 +853,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B707AD0F284AF05D006B5209 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B707AD10284AF067006B5209 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B70FDCF9283EAE9900170D5F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -900,7 +912,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B707ACFC284AC125006B5209 /* syntax_parser.framework in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -913,6 +924,8 @@
 		45BA15742849A2D700617DE7 /* LookAtThat_AppKit - Previews - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45BA15752849A2D700617DE7 /* LookAtThat_AppKit - Previews x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit - Previews x86-Info.plist"; path = "/Users/ivanlugo/XcodeProjects/LookAtThat/LookAtThat_AppKit - Previews x86-Info.plist"; sourceTree = "<absolute>"; };
 		B707ACFA284AC10B006B5209 /* syntax_parser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = syntax_parser.framework; sourceTree = "<group>"; };
+		B707AD02284AF01E006B5209 /* SyntaxParserWrapped.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SyntaxParserWrapped.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B707AD04284AF01E006B5209 /* SyntaxParserWrapped.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyntaxParserWrapped.h; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
@@ -1123,6 +1136,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B707ACFF284AF01E006B5209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B707AD12284AF3BD006B5209 /* SwiftSyntaxParser in Frameworks */,
+				B707AD0D284AF039006B5209 /* lib_InternalSwiftSyntaxParser.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B70FDCEB283EAE9900170D5F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1174,8 +1196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B707ACFB284AC10B006B5209 /* syntax_parser.framework in Frameworks */,
-				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
+				B7BC3705284AF52B000859A2 /* SyntaxParserWrapped.framework in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 				B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */,
@@ -1190,6 +1211,14 @@
 			children = (
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		B707AD03284AF01E006B5209 /* SyntaxParserWrapped */ = {
+			isa = PBXGroup;
+			children = (
+				B707AD04284AF01E006B5209 /* SyntaxParserWrapped.h */,
+			);
+			path = SyntaxParserWrapped;
 			sourceTree = "<group>";
 		};
 		B7161472283338AF00C70DC0 /* ExternalFrameworks */ = {
@@ -1619,6 +1648,7 @@
 				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
+				B707AD03284AF01E006B5209 /* SyntaxParserWrapped */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
 				B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */,
@@ -1635,6 +1665,7 @@
 				B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */,
 				B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */,
 				45BA15742849A2D700617DE7 /* LookAtThat_AppKit - Previews - x86.app */,
+				B707AD02284AF01E006B5209 /* SyntaxParserWrapped.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1883,6 +1914,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B707ACFD284AF01E006B5209 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B707AD05284AF01E006B5209 /* SyntaxParserWrapped.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B70FDC52283EAE9900170D5F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1938,6 +1977,28 @@
 			productName = LookAtThat_AppKit;
 			productReference = 45BA15742849A2D700617DE7 /* LookAtThat_AppKit - Previews - x86.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B707AD01284AF01E006B5209 /* SyntaxParserWrapped */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B707AD0A284AF01E006B5209 /* Build configuration list for PBXNativeTarget "SyntaxParserWrapped" */;
+			buildPhases = (
+				B707ACFD284AF01E006B5209 /* Headers */,
+				B707ACFE284AF01E006B5209 /* Sources */,
+				B707ACFF284AF01E006B5209 /* Frameworks */,
+				B707AD00284AF01E006B5209 /* Resources */,
+				B707AD0F284AF05D006B5209 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SyntaxParserWrapped;
+			packageProductDependencies = (
+				B707AD11284AF3BD006B5209 /* SwiftSyntaxParser */,
+			);
+			productName = SyntaxParserWrapped;
+			productReference = B707AD02284AF01E006B5209 /* SyntaxParserWrapped.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		B70FDC45283EAE9900170D5F /* LookAtThat_AppKit - x86 */ = {
 			isa = PBXNativeTarget;
@@ -2062,7 +2123,6 @@
 			packageProductDependencies = (
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
-				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
 				B7EB7135284812AA00313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThatMobile;
@@ -2076,8 +2136,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					B707AD01284AF01E006B5209 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					F00FC72B250C53460092AFF9 = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1200;
@@ -2118,6 +2181,7 @@
 				F07C49E6251C5AE800F28173 /* LookAtThatMobile */,
 				B74A22992814FFF300F6F727 /* LookAtThat_AppKit - Previews */,
 				45BA14C12849A2D700617DE7 /* LookAtThat_AppKit - Previews - x86 */,
+				B707AD01284AF01E006B5209 /* SyntaxParserWrapped */,
 			);
 		};
 /* End PBXProject section */
@@ -2130,6 +2194,13 @@
 				45BA156B2849A2D700617DE7 /* Main.storyboard in Resources */,
 				45BA156C2849A2D700617DE7 /* Preview Assets.xcassets in Resources */,
 				45BA156D2849A2D700617DE7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B707AD00284AF01E006B5209 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2341,6 +2412,13 @@
 				45BA15622849A2D700617DE7 /* PersistentThreadGroup.swift in Sources */,
 				45BA15632849A2D700617DE7 /* FingerView.swift in Sources */,
 				45BA15642849A2D700617DE7 /* FileIO.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B707ACFE284AF01E006B5209 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3089,6 +3167,87 @@
 			};
 			name = Release;
 		};
+		B707AD0B284AF01E006B5209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lugodev.SyntaxParserWrapped;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B707AD0C284AF01E006B5209 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lugodev.SyntaxParserWrapped;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		B70FDCFD283EAE9900170D5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3469,11 +3628,52 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
+				);
+				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Physicode iOS Dev";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F07C49F6251C5AE900F28173 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3499,45 +3699,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		F07C49F6251C5AE900F28173 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = XR2HQNSZ68;
-				ENABLE_BITCODE = NO;
-				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios",
-				);
-				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -3550,6 +3711,15 @@
 			buildConfigurations = (
 				45BA15722849A2D700617DE7 /* Debug */,
 				45BA15732849A2D700617DE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B707AD0A284AF01E006B5209 /* Build configuration list for PBXNativeTarget "SyntaxParserWrapped" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B707AD0B284AF01E006B5209 /* Debug */,
+				B707AD0C284AF01E006B5209 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3759,6 +3929,11 @@
 			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
 			productName = SCNLine;
 		};
+		B707AD11284AF3BD006B5209 /* SwiftSyntaxParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
+			productName = SwiftSyntaxParser;
+		};
 		B70FDC46283EAE9900170D5F /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B70FDC47283EAE9900170D5F /* XCRemoteSwiftPackageReference "Brotli" */;
@@ -3820,11 +3995,6 @@
 			productName = CodeEditorView;
 		};
 		B7EB71072844119800313633 /* SwiftSyntaxParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntaxParser;
-		};
-		B7EB710B28444D2A00313633 /* SwiftSyntaxParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
