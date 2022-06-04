@@ -1,204 +1,240 @@
-2022-06-03 01:56:19 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x38c55d9f0; archive(resolved)="<IDEArchive: 0x2f54b4e50>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	Chain (14, self inclusive):
-	<IDEDistributionProcessingPipelineContext: 0x38c55d9f0; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionProcessingPipelineContext: 0x38c554d20; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x3594302c0; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2fef31b40; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2ff288fb0; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2ff257900; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2fab48470; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x3594d94f0; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2e9098690; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x30946a960; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
-	<IDEDistributionContext: 0x2fab58240; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="(null)">
-	<IDEDistributionContext: 0x2d29a1460; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="(null)">
-	<IDEDistributionContext: 0x2fabb1280; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="(null)">
-	<IDEDistributionContext: 0x38c52b990; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x2ff4a6790>", team="(null)">
-	<IDEDistributionContext: 0x35826bdc0; archive = "<IDEArchive: 0x2f54b4e50>", distributionMethod="(null)", team="(null)">
-</IDEDistributionProcessingPipelineContext: 0x38c55d9f0>
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCreateDestRootStep
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCopyItemStep
-2022-06-03 01:56:19 +0000  Running /usr/bin/ditto '-V' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app'
-2022-06-03 01:56:19 +0000  >>> Copying /Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app 
-2022-06-03 01:56:19 +0000  copying file ./_CodeSignature/CodeResources ... 
-2022-06-03 01:56:19 +0000  3485 bytes for ./_CodeSignature/CodeResources
-2022-06-03 01:56:19 +0000  copying file ./LookAtThatMobile ... 
-2022-06-03 01:56:19 +0000  5725552 bytes for ./LookAtThatMobile
-2022-06-03 01:56:19 +0000  copying file ./LaunchScreen.storyboardc/StartupView.nib ... 
-972 bytes for ./LaunchScreen.storyboardc/StartupView.nib
-copying file ./LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib ... 
-3319 bytes for ./LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib
-copying file ./LaunchScreen.storyboardc/Info.plist ... 
-143 bytes for ./LaunchScreen.storyboardc/Info.plist
-copying file ./Frameworks/lib_InternalSwiftSyntaxParser.dylib ... 
-2022-06-03 01:56:19 +0000  5725920 bytes for ./Frameworks/lib_InternalSwiftSyntaxParser.dylib
-2022-06-03 01:56:19 +0000  copying file ./Frameworks/lib_InternalSwiftStaticMirror.dylib ... 
-2022-06-03 01:56:19 +0000  4772688 bytes for ./Frameworks/lib_InternalSwiftStaticMirror.dylib
-2022-06-03 01:56:19 +0000  /usr/bin/ditto exited with 0
-2022-06-03 01:56:19 +0000  copying file ./embedded.mobileprovision ... 
-12920 bytes for ./embedded.mobileprovision
+2022-06-03 19:35:54 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x2f1eefa30; archive(resolved)="<IDEArchive: 0x3063ec6c0>", distributionTask(resolved)="2", distributionDestination(resolved)="2", distributionMethod(resolved)="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	Chain (16, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x2f1eefa30; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x2ff7b8d20; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2ffbbcc80; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2f129f6c0; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2ff8c4b30; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2f83ff650; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2eaf8af70; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2f837b9e0; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2f8361c60; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2f123ef50; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2e0dc1e30; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2d540d570; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2dfbfab60; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x2cc30bff0; teamID='XR2HQNSZ68', teamName='Ivan Lugo', teamType='Individual', username='ivan.lugo@knights.ucf.edu', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2fab7edf0; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="(null)">
+	<IDEDistributionContext: 0x2ecabb740; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0x2f2509710>", team="(null)">
+	<IDEDistributionContext: 0x2cbd0bbc0; archive = "<IDEArchive: 0x3063ec6c0>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x2f1eefa30>
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionCreateDestRootStep
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionCopyItemStep
+2022-06-03 19:35:54 +0000  Running /usr/bin/ditto '-V' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app'
+2022-06-03 19:35:54 +0000  >>> Copying /Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app 
+2022-06-03 19:35:54 +0000  copying file ./_CodeSignature/CodeResources ... 
+2022-06-03 19:35:54 +0000  3871 bytes for ./_CodeSignature/CodeResources
+2022-06-03 19:35:54 +0000  copying file ./AppIcon60x60@2x.png ... 
+2022-06-03 19:35:54 +0000  3191 bytes for ./AppIcon60x60@2x.png
+2022-06-03 19:35:54 +0000  copying file ./LookAtThatMobile ... 
+2022-06-03 19:35:54 +0000  5725744 bytes for ./LookAtThatMobile
+2022-06-03 19:35:54 +0000  copying file ./Assets.car ... 
+2022-06-03 19:35:54 +0000  124296 bytes for ./Assets.car
+2022-06-03 19:35:54 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2022-06-03 19:35:54 +0000  3992 bytes for ./AppIcon76x76@2x~ipad.png
+2022-06-03 19:35:54 +0000  copying file ./LaunchScreen.storyboardc/StartupView.nib ... 
+2022-06-03 19:35:54 +0000  972 bytes for ./LaunchScreen.storyboardc/StartupView.nib
+2022-06-03 19:35:54 +0000  copying file ./LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib ... 
+2022-06-03 19:35:54 +0000  3354 bytes for ./LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib
+2022-06-03 19:35:54 +0000  copying file ./LaunchScreen.storyboardc/Info.plist ... 
+2022-06-03 19:35:54 +0000  143 bytes for ./LaunchScreen.storyboardc/Info.plist
+2022-06-03 19:35:54 +0000  copying file ./Frameworks/lib_InternalSwiftSyntaxParser.dylib ... 
+2022-06-03 19:35:54 +0000  5725920 bytes for ./Frameworks/lib_InternalSwiftSyntaxParser.dylib
+2022-06-03 19:35:54 +0000  /usr/bin/ditto exited with 0
+2022-06-03 19:35:54 +0000  copying file ./embedded.mobileprovision ... 
+16976 bytes for ./embedded.mobileprovision
 copying file ./Info.plist ... 
-1738 bytes for ./Info.plist
+1922 bytes for ./Info.plist
 copying file ./PkgInfo ... 
 8 bytes for ./PkgInfo
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionEmbedProfileStep
-2022-06-03 01:56:19 +0000  Skipping profile for item: <IDEDistributionItem: 0x384655520; bundleID='(null)', path='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x38b8af310; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x376c26000; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionEmbedProfileStep
+2022-06-03 19:35:54 +0000  Skipping profile for item: <IDEDistributionItem: 0x2f13296f0; bundleID='(null)', path='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2cb613a30; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2e8420a30; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftStaticMirror', executablePath='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', hardenedRuntime='0'>'>
-2022-06-03 01:56:19 +0000  Skipping profile for item: <IDEDistributionItem: 0x3091956e0; bundleID='(null)', path='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x37666c330; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2fc9581f0; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionInfoPlistStep
+2022-06-03 19:35:54 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionItemRemovalStep
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2022-06-03 19:35:54 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2022-06-03 19:35:54 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2022-06-03 19:35:54 +0000  Processing step: IDEDistributionSymbolsStep
+2022-06-03 19:35:54 +0000  Processing symbols for lib_InternalSwiftSyntaxParser.dylib
+2022-06-03 19:35:54 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib' '--link-dest' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH'
+2022-06-03 19:35:54 +0000  building file list ... 
+2022-06-03 19:35:54 +0000   0 files...2022-06-03 19:35:54 +0000  1 file to consider
+2022-06-03 19:35:54 +0000  
+2022-06-03 19:35:54 +0000  sent 107 bytes  received 20 bytes  254.00 bytes/sec
+total size is 5.46M  speedup is 45085.98
+2022-06-03 19:35:54 +0000  /usr/bin/rsync exited with 0
+2022-06-03 19:35:54 +0000  Running /usr/bin/rsync '-8aPhhE' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/dSYMs/' '--link-dest' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/dSYMs/' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH'
+2022-06-03 19:35:54 +0000  building file list ... 
+2022-06-03 19:35:54 +0000   0 files...2022-06-03 19:35:54 +0000  7 files to consider
+2022-06-03 19:35:54 +0000  ./
+2022-06-03 19:35:54 +0000  LookAtThatMobile.app.dSYM/
+LookAtThatMobile.app.dSYM/Contents/
+LookAtThatMobile.app.dSYM/Contents/Resources/
+LookAtThatMobile.app.dSYM/Contents/Resources/DWARF/
+2022-06-03 19:35:54 +0000  
+2022-06-03 19:35:54 +0000  sent 256 bytes  received 50 bytes  612.00 bytes/sec
+total size is 37.08M  speedup is 127050.55
+2022-06-03 19:35:54 +0000  /usr/bin/rsync exited with 0
+2022-06-03 19:35:54 +0000  Running /Applications/Xcode_1341.app/Contents/Developer/usr/bin/symbols '-noTextInSOD' '-noDaemon' '-arch' 'all' '-symbolsPackageDir' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Symbols' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/lib_InternalSwiftSyntaxParser.dylib'
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/lib_InternalSwiftSyntaxParser.dylib [arm64, 4.198326 seconds]:
+2022-06-03 19:35:59 +0000  /Applications/Xcode_1341.app/Contents/Developer/usr/bin/symbols exited with 0
+2022-06-03 19:35:59 +0000  Processing symbols for LookAtThatMobile.app
+2022-06-03 19:35:59 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app' '--link-dest' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH'
+2022-06-03 19:35:59 +0000  building file list ... 
+ 0 files...2022-06-03 19:35:59 +0000  16 files to consider
+2022-06-03 19:35:59 +0000  LookAtThatMobile.app/
+2022-06-03 19:35:59 +0000  LookAtThatMobile.app/Frameworks/
+LookAtThatMobile.app/LaunchScreen.storyboardc/
+LookAtThatMobile.app/_CodeSignature/
+2022-06-03 19:35:59 +0000  
+2022-06-03 19:35:59 +0000  sent 604 bytes  received 44 bytes  1.27K bytes/sec
+total size is 11.07M  speedup is 17913.29
+2022-06-03 19:35:59 +0000  /usr/bin/rsync exited with 0
+2022-06-03 19:35:59 +0000  Running /usr/bin/rsync '-8aPhhE' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/dSYMs/' '--link-dest' '/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/dSYMs/' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH'
+2022-06-03 19:35:59 +0000  building file list ... 
+2022-06-03 19:35:59 +0000   0 files...2022-06-03 19:35:59 +0000  7 files to consider
+2022-06-03 19:35:59 +0000  ./
+LookAtThatMobile.app.dSYM/
+LookAtThatMobile.app.dSYM/Contents/
+2022-06-03 19:35:59 +0000  LookAtThatMobile.app.dSYM/Contents/Resources/
+LookAtThatMobile.app.dSYM/Contents/Resources/DWARF/
+2022-06-03 19:35:59 +0000  
+2022-06-03 19:35:59 +0000  sent 268 bytes  received 62 bytes  660.00 bytes/sec
+total size is 37.08M  speedup is 117810.51
+2022-06-03 19:35:59 +0000  /usr/bin/rsync exited with 0
+2022-06-03 19:35:59 +0000  Running /Applications/Xcode_1341.app/Contents/Developer/usr/bin/symbols '-noTextInSOD' '-noDaemon' '-arch' 'all' '-symbolsPackageDir' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Symbols' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/LookAtThatMobile.app.dSYM/Contents/Resources/Dwarf/LookAtThatMobile'
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/LookAtThatMobile.app.dSYM/Contents/Resources/Dwarf/LookAtThatMobile [arm64, 0.296059 seconds]:
+2022-06-03 19:35:59 +0000  /Applications/Xcode_1341.app/Contents/Developer/usr/bin/symbols exited with 0
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionCopyAppleProvidedContentStep
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionAppThinningStep
+2022-06-03 19:35:59 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionArchThinningStep
+2022-06-03 19:35:59 +0000  Running /Applications/Xcode_1341.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib' '-verify_arch' 'arm64e'
+2022-06-03 19:35:59 +0000  /Applications/Xcode_1341.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2022-06-03 19:35:59 +0000  Skipping architecture thinning for item "lib_InternalSwiftSyntaxParser.dylib" because arch "arm64e" wasn't found
+2022-06-03 19:35:59 +0000  Running /Applications/Xcode_1341.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/LookAtThatMobile' '-verify_arch' 'arm64e'
+2022-06-03 19:35:59 +0000  /Applications/Xcode_1341.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2022-06-03 19:35:59 +0000  Skipping architecture thinning for item "LookAtThatMobile" because arch "arm64e" wasn't found
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionODRStep
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionStripXattrsStep
+2022-06-03 19:35:59 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x2f13296f0; bundleID='(null)', path='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2cb613a30; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d5331830; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionInfoPlistStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionAppThinningPlistStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCompileBitcodeStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCodeSlimmingStep
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionSymbolsStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionAppThinningStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionArchThinningStep
-2022-06-03 01:56:19 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib' '-verify_arch' 'arm64e'
-2022-06-03 01:56:19 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
-2022-06-03 01:56:19 +0000  Skipping architecture thinning for item "lib_InternalSwiftStaticMirror.dylib" because arch "arm64e" wasn't found
-2022-06-03 01:56:19 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib' '-verify_arch' 'arm64e'
-2022-06-03 01:56:19 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
-2022-06-03 01:56:19 +0000  Skipping architecture thinning for item "lib_InternalSwiftSyntaxParser.dylib" because arch "arm64e" wasn't found
-2022-06-03 01:56:19 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/LookAtThatMobile' '-verify_arch' 'arm64e'
-2022-06-03 01:56:19 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
-2022-06-03 01:56:19 +0000  Skipping architecture thinning for item "LookAtThatMobile" because arch "arm64e" wasn't found
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionODRStep
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionStripXattrsStep
-2022-06-03 01:56:19 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x384655520; bundleID='(null)', path='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x38b8af310; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d26ec390; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>
+2022-06-03 19:35:59 +0000  Running /usr/bin/xattr '-crs' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app'
+2022-06-03 19:35:59 +0000  /usr/bin/xattr exited with 0
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionCodesignStep
+2022-06-03 19:35:59 +0000  Entitlements for <IDEDistributionItem: 0x2f13296f0; bundleID='(null)', path='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2cb613a30; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d533c650; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftStaticMirror', executablePath='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', hardenedRuntime='0'>'>
-2022-06-03 01:56:19 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x3091956e0; bundleID='(null)', path='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x37666c330; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x376cb9b50; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
-    "1.2.840.113635.100.6.1.12",
-    "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>
-2022-06-03 01:56:19 +0000  Running /usr/bin/xattr '-crs' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app'
-2022-06-03 01:56:19 +0000  /usr/bin/xattr exited with 0
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCodesignStep
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x384655520; bundleID='(null)', path='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x38b8af310; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x376c26000; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
-    "1.2.840.113635.100.6.1.12",
-    "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftStaticMirror', executablePath='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', hardenedRuntime='0'>'>: {
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>: {
 }
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x384655520; bundleID='(null)', path='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x38b8af310; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x376c146f0; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+2022-06-03 19:35:59 +0000  Entitlements for <IDEDistributionItem: 0x2f13296f0; bundleID='(null)', path='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2cb613a30; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2e67fa710; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftStaticMirror', executablePath='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', hardenedRuntime='0'>'> are: {
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'> are: {
 }
-2022-06-03 01:56:19 +0000  Writing entitlements for <IDEDistributionItem: 0x384655520; bundleID='(null)', path='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x38b8af310; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x382ae5880; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+2022-06-03 19:35:59 +0000  Writing entitlements for <IDEDistributionItem: 0x2f13296f0; bundleID='(null)', path='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2cb613a30; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2e37fad10; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftStaticMirror', executablePath='<DVTFilePath:0x376631a40:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>', hardenedRuntime='0'>'> to: /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~us4qmg
-2022-06-03 01:56:19 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '38BCD0661B0439C9AF612C6FB875CE84591E78FD' '--entitlements' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~us4qmg' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib: replacing existing signature
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib: signed Mach-O thin (arm64) [lib_InternalSwiftStaticMirror]
-2022-06-03 01:56:19 +0000  /usr/bin/codesign exited with 0
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x3091956e0; bundleID='(null)', path='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x37666c330; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2fc6b9a90; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x2f89b3040:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'> to: /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/entitlements~~~Cdg1y6
+2022-06-03 19:35:59 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '2D7704D1225993E75CBD0A3D4F7960FD537F118C' '--entitlements' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/entitlements~~~Cdg1y6' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib: replacing existing signature
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib: signed Mach-O thin (arm64) [lib_InternalSwiftSyntaxParser]
+2022-06-03 19:35:59 +0000  /usr/bin/codesign exited with 0
+2022-06-03 19:35:59 +0000  Entitlements for <IDEDistributionItem: 0x2fb3d18a0; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f89aed60:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2d2148690; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x30b55d400; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'>: {
-}
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x3091956e0; bundleID='(null)', path='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x37666c330; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d2614ab0; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
-    "1.2.840.113635.100.6.1.12",
-    "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'> are: {
-}
-2022-06-03 01:56:19 +0000  Writing entitlements for <IDEDistributionItem: 0x3091956e0; bundleID='(null)', path='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x37666c330; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d2614b60; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
-    "1.2.840.113635.100.6.1.12",
-    "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='(null)', teamID='XR2HQNSZ68', identifier='lib_InternalSwiftSyntaxParser', executablePath='<DVTFilePath:0x389b8ace0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>', hardenedRuntime='0'>'> to: /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~4mz5iJ
-2022-06-03 01:56:19 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '38BCD0661B0439C9AF612C6FB875CE84591E78FD' '--entitlements' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~4mz5iJ' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib: replacing existing signature
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib: signed Mach-O thin (arm64) [lib_InternalSwiftSyntaxParser]
-2022-06-03 01:56:19 +0000  /usr/bin/codesign exited with 0
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x320cfbf80; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f79206b0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x36540a7f0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d26490d0; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
-    "1.2.840.113635.100.6.1.12",
-    "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='{
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='{
     "application-identifier" = "XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile";
     "com.apple.developer.team-identifier" = XR2HQNSZ68;
     "get-task-allow" = 1;
-}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2f488fe70:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'>: {
+}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2fbc5b820:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'>: {
     "application-identifier" = "XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile";
+    "beta-reports-active" = 1;
     "com.apple.developer.team-identifier" = XR2HQNSZ68;
-    "get-task-allow" = 1;
+    "get-task-allow" = 0;
 }
-2022-06-03 01:56:19 +0000  Entitlements for <IDEDistributionItem: 0x320cfbf80; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f79206b0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x36540a7f0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d26650c0; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+2022-06-03 19:35:59 +0000  Entitlements for <IDEDistributionItem: 0x2fb3d18a0; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f89aed60:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2d2148690; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2d533c650; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='{
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='{
     "application-identifier" = "XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile";
     "com.apple.developer.team-identifier" = XR2HQNSZ68;
     "get-task-allow" = 1;
-}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2f488fe70:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'> are: {
+}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2fbc5b820:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'> are: {
     "application-identifier" = "XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile";
+    "beta-reports-active" = 1;
     "com.apple.developer.team-identifier" = XR2HQNSZ68;
-    "get-task-allow" = 1;
+    "get-task-allow" = 0;
 }
-2022-06-03 01:56:19 +0000  Writing entitlements for <IDEDistributionItem: 0x320cfbf80; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f79206b0:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x36540a7f0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2e90a0390; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='38BCD0661B0439C9AF612C6FB875CE84591E78FD', serialNumber='858755AC3F811FDE88A12BB49F9F6BB', certificateKinds='(
+2022-06-03 19:35:59 +0000  Writing entitlements for <IDEDistributionItem: 0x2fb3d18a0; bundleID='com.wallspaghetti.LookAtThatMobile', path='<DVTFilePath:0x2f89aed60:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x2d2148690; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x2cece9990; name='Apple Development: Ivan Lugo (8LTRHHMCR5)', hash='B844E99CE6A21891A018E896F8A1BEF28381D171', serialNumber='47898CBFFA78000234F43BFEDC4189AA', certificateKinds='(
     "1.2.840.113635.100.6.1.12",
     "1.2.840.113635.100.6.1.2"
-), issueDate='2022-03-27 03:43:23 +0000''>', entitlements='{
+), issueDate='2022-06-03 17:10:42 +0000''>', entitlements='{
     "application-identifier" = "XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile";
     "com.apple.developer.team-identifier" = XR2HQNSZ68;
     "get-task-allow" = 1;
-}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2f488fe70:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-02/LookAtThatMobile_iOS_Device 6-2-22, 6.55 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'> to: /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~OPxMi2
-2022-06-03 01:56:19 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '38BCD0661B0439C9AF612C6FB875CE84591E78FD' '--entitlements' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/entitlements~~~OPxMi2' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app'
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app: replacing existing signature
-2022-06-03 01:56:19 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app: signed app bundle with Mach-O thin (arm64) [com.wallspaghetti.LookAtThatMobile]
-2022-06-03 01:56:19 +0000  /usr/bin/codesign exited with 0
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionZipODRItemStep
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
-2022-06-03 01:56:19 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
-2022-06-03 01:56:19 +0000  Processing step: IDEDistributionCreateIPAStep
-2022-06-03 01:56:19 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Packages/LookAtThatMobile.ipa'
-2022-06-03 01:56:19 +0000  >>> Copying /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root 
-2022-06-03 01:56:19 +0000  copying file ./Payload/LookAtThatMobile.app/_CodeSignature/CodeResources ... 
-2022-06-03 01:56:19 +0000  3485 bytes for ./Payload/LookAtThatMobile.app/_CodeSignature/CodeResources
-2022-06-03 01:56:19 +0000  copying file ./Payload/LookAtThatMobile.app/LookAtThatMobile ... 
-2022-06-03 01:56:19 +0000  5725552 bytes for ./Payload/LookAtThatMobile.app/LookAtThatMobile
-2022-06-03 01:56:19 +0000  copying file ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/StartupView.nib ... 
-972 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/StartupView.nib
+}', teamID='XR2HQNSZ68', identifier='com.wallspaghetti.LookAtThatMobile', executablePath='<DVTFilePath:0x2fbc5b820:'/Users/lugos/Library/Developer/Xcode/Archives/2022-06-03/LookAtThatMobile_iOS_Device 6-3-22, 12.32 PM.xcarchive/Products/Applications/LookAtThatMobile.app/LookAtThatMobile'>', hardenedRuntime='0'>'> to: /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/entitlements~~~tHiaHk
+2022-06-03 19:35:59 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '2D7704D1225993E75CBD0A3D4F7960FD537F118C' '--entitlements' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/entitlements~~~tHiaHk' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app'
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app: replacing existing signature
+2022-06-03 19:35:59 +0000  /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app: signed app bundle with Mach-O thin (arm64) [com.wallspaghetti.LookAtThatMobile]
+2022-06-03 19:35:59 +0000  /usr/bin/codesign exited with 0
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionZipODRItemStep
+2022-06-03 19:35:59 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2022-06-03 19:35:59 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2022-06-03 19:35:59 +0000  Processing step: IDEDistributionCreateIPAStep
+2022-06-03 19:35:59 +0000  Running /usr/bin/rsync '-8aPhhE' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Symbols' '--link-dest' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root'
+2022-06-03 19:35:59 +0000  building file list ... 
+2022-06-03 19:35:59 +0000   0 files...2022-06-03 19:35:59 +0000  3 files to consider
+2022-06-03 19:35:59 +0000  Symbols/
+2022-06-03 19:35:59 +0000  
+2022-06-03 19:35:59 +0000  sent 194 bytes  received 26 bytes  440.00 bytes/sec
+total size is 48.89M  speedup is 233012.58
+2022-06-03 19:35:59 +0000  /usr/bin/rsync exited with 0
+2022-06-03 19:35:59 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root' '/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Packages/LookAtThatMobile.ipa'
+2022-06-03 19:35:59 +0000  >>> Copying /var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root 
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/_CodeSignature/CodeResources ... 
+2022-06-03 19:35:59 +0000  3871 bytes for ./Payload/LookAtThatMobile.app/_CodeSignature/CodeResources
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/AppIcon60x60@2x.png ... 
+2022-06-03 19:35:59 +0000  3191 bytes for ./Payload/LookAtThatMobile.app/AppIcon60x60@2x.png
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/LookAtThatMobile ... 
+2022-06-03 19:35:59 +0000  5725824 bytes for ./Payload/LookAtThatMobile.app/LookAtThatMobile
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/Assets.car ... 
+2022-06-03 19:35:59 +0000  124296 bytes for ./Payload/LookAtThatMobile.app/Assets.car
+copying file ./Payload/LookAtThatMobile.app/AppIcon76x76@2x~ipad.png ... 
+2022-06-03 19:35:59 +0000  3992 bytes for ./Payload/LookAtThatMobile.app/AppIcon76x76@2x~ipad.png
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/StartupView.nib ... 
+2022-06-03 19:35:59 +0000  972 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/StartupView.nib
 copying file ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib ... 
-3319 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib
+2022-06-03 19:35:59 +0000  3354 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/hKU-PR-8eu-view-NZl-GO-hgK.nib
 copying file ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/Info.plist ... 
-143 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/Info.plist
+2022-06-03 19:35:59 +0000  143 bytes for ./Payload/LookAtThatMobile.app/LaunchScreen.storyboardc/Info.plist
 copying file ./Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib ... 
-2022-06-03 01:56:19 +0000  5726272 bytes for ./Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib
-copying file ./Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib ... 
-2022-06-03 01:56:19 +0000  4773040 bytes for ./Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib
-copying file ./Payload/LookAtThatMobile.app/embedded.mobileprovision ... 
-2022-06-03 01:56:19 +0000  12920 bytes for ./Payload/LookAtThatMobile.app/embedded.mobileprovision
+2022-06-03 19:35:59 +0000  5726272 bytes for ./Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/embedded.mobileprovision ... 
+2022-06-03 19:35:59 +0000  14397 bytes for ./Payload/LookAtThatMobile.app/embedded.mobileprovision
 copying file ./Payload/LookAtThatMobile.app/Info.plist ... 
-1738 bytes for ./Payload/LookAtThatMobile.app/Info.plist
-copying file ./Payload/LookAtThatMobile.app/PkgInfo ... 
+2022-06-03 19:35:59 +0000  1922 bytes for ./Payload/LookAtThatMobile.app/Info.plist
+2022-06-03 19:35:59 +0000  copying file ./Payload/LookAtThatMobile.app/PkgInfo ... 
 8 bytes for ./Payload/LookAtThatMobile.app/PkgInfo
-2022-06-03 01:56:19 +0000  /usr/bin/ditto exited with 0
-2022-06-03 01:56:20 +0000  Processing step: IDEDistributionAppStoreInformationStep
-2022-06-03 01:56:20 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
-2022-06-03 01:56:20 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
-2022-06-03 01:56:20 +0000  IDEDistributionItem init <DVTFilePath:0x2fc6fe080:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>
-2022-06-03 01:56:20 +0000  [OPTIONAL] Didn't find info dictionary for <DVTFilePath:0x2fc6fe080:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>: Error Domain=DVTFoundationNSBundleAdditionsErrorDomain Code=1 "Couldn't load Info dictionary for <DVTFilePath:0x2fc6fe080:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>" UserInfo={NSLocalizedDescription=Couldn't load Info dictionary for <DVTFilePath:0x2fc6fe080:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>}
-2022-06-03 01:56:20 +0000  [OPTIONAL] Can't have a profile, not a bundle at <DVTFilePath:0x2fc6fe080:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftStaticMirror.dylib'>
-2022-06-03 01:56:20 +0000  IDEDistributionItem init <DVTFilePath:0x2d26ec390:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>
-2022-06-03 01:56:20 +0000  [OPTIONAL] Didn't find info dictionary for <DVTFilePath:0x2d26ec390:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>: Error Domain=DVTFoundationNSBundleAdditionsErrorDomain Code=1 "Couldn't load Info dictionary for <DVTFilePath:0x2d26ec390:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>" UserInfo={NSLocalizedDescription=Couldn't load Info dictionary for <DVTFilePath:0x2d26ec390:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>}
-2022-06-03 01:56:20 +0000  [OPTIONAL] Can't have a profile, not a bundle at <DVTFilePath:0x2d26ec390:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>
-2022-06-03 01:56:20 +0000  IDEDistributionItem init <DVTFilePath:0x3582e8e90:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~KdTUly/Root/Payload/LookAtThatMobile.app'>
-2022-06-03 01:56:20 +0000  Processing step: IDEDistributionCreateManifestStep
+2022-06-03 19:35:59 +0000  copying file ./Symbols/38441557-D6E4-37EC-BEF2-B4819B33A475.symbols ... 
+2022-06-03 19:36:00 +0000  32508532 bytes for ./Symbols/38441557-D6E4-37EC-BEF2-B4819B33A475.symbols
+2022-06-03 19:36:00 +0000  copying file ./Symbols/0958B98F-0B84-3DFD-B5AF-D955DCA0C1C7.symbols ... 
+2022-06-03 19:36:00 +0000  18754236 bytes for ./Symbols/0958B98F-0B84-3DFD-B5AF-D955DCA0C1C7.symbols
+2022-06-03 19:36:00 +0000  /usr/bin/ditto exited with 0
+2022-06-03 19:36:00 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2022-06-03 19:36:00 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2022-06-03 19:36:00 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2022-06-03 19:36:00 +0000  IDEDistributionItem init <DVTFilePath:0x2e69ddc40:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>
+2022-06-03 19:36:00 +0000  [OPTIONAL] Didn't find info dictionary for <DVTFilePath:0x2e69ddc40:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>: Error Domain=DVTFoundationNSBundleAdditionsErrorDomain Code=1 "Couldn't load Info dictionary for <DVTFilePath:0x2e69ddc40:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>" UserInfo={NSLocalizedDescription=Couldn't load Info dictionary for <DVTFilePath:0x2e69ddc40:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>}
+2022-06-03 19:36:00 +0000  [OPTIONAL] Can't have a profile, not a bundle at <DVTFilePath:0x2e69ddc40:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app/Frameworks/lib_InternalSwiftSyntaxParser.dylib'>
+2022-06-03 19:36:00 +0000  IDEDistributionItem init <DVTFilePath:0x2ffaf8d50:'/var/folders/0r/zfn461g967381wtft874dc5r0000gn/T/XcodeDistPipeline.~~~RljNSH/Root/Payload/LookAtThatMobile.app'>
+2022-06-03 19:36:00 +0000  Processing step: IDEDistributionCreateManifestStep
+2022-06-03 19:36:00 +0000  Skipping step: IDEDistributionCreateManifestStep because it said so

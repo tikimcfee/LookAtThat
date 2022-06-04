@@ -172,6 +172,8 @@
 		45BA15772849A39100617DE7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = 45BA15762849A39100617DE7 /* SCNLine */; };
 		45BA15782849A42500617DE7 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		45BA15792849A42700617DE7 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B707ACFB284AC10B006B5209 /* syntax_parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B707ACFA284AC10B006B5209 /* syntax_parser.framework */; };
+		B707ACFC284AC125006B5209 /* syntax_parser.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B707ACFA284AC10B006B5209 /* syntax_parser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -532,8 +534,6 @@
 		B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
-		B7623F4328334964008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
 		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
@@ -900,8 +900,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B7623F4328334964008DAA88 /* lib_InternalSwiftSyntaxParser.dylib in Embed Libraries */,
-				B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */,
+				B707ACFC284AC125006B5209 /* syntax_parser.framework in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -913,6 +912,7 @@
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		45BA15742849A2D700617DE7 /* LookAtThat_AppKit - Previews - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45BA15752849A2D700617DE7 /* LookAtThat_AppKit - Previews x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit - Previews x86-Info.plist"; path = "/Users/ivanlugo/XcodeProjects/LookAtThat/LookAtThat_AppKit - Previews x86-Info.plist"; sourceTree = "<absolute>"; };
+		B707ACFA284AC10B006B5209 /* syntax_parser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = syntax_parser.framework; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
@@ -1174,6 +1174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B707ACFB284AC10B006B5209 /* syntax_parser.framework in Frameworks */,
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
@@ -1236,6 +1237,7 @@
 		B723D28A283340F3000901C8 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				B707ACFA284AC10B006B5209 /* syntax_parser.framework */,
 				B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
 				B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
 			);
@@ -3467,12 +3469,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
+				);
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3483,12 +3490,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
 					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Physicode - AppStore Distro";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3503,10 +3510,15 @@
 				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks/ios",
+				);
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3517,9 +3529,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
 					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

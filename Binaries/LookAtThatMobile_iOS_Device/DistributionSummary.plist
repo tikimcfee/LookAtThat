@@ -10,15 +10,15 @@
 				<string>arm64</string>
 			</array>
 			<key>buildNumber</key>
-			<string>1</string>
+			<string>3</string>
 			<key>certificate</key>
 			<dict>
 				<key>SHA1</key>
-				<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
+				<string>2D7704D1225993E75CBD0A3D4F7960FD537F118C</string>
 				<key>dateExpires</key>
-				<string>3/26/23</string>
+				<string>6/3/23</string>
 				<key>type</key>
-				<string>Apple Development</string>
+				<string>Apple Distribution</string>
 			</dict>
 			<key>embeddedBinaries</key>
 			<array>
@@ -30,38 +30,16 @@
 					<key>certificate</key>
 					<dict>
 						<key>SHA1</key>
-						<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
+						<string>2D7704D1225993E75CBD0A3D4F7960FD537F118C</string>
 						<key>dateExpires</key>
-						<string>3/26/23</string>
+						<string>6/3/23</string>
 						<key>type</key>
-						<string>Apple Development</string>
-					</dict>
-					<key>name</key>
-					<string>lib_InternalSwiftStaticMirror.dylib</string>
-					<key>team</key>
-					<dict>
-						<key>id</key>
-						<string>XR2HQNSZ68</string>
-						<key>name</key>
-						<string>Ivan Lugo</string>
-					</dict>
-				</dict>
-				<dict>
-					<key>architectures</key>
-					<array>
-						<string>arm64</string>
-					</array>
-					<key>certificate</key>
-					<dict>
-						<key>SHA1</key>
-						<string>38BCD0661B0439C9AF612C6FB875CE84591E78FD</string>
-						<key>dateExpires</key>
-						<string>3/26/23</string>
-						<key>type</key>
-						<string>Apple Development</string>
+						<string>Apple Distribution</string>
 					</dict>
 					<key>name</key>
 					<string>lib_InternalSwiftSyntaxParser.dylib</string>
+					<key>symbols</key>
+					<true/>
 					<key>team</key>
 					<dict>
 						<key>id</key>
@@ -75,22 +53,26 @@
 			<dict>
 				<key>application-identifier</key>
 				<string>XR2HQNSZ68.com.wallspaghetti.LookAtThatMobile</string>
+				<key>beta-reports-active</key>
+				<true/>
 				<key>com.apple.developer.team-identifier</key>
 				<string>XR2HQNSZ68</string>
 				<key>get-task-allow</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>name</key>
 			<string>LookAtThatMobile.app</string>
 			<key>profile</key>
 			<dict>
 				<key>UUID</key>
-				<string>68b258b8-2b3a-4ce4-8a65-8ecc579ed3cc</string>
+				<string>4cc5b5cd-3070-4fff-8308-39b836c17660</string>
 				<key>dateExpires</key>
-				<string>5/12/23</string>
+				<string>6/3/23</string>
 				<key>name</key>
-				<string>iOS Team Provisioning Profile: com.wallspaghetti.LookAtThatMobile</string>
+				<string>iOS Team Store Provisioning Profile: com.wallspaghetti.LookAtThatMobile</string>
 			</dict>
+			<key>symbols</key>
+			<true/>
 			<key>team</key>
 			<dict>
 				<key>id</key>
@@ -99,7 +81,7 @@
 				<string>Ivan Lugo</string>
 			</dict>
 			<key>versionNumber</key>
-			<string>1.0</string>
+			<string>1.0.1</string>
 		</dict>
 	</array>
 </dict>
