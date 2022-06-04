@@ -20,6 +20,8 @@ struct FocusBoxEngineiOS: FocusBoxLayoutEngine {
             defaultShim.onSetBounds(container, newValue)
         case .horizontal:
             defaultShim.onSetBounds(container, newValue)
+        case .cylinder:
+            defaultShim.onSetBounds(container, newValue)
         }
     }
     
@@ -30,6 +32,8 @@ struct FocusBoxEngineiOS: FocusBoxLayoutEngine {
         case .stacked:
             defaultShim.layout(container)
         case .horizontal:
+            defaultShim.layout(container)
+        case .cylinder:
             defaultShim.layout(container)
         }
     }
@@ -131,6 +135,28 @@ private struct FocusBoxDefaultEngineiOS: FocusBoxLayoutEngine {
                 stackLayout()
             case .userStack:
                 print("ERROR - iOS user stack in the wrong engine!")
+            case .cylinder:
+                cylinderLayout()
+            }
+        }
+        
+        func cylinderLayout() {
+            let allGrids = container.box.bimap.keysToValues.keys
+            let gridCount = allGrids.count
+            
+            let twoPi = 2.0 * VectorVal.pi
+            let radiansPerFile = twoPi / VectorVal(gridCount)
+            let radianStride = stride(from: 0.0, to: twoPi, by: radiansPerFile)
+            
+            zip(allGrids, radianStride).forEach { grid, radians in
+                let magnitude = VectorVal(16.0)
+                let dX = cos(radians) * magnitude
+                let dY = -(sin(radians) * magnitude)
+                
+                // translate dY unit vector along z-axis, rotating the unit circle along x
+                grid.zeroedPosition()
+                grid.rootNode.translate(dX: dX, dZ: dY)
+                grid.rootNode.eulerAngles.y = radians
             }
         }
         

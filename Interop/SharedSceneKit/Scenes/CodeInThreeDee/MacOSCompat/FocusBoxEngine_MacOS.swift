@@ -23,6 +23,7 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
         
         let rootWidth = container.rootGeometry.width.vector
         let rootHeight = container.rootGeometry.height.vector
+        let rootLength = container.rootGeometry.length.vector
         
         /// translate geometry:
         /// 1. so it's top-left-front is at (0, 0, 1/2 length)
@@ -31,11 +32,12 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
         /// Note: -1.0 as multiple is explicit to remain compatiable between iOS macOS; '-' operand isn't universal
         let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
         let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
-        let translateZ = -newValue.max.z / 2.0
-        
-        container.geometryNode.pivot = SCNMatrix4MakeTranslation(
+        let translateZ = rootLength / 2.0 - newValue.max.z - halfPad
+        let newPivot = SCNMatrix4MakeTranslation(
             translateX, translateY, translateZ
         )
+        
+        container.geometryNode.pivot = newPivot
     }
     
     func layout(_ container: FBLEContainer) {
@@ -52,6 +54,8 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
                 stackLayout(first, container)
             case .userStack:
                 userLayout(first, container)
+            case .cylinder:
+                cylinderLayout(container)
             }
         }
     }
@@ -69,6 +73,28 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
             } else {
                 current.zeroedPosition()
             }
+        }
+    }
+    
+    func cylinderLayout(
+        _ container: FBLEContainer
+    ) {
+        let allGrids = container.box.bimap.keysToValues.keys
+        let gridCount = allGrids.count
+        
+        let twoPi = 2.0 * VectorVal.pi
+        let radiansPerFile = twoPi / VectorVal(gridCount)
+        let radianStride = stride(from: 0.0, to: twoPi, by: radiansPerFile)
+        
+        zip(allGrids, radianStride).forEach { grid, radians in
+            let magnitude = VectorVal(16.0)
+            let dX = cos(radians) * magnitude
+            let dY = -(sin(radians) * magnitude)
+            
+            // translate dY unit vector along z-axis, rotating the unit circle along x
+            grid.zeroedPosition()
+            grid.rootNode.translate(dX: dX, dZ: dY)
+            grid.rootNode.eulerAngles.y = radians
         }
     }
     

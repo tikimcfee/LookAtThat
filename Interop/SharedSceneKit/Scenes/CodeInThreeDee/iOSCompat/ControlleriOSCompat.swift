@@ -106,7 +106,9 @@ extension ControlleriOSCompat {
             case .stacked:
                 box.rootNode.simdTranslate(dZ: Constants.stackOffset)
             case .userStack:
-                print("iOS move new grid")
+                print("iOS: moveNewGrid not implemented .userStack")
+            case .cylinder:
+                print("iOS: moveNewGrid not implemented .cylinder")
             }
         }
     }

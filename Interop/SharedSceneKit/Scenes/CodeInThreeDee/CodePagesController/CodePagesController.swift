@@ -69,14 +69,14 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     sem.signal()
                 }
             case .addToWorld:
-//                RenderPlan(
-//                    rootPath: parent,
-//                    queue: codeGridParser.renderQueue,
-//                    renderer: codeGridParser.concurrency
-//                ).startRender()
-                    codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-                    self.addToRoot(rootGrid: rootGrid)
-                }
+                RenderPlan(
+                    rootPath: parent,
+                    queue: codeGridParser.renderQueue,
+                    renderer: codeGridParser.concurrency
+                ).startRender()
+//                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+//                    self.addToRoot(rootGrid: rootGrid)
+//                }
             default: break
             }
 

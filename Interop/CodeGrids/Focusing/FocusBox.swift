@@ -24,7 +24,7 @@ class FocusBox: Hashable, Identifiable {
     var focus: CodeGridFocusController
     
     var focusedGrid: CodeGrid?
-    var layoutMode: LayoutMode = .stacked
+    var layoutMode: LayoutMode = .cylinder
     var displayMode: DisplayMode = .boundingBox
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
         
@@ -157,6 +157,7 @@ extension FocusBox {
         case horizontal
         case stacked
         case userStack
+        case cylinder
     }
     
     private typealias GridDirection = WorldGridSnapping.RelativeGridMapping
@@ -174,6 +175,7 @@ extension FocusBox {
         case .stacked: return .forward
         case .userStack: return .forward
         case .horizontal: return .right
+        case .cylinder: return .right
         }
     }
     
@@ -182,6 +184,7 @@ extension FocusBox {
         case .stacked: return .backward
         case .userStack: return .backward
         case .horizontal: return .left
+        case .cylinder: return .left
         }
     }
 }
