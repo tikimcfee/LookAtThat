@@ -92,6 +92,9 @@ private struct FocusBoxUserEngineiOS: FocusBoxLayoutEngine {
 }
 
 private struct FocusBoxDefaultEngineiOS: FocusBoxLayoutEngine {
+    let xLengthPadding: VectorFloat = 8.0 * DeviceScale
+    let zLengthPadding: VectorFloat = 150.0 * DeviceScale
+    
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
         // Set the size of the box to match
         let pad: VectorFloat = 32.0 * DeviceScale
@@ -119,70 +122,95 @@ private struct FocusBoxDefaultEngineiOS: FocusBoxLayoutEngine {
     }
     
     func layout(_ container: FBLEContainer) {
+        sceneTransaction {
+            switch container.box.layoutMode {
+            case .horizontal:
+                horizontalLayout(container)
+            case .stacked:
+                stackLayout(container)
+            case .userStack:
+                print("ERROR - iOS user stack in the wrong engine!")
+            case .cylinder:
+                cylinderLayout(container)
+            }
+        }
+        
+        func cylinderLayout(_ container: FBLEContainer) {
+            let allGrids = container.box.bimap.keysToValues.keys
+            let gridCount = allGrids.count
+            let allChildFoci = container.box.childFocusBimap.keysToValues.keys
+            let childCount = allChildFoci.count
+            
+            let twoPi = 2.0 * VectorVal.pi
+            let gridRadians = twoPi / VectorVal(gridCount)
+            let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+            let fileBounds = BoundsComputing()
+            zip(allGrids, gridRadianStride).forEach { grid, radians in
+                let magnitude = VectorVal(16.0)
+                let dX = cos(radians) * magnitude
+                let dZ = -(sin(radians) * magnitude)
+                
+                // translate dY unit vector along z-axis, rotating the unit circle along x
+                grid.zeroedPosition()
+                grid.rootNode.translate(dX: dX, dZ: dZ)
+                grid.rootNode.eulerAngles.y = radians
+                fileBounds.consumeBounds(grid.rootNode.boundingBox)
+            }
+            
+            let finalGridBounds = fileBounds.bounds
+            let childRadians = twoPi / VectorVal(childCount)
+            let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
+            
+            zip(allChildFoci, childRadianStride).forEach { focus, radians in
+                let magnitude = VectorVal(400.0)
+                let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
+                let dY = finalGridBounds.min.y - 16.0
+                let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
+                
+                // translate dY unit vector along z-axis, rotating the unit circle along x
+                focus.rootNode.position = SCNVector3Zero
+                focus.rootNode.translate(
+                    dX: dX,
+                    dY: dY,
+                    dZ: dZ
+                )
+                focus.rootNode.eulerAngles.y = radians
+            }
+        }
+    }
+    
+    func horizontalLayout(_ container: FBLEContainer) {
         guard let first = container.box.bimap[0] else {
             print("No depth-0 grid to start layout")
             return
         }
         
-        let xLengthPadding: VectorFloat = 8.0 * DeviceScale
-        let zLengthPadding: VectorFloat = 150.0 * DeviceScale
-        
-        sceneTransaction {
-            switch container.box.layoutMode {
-            case .horizontal:
-                horizontalLayout()
-            case .stacked:
-                stackLayout()
-            case .userStack:
-                print("ERROR - iOS user stack in the wrong engine!")
-            case .cylinder:
-                cylinderLayout()
+        container.box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
+            if let previous = previous {
+                current.measures
+                    .setTop(previous.measures.top)
+                    .setLeading(previous.measures.trailing + xLengthPadding)
+                    .setBack(previous.measures.back)
+            } else {
+                current.zeroedPosition()
             }
         }
-        
-        func cylinderLayout() {
-            let allGrids = container.box.bimap.keysToValues.keys
-            let gridCount = allGrids.count
-            
-            let twoPi = 2.0 * VectorVal.pi
-            let radiansPerFile = twoPi / VectorVal(gridCount)
-            let radianStride = stride(from: 0.0, to: twoPi, by: radiansPerFile)
-            
-            zip(allGrids, radianStride).forEach { grid, radians in
-                let magnitude = VectorVal(16.0)
-                let dX = cos(radians) * magnitude
-                let dY = -(sin(radians) * magnitude)
-                
-                // translate dY unit vector along z-axis, rotating the unit circle along x
-                grid.zeroedPosition()
-                grid.rootNode.translate(dX: dX, dZ: dY)
-                grid.rootNode.eulerAngles.y = radians
-            }
+    }
+    
+    func stackLayout(_ container: FBLEContainer) {
+        guard let first = container.box.bimap[0] else {
+            print("No depth-0 grid to start layout")
+            return
         }
         
-        func horizontalLayout() {
-            container.box.snapping.iterateOver(first, direction: .right) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .setLeading(previous.measures.trailing + xLengthPadding)
-                        .setBack(previous.measures.back)
-                } else {
-                    current.zeroedPosition()
-                }
-            }
-        }
-        
-        func stackLayout() {
-            container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
-                if let previous = previous {
-                    current.measures
-                        .setTop(previous.measures.top)
-                        .alignedCenterX(previous)
-                        .setBack(previous.measures.back - zLengthPadding)
-                } else {
-                    current.zeroedPosition()
-                }
+        container.box.snapping.iterateOver(first, direction: .forward) { previous, current, _ in
+            if let previous = previous {
+                current.measures
+                    .setTop(previous.measures.top)
+                    .alignedCenterX(previous)
+                    .setBack(previous.measures.back - zLengthPadding)
+            } else {
+                current.zeroedPosition()
             }
         }
     }
