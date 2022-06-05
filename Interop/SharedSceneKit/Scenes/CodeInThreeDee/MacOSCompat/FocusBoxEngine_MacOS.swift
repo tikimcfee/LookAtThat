@@ -41,18 +41,16 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
     }
     
     func layout(_ container: FBLEContainer) {
-        guard let first = container.box.bimap[0] else {
-            print("No depth-0 grid to start layout")
-            return
-        }
-        
         sceneTransaction {
             switch container.box.layoutMode {
             case .horizontal:
+                guard let first = container.box.bimap[0] else { return }
                 horizontalLayout(first, container)
             case .stacked:
+                guard let first = container.box.bimap[0] else { return }
                 stackLayout(first, container)
             case .userStack:
+                guard let first = container.box.bimap[0] else { return }
                 userLayout(first, container)
             case .cylinder:
                 cylinderLayout(container)
@@ -81,20 +79,43 @@ class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
     ) {
         let allGrids = container.box.bimap.keysToValues.keys
         let gridCount = allGrids.count
+        let allChildFoci = container.box.childFocusBimap.keysToValues.keys
+        let childCount = allChildFoci.count
         
         let twoPi = 2.0 * VectorVal.pi
-        let radiansPerFile = twoPi / VectorVal(gridCount)
-        let radianStride = stride(from: 0.0, to: twoPi, by: radiansPerFile)
-        
-        zip(allGrids, radianStride).forEach { grid, radians in
+        let gridRadians = twoPi / VectorVal(gridCount)
+        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+        let fileBounds = BoundsComputing()
+        zip(allGrids, gridRadianStride).forEach { grid, radians in
             let magnitude = VectorVal(16.0)
             let dX = cos(radians) * magnitude
-            let dY = -(sin(radians) * magnitude)
+            let dZ = -(sin(radians) * magnitude)
             
             // translate dY unit vector along z-axis, rotating the unit circle along x
             grid.zeroedPosition()
-            grid.rootNode.translate(dX: dX, dZ: dY)
+            grid.rootNode.translate(dX: dX, dZ: dZ)
             grid.rootNode.eulerAngles.y = radians
+            fileBounds.consumeBounds(grid.rootNode.boundingBox)
+        }
+        
+        let finalGridBounds = fileBounds.bounds
+        let childRadians = twoPi / VectorVal(childCount)
+        let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
+        
+        zip(allChildFoci, childRadianStride).forEach { focus, radians in
+            let magnitude = VectorVal(400.0)
+            let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
+            let dY = finalGridBounds.min.y - 16.0
+            let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
+            
+            // translate dY unit vector along z-axis, rotating the unit circle along x
+            focus.rootNode.position = SCNVector3Zero
+            focus.rootNode.translate(
+                dX: dX,
+                dY: dY,
+                dZ: dZ
+            )
+            focus.rootNode.eulerAngles.y = radians
         }
     }
     

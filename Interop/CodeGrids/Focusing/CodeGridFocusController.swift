@@ -81,6 +81,14 @@ extension CodeGridFocusController {
         currentTargetFocus.gridNode.addChildNode(node)
     }
     
+    func appendToTarget(focus: FocusBox) {
+        currentTargetFocus.addChildFocus(focus)
+    }
+    
+    func append(grid: CodeGrid, to target: FocusBox) {
+        target.attachGrid(grid, target.deepestDepth + 1)
+    }
+    
     func appendToTarget(grid: CodeGrid) {
         currentTargetFocus.attachGrid(grid, deepestDepth + 1)
     }
@@ -125,6 +133,17 @@ extension CodeGridFocusController {
     func resize(_ receiver: (CodeGridFocusController, FocusBox) -> Void) {
         receiver(self, currentTargetFocus)
         resetBounds()
+    }
+    
+    func doRender(
+        on target: FocusBox,
+        _ receiver: () -> Void
+    ) {
+        sceneTransaction(0) {
+            receiver()
+            target.finishUpdates()
+        }
+        target.resetBounds()
     }
     
     func makeNewPlacementNode() -> SCNNode {

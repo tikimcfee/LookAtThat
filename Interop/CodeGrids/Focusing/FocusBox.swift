@@ -27,6 +27,7 @@ class FocusBox: Hashable, Identifiable {
     var layoutMode: LayoutMode = .cylinder
     var displayMode: DisplayMode = .boundingBox
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
+    lazy var childFocusBimap: BiMap<FocusBox, Int> = BiMap()
         
     init(id: String, inFocus focus: CodeGridFocusController) {
         self.id = id
@@ -58,9 +59,18 @@ extension FocusBox {
         bimap.valuesToKeys.keys.max() ?? -1
     }
     
+    var childFocusDepth: Int {
+        childFocusBimap.valuesToKeys.keys.max() ?? -1
+    }
+    
     var bounds: Bounds {
         get { rootGeometry.boundingBox }
         set { engine.onSetBounds(FBLEContainer(box: self), newValue) }
+    }
+    
+    func addChildFocus(_ focus: FocusBox) {
+        childFocusBimap[focus] = childFocusDepth + 1
+        rootNode.addChildNode(focus.rootNode)
     }
     
     func detachGrid(_ grid: CodeGrid) {

@@ -73,94 +73,34 @@ struct RenderPlan {
 
 extension RenderPlan {
     private func renderFoci() {
+        var focusParents = [URL: FocusBox]()
+        let rootFocus = focusCompat.currentTargetFocus
+        focusParents[rootPath] = rootFocus
+        
         FileBrowser.recursivePaths(rootPath)
             .forEach { childPath in
+                let parentPath = childPath.deletingLastPathComponent()
                 if childPath.isDirectory {
-                    // Move dX from last node
-                    var startPosition = SCNVector3()
-                    if let lastFocusNode = state.snapping.nodeReg1 {
-                        let nodeWidth = BoundsWidth(lastFocusNode.manualBoundingBox).vector
-                        startPosition = lastFocusNode.position.translated(dX: nodeWidth)
-                    }
-                    state.snapping.nodeReg1 = currentFocus.rootNode
-                    currentFocus.rootNode.position = startPosition
+                    focusCompat.setNewFocus()
+                    focusParents[childPath] = focusCompat.currentTargetFocus
                     
-                    compatShim.inputCompat.focus.setNewFocus()
+                    if let parent = focusParents[parentPath] {
+                        focusCompat.doRender(on: parent) {
+                            parent.addChildFocus(focusCompat.currentTargetFocus)
+                        }
+                    }
+                    
                 } else {
+                    guard let parent = focusParents[parentPath] else {
+                        print("Missing parent for \(parentPath)")
+                        return
+                    }
+                    
                     let pathGrid = renderer.syncAccess(childPath)
-                    doAppend(pathGrid)
+                    focusCompat.doRender(on: parent) {
+                        parent.attachGrid(pathGrid, parent.deepestDepth + 1)
+                    }
                 }
             }
-    }
-    
-    private func doAppend(_ newGrid: CodeGrid) {
-        focusCompat.resize { _, _ in
-            sceneTransaction(0) {
-                focusCompat.layout { focus, box in
-                    focus.appendToTarget(grid: newGrid)
-                }
-            }
-        }
-    }
-}
-
-extension RenderPlan {
-    class FileCylinder {
-        let id: String = UUID().uuidString
-        let rootNode: SCNNode = SCNNode()
-        let rootUrl: URL
-        let plan: RenderPlan
-        
-        init(url: URL,
-             plan: RenderPlan) {
-            self.rootUrl = url
-            self.plan = plan
-            
-            rootNode.name = id
-            addAll()
-        }
-        
-        func addAll() {
-            // given x (x=7) files, distribute radians evenly
-            // 1 circle == 2pi => 2pi / x -> 2pi / 7
-            // start 0, iterate to 2pi by (2pi/7) steps
-            let expectedChildren = rootUrl.filterdChildren { !$0.isDirectory }
-            let fileCount = expectedChildren.count
-            let twoPi = 2.0 * VectorVal.pi
-            let radiansPerFile = twoPi / VectorVal(fileCount)
-            let radianStride = stride(from: 0.0, to: twoPi, by: radiansPerFile)
-            zip(expectedChildren, radianStride).forEach { path, radians in
-                let grid = plan.renderer.syncAccess(path)
-                let magnitude = VectorVal(16.0)
-                let dX = cos(radians) * magnitude
-                let dY = -(sin(radians) * magnitude)
-                
-                // translate dY unit vector along z-axis, rotating the unit circle along x
-                grid.rootNode.translate(dX: dX, dZ: dY)
-                grid.rootNode.eulerAngles.y = radians
-                rootNode.addChildNode(grid.rootNode)
-            }
-        }
-    }
-        
-    func renderCylinder() {
-        
-        var directoryCylinders = [URL: FileCylinder]()
-        let rootNode = SCNNode()
-        iterateRoot { childPath in
-            if childPath.isDirectory {
-                let cylinder = FileCylinder(url: childPath, plan: self)
-                rootNode.addChildNode(cylinder.rootNode)
-            } else {
-                let parent = childPath.deletingLastPathComponent()
-                guard directoryCylinders[parent] == nil else { return }
-                
-                let cylinder = FileCylinder(url: parent, plan: self)
-                rootNode.addChildNode(cylinder.rootNode)
-                directoryCylinders[parent] = cylinder
-            }
-        }
-        
-        sceneState.rootGeometryNode.addChildNode(rootNode)
     }
 }
