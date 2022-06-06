@@ -415,7 +415,7 @@ extension FocusBoxLayoutEngine {
         let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
         
         zip(allChildFoci, childRadianStride).forEach { focus, radians in
-            let magnitude = VectorVal(400.0)
+            let magnitude = VectorVal(520.0)
             let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
             let dY = finalGridBounds.min.y - 16.0
             let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))

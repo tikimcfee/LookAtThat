@@ -10,7 +10,7 @@ import Foundation
 final class WorkerPool {
     
     static let shared = WorkerPool()
-    private let workerCount = 4
+    private let workerCount = ProcessInfo.processInfo.processorCount / 2
     
     private lazy var allWorkers =
     (0..<workerCount).map { DispatchQueue(
