@@ -174,10 +174,20 @@ extension RenderPlan {
     }
     
     func recursiveLines(_ rootFocus: FocusBox, _ targetNode: SCNNode) {
+        let rootNode = sceneState.rootGeometryNode
+        let focusParentNode = rootFocus.parentFocus?.rootNode
+        let parentConvertedToRoot = focusParentNode?.convertPosition(
+            rootFocus.rootNode.position,
+            to: rootNode
+        ) ?? SCNVector3Zero
         rootFocus.childFocusBimap.keysToValues.keys.forEach { childFocus in
+            let childConvertedToRoot = rootFocus.rootNode.convertPosition(
+                childFocus.rootNode.position,
+                to: rootNode
+            )
             let line = lines.newConnection(
-                from: childFocus.rootNode.worldPosition,
-                to: rootFocus.rootNode.worldPosition,
+                from: childConvertedToRoot,
+                to: parentConvertedToRoot,
                 materialContents: lines.color(for: childFocus)
             )
             targetNode.addChildNode(line)
