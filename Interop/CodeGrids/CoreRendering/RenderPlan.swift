@@ -45,7 +45,7 @@ struct RenderPlan {
             
             cacheGrids()
             let rootFocus = renderFoci()
-            recursiveLines(rootFocus, rootFocus.rootNode)
+            recursiveLinesLocal(rootFocus)
             
             WatchWrap.stopTimer("\(rootPath.fileName)")
         }
@@ -192,6 +192,18 @@ extension RenderPlan {
             )
             targetNode.addChildNode(line)
             recursiveLines(childFocus, targetNode)
+        }
+    }
+    
+    func recursiveLinesLocal(_ rootFocus: FocusBox) {
+        rootFocus.childFocusBimap.keysToValues.keys.forEach { childFocus in
+            let line = lines.newConnection(
+                from: childFocus.rootNode.position,
+                to: SCNVector3Zero,
+                materialContents: lines.color(for: childFocus)
+            )
+            rootFocus.rootNode.addChildNode(line)
+            recursiveLinesLocal(childFocus)
         }
     }
 }
