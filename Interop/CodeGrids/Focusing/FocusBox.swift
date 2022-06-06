@@ -15,6 +15,7 @@ class FocusBox: Hashable, Identifiable {
     lazy var gridNode: SCNNode = makeGridNode()
     fileprivate lazy var geometryNode: SCNNode = makeGeometryNode()
     fileprivate lazy var rootGeometry: SCNBox = makeGeometry()
+    fileprivate lazy var cylinderGeometry: SCNCylinder = makeCylinder()
     
     lazy var snapping: WorldGridSnapping = WorldGridSnapping()
     private var engine: FocusBoxLayoutEngine { focus.controller.compat.engine }
@@ -28,6 +29,7 @@ class FocusBox: Hashable, Identifiable {
     var displayMode: DisplayMode = .boundingBox
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var childFocusBimap: BiMap<FocusBox, Int> = BiMap()
+    var parentFocus: FocusBox?
         
     init(id: String, inFocus focus: CodeGridFocusController) {
         self.id = id
@@ -63,6 +65,14 @@ extension FocusBox {
         childFocusBimap.valuesToKeys.keys.max() ?? -1
     }
     
+    var depthInFocusHierarchy: Int {
+        if let parent = parentFocus {
+            return parent.depthInFocusHierarchy + 1
+        } else {
+            return 0
+        }
+    }
+    
     var bounds: Bounds {
         get { rootGeometry.boundingBox }
         set { engine.onSetBounds(FBLEContainer(box: self), newValue) }
@@ -71,6 +81,10 @@ extension FocusBox {
     func addChildFocus(_ focus: FocusBox) {
         childFocusBimap[focus] = childFocusDepth + 1
         rootNode.addChildNode(focus.rootNode)
+        if focus.parentFocus != nil {
+            print("-- Resetting focus parent to \(id)")
+        }
+        focus.parentFocus = self
     }
     
     func detachGrid(_ grid: CodeGrid) {
@@ -143,6 +157,7 @@ extension FocusBox {
     
     func resetBounds() {
         bounds = recomputeGridNodeBounds()
+        updateSharedGeometryBounds()
     }
     
     func layoutFocusedGrids() {
@@ -228,8 +243,8 @@ private extension FocusBox {
         rootNode.addChildNode(gridNode)
         rootNode.addWireframeBox()
         
-        geometryNode.geometry = rootGeometry
         updateNodeDisplay()
+        updateGeometryForLayoutType()
     }
     
     func makeRootNode() -> SCNNode {
@@ -253,12 +268,25 @@ private extension FocusBox {
         return root
     }
     
+    func updateSharedGeometryBounds() {
+        cylinderGeometry.radius = (BoundsWidth(bounds) / 2.0).cg
+        cylinderGeometry.height = (BoundsHeight(bounds)).cg
+    }
+    
+    func updateGeometryForLayoutType() {
+        switch layoutMode {
+        case .cylinder:
+            geometryNode.geometry = rootGeometry
+        case .horizontal, .stacked, .userStack:
+            geometryNode.geometry = rootGeometry
+        }
+    }
+    
     func updateNodeDisplay() {
         switch displayMode {
         case .invisible:
             geometryNode.categoryBitMask = 0
             rootGeometry.firstMaterial?.diffuse.contents = nil
-            
         case .boundingBox:
             geometryNode.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
             rootGeometry.firstMaterial?.diffuse.contents = geometryContents
@@ -267,10 +295,27 @@ private extension FocusBox {
     
     var geometryContents: Any? {
 #if os(macOS)
-        NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.65)
+        NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 0.60)
 #else
         NSUIColor(displayP3Red: 0.3, green: 0.3, blue: 0.4, alpha: 1.0)
 #endif
+    }
+
+    func makeCylinder() -> SCNCylinder {
+        let cylinder = SCNCylinder()
+        if let material = cylinder.firstMaterial {
+            material.isDoubleSided = true
+#if os(macOS)
+//            material.transparency = 0.125
+            material.diffuse.contents = geometryContents
+            material.transparencyMode = .dualLayer
+#elseif os(iOS)
+            material.transparency = 0.40
+            material.diffuse.contents = geometryContents
+            material.transparencyMode = .default
+#endif
+        }
+        return cylinder
     }
     
     func makeGeometry() -> SCNBox {
@@ -305,4 +350,84 @@ struct FBLEContainer {
 protocol FocusBoxLayoutEngine {
     func onSetBounds(_ container: FBLEContainer, _ newValue: Bounds)
     func layout(_ container: FBLEContainer)
+}
+
+extension FocusBoxLayoutEngine {
+    func defaultOnSetBounds(_ container: FBLEContainer, _ newValue: Bounds) {
+        // Set the size of the box to match
+        let pad: VectorFloat = 32.0
+        let halfPad: VectorFloat = pad / 2.0
+        
+        container.rootGeometry.width = (BoundsWidth(newValue) + pad).cg
+        container.rootGeometry.height = (BoundsHeight(newValue) + pad).cg
+        container.rootGeometry.length = (BoundsLength(newValue) + pad).cg
+        
+        let rootWidth = container.rootGeometry.width.vector
+        let rootHeight = container.rootGeometry.height.vector
+        let rootLength = container.rootGeometry.length.vector
+        
+        /// translate geometry:
+        /// 1. so it's top-left-front is at (0, 0, 1/2 length)
+        /// 2. so it's aligned with the bounds of the grids themselves.
+        /// Note: this math assumes nothing has been moved from the origin
+        /// Note: -1.0 as multiple is explicit to remain compatiable between iOS macOS; '-' operand isn't universal
+        let translateX = -1.0 * rootWidth / 2.0 - newValue.min.x + halfPad
+        let translateY = rootHeight / 2.0 - newValue.max.y - halfPad
+        let translateZ = rootLength / 2.0 - newValue.max.z - halfPad
+        let newPivot = SCNMatrix4MakeTranslation(
+            translateX, translateY, translateZ
+        )
+        
+        container.geometryNode.pivot = newPivot
+    }
+    
+    func defaultCylinderLayout(_ container: FBLEContainer) {
+        let allGrids = container.box.bimap.keysToValues.keys
+        let gridCount = allGrids.count
+        let allChildFoci = container.box.childFocusBimap.keysToValues.keys
+        let childCount = allChildFoci.count
+        
+        let twoPi = 2.0 * VectorVal.pi
+        let gridRadians = twoPi / VectorVal(gridCount)
+        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+        let fileBounds = BoundsComputing()
+        
+        //        zip(allGrids, gridRadianStride).forEach { grid, radians in
+        //            let magnitude = VectorVal(16.0)
+        //            let dX = cos(radians) * magnitude
+        //            let dZ = -(sin(radians) * magnitude)
+        //
+        //            // translate dY unit vector along z-axis, rotating the unit circle along x
+        //            grid.zeroedPosition()
+        //            grid.rootNode.translate(dX: dX, dZ: dZ)
+        //            grid.rootNode.eulerAngles.y = radians
+        //            fileBounds.consumeBounds(grid.rootNode.boundingBox)
+        //        }
+        
+        allGrids.enumerated().forEach { index, grid in
+            grid.zeroedPosition()
+            grid.translated(dZ: -16.0 * VectorVal(index))
+            fileBounds.consumeBounds(grid.rootNode.boundingBox)
+        }
+        
+        let finalGridBounds = fileBounds.bounds
+        let childRadians = twoPi / VectorVal(childCount)
+        let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
+        
+        zip(allChildFoci, childRadianStride).forEach { focus, radians in
+            let magnitude = VectorVal(400.0)
+            let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
+            let dY = finalGridBounds.min.y - 16.0
+            let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
+            
+            // translate dY unit vector along z-axis, rotating the unit circle along x
+            focus.rootNode.position = SCNVector3Zero
+            focus.rootNode.translate(
+                dX: dX,
+                dY: dY,
+                dZ: dZ
+            )
+            focus.rootNode.eulerAngles.y = radians
+        }
+    }
 }

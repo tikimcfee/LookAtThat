@@ -78,7 +78,15 @@ extension AppFiles {
     }
     
     public static var allDownloadedRepositories: [URL] {
-        githubRepositoriesRoot.children()
+        githubRepositoriesRoot
+            .children()
+            .map { url in
+                if let firstChild = url.children().first {
+                    return firstChild
+                } else {
+                    return url
+                }
+            }
     }
 }
 

@@ -99,6 +99,7 @@ extension SCNNode {
 
 public typealias Bounds = (min: SCNVector3, max: SCNVector3)
 class BoundsComputing {
+    var didSetInitial: Bool = false
     var minX: VectorFloat = .infinity
     var minY: VectorFloat = .infinity
     var minZ: VectorFloat = .infinity
@@ -108,6 +109,7 @@ class BoundsComputing {
     var maxZ: VectorFloat = -.infinity
     
     func consumeBounds(_ bounds: Bounds) {
+        didSetInitial = true
         minX = min(bounds.min.x, minX)
         minY = min(bounds.min.y, minY)
         minZ = min(bounds.min.z, minZ)
@@ -128,6 +130,10 @@ class BoundsComputing {
     }
     
     var bounds: Bounds {
+        guard didSetInitial else {
+            print("Bounds were never set; returning safe default")
+            return (min: SCNVector3Zero, max: SCNVector3Zero)
+        }
         return (
             min: SCNVector3(x: minX, y: minY, z: minZ),
             max: SCNVector3(x: maxX, y: maxY, z: maxZ)

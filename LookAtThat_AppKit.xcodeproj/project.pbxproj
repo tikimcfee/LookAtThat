@@ -172,6 +172,7 @@
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
 		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7195137284C7EA3007FBD3B /* SCNLine */; };
 		B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C595A2766AC2500E406AE /* CodeGrid+Writing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Writing.swift */; };
@@ -988,6 +989,7 @@
 			files = (
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
+				B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 				B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */,
 			);
@@ -1839,6 +1841,7 @@
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
 				B7EB7135284812AA00313633 /* ZIPFoundation */,
+				B7195137284C7EA3007FBD3B /* SCNLine */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -3241,6 +3244,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
+		};
+		B7195137284C7EA3007FBD3B /* SCNLine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
+			productName = SCNLine;
 		};
 		B74A229A2814FFF300F6F727 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;

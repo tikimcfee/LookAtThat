@@ -22,6 +22,10 @@ extension FileBrowser {
         "txt", "md"
     ]
     
+    static let unsupportedExtensions: Set<String> = [
+        "xcodeproj", "xcassets", "git"
+    ]
+    
     // This is fragile. Both collapse/expand need to filter repeatedly.
     static func isFileObserved(_ path: URL) -> Bool {
         (
@@ -29,11 +33,16 @@ extension FileBrowser {
             || isSupportedFileType(path)
         ) && !(
             path.lastPathComponent.starts(with: ".")
+            || isUnsupportedFileType(path)
         )
     }
     
     static func isSupportedFileType(_ path: URL) -> Bool {
         supportedTextExtensions.contains(path.pathExtension)
+    }
+    
+    static func isUnsupportedFileType(_ path: URL) -> Bool {
+        unsupportedExtensions.contains(path.pathExtension)
     }
     
     static func isSwiftFile(_ path: URL) -> Bool {
@@ -140,10 +149,12 @@ extension URL {
             return enumeratedChildren()
         } else {
             do {
-                let found = try fileManager.contentsOfDirectory(atPath: path)
-                return found.map { pathComponent in
-                    appendingPathComponent(pathComponent)
-                }
+                let found = try fileManager.contentsOfDirectory(
+                    at: self,
+                    includingPropertiesForKeys: nil,
+                    options: [.skipsHiddenFiles]
+                )
+                return found
             } catch {
                 print("Failed to iterate children, recursive=\(recursive): ", error)
                 return []
@@ -162,6 +173,7 @@ extension URL {
             .enumerator(
                 at: self,
                 includingPropertiesForKeys: [],
+                options: [.skipsHiddenFiles],
                 errorHandler: { print($1, $0); return false }
             )
         else {
@@ -173,12 +185,9 @@ extension URL {
         while let url = enumerator.nextObject() as? URL {
             let isReadableFile = FileBrowser.isFileObserved(url)
             if !isReadableFile {
-                if url.isDirectory {
-                    enumerator.skipDescendants()
-                }
+                if url.isDirectory { enumerator.skipDescendants() }
                 continue
             }
-            
             result.append(url)
         }
         return result
