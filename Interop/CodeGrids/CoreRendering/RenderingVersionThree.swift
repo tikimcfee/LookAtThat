@@ -73,23 +73,26 @@ extension CodeGridParser {
     
     func __versionThree_RenderConcurrent(
         _ rootPath: URL,
-        _ onLoadComplete: ((CodeGrid) -> Void)? = nil
+        _ onLoadComplete: ((CodeGrid) -> Void)? = nil,
+        _ cache: Bool = true
     ) {
         // Two passes: render all the source, then position it all again with the same cache.
         renderQueue.async {
-            let dispatchGroup = DispatchGroup()
             Self.startTimer()
             
-            FileBrowser.recursivePaths(rootPath)
-                .filter { !$0.isDirectory }
-                .forEach { childPath in
-                    dispatchGroup.enter()
-                    self.concurrency.asyncAccess(childPath) { _ in
-                        dispatchGroup.leave()
+            if cache {
+                let dispatchGroup = DispatchGroup()
+                FileBrowser.recursivePaths(rootPath)
+                    .filter { !$0.isDirectory }
+                    .forEach { childPath in
+                        dispatchGroup.enter()
+                        self.concurrency.asyncAccess(childPath) { _ in
+                            dispatchGroup.leave()
+                        }
                     }
-                }
+                dispatchGroup.wait()
+            }
             
-            dispatchGroup.wait()
             let newRootGrid = self.kickoffRecursiveRender(rootPath, 1, RecurseState())
             Self.stopTimer()
             

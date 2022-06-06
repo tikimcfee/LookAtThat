@@ -85,20 +85,11 @@ class CodeGridWorld {
         else { return }
         
         let gridNode = grid.rootNode
-        
-        gridNode.simdPosition = cam.simdPosition
-//        gridNode.simdPosition += cam.simdWorldFront * 512
-        
-//        gridNode.simdEulerAngles.x = cam.simdEulerAngles.x
-//        gridNode.simdEulerAngles.y = cam.simdEulerAngles.y
-//        gridNode.simdEulerAngles.z = cam.simdEulerAngles.z
-        
-//        gridNode.scale = DeviceScaleVector
-//        gridNode.simdPosition += -gridNode.simdWorldRight * (0.5 * gridNode.lengthX * DeviceScale)
-//        gridNode.simdPosition += -gridNode.simdWorldUp * (0.5 * gridNode.lengthY * DeviceScale)
-//        gridNode.simdLook(at: cam.simdPosition)
-        
+        gridNode.position = cam.position * DeviceScaleRootInverse
+        gridNode.simdPosition += cam.simdWorldFront * 300
+        gridNode.simdOrientation = cam.simdOrientation
         root.addChildNode(gridNode)
+        
         #endif
     }
     

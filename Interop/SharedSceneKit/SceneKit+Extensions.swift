@@ -234,10 +234,12 @@ let DeviceScaleRootEnabled = true // Enabled by default to take advantage of glo
 
 #if os(iOS)
 let DeviceScaleRoot = VectorFloat(0.001)
+let DeviceScaleRootInverse = VectorFloat(1000.0)
 let DeviceScale = DeviceScaleEnabled ? VectorFloat(0.001) : 1.0
 let DeviceScaleInverse = DeviceScaleEnabled ? VectorFloat(1000.0) : 1.0
 #elseif os(macOS)
 let DeviceScaleRoot = 1.0
+let DeviceScaleRootInverse = 1.0
 let DeviceScale = 1.0
 let DeviceScaleInverse = 1.0
 #endif

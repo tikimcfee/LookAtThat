@@ -69,14 +69,20 @@ class CodePagesController: BaseSceneController, ObservableObject {
                     sem.signal()
                 }
             case .addToWorld:
+                // Touch and cylinder layout isn't precise / visually usable enough for iOS.... yet
+                #if os(iOS)
+                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+                    self.addToRoot(rootGrid: rootGrid)
+                }
+                #else
                 RenderPlan(
                     rootPath: parent,
                     queue: codeGridParser.renderQueue,
                     renderer: codeGridParser.concurrency
-                ).startRender()
-//                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-//                    self.addToRoot(rootGrid: rootGrid)
-//                }
+                ).startRender { _ in }
+                #endif
+                
+
             default: break
             }
 

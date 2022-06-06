@@ -23,7 +23,7 @@ struct RenderPlan {
     var focusCompat: CodeGridFocusController { compatShim.inputCompat.focus }
     var currentFocus: FocusBox { focusCompat.currentTargetFocus }
     
-    func startRender() {
+    func startRender(_ onComplete: @escaping (FocusBox) -> Void) {
         queue.async {
             WatchWrap.startTimer("\(rootPath.fileName)")
             
@@ -32,6 +32,7 @@ struct RenderPlan {
             recursiveLinesLocal(rootFocus)
             
             WatchWrap.stopTimer("\(rootPath.fileName)")
+            onComplete(rootFocus)
         }
     }
 }
