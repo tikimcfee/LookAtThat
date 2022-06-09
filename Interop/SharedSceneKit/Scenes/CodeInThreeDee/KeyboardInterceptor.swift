@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 
 private var default_MovementSpeed: VectorFloat = 2.0
-private var default_ModifiedMovementSpeed: VectorFloat = default_MovementSpeed * 2.5
+private var default_ModifiedMovementSpeed: VectorFloat = default_MovementSpeed * 5.0
 private let default_UpdateDeltaMillis = 16
 
 typealias FileOperationReceiver = (FileOperation) -> Void

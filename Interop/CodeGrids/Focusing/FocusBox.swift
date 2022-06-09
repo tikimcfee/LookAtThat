@@ -78,6 +78,14 @@ extension FocusBox {
         }
     }
     
+    var geometryBounds: Bounds {
+        geometryNode.boundingBox
+    }
+    
+    var geometryBoundsInParent: Bounds {
+        geometryNode.boundsInParent
+    }
+    
     var bounds: Bounds {
         get { rootNode.boundingBox }
         set { engine.onSetBounds(FBLEContainer(box: self), newValue) }
@@ -394,52 +402,38 @@ extension FocusBoxLayoutEngine {
         // TODO: I'm not using the snap connection here. There's no direction connection to how it was laid you.
         // TODO: Add a 'path' to Snapping that let's you follow the default forward / backward direction
         let allGrids = container.box.bimap.keysToValues.keys
-        let gridBoundsComputing = BoundsComputing()
-        let gridPositions: [SCNVector3] =
-            allGrids
-                .sorted(by: { $0.measures.lengthY < $1.measures.lengthY })
-                .enumerated()
-                .map { index, grid in
-                    grid.zeroedPosition()
-                    grid.translated(dZ: -16.0 * VectorVal(index))
-                    gridBoundsComputing.consumeBounds(grid.rootNode.boundingBox)
-                    return grid.rootNode.position
-                }
+        allGrids
+            .sorted(by: { $0.measures.lengthY < $1.measures.lengthY })
+            .enumerated()
+            .forEach { index, grid in
+                grid.zeroedPosition()
+                grid.translated(dZ: -32.0 * VectorVal(index))
+            }
         
-        let finalGridPosition = gridPositions.last ?? SCNVector3Zero
-        let containerGeometryBounds = container.box.geometryNode.boundsInParent
-
+        let containerGeometryBounds = container.box.geometryBoundsInParent
         let focusChildStartPosition = SCNVector3(
             x: containerGeometryBounds.max.x + 4.0,
             y: containerGeometryBounds.min.y - 4.0,
             z: containerGeometryBounds.min.z - 4.0
         )
         
-        // use snapping register when columns are met as a last-line buffer
-        var thisRowLastFocus: FocusBox? {
-            get { container.box.snapping.focusReg1 }
-            set { container.box.snapping.focusReg1 = newValue }
-        }
-        
-        let allChildFoci = container
+        var lastFocus: FocusBox?
+        container
             .box.childFocusBimap.keysToValues.keys
-            .enumerated()
-            .forEach { zippedIndex in
-                let position = zippedIndex.offset
-                let childFocus = zippedIndex.element
-
-                if position == 0 {
-                    childFocus.rootNode.position = focusChildStartPosition
-                } else {
-                    let referencePosition = thisRowLastFocus?.rootNode.position ?? SCNVector3Zero
-                    let referenceBounds = thisRowLastFocus?.bounds ?? Bounds(SCNVector3Zero, SCNVector3Zero)
+            .forEach { childFocus in
+                if let lastFocus = lastFocus {
+                    let referencePosition = lastFocus.rootNode.position
+                    let referenceBounds = lastFocus.bounds
                     childFocus.rootNode.position = SCNVector3(
                         x: referencePosition.x + referenceBounds.max.x + 16.0,
                         y: referencePosition.y,
                         z: referencePosition.z
                     )
+                } else {
+                    childFocus.rootNode.position = focusChildStartPosition
                 }
-                thisRowLastFocus = childFocus
+                
+                lastFocus = childFocus
             }
     }
 }

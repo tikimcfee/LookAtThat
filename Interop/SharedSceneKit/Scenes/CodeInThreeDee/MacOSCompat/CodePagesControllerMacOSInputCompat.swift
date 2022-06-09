@@ -35,9 +35,11 @@ class CodePagesControllerMacOSInputCompat {
     var codeGridParser: CodeGridParser { controller.codeGridParser }
     var keyboardInterceptor: KeyboardInterceptor { controller.compat.keyboardInterceptor }
     
+    static let scrollSensitivity = CGFloat(2.0)
+    
     func newScrollEvent(_ event: NSEvent) {
         
-        let sensitivity = CGFloat(1.5)
+        let sensitivity = Self.scrollSensitivity
         let scaledX = -event.deltaX * sensitivity
         let scaledY = event.deltaY * sensitivity
         
