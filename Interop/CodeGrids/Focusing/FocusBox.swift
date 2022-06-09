@@ -74,8 +74,12 @@ extension FocusBox {
     }
     
     var bounds: Bounds {
-        get { rootGeometry.boundingBox }
+        get { rootNode.boundingBox }
         set { engine.onSetBounds(FBLEContainer(box: self), newValue) }
+    }
+    
+    var boundsInParent: Bounds {
+        get { rootNode.boundsInParent }
     }
     
     func addChildFocus(_ focus: FocusBox) {
@@ -389,45 +393,70 @@ extension FocusBoxLayoutEngine {
         
         let twoPi = 2.0 * VectorVal.pi
         let gridRadians = twoPi / VectorVal(gridCount)
-        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+//        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
         let fileBounds = BoundsComputing()
         
-        //        zip(allGrids, gridRadianStride).forEach { grid, radians in
-        //            let magnitude = VectorVal(16.0)
-        //            let dX = cos(radians) * magnitude
-        //            let dZ = -(sin(radians) * magnitude)
-        //
-        //            // translate dY unit vector along z-axis, rotating the unit circle along x
-        //            grid.zeroedPosition()
-        //            grid.rootNode.translate(dX: dX, dZ: dZ)
-        //            grid.rootNode.eulerAngles.y = radians
-        //            fileBounds.consumeBounds(grid.rootNode.boundingBox)
-        //        }
-        
-        allGrids.enumerated().forEach { index, grid in
-            grid.zeroedPosition()
-            grid.translated(dZ: -16.0 * VectorVal(index))
-            fileBounds.consumeBounds(grid.rootNode.boundingBox)
-        }
+        // TODO: I'm not using the snap connection here. There's no direction connection to how it was laid you.
+        // TODO: Add a 'path' to Snapping that let's you follow the default forward / backward direction
+        allGrids
+            .sorted(by: { $0.measures.lengthY < $1.measures.lengthY })
+            .enumerated()
+            .forEach { index, grid in
+                grid.zeroedPosition()
+                grid.translated(dZ: -16.0 * VectorVal(index))
+                fileBounds.consumeBounds(grid.rootNode.boundingBox)
+            }
         
         let finalGridBounds = fileBounds.bounds
         let childRadians = twoPi / VectorVal(childCount)
         let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
         
-        zip(allChildFoci, childRadianStride).forEach { focus, radians in
+        let columns = 3
+        var rowBounds = BoundsComputing()
+        
+        zip(allChildFoci, childRadianStride).enumerated().forEach { zippedIndex in
+            let position = zippedIndex.offset
+            let childFocus = zippedIndex.element.0
+            let radians = zippedIndex.element.1
+//
+//            // use snapping register when columns are met as a last-line buffer
+//            var thisRowLastFocus: FocusBox? {
+//                get { container.box.snapping.focusReg1 }
+//                set { container.box.snapping.focusReg1 = newValue }
+//            }
+//
+//            var lastRowFirstFocus: FocusBox? {
+//                get { container.box.snapping.focusReg2 }
+//                set { container.box.snapping.focusReg2 = newValue }
+//            }
+//
+//            if position > 0, columns % position == 0 {
+//                var deltaYForNextRow = rowBounds.didSetInitial ? BoundsHeight(rowBounds.bounds) : 0.0
+//                childFocus.rootNode.position = SCNVector3(
+//                    x: 0.0,
+//                    y: deltaYForNextRow,
+//                    z: 0.0
+//                )
+//                rowBounds = BoundsComputing()
+//            } else {
+//
+//            }
+//            rowBounds.consumeBounds(childFocus.bounds)
+//            thisRowLastFocus = childFocus
+//
             let magnitude = VectorVal(520.0)
             let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
             let dY = finalGridBounds.min.y - 16.0
             let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
-            
+
             // translate dY unit vector along z-axis, rotating the unit circle along x
-            focus.rootNode.position = SCNVector3Zero
-            focus.rootNode.translate(
+            childFocus.rootNode.position = SCNVector3Zero
+            childFocus.rootNode.translate(
                 dX: dX,
                 dY: dY,
                 dZ: dZ
             )
-            focus.rootNode.eulerAngles.y = radians
+            childFocus.rootNode.eulerAngles.y = radians
         }
     }
 }

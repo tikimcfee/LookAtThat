@@ -9,10 +9,6 @@ import Foundation
 
 // MARK: Thread->Tracer group
 
-typealias StorageCollectionType = NSMutableArray
-typealias StorageCollectionDowncast = NSArray
-typealias StorageElement = TraceLine
-
 class PersistentThreadGroup {
     static var defaultMapFile: URL { AppFiles.getDefaultTraceMapFile() }
     

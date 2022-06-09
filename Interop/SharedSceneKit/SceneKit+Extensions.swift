@@ -98,6 +98,7 @@ extension SCNNode {
 }
 
 public typealias Bounds = (min: SCNVector3, max: SCNVector3)
+
 class BoundsComputing {
     var didSetInitial: Bool = false
     var minX: VectorFloat = .infinity

@@ -104,8 +104,8 @@ private extension RenderPlan {
     func recursiveLinesLocal(_ rootFocus: FocusBox) {
         rootFocus.childFocusBimap.keysToValues.keys.forEach { childFocus in
             let line = lines.newConnection(
-                from: childFocus.rootNode.position,
-                to: SCNVector3Zero,
+                from: SCNVector3Zero,
+                to: childFocus.rootNode.position,
                 materialContents: lines.color(for: childFocus)
             )
             rootFocus.rootNode.addChildNode(line)
@@ -146,12 +146,12 @@ class LineVendor {
     func color(for parent: FocusBox) -> Any {
         var computedRGB: NSUIColor {
             let depth = Double(parent.depthInFocusHierarchy + 1)
-            let base = 0.33
-            let scaled = (pow(base, depth))
+            let base = 0.75
+            let scaled = 1 - (pow(base, depth))
             return NSUIColor(
-                displayP3Red: scaled / 1.5,
-                green: scaled / 1.5,
-                blue: scaled,
+                displayP3Red: scaled,
+                green: scaled / 1.1,
+                blue: scaled / 1.3,
                 alpha: 1.0
             )
         }
@@ -177,7 +177,7 @@ class LineVendor {
             )
         }
         
-        let color = colorCache.retrieve(key: parent, defaulting: switchedRBG)
+        let color = colorCache.retrieve(key: parent, defaulting: computedRGB)
         return color
     }
     
@@ -186,9 +186,18 @@ class LineVendor {
         to endPosition: SCNVector3,
         materialContents: Any
     ) -> SCNLineNode {
+        let intermediate = SCNVector3(
+            x: endPosition.x,
+            y: startPosition.y,
+            z: endPosition.z
+        )
         let line = SCNLineNode(
-            with: [startPosition, endPosition],
-            radius: 2.0,
+            with: [
+                startPosition,
+                intermediate,
+                endPosition
+            ],
+            radius: 3.0,
             edges: 16,
             maxTurning: 8
         )

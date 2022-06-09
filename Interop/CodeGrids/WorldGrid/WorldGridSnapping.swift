@@ -9,11 +9,27 @@ import Foundation
 import SceneKit
 
 class WorldGridSnapping {
-    // map the relative directions you can go from a grid
-    // - a direction has a reference to target grid, such that it can become a 'focus'
-    // grid -> Set<Direction> = {left(toLeft), right(toRight), down(below), forward(zFront)}
-    typealias Relationship = SourcedRelativeGridMapping
+//    // map the relative directions you can go from a grid
+//    // - a direction has a reference to target grid, such that it can become a 'focus'
+//    // grid -> Set<Direction> = {left(toLeft), right(toRight), down(below), forward(zFront)}    
+    private typealias Mapping = [CodeGrid: [SourcedRelativeGridMapping]]
+    private var mapping = Mapping()
     
+    var focusReg1: FocusBox?
+    var focusReg2: FocusBox?
+    var focusReg3: FocusBox?
+    var focusReg4: FocusBox?
+    var gridReg1: CodeGrid?
+    var gridReg2: CodeGrid?
+    var gridReg3: CodeGrid?
+    var gridReg4: CodeGrid?
+    var nodeReg1: SCNNode?
+    var nodeReg2: SCNNode?
+    var nodeReg3: SCNNode?
+    var nodeReg4: SCNNode?
+}
+
+extension WorldGridSnapping {
     enum RelativeGridMapping {
         case left(CodeGrid)
         case right(CodeGrid)
@@ -44,18 +60,6 @@ class WorldGridSnapping {
         let parent: CodeGrid
         let mapping: RelativeGridMapping
     }
-    
-    private typealias Mapping = [CodeGrid: [Relationship]]
-    private var mapping = Mapping()
-    
-    var gridReg1: CodeGrid?
-    var gridReg2: CodeGrid?
-    var gridReg3: CodeGrid?
-    var gridReg4: CodeGrid?
-    var nodeReg1: SCNNode?
-    var nodeReg2: SCNNode?
-    var nodeReg3: SCNNode?
-    var nodeReg4: SCNNode?
 }
 
 extension WorldGridSnapping {
@@ -65,7 +69,7 @@ extension WorldGridSnapping {
     
     func connect(sourceGrid: CodeGrid, to relativeDirection: RelativeGridMapping) {
         var toInsert = mapping[sourceGrid] ?? {
-            let new = [Relationship]()
+            let new = [SourcedRelativeGridMapping]()
             mapping[sourceGrid] = new
             return new
         }()
@@ -109,7 +113,7 @@ extension WorldGridSnapping {
         
         print("Detach \(targetGrid.id)")
         
-        var repairable: [Relationship] = []
+        var repairable: [SourcedRelativeGridMapping] = []
         
         let allKeys = Array(mapping.keys)
         for key in allKeys {

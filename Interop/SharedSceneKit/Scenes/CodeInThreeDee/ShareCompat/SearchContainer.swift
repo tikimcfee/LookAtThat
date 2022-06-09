@@ -95,7 +95,7 @@ private class RenderTask {
         printStart(newInput)
         sceneTransaction {
             codeGridFocus.resetState()
-            codeGridFocus.setLayoutModel(.stacked)
+//            codeGridFocus.setLayoutModel(.stacked)
             try doSearchWalk()
             try updateGrids()
         }
@@ -164,7 +164,7 @@ private class RenderTask {
             try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
         }
         
-        let swapIn = matchedInfo.count < 10
+        let swapIn = matchedInfo.count < 15
         try matchedInfo
             .sorted(by: { leftMatch, rightMatch in
                 leftMatch.key.measures.lengthY < rightMatch.key.measures.lengthY
