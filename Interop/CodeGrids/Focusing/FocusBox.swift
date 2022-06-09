@@ -387,76 +387,53 @@ extension FocusBoxLayoutEngine {
     
     func defaultCylinderLayout(_ container: FBLEContainer) {
         let allGrids = container.box.bimap.keysToValues.keys
-        let gridCount = allGrids.count
         let allChildFoci = container.box.childFocusBimap.keysToValues.keys
-        let childCount = allChildFoci.count
-        
-        let twoPi = 2.0 * VectorVal.pi
-        let gridRadians = twoPi / VectorVal(gridCount)
-//        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
-        let fileBounds = BoundsComputing()
         
         // TODO: I'm not using the snap connection here. There's no direction connection to how it was laid you.
         // TODO: Add a 'path' to Snapping that let's you follow the default forward / backward direction
-        allGrids
-            .sorted(by: { $0.measures.lengthY < $1.measures.lengthY })
-            .enumerated()
-            .forEach { index, grid in
-                grid.zeroedPosition()
-                grid.translated(dZ: -16.0 * VectorVal(index))
-                fileBounds.consumeBounds(grid.rootNode.boundingBox)
-            }
+        let gridBoundsComputing = BoundsComputing()
+        let gridPositions: [SCNVector3] =
+            allGrids
+                .sorted(by: { $0.measures.lengthY < $1.measures.lengthY })
+                .enumerated()
+                .map { index, grid in
+                    grid.zeroedPosition()
+                    grid.translated(dZ: -16.0 * VectorVal(index))
+                    gridBoundsComputing.consumeBounds(grid.rootNode.boundingBox)
+                    return grid.rootNode.position
+                }
         
-        let finalGridBounds = fileBounds.bounds
-        let childRadians = twoPi / VectorVal(childCount)
-        let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
-        
-        let columns = 3
-        var rowBounds = BoundsComputing()
-        
-        zip(allChildFoci, childRadianStride).enumerated().forEach { zippedIndex in
-            let position = zippedIndex.offset
-            let childFocus = zippedIndex.element.0
-            let radians = zippedIndex.element.1
-//
-//            // use snapping register when columns are met as a last-line buffer
-//            var thisRowLastFocus: FocusBox? {
-//                get { container.box.snapping.focusReg1 }
-//                set { container.box.snapping.focusReg1 = newValue }
-//            }
-//
-//            var lastRowFirstFocus: FocusBox? {
-//                get { container.box.snapping.focusReg2 }
-//                set { container.box.snapping.focusReg2 = newValue }
-//            }
-//
-//            if position > 0, columns % position == 0 {
-//                var deltaYForNextRow = rowBounds.didSetInitial ? BoundsHeight(rowBounds.bounds) : 0.0
-//                childFocus.rootNode.position = SCNVector3(
-//                    x: 0.0,
-//                    y: deltaYForNextRow,
-//                    z: 0.0
-//                )
-//                rowBounds = BoundsComputing()
-//            } else {
-//
-//            }
-//            rowBounds.consumeBounds(childFocus.bounds)
-//            thisRowLastFocus = childFocus
-//
-            let magnitude = VectorVal(520.0)
-            let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
-            let dY = finalGridBounds.min.y - 16.0
-            let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
+        let finalGridBounds = gridBoundsComputing.bounds
+        let finalGridPosition = gridPositions.first ?? SCNVector3Zero
 
-            // translate dY unit vector along z-axis, rotating the unit circle along x
-            childFocus.rootNode.position = SCNVector3Zero
-            childFocus.rootNode.translate(
-                dX: dX,
-                dY: dY,
-                dZ: dZ
-            )
-            childFocus.rootNode.eulerAngles.y = radians
+        let focusChildStartPosition = SCNVector3(
+            x: 0,
+            y: finalGridBounds.min.y,
+            z: finalGridPosition.z
+        )
+        
+        // use snapping register when columns are met as a last-line buffer
+        var thisRowLastFocus: FocusBox? {
+            get { container.box.snapping.focusReg1 }
+            set { container.box.snapping.focusReg1 = newValue }
+        }
+        
+        allChildFoci.enumerated().forEach { zippedIndex in
+            let position = zippedIndex.offset
+            let childFocus = zippedIndex.element
+
+            if position == 0 {
+                childFocus.rootNode.position = focusChildStartPosition
+            } else {
+                let referencePosition = thisRowLastFocus?.rootNode.position ?? SCNVector3Zero
+                let referenceBounds = thisRowLastFocus?.bounds ?? Bounds(SCNVector3Zero, SCNVector3Zero)
+                childFocus.rootNode.position = SCNVector3(
+                    x: referencePosition.x + referenceBounds.max.x + 16.0,
+                    y: referencePosition.y,
+                    z: referencePosition.z
+                )
+            }
+            thisRowLastFocus = childFocus
         }
     }
 }
