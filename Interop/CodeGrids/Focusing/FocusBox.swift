@@ -57,6 +57,11 @@ extension FocusBox {
 }
 
 extension FocusBox {
+    var isEmpty: Bool {
+        bimap.keysToValues.isEmpty
+        && childFocusBimap.keysToValues.isEmpty
+    }
+    
     var deepestDepth: Int {
         bimap.valuesToKeys.keys.max() ?? -1
     }
@@ -386,11 +391,9 @@ extension FocusBoxLayoutEngine {
     }
     
     func defaultCylinderLayout(_ container: FBLEContainer) {
-        let allGrids = container.box.bimap.keysToValues.keys
-        let allChildFoci = container.box.childFocusBimap.keysToValues.keys
-        
         // TODO: I'm not using the snap connection here. There's no direction connection to how it was laid you.
         // TODO: Add a 'path' to Snapping that let's you follow the default forward / backward direction
+        let allGrids = container.box.bimap.keysToValues.keys
         let gridBoundsComputing = BoundsComputing()
         let gridPositions: [SCNVector3] =
             allGrids
@@ -403,13 +406,13 @@ extension FocusBoxLayoutEngine {
                     return grid.rootNode.position
                 }
         
-        let finalGridBounds = gridBoundsComputing.bounds
-        let finalGridPosition = gridPositions.first ?? SCNVector3Zero
+        let finalGridPosition = gridPositions.last ?? SCNVector3Zero
+        let containerGeometryBounds = container.box.geometryNode.boundsInParent
 
         let focusChildStartPosition = SCNVector3(
-            x: 0,
-            y: finalGridBounds.min.y,
-            z: finalGridPosition.z
+            x: containerGeometryBounds.max.x + 4.0,
+            y: containerGeometryBounds.min.y - 4.0,
+            z: containerGeometryBounds.min.z - 4.0
         )
         
         // use snapping register when columns are met as a last-line buffer
@@ -418,22 +421,25 @@ extension FocusBoxLayoutEngine {
             set { container.box.snapping.focusReg1 = newValue }
         }
         
-        allChildFoci.enumerated().forEach { zippedIndex in
-            let position = zippedIndex.offset
-            let childFocus = zippedIndex.element
+        let allChildFoci = container
+            .box.childFocusBimap.keysToValues.keys
+            .enumerated()
+            .forEach { zippedIndex in
+                let position = zippedIndex.offset
+                let childFocus = zippedIndex.element
 
-            if position == 0 {
-                childFocus.rootNode.position = focusChildStartPosition
-            } else {
-                let referencePosition = thisRowLastFocus?.rootNode.position ?? SCNVector3Zero
-                let referenceBounds = thisRowLastFocus?.bounds ?? Bounds(SCNVector3Zero, SCNVector3Zero)
-                childFocus.rootNode.position = SCNVector3(
-                    x: referencePosition.x + referenceBounds.max.x + 16.0,
-                    y: referencePosition.y,
-                    z: referencePosition.z
-                )
+                if position == 0 {
+                    childFocus.rootNode.position = focusChildStartPosition
+                } else {
+                    let referencePosition = thisRowLastFocus?.rootNode.position ?? SCNVector3Zero
+                    let referenceBounds = thisRowLastFocus?.bounds ?? Bounds(SCNVector3Zero, SCNVector3Zero)
+                    childFocus.rootNode.position = SCNVector3(
+                        x: referencePosition.x + referenceBounds.max.x + 16.0,
+                        y: referencePosition.y,
+                        z: referencePosition.z
+                    )
+                }
+                thisRowLastFocus = childFocus
             }
-            thisRowLastFocus = childFocus
-        }
     }
 }
