@@ -407,7 +407,7 @@ extension FocusBoxLayoutEngine {
             .enumerated()
             .forEach { index, grid in
                 grid.zeroedPosition()
-                grid.translated(dZ: -32.0 * VectorVal(index))
+                grid.translated(dZ: -128.0 * VectorVal(index))
             }
         
         let containerGeometryBounds = container.box.geometryBoundsInParent

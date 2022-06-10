@@ -65,7 +65,7 @@ class AppStatus: ObservableObject {
     }
     
     func resetProgress() {
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
             self.progress = AppProgress()
         }
     }

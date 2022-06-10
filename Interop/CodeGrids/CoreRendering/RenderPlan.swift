@@ -36,6 +36,7 @@ struct RenderPlan {
             cacheGrids()
             let rootFocus = renderFoci()
             recursiveLinesLocal(rootFocus)
+            
             statusObject.update {
                 $0.message = "Render complete!"
                 $0.currentValue = statusObject.progress.totalValue
@@ -43,6 +44,10 @@ struct RenderPlan {
             
             WatchWrap.stopTimer("\(rootPath.fileName)")
             onComplete(rootFocus)
+            
+            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
+                self.statusObject.resetProgress()
+            }
         }
     }
 }
@@ -248,6 +253,7 @@ class LineVendor {
             edges: 16,
             maxTurning: 8
         )
+        line.renderingOrder = -2
         if let material = line.geometry?.firstMaterial {
             material.diffuse.contents = materialContents
             material.isDoubleSided = true
