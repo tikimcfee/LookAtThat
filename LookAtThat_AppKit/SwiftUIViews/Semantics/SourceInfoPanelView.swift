@@ -61,8 +61,10 @@ extension SourceInfoPanelView {
     @ViewBuilder
     func panelView(for panel: PanelSections) -> some View {
         switch panel {
-        case .appStateInfo:
-            appStateView
+        case .appStatusInfo:
+            appStatusView
+        case .gridStateInfo:
+            gridStateView
         case .globalSearch:
             globalSearchView
         case .editor:
@@ -85,13 +87,19 @@ extension SourceInfoPanelView {
     }
     
     @ViewBuilder
+    var appStatusView: some View {
+        AppStatusView(
+            status: CodePagesController.shared.appStatus
+        )
+    }
+    
+    @ViewBuilder
     var gitHubTools: some View {
         GitHubClientView()
     }
-
     
     @ViewBuilder
-    var appStateView: some View {
+    var gridStateView: some View {
         // TODO: This isn't global yet, but it can / should / will be
         CodeGridInfoView()
     }

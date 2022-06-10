@@ -18,7 +18,8 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
     case tappingControls = "Taps"
     case globalSearch = "Global Search"
     case windowControls = "Window Controls"
-    case appStateInfo = "App State Info"
+    case appStatusInfo = "App Status Info"
+    case gridStateInfo = "Grid State Info"
     case githubTools = "GitHub Tools"
     static func < (lhs: PanelSections, rhs: PanelSections) -> Bool {
         lhs.rawValue < rhs.rawValue
@@ -64,13 +65,13 @@ class SourceInfoPanelState: ObservableObject {
     
     init() {
         self.visiblePanels = AppStatePreferences.shared.visiblePanels
-            ?? [.windowControls, .directories, .appStateInfo]
+            ?? [.windowControls, .directories, .appStatusInfo]
         self.visiblePanelStates = AppStatePreferences.shared.panelStates
             ?? {
                 var states = CodableAutoCache<PanelSections, FloatableViewMode>()
                 states.source[.windowControls] = .displayedAsWindow
-                states.source[.appStateInfo] = .displayedAsWindow
                 states.source[.directories] = .displayedAsWindow
+                states.source[.appStatusInfo] = .displayedAsWindow
                 return states
             }()
         

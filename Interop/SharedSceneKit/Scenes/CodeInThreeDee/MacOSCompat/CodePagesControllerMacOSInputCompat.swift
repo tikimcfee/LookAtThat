@@ -35,7 +35,7 @@ class CodePagesControllerMacOSInputCompat {
     var codeGridParser: CodeGridParser { controller.codeGridParser }
     var keyboardInterceptor: KeyboardInterceptor { controller.compat.keyboardInterceptor }
     
-    static let scrollSensitivity = CGFloat(2.0)
+    static let scrollSensitivity = CGFloat(5.0)
     
     func newScrollEvent(_ event: NSEvent) {
         
@@ -64,7 +64,7 @@ class CodePagesControllerMacOSInputCompat {
         sceneTransaction(0.0835, .easeOut) {
             targetNode.simdPosition += targetNode.simdWorldRight * Float(scaledX)
             if moveVertically {
-                targetNode.simdPosition += targetNode.simdWorldUp * -Float(scaledY)
+                targetNode.simdPosition += targetNode.simdWorldUp * Float(scaledY)
             } else {
                 targetNode.simdPosition += targetNode.simdWorldFront * -Float(scaledY)
             }

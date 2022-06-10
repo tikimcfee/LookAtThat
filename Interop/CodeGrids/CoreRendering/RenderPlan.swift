@@ -22,14 +22,24 @@ struct RenderPlan {
     
     var focusCompat: CodeGridFocusController { compatShim.inputCompat.focus }
     var currentFocus: FocusBox { focusCompat.currentTargetFocus }
+    var statusObject: AppStatus { CodePagesController.shared.appStatus }
     
     func startRender(_ onComplete: @escaping (FocusBox) -> Void) {
         queue.async {
             WatchWrap.startTimer("\(rootPath.fileName)")
             
+            statusObject.resetProgress()
+            statusObject.update {
+                $0.isActive = true
+            }
+            
             cacheGrids()
             let rootFocus = renderFoci()
             recursiveLinesLocal(rootFocus)
+            statusObject.update {
+                $0.message = "Render complete!"
+                $0.currentValue = statusObject.progress.totalValue
+            }
             
             WatchWrap.stopTimer("\(rootPath.fileName)")
             onComplete(rootFocus)
@@ -55,12 +65,24 @@ extension RenderPlan {
     }
 }
 
+// MARK: - Focus Style
+
+private extension RenderPlan {
+    
+}
+
+// MARK: - Focus Style
+
 private extension RenderPlan {
     func renderFoci() -> FocusBox {
         let state = State(
             rootFocus: focusCompat.currentTargetFocus,
             rootPath: rootPath
         )
+        
+        statusObject.update {
+            $0.message = "Laying out directory..."
+        }
 
         FileBrowser.recursivePaths(rootPath)
             .forEach { childPath in
@@ -74,6 +96,11 @@ private extension RenderPlan {
         _ childPath: URL,
         _ state: State
     ) {
+        statusObject.update {
+            $0.totalValue += 1
+            $0.detail = "Layout: \(childPath.lastPathComponent)"
+        }
+        
         let parentPath = childPath.deletingLastPathComponent()
         
         if childPath.isDirectory {
@@ -99,6 +126,11 @@ private extension RenderPlan {
                 parent.attachGrid(pathGrid, parent.deepestDepth + 1)
             }
         }
+        
+        statusObject.update {
+            $0.currentValue += 1
+            $0.detail = "Layout complete: \(childPath.lastPathComponent)"
+        }
     }
     
     func recursiveLinesLocal(_ rootFocus: FocusBox) {
@@ -116,12 +148,27 @@ private extension RenderPlan {
 
 private extension RenderPlan {
     func cacheGrids() {
+        statusObject.update {
+            $0.totalValue += 1 // pretend there's at least one unfinished task
+            $0.message = "Starting grid cache..."
+        }
+        
         let dispatchGroup = DispatchGroup()
         FileBrowser.recursivePaths(rootPath)
             .filter { !$0.isDirectory }
             .forEach { childPath in
                 dispatchGroup.enter()
+                statusObject.update {
+                    $0.totalValue += 1
+                    $0.detail = "File: \(childPath.lastPathComponent)"
+                }
+                
                 renderer.asyncAccess(childPath) { _ in
+                    statusObject.update {
+                        $0.currentValue += 1
+                        $0.detail = "File Complete: \(childPath.lastPathComponent)"
+                    }
+                    
                     dispatchGroup.leave()
                 }
             }

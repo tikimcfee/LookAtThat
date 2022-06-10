@@ -47,7 +47,7 @@ class QuickLooper {
         }
         loop()
         queue.asyncAfter(deadline: nextDispatch) {
-            self.runUntil(stopCondition)
+            self.runUntil(onStop: onStop, stopCondition)
         }
     }
 }
