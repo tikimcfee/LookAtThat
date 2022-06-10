@@ -24,6 +24,7 @@ protocol MousePositionReceiver: AnyObject {
     var mousePosition: CGPoint { get set }
     var scrollEvent: NSEvent { get set }
     var mouseDownEvent: NSEvent { get set }
+    var mouseUpEvent: NSEvent { get set }
 }
 
 protocol KeyDownReceiver: AnyObject {
@@ -78,6 +79,7 @@ class CustomSceneView: SCNView {
             rect: bounds,
             options: [.mouseEnteredAndExited,
                       .mouseMoved,
+                      .enabledDuringMouseDrag,
                       .activeInKeyWindow,
                       .activeAlways],
             owner: self,
@@ -100,6 +102,12 @@ class CustomSceneView: SCNView {
         // WARNING
         // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
         // It is NOT SAFE to access these objects outside of this call scope.
+        super.mouseDown(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mouseDownEvent = event.copy() as! NSEvent
+    }
+    
+    override func mouseUp(with event: NSEvent) {
         super.mouseDown(with: event)
         guard let receiver = positionReceiver else { return }
         receiver.mouseDownEvent = event.copy() as! NSEvent

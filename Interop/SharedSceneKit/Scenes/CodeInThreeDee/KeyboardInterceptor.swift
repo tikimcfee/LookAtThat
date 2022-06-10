@@ -8,8 +8,8 @@
 import Foundation
 import SceneKit
 
-private var default_MovementSpeed: VectorFloat = 2.0
-private var default_ModifiedMovementSpeed: VectorFloat = default_MovementSpeed * 5.0
+private var default_MovementSpeed: VectorFloat = 2
+private var default_ModifiedMovementSpeed: VectorFloat = 20
 private let default_UpdateDeltaMillis = 16
 
 typealias FileOperationReceiver = (FileOperation) -> Void
@@ -22,10 +22,8 @@ typealias FocusChangeReceiver = (SelfRelativeDirection) -> Void
 class KeyboardInterceptor {
 
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
-    private let cacheQueue = DispatchQueue(label: "KeyboardCamera-Cache", qos: .userInteractive)
-    private var _directionCache: Set<SelfRelativeDirection>
+    private var directionCache: Set<SelfRelativeDirection>
     
-    private var movementDirections: Set<SelfRelativeDirection> = []
     private var currentModifiers: NSEvent.ModifierFlags = .init()
     private var running: Bool = false
     
@@ -40,16 +38,12 @@ class KeyboardInterceptor {
         self.targetCamera = targetCamera
         self.targetCameraNode = targetCameraNode
         self.onNewFileOperation = onNewFileOperation
-        self._directionCache = []
+        self.directionCache = []
     }
     
     private var dispatchTimeNext: DispatchTime {
         let next = DispatchTime.now() + .milliseconds(default_UpdateDeltaMillis)
         return next
-    }
-    
-    private func synchronizedDirectionCache(_ receiver: (inout Set<SelfRelativeDirection>) -> Void) {
-        cacheQueue.sync { receiver(&_directionCache) }
     }
     
     func onNewKeyEvent(_ event: NSEvent) {
@@ -58,57 +52,63 @@ class KeyboardInterceptor {
         }
     }
     
-    private func startMovement(_ direction: SelfRelativeDirection) {
-        synchronizedDirectionCache { lockingKeyCache in
-            guard !lockingKeyCache.contains(direction) else { return }
-            
-            print("start", direction)
-            lockingKeyCache.insert(direction)
-            
-            guard !running else { return }
-            enqueueRunLoop()
+    private func enqueueRunLoop() {
+        guard !running else { return }
+        running = true
+        movementQueue.async {
+            self.runLoopImplementation()
         }
     }
     
-    private func stopMovement(_ direction: SelfRelativeDirection) {
-        synchronizedDirectionCache { lockingKeyCache in
-            guard lockingKeyCache.contains(direction) else { return }
+    private func runLoopImplementation() {
+        guard !directionCache.isEmpty else {
+            running = false
+            return
+        }
+        
+        let finalDelta = currentModifiers.contains(.shift)
+            ? default_ModifiedMovementSpeed
+            : default_MovementSpeed
+        
+        directionCache.forEach { direction in
+//            print("--> \(direction)")
+            doDirectionDelta(direction, finalDelta)
+        }
+        
+        movementQueue.asyncAfter(deadline: dispatchTimeNext) {
+            self.runLoopImplementation()
+        }
+    }
+    
+    private func startMovement(_ direction: SelfRelativeDirection) {
+        func doMove() {
+//            guard !directionCache.contains(direction) else { return }
             
-            print("stop", direction)
-            lockingKeyCache.remove(direction)
-            
-            guard !running else { return }
+            print("start", direction)
+            directionCache.insert(direction)
+
             enqueueRunLoop()
         }
         
+        movementQueue.async { doMove() }
     }
     
-    private func enqueueRunLoop() {
-        self.running = true
-        movementQueue.async() {
-            self.synchronizedDirectionCache { lockingKeyCache in
-//                let finalDelta = self.currentModifiers.contains(.shift)
-//                    ? default_ModifiedMovementSpeed
-//                    : default_MovementSpeed
-                let finalDelta = default_ModifiedMovementSpeed
-                
-                lockingKeyCache.forEach { direction in
-                    self.doDirectionDelta(direction, finalDelta)
-                }
-                
-                guard !lockingKeyCache.isEmpty else {
-                    self.running = false
-                    return
-                }
-                
-                self.movementQueue.asyncAfter(deadline: self.dispatchTimeNext) {
-                    self.enqueueRunLoop()
-                }       
-            }
+    private func stopMovement(_ direction: SelfRelativeDirection) {
+        func doStop() {
+//            guard directionCache.contains(direction) else { return }
+            
+            print("stop", direction)
+            directionCache.remove(direction)
+
+            enqueueRunLoop()
         }
+        
+        movementQueue.async { doStop() }
     }
-    
-    private func doDirectionDelta(
+}
+
+private extension KeyboardInterceptor {
+    func doDirectionDelta(
         _ direction: SelfRelativeDirection,
         _ finalDelta: VectorFloat
     ) {
@@ -132,7 +132,9 @@ class KeyboardInterceptor {
         }
         
         DispatchQueue.main.async {
-            update()
+            sceneTransaction(0.0835, .easeOut) {
+                update()
+            }
         }
     }
 }
@@ -149,10 +151,8 @@ private extension KeyboardInterceptor {
             onKeyDown(event.characters ?? "", event)
         case .keyUp:
             onKeyUp(event.characters ?? "", event)
-//        case .flagsChanged:
-//            onFlagsChanged(event.modifierFlags, event)
         default:
-            break
+            onFlagsChanged(event.modifierFlags, event)
         }
     }
     
@@ -162,7 +162,6 @@ private extension KeyboardInterceptor {
         case "d", "D": startMovement(.right)
         case "w", "W": startMovement(.forward)
         case "s", "S": startMovement(.backward)
-        
         case "z", "Z": startMovement(.down)
         case "x", "X": startMovement(.up)
             
@@ -175,7 +174,6 @@ private extension KeyboardInterceptor {
         case "l", "L": changeFocus(.right)
         case "j", "J": changeFocus(.forward)
         case "k", "K": changeFocus(.backward)
-            
         case "n", "N": changeFocus(.up)
         case "m", "M": changeFocus(.down)
             
@@ -189,23 +187,21 @@ private extension KeyboardInterceptor {
     
     private func onKeyUp(_ characters: String, _ event: NSEvent) {
         switch characters {
-        case "w", "W": stopMovement(.forward)
-        case "s", "S": stopMovement(.backward)
         case "a", "A": stopMovement(.left)
         case "d", "D": stopMovement(.right)
-            
+        case "w", "W": stopMovement(.forward)
+        case "s", "S": stopMovement(.backward)
         case "z", "Z": stopMovement(.down)
         case "x", "X": stopMovement(.up)
-            
         default:
             break
         }
     }
     
     private func onFlagsChanged(_ flags: NSEvent.ModifierFlags, _ event: NSEvent) {
-        synchronizedDirectionCache { _ in
-            currentModifiers = flags
-            enqueueRunLoop()
+        movementQueue.async {
+            self.currentModifiers = flags
+            self.enqueueRunLoop()
         }
     }
     

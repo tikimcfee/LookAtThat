@@ -28,11 +28,13 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     private let mouseSubject = PassthroughSubject<CGPoint, Never>()
     private let scrollSubject = PassthroughSubject<NSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()
+    private let mouseUpSubject = PassthroughSubject<NSEvent, Never>()
     private let keyEventSubject = PassthroughSubject<NSEvent, Never>()
     
     let sharedMouse: AnyPublisher<CGPoint, Never>
     let sharedScroll: AnyPublisher<NSEvent, Never>
     let sharedMouseDown: AnyPublisher<NSEvent, Never>
+    let sharedMouseUp: AnyPublisher<NSEvent, Never>
     let sharedKeyEvent: AnyPublisher<NSEvent, Never>
     
     var mousePosition: CGPoint = CGPoint.zero {
@@ -45,6 +47,10 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     
     var mouseDownEvent: NSEvent = NSEvent() {
         didSet { mouseDownSubject.send(mouseDownEvent) }
+    }
+    
+    var mouseUpEvent: NSEvent = NSEvent() {
+        didSet { mouseUpSubject.send(mouseUpEvent) }
     }
     
     var lastKeyEvent: NSEvent = NSEvent() {
@@ -79,6 +85,7 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
         self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
         self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
         self.sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
+        self.sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
         
         // Keyboard events
         self.sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()

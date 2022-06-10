@@ -44,6 +44,7 @@ class CodePagesControllerMacOSInputCompat {
         let scaledY = event.deltaY * sensitivity
         
         moveCamera(scaledX: scaledX, scaledY: scaledY, event)
+        keyboardInterceptor.onNewKeyEvent(event)
     }
     
     private func moveCamera(scaledX: CGFloat, scaledY: CGFloat, _ event: NSEvent? = nil) {
@@ -60,7 +61,7 @@ class CodePagesControllerMacOSInputCompat {
             targetNode = sceneCameraNode
         }
         
-        sceneTransaction(0) {
+        sceneTransaction(0.0835, .easeOut) {
             targetNode.simdPosition += targetNode.simdWorldRight * Float(scaledX)
             if moveVertically {
                 targetNode.simdPosition += targetNode.simdWorldUp * -Float(scaledY)
@@ -76,6 +77,22 @@ class CodePagesControllerMacOSInputCompat {
             let point = sceneView.convert(event.locationInWindow, to: nil)
             let newMockEvent = GestureEvent(
                 state: .began,
+                type: .deviceTap,
+                currentLocation: point,
+                commandStart: nil,
+                optionStart: nil,
+                controlStart: nil
+            )
+            controller.panGestureShim.onTap(newMockEvent)
+        }
+    }
+    
+    func newMouseUp(_ event: NSEvent) {
+        DispatchQueue.main.async { doClick() }
+        func doClick() {
+            let point = sceneView.convert(event.locationInWindow, to: nil)
+            let newMockEvent = GestureEvent(
+                state: .ended,
                 type: .deviceTap,
                 currentLocation: point,
                 commandStart: nil,
