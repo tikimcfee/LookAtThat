@@ -75,10 +75,7 @@ class LookAtThat_AppKit_GlyphTests: XCTestCase {
     }
     
     func testGlyphKeyReify() throws {
-        let testChar = "🥸"
-        let testForeground = NSUIColor(displayP3Red: 0.0, green: 0.1312, blue: 0.331, alpha: 1.0)
-        let testBackground = NSUIColor(displayP3Red: 0.2, green: 0.3, blue: 0.4, alpha: 0.5)
-        let startKey = GlyphCacheKey(testChar, testForeground, testBackground)
+        let startKey = makeTestGlyphKey()
         let fileUrl = try XCTUnwrap(startKey.asPersistedUrl, "Must produce valid file url")
         let reifiedKey = try XCTUnwrap(GlyphCacheKey.reify(from: fileUrl.lastPathComponent), "Must reify from file name")
         print(startKey)
@@ -87,6 +84,16 @@ class LookAtThat_AppKit_GlyphTests: XCTestCase {
     }
     
     func testGlyphIO() throws {
-        
+        let startKey = makeTestGlyphKey()
+        let testResult = bundle.glyphs[startKey]
+        print(testResult)
+    }
+    
+    func makeTestGlyphKey() -> GlyphCacheKey {
+        let testChar = "🥸"
+        let testForeground = NSUIColor(displayP3Red: 0.0, green: 0.1312, blue: 0.331, alpha: 1.0)
+        let testBackground = NSUIColor(displayP3Red: 0.2, green: 0.3, blue: 0.4, alpha: 0.5)
+        let startKey = GlyphCacheKey(testChar, testForeground, testBackground)
+        return startKey
     }
 }

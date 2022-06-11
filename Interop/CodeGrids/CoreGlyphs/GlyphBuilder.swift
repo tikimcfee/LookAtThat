@@ -29,6 +29,15 @@ public typealias SizedText = (
  
  This... could... work.
  
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ I just need to use Metal directly and do shader stuff.
+ Loading textures just isn't working at my level. MetalPetal seems to be mostly filter based. It's fast and works,
+ but doesn't do what I need it to.
+ 
+ I also disovered I can just write to a URL directly and load from it. It's.. faster to load. Seriously.
+ Rendering is still not there yet. But yeah, it is a faster load. It's cool. At least, I think it is.
+ 
  */
 
 class GlyphBuilder {

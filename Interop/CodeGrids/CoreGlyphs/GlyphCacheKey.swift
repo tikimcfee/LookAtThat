@@ -45,6 +45,8 @@ extension GlyphCacheKey {
 extension GlyphCacheKey {
     struct Name {
         static let Separator: Character = "_"
+        static let SpaceReplace: String = "ZZ"
+        
         let glyph: String
         let foreground: String
         let background: String
@@ -54,8 +56,8 @@ extension GlyphCacheKey {
                 return nil
             }
             self.glyph = safeHexName
-            self.foreground = CIColor(cgColor: key.foreground.cgColor).stringRepresentation
-            self.background = CIColor(cgColor: key.background.cgColor).stringRepresentation
+            self.foreground = Self.keyColorName(key, \.foreground)
+            self.background = Self.keyColorName(key, \.background)
         }
         
         init?(_ rawComponent: String) {
@@ -65,13 +67,16 @@ extension GlyphCacheKey {
             guard components.count == 3 else { return nil }
             
             self.glyph = components[0]
-            self.foreground = components[1]
-            self.background = components[2]
+            self.foreground = Self.formatFromName(components[1])
+            self.background = Self.formatFromName(components[2])
         }
         
         var fileNameComponent: String {
-            [glyph, foreground, background]
-                .joined(separator: String(Self.Separator))
+            [
+                glyph,
+                Self.formatToName(foreground),
+                Self.formatToName(background)
+            ].joined(separator: String(Self.Separator))
         }
         
         var asCacheKey: GlyphCacheKey? {
@@ -85,6 +90,19 @@ extension GlyphCacheKey {
                 foreground,
                 background
             )
+        }
+        
+        static func keyColorName(_ key: GlyphCacheKey, _ path: KeyPath<GlyphCacheKey, NSUIColor>) -> String {
+            let rawName = CIColor(cgColor: key[keyPath: path].cgColor).stringRepresentation
+            return rawName
+        }
+        
+        static private func formatToName(_ raw: String) -> String {
+            raw.replacingOccurrences(of: " ", with: Self.SpaceReplace)
+        }
+        
+        static private func formatFromName(_ patchedName: String) -> String {
+            patchedName.replacingOccurrences(of: Self.SpaceReplace, with: " ")
         }
     }
 }
