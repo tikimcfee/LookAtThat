@@ -62,6 +62,18 @@ public struct AppFiles {
     }
 }
 
+// MARK: -- Raw glyph data
+
+extension AppFiles {
+    public static var glyphDirectory: URL {
+        directory(named: "rawglyphs")
+    }
+    
+    public static func rawGlyph(named glyphName: String) -> URL {
+        glyphDirectory.appendingPathComponent(glyphName)
+    }
+}
+
 // MARK: -- Rewrites
 
 extension AppFiles {

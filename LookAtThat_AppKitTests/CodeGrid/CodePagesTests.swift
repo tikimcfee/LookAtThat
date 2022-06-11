@@ -34,9 +34,14 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         
         GitHubClient.shared.downloadAndUnzipRepository(
             owner: owner, repositoryName: repoName, branchName: branchName
-        ) { unzippedRootUrl in
-            unzippedRootUrl.children(recursive: true).forEach {
-                print("\($0.fileName)")
+        ) { fetchResult in
+            switch fetchResult {
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            case .success(let url):
+                url.children(recursive: true).forEach {
+                    print("\($0.fileName)")
+                }
             }
             repoGet.fulfill()
         }

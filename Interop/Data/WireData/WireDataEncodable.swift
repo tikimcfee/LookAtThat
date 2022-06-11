@@ -226,22 +226,16 @@ struct WireMatrix4: Codable, Equatable {
  */
 extension NSUIColor {
     #if os(OSX)
-    var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)? {
-        if let calibratedColor = usingColorSpace(.genericRGB) {
-            var redComponent = CGFloat(0)
-            var greenComponent = CGFloat(0)
-            var blueComponent = CGFloat(0)
-            var alphaComponent = CGFloat(0)
-            calibratedColor.getRed(&redComponent,
-                                   green: &greenComponent,
-                                   blue: &blueComponent,
-                                   alpha: &alphaComponent)
-            return (redComponent, greenComponent, blueComponent, alphaComponent)
-        }
-        return nil
+    var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat) {
+        return (
+            redComponent,
+            greenComponent,
+            blueComponent,
+            alphaComponent
+        )
     }
     #elseif os(iOS)
-    var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)? {
+    var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat) {
         var redComponent = CGFloat(0)
         var greenComponent = CGFloat(0)
         var blueComponent = CGFloat(0)
@@ -255,7 +249,7 @@ extension NSUIColor {
     #endif
 
     var wireColor: WireColor {
-        let rgba = self.rgba!
+        let rgba = self.rgba
         return WireColor(
             red: rgba.red,
             green: rgba.green,
