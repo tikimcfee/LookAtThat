@@ -238,15 +238,21 @@ class LineVendor {
         to endPosition: SCNVector3,
         materialContents: Any
     ) -> SCNLineNode {
-        let intermediate = SCNVector3(
+        let intermediateYRange = SCNVector3(
             x: endPosition.x,
             y: startPosition.y,
             z: endPosition.z
         )
+        let intermediateXRange = SCNVector3(
+            x: endPosition.x,
+            y: startPosition.y,
+            z: startPosition.z
+        )
         let line = SCNLineNode(
             with: [
                 startPosition,
-                intermediate,
+                intermediateXRange,
+                intermediateYRange,
                 endPosition
             ],
             radius: 3.0,

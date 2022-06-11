@@ -17,9 +17,9 @@ extension FileBrowser {
     static let supportedTextExtensions: Set<String> = [
         "swift", "m", "mm",
         "cpp", "c", "cs", "h",
-        "python",
+        "py",
         "java", "kotlin", "scala",
-        "txt", "md"
+        "txt", "md", "json"
     ]
     
     static let unsupportedExtensions: Set<String> = [
