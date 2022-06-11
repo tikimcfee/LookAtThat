@@ -85,4 +85,8 @@ class LookAtThat_AppKit_GlyphTests: XCTestCase {
         print(reifiedKey)
         XCTAssertEqual(reifiedKey, startKey, "Reified key must match start key")
     }
+    
+    func testGlyphIO() throws {
+        
+    }
 }
