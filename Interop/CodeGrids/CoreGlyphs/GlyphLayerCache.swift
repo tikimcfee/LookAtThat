@@ -36,7 +36,22 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
 }
 
 extension GlyphCacheKey {
+    var asPersistedUrl: URL? {
+        asPersistedName.map {
+            AppFiles.rawGlyph(named: $0.fileNameComponent)
+        }
+    }
+    
     var asPersistedName: Name? { Name(self) }
+    
+    static func reify(from filePathComponent: String) -> GlyphCacheKey? {
+        guard let key = Name(filePathComponent),
+              let cacheKey = key.asCacheKey else {
+            print("Invalid path component: \(filePathComponent)")
+            return nil
+        }
+        return cacheKey
+    }
 }
 
 extension GlyphCacheKey {
@@ -113,10 +128,12 @@ extension StringProtocol {
 
     private var hexadecimalSequence: UnfoldSequence<UInt8, Index> {
         sequence(state: startIndex) { startIndex in
-            guard startIndex < self.endIndex else { return nil }
-            let endIndex = self.index(startIndex, offsetBy: 2, limitedBy: self.endIndex) ?? self.endIndex
-            defer { startIndex = endIndex }
-            return UInt8(self[startIndex..<endIndex], radix: 16)
+            guard startIndex < endIndex else { return nil }
+            let computedEnd =
+                index(startIndex, offsetBy: 2, limitedBy: endIndex)
+                ?? endIndex
+            defer { startIndex = computedEnd }
+            return UInt8(self[startIndex..<computedEnd], radix: 16)
         }
     }
 }

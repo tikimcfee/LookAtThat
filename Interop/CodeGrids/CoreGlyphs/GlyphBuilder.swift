@@ -8,7 +8,28 @@
 import Foundation
 import SceneKit
 
-public typealias SizedText = (SCNGeometry, SCNGeometry, CGSize)
+public typealias SizedText = (
+    SCNGeometry, // colorized text
+    SCNGeometry, // 'highlight' style text
+    CGSize       // computed size of text
+)
+
+/**
+ 
+ Ok so the theory is, based on the Metal GPU render snapshot, that the CPU is creating these images and memory is being shared.
+ Ideally, if I could get this glyph stored to a url, I could create a texture that directly references it instead, and let the GPU sort our access
+ to said memory.
+ 
+ This shouldn't be that hard, actually.
+ 
+ What I'll do is use the cache-key as a flat file name for a glyph's image data.
+ Then, I'll render the glyph as normal, and write the result images to disk. Literally a slower font cache.
+ Then, use something like MetalPetal (ohhhh please...) to load the resource from disk,
+ and allow the memory mode to map directly without shared management.
+ 
+ This... could... work.
+ 
+ */
 
 class GlyphBuilder {
     let fontRenderer = FontRenderer.shared
