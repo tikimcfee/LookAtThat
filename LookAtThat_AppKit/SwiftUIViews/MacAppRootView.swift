@@ -7,7 +7,7 @@ struct MacAppRootView: View {
     @State var showMultipeer: Bool = false
 
     var body: some View {
-        return ZStack(alignment: .bottomTrailing) {
+        return ZStack(alignment: .topTrailing) {
             SceneKitRepresentableView(
                 sceneView: library.sharedSceneView
             ).focusable() // set focusable to work around a nil focus error
@@ -16,10 +16,10 @@ struct MacAppRootView: View {
             switch library.currentMode {
             case .source:
                 VStack(alignment: .leading) {
+                    extras()
                     HStack(alignment: .top) {
                         SourceInfoPanelView()
                     }.padding(.bottom, 4.0)
-                    extras()
                 }
             }
         }
