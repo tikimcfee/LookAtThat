@@ -39,7 +39,6 @@ struct RenderPlan {
             
             statusObject.update {
                 $0.message = "Render complete!"
-                $0.currentValue = statusObject.progress.totalValue
             }
             
             WatchWrap.stopTimer("\(rootPath.fileName)")
@@ -101,9 +100,11 @@ private extension RenderPlan {
         _ childPath: URL,
         _ state: State
     ) {
+        let name = "Layout: \(childPath.lastPathComponent)"
+        let newItem = AppStatus.AppProgress.Item(name: name)
         statusObject.update {
-            $0.totalValue += 1
-            $0.detail = "Layout: \(childPath.lastPathComponent)"
+            $0.start(newItem)
+            $0.detail = "Start -> \(newItem.name)"
         }
         
         let parentPath = childPath.deletingLastPathComponent()
@@ -133,8 +134,8 @@ private extension RenderPlan {
         }
         
         statusObject.update {
-            $0.currentValue += 1
-            $0.detail = "Layout complete: \(childPath.lastPathComponent)"
+            $0.finish(newItem)
+            $0.detail = "Complete -> \(newItem.name)"
         }
     }
     
@@ -154,7 +155,6 @@ private extension RenderPlan {
 private extension RenderPlan {
     func cacheGrids() {
         statusObject.update {
-            $0.totalValue += 1 // pretend there's at least one unfinished task
             $0.message = "Starting grid cache..."
         }
         
@@ -163,15 +163,17 @@ private extension RenderPlan {
             .filter { !$0.isDirectory }
             .forEach { childPath in
                 dispatchGroup.enter()
+                let name = "Cache: \(childPath.lastPathComponent)"
+                let newItem = AppStatus.AppProgress.Item(name: name)
                 statusObject.update {
-                    $0.totalValue += 1
-                    $0.detail = "File: \(childPath.lastPathComponent)"
+                    $0.start(newItem)
+                    $0.detail = "Start -> \(name)"
                 }
                 
                 renderer.asyncAccess(childPath) { _ in
                     statusObject.update {
-                        $0.currentValue += 1
-                        $0.detail = "File Complete: \(childPath.lastPathComponent)"
+                        $0.finish(newItem)
+                        $0.detail = "Complete -> \(name)"
                     }
                     
                     dispatchGroup.leave()
