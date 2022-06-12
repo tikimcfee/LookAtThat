@@ -31,70 +31,30 @@ struct MetalView: NSViewRepresentable {
 extension MetalView {
     class Coordinator: NSObject, MTKViewDelegate {
         var parent: MetalView
-        var metalDevice: MTLDevice?
-        var metalCommandQueue: MTLCommandQueue?
+        var alloy: AlloyRenderer?
         
         init(_ parent: MetalView, mtkView: MTKView) {
             self.parent = parent
-            if let (device, queue) = Self.generateDevice() {
-                mtkView.device = device
-                self.metalDevice = device
-                self.metalCommandQueue = queue
-            }
+            self.alloy = MetalAlloyCore.core.generateRenderer()
             super.init()
             configureInitial(mtkView: mtkView)
         }
         
         func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-            
+            alloy?.mtkView(view, drawableSizeWillChange: size)
         }
         
         func draw(in view: MTKView) {
-            guard let drawable = view.currentDrawable,
-                  let metalDevice = metalDevice,
-                  let commandQueue = metalDevice.makeCommandQueue(),
-                  let commandBuffer = commandQueue.makeCommandBuffer(),
-                  let passDescriptor = view.currentRenderPassDescriptor
-            else {
-                print("draw(in:) error creating queue and command buffer")
-                return
-            }
-            
-            // Forwards the drawable texture to the descriptor?
-            passDescriptor.colorAttachments[0].texture = drawable.texture
-            passDescriptor.colorAttachments[0].loadAction = .clear
-            passDescriptor.colorAttachments[0].storeAction = .store
-            passDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.3, 0.5, 1)
-            
-            guard let commandEncoder = commandBuffer.makeRenderCommandEncoder(
-                descriptor: passDescriptor
-            ) else {
-                print("could not create command encoder")
-                return
-            }
-            
-            commandEncoder.endEncoding()
-            commandBuffer.present(drawable)
-            commandBuffer.commit()
+            alloy?.draw(in: view)
+        }
+        
+        private func configureInitial(mtkView: MTKView) {
+            mtkView.device = alloy?.metalDevice
+            mtkView.framebufferOnly = false
+            mtkView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
+            mtkView.drawableSize = mtkView.frame.size
+            mtkView.enableSetNeedsDisplay = true
         }
     }
 }
 
-private extension MetalView.Coordinator {
-    static func generateDevice() -> (MTLDevice, MTLCommandQueue)? {
-        guard let newDevice = MTLCreateSystemDefaultDevice(),
-              let commandQueue = newDevice.makeCommandQueue()
-        else {
-            print("Could not create MetalDevice")
-            return nil
-        }
-        return (newDevice, commandQueue)
-    }
-    
-    func configureInitial(mtkView: MTKView) {
-        mtkView.framebufferOnly = false
-        mtkView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
-        mtkView.drawableSize = mtkView.frame.size
-        mtkView.enableSetNeedsDisplay = true
-    }
-}
