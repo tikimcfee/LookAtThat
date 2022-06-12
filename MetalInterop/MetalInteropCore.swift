@@ -33,14 +33,15 @@ class MetalAlloyCore {
         return (newDevice, commandQueue)
     }
     
-    func generateRenderer() -> MetalRenderer? {
+    func generateRenderer(for view: MTKView) -> MetalRenderer? {
         guard let (device, queue) = generateDevice() else {
             return nil
         }
         
         return MetalRenderer(
             device: device,
-            commandQueue: queue
+            commandQueue: queue,
+            mtkView: view
         )
     }
 }

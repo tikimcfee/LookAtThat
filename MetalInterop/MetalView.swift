@@ -34,7 +34,7 @@ extension MetalView {
         
         init(_ parent: MetalView, mtkView: MTKView) {
             self.parent = parent
-            self.alloy = MetalAlloyCore.core.generateRenderer()
+            self.alloy = MetalAlloyCore.core.generateRenderer(for: mtkView)
             mtkView.delegate = alloy
             mtkView.device = alloy?.metalDevice
             mtkView.framebufferOnly = false

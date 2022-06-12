@@ -10,11 +10,19 @@ import MetalKit
 
 class MetalRenderer: NSObject, MTKViewDelegate {
     let metalDevice: MTLDevice
-    let commandQUeue: MTLCommandQueue
+    let commandQueue: MTLCommandQueue
+    let mtkView: MTKView
+    var state = State()
     
-    init(device: MTLDevice, commandQueue: MTLCommandQueue) {
+    init(device: MTLDevice,
+         commandQueue: MTLCommandQueue,
+         mtkView: MTKView) {
         self.metalDevice = device
-        self.commandQUeue = commandQueue
+        self.commandQueue = commandQueue
+        self.mtkView = mtkView
+        super.init()
+        
+        loadResources()
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -22,6 +30,10 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
+//        doDefaultDraw(in: view)
+    }
+    
+    func doDefaultDraw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let commandQueue = metalDevice.makeCommandQueue(),
               let commandBuffer = commandQueue.makeCommandBuffer(),
@@ -47,5 +59,55 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
+    }
+}
+
+extension MetalRenderer {
+    class State {
+        lazy var convertedMTKVertexDescriptor: MTLVertexDescriptor? = {
+            do {
+                return try MTKMetalVertexDescriptorFromModelIOWithError(
+                    rootMDLVertexDescriptor
+                )
+            } catch {
+                print(error)
+                return nil
+            }
+        }()
+        
+        private lazy var rootMDLVertexDescriptor: MDLVertexDescriptor = {
+            var vertexDescriptor = MDLVertexDescriptor()
+            vertexDescriptor.attributes[0] = MDLVertexAttribute(
+                name: MDLVertexAttributePosition, format: .float3, offset: 0, bufferIndex: 0
+            )
+            vertexDescriptor.attributes[1] = MDLVertexAttribute(
+                name: MDLVertexAttributeNormal, format: .float3, offset: MemoryLayout<Float>.size * 3, bufferIndex: 0
+            )
+            vertexDescriptor.attributes[2] = MDLVertexAttribute(
+                name: MDLVertexAttributeTextureCoordinate, format: .float2, offset: MemoryLayout<Float>.size * 6, bufferIndex: 0
+            )
+            vertexDescriptor.layouts[0] = MDLVertexBufferLayout(
+                stride: MemoryLayout<Float>.size * 8
+            )
+            return vertexDescriptor
+        }()
+    }
+}
+
+private extension MetalRenderer {
+    var testTeapotObj: URL? {
+        Bundle.main.url(forResource: "teapot", withExtension: "obj")
+    }
+    
+    func loadResources() {
+        print("----------------")
+        guard let testTeapotObj = testTeapotObj else {
+            print("No teapot.")
+            return
+        }
+        
+        
+        
+        print("----------------")
     }
 }

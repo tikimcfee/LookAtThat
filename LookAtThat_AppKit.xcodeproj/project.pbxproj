@@ -602,6 +602,10 @@
 		B7F5F6812855A8B200AE9009 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */; };
 		B7F5F6822855A8B200AE9009 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */; };
 		B7F5F6832855A8B200AE9009 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */; };
+		B7F5F6862855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
+		B7F5F6872855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
+		B7F5F6882855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
+		B7F5F6892855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -903,6 +907,7 @@
 		B7F5F67528559D9600AE9009 /* MetalInteropCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalInteropCore.swift; sourceTree = "<group>"; };
 		B7F5F67A2855A05700AE9009 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
+		B7F5F6852855AABE00AE9009 /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -1451,11 +1456,20 @@
 		B7F5F67428559D3C00AE9009 /* MetalInterop */ = {
 			isa = PBXGroup;
 			children = (
+				B7F5F6842855AABE00AE9009 /* TestSupport */,
 				B7F5F67528559D9600AE9009 /* MetalInteropCore.swift */,
 				B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */,
 				B7F5F67A2855A05700AE9009 /* MetalView.swift */,
 			);
 			path = MetalInterop;
+			sourceTree = "<group>";
+		};
+		B7F5F6842855AABE00AE9009 /* TestSupport */ = {
+			isa = PBXGroup;
+			children = (
+				B7F5F6852855AABE00AE9009 /* teapot.obj */,
+			);
+			path = TestSupport;
 			sourceTree = "<group>";
 		};
 		F00FC723250C53460092AFF9 = {
@@ -1940,6 +1954,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F5F6872855AABE00AE9009 /* teapot.obj in Resources */,
 				B70FDCF6283EAE9900170D5F /* Main.storyboard in Resources */,
 				B70FDCF7283EAE9900170D5F /* Preview Assets.xcassets in Resources */,
 				B70FDCF8283EAE9900170D5F /* Assets.xcassets in Resources */,
@@ -1950,6 +1965,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F5F6892855AABE00AE9009 /* teapot.obj in Resources */,
 				B74A23272814FFF300F6F727 /* Main.storyboard in Resources */,
 				B74A23282814FFF300F6F727 /* Preview Assets.xcassets in Resources */,
 				B74A23292814FFF300F6F727 /* Assets.xcassets in Resources */,
@@ -1960,6 +1976,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F5F6862855AABE00AE9009 /* teapot.obj in Resources */,
 				F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */,
 				F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */,
 				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
@@ -1978,6 +1995,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F5F6882855AABE00AE9009 /* teapot.obj in Resources */,
 				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
 				F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */,
 				F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */,
