@@ -48,6 +48,27 @@ extension CodeGrid {
         let gridResult = sceneTransactionSafe(0) {
             doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
         }
+        
+        let view = sceneTransactionSafe(0) { () -> SCNView in
+            let width = gridResult.rootNode.boundsWidth
+            let height = gridResult.rootNode.boundsHeight
+            let testView = SCNView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            let scene = SCNScene()
+            testView.scene = scene
+            scene.rootNode.addChildNode(gridResult.rootNode)
+            return testView
+        }
+//
+        let image = view.snapshot()
+        gridResult.rootNode.removeFromParentNode()
+//        gridResult.rawGlyphsNode.isHidden = true
+//        gridResult.flattenedGlyphsNode?.isHidden = true
+        gridResult.backgroundGeometry.firstMaterial?.diffuse.contents = image
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
+            gridResult.rawGlyphsNode.isHidden = true
+            gridResult.flattenedGlyphsNode?.isHidden = true
+        }
+        
         return gridResult
     }
     
