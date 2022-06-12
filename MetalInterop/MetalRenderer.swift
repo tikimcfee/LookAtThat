@@ -46,13 +46,15 @@ class MetalRenderer: NSObject, MTKViewDelegate {
             print("draw(in:) error creating queue and command buffer")
             return
         }
-        
         commandEncoder.setRenderPipelineState(renderPipeline)
         
-        let modelMatrix = float4x4(
-            rotationAbout: float3(0, 1, 0),
-            by: -Float.pi / 6
-        ) *  float4x4(scaleBy: 2)
+        state.tick(view)
+        let modelMatrix = state.testSpinMatrix
+//        let modelMatrix = float4x4(
+//            rotationAbout: float3(0, 1, 0),
+////            by: -Float.pi / 6
+//            by: state.renderTime
+//        ) *  float4x4(scaleBy: 2)
         
         let viewMatrix = float4x4(
             translationBy: float3(0, -3, -20)
@@ -102,10 +104,25 @@ class MetalRenderer: NSObject, MTKViewDelegate {
 }
 
 extension MetalRenderer {
-    class State {
+    class State: ObservableObject {
         var meshes: [MTKMesh] = []
         var currentLibrary: MTLLibrary?
         var renderPipeline: MTLRenderPipelineState?
+        
+        var renderTime: Float = 0 { didSet { setTestSpinMatrix() } }
+        var testSpinMatrix = float4x4()
+        
+        func tick(_ view: MTKView) {
+            renderTime += 1 / Float(view.preferredFramesPerSecond)
+        }
+        
+        func setTestSpinMatrix() {
+            let angle = -renderTime
+            testSpinMatrix = float4x4(
+                rotationAbout: float3(0, 1, 0),
+                by: angle
+            ) * float4x4(scaleBy: 2)
+        }
         
         lazy var convertedMTKVertexDescriptor: MTLVertexDescriptor? = {
             do {
