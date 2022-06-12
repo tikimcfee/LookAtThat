@@ -64,6 +64,8 @@ class MetalRenderer: NSObject, MTKViewDelegate {
 
 extension MetalRenderer {
     class State {
+        var meshes: [MTKMesh] = []
+        
         lazy var convertedMTKVertexDescriptor: MTLVertexDescriptor? = {
             do {
                 return try MTKMetalVertexDescriptorFromModelIOWithError(
@@ -75,7 +77,7 @@ extension MetalRenderer {
             }
         }()
         
-        private lazy var rootMDLVertexDescriptor: MDLVertexDescriptor = {
+        lazy var rootMDLVertexDescriptor: MDLVertexDescriptor = {
             var vertexDescriptor = MDLVertexDescriptor()
             vertexDescriptor.attributes[0] = MDLVertexAttribute(
                 name: MDLVertexAttributePosition, format: .float3, offset: 0, bufferIndex: 0
@@ -106,8 +108,28 @@ private extension MetalRenderer {
             return
         }
         
+        guard let vertexDescriptor = state.convertedMTKVertexDescriptor else {
+            print("No 'scriptor.")
+            return
+        }
         
-        
+        let bufferAllocator = MTKMeshBufferAllocator(device: metalDevice)
+        let asset = MDLAsset(
+            url: testTeapotObj,
+            vertexDescriptor: state.rootMDLVertexDescriptor,
+            bufferAllocator: bufferAllocator
+        )
+        state.meshes = generateMTKMeshes(from: asset)
         print("----------------")
+    }
+    
+    func generateMTKMeshes(from asset: MDLAsset) -> [MTKMesh] {
+        do {
+            let (_, newMeshes) = try MTKMesh.newMeshes(asset: asset, device: metalDevice)
+            return newMeshes
+        } catch {
+            print("Could not extract meshes from Model I/O asset", error)
+            return []
+        }
     }
 }
