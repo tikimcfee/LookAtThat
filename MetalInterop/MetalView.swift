@@ -11,7 +11,6 @@ struct MetalView: NSViewRepresentable {
     var mtkView: MTKView
     
     func makeNSView(context: NSViewRepresentableContext<MetalView>) -> MTKView {
-        mtkView.delegate = context.coordinator
         mtkView.preferredFramesPerSecond = 60
         mtkView.enableSetNeedsDisplay = true
         mtkView.isPaused = false
@@ -29,26 +28,14 @@ struct MetalView: NSViewRepresentable {
 }
 
 extension MetalView {
-    class Coordinator: NSObject, MTKViewDelegate {
+    class Coordinator {
         var parent: MetalView
         var alloy: MetalRenderer?
         
         init(_ parent: MetalView, mtkView: MTKView) {
             self.parent = parent
             self.alloy = MetalAlloyCore.core.generateRenderer()
-            super.init()
-            configureInitial(mtkView: mtkView)
-        }
-        
-        func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-            alloy?.mtkView(view, drawableSizeWillChange: size)
-        }
-        
-        func draw(in view: MTKView) {
-            alloy?.draw(in: view)
-        }
-        
-        private func configureInitial(mtkView: MTKView) {
+            mtkView.delegate = alloy
             mtkView.device = alloy?.metalDevice
             mtkView.framebufferOnly = false
             mtkView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
