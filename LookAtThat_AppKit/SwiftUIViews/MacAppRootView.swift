@@ -8,20 +8,21 @@ struct MacAppRootView: View {
 
     var body: some View {
         return ZStack(alignment: .topTrailing) {
-            SceneKitRepresentableView(
-                sceneView: library.sharedSceneView
-            ).focusable() // set focusable to work around a nil focus error
-                          // "This would eventually crash when the view is freed. The first responder will be set to nil"
-            
-            switch library.currentMode {
-            case .source:
-                VStack(alignment: .leading) {
-                    extras()
-                    HStack(alignment: .top) {
-                        SourceInfoPanelView()
-                    }.padding(.bottom, 4.0)
-                }
-            }
+            MetalView.makeFromDefault()
+//            SceneKitRepresentableView(
+//                sceneView: library.sharedSceneView
+//            ).focusable() // set focusable to work around a nil focus error
+//                          // "This would eventually crash when the view is freed. The first responder will be set to nil"
+//
+//            switch library.currentMode {
+//            case .source:
+//                VStack(alignment: .leading) {
+//                    extras()
+//                    HStack(alignment: .top) {
+//                        SourceInfoPanelView()
+//                    }.padding(.bottom, 4.0)
+//                }
+//            }
         }
     }
     
