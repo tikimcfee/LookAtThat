@@ -606,6 +606,14 @@
 		B7F5F6872855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
 		B7F5F6882855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
 		B7F5F6892855AABE00AE9009 /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = B7F5F6852855AABE00AE9009 /* teapot.obj */; };
+		B7F5F68B2855B21300AE9009 /* RootShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68A2855B21300AE9009 /* RootShaders.metal */; };
+		B7F5F68C2855B21300AE9009 /* RootShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68A2855B21300AE9009 /* RootShaders.metal */; };
+		B7F5F68D2855B21300AE9009 /* RootShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68A2855B21300AE9009 /* RootShaders.metal */; };
+		B7F5F68E2855B21300AE9009 /* RootShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68A2855B21300AE9009 /* RootShaders.metal */; };
+		B7F5F6902855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */; };
+		B7F5F6912855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */; };
+		B7F5F6922855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */; };
+		B7F5F6932855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -908,6 +916,8 @@
 		B7F5F67A2855A05700AE9009 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
 		B7F5F6852855AABE00AE9009 /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
+		B7F5F68A2855B21300AE9009 /* RootShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = RootShaders.metal; sourceTree = "<group>"; };
+		B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicMatrixOperations.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -1460,6 +1470,7 @@
 				B7F5F67528559D9600AE9009 /* MetalInteropCore.swift */,
 				B7F5F67F2855A8B200AE9009 /* MetalRenderer.swift */,
 				B7F5F67A2855A05700AE9009 /* MetalView.swift */,
+				B7F5F68F2855BA8B00AE9009 /* BasicMatrixOperations.swift */,
 			);
 			path = MetalInterop;
 			sourceTree = "<group>";
@@ -1468,6 +1479,7 @@
 			isa = PBXGroup;
 			children = (
 				B7F5F6852855AABE00AE9009 /* teapot.obj */,
+				B7F5F68A2855B21300AE9009 /* RootShaders.metal */,
 			);
 			path = TestSupport;
 			sourceTree = "<group>";
@@ -2046,6 +2058,7 @@
 				B70FDC72283EAE9900170D5F /* TokenSyntax+Coloring.swift in Sources */,
 				B70FDC73283EAE9900170D5F /* GlyphLayerCache.swift in Sources */,
 				B70FDC74283EAE9900170D5F /* TAPInputMode.swift in Sources */,
+				B7F5F6912855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */,
 				B70FDC75283EAE9900170D5F /* FocusSearchInputView.swift in Sources */,
 				B70FDC76283EAE9900170D5F /* StartingTapDelegate.swift in Sources */,
 				B70FDC77283EAE9900170D5F /* NodeHitTests.swift in Sources */,
@@ -2137,6 +2150,7 @@
 				B70FDCCC283EAE9900170D5F /* SearchContainer.swift in Sources */,
 				B70FDCCD283EAE9900170D5F /* DragSizableView.swift in Sources */,
 				B70FDCCE283EAE9900170D5F /* CodeGridParser+Paths.swift in Sources */,
+				B7F5F68C2855B21300AE9009 /* RootShaders.metal in Sources */,
 				B7F3AAA12853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B70FDCCF283EAE9900170D5F /* TracingRoot.swift in Sources */,
 				B70FDCD0283EAE9900170D5F /* SceneLibrary.swift in Sources */,
@@ -2214,6 +2228,7 @@
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */,
 				B74A22BC2814FFF300F6F727 /* TAPInputMode.swift in Sources */,
+				B7F5F68E2855B21300AE9009 /* RootShaders.metal in Sources */,
 				B7241AF128270F21006A6A3E /* FocusSearchInputView.swift in Sources */,
 				B74A22BF2814FFF300F6F727 /* StartingTapDelegate.swift in Sources */,
 				B74A22C02814FFF300F6F727 /* NodeHitTests.swift in Sources */,
@@ -2223,6 +2238,7 @@
 				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7F5F67928559D9600AE9009 /* MetalInteropCore.swift in Sources */,
 				B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */,
+				B7F5F6932855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */,
 				B74A22C52814FFF300F6F727 /* SceneKit+BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
@@ -2377,6 +2393,7 @@
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				B7C75703280CECBA0005A233 /* TAPInputMode.swift in Sources */,
+				B7F5F6902855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */,
 				B7241AEF28270F21006A6A3E /* FocusSearchInputView.swift in Sources */,
 				B7C7571C280CEE040005A233 /* StartingTapDelegate.swift in Sources */,
 				F0CCB1022517BFC500937279 /* NodeHitTests.swift in Sources */,
@@ -2468,6 +2485,7 @@
 				B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */,
 				B75014A12830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */,
+				B7F5F68B2855B21300AE9009 /* RootShaders.metal in Sources */,
 				B7F3AAA02853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */,
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
@@ -2583,6 +2601,7 @@
 				B7C756FA280CECBA0005A233 /* TAPKitCentral.swift in Sources */,
 				B7C756FC280CECBA0005A233 /* TAPCombination.swift in Sources */,
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
+				B7F5F6922855BA8B00AE9009 /* BasicMatrixOperations.swift in Sources */,
 				B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */,
 				B7F5F6822855A8B200AE9009 /* MetalRenderer.swift in Sources */,
 				B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */,
@@ -2626,6 +2645,7 @@
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
+				B7F5F68D2855B21300AE9009 /* RootShaders.metal in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
 				B7981028281C3050009A82BD /* FileIO.swift in Sources */,
 				B7A6F2B1275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,

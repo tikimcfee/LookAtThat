@@ -23,6 +23,7 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         super.init()
         
         loadResources()
+        buildPipeline()
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -30,30 +31,68 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
-//        doDefaultDraw(in: view)
+        doTestClearingDraw(in: view)
     }
     
-    func doDefaultDraw(in view: MTKView) {
-        guard let drawable = view.currentDrawable,
-              let commandQueue = metalDevice.makeCommandQueue(),
-              let commandBuffer = commandQueue.makeCommandBuffer(),
-              let passDescriptor = view.currentRenderPassDescriptor
+    func doTestClearingDraw(in view: MTKView) {
+        guard let commandBuffer = commandQueue.makeCommandBuffer(),
+              let passDescriptor = view.currentRenderPassDescriptor,
+              let drawable = view.currentDrawable,
+              let renderPipeline = state.renderPipeline,
+              let commandEncoder = commandBuffer.makeRenderCommandEncoder(
+                descriptor: passDescriptor
+              )
         else {
             print("draw(in:) error creating queue and command buffer")
             return
         }
         
-        // Forwards the drawable texture to the descriptor?
-        passDescriptor.colorAttachments[0].texture = drawable.texture
-        passDescriptor.colorAttachments[0].loadAction = .clear
-        passDescriptor.colorAttachments[0].storeAction = .store
-        passDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.2, 0.4, 1)
+        commandEncoder.setRenderPipelineState(renderPipeline)
         
-        guard let commandEncoder = commandBuffer.makeRenderCommandEncoder(
-            descriptor: passDescriptor
-        ) else {
-            print("could not create command encoder")
-            return
+        let modelMatrix = float4x4(
+            rotationAbout: float3(0, 1, 0),
+            by: -Float.pi / 6
+        ) *  float4x4(scaleBy: 2)
+        
+        let viewMatrix = float4x4(
+            translationBy: float3(0, -3, -20)
+        )
+        let modelViewMatrix = viewMatrix * modelMatrix
+        
+        let aspectRatio = Float(view.drawableSize.width / view.drawableSize.height)
+        let projectionMatrix = float4x4(
+            perspectiveProjectionFov: Float.pi / 3,
+            aspectRatio: aspectRatio,
+            nearZ: 0.1,
+            farZ: 100
+        )
+        
+        var uniforms = Uniforms(
+            modelViewMatrix: modelViewMatrix,
+            projectionMatrix: projectionMatrix
+        )
+        commandEncoder.setVertexBytes(
+            &uniforms,
+            length: MemoryLayout<Uniforms>.size,
+            index: 1
+        )
+        
+        for mesh in state.meshes {
+            guard let vertexBuffer = mesh.vertexBuffers.first
+            else { continue }
+            
+            commandEncoder.setVertexBuffer(vertexBuffer.buffer,
+                                           offset: vertexBuffer.offset,
+                                           index: 0)
+            
+            for submesh in mesh.submeshes {
+                let indexBuffer = submesh.indexBuffer
+                commandEncoder.drawIndexedPrimitives(type: submesh.primitiveType,
+                                                     indexCount: submesh.indexCount,
+                                                     indexType: submesh.indexType,
+                                                     indexBuffer: indexBuffer.buffer,
+                                                     indexBufferOffset: indexBuffer.offset)
+            }
         }
         
         commandEncoder.endEncoding()
@@ -65,6 +104,8 @@ class MetalRenderer: NSObject, MTKViewDelegate {
 extension MetalRenderer {
     class State {
         var meshes: [MTKMesh] = []
+        var currentLibrary: MTLLibrary?
+        var renderPipeline: MTLRenderPipelineState?
         
         lazy var convertedMTKVertexDescriptor: MTLVertexDescriptor? = {
             do {
@@ -108,11 +149,6 @@ private extension MetalRenderer {
             return
         }
         
-        guard let vertexDescriptor = state.convertedMTKVertexDescriptor else {
-            print("No 'scriptor.")
-            return
-        }
-        
         let bufferAllocator = MTKMeshBufferAllocator(device: metalDevice)
         let asset = MDLAsset(
             url: testTeapotObj,
@@ -121,6 +157,31 @@ private extension MetalRenderer {
         )
         state.meshes = generateMTKMeshes(from: asset)
         print("----------------")
+    }
+    
+    func buildPipeline() {
+        state.currentLibrary = metalDevice.makeDefaultLibrary()
+        guard let library = state.currentLibrary else {
+            print("No library created.")
+            return
+        }
+        
+        let vertexFunction = library.makeFunction(name: "vertex_main")
+        let fragmentFunction = library.makeFunction(name: "fragment_main")
+        
+        let pipelineDescriptor = MTLRenderPipelineDescriptor()
+        pipelineDescriptor.vertexFunction = vertexFunction
+        pipelineDescriptor.fragmentFunction = fragmentFunction
+        pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
+        pipelineDescriptor.vertexDescriptor = state.convertedMTKVertexDescriptor
+        
+        do {
+            state.renderPipeline = try metalDevice.makeRenderPipelineState(
+                descriptor: pipelineDescriptor
+            )
+        } catch {
+            print("Could not create render pipeline state object: \(error)")
+        }
     }
     
     func generateMTKMeshes(from asset: MDLAsset) -> [MTKMesh] {
@@ -132,4 +193,12 @@ private extension MetalRenderer {
             return []
         }
     }
+}
+
+// MARK: - Uniforms.swift<>RootShaders
+import simd
+
+struct Uniforms {
+    var modelViewMatrix: float4x4
+    var projectionMatrix: float4x4
 }
