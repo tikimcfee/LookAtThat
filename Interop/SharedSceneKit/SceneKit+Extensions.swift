@@ -1,11 +1,6 @@
 import Foundation
 import SceneKit
 
-func flushSceneKitTransactions() {
-//    print("Flushing SCNTransaction from: \(Thread.current)")
-    SCNTransaction.flush()
-}
-
 //@inlinable
 func lockedSceneTransaction(_ operation: () -> Void) {
     SCNTransaction.lock()
@@ -16,11 +11,11 @@ func lockedSceneTransaction(_ operation: () -> Void) {
 }
 
 //@inlinable
-func sceneTransaction(
+func sceneTransactionSafe<T>(
     _ duration: Double? = nil,
     _ timing: CAMediaTimingFunctionName? = nil,
-    _ operation: () throws -> Void
-) {
+    _ operation: () -> T
+) -> T {
     SCNTransaction.begin()
     
     SCNTransaction.animationTimingFunction =
@@ -31,6 +26,28 @@ func sceneTransaction(
         duration.map { CFTimeInterval($0) }
             ?? SCNTransaction.animationDuration
     
+    let result = operation()
+    
+    SCNTransaction.commit()
+    
+    return result
+}
+
+func sceneTransaction(
+    _ duration: Double? = nil,
+    _ timing: CAMediaTimingFunctionName? = nil,
+    _ operation: () throws -> Void
+) {
+    SCNTransaction.begin()
+    
+    SCNTransaction.animationTimingFunction =
+    timing.map { CAMediaTimingFunction(name: $0) }
+    ?? SCNTransaction.animationTimingFunction
+    
+    SCNTransaction.animationDuration =
+    duration.map { CFTimeInterval($0) }
+    ?? SCNTransaction.animationDuration
+    
     do {
         try operation()
     } catch {
@@ -39,6 +56,7 @@ func sceneTransaction(
     
     SCNTransaction.commit()
 }
+
 
 public extension SCNGeometry {
     var lengthX: VectorFloat { return abs(boundingBox.max.x - boundingBox.min.x) }
