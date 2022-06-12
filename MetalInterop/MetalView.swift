@@ -31,7 +31,7 @@ struct MetalView: NSViewRepresentable {
 extension MetalView {
     class Coordinator: NSObject, MTKViewDelegate {
         var parent: MetalView
-        var alloy: AlloyRenderer?
+        var alloy: MetalRenderer?
         
         init(_ parent: MetalView, mtkView: MTKView) {
             self.parent = parent
