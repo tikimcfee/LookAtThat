@@ -15,11 +15,13 @@ class FileBrowser: ObservableObject {
 
 extension FileBrowser {
     static let supportedTextExtensions: Set<String> = [
-        "swift", "m", "mm",
+        "swift",
+        "m", "mm",
         "cpp", "c", "cs", "h",
+        "md", "txt",
         "py",
         "java", "kotlin", "scala",
-        "txt", "md", "json"
+//        "json"
     ]
     
     static let unsupportedExtensions: Set<String> = [
