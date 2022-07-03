@@ -16,15 +16,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        __ENABLE_STARTUP_LOG_WRITES__()
         
-        let rootWindow = makeRootWindow()
-        GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
-        rootWindow.contentView = makeRootContentView()
-        rootWindow.makeKeyAndOrderFront(nil)
-        window = rootWindow
+        print("--------------------------The App It Has Launched--------------------------")
+        print(CommandLine.arguments)
+        print("---------------------------------------------------------------------------")
+        
+        if testingCherrierView() {
+            print("CherrierView is neat!")
+        } else {
+            let rootWindow = makeRootWindow()
+            GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
+            rootWindow.contentView = makeRootContentView()
+            rootWindow.makeKeyAndOrderFront(nil)
+            window = rootWindow
+        }
+        
+        
+        
+        
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    func testingCherrierView() -> Bool {
+        CommandLine.arguments.contains("cherrier-test")
     }
 }
 
