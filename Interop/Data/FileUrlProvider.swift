@@ -21,6 +21,19 @@ enum FileError: Error {
     case noSwiftSource
 }
 
+func showInFinder(url: URL?) {
+    switch url {
+#if os(OSX)
+    case let .some(url) where url.isDirectory:
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url.path)
+    case let .some(url):
+        NSWorkspace.shared.activateFileViewerSelecting([url])
+#endif
+    default:
+        print("Cannot open url: \(url?.description ?? "<nil url>")")
+    }
+}
+
 #if os(OSX)
 
 func openFile(_ receiver: @escaping FileReceiver) {

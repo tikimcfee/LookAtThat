@@ -18,15 +18,32 @@ struct AppStatusView: View {
     
     @ViewBuilder
     var mainView: some View {
-        if status.progress.isActive {
-            ProgressView(
-                value: status.progress.currentValue,
-                total: status.progress.totalValue,
-                label: { progressLabel }
-            )
-        } else {
-            Text("Application Idle")
+        VStack {
+            Text(status.progress.isReportedProgressActive
+                 ? "AppStatus: active, reported"
+                 : status.progress.isActive
+                 ? "AppStatus: active, flag"
+                 : "AppStatus: not active")
+            
+            if status.progress.isActive {
+                clampedProgressViewLabel
+            } else {
+                progressLabel
+            }
         }
+    }
+    
+    @ViewBuilder
+    var clampedProgressViewLabel: some View {
+        let (safeValue, safeTotal) = (
+            min(status.progress.currentValue, status.progress.totalValue),
+            max(status.progress.currentValue, status.progress.totalValue)
+        )
+        ProgressView(
+            value: safeValue,
+            total: safeTotal,
+            label: { progressLabel }
+        )
     }
     
     @ViewBuilder
@@ -49,6 +66,7 @@ class AppStatus: ObservableObject {
         var totalValue: Double = 0
         var currentValue: Double = 0
         var isActive: Bool = false
+        var isReportedProgressActive: Bool { currentValue < totalValue }
         
         var roundedTotal: Int { Int(totalValue) }
         var roundedCurrent: Int { Int(currentValue) }
@@ -59,7 +77,7 @@ class AppStatus: ObservableObject {
     func update(_ receiver: (inout AppProgress) -> Void) {
         var current = progress
         receiver(&current)
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
             self.progress = current
         }
     }

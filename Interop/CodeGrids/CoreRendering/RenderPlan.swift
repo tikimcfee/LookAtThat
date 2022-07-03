@@ -24,14 +24,11 @@ struct RenderPlan {
     var currentFocus: FocusBox { focusCompat.currentTargetFocus }
     var statusObject: AppStatus { CodePagesController.shared.appStatus }
     
-    func startRender(_ onComplete: @escaping (FocusBox) -> Void) {
+    func startRender(onComplete onCompleteActions: [(FocusBox) throws -> Void] = []) {
         queue.async {
             WatchWrap.startTimer("\(rootPath.fileName)")
             
             statusObject.resetProgress()
-            statusObject.update {
-                $0.isActive = true
-            }
             
             cacheGrids()
             let rootFocus = renderFoci()
@@ -42,12 +39,11 @@ struct RenderPlan {
                 $0.currentValue = statusObject.progress.totalValue
             }
             
-            WatchWrap.stopTimer("\(rootPath.fileName)")
-            onComplete(rootFocus)
-            
-            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
-                self.statusObject.resetProgress()
+            for action in onCompleteActions {
+                try? action(rootFocus)
             }
+            
+            WatchWrap.stopTimer("\(rootPath.fileName)")
         }
     }
 }

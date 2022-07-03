@@ -54,6 +54,10 @@ extension FocusBox {
     static func makeNext(_ controller: CodeGridFocusController) -> FocusBox {
         return FocusBox(id: nextId(), inFocus: controller)
     }
+    
+    func detachSelf() {
+        rootNode.removeFromParentNode()
+    }
 }
 
 extension FocusBox {

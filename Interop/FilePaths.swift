@@ -117,3 +117,15 @@ extension AppFiles {
         }
     }
 }
+
+// MARK: -- Scene Output
+
+extension AppFiles {
+    public static var sceneOutputDirectory: URL {
+        directory(named: "sceneOutput")
+    }
+    
+    public static var defaultSceneOutputFile: URL {
+        file(named: "default_scene_file.dae", in: sceneOutputDirectory)
+    }
+}

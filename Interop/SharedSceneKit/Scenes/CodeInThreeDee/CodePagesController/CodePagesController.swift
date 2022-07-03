@@ -52,68 +52,17 @@ class CodePagesController: BaseSceneController, ObservableObject {
         codeGridParser.rootGeometryNode = sceneState.rootGeometryNode
     }
     
-    func onNewFileStreamEvent(_ event: FileBrowser.Event) {
-        switch event {
-        case .noSelection:
-            break
-            
-        case let .newSingleCommand(path, style):
-            commandHandler.handleSingleCommand(path, style)
-            
-        case let .newMultiCommandRecursiveAllLayout(parent, style):
-            switch style {
-            case .addToFocus:
-                let sem = DispatchSemaphore(value: 1)
-                codeGridParser.__versionThree_RenderImmediate(parent) { path, grid in
-                    sem.wait()
-                    self.compat.doAddToFocus(grid)
-                    sem.signal()
-                }
-            case .addToWorld:
-//                Touch and cylinder layout isn't precise / visually usable enough for iOS.... yet
-                #if os(iOS)
-                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-                    self.addToRoot(rootGrid: rootGrid)
-                }
-                #else
-                RenderPlan(
-                    rootPath: parent,
-                    queue: codeGridParser.renderQueue,
-                    renderer: codeGridParser.concurrency
-                ).startRender { _ in }
-                #endif
-                
-
-            default: break
-            }
-
-            
-        case let .newMultiCommandRecursiveAllCache(parent):
-            print("Start cache: \(parent.fileName)")
-            codeGridParser.cacheConcurrent(parent) {
-                print("Cache complete: \(parent.fileName)")
-            }
-        }
-    }
-    
-    func addToRoot(rootGrid: CodeGrid) {
-#if os(iOS)
-        codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
-#else
-        sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
-        rootGrid.translated(
-            dX: -rootGrid.measures.lengthX / 2.0,
-            dY: rootGrid.measures.lengthY / 2.0,
-            dZ: -2000
-        )
-#endif
+    override func onTapGesture(_ event: GestureEvent) {
+        self.onTapGestureOverrideImpl(event)
     }
     
     override func sceneActive() {
-        // This is pretty dumb. I have the scene library global, and it automatically inits this.
-        // However, this tries to attach immediately.. by accessing the init'ing global.
-        //                 This is why we don't .global =(
-        // Anyway, dispatch for now with no guarantee of success.
+        // Looming bug here: all of these compat and local objects
+        // are mostly lazy, plenty of implicit static loads.
+        // This dispatch is an unsafe timing hack to to handle
+        // UI display timing. WIthout logs to back it up, memory
+        // serves it was observers not being ready, instances being
+        // nil because of recursive definitions, and others.
 #if os(OSX)
         DispatchQueue.main.async {
             self.compat.attachMouseSink()
@@ -127,7 +76,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
             self.compat.attachSearchInputSink()
         }
 #endif
-
     }
 
     override func sceneInactive() {
@@ -138,34 +86,6 @@ class CodePagesController: BaseSceneController, ObservableObject {
         // Clear out all the grids and things
         compat.inputCompat.focus.resetState()
         compat.inputCompat.focus.setNewFocus()
-    }
-    
-    // MARK: - Gesture overrides
-    override func onTapGesture(_ event: GestureEvent) {
-        guard event.type == .deviceTap else { return }
-        
-        let location = event.currentLocation
-        let found = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
-            .testAndEval(location, [.codeGridControl, .codeGrid])
-        
-        for result in found {
-            switch result {
-            case let .grid(codeGrid):
-                #if !TARGETING_SUI
-                guard let path = codeGrid.sourcePath else {
-                    print("Grid does not have active path: \(codeGrid.fileName) -> \(codeGrid)")
-                    return
-                }
-                editorState.rootMode = .editing(grid: codeGrid, path: path)
-                #else
-                codeGrid.toggleGlyphs()
-                #endif
-            case let .control(codeGridControl):
-                codeGridControl.activate()
-            default:
-                break
-            }
-        }
     }
 }
 
@@ -220,6 +140,159 @@ extension CodePagesController {
                 receiver(url)
             case let .failure(error):
                 print(error)
+            }
+        }
+    }
+}
+
+// MARK: - File Events
+
+extension CodePagesController {
+    func onNewFileStreamEvent(_ event: FileBrowser.Event) {
+        switch event {
+        case .noSelection:
+            break
+            
+        case let .newSingleCommand(path, style):
+            commandHandler.handleSingleCommand(path, style)
+            
+        case let .newMultiCommandRecursiveAllLayout(parent, style):
+            switch style {
+            case .addToFocus:
+                let sem = DispatchSemaphore(value: 1)
+                codeGridParser.__versionThree_RenderImmediate(parent) { path, grid in
+                    sem.wait()
+                    self.compat.doAddToFocus(grid)
+                    sem.signal()
+                }
+            case .addToWorld:
+                //                Touch and cylinder layout isn't precise / visually usable enough for iOS.... yet
+                //                #if os(iOS)
+                //                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+                //                    self.addToRoot(rootGrid: rootGrid)
+                //                }
+                //                #else
+                
+                //
+                // DAE: Swift Cherrier View, CLI action
+                /// Given a directory, render CherrierView[yourFileName|Default].dae and output to current directory.
+                /// swift cherrier-View .
+                //
+                RenderPlan(
+                    rootPath: parent,
+                    queue: codeGridParser.renderQueue,
+                    renderer: codeGridParser.concurrency
+                ).startRender(onComplete: [
+                    { root in
+                        print("RenderPlan, activate | ",  root.rootNode.name ?? "unnamed node")
+                        self.appStatus.update { $0.isActive = true }
+                    },
+                    { root in
+                        print("RenderPlan, first callback | ",  root.rootNode.name ?? "unnamed node")
+                        try self.writeScene()
+                    },
+                    { root in
+                        print("RenderPlan, deactivate | ",  root.rootNode.name ?? "unnamed node")
+                        self.appStatus.update { $0.isActive = false }
+                    }
+                ])
+                //                #endif
+                
+                
+            default: break
+            }
+            
+            
+        case let .newMultiCommandRecursiveAllCache(parent):
+            print("Start cache: \(parent.fileName)")
+            codeGridParser.cacheConcurrent(parent) {
+                print("Cache complete: \(parent.fileName)")
+            }
+            
+        }
+    }
+}
+
+// MARK: - Scene actions
+
+extension CodePagesController {
+    func writeScene(
+        to target: URL = AppFiles.defaultSceneOutputFile
+    ) throws {
+        weak var status = appStatus
+        func progressHandlerForwardingFunction(
+            _ float: Float,
+            _ error: Error?,
+            _ bool: UnsafeMutablePointer<ObjCBool>
+        ) {
+            status?.update {
+                $0.totalValue = 100.0
+                $0.currentValue = Double(float * 100.0)
+                
+                if $0.currentValue < $0.totalValue {
+                    $0.message = "Writing output to \(target)"
+                } else {
+                    $0.message = "Progress complete, showing \(target)"
+                    showInFinder(url: target)
+                }
+                
+                if let error = error {
+                    print("Scene writing error: ", error)
+                    $0.detail = error.localizedDescription
+                }
+            }
+        }
+        sceneTransaction {
+            self.scene.write(
+                to: target,
+                options: [:],
+                delegate: nil,
+                progressHandler: progressHandlerForwardingFunction(_:_:_:)
+            )
+        }
+    }
+    
+    func addToRoot(rootGrid: CodeGrid) {
+#if os(iOS)
+        codeGridParser.editorWrapper.addInFrontOfCamera(grid: rootGrid)
+#else
+        sceneState.rootGeometryNode.addChildNode(rootGrid.rootNode)
+        rootGrid.translated(
+            dX: -rootGrid.measures.lengthX / 2.0,
+            dY: rootGrid.measures.lengthY / 2.0,
+            dZ: -2000
+        )
+#endif
+    }
+    
+}
+
+// MARK: - Gesture overrides
+
+private extension CodePagesController {
+    func onTapGestureOverrideImpl(_ event: GestureEvent) {
+        guard event.type == .deviceTap else { return }
+        
+        let location = event.currentLocation
+        let found = HitTestEvaluator(controller: SceneLibrary.global.codePagesController)
+            .testAndEval(location, [.codeGridControl, .codeGrid])
+        
+        for result in found {
+            switch result {
+            case let .grid(codeGrid):
+#if !TARGETING_SUI
+                guard let path = codeGrid.sourcePath else {
+                    print("Grid does not have active path: \(codeGrid.fileName) -> \(codeGrid)")
+                    return
+                }
+                editorState.rootMode = .editing(grid: codeGrid, path: path)
+#else
+                codeGrid.toggleGlyphs()
+#endif
+            case let .control(codeGridControl):
+                codeGridControl.activate()
+            default:
+                break
             }
         }
     }
