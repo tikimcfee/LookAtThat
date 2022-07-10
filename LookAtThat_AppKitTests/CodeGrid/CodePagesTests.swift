@@ -26,34 +26,41 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     }
     
     func testGitStuff() throws {
-        printStart()
         let repoGet = expectation(description: "Retrieve repo")
         let repoName = "SceneKit-SCNLine"
         let owner = "tikimcfee"
         let branchName = "main"
+        printStart(.message("Git repo fetch test, \(owner):\(repoName)@\(branchName)"))
         
         GitHubClient.shared.downloadAndUnzipRepository(
             owner: owner, repositoryName: repoName, branchName: branchName
-        ) { unzippedRootUrl in
-            unzippedRootUrl.children(recursive: true).forEach {
-                print("\($0.fileName)")
+        ) { result in
+            switch result {
+            case .success(let url):
+                let allPaths = url.children(recursive: true)
+                let toShow = 10
+                print("-- Downloaded files: \(allPaths.count)")
+                print("-- Showing \(toShow)")
+                allPaths.prefix(toShow).forEach { print("-> ", $0.fileName) }
+                repoGet.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            repoGet.fulfill()
         }
         
         wait(for: [repoGet], timeout: 15.0)
         
         print("Have URLs:")
-        AppFiles.allDownloadedRepositories.forEach { url in
+        AppFiles.allRepositoryRoots.forEach { url in
             print(url)
         }
         
-        AppFiles.allDownloadedRepositories.forEach {
+        AppFiles.allRepositoryRoots.forEach {
             AppFiles.delete(fileUrl: $0)
         }
         
         print("After deletion:")
-        AppFiles.allDownloadedRepositories.forEach { url in
+        AppFiles.allRepositoryRoots.forEach { url in
             print(url)
         }
         

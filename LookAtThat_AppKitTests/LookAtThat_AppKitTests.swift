@@ -101,10 +101,24 @@ class LookAtThat_AppKitTests: XCTestCase {
     }
 }
 
-func printStart() {
-    print("------------------------------- Starting -------------------------------\n\n")
+
+enum TestLine {
+    case none
+    case message(String)
 }
 
-func printEnd() {
+func printStart(_ testLine: TestLine = .none) {
+    print("------------------------------- Starting -------------------------------\n\n")
+    switch testLine {
+    case .none: break
+    case .message(let message): print(message)
+    }
+}
+
+func printEnd(_ testLine: TestLine = .none) {
     print("\n\n------------------------------- Done -------------------------------" )
+    switch testLine {
+    case .none: break
+    case .message(let message): print(message)
+    }
 }

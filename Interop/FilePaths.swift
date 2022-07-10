@@ -77,6 +77,11 @@ extension AppFiles {
         directory(named: "github-repositories")
     }
     
+    public static var allRepositoryRoots: [URL] {
+        githubRepositoriesRoot
+            .children()
+    }
+    
     public static var allDownloadedRepositories: [URL] {
         githubRepositoriesRoot
             .children()

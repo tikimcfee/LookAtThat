@@ -7,7 +7,6 @@
 
 import Foundation
 import SceneKit
-import SwiftSyntax
 
 class GlyphNode: SCNNode {
     var rootGeometry: SCNGeometry!
