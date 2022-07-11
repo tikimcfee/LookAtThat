@@ -57,7 +57,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid"
+            argument = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

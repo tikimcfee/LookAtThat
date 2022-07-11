@@ -211,6 +211,8 @@
 		B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A8771287BBB9600A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
+		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
+		B72A8777287BE94D00A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8776287BE94D00A78B19 /* ArgumentParser */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -1157,6 +1159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B72A8777287BE94D00A78B19 /* ArgumentParser in Frameworks */,
 				B74B574A287BA1300078EB2D /* SCNLine in Frameworks */,
 				B74B574C287BA1300078EB2D /* CodeEditorView in Frameworks */,
 				B74B574D287BA1300078EB2D /* SwiftSyntaxParser in Frameworks */,
@@ -1171,6 +1174,7 @@
 			files = (
 				B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
+				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
 				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
@@ -2012,6 +2016,7 @@
 				B74B56A5287BA1300078EB2D /* SCNLine */,
 				B74B56A7287BA1300078EB2D /* SwiftSyntaxParser */,
 				B74B56A9287BA1300078EB2D /* ZIPFoundation */,
+				B72A8776287BE94D00A78B19 /* ArgumentParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74B575A287BA1300078EB2D /* LookAtThat_AppKit - CV.app */;
@@ -2039,6 +2044,7 @@
 				B7C9AFB1284352D60077BCA7 /* SCNLine */,
 				B7EB71072844119800313633 /* SwiftSyntaxParser */,
 				B7EB712F2848128700313633 /* ZIPFoundation */,
+				B72A8774287BE93900A78B19 /* ArgumentParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -2134,6 +2140,7 @@
 				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
 				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -3665,6 +3672,14 @@
 				kind = branch;
 			};
 		};
+		B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		B74A229B2814FFF300F6F727 /* XCRemoteSwiftPackageReference "Brotli" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/karlvr/Brotli";
@@ -3798,6 +3813,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
 			productName = SCNLine;
+		};
+		B72A8774287BE93900A78B19 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+		B72A8776287BE94D00A78B19 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
 		};
 		B74A229A2814FFF300F6F727 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;
