@@ -27,7 +27,7 @@ struct CherrieiRootCommand: ParsableCommand {
 
 extension CherrieiRootCommand {
     static var cherrierArgumentPresent: Bool {
-        CommandLine.arguments.contains("cherrier-test")
+        CommandLine.arguments.contains("cherriei-test")
     }
     
     static func sanitizedMainRun() {
