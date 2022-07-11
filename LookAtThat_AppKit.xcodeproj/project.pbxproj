@@ -213,6 +213,11 @@
 		B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
 		B72A8777287BE94D00A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8776287BE94D00A78B19 /* ArgumentParser */; };
+		B72E9586287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B72E9587287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B72E9589287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -954,6 +959,7 @@
 		B7241AFD2828AD63006A6A3E /* ControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerState.swift; sourceTree = "<group>"; };
 		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
 		B72A876D287BADA600A78B19 /* CherrieiView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CherrieiView.entitlements; sourceTree = "<group>"; };
+		B72E9585287CBC24005578B6 /* CherrieiCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherrieiCommands.swift; sourceTree = "<group>"; };
 		B7321510275858F800BD5C17 /* CodeGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridFocusController.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
@@ -1333,6 +1339,7 @@
 			children = (
 				B72A876D287BADA600A78B19 /* CherrieiView.entitlements */,
 				B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */,
+				B72E9585287CBC24005578B6 /* CherrieiCommands.swift */,
 			);
 			path = CherrieiView;
 			sourceTree = "<group>";
@@ -2272,6 +2279,7 @@
 				B70FDC81283EAE9900170D5F /* String+Extensions.swift in Sources */,
 				B70FDC82283EAE9900170D5F /* HitTestEvaluator.swift in Sources */,
 				B70FDC83283EAE9900170D5F /* FocusBoxControl.swift in Sources */,
+				B72E9587287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B70FDC84283EAE9900170D5F /* Syntax+Caching.swift in Sources */,
 				B70FDC85283EAE9900170D5F /* TAPKitDelegateController.swift in Sources */,
 				B70FDC86283EAE9900170D5F /* CodeGridGlobalSemantics.swift in Sources */,
@@ -2482,6 +2490,7 @@
 				B74A22F02814FFF300F6F727 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
+				B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
@@ -2599,6 +2608,7 @@
 				B74B56DA287BA1300078EB2D /* SceneKit+BoundsCaching.swift in Sources */,
 				B74B56DB287BA1300078EB2D /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74B56DC287BA1300078EB2D /* String+Extensions.swift in Sources */,
+				B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B74B56DD287BA1300078EB2D /* HitTestEvaluator.swift in Sources */,
 				B74B56DE287BA1300078EB2D /* FocusBoxControl.swift in Sources */,
 				B74B56DF287BA1300078EB2D /* Syntax+Caching.swift in Sources */,
@@ -2763,6 +2773,7 @@
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				B7B18C72276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,
 				B7EAA4CA27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
+				B72E9586287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
 				B7C756F3280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
@@ -2919,6 +2930,7 @@
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
+				B72E9589287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,
 				B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,

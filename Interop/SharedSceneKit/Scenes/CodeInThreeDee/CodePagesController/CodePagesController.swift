@@ -225,6 +225,7 @@ extension CodePagesController {
         to target: URL,
         _ receiver: @escaping CVReceiver
     ) {
+        print("Cherriei:", root, target)
         RenderPlan(
             rootPath: root,
             queue: codeGridParser.renderQueue,

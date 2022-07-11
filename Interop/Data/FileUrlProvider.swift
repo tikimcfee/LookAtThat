@@ -54,9 +54,13 @@ func openFile(_ receiver: @escaping FileReceiver) {
     }
 }
 
-func selectDirectory(_ receiver: @escaping DirectoryReceiver) {
+func selectDirectory(
+    _ config: ((NSOpenPanel) -> Void)? = nil,
+    _ receiver: @escaping DirectoryReceiver
+) {
     DispatchQueue.main.async {
         let panel = NSOpenPanel()
+        config?(panel)
         panel.nameFieldLabel = "Select source directory"
         panel.canChooseFiles = false
         panel.canChooseDirectories = true

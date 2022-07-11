@@ -131,6 +131,6 @@ extension AppFiles {
     }
     
     public static var defaultSceneOutputFile: URL {
-        file(named: "default_scene_file.dae", in: sceneOutputDirectory)
+        file(named: "default-cherriei-view", in: sceneOutputDirectory)
     }
 }
