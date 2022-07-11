@@ -21,7 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 try CherrieiCore.shared.launch()
             } catch {
                 print("CherrieiCore encountered an error while launching!")
+                print(error)
             }
+            print("App waiting for write...")
         } else {
             let rootWindow = makeRootWindow()
             GlobablWindowDelegate.instance.registerRootWindow(rootWindow)

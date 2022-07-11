@@ -14,6 +14,7 @@ enum CoreError: Error {
 class CherrieiCore {
     
     static let shared = makeShared()
+    lazy var arguments = CommandLine.arguments
     
     struct CherrieiBetaArgs {
         struct Validated {
@@ -26,7 +27,7 @@ class CherrieiCore {
             guard [sourcePath, targetPath]
                 .allSatisfy(FileManager.default.fileExists(atPath:))
             else {
-                throw CoreError.invalidArgs("Invalid path options:n\(sourcePath)\n\(targetPath)")
+                throw CoreError.invalidArgs("<<\(sourcePath)>>, <<\(targetPath)>>")
             }
             
             return Validated(
@@ -41,12 +42,28 @@ class CherrieiCore {
     }
     
     func launch() throws {
-        let arguments = CommandLine.arguments
         print("--------------------------CherrieiView Launched----------------------------")
         print(arguments.forEach { print($0) })
         print("---------------------------------------------------------------------------")
         
-        
+        try tryCLI()
+    }
+    
+    private func trySelect() throws {
+        openDirectory { selected in
+            switch selected {
+            case .success(let directory):
+                let target = directory.parent.appendingPathComponent(".cherriei-view.dae")
+                self.startRender(sourcePath: directory.parent, targetPath: target)
+                
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    private func tryCLI() throws {
         let args: CherrieiBetaArgs
         switch arguments.count {
         case 0...2:
@@ -59,12 +76,22 @@ class CherrieiCore {
             print("Target path args")
             args = CherrieiBetaArgs(sourcePath: arguments[2], targetPath: arguments[3])
         default:
-            print("Unknown args")
-            exit(1)
+            if arguments.contains("-NSDocumentRevisionsDebugMode") {
+                print("Xcode path args")
+                args = CherrieiBetaArgs(sourcePath: arguments[2], targetPath: arguments[2])
+            } else {
+                print("Unknown args")
+                exit(1)
+            }
         }
         
         let validated = try args.validate()
-        startRender(sourcePath: validated.source, targetPath: validated.target)
+        let cherrieiTarget = validated.target.appendingPathComponent(".cherriei-view.dae")
+        
+        print("RenderPlan, write scene for Cherrier:")
+        print(cherrieiTarget.path)
+        
+        startRender(sourcePath: validated.source, targetPath: cherrieiTarget)
     }
     
     private func startRender(

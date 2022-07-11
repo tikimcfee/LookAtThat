@@ -231,8 +231,6 @@ extension CodePagesController {
             renderer: codeGridParser.concurrency
         ).startRender(onComplete: [
             { root in
-                print("RenderPlan, write scene for Cherrier")
-                
                 let stopWatch = Stopwatch(running: true)
                 self.writeSceneWithoutProgress(to: target)
                 stopWatch.stop()
@@ -249,7 +247,7 @@ extension CodePagesController {
 
 extension CodePagesController {
     func writeSceneWithoutProgress(
-        to target: URL = AppFiles.defaultSceneOutputFile
+        to target: URL
     ) {
         sceneTransaction {
             self.scene.write(
