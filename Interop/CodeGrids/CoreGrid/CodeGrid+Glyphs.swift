@@ -84,8 +84,21 @@ extension CodeGrid {
 }
 
 extension Character {
+    private struct Check {
+        let isWhitespace: Bool
+    }
+    
+    private class CheckCaches: LockingCache<Character, Check> {
+        static let shared: CheckCaches = CheckCaches()
+        override func make(_ key: Key, _ store: inout [Key : Value]) -> Character.Check {
+            Check(
+                isWhitespace: CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: key)
+            )
+        }
+    }
+    
     var isWhitespace: Bool {
-        CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: self)
+        CheckCaches.shared[self].isWhitespace
     }
 }
 
