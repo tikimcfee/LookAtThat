@@ -3210,16 +3210,13 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/";
 				INFOPLIST_FILE = LookAtThat_AppKit_CV.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3233,6 +3230,7 @@
 		B74B5759287BA1300078EB2D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -3244,17 +3242,15 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/";
 				INFOPLIST_FILE = LookAtThat_AppKit_CV.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/ExternalFrameworks/macosx-arm/";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "StripSwiftTrace CherrieiSkip";

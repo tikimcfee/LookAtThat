@@ -42,6 +42,7 @@ class CherrieiCore {
     private func writeDefaultCommandLine() throws {
         let arguments = CommandLine.arguments
         
+
         guard arguments.contains("cherrier-test") else {
             throw CoreError.invalidArgs("missing test param")
         }
