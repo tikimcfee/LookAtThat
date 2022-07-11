@@ -7,7 +7,7 @@
 
 import Foundation
 
-#if !TARGETING_SUI
+#if !(TARGETING_SUI || StripSwiftTrace)
 import SwiftTrace
 #endif
 

@@ -213,9 +213,49 @@ extension CodePagesController {
     }
 }
 
+// MARK: - CherrieiSupport
+
+extension CodePagesController {
+    
+    typealias CVResult = Result<Void, Error>
+    typealias CVReceiver = (CVResult) -> Void
+    
+    func cherrieiRenderSceneFor(
+        path root: URL,
+        to target: URL,
+        _ receiver: @escaping CVReceiver
+    ) {
+        RenderPlan(
+            rootPath: root,
+            queue: codeGridParser.renderQueue,
+            renderer: codeGridParser.concurrency
+        ).startRender(onComplete: [
+            { root in
+                print("RenderPlan, write scene for Cherrier | ",  root.rootNode.name ?? "unnamed node")
+                self.writeSceneWithoutProgress(to: target)
+                receiver(.success(()))
+            }
+        ])
+    }
+    
+}
+
 // MARK: - Scene actions
 
 extension CodePagesController {
+    func writeSceneWithoutProgress(
+        to target: URL = AppFiles.defaultSceneOutputFile
+    ) {
+        sceneTransaction {
+            self.scene.write(
+                to: target,
+                options: [:],
+                delegate: nil,
+                progressHandler: nil
+            )
+        }
+    }
+    
     func writeScene(
         to target: URL = AppFiles.defaultSceneOutputFile
     ) throws {

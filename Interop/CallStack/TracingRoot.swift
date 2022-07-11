@@ -66,7 +66,7 @@ class TracingRoot {
     }
 }
 
-#if !TARGETING_SUI
+#if !TARGETING_SUI && !StripSwiftTrace
 import SwiftTrace
 extension TracingRoot {
     static let trackedTypes: [AnyClass] = [

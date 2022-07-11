@@ -7,7 +7,7 @@
 
 import Foundation
 
-#if !TARGETING_SUI && !os(iOS)
+#if !TARGETING_SUI && !os(iOS) && !StripSwiftTrace
 import SwiftTrace
 #else
 enum TraceOutput {
@@ -68,7 +68,7 @@ extension TraceOutput {
         }
     }
     
-    #if TARGETING_SUI || os(iOS)
+    #if TARGETING_SUI || os(iOS) || StripSwiftTrace
     static var randomInvoke: String { "" }
     var signature: String { decorated }
     #else

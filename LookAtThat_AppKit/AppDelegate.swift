@@ -16,12 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        __ENABLE_STARTUP_LOG_WRITES__()
         
-        print("--------------------------The App It Has Launched--------------------------")
-        print(CommandLine.arguments)
-        print("---------------------------------------------------------------------------")
-        
         if testingCherrierView() {
-            print("CherrierView is neat!")
+            CherrieiCore.shared.launch()
         } else {
             let rootWindow = makeRootWindow()
             GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
