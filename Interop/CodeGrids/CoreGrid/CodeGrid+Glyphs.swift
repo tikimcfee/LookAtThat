@@ -52,7 +52,9 @@ extension CodeGrid {
                 dY: -nodeLengthY / 2.0
             )
 
-            targetGrid.rawGlyphsNode.addChildNode(letterNode)
+            if !isWhitespace {
+                targetGrid.rawGlyphsNode.addChildNode(letterNode)
+            }
             
             // we're writing left-to-right.
             // Letter spacing is implicit to layer size.

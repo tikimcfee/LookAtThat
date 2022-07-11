@@ -42,7 +42,8 @@ extension CodeGrid {
         }
         
         func finalize() {
-            grid.renderer.eraseWhitespace()
+//            // Only erase if you've added; it's a full and expensive node walk
+//            grid.renderer.eraseWhitespace()
             grid.flattenRootGlyphNode()
         }
     }
