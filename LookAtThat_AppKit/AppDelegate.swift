@@ -17,7 +17,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        __ENABLE_STARTUP_LOG_WRITES__()
         
         if testingCherrierView() {
-            CherrieiCore.shared.launch()
+            do {
+                try CherrieiCore.shared.launch()
+            } catch {
+                print("CherrieiCore encountered an error while launching!")
+            }
         } else {
             let rootWindow = makeRootWindow()
             GlobablWindowDelegate.instance.registerRootWindow(rootWindow)

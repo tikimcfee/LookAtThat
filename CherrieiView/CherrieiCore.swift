@@ -12,41 +12,83 @@ enum CoreError: Error {
 }
 
 class CherrieiCore {
-    private static func makeShared() -> CherrieiCore {
-        CherrieiCore()
-    }
+    
     static let shared = makeShared()
+    
+    struct CherrieiBetaArgs {
+        struct Validated {
+            let source: URL
+            let target: URL
+        }
+        let sourcePath: String
+        let targetPath: String
+        func validate() throws -> Validated {
+            guard [sourcePath, targetPath]
+                .allSatisfy(FileManager.default.fileExists(atPath:))
+            else {
+                throw CoreError.invalidArgs("Invalid path options:n\(sourcePath)\n\(targetPath)")
+            }
+            
+            return Validated(
+                source: URL(fileURLWithPath: sourcePath),
+                target: URL(fileURLWithPath: targetPath)
+            )
+        }
+    }
     
     private init() {
         
     }
     
-    func launch() {
+    func launch() throws {
+        let arguments = CommandLine.arguments
         print("--------------------------CherrieiView Launched----------------------------")
-        print(CommandLine.arguments.forEach { print($0) })
+        print(arguments.forEach { print($0) })
         print("---------------------------------------------------------------------------")
         
-        let absolute = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
-        let testPath = URL(fileURLWithPath: absolute)
-        let outputPath = AppFiles.defaultSceneOutputFile
         
+        let args: CherrieiBetaArgs
+        switch arguments.count {
+        case 0...2:
+            print("0/2 args")
+            exit(1)
+        case 3:
+            print("Single path args")
+            args = CherrieiBetaArgs(sourcePath: arguments[2], targetPath: arguments[2])
+        case 4:
+            print("Target path args")
+            args = CherrieiBetaArgs(sourcePath: arguments[2], targetPath: arguments[3])
+        default:
+            print("Unknown args")
+            exit(1)
+        }
+        
+        let validated = try args.validate()
+        startRender(sourcePath: validated.source, targetPath: validated.target)
+    }
+    
+    private func startRender(
+        sourcePath: URL,
+        targetPath: URL
+    ) {
         CodePagesController.shared.cherrieiRenderSceneFor(
-            path: testPath,
-            to: outputPath
+            path: sourcePath,
+            to: targetPath
         ) { result in
-            showInFinder(url: outputPath)
+            showInFinder(url: targetPath)
             exit(0)
         }
     }
     
     private func writeDefaultCommandLine() throws {
-        let arguments = CommandLine.arguments
+        let absolute = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
+        let testPath = URL(fileURLWithPath: absolute)
+        let outputPath = AppFiles.defaultSceneOutputFile
         
-
-        guard arguments.contains("cherrier-test") else {
-            throw CoreError.invalidArgs("missing test param")
-        }
-        
-        
+        startRender(sourcePath: testPath, targetPath: outputPath)
+    }
+    
+    private static func makeShared() -> CherrieiCore {
+        CherrieiCore()
     }
 }
