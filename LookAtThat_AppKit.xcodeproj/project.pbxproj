@@ -207,6 +207,10 @@
 		B72A876A287BA35000A78B19 /* TracingInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */; };
 		B72A876B287BA35400A78B19 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B72A876C287BA67800A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
+		B72A876E287BBB8E00A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
+		B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
+		B72A8771287BBB9600A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
+		B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -1114,7 +1118,6 @@
 		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
-		F0BA5F8A25107925009A726C /* WordNodeIntrospect */ = {isa = PBXFileReference; lastKnownFileType = text; path = WordNodeIntrospect; sourceTree = "<group>"; };
 		F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
 		F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEventTypes.swift; sourceTree = "<group>"; };
 		F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseSceneController+Interactions.swift"; sourceTree = "<group>"; };
@@ -1123,7 +1126,6 @@
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireDataTransformer.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
-		F0F205812522EB35009B6D2C /* RidiculousFile */ = {isa = PBXFileReference; lastKnownFileType = text; path = RidiculousFile; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitRepresentableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1668,9 +1670,7 @@
 		F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXGroup;
 			children = (
-				F0BA5F8A25107925009A726C /* WordNodeIntrospect */,
 				B775C78D2671A1BE00414972 /* SmallFile */,
-				F0F205812522EB35009B6D2C /* RidiculousFile */,
 				F00FC73C250C53470092AFF9 /* LookAtThat_AppKit.entitlements */,
 				F00FC73B250C53470092AFF9 /* Info.plist */,
 				F00FC733250C53470092AFF9 /* Assets.xcassets */,
@@ -2370,6 +2370,7 @@
 				B70FDCE8283EAE9900170D5F /* PersistentThreadGroup.swift in Sources */,
 				B7EB713C284874A800313633 /* GitHubClient.swift in Sources */,
 				B70FDCE9283EAE9900170D5F /* FingerView.swift in Sources */,
+				B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */,
 				B70FDCEA283EAE9900170D5F /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2463,6 +2464,7 @@
 				B74A22E72814FFF300F6F727 /* CodeGridSemanticMap.swift in Sources */,
 				B74A22E82814FFF300F6F727 /* TAPKit.swift in Sources */,
 				B74A22E92814FFF300F6F727 /* SceneKit+Extensions.swift in Sources */,
+				B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */,
 				B74A22EA2814FFF300F6F727 /* RenderingVersionTwo.swift in Sources */,
 				B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
@@ -2859,6 +2861,7 @@
 				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B7EB713B284874A800313633 /* GitHubClient.swift in Sources */,
 				B7C7570F280CED4D0005A233 /* FingerView.swift in Sources */,
+				B72A876E287BBB8E00A78B19 /* CherrieiCore.swift in Sources */,
 				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2928,6 +2931,7 @@
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
+				B72A8771287BBB9600A78B19 /* CherrieiCore.swift in Sources */,
 				B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
@@ -3219,7 +3223,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG StripSwiftTrace";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG StripSwiftTrace CherrieiSkip";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -3253,7 +3257,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = StripSwiftTrace;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "StripSwiftTrace CherrieiSkip";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};

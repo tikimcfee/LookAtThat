@@ -189,7 +189,7 @@ extension CodePagesController {
                     },
                     { root in
                         print("RenderPlan, first callback | ",  root.rootNode.name ?? "unnamed node")
-                        try self.writeScene()
+//                        try self.writeScene()
                     },
                     { root in
                         print("RenderPlan, deactivate | ",  root.rootNode.name ?? "unnamed node")
@@ -231,8 +231,13 @@ extension CodePagesController {
             renderer: codeGridParser.concurrency
         ).startRender(onComplete: [
             { root in
-                print("RenderPlan, write scene for Cherrier | ",  root.rootNode.name ?? "unnamed node")
+                print("RenderPlan, write scene for Cherrier")
+                
+                let stopWatch = Stopwatch(running: true)
                 self.writeSceneWithoutProgress(to: target)
+                stopWatch.stop()
+                
+                print("Wrote scene: \(stopWatch.elapsedTimeString())")
                 receiver(.success(()))
             }
         ])

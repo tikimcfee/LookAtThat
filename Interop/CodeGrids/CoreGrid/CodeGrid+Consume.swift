@@ -19,6 +19,8 @@ extension CodeGrid {
             doTextConsume(text: text)
         }
         return gridResult
+        
+//        doTextConsume(text: text)
     }
     
     @discardableResult
@@ -26,11 +28,11 @@ extension CodeGrid {
         let writer: Writer
         switch displayMode {
         case .glyphs:
-            let raw = vendRawGlyphWriter
+            let raw = rawGlyphWriter
             raw.writeGlyphs(text)
             writer = raw
         case .all:
-            let raw = vendRawGlyphWriter
+            let raw = rawGlyphWriter
             raw.writeGlyphs(text)
             writer = raw
         }
@@ -42,6 +44,10 @@ extension CodeGrid {
 
 //MARK: -- Consume Syntax
 extension CodeGrid {
+    private var writeGlyphs: Bool {
+//        [.all, .glyphs].contains(displayMode)
+        return true
+    }
     
     @discardableResult
     func consume(rootSyntaxNode: Syntax) -> CodeGrid {
@@ -49,14 +55,13 @@ extension CodeGrid {
             doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
         }
         return gridResult
+        
+//        doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
     }
     
     @discardableResult
     private func doSyntaxConsume(rootSyntaxNode: Syntax) -> CodeGrid {
         laztrace(#fileID,#function,rootSyntaxNode)
-        
-        let attributedGlyphsWriter = vendAttributedGlyphsWriter
-        let writeGlyphs = [.all, .glyphs].contains(displayMode)
         
         // Precache all known syntax
         if walkSemantics {
@@ -67,38 +72,9 @@ extension CodeGrid {
         }
         
         for token in rootSyntaxNode.tokens {
-            // Setup identifiers and build out token text
-            let tokenId = token.id
-            let tokenIdNodeName = tokenId.stringIdentifier
-            let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
-            let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
-            let triviaColor = CodeGridColors.trivia
-            let tokenColor = token.defaultColor
-            
-            var leadingTriviaNodes = CodeGridNodes()
-            let leadingTrivia = token.leadingTrivia.stringified
-            
-            var tokenTextNodes = CodeGridNodes()
-            let tokenText = token.text
-            
-            var trailingTriviaNodes = CodeGridNodes()
-            let trailingTrivia = token.trailingTrivia.stringified
-            
-            // Write glyphs
-            if writeGlyphs {
-                attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
-                attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
-                attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+            sceneTransactionSafe {
+                consumeSyntaxToken(token)
             }
-            
-            // Save nodes to tokenCache *after* glyphs area created and inserted
-            tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
-            tokenCache[tokenIdNodeName] = tokenTextNodes
-            tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
-            
-            codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
-            codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
-            codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
         }
         
         consumedRootSyntaxNodes.append(rootSyntaxNode)
@@ -109,6 +85,43 @@ extension CodeGrid {
         
         recomputeDisplayMode()
         return self
+    }
+    
+    private func consumeSyntaxToken(_ token: TokenSyntax) {
+        // Setup identifiers and build out token text
+        let tokenId = token.id
+        let tokenIdNodeName = tokenId.stringIdentifier
+        let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
+        let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
+        let triviaColor = CodeGridColors.trivia
+        let tokenColor = token.defaultColor
+        
+        var leadingTriviaNodes = CodeGridNodes()
+        let leadingTrivia = token.leadingTrivia.stringified
+        
+        var tokenTextNodes = CodeGridNodes()
+        let tokenText = token.text
+        
+        var trailingTriviaNodes = CodeGridNodes()
+        let trailingTrivia = token.trailingTrivia.stringified
+        
+        // Write glyphs
+        if writeGlyphs {
+            attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
+            attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
+            attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+        }
+        
+        // Save nodes to tokenCache *after* glyphs area created and inserted
+#if !CherrieiSkip
+        tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
+        tokenCache[tokenIdNodeName] = tokenTextNodes
+        tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
+        
+        codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
+        codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
+        codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
+#endif
     }
 }
 

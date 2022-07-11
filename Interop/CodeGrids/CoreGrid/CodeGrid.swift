@@ -18,6 +18,11 @@ extension CodeGrid {
         static var displayMode: DisplayMode = .glyphs
         static var walkSemantics: Bool = true
     }
+    #elseif CherrieiSkip
+    struct Defaults {
+        static var displayMode: DisplayMode = .glyphs
+        static var walkSemantics: Bool = false
+    }
     #else
     struct Defaults {
         static var displayMode: DisplayMode = .glyphs
@@ -55,6 +60,14 @@ public class CodeGrid: Identifiable, Equatable {
     var consumedRootSyntaxNodes: [Syntax] = []
     var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
+    
+    lazy var rawGlyphWriter: RawGlyphs = {
+        return RawGlyphs(self)
+    }()
+    
+    lazy var attributedGlyphsWriter: AttributedGlyphs = {
+        return AttributedGlyphs(self)
+    }()
     
     var walkSemantics: Bool = Defaults.walkSemantics
     var displayMode: DisplayMode = Defaults.displayMode {

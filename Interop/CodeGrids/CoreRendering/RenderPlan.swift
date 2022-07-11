@@ -26,24 +26,24 @@ struct RenderPlan {
     
     func startRender(onComplete onCompleteActions: [(FocusBox) throws -> Void] = []) {
         queue.async {
-            WatchWrap.startTimer("\(rootPath.fileName)")
-            
             statusObject.resetProgress()
             
+            WatchWrap.startTimer("\(rootPath.fileName)")
             cacheGrids()
             let rootFocus = renderFoci()
             recursiveLinesLocal(rootFocus)
+            WatchWrap.stopTimer("\(rootPath.fileName)")
             
             statusObject.update {
                 $0.message = "Render complete!"
                 $0.currentValue = statusObject.progress.totalValue
             }
             
+            
+            
             for action in onCompleteActions {
                 try? action(rootFocus)
             }
-            
-            WatchWrap.stopTimer("\(rootPath.fileName)")
         }
     }
 }
@@ -268,7 +268,7 @@ class WatchWrap {
     static let stopwatch = Stopwatch(running: false)
     
     static func startTimer(_ name: String) {
-        print("* Starting \(name)")
+        print("[* StopWatch *] Starting \(name)")
         stopwatch.start()
         
     }
@@ -276,6 +276,6 @@ class WatchWrap {
         defer { stopwatch.reset() }
         stopwatch.stop()
         let time = Self.stopwatch.elapsedTimeString()
-        print("* Time for \(name): \(time)")
+        print("[* Stopwatch *] Time for \(name): \(time)")
     }
 }

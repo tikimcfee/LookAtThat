@@ -20,7 +20,7 @@ extension FileBrowser {
         "cpp", "c", "cs", "h",
         "md", "txt",
         "py",
-        "java", "kotlin", "scala",
+        "java", "kt",
 //        "json"
     ]
     

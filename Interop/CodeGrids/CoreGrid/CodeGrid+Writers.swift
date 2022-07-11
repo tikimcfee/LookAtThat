@@ -11,14 +11,6 @@ import SwiftSyntax
 
 // MARK: -- Writer Vending
 extension CodeGrid {
-    var vendRawGlyphWriter: RawGlyphs {
-        return RawGlyphs(self)
-    }
-    
-    var vendAttributedGlyphsWriter: AttributedGlyphs {
-        return AttributedGlyphs(self)
-    }
-    
     private func createNodeFor(
         _ syntaxTokenCharacter: Character,
         _ color: NSUIColor
