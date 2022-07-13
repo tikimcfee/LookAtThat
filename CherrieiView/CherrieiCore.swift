@@ -4,6 +4,8 @@
 //
 //  Created by Ivan Lugo on 7/10/22.
 //
+// Spot-fronted Swift, Cypseloides cherriei
+// https://ebird.org/species/spfswi1
 
 import Foundation
 import ArgumentParser
