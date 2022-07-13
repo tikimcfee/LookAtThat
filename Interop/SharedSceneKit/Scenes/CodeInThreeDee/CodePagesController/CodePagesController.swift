@@ -226,11 +226,29 @@ extension CodePagesController {
         _ receiver: @escaping CVReceiver
     ) {
         print("Cherriei:", root, target)
+        compat.inputCompat.searchController.mode = .inPlace
+        
         RenderPlan(
             rootPath: root,
             queue: codeGridParser.renderQueue,
             renderer: codeGridParser.concurrency
         ).startRender(onComplete: [
+            { root in
+                let semaphore = DispatchSemaphore(value: 0)
+                let term = "SwiftSyntax"
+                print("Starting search: \(term)")
+                self.compat.inputCompat.doNewSearch("SwiftSyntax", self.sceneState) {
+                    print("Received search completion")
+                    
+                    let parent = root.rootNode.parent
+                    let cloned = root.rootNode.flattenedClone()
+                    root.rootNode.removeFromParentNode()
+                    parent?.addChildNode(cloned)
+                    
+                    semaphore.signal()
+                }
+                semaphore.wait()
+            },
             { root in
                 let stopWatch = Stopwatch(running: true)
                 self.writeSceneWithoutProgress(to: target)

@@ -141,7 +141,11 @@ extension CodePagesControllerMacOSCompat {
             .removeDuplicates(by: { last, this in last == this })
             .sink { [inputCompat] searchEvent in
                 print("\t\t--> search event [\(searchEvent)]")
-                inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
+                inputCompat.doNewSearch(
+                    searchEvent,
+                    SceneLibrary.global.codePagesController.sceneState,
+                    { print("Search complete for \(searchEvent)") }
+                )
             }
             .store(in: &controller.cancellables)
     }

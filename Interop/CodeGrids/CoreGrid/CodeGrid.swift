@@ -21,7 +21,7 @@ extension CodeGrid {
     #elseif CherrieiSkip
     struct Defaults {
         static var displayMode: DisplayMode = .glyphs
-        static var walkSemantics: Bool = false
+        static var walkSemantics: Bool = true
     }
     #else
     struct Defaults {
@@ -84,6 +84,8 @@ public class CodeGrid: Identifiable, Equatable {
     lazy var flattenedGlyphsNode: SCNNode? = nil
     lazy var backgroundGeometryNode: SCNNode = makeBackgroundGeometryNode()
     lazy var backgroundGeometry: SCNBox = makeBackgroundGeometry()
+    
+    var temporarySwapParent: SCNNode?
     
     init(_ id: String? = nil,
          glyphCache: GlyphLayerCache,
@@ -267,6 +269,28 @@ extension CodeGrid {
 }
 
 extension CodeGrid {
+    func temporarySwapParentOut() {
+        guard temporarySwapParent == nil else {
+//            print("Temporary swap already used for \(fileName)!")
+            return
+        }
+        
+        temporarySwapParent = rootNode.parent
+        rootNode.removeFromParentNode()
+    }
+    
+    func temporarySwapParentIn() {
+        guard rootNode.parent == nil,
+              let parent = temporarySwapParent
+        else {
+//            print("Parent not nil or has no swap parent for \(fileName)")
+            return
+        }
+        parent.addChildNode(rootNode)
+    }
+}
+
+extension CodeGrid {
     func toggleGlyphs() {
         if showingRawGlyphs {
             swapOutRootGlyphs()
@@ -303,7 +327,7 @@ extension CodeGrid {
     ) {
         if glyphSwapLocked { return }
         guard !showingRawGlyphs else {
-            print("Unneeded node swap from \(function)::\(line)")
+//            print("Unneeded node swap from \(function)::\(line)")
             return
         }
         
@@ -312,8 +336,9 @@ extension CodeGrid {
             recursively: false
         )?.removeFromParentNode()
         rootContainerNode.addChildNode(rawGlyphsNode)
-        rawGlyphsNode.isHidden = false
         showingRawGlyphs = true
+        
+        rawGlyphsNode.isHidden = false
         flattenedGlyphsNode?.isHidden = true
     }
     
@@ -323,15 +348,16 @@ extension CodeGrid {
     ) {
         if glyphSwapLocked { return }
         guard showingRawGlyphs else {
-            print("Unneeded node swap from \(function)::\(line)")
+//            print("Unneeded node swap from \(function)::\(line)")
             return
         }
         
         let new = SCNNode()
         new.name = rawGlyphsNode.name
         rootContainerNode.replaceChildNode(rawGlyphsNode, with: new)
-        rawGlyphsNode.isHidden = true
         showingRawGlyphs = false
+        
+        rawGlyphsNode.isHidden = true
         flattenedGlyphsNode?.isHidden = false
     }
     

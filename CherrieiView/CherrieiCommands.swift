@@ -49,19 +49,24 @@ extension CherrieiRootCommand {
             throw CoreError.invalidArgs("Path does not exist: \(source)")
         }
         
+        let sourceUrl = URL(fileURLWithPath: source)
         let computedTarget: URL
+        let targetPathName: String
         if let target = target {
             computedTarget = URL(fileURLWithPath: target)
+            targetPathName = computedTarget.fileName
         } else {
-            computedTarget = URL(fileURLWithPath: source)
+            computedTarget = FileManager.default.temporaryDirectory
+            targetPathName = sourceUrl.fileName
+//            computedTarget = URL(fileURLWithPath: source)
         }
-        let pathName = computedTarget.fileName
+        
         let cherrieiContainer = computedTarget.appendingPathComponent(".cherriei-root")
         try FileManager.default.createDirectory(at: cherrieiContainer, withIntermediateDirectories: true)
-        let cherrieiFinalTarget = cherrieiContainer.appendingPathComponent("\(pathName).cherriei.dae")
+        let cherrieiFinalTarget = cherrieiContainer.appendingPathComponent("\(targetPathName).cherriei.dae")
         
         return Validated(
-            source: URL(fileURLWithPath: source),
+            source: sourceUrl,
             target: cherrieiFinalTarget
         )
     }

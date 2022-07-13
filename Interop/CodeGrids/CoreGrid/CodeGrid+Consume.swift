@@ -113,7 +113,8 @@ extension CodeGrid {
         }
         
         // Save nodes to tokenCache *after* glyphs area created and inserted
-#if !CherrieiSkip
+        // Skippable to shave off time for large root directories
+        //#if !CherrieiSkip
         tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
         tokenCache[tokenIdNodeName] = tokenTextNodes
         tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
@@ -121,7 +122,7 @@ extension CodeGrid {
         codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
         codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
         codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
-#endif
+        //#endif
     }
 }
 

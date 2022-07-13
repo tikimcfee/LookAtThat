@@ -113,8 +113,12 @@ class CodePagesControllerMacOSInputCompat {
         doCodeGridHover(point)
     }
     
-    func doNewSearch(_ newInput: String, _ state: SceneState) {
-        searchController.search(newInput, state)
+    func doNewSearch(
+        _ newInput: String,
+        _ state: SceneState,
+        _ completion: @escaping () -> Void
+    ) {
+        searchController.search(newInput, state, completion)
     }
     
     private func doCodeGridHover(_ point: CGPoint) {

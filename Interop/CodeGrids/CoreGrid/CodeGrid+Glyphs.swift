@@ -40,32 +40,31 @@ extension CodeGrid {
             _ letterNode: SCNNode,
             _ size: CGSize
         ) {
-            let isWhitespace = syntaxTokenCharacter.isWhitespace
+            let checks = syntaxTokenCharacter.checks
             
             // add node directly to root container grid
             let nodeLengthX = size.width.vector
             let nodeLengthY = size.height.vector
             
-            letterNode.position = currentPosition
-            letterNode.position = letterNode.position.translated(
+            letterNode.position = currentPosition.translated(
                 dX: nodeLengthX / 2.0,
                 dY: -nodeLengthY / 2.0
             )
 
-            if !isWhitespace {
+            if !checks.isWhitespace {
                 targetGrid.rawGlyphsNode.addChildNode(letterNode)
             }
             
             // we're writing left-to-right.
             // Letter spacing is implicit to layer size.
             targetGrid.pointer.right(nodeLengthX)
-            if syntaxTokenCharacter.isNewline {
+            if checks.isNewline {
                 newLine(size)
             }
             
-            if isWhitespace {
-                letterNode.name?.append("-\(kWhitespaceNodeName)")
-            }
+//            if checks.isWhitespace {
+//                letterNode.name?.append("-\(kWhitespaceNodeName)")
+//            }
         }
         
         func newLine(_ size: CGSize) {
@@ -83,22 +82,32 @@ extension CodeGrid {
     }
 }
 
-extension Character {
-    private struct Check {
+private extension Character {
+    struct Check {
         let isWhitespace: Bool
+        let isNewline: Bool
     }
     
     private class CheckCaches: LockingCache<Character, Check> {
         static let shared: CheckCaches = CheckCaches()
         override func make(_ key: Key, _ store: inout [Key : Value]) -> Character.Check {
             Check(
-                isWhitespace: CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: key)
+                isWhitespace: CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: key),
+                isNewline: key.isNewline
             )
         }
     }
     
-    var isWhitespace: Bool {
+    var checks: Check {
+        CheckCaches.shared[self]
+    }
+    
+    var isWhitespaceCharacter: Bool {
         CheckCaches.shared[self].isWhitespace
+    }
+    
+    var isNewlineCharacter: Bool {
+        CheckCaches.shared[self].isNewline
     }
 }
 

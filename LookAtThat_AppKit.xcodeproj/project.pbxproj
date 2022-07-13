@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
+		B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B70808D4287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B70808D5287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -935,6 +940,7 @@
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
+		B70808D1287E45EB00827CBB /* SearchRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRenderTask.swift; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
@@ -1218,6 +1224,15 @@
 			children = (
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		B70808D0287E45DA00827CBB /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */,
+				B70808D1287E45EB00827CBB /* SearchRenderTask.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		B7161472283338AF00C70DC0 /* ExternalFrameworks */ = {
@@ -1643,7 +1658,7 @@
 		B7F44C33276D98C900522B45 /* ShareCompat */ = {
 			isa = PBXGroup;
 			children = (
-				B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */,
+				B70808D0287E45DA00827CBB /* Search */,
 				B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */,
 			);
 			path = ShareCompat;
@@ -2262,6 +2277,7 @@
 				B70FDC70283EAE9900170D5F /* CodeGrid+Measures.swift in Sources */,
 				B70FDC71283EAE9900170D5F /* MultipeerData.swift in Sources */,
 				B70FDC72283EAE9900170D5F /* TokenSyntax+Coloring.swift in Sources */,
+				B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
 				B70FDC73283EAE9900170D5F /* GlyphLayerCache.swift in Sources */,
 				B70FDC74283EAE9900170D5F /* TAPInputMode.swift in Sources */,
 				B70FDC75283EAE9900170D5F /* FocusSearchInputView.swift in Sources */,
@@ -2428,6 +2444,7 @@
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* CodeGrid+Measures.swift in Sources */,
+				B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
 				B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */,
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
@@ -2591,6 +2608,7 @@
 				B74B56C9287BA1300078EB2D /* FileBrowser.swift in Sources */,
 				B74B56CA287BA1300078EB2D /* FloatableView.swift in Sources */,
 				B74B56CB287BA1300078EB2D /* CodeGrid+Measures.swift in Sources */,
+				B70808D4287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
 				B74B56CC287BA1300078EB2D /* MultipeerData.swift in Sources */,
 				B74B56CD287BA1300078EB2D /* TokenSyntax+Coloring.swift in Sources */,
 				B74B56CE287BA1300078EB2D /* GlyphLayerCache.swift in Sources */,
@@ -2756,6 +2774,7 @@
 				B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
+				B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
 				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				B7C75703280CECBA0005A233 /* TAPInputMode.swift in Sources */,
 				B7241AEF28270F21006A6A3E /* FocusSearchInputView.swift in Sources */,
@@ -2916,6 +2935,7 @@
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
+				B70808D5287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
 				B7C756FE280CECBA0005A233 /* TAPCBUUID.swift in Sources */,
 				B7C2319727645BB7003B1C3D /* RenderingVersionThree.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
