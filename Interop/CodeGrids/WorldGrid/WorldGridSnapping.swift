@@ -129,10 +129,10 @@ extension WorldGridSnapping {
                 let matchesDirection = potentialParent.mapping.direction == detachedRelationship.mapping.direction
                 let isNotMe = potentialParent.mapping.targetGrid.id != detachedRelationship.mapping.targetGrid.id
                 if matchesDirection && isNotMe {
-                    print("-- found match: [\(potentialParent.parent.id)] \(potentialParent.mapping)")
+//                    print("-- found match: [\(potentialParent.parent.id)] \(potentialParent.mapping)")
                     connect(sourceGrid: potentialParent.parent, to: detachedRelationship.mapping)
                 } else {
-                    print("-- skip match: direction:\(matchesDirection) isNotMe:\(isNotMe)")
+//                    print("-- skip match: direction:\(matchesDirection) isNotMe:\(isNotMe)")
                 }
             }   
         }

@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import SceneKit
 
 class RenderTask {
     var matchedInfo: [CodeGrid: Array<Set<SemanticInfo>>] = [:]
-    var missedInfo: [CodeGrid] = []
+    var missedInfo: Set<CodeGrid> = []
     lazy var task = DispatchWorkItem(block: sharedDispatchBlock)
     
     let codeGridFocus: CodeGridFocusController
@@ -48,7 +49,8 @@ private extension RenderTask {
         }
         stopwatch.stop()
         print("-- Search finished, \(stopwatch.elapsedTimeString())")
-        onComplete()
+        
+        self.onComplete()
     }
     
     func doSearch() throws {
@@ -79,7 +81,7 @@ private extension RenderTask {
             },
             onNegative: { source, clone in
                 try throwIfCancelled()
-                missedInfo.append(source)
+                missedInfo.insert(source)
             }
         )
     }
@@ -89,30 +91,59 @@ private extension RenderTask {
 
 extension RenderTask {
     func doInlineGlobalSearch() throws {
-        try missedInfo
-            .forEach { missedGrid in
-    //            print("Missed \(missedGrid.fileName)")
-//                sceneTransaction {
-//                    missedGrid.rootNode.opacity = 0.1
-                    missedGrid.temporarySwapParentOut()
-                    missedGrid.swapOutRootGlyphs()
-                    try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
-//                }
-            }
+        func isFocused(grid: CodeGrid) -> Bool {
+            sceneState.gridMetaCache[grid].searchFocused
+        }
         
-        try matchedInfo
-            .forEach { matchPair in
-//                sceneTransaction {
+        func updateMeta(grid: CodeGrid, _ op: (SceneState.GridMeta) -> Void) {
+            op(sceneState.gridMetaCache[grid])
+        }
+        
+        func doMissedInfo() throws {
+            try missedInfo
+                .forEach { grid in
+                    if isFocused(grid: grid) {
+                        updateMeta(grid: grid) { $0.searchFocused = false }
+                        grid.rootNode.translate(dY: -128.0)
+                        grid.swapOutRootGlyphs()
+                    }
+                    try defocusNodesForSemanticInfo(source: grid)
+                    grid.rootNode.opacity = 0.67
+                }
+        }
+        
+        func doMatchedInfo() throws {
+            try matchedInfo
+                .forEach { matchPair in
+                    let matchedGrid = matchPair.key
+                    let semanticInfo = matchPair.value
                     
-                    matchPair.key.temporarySwapParentIn()
-                    matchPair.key.swapInRootGlyphs()
-                    for semanticSet in matchPair.value {
-                        for info in semanticSet {
-                            try onSemanticInfoFound(source: matchPair.key, clone: matchPair.key, info)
+                    sceneTransaction {
+                        if !isFocused(grid: matchedGrid) {
+                            updateMeta(grid: matchedGrid) { $0.searchFocused = true }
+                            matchedGrid.rootNode.opacity = 1.0
+                            matchedGrid.rootNode.translate(dY: 128.0)
+                            
+                            if matchedInfo.count < 20 {
+                                matchedGrid.swapInRootGlyphs()
+                            }
+                        }
+                        
+                        for semanticSet in semanticInfo {
+                            for info in semanticSet {
+                                try focusNodesForSemanticInfo(source: matchedGrid, info)
+                            }
                         }
                     }
-//                }
-            }
+                }
+        }
+        
+        try doMissedInfo()
+        try doMatchedInfo()
+        
+        LineVendor().recursivePipes(
+            codeGridFocus.currentTargetFocus.rootFocus
+        )
     }
 }
 
@@ -124,7 +155,7 @@ private extension RenderTask {
             codeGridFocus.removeGridFromFocus(missedGrid)
             missedGrid.swapOutRootGlyphs()
             missedGrid.unlockGlyphSwapping()
-            try onSemanticInfoNegative(source: missedGrid, clone: missedGrid)
+            try defocusNodesForSemanticInfo(source: missedGrid)
         }
         
         let swapIn = matchedInfo.count < 15
@@ -143,7 +174,7 @@ private extension RenderTask {
                 
                 for semanticSet in matchPair.value {
                     for info in semanticSet {
-                        try onSemanticInfoFound(source: matchPair.key, clone: matchPair.key, info)
+                        try focusNodesForSemanticInfo(source: matchPair.key, info)
                     }
                 }
             }
@@ -159,9 +190,8 @@ private extension RenderTask {
 
 private extension RenderTask {
     // Collect all nodes from all semantic info that contributed to passed test
-    func onSemanticInfoFound(source: CodeGrid,
-                             clone: CodeGrid,
-                             _ matchingSemanticInfo: SemanticInfo) throws {
+    func focusNodesForSemanticInfo(source: CodeGrid,
+                                   _ matchingSemanticInfo: SemanticInfo) throws {
         try source.codeGridSemanticInfo.tokenNodes(
             from: matchingSemanticInfo.syntaxId,
             in: source.tokenCache
@@ -173,8 +203,7 @@ private extension RenderTask {
         }
     }
     
-    func onSemanticInfoNegative(source: CodeGrid,
-                                clone: CodeGrid) throws {
+    func defocusNodesForSemanticInfo(source: CodeGrid) throws {
         guard let rootSyntax = source.consumedRootSyntaxNodes.first else {
             print("Missing consumed syntax node for: \(source.fileName)")
             return

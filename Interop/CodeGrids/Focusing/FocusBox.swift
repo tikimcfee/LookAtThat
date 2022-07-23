@@ -30,6 +30,10 @@ class FocusBox: Hashable, Identifiable {
     lazy var bimap: BiMap<CodeGrid, Int> = BiMap()
     lazy var childFocusBimap: BiMap<FocusBox, Int> = BiMap()
     var parentFocus: FocusBox?
+    var rootFocus: FocusBox {
+        guard let parent = parentFocus else { return self }
+        return parent.rootFocus
+    }
         
     init(id: String, inFocus focus: CodeGridFocusController) {
         self.id = id
@@ -258,6 +262,17 @@ private extension FocusBox {
     }
 }
 
+extension FocusBox {
+    func layoutChildrenRecursive() {
+//        childFocusBimap.keysToValues.keys.forEach {
+//            $0.layoutChildrenRecursive()
+//        }
+//        finishUpdates()
+        finishUpdates()
+        parentFocus?.layoutChildrenRecursive()
+    }
+}
+
 private extension FocusBox {
     private func setup() {
         rootNode.addChildNode(geometryNode)
@@ -304,12 +319,14 @@ private extension FocusBox {
     }
     
     func updateNodeDisplay() {
+        geometryNode.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
         switch displayMode {
         case .invisible:
-            geometryNode.categoryBitMask = 0
-            rootGeometry.firstMaterial?.diffuse.contents = nil
+//            geometryNode.categoryBitMask = 0
+//            rootGeometry.materials = []
+            rootGeometry.firstMaterial?.diffuse.contents = NSUIColor.clear
         case .boundingBox:
-            geometryNode.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
+//            geometryNode.categoryBitMask = HitTestType.codeGridFocusBox.rawValue
             rootGeometry.firstMaterial?.diffuse.contents = geometryContents
         }
     }

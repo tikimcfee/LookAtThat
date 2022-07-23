@@ -58,6 +58,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/Users/lugos/udev/manicmind/LookAtThat/Interop"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/lugos/Downloads/Order.Mobile.IOS/Chipotle/Chipotle/AppContext"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/lugos/Downloads/Order.Mobile.IOS/Chipotle/Chipotle"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

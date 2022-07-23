@@ -31,7 +31,7 @@ struct RenderPlan {
             WatchWrap.startTimer("\(rootPath.fileName)")
             cacheGrids()
             let rootFocus = renderFoci()
-            recursiveLinesLocal(rootFocus)
+            lines.recursivePipes(rootFocus)
             WatchWrap.stopTimer("\(rootPath.fileName)")
             
             statusObject.update {
@@ -131,18 +131,6 @@ private extension RenderPlan {
         statusObject.update {
             $0.currentValue += 1
             $0.detail = "Layout complete: \(childPath.lastPathComponent)"
-        }
-    }
-    
-    func recursiveLinesLocal(_ rootFocus: FocusBox) {
-        rootFocus.childFocusBimap.keysToValues.keys.forEach { childFocus in
-            let line = lines.newConnection(
-                from: SCNVector3Zero,
-                to: childFocus.rootNode.position,
-                materialContents: lines.color(for: childFocus)
-            )
-            rootFocus.rootNode.addChildNode(line)
-            recursiveLinesLocal(childFocus)
         }
     }
 }
@@ -261,6 +249,20 @@ class LineVendor {
             material.isDoubleSided = true
         }
         return line
+    }
+}
+
+extension LineVendor {
+    func recursivePipes(_ rootFocus: FocusBox) {
+        rootFocus.childFocusBimap.keysToValues.keys.forEach { childFocus in
+            let line = newConnection(
+                from: SCNVector3Zero,
+                to: childFocus.rootNode.position,
+                materialContents: color(for: childFocus)
+            )
+            rootFocus.rootNode.addChildNode(line)
+            recursivePipes(childFocus)
+        }
     }
 }
 
