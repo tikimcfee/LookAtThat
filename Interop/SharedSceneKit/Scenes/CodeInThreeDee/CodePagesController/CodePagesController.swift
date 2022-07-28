@@ -166,38 +166,7 @@ extension CodePagesController {
                     sem.signal()
                 }
             case .addToWorld:
-                //                Touch and cylinder layout isn't precise / visually usable enough for iOS.... yet
-                //                #if os(iOS)
-                //                codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-                //                    self.addToRoot(rootGrid: rootGrid)
-                //                }
-                //                #else
-                
-                //
-                // DAE: Swift Cherrier View, CLI action
-                /// Given a directory, render CherrierView[yourFileName|Default].dae and output to current directory.
-                /// swift cherrier-View .
-                //
-                RenderPlan(
-                    rootPath: parent,
-                    queue: codeGridParser.renderQueue,
-                    renderer: codeGridParser.concurrency
-                ).startRender(onComplete: [
-                    { root in
-                        print("RenderPlan, activate | ",  root.rootNode.name ?? "unnamed node")
-                        self.appStatus.update { $0.isActive = true }
-                    },
-                    { root in
-                        print("RenderPlan, first callback | ",  root.rootNode.name ?? "unnamed node")
-//                        try self.writeScene()
-                    },
-                    { root in
-                        print("RenderPlan, deactivate | ",  root.rootNode.name ?? "unnamed node")
-                        self.appStatus.update { $0.isActive = false }
-                    }
-                ])
-                //                #endif
-                
+                doTestRender(parent: parent)
                 
             default: break
             }
@@ -209,7 +178,41 @@ extension CodePagesController {
                 print("Cache complete: \(parent.fileName)")
             }
             
+            
         }
+    }
+}
+
+extension CodePagesController {
+    func doTestRender(parent: URL) {
+        codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+            self.addToRoot(rootGrid: rootGrid)
+        }
+    }
+    
+    func doRenderPlan(parent: URL) {
+        RenderPlan(
+            rootPath: parent,
+            queue: codeGridParser.renderQueue,
+            renderer: codeGridParser.concurrency
+        ).startRender(onComplete: [
+            { root in
+                print("RenderPlan, activate | ",  root.rootNode.name ?? "unnamed node")
+                self.appStatus.update { $0.isActive = true }
+            },
+            { root in
+                print("RenderPlan, first callback | ",  root.rootNode.name ?? "unnamed node")
+                // DAE: Swift Cherrier View, CLI action
+                /// Given a directory, render CherrierView[yourFileName|Default].dae and output to current directory.
+                /// swift cherrier-View .
+                //
+//                try self.writeScene()
+            },
+            { root in
+                print("RenderPlan, deactivate | ",  root.rootNode.name ?? "unnamed node")
+                self.appStatus.update { $0.isActive = false }
+            }
+        ])
     }
 }
 

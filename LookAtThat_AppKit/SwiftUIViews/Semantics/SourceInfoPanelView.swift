@@ -143,6 +143,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var tapControlsView: some View {
         FingerTapView()
+            .environmentObject(TapObserving.shared)
     }
     
     var windowControlsView: some View {

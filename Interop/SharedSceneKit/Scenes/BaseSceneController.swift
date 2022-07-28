@@ -147,6 +147,7 @@ class SceneState {
 
     private(set) var rootGeometryNode: SCNNode = makeRootGeometryNode()
     
+    var gridMetaCache = GridMetaCache()
 	var cameraNode: SCNNode
     
 	init(cameraNode: SCNNode) {
@@ -163,6 +164,18 @@ class SceneState {
         rootGeometryNode.name = "|GlobalRootGeometryNode|"
         rootGeometryNode.scale = DeviceScaleRootVector
         return rootGeometryNode
+    }
+}
+
+class GridMetaCache: LockingCache<CodeGrid, SceneState.GridMeta> {
+    override func make(_ key: CodeGrid, _ store: inout [CodeGrid : SceneState.GridMeta]) -> SceneState.GridMeta {
+        return SceneState.GridMeta()
+    }
+}
+
+extension SceneState {
+    class GridMeta {
+        var searchFocused = false
     }
 }
 
