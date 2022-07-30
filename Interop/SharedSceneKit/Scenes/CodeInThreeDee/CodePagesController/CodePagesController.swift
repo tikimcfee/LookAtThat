@@ -177,8 +177,6 @@ extension CodePagesController {
             codeGridParser.cacheConcurrent(parent) {
                 print("Cache complete: \(parent.fileName)")
             }
-            
-            
         }
     }
 }
@@ -217,7 +215,7 @@ extension CodePagesController {
 }
 
 // MARK: - CherrieiSupport
-
+#if os(macOS)
 extension CodePagesController {
     
     typealias CVResult = Result<Void, Error>
@@ -264,6 +262,7 @@ extension CodePagesController {
     }
     
 }
+#endif
 
 // MARK: - Scene actions
 

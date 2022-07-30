@@ -458,3 +458,66 @@ extension FocusBoxLayoutEngine {
             }
     }
 }
+
+class CircleFun {
+    let twoPi = 2.0 * VectorVal.pi
+    
+    @inline(__always)
+    func subdividedRadians(
+        count: VectorVal,
+        offset: SCNVector3 = SCNVector3Zero,
+        magnitude: VectorVal,
+        receiver: (SCNVector3) -> Void
+    ) {
+        let subdivisions = twoPi / count
+        let radianStride = stride(from: 0.0, to: twoPi, by: subdivisions)
+        radianStride.forEach { radians in
+            let dX =  (cos(radians) * (magnitude + offset.x))
+            let dY = -(sin(radians) * (magnitude + offset.x))
+            receiver(SCNVector3(x: dX, y: dY, z: offset.z))
+        }
+    }
+    
+    func subdividedRadians(count: VectorVal, magnitude: VectorVal) -> [SCNVector3] {
+        var points = [SCNVector3]()
+        subdividedRadians(count: count, magnitude: magnitude) { points.append($0) }
+        return points
+    }
+    
+    func defaultCylinderLayout_x(_ container: FBLEContainer) {
+        let allGrids = container.box.bimap.keysToValues.keys
+        let gridCount = allGrids.count
+        let allChildFoci = container.box.childFocusBimap.keysToValues.keys
+        let childCount = allChildFoci.count
+        
+        let gridRadians = twoPi / VectorVal(gridCount)
+        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+        let fileBounds = BoundsComputing()
+                
+        allGrids.enumerated().forEach { index, grid in
+            grid.zeroedPosition()
+            grid.translated(dZ: -16.0 * VectorVal(index))
+            fileBounds.consumeBounds(grid.rootNode.boundingBox)
+        }
+        
+        let finalGridBounds = fileBounds.bounds
+        let childRadians = twoPi / VectorVal(childCount)
+        let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
+        
+        zip(allChildFoci, childRadianStride).forEach { focus, radians in
+            let magnitude = VectorVal(400.0)
+            let dX =  (cos(radians) * (magnitude + finalGridBounds.max.x))
+            let dY = finalGridBounds.min.y - 16.0
+            let dZ = -(sin(radians) * (magnitude + finalGridBounds.max.x))
+            
+            // translate dY unit vector along z-axis, rotating the unit circle along x
+            focus.rootNode.position = SCNVector3Zero
+            focus.rootNode.translate(
+                dX: dX,
+                dY: dY,
+                dZ: dZ
+            )
+            focus.rootNode.eulerAngles.y = radians
+        }
+    }
+}
