@@ -555,6 +555,8 @@
 		B7623F4428334966008DAA88 /* lib_InternalSwiftStaticMirror.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
+		B767C9AD2894C21600310D49 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D9C0782894B884003FEDA6 /* XcodeKit.framework */; };
+		B767C9AE2894C21600310D49 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D9C0782894B884003FEDA6 /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
 		B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
 		B768B650281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
@@ -718,6 +720,10 @@
 		B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */; };
 		B7D79AB8282B2DD3000F99EB /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7D79AB9282B2DF5000F99EB /* CodeEditorView */; };
+		B7D9C0772894B884003FEDA6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D9C0762894B884003FEDA6 /* Cocoa.framework */; };
+		B7D9C07C2894B884003FEDA6 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9C07B2894B884003FEDA6 /* SourceEditorExtension.swift */; };
+		B7D9C07E2894B884003FEDA6 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9C07D2894B884003FEDA6 /* SourceEditorCommand.swift */; };
+		B7D9C0832894B884003FEDA6 /* CherrieiPipe.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B7D9C0752894B884003FEDA6 /* CherrieiPipe.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
@@ -850,6 +856,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B7D9C0812894B884003FEDA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B7D9C0742894B884003FEDA6;
+			remoteInfo = CherrieiPipe;
+		};
 		B7F44C41276E324600522B45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
@@ -899,6 +912,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B767C9AF2894C21600310D49 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B767C9AE2894C21600310D49 /* XcodeKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B7D7CC8126782CCA00105AFB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -908,6 +932,17 @@
 				B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7D9C0842894B884003FEDA6 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B7D9C0832894B884003FEDA6 /* CherrieiPipe.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F027B18E2512EEB100294F30 /* CopyFiles */ = {
@@ -1067,6 +1102,13 @@
 		B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Coloring.swift"; sourceTree = "<group>"; };
 		B7D79AAE282B2443000F99EB /* CodePagesGridLSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesGridLSP.swift; sourceTree = "<group>"; };
 		B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesTests.swift; sourceTree = "<group>"; };
+		B7D9C0752894B884003FEDA6 /* CherrieiPipe.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CherrieiPipe.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7D9C0762894B884003FEDA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B7D9C0782894B884003FEDA6 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
+		B7D9C07B2894B884003FEDA6 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
+		B7D9C07D2894B884003FEDA6 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
+		B7D9C07F2894B884003FEDA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7D9C0802894B884003FEDA6 /* CherrieiPipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CherrieiPipe.entitlements; sourceTree = "<group>"; };
 		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
@@ -1176,6 +1218,15 @@
 				B74B574D287BA1300078EB2D /* SwiftSyntaxParser in Frameworks */,
 				B74B574E287BA1300078EB2D /* Brotli in Frameworks */,
 				B74B574F287BA1300078EB2D /* ZIPFoundation in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7D9C0722894B884003FEDA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7D9C0772894B884003FEDA6 /* Cocoa.framework in Frameworks */,
+				B767C9AD2894C21600310D49 /* XcodeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1607,6 +1658,17 @@
 			path = Views/LugoTaps;
 			sourceTree = "<group>";
 		};
+		B7D9C07A2894B884003FEDA6 /* CherrieiPipe */ = {
+			isa = PBXGroup;
+			children = (
+				B7D9C07B2894B884003FEDA6 /* SourceEditorExtension.swift */,
+				B7D9C07D2894B884003FEDA6 /* SourceEditorCommand.swift */,
+				B7D9C07F2894B884003FEDA6 /* Info.plist */,
+				B7D9C0802894B884003FEDA6 /* CherrieiPipe.entitlements */,
+			);
+			path = CherrieiPipe;
+			sourceTree = "<group>";
+		};
 		B7EA8835272394AB0098541C /* CodeGrids */ = {
 			isa = PBXGroup;
 			children = (
@@ -1681,6 +1743,7 @@
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				B74B5691287B9A580078EB2D /* CherrieiView */,
+				B7D9C07A2894B884003FEDA6 /* CherrieiPipe */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
 				B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */,
@@ -1697,6 +1760,7 @@
 				B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */,
 				F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */,
 				F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */,
+				B7D9C0752894B884003FEDA6 /* CherrieiPipe.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1745,6 +1809,8 @@
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7D9C0762894B884003FEDA6 /* Cocoa.framework */,
+				B7D9C0782894B884003FEDA6 /* XcodeKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2052,6 +2118,24 @@
 			productReference = B74B575A287BA1300078EB2D /* LookAtThat_AppKit - CV.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B7D9C0742894B884003FEDA6 /* CherrieiPipe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7D9C0872894B884003FEDA6 /* Build configuration list for PBXNativeTarget "CherrieiPipe" */;
+			buildPhases = (
+				B7D9C0712894B884003FEDA6 /* Sources */,
+				B7D9C0722894B884003FEDA6 /* Frameworks */,
+				B7D9C0732894B884003FEDA6 /* Resources */,
+				B767C9AF2894C21600310D49 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CherrieiPipe;
+			productName = CherrieiPipe;
+			productReference = B7D9C0752894B884003FEDA6 /* CherrieiPipe.appex */;
+			productType = "com.apple.product-type.xcode-extension";
+		};
 		F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit" */;
@@ -2061,10 +2145,12 @@
 				F00FC729250C53460092AFF9 /* Frameworks */,
 				F00FC72A250C53460092AFF9 /* Resources */,
 				F027B18E2512EEB100294F30 /* CopyFiles */,
+				B7D9C0842894B884003FEDA6 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B7D9C0822894B884003FEDA6 /* PBXTargetDependency */,
 			);
 			name = LookAtThat_AppKit;
 			packageProductDependencies = (
@@ -2141,6 +2227,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					B7D9C0742894B884003FEDA6 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					F00FC72B250C53460092AFF9 = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1200;
@@ -2182,6 +2271,7 @@
 				F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E6251C5AE800F28173 /* LookAtThatMobile */,
 				B74A22992814FFF300F6F727 /* LookAtThat_AppKit - Previews */,
+				B7D9C0742894B884003FEDA6 /* CherrieiPipe */,
 			);
 		};
 /* End PBXProject section */
@@ -2214,6 +2304,13 @@
 				B74B5751287BA1300078EB2D /* Main.storyboard in Resources */,
 				B74B5752287BA1300078EB2D /* Preview Assets.xcassets in Resources */,
 				B74B5753287BA1300078EB2D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7D9C0732894B884003FEDA6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2745,6 +2842,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B7D9C0712894B884003FEDA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7D9C07C2894B884003FEDA6 /* SourceEditorExtension.swift in Sources */,
+				B7D9C07E2894B884003FEDA6 /* SourceEditorCommand.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F00FC728250C53460092AFF9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3081,6 +3187,11 @@
 			isa = PBXTargetDependency;
 			productRef = B713405528170F88005E0E31 /* SwiftTrace */;
 		};
+		B7D9C0822894B884003FEDA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B7D9C0742894B884003FEDA6 /* CherrieiPipe */;
+			targetProxy = B7D9C0812894B884003FEDA6 /* PBXContainerItemProxy */;
+		};
 		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F07C49E6251C5AE800F28173 /* LookAtThatMobile */;
@@ -3304,6 +3415,66 @@
 			};
 			name = Release;
 		};
+		B7D9C0852894B884003FEDA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = CherrieiPipe/CherrieiPipe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CherrieiPipe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CherrieiPipe;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit.CherrieiPipe";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B7D9C0862894B884003FEDA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = CherrieiPipe/CherrieiPipe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CherrieiPipe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CherrieiPipe;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit.CherrieiPipe";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		F00FC73D250C53470092AFF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3430,6 +3601,7 @@
 		F00FC740250C53470092AFF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -3464,6 +3636,7 @@
 		F00FC741250C53470092AFF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -3635,6 +3808,15 @@
 			buildConfigurations = (
 				B74B5758287BA1300078EB2D /* Debug */,
 				B74B5759287BA1300078EB2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7D9C0872894B884003FEDA6 /* Build configuration list for PBXNativeTarget "CherrieiPipe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7D9C0852894B884003FEDA6 /* Debug */,
+				B7D9C0862894B884003FEDA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
