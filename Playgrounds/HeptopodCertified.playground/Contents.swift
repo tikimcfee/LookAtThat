@@ -17,32 +17,29 @@ func key(_ text: String) -> GlyphCacheKey {
     GlyphCacheKey(text, .blue, .red)
 }
 
-
 let sentences = [
     "Hello, my name is Ivan.",
     "I am looking for something.",
     "Can you help me?"
 ]
 
-func pointOnCircle(angle: Int, radius: Int) {
-    
-}
-
-
-func nodesForSentence(_ sentence) -> [GlyphNode] {
+func nodesForSentence(_ sentence: String) -> [GlyphNode] {
     sentence.split(separator: " ")
         .map { glyphs[key(String($0))] }
         .map { GlyphNode.make($0.0, $0.1, $0.2) }
 }
 
-let nodes = sentences.redu
+let nodes = nodesForSentence(sentences[0])
     
+var step = 0.0
+func incrementStep(_ node: GlyphNode) {
+    step = node.boundsInWorld.max.x + 0.67
+}
 
-var step = 10.0
 for node in nodes {
-    node.position.x += step
-    step += 10.0
     scene.rootGeometryNode.addChildNode(node)
+    node.position.x = step + node.boundsWidth / 2.0
+    incrementStep(node)
 }
 
 // Present the view in Playground
