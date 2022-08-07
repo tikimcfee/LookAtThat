@@ -36,7 +36,11 @@ func incrementStep(_ node: GlyphNode) {
     step = node.boundsInWorld.max.x + 0.67
 }
 
+let bridge = MetalLinkNodeBridge()
+
+
 for node in nodes {
+    bridge.attachedDefaultSceneProgram(node)
     scene.rootGeometryNode.addChildNode(node)
     node.position.x = step + node.boundsWidth / 2.0
     incrementStep(node)
