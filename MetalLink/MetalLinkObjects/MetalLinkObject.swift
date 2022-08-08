@@ -9,14 +9,12 @@
 import MetalKit
 
 class MetalLinkObject {
-    private var meshes: MeshLibrary
     var mesh: MetalLinkMesh
     let pipelineState: MTLRenderPipelineState
     
-    init(_ link: MetalLink) throws {
-        self.meshes = MeshLibrary(link)
+    init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
         self.pipelineState = link.pipelineStateLibrary[.BasicPipelineState]
-        self.mesh = meshes[.Quad]
+        self.mesh = mesh
     }
     
     func render(in sdp: inout SafeDrawPass) {

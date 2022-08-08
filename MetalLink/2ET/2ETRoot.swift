@@ -9,13 +9,23 @@
 import Foundation
 import MetalKit
 
+extension MeshLibrary {
+    func makeObject(_ type: MeshType) throws -> MetalLinkObject {
+        try MetalLinkObject(link, mesh: self[type])
+    }
+}
+
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     let linkObject: MetalLinkObject
+    var meshes: MeshLibrary
     
     init(link: MetalLink) throws {
         self.link = link
-        self.linkObject = try MetalLinkObject(link)
+        
+        let library = MeshLibrary(link)
+        self.linkObject = try library.makeObject(.Quad)
+        self.meshes = library
         
         setup()
     }
