@@ -8,21 +8,31 @@
 
 import MetalKit
 
+protocol RenderPipelineDescriptor {
+    var name: String { get }
+    var renderPipelineDescriptor: MTLRenderPipelineDescriptor { get }
+}
+
 enum MetalLinkDescriptorPipeline {
     case BasicPipelineDescriptor
+}
+
+class DescriptorPipelineLibrary: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
+    let link: MetalLink
     
-    func make(_ link: MetalLink) -> RenderPipelineDescriptor {
-        switch self {
+    init(link: MetalLink) {
+        self.link = link
+    }
+    
+    override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
+        switch key {
         case .BasicPipelineDescriptor:
             return Basic_RenderPipelineDescriptor(link)
         }
     }
 }
 
-protocol RenderPipelineDescriptor {
-    var name: String { get }
-    var renderPipelineDescriptor: MTLRenderPipelineDescriptor { get }
-}
+// MARK: - Descriptors
 
 struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
     var name = "Basic RenderPipelineDescriptor"
@@ -37,30 +47,5 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
         renderPipelineDescriptor.vertexDescriptor = vertexDescriptor
         renderPipelineDescriptor.fragmentFunction = fragmentFunction
         renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
-    }
-}
-
-private class DescriptorPipelineCache: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
-    let link: MetalLink
-    init(_ link: MetalLink) {
-        self.link = link
-    }
-    
-    override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
-        key.make(link)
-    }
-}
-
-class DescriptorPipelineLibrary {
-    let link: MetalLink
-    
-    private lazy var pipelineCache = DescriptorPipelineCache(link)
-    
-    init(link: MetalLink) {
-        self.link = link
-    }
-    
-    subscript(_ pipeline: MetalLinkDescriptorPipeline) -> RenderPipelineDescriptor {
-        pipelineCache[pipeline]
     }
 }

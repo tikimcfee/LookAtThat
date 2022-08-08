@@ -752,6 +752,10 @@
 		B7AC33A928A0D11E001172BB /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339B28A0D11E001172BB /* BasicMatrixOperations.swift */; };
 		B7AC33AA28A0D11E001172BB /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339B28A0D11E001172BB /* BasicMatrixOperations.swift */; };
 		B7AC33AB28A0D11E001172BB /* BasicMatrixOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339B28A0D11E001172BB /* BasicMatrixOperations.swift */; };
+		B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
+		B7AC33AE28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
+		B7AC33AF28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
+		B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
 		B7B18C61276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
@@ -1191,6 +1195,7 @@
 		B7AC339228A0CD85001172BB /* BasicShaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicShaders.swift; sourceTree = "<group>"; };
 		B7AC339A28A0D11E001172BB /* MetalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		B7AC339B28A0D11E001172BB /* BasicMatrixOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicMatrixOperations.swift; sourceTree = "<group>"; };
+		B7AC33AC28A0D479001172BB /* MeshLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshLibrary.swift; sourceTree = "<group>"; };
 		B7B18C60276991220043DA1B /* RenderingVersionFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionFour.swift; sourceTree = "<group>"; };
 		B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridControl.swift; sourceTree = "<group>"; };
 		B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlSwapModes.swift; sourceTree = "<group>"; };
@@ -1711,10 +1716,11 @@
 		B7AC332E28A0CA70001172BB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B7AC333128A0CA70001172BB /* ShaderLibrary.swift */,
 				B7AC332F28A0CA70001172BB /* DescriptorPipelineLibrary.swift */,
 				B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */,
-				B7AC333128A0CA70001172BB /* ShaderLibrary.swift */,
 				B7AC333228A0CA70001172BB /* DescriptorLibrary.swift */,
+				B7AC33AC28A0D479001172BB /* MeshLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -2749,6 +2755,7 @@
 				B7EB713C284874A800313633 /* GitHubClient.swift in Sources */,
 				B70FDCE9283EAE9900170D5F /* FingerView.swift in Sources */,
 				B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */,
+				B7AC33AE28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B70FDCEA283EAE9900170D5F /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2877,6 +2884,7 @@
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
+				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */,
 				B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */,
 				B74A22F42814FFF300F6F727 /* SCNAction+Extensions.swift in Sources */,
@@ -3303,6 +3311,7 @@
 				B7EB713B284874A800313633 /* GitHubClient.swift in Sources */,
 				B7C7570F280CED4D0005A233 /* FingerView.swift in Sources */,
 				B72A876E287BBB8E00A78B19 /* CherrieiCore.swift in Sources */,
+				B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3463,6 +3472,7 @@
 				B7AC337C28A0CA71001172BB /* 2ETimeTutorialShader.metal in Sources */,
 				B7EB713D284874A800313633 /* GitHubClient.swift in Sources */,
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
+				B7AC33AF28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				F057D24B252045400094BD83 /* CodePagesController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,

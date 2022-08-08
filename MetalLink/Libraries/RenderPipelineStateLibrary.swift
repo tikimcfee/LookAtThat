@@ -8,21 +8,36 @@
 
 import MetalKit
 
-enum MetalLinkRenderPipelineState {
-    case BasicPipelineState
-    
-    func make(_ link: MetalLink) -> RenderPipelineState {
-        switch self {
-        case .BasicPipelineState:
-            return try! Basic_RenderPipelineState(link)
-        }
-    }
-}
-
 protocol RenderPipelineState {
     var name: String { get }
     var renderPipelineState: MTLRenderPipelineState { get }
 }
+
+enum MetalLinkRenderPipelineState {
+    case BasicPipelineState
+}
+
+
+class PipelineStateLibrary: LockingCache<MetalLinkRenderPipelineState, RenderPipelineState> {
+    let link: MetalLink
+    
+    init(link: MetalLink) {
+        self.link = link
+    }
+    
+    override func make(_ key: Key, _ store: inout [Key: Value]) -> RenderPipelineState {
+        switch key {
+        case .BasicPipelineState:
+            return try! Basic_RenderPipelineState(link)
+        }
+    }
+    
+    subscript(_ pipelineState: MetalLinkRenderPipelineState) -> MTLRenderPipelineState {
+        self[pipelineState].renderPipelineState
+    }
+}
+
+// MARK: - States
 
 struct Basic_RenderPipelineState: RenderPipelineState {
     var name = "Basic RenderPipelineState"
@@ -33,25 +48,4 @@ struct Basic_RenderPipelineState: RenderPipelineState {
         )
     }
 }
-
-class PipelineStateLibrary {
-    let link: MetalLink
-    
-    private var pipelineStates = [MetalLinkRenderPipelineState: RenderPipelineState]()
-    
-    init(link: MetalLink) {
-        self.link = link
-    }
-    
-    subscript(_ pipelineState: MetalLinkRenderPipelineState) -> MTLRenderPipelineState {
-        if let pipelineState = pipelineStates[pipelineState] {
-            return pipelineState.renderPipelineState
-        }
-        
-        let newState = pipelineState.make(link)
-        pipelineStates[pipelineState] = newState
-        return newState.renderPipelineState
-    }
-}
-
 
