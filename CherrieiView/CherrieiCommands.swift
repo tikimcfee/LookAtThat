@@ -46,7 +46,7 @@ extension CherrieiRootCommand {
     
     func createValidatedURLs() throws -> Validated {
         guard FileManager.default.fileExists(atPath: source) else {
-            throw CoreError.invalidArgs("Path does not exist: \(source)")
+            throw CherrieiCoreError.invalidArgs("Path does not exist: \(source)")
         }
         
         let sourceUrl = URL(fileURLWithPath: source)

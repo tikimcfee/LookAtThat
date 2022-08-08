@@ -486,12 +486,12 @@ class CircleFun {
     
     func defaultCylinderLayout_x(_ container: FBLEContainer) {
         let allGrids = container.box.bimap.keysToValues.keys
-        let gridCount = allGrids.count
+//        let gridCount = allGrids.count
         let allChildFoci = container.box.childFocusBimap.keysToValues.keys
         let childCount = allChildFoci.count
         
-        let gridRadians = twoPi / VectorVal(gridCount)
-        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
+//        let gridRadians = twoPi / VectorVal(gridCount)
+//        let gridRadianStride = stride(from: 0.0, to: twoPi, by: gridRadians)
         let fileBounds = BoundsComputing()
                 
         allGrids.enumerated().forEach { index, grid in

@@ -57,10 +57,6 @@ class CustomSceneView: SCNView {
         omniLightNode.position = SCNVector3Make(0, 50, 50)
         scene?.rootNode.addChildNode(omniLightNode)
     }
-    
-    override var colorPixelFormat: MTLPixelFormat {
-        return .bgra8Unorm
-    }
 
     override func scrollWheel(with event: NSEvent) {
         // WARNING

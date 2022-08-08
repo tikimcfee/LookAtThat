@@ -10,7 +10,7 @@
 import Foundation
 import ArgumentParser
 
-enum CoreError: Error {
+enum CherrieiCoreError: Error {
     case invalidArgs(String)
 }
 

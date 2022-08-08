@@ -42,11 +42,12 @@ class GlyphBuilder {
             print("Could not create bitmap glyphs for \(key)")
             return (keyPlane, templatePlane, descaledSize)
         }
-        let (requested, requestedCG, template, templateCG) = bitmapImages
-
+        
+        let (requested, _, template, _) = bitmapImages
         keyPlane.firstMaterial?.diffuse.contents = requested
         templatePlane.firstMaterial?.diffuse.contents = template
         
+//        let (_, requestedCG, _, templateCG) = bitmapImages
 //        let texture = try! Self.loader.newTexture(cgImage: requestedCG)
 //        let imageProperty = SCNMaterialProperty(contents: texture)
 //        keyPlane.firstMaterial?.setValue(imageProperty, forKey: MetalLink_Glyphy_DiffuseName_Q)

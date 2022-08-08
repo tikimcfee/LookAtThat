@@ -9,10 +9,17 @@ import Foundation
 import CoreServices
 import SceneKit
 
+typealias BitmapImages = (
+    requested: NSUIImage,
+    requestedCG: CGImage,
+    template: NSUIImage,
+    templateCG: CGImage
+)
+
 extension CALayer {
     func getBitmapImage(
         using key: GlyphCacheKey
-    ) -> (requested: NSUIImage, template: NSUIImage)? {
+    ) -> BitmapImages? {
         defer { UIGraphicsEndImageContext() }
         UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
         
@@ -34,6 +41,11 @@ extension CALayer {
         let source = CGImageSourceCreateWithData(mutableData, nil)!
         let finalImage = CGImageSourceCreateImageAtIndex(source, 0, nil)!
         
-        return (UIImage(cgImage: finalImage), UIImage(cgImage: finalImage))
+        return (
+            UIImage(cgImage: finalImage),
+            finalImage,
+            UIImage(cgImage: finalImage),
+            finalImage
+        )
     }
 }

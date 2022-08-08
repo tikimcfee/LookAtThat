@@ -113,7 +113,7 @@ extension RenderTask {
         }
         
         func doMatchedInfo() throws {
-            try matchedInfo
+            matchedInfo
                 .forEach { matchPair in
                     let matchedGrid = matchPair.key
                     let semanticInfo = matchPair.value
