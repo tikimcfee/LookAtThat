@@ -9,8 +9,8 @@
 import MetalKit
 
 class ShaderLibrary {
-    private var vertexShaders = [MetalLinkVertexShaderType: MetalLinkShader]()
-    private var fragmentShaders = [MetalLinkFragmentShaderType: MetalLinkShader]()
+    private lazy var vertexShaders = VertexShadersCache(link)
+    private lazy var fragmentShaders = FragmentShadersCache(link)
     
     let link: MetalLink
     init (link: MetalLink) {
@@ -18,29 +18,36 @@ class ShaderLibrary {
     }
     
     subscript(_ vertexType: MetalLinkVertexShaderType) -> MetalLinkShader? {
-        if let shader = vertexShaders[vertexType] { return shader }
-        
-        do {
-            let newShader = try vertexType.make(link)
-            vertexShaders[vertexType] = newShader
-            return newShader
-        } catch {
-            print(error)
-            return nil
-        }
+        vertexShaders[vertexType]
     }
     
     subscript(_ fragmentType: MetalLinkFragmentShaderType) -> MetalLinkShader? {
-        if let shader = fragmentShaders[fragmentType] { return shader }
-        
-        do {
-            let newShader = try fragmentType.make(link)
-            fragmentShaders[fragmentType] = newShader
-            return newShader
-        } catch {
-            print(error)
-            return nil
-        }
+        fragmentShaders[fragmentType]
     }
 }
 
+private class VertexShadersCache: LockingCache<MetalLinkVertexShaderType, MetalLinkShader?> {
+    let link: MetalLink
+    
+    init(_ link: MetalLink) {
+        self.link = link
+        super.init()
+    }
+    
+    override func make(_ key: Key, _ store: inout [Key : Value]) -> MetalLinkShader? {
+        return try? key.make(link)
+    }
+}
+
+private class FragmentShadersCache: LockingCache<MetalLinkFragmentShaderType, MetalLinkShader> {
+    let link: MetalLink
+    
+    init(_ link: MetalLink) {
+        self.link = link
+        super.init()
+    }
+    
+    override func make(_ key: Key, _ store: inout [Key : Value]) -> MetalLinkShader {
+        return try! key.make(link)
+    }
+}
