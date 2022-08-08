@@ -15,3 +15,15 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
         Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(0,0,1,1))
     ] }
 }
+
+class MetalLinkQuadMesh: MetalLinkBaseMesh {
+    override func createVertices() -> [Vertex] { [
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1)),
+        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1)),
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1)),
+        
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1)),
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1)),
+        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1))
+    ] }
+}

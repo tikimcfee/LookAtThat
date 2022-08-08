@@ -8,7 +8,8 @@
 import MetalKit
 
 enum MeshType {
-    case Triangle_Custom
+    case Triangle
+    case Quad
 }
 
 class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
@@ -20,8 +21,10 @@ class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
     
     override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
         switch key {
-        case .Triangle_Custom:
+        case .Triangle:
             return try! MetalLinkTriangleMesh(link)
+        case .Quad:
+            return try! MetalLinkQuadMesh(link)
         }
     }
 }

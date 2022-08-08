@@ -9,14 +9,14 @@
 import MetalKit
 
 class MetalLinkObject {
-    
+    private var meshes: MeshLibrary
     var mesh: MetalLinkMesh
-    
     let pipelineState: MTLRenderPipelineState
     
     init(_ link: MetalLink) throws {
+        self.meshes = MeshLibrary(link)
         self.pipelineState = link.pipelineStateLibrary[.BasicPipelineState]
-        self.mesh = try MetalLinkTriangleMesh(link)
+        self.mesh = meshes[.Quad]
     }
     
     func render(in sdp: inout SafeDrawPass) {
@@ -25,11 +25,7 @@ class MetalLinkObject {
         // Set buffer into device memory space; buffer(0) in shader functions.
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
-        sdp.renderCommandEncoder.drawPrimitives(
-            type: .triangle,
-            vertexStart: 0,
-            vertexCount: mesh.vertexCount
-        )
+        sdp.renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)
     }
 }
 
