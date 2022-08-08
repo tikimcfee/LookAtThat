@@ -40,21 +40,27 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
     }
 }
 
+private class DescriptorPipelineCache: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
+    let link: MetalLink
+    init(_ link: MetalLink) {
+        self.link = link
+    }
+    
+    override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
+        key.make(link)
+    }
+}
+
 class DescriptorPipelineLibrary {
     let link: MetalLink
     
-    private var pipelineDescriptors = [MetalLinkDescriptorPipeline: RenderPipelineDescriptor]()
+    private lazy var pipelineCache = DescriptorPipelineCache(link)
     
     init(link: MetalLink) {
         self.link = link
     }
     
     subscript(_ pipeline: MetalLinkDescriptorPipeline) -> RenderPipelineDescriptor {
-        if let pipelineDescriptor = pipelineDescriptors[pipeline] { return pipelineDescriptor }
-        let newDescriptor = pipeline.make(link)
-        pipelineDescriptors[pipeline] = newDescriptor
-        return newDescriptor
+        pipelineCache[pipeline]
     }
 }
-
-
