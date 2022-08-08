@@ -10,9 +10,9 @@ import MetalKit
 import SceneKit
 
 class MetalLinkNodeBridge {
-    private lazy var defaultSceneProgram: SCNProgram = makeDefaultSceneProgram()
+    lazy var defaultSceneProgram: SCNProgram = makeDefaultSceneProgram()
     
-    func makeDefaultSceneProgram() -> SCNProgram {
+    private func makeDefaultSceneProgram() -> SCNProgram {
         let program = SCNProgram()
         program.vertexFunctionName = MetalLinkDefaultSceneNodeVertexName_Q
         program.fragmentFunctionName = MetalLinkDefaultSceneNodeFragmentName_Q

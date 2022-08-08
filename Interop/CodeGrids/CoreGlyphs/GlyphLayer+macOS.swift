@@ -9,6 +9,13 @@ import Foundation
 import CoreServices
 import SceneKit
 
+typealias BitmapImages = (
+    requested: NSUIImage,
+    requestedCG: CGImage,
+    template: NSUIImage,
+    templateCG: CGImage
+)
+
 extension CALayer {
     var cgSize: CGSize {
         CGSize(width: frame.width, height: frame.height)
@@ -16,7 +23,7 @@ extension CALayer {
     
     func getBitmapImage(
         using key: GlyphCacheKey
-    ) -> (requested: NSUIImage, template: NSUIImage)? {
+    ) -> BitmapImages? {
         guard let requested = defaultRepresentation(),
               let template = defaultRepresentation() else {
             return nil
@@ -39,8 +46,10 @@ extension CALayer {
         }
         
         return (
-            NSImage(cgImage: requestedImage,size: cgSize),
-            NSImage(cgImage: templateImage,size: cgSize)
+            NSImage(cgImage: requestedImage, size: cgSize),
+            requestedImage,
+            NSImage(cgImage: templateImage, size: cgSize),
+            templateImage
         )
     }
     

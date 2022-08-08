@@ -5,8 +5,6 @@
 //  Created by Ivan Lugo on 8/7/22.
 //
 
-#define MetalLinkDefaultSceneNodeVertexName SceneNodeDefaultVertex
+#define MetalLink_Glyphy_DiffuseName_Q "diffuseTexture"
 #define MetalLinkDefaultSceneNodeVertexName_Q "SceneNodeDefaultVertex"
-
-#define MetalLinkDefaultSceneNodeFragmentName SceneNodeDefaultFragment
 #define MetalLinkDefaultSceneNodeFragmentName_Q "SceneNodeDefaultFragment"

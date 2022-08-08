@@ -7,11 +7,16 @@
 
 import Foundation
 import SceneKit
+import MetalKit
 
 public typealias SizedText = (SCNGeometry, SCNGeometry, CGSize)
 
 class GlyphBuilder {
+    static let device: MTLDevice = MTLCreateSystemDefaultDevice()!
+    static let loader: MTKTextureLoader = MTKTextureLoader(device: device)
+    
     let fontRenderer = FontRenderer.shared
+    let bridge = MetalLinkNodeBridge()
     
     func makeGlyph(_ key: GlyphCacheKey) -> SizedText {
         let safeString = key.glyph
@@ -33,15 +38,22 @@ class GlyphBuilder {
         let keyPlane = SCNPlane(width: descaledSize.width, height: descaledSize.height)
         let templatePlane = SCNPlane(width: descaledSize.width, height: descaledSize.height)
         
-        guard let (requested, template) = textLayer.getBitmapImage(using: key) else {
+        guard let bitmapImages = textLayer.getBitmapImage(using: key) else {
             print("Could not create bitmap glyphs for \(key)")
             return (keyPlane, templatePlane, descaledSize)
         }
-        
-//        let wrapper = MaterialWrapper(requested, template)
+        let (requested, requestedCG, template, templateCG) = bitmapImages
+
         keyPlane.firstMaterial?.diffuse.contents = requested
         templatePlane.firstMaterial?.diffuse.contents = template
         
+//        let texture = try! Self.loader.newTexture(cgImage: requestedCG)
+//        let imageProperty = SCNMaterialProperty(contents: texture)
+//        keyPlane.firstMaterial?.setValue(imageProperty, forKey: MetalLink_Glyphy_DiffuseName_Q)
+//        keyPlane.firstMaterial?.program = bridge.defaultSceneProgram
+//        templatePlane.firstMaterial?.setValue(imageProperty, forKey: MetalLink_Glyphy_DiffuseName_Q)
+//        templatePlane.firstMaterial?.program = bridge.defaultSceneProgram
+                
         return (keyPlane, templatePlane, descaledSize)
     }
 }

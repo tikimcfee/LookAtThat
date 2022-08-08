@@ -16,7 +16,9 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     let codePagesController: CodePagesController
 
     let sharedSceneView: CustomSceneView = {
-        let sceneView = CustomSceneView()
+        let sceneView = CustomSceneView(
+            
+        )
         return sceneView
     }()
 
