@@ -32,3 +32,9 @@ extension MemoryLayoutSizable {
         memStride * count
     }
 }
+
+extension LFloat3: MemoryLayoutSizable { }
+extension LFloat4: MemoryLayoutSizable { }
+extension Float: MemoryLayoutSizable { }
+extension Int: MemoryLayoutSizable { }
+extension Vertex: MemoryLayoutSizable { }

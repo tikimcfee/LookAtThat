@@ -6,14 +6,24 @@
 //
 import simd
 
-extension float4x4 {
+let X_AXIS = LFloat3(1, 0, 0)
+let Y_AXIS = LFloat3(0, 1, 0)
+let Z_AXIS = LFloat3(0, 0, 1)
+
+extension matrix_float4x4 {
+    mutating func scale(amount: LFloat3) {
+        self = matrix_multiply(self, .init(scaleBy: amount))
+    }
     
+    init(scaleBy s: SIMD3<Float>) {
+        self.init(SIMD4(s.x,  0,   0, 0),
+                  SIMD4(0,  s.y,   0, 0),
+                  SIMD4(0,    0, s.z, 0),
+                  SIMD4(0,    0,   0, 1))
+    }
     
-    init(scaleBy s: Float) {
-        self.init(SIMD4(s, 0, 0, 0),
-                  SIMD4(0, s, 0, 0),
-                  SIMD4(0, 0, s, 0),
-                  SIMD4(0, 0, 0, 1))
+    mutating func rotateAbout(axis: LFloat3, by radians: Float) {
+        self = matrix_multiply(self, .init(rotationAbout: axis, by: radians))
     }
     
     init(rotationAbout axis: SIMD3<Float>, by angleRadians: Float) {
@@ -27,12 +37,17 @@ extension float4x4 {
                   SIMD4(                 0,                 0,                 0, 1))
     }
     
+    mutating func translate(vector: LFloat3) {
+        self = matrix_multiply(self, .init(translationBy: vector))
+    }
+    
     init(translationBy t: SIMD3<Float>) {
         self.init(SIMD4(   1,    0,    0, 0),
                   SIMD4(   0,    1,    0, 0),
                   SIMD4(   0,    0,    1, 0),
                   SIMD4(t[0], t[1], t[2], 1))
     }
+    
     
     init(perspectiveProjectionFov fovRadians: Float, aspectRatio aspect: Float, nearZ: Float, farZ: Float) {
         let yScale = 1 / tan(fovRadians * 0.5)

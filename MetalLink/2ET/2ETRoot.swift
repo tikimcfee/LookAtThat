@@ -11,20 +11,22 @@ import MetalKit
 
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
-    let linkObject: MetalLinkObject
     var meshes: MeshLibrary
+    
+    let linkObject: MetalLinkObject
     
     init(link: MetalLink) throws {
         self.link = link
         
         let library = MeshLibrary(link)
-        self.linkObject = try library.makeObject(.Quad)
         self.meshes = library
+        self.linkObject = try library.makeObject(.Quad)
         
         setup()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
+        linkObject.update(deltaTime: 0.05)
         linkObject.render(in: &sdp)
     }
 }

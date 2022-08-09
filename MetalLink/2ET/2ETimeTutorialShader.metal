@@ -21,10 +21,18 @@ struct RasterizerData {
     float4 color;                   // this is interpolated
 };
 
+struct ModelConstants {
+    float4x4 modelMatrix;
+};
+
 // recall buffer(x) is the Swift-defined buffer position for these vertices
-vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in ]]) {
+vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in ]],
+                                            constant ModelConstants &constants [[ buffer(1) ]]) {
     RasterizerData rasterizerData;
-    rasterizerData.position = float4(vertexIn.position, 1);
+    
+    rasterizerData.position = constants.modelMatrix
+                            * float4(vertexIn.position, 1);
+    
     rasterizerData.color = vertexIn.color;
     
     return rasterizerData;

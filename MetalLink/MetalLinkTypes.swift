@@ -8,12 +8,10 @@
 
 import Foundation
 
-struct Vertex: MemoryLayoutSizable {
+struct Vertex {
     var position: LFloat3
     var color: LFloat4
 }
 
 typealias LFloat3 = SIMD3<Float>
 typealias LFloat4 = SIMD4<Float>
-extension LFloat3: MemoryLayoutSizable { }
-extension LFloat4: MemoryLayoutSizable { }
