@@ -34,18 +34,17 @@ struct MetalView: NSViewRepresentable {
 extension MetalView {
     class Coordinator {
         var parent: MetalView
-        let input = DefaultInputReceiver()
         
         var link: MetalLink?
         var renderer: MetalLinkRenderer?
         
         init(_ parent: MetalView, mtkView: CustomMTKView) {
             self.parent = parent
-            mtkView.positionReceiver = input
-            mtkView.keyDownReceiver = input
-            
             self.link = try? MetalLink(view: mtkView)
             self.renderer = try? MetalLinkRenderer(view: mtkView)
+            
+            mtkView.keyDownReceiver = link?.input
+            mtkView.positionReceiver = link?.input
             
             mtkView.delegate = renderer
             mtkView.framebufferOnly = false

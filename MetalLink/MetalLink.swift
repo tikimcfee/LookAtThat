@@ -10,17 +10,18 @@ import Foundation
 import MetalKit
 
 class MetalLink {
-    let view: MTKView
+    let view: CustomMTKView
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let defaultLibrary: MTLLibrary
+    let input = DefaultInputReceiver()
     
     lazy var shaderLibrary = ShaderLibrary(link: self)
     lazy var descriptorLibrary = VertexDescriptorComponentLibrary(link: self)
     lazy var pipelineLibrary = DescriptorPipelineLibrary(link: self)
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     
-    init(view: MTKView) throws {
+    init(view: CustomMTKView) throws {
         self.view = view
         guard let device = view.device else { throw CoreError.noMetalDevice }
         guard let queue = device.makeCommandQueue() else { throw CoreError.noCommandQueue }
@@ -36,7 +37,7 @@ protocol MetalLinkReader {
 }
 
 extension MetalLinkReader {
-    var view: MTKView { link.view }
+    var view: CustomMTKView { link.view }
     var device: MTLDevice { link.device }
     var library: MTLLibrary { link.defaultLibrary }
     var commandQueue: MTLCommandQueue { link.commandQueue }
