@@ -7,14 +7,13 @@ import MetalKit
 import SwiftUI
 
 struct MetalView: NSViewRepresentable {
-    typealias NSViewType = MTKView
-    var mtkView: MTKView
+    var mtkView: CustomMTKView
     
     init() {
-        mtkView = MTKView(frame: .zero, device: MTLCreateSystemDefaultDevice())
+        mtkView = CustomMTKView(frame: .zero, device: MTLCreateSystemDefaultDevice())
     }
     
-    func makeNSView(context: NSViewRepresentableContext<MetalView>) -> MTKView {
+    func makeNSView(context: NSViewRepresentableContext<MetalView>) -> CustomMTKView {
         mtkView.preferredFramesPerSecond = 60
         mtkView.enableSetNeedsDisplay = true
         mtkView.isPaused = false
@@ -23,7 +22,7 @@ struct MetalView: NSViewRepresentable {
         return mtkView
     }
     
-    func updateNSView(_ nsView: MTKView, context: NSViewRepresentableContext<MetalView>) {
+    func updateNSView(_ nsView: CustomMTKView, context: NSViewRepresentableContext<MetalView>) {
         
     }
     
@@ -39,7 +38,7 @@ extension MetalView {
         var link: MetalLink?
         var renderer: MetalLinkRenderer?
         
-        init(_ parent: MetalView, mtkView: MTKView) {
+        init(_ parent: MetalView, mtkView: CustomMTKView) {
             self.parent = parent
             self.link = try? MetalLink(view: mtkView)
             self.renderer = try? MetalLinkRenderer(view: mtkView)
@@ -53,3 +52,88 @@ extension MetalView {
     }
 }
 
+class CustomMTKView: MTKView {
+    weak var positionReceiver: MousePositionReceiver?
+    weak var keyDownReceiver: KeyDownReceiver?
+    var trackingArea : NSTrackingArea?
+    
+    override func scrollWheel(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        super.scrollWheel(with: event)
+        guard let receiver = positionReceiver,
+              event.type == .scrollWheel else { return }
+        receiver.scrollEvent = event.copy() as! NSEvent
+    }
+    
+    override func updateTrackingAreas() {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        if let trackingArea = trackingArea {
+            removeTrackingArea(trackingArea)
+        }
+        trackingArea = NSTrackingArea(
+            rect: bounds,
+            options: [.mouseEnteredAndExited,
+                      .mouseMoved,
+                      .enabledDuringMouseDrag,
+                      .activeInKeyWindow,
+                      .activeAlways],
+            owner: self,
+            userInfo: nil
+        )
+        self.addTrackingArea(trackingArea!)
+    }
+    
+    override func mouseMoved(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        super.mouseMoved(with: event)
+        guard let receiver = positionReceiver else { return }
+        let convertedPosition = convert(event.locationInWindow, from: nil)
+        receiver.mousePosition = convertedPosition
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        super.mouseDown(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mouseDownEvent = event.copy() as! NSEvent
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        super.mouseDown(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mouseDownEvent = event.copy() as! NSEvent
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
+    }
+    
+    override func keyUp(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
+    }
+    
+    override func flagsChanged(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
+    }
+    
+    override var acceptsFirstResponder: Bool {
+        true
+    }
+}
