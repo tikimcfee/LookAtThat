@@ -5,11 +5,9 @@ import MetalKit
 class MetalLinkRenderer : NSObject, MTKViewDelegate, MetalLinkReader {
     let link: MetalLink
 
-    init(view: CustomMTKView) throws {
-        let link = try MetalLink(view: view)
+    init(link: MetalLink) throws {
         self.link = link
         super.init()
-        
         link.view.delegate = self
     }
     

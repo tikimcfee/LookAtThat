@@ -43,6 +43,17 @@ extension MetalLinkReader {
     var commandQueue: MTLCommandQueue { link.commandQueue }
     var currentDrawable: CAMetalDrawable? { view.currentDrawable }
     
+    var input: DefaultInputReceiver { link.input }
+    
+    var defaultGestureViewportPosition: SIMD2<Float> {
+        let mouse = input.mousePosition
+        let size = view.bounds
+        return SIMD2<Float>(
+            Float((mouse.x - size.width * 0.5) / (size.width * 0.5)),
+            Float((mouse.y - size.height * 0.5) / (size.height * 0.5))
+        )
+    }
+    
     var viewDrawableSize: SIMD2<Float> {
         SIMD2<Float>(
             Float(view.drawableSize.width),

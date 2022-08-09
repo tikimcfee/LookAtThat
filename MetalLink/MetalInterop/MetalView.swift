@@ -31,6 +31,7 @@ struct MetalView: NSViewRepresentable {
     }
 }
 
+import Combine
 extension MetalView {
     class Coordinator {
         var parent: MetalView
@@ -40,11 +41,19 @@ extension MetalView {
         
         init(_ parent: MetalView, mtkView: CustomMTKView) {
             self.parent = parent
-            self.link = try? MetalLink(view: mtkView)
-            self.renderer = try? MetalLinkRenderer(view: mtkView)
+            guard let link = try? MetalLink(view: mtkView),
+                  let renderer = try? MetalLinkRenderer(link: link)
+            else { return }
             
-            mtkView.keyDownReceiver = link?.input
-            mtkView.positionReceiver = link?.input
+            self.link = link
+            self.renderer = renderer
+            
+            mtkView.keyDownReceiver = link.input
+            mtkView.positionReceiver = link.input
+            
+            mtkView.addGestureRecognizer(link.input.gestureShim.tapGestureRecognizer)
+            mtkView.addGestureRecognizer(link.input.gestureShim.magnificationRecognizer)
+            mtkView.addGestureRecognizer(link.input.gestureShim.panRecognizer)
             
             mtkView.delegate = renderer
             mtkView.framebufferOnly = false

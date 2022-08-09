@@ -252,8 +252,8 @@ class TouchState {
 
 class Mouse {
 	let hoverTracker = TokenHoverInteractionTracker()
-	
 	var currentHoveredSheet: SCNNode?
+    var currentPosition = CGPoint()
 }
 
 class MagnifyStart {
