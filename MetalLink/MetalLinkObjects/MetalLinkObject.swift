@@ -19,10 +19,8 @@ class MetalLinkObject: MetalLinkNode {
         self.mesh = mesh
     }
     
-    func update(deltaTime: Float) {
-        state.time += deltaTime
-        scale = LFloat3(0.5, 0.5, 0.5)
-        rotation.z = state.time.truncatingRemainder(dividingBy: 360)
+    override func update(deltaTime: Float) {
+        super.update(deltaTime: deltaTime)        
         updateModelConstants()
     }
 }
