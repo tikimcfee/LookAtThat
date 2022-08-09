@@ -791,6 +791,10 @@
 		B7C69FC528A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
 		B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
 		B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
+		B7C69FC928A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
+		B7C69FCA28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
+		B7C69FCB28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
+		B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
@@ -1226,6 +1230,7 @@
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
 		B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditorState.swift; sourceTree = "<group>"; };
 		B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputReceiver.swift; sourceTree = "<group>"; };
+		B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkCamera.swift; sourceTree = "<group>"; };
 		B7C7565E280B82E80005A233 /* WorkerPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerPool.swift; sourceTree = "<group>"; };
 		B7C756D8280CECBA0005A233 /* TAPKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TAPKit.swift; sourceTree = "<group>"; };
 		B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TAPKitDelegateController.swift; sourceTree = "<group>"; };
@@ -1787,8 +1792,9 @@
 		B7AC33B128A0DC7E001172BB /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
-				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
 				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
+				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
+				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -2801,6 +2807,7 @@
 				B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */,
 				B7AC33AE28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B70FDCEA283EAE9900170D5F /* FileIO.swift in Sources */,
+				B7C69FCA28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2886,6 +2893,7 @@
 				B7AC337928A0CA71001172BB /* MetalLinkShader.swift in Sources */,
 				B74A22D02814FFF300F6F727 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
+				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 				B74A22D12814FFF300F6F727 /* BasicIO.swift in Sources */,
 				B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */,
 				B74A22D32814FFF300F6F727 /* FocusControlShiftFocus.swift in Sources */,
@@ -3366,6 +3374,7 @@
 				B72A876E287BBB8E00A78B19 /* CherrieiCore.swift in Sources */,
 				B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
+				B7C69FC928A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3557,6 +3566,7 @@
 				B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B7AC337828A0CA71001172BB /* MetalLinkShader.swift in Sources */,
+				B7C69FCB28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

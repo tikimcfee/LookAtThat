@@ -9,38 +9,20 @@
 import Foundation
 import MetalKit
 
+class RootNode: MetalLinkNode { }
+
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
-    
-    
-    let root = MetalLinkNode()
+    let root = RootNode()
     
     init(link: MetalLink) throws {
         self.link = link
-        
         try setup()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
         root.update(deltaTime: 1.0 / Float(link.view.preferredFramesPerSecond))
         root.render(in: &sdp)
-    }
-}
-
-class RootNode: MetalLinkNode { }
-
-class ArrowNode: MetalLinkObject, MetalLinkReader {
-    init(_ link: MetalLink) throws {
-        try super.init(link, mesh: link.meshes[.Triangle])
-    }
-    
-    override func update(deltaTime: Float) {
-        let gesturePosition = defaultGestureViewportPosition
-        rotation.z = -atan2f(
-            gesturePosition.x - position.x,
-            gesturePosition.y - position.y
-        )
-        super.update(deltaTime: deltaTime)
     }
 }
 
@@ -67,5 +49,22 @@ extension TwoETimeRoot {
                 root.add(child: node)
             }
         }
+    }
+}
+
+class ArrowNode: MetalLinkObject, MetalLinkReader {
+    init(_ link: MetalLink) throws {
+        try super.init(link, mesh: link.meshes[.Triangle])
+    }
+    
+    override func update(deltaTime: Float) {
+        let gesturePosition = defaultGestureViewportPosition
+        
+        rotation.z = -atan2f(
+            gesturePosition.x - position.x,
+            gesturePosition.y - position.y
+        )
+        
+        super.update(deltaTime: deltaTime)
     }
 }
