@@ -9,12 +9,14 @@
 import MetalKit
 
 class MetalLinkObject: MetalLinkNode {
+    let link: MetalLink
     var mesh: MetalLinkMesh
     let pipelineState: MTLRenderPipelineState
     var state = State()
     var constants = Constants()
     
     init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
+        self.link = link
         self.pipelineState = link.pipelineStateLibrary[.BasicPipelineState]
         self.mesh = mesh
     }

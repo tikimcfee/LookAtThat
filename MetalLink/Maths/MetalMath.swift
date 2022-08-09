@@ -15,15 +15,21 @@ extension matrix_float4x4 {
         self = matrix_multiply(self, .init(scaleBy: amount))
     }
     
+    mutating func rotateAbout(axis: LFloat3, by radians: Float) {
+        self = matrix_multiply(self, .init(rotationAbout: axis, by: radians))
+    }
+    
+    mutating func translate(vector: LFloat3) {
+        self = matrix_multiply(self, .init(translationBy: vector))
+    }
+}
+
+extension matrix_float4x4 {
     init(scaleBy s: SIMD3<Float>) {
         self.init(SIMD4(s.x,  0,   0, 0),
                   SIMD4(0,  s.y,   0, 0),
                   SIMD4(0,    0, s.z, 0),
                   SIMD4(0,    0,   0, 1))
-    }
-    
-    mutating func rotateAbout(axis: LFloat3, by radians: Float) {
-        self = matrix_multiply(self, .init(rotationAbout: axis, by: radians))
     }
     
     init(rotationAbout axis: SIMD3<Float>, by angleRadians: Float) {
@@ -35,10 +41,6 @@ extension matrix_float4x4 {
                   SIMD4( t * x * y - z * s, t * y * y + c,     t * y * z + x * s, 0),
                   SIMD4( t * x * z + y * s, t * y * z - x * s,     t * z * z + c, 0),
                   SIMD4(                 0,                 0,                 0, 1))
-    }
-    
-    mutating func translate(vector: LFloat3) {
-        self = matrix_multiply(self, .init(translationBy: vector))
     }
     
     init(translationBy t: SIMD3<Float>) {

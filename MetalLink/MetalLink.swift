@@ -14,7 +14,9 @@ class MetalLink {
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let defaultLibrary: MTLLibrary
+    
     let input = DefaultInputReceiver()
+    lazy var meshes = MeshLibrary(self)
     
     lazy var shaderLibrary = ShaderLibrary(link: self)
     lazy var descriptorLibrary = VertexDescriptorComponentLibrary(link: self)
