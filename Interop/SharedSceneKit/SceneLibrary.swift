@@ -7,37 +7,18 @@ enum SceneType {
 }
 
 #if os(OSX)
-extension SceneLibrary: KeyDownReceiver { }
-#endif
-
-class SceneLibrary: ObservableObject, MousePositionReceiver  {
-    public static let global = SceneLibrary()
-
-    let codePagesController: CodePagesController
-
-    let sharedSceneView: CustomSceneView = {
-        let sceneView = CustomSceneView(
-            
-        )
-        return sceneView
-    }()
-
-    @Published var currentMode: SceneType
-    var currentController: SceneControls
-    var cancellables = Set<AnyCancellable>()
-
-    #if os(OSX)
+class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
     private let mouseSubject = PassthroughSubject<CGPoint, Never>()
     private let scrollSubject = PassthroughSubject<NSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()
     private let mouseUpSubject = PassthroughSubject<NSEvent, Never>()
     private let keyEventSubject = PassthroughSubject<NSEvent, Never>()
     
-    let sharedMouse: AnyPublisher<CGPoint, Never>
-    let sharedScroll: AnyPublisher<NSEvent, Never>
-    let sharedMouseDown: AnyPublisher<NSEvent, Never>
-    let sharedMouseUp: AnyPublisher<NSEvent, Never>
-    let sharedKeyEvent: AnyPublisher<NSEvent, Never>
+    lazy var sharedMouse = mouseSubject.share().eraseToAnyPublisher()
+    lazy var sharedScroll = scrollSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
+    lazy var sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
     
     var mousePosition: CGPoint = CGPoint.zero {
         didSet { mouseSubject.send(mousePosition) }
@@ -58,21 +39,58 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
     var lastKeyEvent: NSEvent = NSEvent() {
         didSet { keyEventSubject.send(lastKeyEvent) }
     }
+}
+#elseif os(iOS)
+class DefaultInputReceiver: ObservableObject, MousePositionReceiver {
+    private let mouseSubject = PassthroughSubject<CGPoint, Never>()
+    private let scrollSubject = PassthroughSubject<NSEvent, Never>()
+    private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()
+    private let mouseUpSubject = PassthroughSubject<NSEvent, Never>()
     
-    #elseif os(iOS)
+    lazy var sharedMouse = mouseSubject.share().eraseToAnyPublisher()
+    lazy var sharedScroll = scrollSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
+    lazy var sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
+    
     var mousePosition: CGPoint = CGPoint.zero {
-        didSet { }
+        didSet { mouseSubject.send(mousePosition) }
     }
-    var scrollEvent: UIEvent = UIEvent() {
-        didSet { }
+    
+    var scrollEvent: NSEvent = NSEvent() {
+        didSet { scrollSubject.send(scrollEvent) }
     }
-    var mouseDownEvent: UIEvent = UIEvent() {
-        didSet { }
+    
+    var mouseDownEvent: NSEvent = NSEvent() {
+        didSet { mouseDownSubject.send(mouseDownEvent) }
     }
-    var lastKeyEvent: UIEvent = UIEvent() {
-        didSet { }
+    
+    var mouseUpEvent: NSEvent = NSEvent() {
+        didSet { mouseUpSubject.send(mouseUpEvent) }
     }
-    #endif
+    
+    var lastKeyEvent: NSEvent = NSEvent() {
+        didSet { keyEventSubject.send(lastKeyEvent) }
+    }
+}
+#endif
+
+class SceneLibrary: ObservableObject   {
+    public static let global = SceneLibrary()
+
+    let codePagesController: CodePagesController
+
+    let sharedSceneView: CustomSceneView = {
+        let sceneView = CustomSceneView(
+            
+        )
+        return sceneView
+    }()
+
+    @Published var currentMode: SceneType
+    var currentController: SceneControls
+    var cancellables = Set<AnyCancellable>()
+    let input = DefaultInputReceiver()
 
     private init() {
         self.codePagesController = CodePagesController(sceneView: sharedSceneView)
@@ -82,19 +100,8 @@ class SceneLibrary: ObservableObject, MousePositionReceiver  {
         self.currentController = codePagesController
         self.currentMode = .source
         
-        #if os(OSX)
-        // Mouse movement
-        self.sharedMouse = mouseSubject.share().eraseToAnyPublisher()
-        self.sharedScroll = scrollSubject.share().eraseToAnyPublisher()
-        self.sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
-        self.sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
-        
-        // Keyboard events
-        self.sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
-        self.sharedSceneView.keyDownReceiver = self
-        #endif
-
-        self.sharedSceneView.positionReceiver = self
+        self.sharedSceneView.keyDownReceiver = input
+        self.sharedSceneView.positionReceiver = input
 
         codePages()
         attachSheetStream()

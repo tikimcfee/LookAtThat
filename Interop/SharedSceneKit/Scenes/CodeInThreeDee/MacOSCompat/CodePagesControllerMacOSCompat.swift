@@ -90,21 +90,21 @@ extension CodePagesControllerMacOSCompat {
 
 extension CodePagesControllerMacOSCompat {
     func attachMouseSink() {
-        SceneLibrary.global.sharedMouse
+        SceneLibrary.global.input.sharedMouse
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [inputCompat] mousePosition in
                 inputCompat.newMousePosition(mousePosition)
             }
             .store(in: &controller.cancellables)
         
-        SceneLibrary.global.sharedScroll
+        SceneLibrary.global.input.sharedScroll
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [inputCompat] scrollEvent in
                 inputCompat.newScrollEvent(scrollEvent)
             }
             .store(in: &controller.cancellables)
         
-        SceneLibrary.global.sharedMouseDown
+        SceneLibrary.global.input.sharedMouseDown
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [inputCompat] downEvent in
                 inputCompat.newMouseDown(downEvent)
@@ -113,7 +113,7 @@ extension CodePagesControllerMacOSCompat {
     }
     
     func attachKeyInputSink() {
-        SceneLibrary.global.sharedKeyEvent
+        SceneLibrary.global.input.sharedKeyEvent
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink { [inputCompat] event in
                 inputCompat.newKeyEvent(event)
