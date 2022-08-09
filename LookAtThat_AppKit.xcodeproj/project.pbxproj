@@ -751,7 +751,6 @@
 		B7AC339628A0CD85001172BB /* BasicShaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339228A0CD85001172BB /* BasicShaders.swift */; };
 		B7AC33A428A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
 		B7AC33A528A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
-		B7AC33A628A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
 		B7AC33A728A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
 		B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
 		B7AC33AE28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
@@ -759,7 +758,6 @@
 		B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
 		B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
 		B7AC33B428A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
-		B7AC33B528A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
 		B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
 		B7AC33B828A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
 		B7AC33B928A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
@@ -784,6 +782,10 @@
 		B7C404DB2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
+		B7C69FBD28A2403F00A84860 /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
+		B7C69FBE28A2404B00A84860 /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
+		B7C69FC028A2404D00A84860 /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
+		B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
@@ -2605,6 +2607,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */,
+				B7C69FBE28A2404B00A84860 /* MetalMath.swift in Sources */,
 				B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */,
 				B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B70FDC57283EAE9900170D5F /* TraceLineIDMap.swift in Sources */,
@@ -2916,6 +2919,7 @@
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
+				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B750771928A2217D0097278A /* MetalLinkModels.swift in Sources */,
@@ -3463,8 +3467,8 @@
 				B7A6F2AE275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
 				B7044C1428A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B7C75700280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
+				B7C69FBD28A2403F00A84860 /* MetalLinkNode.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
-				B7AC33B528A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
 				B7C7570A280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7C756F6280CECBA0005A233 /* TAPDevice.swift in Sources */,
@@ -3495,6 +3499,7 @@
 				B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
+				B7C69FC028A2404D00A84860 /* MetalMath.swift in Sources */,
 				B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
 				B7AC334028A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
@@ -3532,7 +3537,6 @@
 				B7C75721280CEE040005A233 /* BasicIO.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
-				B7AC33A628A0D11E001172BB /* MetalView.swift in Sources */,
 				B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7C75702280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
