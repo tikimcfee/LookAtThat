@@ -55,9 +55,7 @@ class KeyboardInterceptor {
     private func enqueueRunLoop() {
         guard !running else { return }
         running = true
-        movementQueue.async {
-            self.runLoopImplementation()
-        }
+        runLoopImplementation()
     }
     
     private func runLoopImplementation() {
@@ -81,29 +79,16 @@ class KeyboardInterceptor {
     }
     
     private func startMovement(_ direction: SelfRelativeDirection) {
-        func doMove() {
-//            guard !directionCache.contains(direction) else { return }
-            
-            print("start", direction)
-            directionCache.insert(direction)
-
-            enqueueRunLoop()
-        }
-        
-        movementQueue.async { doMove() }
+        guard !directionCache.contains(direction) else { return }
+        print("start", direction)
+        directionCache.insert(direction)
+        enqueueRunLoop()
     }
     
     private func stopMovement(_ direction: SelfRelativeDirection) {
-        func doStop() {
-//            guard directionCache.contains(direction) else { return }
-            
-            print("stop", direction)
-            directionCache.remove(direction)
-
-            enqueueRunLoop()
-        }
-        
-        movementQueue.async { doStop() }
+        print("stop", direction)
+        directionCache.remove(direction)
+        enqueueRunLoop()
     }
 }
 
@@ -199,10 +184,8 @@ private extension KeyboardInterceptor {
     }
     
     private func onFlagsChanged(_ flags: NSEvent.ModifierFlags, _ event: NSEvent) {
-        movementQueue.async {
-            self.currentModifiers = flags
-            self.enqueueRunLoop()
-        }
+        self.currentModifiers = flags
+        self.enqueueRunLoop()
     }
     
     private func changeFocus(_ focusDirection: SelfRelativeDirection) {
