@@ -22,8 +22,8 @@ class MetalLinkInstancedObject: MetalLinkNode {
     var rebuildSelf: Bool = true
     private var material = MetalLinkMaterial()
     
-    var instances: [MetalLinkNode] = [] { didSet { rebuildBuffer = true }}
-    private var modelConstants: [Constants] = [] { didSet { rebuildBuffer = true }}
+    var instancedNodes: [MetalLinkNode] = [] { didSet { rebuildBuffer = true }}
+    var instancedConstants: [Constants] = [] { didSet { rebuildBuffer = true }}
     private var modelConstantsBuffer: MTLBuffer
     private var rebuildBuffer: Bool = true
     
@@ -32,11 +32,10 @@ class MetalLinkInstancedObject: MetalLinkNode {
          initialCount: Int) throws {
         self.link = link
         self.mesh = mesh
-        
-        (self.instances, self.modelConstants) = Self.generateInstances(count: initialCount)
         self.modelConstantsBuffer = try Self.createBuffers(link, instanceCount: initialCount)
-        
         super.init()
+        
+        (self.instancedNodes, self.instancedConstants) = try generateInstances(count: initialCount)
     }
     
     override func update(deltaTime: Float) {
@@ -46,7 +45,7 @@ class MetalLinkInstancedObject: MetalLinkNode {
 }
 
 private extension MetalLinkInstancedObject {
-    static func generateInstances(count: Int) -> ([MetalLinkNode], [Constants]) {
+    func generateInstances(count: Int) throws -> ([MetalLinkNode], [Constants]) {
         var instances: [MetalLinkNode] = []
         var modelConstants: [Constants] = []
         for _ in 0..<count {
@@ -79,18 +78,18 @@ extension MetalLinkInstancedObject {
             constants.modelMatrix = modelMatrix
         }
         
-//        if rebuildBuffer {
-            rebuildBuffer = false
+        if rebuildBuffer {
             pushConstantsBuffer()
-//        }
+            rebuildBuffer = false
+        }
     }
     
     func pushConstantsBuffer() {
         var pointer = modelConstantsBuffer
             .contents()
-            .bindMemory(to: Constants.self, capacity: instances.count)
+            .bindMemory(to: Constants.self, capacity: instancedNodes.count)
         
-        for instance in instances {
+        for instance in instancedNodes {
             pointer.pointee.modelMatrix = instance.modelMatrix
             pointer = pointer.advanced(by: 1)
         }
@@ -127,7 +126,7 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
             type: .triangle,
             vertexStart: 0,
             vertexCount: mesh.vertexCount,
-            instanceCount: instances.count
+            instanceCount: instancedNodes.count
         )
     }
 }

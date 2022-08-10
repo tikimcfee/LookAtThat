@@ -7,39 +7,6 @@
 
 import MetalKit
 
-struct matrix_cached_float4x4 {
-    private(set) var rebuildModel = true // implicit rebuild on first call
-    private(set) var currentModel = matrix_identity_float4x4
-    
-    let update: () -> matrix_float4x4
-    
-    mutating func dirty() { rebuildModel = true }
-    
-    mutating func get() -> matrix_float4x4 {
-        guard rebuildModel else { return currentModel }
-        rebuildModel = false
-        currentModel = update()
-        return currentModel
-    }
-}
-
-struct Cached<T> {
-    private(set) var rebuildModel = true // implicit rebuild on first call
-    var current: T
-    
-    let update: () -> T
-    
-    mutating func dirty() { rebuildModel = true }
-    
-    mutating func get() -> T {
-        guard rebuildModel else { return current }
-        rebuildModel = false
-        current = update()
-        return current
-    }
-}
-
-
 class MetalLinkNode {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     
@@ -90,5 +57,37 @@ extension MetalLinkNode {
 private extension MetalLinkNode {
     var asRenderable: MetalLinkRenderable? {
         self as? MetalLinkRenderable
+    }
+}
+
+struct matrix_cached_float4x4 {
+    private(set) var rebuildModel = true // implicit rebuild on first call
+    private(set) var currentModel = matrix_identity_float4x4
+    
+    let update: () -> matrix_float4x4
+    
+    mutating func dirty() { rebuildModel = true }
+    
+    mutating func get() -> matrix_float4x4 {
+        guard rebuildModel else { return currentModel }
+        rebuildModel = false
+        currentModel = update()
+        return currentModel
+    }
+}
+
+struct Cached<T> {
+    private(set) var rebuildModel = true // implicit rebuild on first call
+    var current: T
+    
+    let update: () -> T
+    
+    mutating func dirty() { rebuildModel = true }
+    
+    mutating func get() -> T {
+        guard rebuildModel else { return current }
+        rebuildModel = false
+        current = update()
+        return current
     }
 }
