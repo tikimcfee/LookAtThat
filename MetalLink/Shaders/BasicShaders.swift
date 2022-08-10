@@ -19,10 +19,32 @@ class Basic_VertexShader: MetalLinkShader {
     }
 }
 
+class Instanced_VertexShader: MetalLinkShader {
+    let link: MetalLink
+    var name = "Instanced Vertex Shader"
+    var functionName = INSTANCED_VERTEX_FUNCTION_NAME_Q
+    lazy var function: MTLFunction = getFunction(link)
+    
+    init(_ link: MetalLink) {
+        self.link = link
+    }
+}
+
 class Basic_FragmentShader: MetalLinkShader {
     let link: MetalLink
     var name = "Basic Fragment Shader"
     var functionName = BASIC_FRAGMENT_FUNCTION_NAME_Q
+    lazy var function: MTLFunction = getFunction(link)
+    
+    init(_ link: MetalLink) {
+        self.link = link
+    }
+}
+
+class Instanced_FragmentShader: MetalLinkShader {
+    let link: MetalLink
+    var name = "Instanced Fragment Shader"
+    var functionName = INSTANCED_FRAGMENT_FUNCTION_NAME_Q
     lazy var function: MTLFunction = getFunction(link)
     
     init(_ link: MetalLink) {

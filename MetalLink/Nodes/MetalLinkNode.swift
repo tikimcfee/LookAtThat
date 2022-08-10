@@ -23,6 +23,23 @@ struct matrix_cached_float4x4 {
     }
 }
 
+struct Cached<T> {
+    private(set) var rebuildModel = true // implicit rebuild on first call
+    var current: T
+    
+    let update: () -> T
+    
+    mutating func dirty() { rebuildModel = true }
+    
+    mutating func get() -> T {
+        guard rebuildModel else { return current }
+        rebuildModel = false
+        current = update()
+        return current
+    }
+}
+
+
 class MetalLinkNode {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     

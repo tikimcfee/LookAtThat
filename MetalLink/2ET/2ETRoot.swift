@@ -18,7 +18,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup3()
+        try setup4()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -28,10 +28,17 @@ class TwoETimeRoot: MetalLinkReader {
 }
 
 extension TwoETimeRoot {
+    func setup4() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        let collection = try CubeCollection(link: link, size: SIMD3<Int>(20, 20, 20))
+        root.add(child: collection)
+    }
+    
     func setup3() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let (min, max) = (-3, 3)
+        let (min, max) = (-20, 20)
         let length = (min..<max)
         let count = Float(length.count)
         let halfCount = count / 2.0 // iterate from left to right, left/right symmetry

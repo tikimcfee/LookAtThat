@@ -10,6 +10,7 @@ import MetalKit
 
 enum MetalLinkVertexComponent {
     case BasicDescriptor
+    case InstancedDescriptor
 }
 
 protocol VertexDescriptorComponent {
@@ -32,6 +33,8 @@ class VertexDescriptorComponentLibrary: LockingCache<MetalLinkVertexComponent, V
         switch key {
         case .BasicDescriptor:
             return Basic_VertexComponent()
+        case .InstancedDescriptor:
+            return Instanced_VertexComponent()
         }
     }
 }
@@ -40,6 +43,34 @@ class VertexDescriptorComponentLibrary: LockingCache<MetalLinkVertexComponent, V
 
 struct Basic_VertexComponent: VertexDescriptorComponent {
     var name = "Basic Vertex Component"
+    let descriptor = MTLVertexDescriptor()
+    var attributeIndex: Int = 0
+    var bufferIndex: Int = 0
+    var layoutIndex: Int = 0
+    
+    init() {
+        // Vertex Position
+        descriptor.attributes[attributeIndex].format = .float3
+        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
+        descriptor.attributes[attributeIndex].offset = 0
+        attributeIndex += 1
+        
+        // Color
+        descriptor.attributes[attributeIndex].format = .float4
+        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
+        descriptor.attributes[attributeIndex].offset = LFloat3.memSize
+        
+        // Layout
+        descriptor.layouts[layoutIndex].stride = Vertex.memStride
+        descriptor.layouts[layoutIndex].stepFunction = .perVertex
+        descriptor.layouts[layoutIndex].stepRate = 1
+    }
+}
+
+// MARK: Instanced
+
+struct Instanced_VertexComponent: VertexDescriptorComponent {
+    var name = "Instanced Vertex Component"
     let descriptor = MTLVertexDescriptor()
     var attributeIndex: Int = 0
     var bufferIndex: Int = 0

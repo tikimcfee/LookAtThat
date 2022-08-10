@@ -15,6 +15,7 @@ protocol RenderPipelineDescriptor {
 
 enum MetalLinkDescriptorPipeline {
     case BasicPipelineDescriptor
+    case Instanced
 }
 
 class DescriptorPipelineLibrary: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
@@ -28,6 +29,8 @@ class DescriptorPipelineLibrary: LockingCache<MetalLinkDescriptorPipeline, Rende
         switch key {
         case .BasicPipelineDescriptor:
             return Basic_RenderPipelineDescriptor(link)
+        case .Instanced:
+            return Instanced_RenderPipelineDescriptor(link)
         }
     }
 }
@@ -41,6 +44,23 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
         let vertexFunction = link.shaderLibrary[.BasicVertex]?.function
         let vertexDescriptor = link.descriptorLibrary[.BasicDescriptor].descriptor
         let fragmentFunction = link.shaderLibrary[.BasicFragment]?.function
+        
+        self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()
+        renderPipelineDescriptor.vertexFunction = vertexFunction
+        renderPipelineDescriptor.vertexDescriptor = vertexDescriptor
+        renderPipelineDescriptor.fragmentFunction = fragmentFunction
+        renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
+        renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+    }
+}
+
+struct Instanced_RenderPipelineDescriptor: RenderPipelineDescriptor {
+    var name = "Instanced RenderPipelineDescriptor"
+    var renderPipelineDescriptor: MTLRenderPipelineDescriptor
+    init(_ link: MetalLink) {
+        let vertexFunction = link.shaderLibrary[.InstancedVertex]?.function
+        let vertexDescriptor = link.descriptorLibrary[.InstancedDescriptor].descriptor
+        let fragmentFunction = link.shaderLibrary[.InstancedFragment]?.function
         
         self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineDescriptor.vertexFunction = vertexFunction

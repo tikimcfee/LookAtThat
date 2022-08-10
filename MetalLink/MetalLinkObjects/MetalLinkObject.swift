@@ -13,7 +13,7 @@ class MetalLinkObject: MetalLinkNode {
     var mesh: MetalLinkMesh
     
     private lazy var pipelineState: MTLRenderPipelineState
-        = link.pipelineStateLibrary[.BasicPipelineState]
+        = link.pipelineStateLibrary[.Basic]
     
     private lazy var stencilState: MTLDepthStencilState
         = link.depthStencilStateLibrary[.Less]
@@ -25,6 +25,7 @@ class MetalLinkObject: MetalLinkNode {
     init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
         self.link = link
         self.mesh = mesh
+        super.init()
     }
     
     override func update(deltaTime: Float) {
