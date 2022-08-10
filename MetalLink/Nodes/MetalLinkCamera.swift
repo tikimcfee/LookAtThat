@@ -14,14 +14,13 @@ enum MetalLinkCameraType {
 
 protocol MetalLinkCamera {
     var type: MetalLinkCameraType { get }
-    var current: LFloat3 { get set }
-    func update(deltaTime: Float)
+    var position: LFloat3 { get set }
 }
 
 extension MetalLinkCamera {
     var viewMatrix: matrix_float4x4 {
         var matrix = matrix_identity_float4x4
-        matrix.translate(vector: -current)
+        matrix.translate(vector: -position)
         return matrix
     }
 }
@@ -29,7 +28,7 @@ extension MetalLinkCamera {
 class DebugCamera: MetalLinkCamera, KeyboardPositionSource {
     let type: MetalLinkCameraType = .Debug
     
-    var current: LFloat3 = .zero
+    var position: LFloat3 = .zero
     let worldUp: LFloat3 = LFloat3(0, 1, 0)
     let worldRight: LFloat3 = LFloat3(1, 0, 0)
     let worldFront: LFloat3 = LFloat3(0, 0, 1)
@@ -43,16 +42,11 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource {
         interceptor.positionSource = self
         
         interceptor.positions.$totalOffset.sink { total in
-            self.current += total
-            print(self.current)
+            self.position = total
         }.store(in: &cancellables)
         
         link.input.sharedKeyEvent.sink { event in
             self.interceptor.onNewKeyEvent(event)
         }.store(in: &cancellables)
-    }
-    
-    func update(deltaTime: Float) {
-        
     }
 }
