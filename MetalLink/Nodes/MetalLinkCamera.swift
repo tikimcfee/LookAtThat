@@ -42,7 +42,7 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource {
         interceptor.positionSource = self
         
         interceptor.positions.$totalOffset.sink { total in
-            self.position = total
+            self.position = (total / 100)
         }.store(in: &cancellables)
         
         link.input.sharedKeyEvent.sink { event in

@@ -25,13 +25,20 @@ struct ModelConstants {
     float4x4 modelMatrix;
 };
 
+struct SceneConstants {
+    float4x4 viewMatrix;
+};
+
 // recall buffer(x) is the Swift-defined buffer position for these vertices
 vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in ]],
-                                            constant ModelConstants &constants [[ buffer(1) ]]) {
+                                            constant SceneConstants &sceneConstants [[ buffer(1) ]],
+                                            constant ModelConstants &constants [[ buffer(2) ]]) {
     RasterizerData rasterizerData;
     
-    rasterizerData.position = constants.modelMatrix
-                            * float4(vertexIn.position, 1);
+    rasterizerData.position =
+        sceneConstants.viewMatrix
+        * constants.modelMatrix
+        * float4(vertexIn.position, 1);
     
     rasterizerData.color = vertexIn.color;
     

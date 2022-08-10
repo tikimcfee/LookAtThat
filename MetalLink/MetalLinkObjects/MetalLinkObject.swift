@@ -49,7 +49,7 @@ extension MetalLinkObject: MetalLinkRenderable {
         guard let meshVertexBuffer = mesh.getVertexBuffer() else { return }
         
         // Set buffer into device memory space; buffer(0) in shader functions.
-        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memSize, index: 1)
+        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memSize, index: 2)
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
         sdp.renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)

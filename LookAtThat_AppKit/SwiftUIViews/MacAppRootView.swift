@@ -7,8 +7,8 @@ struct MacAppRootView: View {
     @State var showMultipeer: Bool = false
 
     var body: some View {
-//        __METAL__body
-        __SCENE__body
+        __METAL__body
+//        __SCENE__body
     }
     
     var __SCENE__body: some View {

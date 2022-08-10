@@ -9,11 +9,29 @@
 import Foundation
 import MetalKit
 
-class RootNode: MetalLinkNode { }
+class RootNode: MetalLinkNode {
+    var constants = SceneConstants()
+    let camera: DebugCamera
+    init(_ camera: DebugCamera) {
+        self.camera = camera
+    }
+    
+    override func update(deltaTime: Float) {
+        constants.viewMatrix = camera.viewMatrix
+        super.update(deltaTime: deltaTime)
+    }
+    
+    override func render(in sdp: inout SafeDrawPass) {
+        sdp.renderCommandEncoder.setVertexBytes(&constants, length: SceneConstants.memStride, index: 1)
+        super.render(in: &sdp)
+    }
+}
 
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
-    let root = RootNode()
+    lazy var root = RootNode(
+        DebugCamera(link: link)
+    )
     
     init(link: MetalLink) throws {
         self.link = link
