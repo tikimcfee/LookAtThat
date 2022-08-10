@@ -13,6 +13,7 @@ enum CoreError: String, Error {
     case noCommandQueue
     case noDefaultLibrary
     case noBufferAvailable
+    case noStencilDescriptor
 }
 
 enum CoreShaderError: Error {

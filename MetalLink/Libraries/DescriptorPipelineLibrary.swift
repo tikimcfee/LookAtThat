@@ -47,5 +47,6 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
         renderPipelineDescriptor.vertexDescriptor = vertexDescriptor
         renderPipelineDescriptor.fragmentFunction = fragmentFunction
         renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
+        renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
     }
 }

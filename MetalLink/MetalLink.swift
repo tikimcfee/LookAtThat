@@ -22,6 +22,7 @@ class MetalLink {
     lazy var descriptorLibrary = VertexDescriptorComponentLibrary(link: self)
     lazy var pipelineLibrary = DescriptorPipelineLibrary(link: self)
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
+    lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
     init(view: CustomMTKView) throws {
         self.view = view

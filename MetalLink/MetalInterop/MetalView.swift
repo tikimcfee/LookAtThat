@@ -18,7 +18,7 @@ struct MetalView: NSViewRepresentable {
         mtkView.enableSetNeedsDisplay = true
         mtkView.isPaused = false
         mtkView.colorPixelFormat = .bgra8Unorm
-//        mtkView.depthStencilPixelFormat = .depth32Float
+        mtkView.depthStencilPixelFormat = .depth32Float
         return mtkView
     }
     
