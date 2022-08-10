@@ -15,6 +15,7 @@ enum MetalLinkCameraType {
 protocol MetalLinkCamera {
     var type: MetalLinkCameraType { get }
     var position: LFloat3 { get set }
+    var projectionMatrix: matrix_float4x4 { get }
 }
 
 extension MetalLinkCamera {
@@ -25,10 +26,19 @@ extension MetalLinkCamera {
     }
 }
 
-class DebugCamera: MetalLinkCamera, KeyboardPositionSource {
+class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     let type: MetalLinkCameraType = .Debug
     
     var position: LFloat3 = .zero
+    var projectionMatrix: matrix_float4x4 {
+        matrix_float4x4.init(
+            perspectiveProjectionFov: Float.pi / 2.0,
+            aspectRatio: viewAspectRatio,
+            nearZ: 0.1,
+            farZ: 1000
+        )
+    }
+    
     let worldUp: LFloat3 = LFloat3(0, 1, 0)
     let worldRight: LFloat3 = LFloat3(1, 0, 0)
     let worldFront: LFloat3 = LFloat3(0, 0, 1)

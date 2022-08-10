@@ -10,6 +10,7 @@ import MetalKit
 enum MeshType {
     case Triangle
     case Quad
+    case Cube
 }
 
 class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
@@ -25,6 +26,8 @@ class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
             return try! MetalLinkTriangleMesh(link)
         case .Quad:
             return try! MetalLinkQuadMesh(link)
+        case .Cube:
+            return try! MetalLinkCubeMesh(link)
         }
     }
 }

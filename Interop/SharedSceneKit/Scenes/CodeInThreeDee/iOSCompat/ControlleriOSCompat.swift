@@ -42,7 +42,7 @@ class ControlleriOSCompat {
             .debounce(for: .milliseconds(160), scheduler: RunLoop.main)
             .removeDuplicates(by: { last, this in last == this })
             .sink { [inputCompat] searchEvent in
-//                print("\t\t--> search event [\(searchEvent)]")
+//                  print("\t\t--> search event [\(searchEvent)]")
 //                inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
             }
             .store(in: &controller.cancellables)

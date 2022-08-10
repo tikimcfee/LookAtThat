@@ -56,6 +56,11 @@ extension MetalLinkReader {
         )
     }
     
+    var viewAspectRatio: Float {
+        let size = viewDrawableSize
+        return size.x / size.y
+    }
+    
     var viewDrawableSize: SIMD2<Float> {
         SIMD2<Float>(
             Float(view.drawableSize.width),

@@ -27,6 +27,7 @@ struct ModelConstants {
 
 struct SceneConstants {
     float4x4 viewMatrix;
+    float4x4 projectionMatrix;
     float4x4 pointerMatrix;
 };
 
@@ -37,10 +38,10 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
     RasterizerData rasterizerData;
     
     rasterizerData.position =
-        sceneConstants.viewMatrix
-        * sceneConstants.pointerMatrix
-        * modelConstants.modelMatrix
-        * float4(vertexIn.position, 1);
+        sceneConstants.projectionMatrix // camera
+        * sceneConstants.viewMatrix     // viewport
+        * modelConstants.modelMatrix    // transforms
+        * float4(vertexIn.position, 1); // current position
     
     rasterizerData.color = vertexIn.color;
     

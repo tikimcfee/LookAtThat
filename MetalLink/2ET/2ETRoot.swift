@@ -9,29 +9,6 @@
 import Combine
 import MetalKit
 
-class RootNode: MetalLinkNode, MetalLinkReader {
-    let camera: DebugCamera
-    var link: MetalLink { camera.link }
-    
-    var constants = SceneConstants()
-    var cancellables = Set<AnyCancellable>()
-    
-    init(_ camera: DebugCamera) {
-        self.camera = camera
-        super.init()
-    }
-    
-    override func update(deltaTime: Float) {
-        constants.viewMatrix = camera.viewMatrix
-        super.update(deltaTime: deltaTime)
-    }
-    
-    override func render(in sdp: inout SafeDrawPass) {
-        sdp.renderCommandEncoder.setVertexBytes(&constants, length: SceneConstants.memStride, index: 1)
-        super.render(in: &sdp)
-    }
-}
-
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     lazy var root = RootNode(
@@ -40,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup()
+        try setup2()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -50,6 +27,13 @@ class TwoETimeRoot: MetalLinkReader {
 }
 
 extension TwoETimeRoot {
+    func setup2() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        let node = try CubeNode(link: link)
+        root.add(child: node)
+    }
+    
     func setup() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
@@ -72,24 +56,5 @@ extension TwoETimeRoot {
                 root.add(child: node)
             }
         }
-    }
-}
-
-class ArrowNode: MetalLinkObject, MetalLinkReader {
-    init(_ link: MetalLink) throws {
-        try super.init(link, mesh: link.meshes[.Triangle])
-    }
-    
-    override func update(deltaTime: Float) {
-        updatePointer()
-        super.update(deltaTime: deltaTime)
-    }
-    
-    func updatePointer() {
-        let gesturePosition = defaultGestureViewportPosition
-        rotation.z = -atan2f(
-            gesturePosition.x - position.x,
-            gesturePosition.y - position.y
-        )
     }
 }
