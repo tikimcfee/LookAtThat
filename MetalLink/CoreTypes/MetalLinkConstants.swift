@@ -9,4 +9,5 @@ import simd
 
 struct SceneConstants: MemoryLayoutSizable {
     var viewMatrix = matrix_identity_float4x4
+    var pointerMatrix = matrix_identity_float4x4
 }

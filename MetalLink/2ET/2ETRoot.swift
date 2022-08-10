@@ -6,14 +6,19 @@
 //  Copyright © 2022 Metal by Example. All rights reserved.
 //
 
-import Foundation
+import Combine
 import MetalKit
 
-class RootNode: MetalLinkNode {
-    var constants = SceneConstants()
+class RootNode: MetalLinkNode, MetalLinkReader {
     let camera: DebugCamera
+    var link: MetalLink { camera.link }
+    
+    var constants = SceneConstants()
+    var cancellables = Set<AnyCancellable>()
+    
     init(_ camera: DebugCamera) {
         self.camera = camera
+        super.init()
     }
     
     override func update(deltaTime: Float) {
@@ -76,13 +81,15 @@ class ArrowNode: MetalLinkObject, MetalLinkReader {
     }
     
     override func update(deltaTime: Float) {
+        updatePointer()
+        super.update(deltaTime: deltaTime)
+    }
+    
+    func updatePointer() {
         let gesturePosition = defaultGestureViewportPosition
-        
         rotation.z = -atan2f(
             gesturePosition.x - position.x,
             gesturePosition.y - position.y
         )
-        
-        super.update(deltaTime: deltaTime)
     }
 }
