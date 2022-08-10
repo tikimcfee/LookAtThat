@@ -31,6 +31,11 @@ struct SceneConstants {
     float4x4 pointerMatrix;
 };
 
+struct Material {
+    float4 color;
+    bool useMaterialColor;
+};
+
 // recall buffer(x) is the Swift-defined buffer position for these vertices
 vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in ]],
                                             constant SceneConstants &sceneConstants [[ buffer(1) ]],
@@ -49,8 +54,12 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
 }
 
 
-fragment half4 basic_fragment_function(RasterizerData rasterizerData [[ stage_in ]]) {
-    float4 color = rasterizerData.color;
-    // Apparently there's an r/g/b/a property on float4?!
+fragment half4 basic_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
+                                       constant Material &material [[ buffer(1) ]]) {
+    float4 color = material.useMaterialColor
+        ? material.color
+        : rasterizerData.color;
+    
+    // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);
 }

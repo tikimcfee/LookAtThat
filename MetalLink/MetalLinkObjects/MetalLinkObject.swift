@@ -10,10 +10,13 @@ import MetalKit
 
 class MetalLinkObject: MetalLinkNode {
     let link: MetalLink
+    
     var mesh: MetalLinkMesh
     let pipelineState: MTLRenderPipelineState
+    
     var state = State()
     var constants = Constants()
+    private var material = MetalLinkMaterial()
     
     init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
         self.link = link
@@ -24,6 +27,13 @@ class MetalLinkObject: MetalLinkNode {
     override func update(deltaTime: Float) {
         super.update(deltaTime: deltaTime)        
         updateModelConstants()
+    }
+}
+
+extension MetalLinkObject {
+    public func setColor(_ color: LFloat4) {
+        material.color = color
+        material.useMaterialColor = true
     }
 }
 
@@ -48,11 +58,18 @@ extension MetalLinkObject: MetalLinkRenderable {
     func doRender(in sdp: inout SafeDrawPass) {
         guard let meshVertexBuffer = mesh.getVertexBuffer() else { return }
         
-        // Set buffer into device memory space; buffer(0) in shader functions.
+        // Setup rendering states for next draw pass
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
         sdp.renderCommandEncoder.setDepthStencilState(link.depthStencilStateLibrary[.Less])
-        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memSize, index: 2)
+        
+        // Set small <4kb buffered constants and main mesh buffer
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
+        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memSize, index: 2)
+        
+        // Update fragment shader
+        sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
+        
+        // Do the draw
         sdp.renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)
     }
 }

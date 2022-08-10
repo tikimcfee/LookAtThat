@@ -811,6 +811,10 @@
 		B7C69FDF28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
 		B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
 		B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
+		B7C69FE328A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
+		B7C69FE428A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
+		B7C69FE528A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
+		B7C69FE628A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
@@ -1251,6 +1255,7 @@
 		B7C69FD328A356C500A84860 /* ArrowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowNode.swift; sourceTree = "<group>"; };
 		B7C69FD828A3572B00A84860 /* CubeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeNode.swift; sourceTree = "<group>"; };
 		B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthStencilStateLibrary.swift; sourceTree = "<group>"; };
+		B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkMaterial.swift; sourceTree = "<group>"; };
 		B7C7565E280B82E80005A233 /* WorkerPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerPool.swift; sourceTree = "<group>"; };
 		B7C756D8280CECBA0005A233 /* TAPKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TAPKit.swift; sourceTree = "<group>"; };
 		B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TAPKitDelegateController.swift; sourceTree = "<group>"; };
@@ -1850,6 +1855,7 @@
 				B7C69FCE28A356A300A84860 /* RootNode.swift */,
 				B7C69FD328A356C500A84860 /* ArrowNode.swift */,
 				B7C69FD828A3572B00A84860 /* CubeNode.swift */,
+				B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */,
 			);
 			path = ObjectTypes;
 			sourceTree = "<group>";
@@ -2763,6 +2769,7 @@
 				B70FDCA5283EAE9900170D5F /* RenderingVersionTwo.swift in Sources */,
 				B70FDCA6283EAE9900170D5F /* FileBrowser+Scope.swift in Sources */,
 				B70FDCA7283EAE9900170D5F /* MultipeerManager+SessionDelegate.swift in Sources */,
+				B7C69FE428A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				B70FDCA8283EAE9900170D5F /* GlyphLayer+macOS.swift in Sources */,
 				B70FDCA9283EAE9900170D5F /* ControlleriOSInputCompat.swift in Sources */,
 				B70FDCAA283EAE9900170D5F /* CodePagesEditor.swift in Sources */,
@@ -2957,6 +2964,7 @@
 				B74A22E42814FFF300F6F727 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7D79AB1282B2443000F99EB /* CodePagesGridLSP.swift in Sources */,
 				B7AC337528A0CA71001172BB /* ShaderTypes.swift in Sources */,
+				B7C69FE628A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				B74A22E52814FFF300F6F727 /* CodePagesController.swift in Sources */,
 				B74A22E62814FFF300F6F727 /* TAPKitCentral.swift in Sources */,
 				B74A22E72814FFF300F6F727 /* CodeGridSemanticMap.swift in Sources */,
@@ -3338,6 +3346,7 @@
 				B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */,
 				B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
+				B7C69FE328A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				B720D58A2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
 				B7F44C3D276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */,
 				B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */,
@@ -3574,6 +3583,7 @@
 				B7A6F2B1275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
 				B7F44C2F276D946A00522B45 /* CodeGridFocusController.swift in Sources */,
 				B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */,
+				B7C69FE528A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */,
 				B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B78159EE273E059500212176 /* SceneKit+BoundsCaching.swift in Sources */,

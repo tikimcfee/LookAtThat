@@ -32,6 +32,7 @@ extension TwoETimeRoot {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
         let node = try CubeNode(link: link)
+        node.setColor(LFloat4(0.12, 0.67, 0.23, 1.0))
         root.add(child: node)
     }
     
