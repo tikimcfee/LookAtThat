@@ -27,9 +27,11 @@ class CodePagesControllerMacOSCompat {
     }
     
     lazy var keyboardInterceptor: KeyboardInterceptor = {
-        let interceptor = KeyboardInterceptor(
+        let interceptor = KeyboardInterceptor()
+        interceptor.positionSource = KeyboardInterceptor.CameraTarget(
             targetCamera: controller.sceneCamera,
-            targetCameraNode: controller.sceneCameraNode
+            targetCameraNode: controller.sceneCameraNode,
+            interceptor: interceptor
         )
         interceptor.onNewFileOperation = onFileOperation(_:)
         interceptor.onNewFocusChange = onNewFocusChange(_:)

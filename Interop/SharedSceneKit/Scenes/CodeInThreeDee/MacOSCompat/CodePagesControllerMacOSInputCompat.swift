@@ -38,7 +38,6 @@ class CodePagesControllerMacOSInputCompat {
     static let scrollSensitivity = CGFloat(5.0)
     
     func newScrollEvent(_ event: NSEvent) {
-        
         let sensitivity = Self.scrollSensitivity
         let scaledX = -event.deltaX * sensitivity
         let scaledY = event.deltaY * sensitivity

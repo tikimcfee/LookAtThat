@@ -5,10 +5,10 @@
 //  Created by Ivan Lugo on 11/4/21.
 //
 
-import Foundation
 import SceneKit
+import Combine
 
-private var default_MovementSpeed: VectorFloat = 10
+private var default_MovementSpeed: VectorFloat = 5
 private var default_ModifiedMovementSpeed: VectorFloat = 20
 private let default_UpdateDeltaMillis = 16
 
@@ -23,37 +23,72 @@ extension KeyboardInterceptor {
     class State: ObservableObject {
         @Published var directions: Set<SelfRelativeDirection> = []
         @Published var currentModifiers: OSEvent.ModifierFlags = .init()
+        
+        // TODO: Track all focus directions and provide a trail?
+        @Published var focusPath: [SelfRelativeDirection] = []
+    }
+    
+    class Positions: ObservableObject {
+        @Published var totalOffset: LFloat3 = .zero
+        @Published var travelOffset: LFloat3 = .zero
+    }
+}
+
+protocol KeyboardPositionSource {
+    var worldUp: LFloat3 { get }
+    var worldRight: LFloat3 { get }
+    var worldFront: LFloat3 { get }
+}
+
+extension KeyboardInterceptor {
+    struct CameraTarget: KeyboardPositionSource {
+        let targetCamera: SCNCamera
+        let targetCameraNode: SCNNode
+        private let disposable: AnyCancellable
+
+        var worldUp: LFloat3 { targetCameraNode.simdWorldUp }
+        var worldRight: LFloat3 { targetCameraNode.simdWorldRight }
+        var worldFront: LFloat3 { targetCameraNode.simdWorldFront }
+        var current: LFloat3 { targetCameraNode.simdPosition }
+        
+        init(targetCamera: SCNCamera,
+             targetCameraNode: SCNNode,
+             interceptor: KeyboardInterceptor
+        ) {
+            self.targetCamera = targetCamera
+            self.targetCameraNode = targetCameraNode
+            self.disposable = interceptor.positions.$travelOffset.sink { offset in
+                sceneTransaction(0.0835, .easeOut) {
+                    targetCameraNode.simdPosition += offset
+                }
+            }
+        }
     }
 }
 
 class KeyboardInterceptor {
 
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
-    private var state = State()
     
-    private var running: Bool = false
+    private(set) var state = State()
+    private(set) var positions = Positions()
+    private(set) var running: Bool = false
     
     var onNewFileOperation: FileOperationReceiver?
     var onNewFocusChange: FocusChangeReceiver?
-    
-    var targetCameraNode: SCNNode
-    var targetCamera: SCNCamera
-    
-    init(targetCamera: SCNCamera,
-         targetCameraNode: SCNNode,
-         onNewFileOperation: FileOperationReceiver? = nil) {
-        self.targetCamera = targetCamera
-        self.targetCameraNode = targetCameraNode
-        self.onNewFileOperation = onNewFileOperation
-    }
+    var positionSource: KeyboardPositionSource?
     
     private var dispatchTimeNext: DispatchTime {
         let next = DispatchTime.now() + .milliseconds(default_UpdateDeltaMillis)
         return next
     }
     
+    init(onNewFileOperation: FileOperationReceiver? = nil) {
+        self.onNewFileOperation = onNewFileOperation
+    }
+    
     func onNewKeyEvent(_ event: OSEvent) {
-        movementQueue.async {
+        movementQueue.sync {
             self.enqueuedKeyConsume(event)
         }
     }
@@ -102,23 +137,23 @@ private extension KeyboardInterceptor {
         _ direction: SelfRelativeDirection,
         _ finalDelta: VectorFloat
     ) {
-        func delta() -> simd_float3 {
+        guard let source = positionSource else { return }
+        func delta() -> LFloat3 {
             switch direction {
-            case .forward:  return targetCameraNode.simdWorldFront * Float(finalDelta)
-            case .backward: return targetCameraNode.simdWorldFront * -Float(finalDelta)
+            case .forward:  return source.worldFront * Float(finalDelta)
+            case .backward: return source.worldFront * -Float(finalDelta)
                 
-            case .right:    return targetCameraNode.simdWorldRight * Float(finalDelta)
-            case .left:     return targetCameraNode.simdWorldRight * -Float(finalDelta)
+            case .right:    return source.worldRight * Float(finalDelta)
+            case .left:     return source.worldRight * -Float(finalDelta)
                 
-            case .up:       return targetCameraNode.simdWorldUp * Float(finalDelta)
-            case .down:     return targetCameraNode.simdWorldUp * -Float(finalDelta)
+            case .up:       return source.worldUp * Float(finalDelta)
+            case .down:     return source.worldUp * -Float(finalDelta)
             }
         }
-        
-        DispatchQueue.main.async { [targetCameraNode] in
-            sceneTransaction(0.0835, .easeOut) {
-                targetCameraNode.simdPosition += delta()
-            }
+        let delta = delta()
+        DispatchQueue.main.async { [positions] in
+            positions.totalOffset += delta
+            positions.travelOffset = delta
         }
     }
 }
@@ -129,6 +164,11 @@ private extension KeyboardInterceptor {
     //  You must check type before access, and ensure any fields are expected to be returned.
     //  E.g., `event.characters` results in an immediate fatal exception thrown if the type is NOT .keyDown or .keyUp
     // We break up the fields on type to make slightly safer assumptions in the implementation
+    //
+    // TODO: there is a bug when interacting with pan / drag etc.
+    // If you drag while holding a control, you lose keyup events
+    // and start listing in the last direction. Figure out why.
+    // Maybe something is wrong with share? Event is being diverted?
     func enqueuedKeyConsume(_ event: OSEvent) {
         switch event.type {
         case .keyDown:
@@ -183,11 +223,12 @@ private extension KeyboardInterceptor {
     }
     
     private func onFlagsChanged(_ flags: OSEvent.ModifierFlags, _ event: OSEvent) {
-        self.state.currentModifiers = flags
-        self.enqueueRunLoop()
+        state.currentModifiers = flags
+        enqueueRunLoop()
     }
     
     private func changeFocus(_ focusDirection: SelfRelativeDirection) {
+        state.focusPath.append(focusDirection)
         onNewFocusChange?(focusDirection)
     }
 }
