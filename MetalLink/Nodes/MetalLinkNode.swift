@@ -7,12 +7,35 @@
 
 import MetalKit
 
+struct matrix_cached_float4x4 {
+    private(set) var rebuildModel = true // implicit rebuild on first call
+    private(set) var currentModel = matrix_identity_float4x4
+    
+    let update: () -> matrix_float4x4
+    
+    mutating func dirty() { rebuildModel = true }
+    
+    mutating func get() -> matrix_float4x4 {
+        guard rebuildModel else { return currentModel }
+        rebuildModel = false
+        currentModel = update()
+        return currentModel
+    }
+}
+
 class MetalLinkNode {
-    var position: LFloat3 = .zero
-    var scale: LFloat3 = LFloat3(1.0, 1.0, 1.0)
-    var rotation: LFloat3 = .zero
+    private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     
     var children: [MetalLinkNode] = []
+    
+    var position: LFloat3 = .zero
+        { didSet { currentModel.dirty() } }
+    
+    var scale: LFloat3 = LFloat3(1.0, 1.0, 1.0)
+        { didSet { currentModel.dirty() } }
+    
+    var rotation: LFloat3 = .zero
+        { didSet { currentModel.dirty() } }
     
     func render(in sdp: inout SafeDrawPass) {
         children.forEach { $0.render(in: &sdp) }
@@ -32,6 +55,10 @@ extension MetalLinkNode {
 
 extension MetalLinkNode {
     var modelMatrix: matrix_float4x4 {
+        currentModel.get()
+    }
+    
+    private func buildModelMatrix() -> matrix_float4x4 {
         // This is expensive.
         var matrix = matrix_identity_float4x4
         matrix.translate(vector: position)

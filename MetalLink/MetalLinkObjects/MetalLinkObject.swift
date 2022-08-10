@@ -10,9 +10,13 @@ import MetalKit
 
 class MetalLinkObject: MetalLinkNode {
     let link: MetalLink
-    
     var mesh: MetalLinkMesh
-    let pipelineState: MTLRenderPipelineState
+    
+    private lazy var pipelineState: MTLRenderPipelineState
+        = link.pipelineStateLibrary[.BasicPipelineState]
+    
+    private lazy var stencilState: MTLDepthStencilState
+        = link.depthStencilStateLibrary[.Less]
     
     var state = State()
     var constants = Constants()
@@ -20,7 +24,6 @@ class MetalLinkObject: MetalLinkNode {
     
     init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
         self.link = link
-        self.pipelineState = link.pipelineStateLibrary[.BasicPipelineState]
         self.mesh = mesh
     }
     
@@ -60,7 +63,7 @@ extension MetalLinkObject: MetalLinkRenderable {
         
         // Setup rendering states for next draw pass
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
-        sdp.renderCommandEncoder.setDepthStencilState(link.depthStencilStateLibrary[.Less])
+        sdp.renderCommandEncoder.setDepthStencilState(stencilState)
         
         // Set small <4kb buffered constants and main mesh buffer
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
