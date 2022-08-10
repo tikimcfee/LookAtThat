@@ -31,7 +31,7 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     
     let worldUp: LFloat3 = LFloat3(0, 1, 0)
     let worldRight: LFloat3 = LFloat3(1, 0, 0)
-    let worldFront: LFloat3 = LFloat3(0, 0, 1)
+    let worldFront: LFloat3 = LFloat3(0, 0, -1)
     
     let link: MetalLink
     let interceptor = KeyboardInterceptor()
