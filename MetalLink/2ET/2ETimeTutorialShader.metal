@@ -23,6 +23,7 @@ struct RasterizerData {
 
 struct ModelConstants {
     float4x4 modelMatrix;
+    float4 color;
 };
 
 struct SceneConstants {
@@ -76,20 +77,18 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     
     rasterizerData.position =
     sceneConstants.projectionMatrix // camera
-    * sceneConstants.viewMatrix     // viewport
-    * modelConstants[instanceId].modelMatrix    // transforms
-    * float4(vertexIn.position, 1); // current position
+        * sceneConstants.viewMatrix     // viewport
+        * modelConstants[instanceId].modelMatrix    // transforms
+        * float4(vertexIn.position, 1); // current position
     
-    rasterizerData.color = vertexIn.color;
+    rasterizerData.color = modelConstants[instanceId].color;
     
     return rasterizerData;
 }
 
 fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
                                            constant Material &material [[ buffer(1) ]]) {
-    float4 color = material.useMaterialColor
-    ? material.color
-    : rasterizerData.color;
+    float4 color = rasterizerData.color;
     
     // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);

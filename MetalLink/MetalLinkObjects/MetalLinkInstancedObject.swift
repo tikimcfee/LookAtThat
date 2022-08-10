@@ -6,6 +6,7 @@
 //
 
 import MetalKit
+import Algorithms
 
 class MetalLinkInstancedObject: MetalLinkNode {
     let link: MetalLink
@@ -17,15 +18,16 @@ class MetalLinkInstancedObject: MetalLinkNode {
     private lazy var stencilState: MTLDepthStencilState
         = link.depthStencilStateLibrary[.Less]
     
-    var state = State()
-    var constants = Constants() { didSet { rebuildSelf = true }}
-    var rebuildSelf: Bool = true
     private var material = MetalLinkMaterial()
     
+    var state = State()
+    var constants = InstancedConstants() { didSet { rebuildSelf = true }}
+    var rebuildSelf: Bool = true
+    
     var instancedNodes: [MetalLinkNode] = [] { didSet { rebuildBuffer = true }}
-    var instancedConstants: [Constants] = [] { didSet { rebuildBuffer = true }}
+    var instancedConstants: [InstancedConstants] = [] { didSet { rebuildBuffer = true }}
     private var modelConstantsBuffer: MTLBuffer
-    private var rebuildBuffer: Bool = true
+    var rebuildBuffer: Bool = true
     
     init(_ link: MetalLink,
          mesh: MetalLinkMesh,
@@ -39,15 +41,20 @@ class MetalLinkInstancedObject: MetalLinkNode {
     }
     
     override func update(deltaTime: Float) {
+        state.time += deltaTime
         updateModelConstants()
         super.update(deltaTime: deltaTime)
+    }
+    
+    func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
+        // override to do stuff right before instance buffer updates
     }
 }
 
 private extension MetalLinkInstancedObject {
-    func generateInstances(count: Int) throws -> ([MetalLinkNode], [Constants]) {
+    func generateInstances(count: Int) throws -> ([MetalLinkNode], [InstancedConstants]) {
         var instances: [MetalLinkNode] = []
-        var modelConstants: [Constants] = []
+        var modelConstants: [InstancedConstants] = []
         for _ in 0..<count {
             modelConstants.append(.init())
             instances.append(.init())
@@ -57,7 +64,7 @@ private extension MetalLinkInstancedObject {
     
     static func createBuffers(_ link: MetalLink, instanceCount: Int) throws -> MTLBuffer {
         guard let buffer = link.device.makeBuffer(
-            length: Constants.memStride(of: instanceCount),
+            length: InstancedConstants.memStride(of: instanceCount),
             options: []
         ) else { throw CoreError.noBufferAvailable }
         return buffer
@@ -74,8 +81,8 @@ extension MetalLinkInstancedObject {
 extension MetalLinkInstancedObject {
     func updateModelConstants() {
         if rebuildSelf {
-            rebuildSelf = false
             constants.modelMatrix = modelMatrix
+            rebuildSelf = false
         }
         
         if rebuildBuffer {
@@ -85,20 +92,53 @@ extension MetalLinkInstancedObject {
     }
     
     func pushConstantsBuffer() {
+//        iterativePush()
+        multiThreadedPush()
+    }
+    
+    private func iterativePush() {
         var pointer = modelConstantsBuffer
             .contents()
-            .bindMemory(to: Constants.self, capacity: instancedNodes.count)
+            .bindMemory(to: InstancedConstants.self, capacity: instancedNodes.count)
         
-        for instance in instancedNodes {
-            pointer.pointee.modelMatrix = instance.modelMatrix
+        zip(instancedNodes, instancedConstants).forEach { node, constants in
+            pointer.pointee.modelMatrix = node.modelMatrix
+            pointer.pointee.color = constants.color
             pointer = pointer.advanced(by: 1)
         }
+    }
+    
+    private func multiThreadedPush() {
+        let pointer = modelConstantsBuffer
+            .contents()
+            .bindMemory(to: InstancedConstants.self, capacity: instancedNodes.count)
+        
+        let group = DispatchGroup() // Just throw threads at it, Ivan. Sure.
+        instancedNodes
+            .chunks(ofCount: instancedNodes.count / 4)
+            .forEach { chunk in
+                group.enter()
+                WorkerPool.shared.nextConcurrentWorker().async {
+                    var index = chunk.startIndex
+                    chunk.forEach { node in
+                        self.performJITInstanceBufferUpdate(node)
+                        pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
+                        
+                        let constants = self.instancedConstants[index]
+                        pointer[index].color = constants.color
+                        index += 1
+                    }
+                    group.leave()
+                }
+            }
+        group.wait()
     }
 }
 
 extension MetalLinkInstancedObject {
-    struct Constants: MemoryLayoutSizable {
+    struct InstancedConstants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
+        var color = LFloat4.zero
     }
     
     class State {
@@ -130,4 +170,3 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
         )
     }
 }
-

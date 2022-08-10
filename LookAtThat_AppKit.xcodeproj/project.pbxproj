@@ -827,6 +827,7 @@
 		B7C69FF328A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
 		B7C69FF428A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
 		B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
+		B7C69FF828A4526500A84860 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7C69FF728A4526500A84860 /* Algorithms */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
@@ -1433,6 +1434,7 @@
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
+				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
 				B7EB71302848128700313633 /* ZIPFoundation in Frameworks */,
@@ -2487,6 +2489,7 @@
 				B7EB71072844119800313633 /* SwiftSyntaxParser */,
 				B7EB712F2848128700313633 /* ZIPFoundation */,
 				B72A8774287BE93900A78B19 /* ArgumentParser */,
+				B7C69FF728A4526500A84860 /* Algorithms */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -2586,6 +2589,7 @@
 				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 				B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -4444,6 +4448,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SceneKit-SCNLine.git";
@@ -4568,6 +4580,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
 			productName = Brotli;
+		};
+		B7C69FF728A4526500A84860 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 		B7C9AFB1284352D60077BCA7 /* SCNLine */ = {
 			isa = XCSwiftPackageProductDependency;
