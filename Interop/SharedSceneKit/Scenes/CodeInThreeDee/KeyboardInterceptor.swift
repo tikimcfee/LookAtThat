@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-private var default_MovementSpeed: VectorFloat = 2
+private var default_MovementSpeed: VectorFloat = 10
 private var default_ModifiedMovementSpeed: VectorFloat = 20
 private let default_UpdateDeltaMillis = 16
 
@@ -19,26 +19,32 @@ enum FileOperation {
 
 typealias FocusChangeReceiver = (SelfRelativeDirection) -> Void
 
+extension KeyboardInterceptor {
+    class State: ObservableObject {
+        @Published var directions: Set<SelfRelativeDirection> = []
+        @Published var currentModifiers: OSEvent.ModifierFlags = .init()
+    }
+}
+
 class KeyboardInterceptor {
 
     private let movementQueue = DispatchQueue(label: "KeyboardCamera", qos: .userInteractive)
-    private var directionCache: Set<SelfRelativeDirection>
+    private var state = State()
     
-    private var currentModifiers: NSEvent.ModifierFlags = .init()
     private var running: Bool = false
     
-    var targetCameraNode: SCNNode
-    var targetCamera: SCNCamera
     var onNewFileOperation: FileOperationReceiver?
     var onNewFocusChange: FocusChangeReceiver?
     
+    var targetCameraNode: SCNNode
+    var targetCamera: SCNCamera
+    
     init(targetCamera: SCNCamera,
          targetCameraNode: SCNNode,
-        onNewFileOperation: FileOperationReceiver? = nil) {
+         onNewFileOperation: FileOperationReceiver? = nil) {
         self.targetCamera = targetCamera
         self.targetCameraNode = targetCameraNode
         self.onNewFileOperation = onNewFileOperation
-        self.directionCache = []
     }
     
     private var dispatchTimeNext: DispatchTime {
@@ -46,7 +52,7 @@ class KeyboardInterceptor {
         return next
     }
     
-    func onNewKeyEvent(_ event: NSEvent) {
+    func onNewKeyEvent(_ event: OSEvent) {
         movementQueue.async {
             self.enqueuedKeyConsume(event)
         }
@@ -59,17 +65,16 @@ class KeyboardInterceptor {
     }
     
     private func runLoopImplementation() {
-        guard !directionCache.isEmpty else {
+        guard !state.directions.isEmpty else {
             running = false
             return
         }
         
-        let finalDelta = currentModifiers.contains(.shift)
+        let finalDelta = state.currentModifiers.contains(.shift)
             ? default_ModifiedMovementSpeed
             : default_MovementSpeed
         
-        directionCache.forEach { direction in
-//            print("--> \(direction)")
+        state.directions.forEach { direction in
             doDirectionDelta(direction, finalDelta)
         }
         
@@ -79,15 +84,15 @@ class KeyboardInterceptor {
     }
     
     private func startMovement(_ direction: SelfRelativeDirection) {
-        guard !directionCache.contains(direction) else { return }
+        guard !state.directions.contains(direction) else { return }
         print("start", direction)
-        directionCache.insert(direction)
+        state.directions.insert(direction)
         enqueueRunLoop()
     }
     
     private func stopMovement(_ direction: SelfRelativeDirection) {
         print("stop", direction)
-        directionCache.remove(direction)
+        state.directions.remove(direction)
         enqueueRunLoop()
     }
 }
@@ -97,28 +102,22 @@ private extension KeyboardInterceptor {
         _ direction: SelfRelativeDirection,
         _ finalDelta: VectorFloat
     ) {
-        func update() {
+        func delta() -> simd_float3 {
             switch direction {
-            case .forward:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldFront * Float(finalDelta)
-            case .backward:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldFront * -Float(finalDelta)
+            case .forward:  return targetCameraNode.simdWorldFront * Float(finalDelta)
+            case .backward: return targetCameraNode.simdWorldFront * -Float(finalDelta)
                 
-            case .right:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldRight * Float(finalDelta)
-            case .left:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldRight * -Float(finalDelta)
+            case .right:    return targetCameraNode.simdWorldRight * Float(finalDelta)
+            case .left:     return targetCameraNode.simdWorldRight * -Float(finalDelta)
                 
-            case .up:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldUp * Float(finalDelta)
-            case .down:
-                targetCameraNode.simdPosition += targetCameraNode.simdWorldUp * -Float(finalDelta)
+            case .up:       return targetCameraNode.simdWorldUp * Float(finalDelta)
+            case .down:     return targetCameraNode.simdWorldUp * -Float(finalDelta)
             }
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [targetCameraNode] in
             sceneTransaction(0.0835, .easeOut) {
-                update()
+                targetCameraNode.simdPosition += delta()
             }
         }
     }
@@ -130,7 +129,7 @@ private extension KeyboardInterceptor {
     //  You must check type before access, and ensure any fields are expected to be returned.
     //  E.g., `event.characters` results in an immediate fatal exception thrown if the type is NOT .keyDown or .keyUp
     // We break up the fields on type to make slightly safer assumptions in the implementation
-    func enqueuedKeyConsume(_ event: NSEvent) {
+    func enqueuedKeyConsume(_ event: OSEvent) {
         switch event.type {
         case .keyDown:
             onKeyDown(event.characters ?? "", event)
@@ -141,7 +140,7 @@ private extension KeyboardInterceptor {
         }
     }
     
-    private func onKeyDown(_ characters: String, _ event: NSEvent) {
+    private func onKeyDown(_ characters: String, _ event: OSEvent) {
         switch characters {
         case "a", "A": startMovement(.left)
         case "d", "D": startMovement(.right)
@@ -170,7 +169,7 @@ private extension KeyboardInterceptor {
         }
     }
     
-    private func onKeyUp(_ characters: String, _ event: NSEvent) {
+    private func onKeyUp(_ characters: String, _ event: OSEvent) {
         switch characters {
         case "a", "A": stopMovement(.left)
         case "d", "D": stopMovement(.right)
@@ -183,8 +182,8 @@ private extension KeyboardInterceptor {
         }
     }
     
-    private func onFlagsChanged(_ flags: NSEvent.ModifierFlags, _ event: NSEvent) {
-        self.currentModifiers = flags
+    private func onFlagsChanged(_ flags: OSEvent.ModifierFlags, _ event: OSEvent) {
+        self.state.currentModifiers = flags
         self.enqueueRunLoop()
     }
     
