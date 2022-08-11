@@ -32,6 +32,10 @@ class MetalLinkObject: MetalLinkNode {
         super.update(deltaTime: deltaTime)        
         updateModelConstants()
     }
+    
+    func applyTextures(_ sdp: inout SafeDrawPass) {
+        
+    }
 }
 
 extension MetalLinkObject {
@@ -73,6 +77,7 @@ extension MetalLinkObject: MetalLinkRenderable {
         
         // Update fragment shader
         sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
+        applyTextures(&sdp)
         
         // Do the draw
         sdp.renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)

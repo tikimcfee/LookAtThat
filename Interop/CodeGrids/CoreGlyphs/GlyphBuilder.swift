@@ -19,19 +19,7 @@ class GlyphBuilder {
     let bridge = MetalLinkNodeBridge()
     
     func makeGlyph(_ key: GlyphCacheKey) -> SizedText {
-        let safeString = key.glyph
-        let (_, wordSizeScaled) = fontRenderer.measure(safeString)
-        
-        // Create and configure text layer
-        let textLayer = CATextLayer()
-        textLayer.foregroundColor = key.foreground.cgColor
-        textLayer.string = safeString
-        textLayer.font = fontRenderer.unitFont
-        textLayer.alignmentMode = .left
-        textLayer.fontSize = wordSizeScaled.height
-        textLayer.frame.size = textLayer.preferredFrameSize()
-        textLayer.display() // Try to get the layer content to update manually. Docs say not to do it;
-                            // experimentally, it fills the backing content properly and can be used immediately
+        let textLayer = makeTextLayer(key)
         
         // Resize the final layer according to descale factor
         let descaledSize = fontRenderer.descale(textLayer.frame.size)
@@ -56,5 +44,28 @@ class GlyphBuilder {
 //        templatePlane.firstMaterial?.program = bridge.defaultSceneProgram
                 
         return (keyPlane, templatePlane, descaledSize)
+    }
+    
+    func makeBitmaps(_ key: GlyphCacheKey) -> BitmapImages? {
+        let textLayer = makeTextLayer(key)
+        return textLayer.getBitmapImage(using: key)
+    }
+    
+    func makeTextLayer(_ key: GlyphCacheKey) -> CATextLayer {
+        let safeString = key.glyph
+        let (_, wordSizeScaled) = fontRenderer.measure(safeString)
+        
+        // Create and configure text layer
+        let textLayer = CATextLayer()
+        textLayer.foregroundColor = key.foreground.cgColor
+        textLayer.string = safeString
+        textLayer.font = fontRenderer.unitFont
+        textLayer.alignmentMode = .left
+        textLayer.fontSize = wordSizeScaled.height
+        textLayer.frame.size = textLayer.preferredFrameSize()
+        textLayer.display() // Try to get the layer content to update manually. Docs say not to do it;
+                            // experimentally, it fills the backing content properly and can be used immediately
+        
+        return textLayer
     }
 }

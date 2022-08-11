@@ -6,7 +6,9 @@
 //
 
 #include <metal_stdlib>
-using namespace metal;
+//using namespace metal;
+
+
 
 #include "../ShaderBridge.h"
 #include "MetalLinkShared.metal"
@@ -32,18 +34,16 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
     return rasterizerData;
 }
 
+
 fragment half4 basic_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
-                                       constant Material &material [[ buffer(1) ]]) {
-//    float4 color = material.useMaterialColor
-//    ? material.color
-//    : rasterizerData.color;
-    
+                                       constant Material &material [[ buffer(1) ]],
+                                       texture2d<half> colorTexture [[ texture(0) ]]) { // AAPLTextureIndexBaseColor?
     float2 texCoord = rasterizerData.textureCoordinate;
-    float time = rasterizerData.totalGameTime;
-    float x = cos((texCoord.x + time) * 20);
-    float y = sin((texCoord.y + time) * 20);
-    float z = 0;
-    float4 color = float4(x, y, z, 1);
+//    float time = rasterizerData.totalGameTime;
+    
+    // Sample the texture to obtain a color
+    constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
+    const half4 color = colorTexture.sample(textureSampler, texCoord);
     
     // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);
