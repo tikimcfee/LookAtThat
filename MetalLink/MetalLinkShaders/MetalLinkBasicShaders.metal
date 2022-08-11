@@ -19,11 +19,12 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
     
     rasterizerData.position =
     sceneConstants.projectionMatrix // camera
-    * sceneConstants.viewMatrix     // viewport
-    * modelConstants.modelMatrix    // transforms
-    * float4(vertexIn.position, 1); // current position
+        * sceneConstants.viewMatrix     // viewport
+        * modelConstants.modelMatrix    // transforms
+        * float4(vertexIn.position, 1); // current position
     
     rasterizerData.color = vertexIn.color;
+    rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
     
     return rasterizerData;
 }

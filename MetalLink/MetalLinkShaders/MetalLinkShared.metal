@@ -10,13 +10,15 @@ using namespace metal;
 
 
 struct VertexIn {
-    float3 position [[ attribute(0) ]]; // 'look at attributes[0] in descriptor
-    float4 color    [[ attribute(1) ]];
+    float3 position             [[ attribute(0) ]];
+    float4 color                [[ attribute(1) ]];
+    float2 textureCoordinate    [[ attribute(2) ]];
 };
 
 struct RasterizerData {
     float4 position [[ position ]]; // position implies "don't interpolate this; it's a position"
-    float4 color;                   // this is interpolated
+    float4 color;                   // interpolated
+    float2 textureCoordinate;       // interpolated
 };
 
 struct ModelConstants {

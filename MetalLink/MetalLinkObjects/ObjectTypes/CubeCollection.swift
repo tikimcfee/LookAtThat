@@ -54,24 +54,6 @@ class CubeCollection: MetalLinkInstancedObject {
     private func time(_ dT: Float) -> Float { _time += dT; return _time }
     
     override func update(deltaTime dT: Float) {
-//        let halfX = Float(size.x / 2)
-//        let halfY = Float(size.y / 2)
-//        let halfZ = Float(size.z / 2)
-//        
-//        var index = 0
-//        let count = instancedNodes.count
-//        
-//        for x in stride(from: -halfX, to: halfX, by: 1.0) {
-//            for y in stride(from: -halfY, to: halfY, by: 1.0) {
-//                for z in stride(from: -halfZ, to: halfZ, by: 1.0) {
-//                    if index >= count { return }
-//                    instancedNodes[index].rotation.x -= dT * 2
-//                    instancedNodes[index].rotation.y -= dT * 2
-//                    index += 1
-//                }
-//            }
-//        }
-        
         rotation.x -= dT / 2
         rotation.y -= dT / 2
         

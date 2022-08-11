@@ -8,6 +8,20 @@
 
 import MetalKit
 
+extension MetalLinkBaseMesh {
+    func addVertex(
+        position: LFloat3,
+        color: LFloat4,
+        textureCoordinate: LFloat2
+    ) {
+        currentVertices.append(Vertex(
+            position: position,
+            color: color,
+            textureCoordinate: textureCoordinate)
+        )
+    }
+}
+
 class MetalLinkTriangleMesh: MetalLinkBaseMesh {
     override func createVertices() -> [Vertex] { [
         Vertex(position: LFloat3( 0, 1, 0), color: LFloat4(1,0,0,1)),
@@ -18,13 +32,13 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
     override func createVertices() -> [Vertex] { [
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1)),
-        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1)),
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1)),
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)),
+        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1), textureCoordinate: LFloat2(0, 0)),
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)),
         
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1)),
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1)),
-        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1))
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)),
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)),
+        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))
     ] }
 }
 

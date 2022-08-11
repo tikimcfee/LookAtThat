@@ -51,6 +51,7 @@ extension MetalLinkObject {
 extension MetalLinkObject {
     struct Constants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
+        var color = LFloat4.zero;
     }
     
     class State {
@@ -68,7 +69,7 @@ extension MetalLinkObject: MetalLinkRenderable {
         
         // Set small <4kb buffered constants and main mesh buffer
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
-        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memSize, index: 2)
+        sdp.renderCommandEncoder.setVertexBytes(&constants, length: Constants.memStride, index: 2)
         
         // Update fragment shader
         sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)

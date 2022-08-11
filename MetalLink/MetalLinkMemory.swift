@@ -33,6 +33,7 @@ extension MemoryLayoutSizable {
     }
 }
 
+extension LFloat2: MemoryLayoutSizable { }
 extension LFloat3: MemoryLayoutSizable { }
 extension LFloat4: MemoryLayoutSizable { }
 extension Float: MemoryLayoutSizable { }

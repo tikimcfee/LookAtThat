@@ -18,7 +18,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup4()
+        try setup5()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -28,6 +28,15 @@ class TwoETimeRoot: MetalLinkReader {
 }
 
 extension TwoETimeRoot {
+    func setup5() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        let quadNode = try MetalLinkObject(link, mesh: link.meshes[.Quad])
+        quadNode.position.z -= 5
+        
+        root.add(child: quadNode)
+    }
+    
     func setup4() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         

@@ -1495,6 +1495,7 @@
 				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
 				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
 				B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */,
+				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
 				B750771228A21FE20097278A /* Maths */,
 				B7AC33B128A0DC7E001172BB /* Nodes */,
 				B7AC332628A0CA70001172BB /* CoreTypes */,
@@ -1831,9 +1832,6 @@
 			isa = PBXGroup;
 			children = (
 				B7AC333B28A0CA70001172BB /* 2ETRoot.swift */,
-				B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */,
-				B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */,
-				B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */,
 			);
 			path = 2ET;
 			sourceTree = "<group>";
@@ -2057,6 +2055,16 @@
 				B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */,
 			);
 			path = ShareCompat;
+			sourceTree = "<group>";
+		};
+		B7F67F1228A4909C0056E540 /* MetalLinkShaders */ = {
+			isa = PBXGroup;
+			children = (
+				B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */,
+				B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */,
+				B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */,
+			);
+			path = MetalLinkShaders;
 			sourceTree = "<group>";
 		};
 		B7F74EEF28921CE8004C5F8F /* Playgrounds */ = {
