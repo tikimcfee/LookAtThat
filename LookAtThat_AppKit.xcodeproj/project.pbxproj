@@ -942,6 +942,10 @@
 		B7F5F67128556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
 		B7F5F67228556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
 		B7F5F67328556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
+		B7F67F1528A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
+		B7F67F1628A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
+		B7F67F1728A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
+		B7F67F1828A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -1334,6 +1338,7 @@
 		B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_MacOS.swift; sourceTree = "<group>"; };
 		B7F44C45276E68D600522B45 /* FocusBoxEngine_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_iOS.swift; sourceTree = "<group>"; };
 		B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Writers.swift"; sourceTree = "<group>"; };
+		B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGlyph.swift; sourceTree = "<group>"; };
 		B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeptopodCertified.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1848,6 +1853,7 @@
 		B7AC33B128A0DC7E001172BB /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				B7F67F1328A4E5630056E540 /* Glyphs */,
 				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
 				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
 				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
@@ -2065,6 +2071,14 @@
 				B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */,
 			);
 			path = MetalLinkShaders;
+			sourceTree = "<group>";
+		};
+		B7F67F1328A4E5630056E540 /* Glyphs */ = {
+			isa = PBXGroup;
+			children = (
+				B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */,
+			);
+			path = Glyphs;
 			sourceTree = "<group>";
 		};
 		B7F74EEF28921CE8004C5F8F /* Playgrounds */ = {
@@ -2799,6 +2813,7 @@
 				B70FDC9C283EAE9900170D5F /* WorldGridSnapping.swift in Sources */,
 				B7AC334F28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDF28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
+				B7F67F1628A4E57A0056E540 /* LinkGlyph.swift in Sources */,
 				B70FDC9D283EAE9900170D5F /* VersionNumber.swift in Sources */,
 				B70FDC9E283EAE9900170D5F /* TAPRawSensorSensitivity.swift in Sources */,
 				B7AC338728A0CA71001172BB /* 2ETRoot.swift in Sources */,
@@ -2996,6 +3011,7 @@
 				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
 				B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */,
+				B7F67F1828A4E57A0056E540 /* LinkGlyph.swift in Sources */,
 				B74A22D82814FFF300F6F727 /* CodeGridParser+Rendering.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
@@ -3386,6 +3402,7 @@
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDE28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
+				B7F67F1528A4E57A0056E540 /* LinkGlyph.swift in Sources */,
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */,
@@ -3508,6 +3525,7 @@
 				B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
+				B7F67F1728A4E57A0056E540 /* LinkGlyph.swift in Sources */,
 				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
 				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				B7AC336428A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,

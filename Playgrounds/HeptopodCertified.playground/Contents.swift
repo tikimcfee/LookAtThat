@@ -39,19 +39,7 @@ func incrementStep(_ node: GlyphNode) {
 let bridge = MetalLinkNodeBridge()
 
 
-for node in nodes {
-    bridge.attachedDefaultSceneProgram(node)
-    
-    
-//    let image = UIImage(named: "diffuse")!
-//    let imageProperty = SCNMaterialProperty(contents: image)
-//    // The name you supply here should match the texture parameter name in the fragment shader
-//    material.setValue(imageProperty, forKey: "diffuseTexture")
-    
-    scene.rootGeometryNode.addChildNode(node)
-    node.position.x = step + node.boundsWidth / 2.0
-    incrementStep(node)
-}
+
 
 // Present the view in Playground
 PlaygroundPage.current.liveView = root

@@ -11,7 +11,8 @@ import MetalKit
 
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
-    let builder = GlyphBuilder()
+    
+    lazy var linkNodeCache = LinkNodeCache(link: link)
     
     lazy var root = RootNode(
         DebugCamera(link: link)
@@ -35,42 +36,22 @@ enum MetalGlyphError: String, Error {
 extension TwoETimeRoot {
     func setup6() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        guard let bitmaps = builder.makeBitmaps(GlyphCacheKey(
-            "Hello, Metal.",
-            .red
-        )) else {
-            throw MetalGlyphError.noBitmaps
-        }
         
-        let glyphTexture = try link.textureLoader.newTexture(
-            cgImage: bitmaps.requestedCG,
-            options: [:]
-        )
-        
-        class GlyphNode: MetalLinkObject {
-            let texture: MTLTexture
-            
-            init(_ link: MetalLink, texture: MTLTexture) throws {
-                self.texture = texture
-                try super.init(link, mesh: link.meshes[.Quad])
+        var offset = Float(0.0)
+        "🥸 Hello"
+            .lazy
+            .map { GlyphCacheKey("\($0)", .red) }
+            .compactMap { self.linkNodeCache.create($0) }
+            .map { node -> LinkNode in
+                print("g:[\(node.key.glyph)]")
+                node.position.z -= 5
+                node.position.x += offset
+                offset += node.quad.width
+                return node
             }
-            
-            override func applyTextures(_ sdp: inout SafeDrawPass) {
-                sdp.renderCommandEncoder.setFragmentTexture(texture, index: 0)
+            .forEach {
+                self.root.add(child: $0)
             }
-        }
-        
-//        let textureDescriptor = MTLTextureDescriptor()
-//        textureDescriptor.width = glyphTexture.width
-//        textureDescriptor.height = glyphTexture.height
-//        textureDescriptor.pixelFormat = glyphTexture.pixelFormat
-//        textureDescriptor.allowGPUOptimizedContents = true
-        
-        let node = try GlyphNode(link, texture: glyphTexture)
-        let ratio = Float(bitmaps.requestedCG.width) / Float(bitmaps.requestedCG.height)
-//        node.scale.y = ratio / Float(bitmaps.requestedCG.width)
-        
-        root.add(child: node)
     }
     
     func setup5() throws {

@@ -11,23 +11,24 @@ import MetalKit
 protocol MetalLinkMesh {
     func getVertexBuffer() -> MTLBuffer?
     var vertexCount: Int { get }
+    var vertices: [Vertex] { get set }
 }
 
 class MetalLinkBaseMesh: MetalLinkMesh {
     private let link: MetalLink
     private var vertexBuffer: MTLBuffer?
     
-    var vertexCount: Int { currentVertices.count }
-    var currentVertices: [Vertex] = []
+    var vertexCount: Int { vertices.count }
+    var vertices: [Vertex] = []
 
     init(_ link: MetalLink) throws {
         self.link = link
-        self.currentVertices = createVertices()
+        self.vertices = createVertices()
     }
     
     func getVertexBuffer() -> MTLBuffer? {
         if let buffer = vertexBuffer { return buffer }
-        vertexBuffer = try? Self.createVertexBuffer(with: link, for: currentVertices)
+        vertexBuffer = try? Self.createVertexBuffer(with: link, for: vertices)
         return vertexBuffer
     }
     
