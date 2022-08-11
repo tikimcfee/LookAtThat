@@ -24,7 +24,12 @@ class TwoETimeRoot: MetalLinkReader {
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
-        root.update(deltaTime: 1.0 / Float(link.view.preferredFramesPerSecond))
+        let dT = 1.0 / Float(link.view.preferredFramesPerSecond)
+        root.update(deltaTime: dT)
+        root.children.forEach {
+            $0.rotation.x -= dT * 2
+            $0.rotation.y -= dT * 2
+        }
         root.render(in: &sdp)
     }
 }
@@ -38,15 +43,17 @@ extension TwoETimeRoot {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
         var offset = Float(0.0)
-        "🥸 Hello"
+        var last: LinkNode?
+        ">🥸 Hello there, Metal."
             .lazy
             .map { GlyphCacheKey("\($0)", .red) }
             .compactMap { self.linkNodeCache.create($0) }
             .map { node -> LinkNode in
+                offset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
                 print("g:[\(node.key.glyph)]")
                 node.position.z -= 5
                 node.position.x += offset
-                offset += node.quad.width
+                last = node
                 return node
             }
             .forEach {

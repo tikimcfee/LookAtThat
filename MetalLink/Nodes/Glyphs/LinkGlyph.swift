@@ -10,12 +10,15 @@ import MetalKit
 class LinkNode: MetalLinkObject {
     let key: GlyphCacheKey
     let texture: MTLTexture
-    let quad: MetalLinkQuadMesh
+    var quad: MetalLinkQuadMesh
     
-    init(_ link: MetalLink, key: GlyphCacheKey, texture: MTLTexture) throws {
+    init(_ link: MetalLink,
+         key: GlyphCacheKey,
+         texture: MTLTexture,
+         quad: MetalLinkQuadMesh) throws {
         self.key = key
         self.texture = texture
-        self.quad = link.meshes[.Quad] as! MetalLinkQuadMesh
+        self.quad = quad
         try super.init(link, mesh: quad)
         sizeSelf()
     }
@@ -41,12 +44,27 @@ class LinkNode: MetalLinkObject {
     }
 }
 
-class LinkNodeCache: LockingCache<GlyphCacheKey, LinkNode?> {
+class LinkNodeMeshCache: LockingCache<GlyphCacheKey, MetalLinkQuadMesh> {
     let link: MetalLink
-    let builder = GlyphBuilder()
     
     init(link: MetalLink) {
         self.link = link
+    }
+    
+    override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey : MetalLinkQuadMesh]) -> MetalLinkQuadMesh {
+        try! MetalLinkQuadMesh(link)
+    }
+}
+
+class LinkNodeCache: LockingCache<GlyphCacheKey, LinkNode?> {
+    let link: MetalLink
+    
+    let builder = GlyphBuilder()
+    let meshCache: LinkNodeMeshCache
+    
+    init(link: MetalLink) {
+        self.link = link
+        self.meshCache = LinkNodeMeshCache(link: link)
     }
     
     func create(_ key: GlyphCacheKey) -> LinkNode? {
@@ -58,7 +76,12 @@ class LinkNodeCache: LockingCache<GlyphCacheKey, LinkNode?> {
                 cgImage: bitmaps.requestedCG,
                 options: [:]
             )
-            return try LinkNode(link, key: key, texture: glyphTexture)
+            return try LinkNode(
+                link,
+                key: key,
+                texture: glyphTexture,
+                quad: meshCache[key]
+            )
         } catch {
             print(error)
             return nil

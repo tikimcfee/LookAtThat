@@ -31,26 +31,6 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
 }
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
-//    var tl: Vertex {
-//        get { vertices[1] }
-//        set { vertices[1] = newValue }
-//    }
-//
-//    var bl: Vertex {
-//        get { vertices[2] }
-//        set { vertices[2] = newValue; vertices[4] = newValue }
-//    }
-//
-//    var tr: Vertex {
-//        get { vertices[0] }
-//        set { vertices[0] = newValue; vertices[3] = newValue }
-//    }
-//
-//    var br: Vertex {
-//        get { vertices[5] }
-//        set { vertices[5] = newValue }
-//    }
-    
     var width: Float {
         get { abs(vertices[0].position.x - vertices[1].position.x) }
         set {
@@ -78,13 +58,13 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
     }
     
     override func createVertices() -> [Vertex] { [
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* TR */
-        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1), textureCoordinate: LFloat2(0, 0)), /* TL */
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* BL */
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 0 */
+        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1), textureCoordinate: LFloat2(0, 0)), /* T L 1 */
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 2 */
         
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* TR */
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* BL */
-        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))  /* BR */
+        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 3 */
+        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 4 */
+        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))  /* B R 5 */
     ] }
 }
 
