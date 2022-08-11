@@ -18,10 +18,13 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
     RasterizerData rasterizerData;
     
     rasterizerData.position =
+    
     sceneConstants.projectionMatrix // camera
-        * sceneConstants.viewMatrix     // viewport
-        * modelConstants.modelMatrix    // transforms
-        * float4(vertexIn.position, 1); // current position
+    * sceneConstants.viewMatrix     // viewport
+    * modelConstants.modelMatrix    // transforms
+    * float4(vertexIn.position, 1); // current position
+    
+    rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     
     rasterizerData.color = vertexIn.color;
     rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
@@ -31,9 +34,16 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
 
 fragment half4 basic_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
                                        constant Material &material [[ buffer(1) ]]) {
-    float4 color = material.useMaterialColor
-    ? material.color
-    : rasterizerData.color;
+//    float4 color = material.useMaterialColor
+//    ? material.color
+//    : rasterizerData.color;
+    
+    float2 texCoord = rasterizerData.textureCoordinate;
+    float time = rasterizerData.totalGameTime;
+    float x = cos((texCoord.x + time) * 20);
+    float y = sin((texCoord.y + time) * 20);
+    float z = 0;
+    float4 color = float4(x, y, z, 1);
     
     // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);

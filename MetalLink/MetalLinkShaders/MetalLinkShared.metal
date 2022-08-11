@@ -19,6 +19,7 @@ struct RasterizerData {
     float4 position [[ position ]]; // position implies "don't interpolate this; it's a position"
     float4 color;                   // interpolated
     float2 textureCoordinate;       // interpolated
+    float totalGameTime;            // interpolated
 };
 
 struct ModelConstants {
@@ -27,6 +28,7 @@ struct ModelConstants {
 };
 
 struct SceneConstants {
+    float totalGameTime;
     float4x4 viewMatrix;
     float4x4 projectionMatrix;
     float4x4 pointerMatrix;
