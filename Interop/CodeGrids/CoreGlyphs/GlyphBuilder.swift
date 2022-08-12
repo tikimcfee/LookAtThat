@@ -31,17 +31,8 @@ class GlyphBuilder {
             return (keyPlane, templatePlane, descaledSize)
         }
         
-        let (requested, _, template, _) = bitmapImages
-        keyPlane.firstMaterial?.diffuse.contents = requested
-        templatePlane.firstMaterial?.diffuse.contents = template
-        
-//        let (_, requestedCG, _, templateCG) = bitmapImages
-//        let texture = try! Self.loader.newTexture(cgImage: requestedCG)
-//        let imageProperty = SCNMaterialProperty(contents: texture)
-//        keyPlane.firstMaterial?.setValue(imageProperty, forKey: MetalLink_Glyphy_DiffuseName_Q)
-//        keyPlane.firstMaterial?.program = bridge.defaultSceneProgram
-//        templatePlane.firstMaterial?.setValue(imageProperty, forKey: MetalLink_Glyphy_DiffuseName_Q)
-//        templatePlane.firstMaterial?.program = bridge.defaultSceneProgram
+        keyPlane.firstMaterial?.diffuse.contents = bitmapImages.requested
+        templatePlane.firstMaterial?.diffuse.contents = bitmapImages.template
                 
         return (keyPlane, templatePlane, descaledSize)
     }

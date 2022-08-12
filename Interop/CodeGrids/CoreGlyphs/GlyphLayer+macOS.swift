@@ -9,12 +9,22 @@ import Foundation
 import CoreServices
 import SceneKit
 
-typealias BitmapImages = (
-    requested: NSUIImage,
-    requestedCG: CGImage,
-    template: NSUIImage,
-    templateCG: CGImage
-)
+struct BitmapImages: Hashable {
+    let requested: NSUIImage
+    let requestedCG: CGImage
+    let template: NSUIImage
+    let templateCG: CGImage
+    
+    init(_ requested: NSUIImage,
+         _ requestedCG: CGImage,
+         _ template: NSUIImage,
+         _ templateCG: CGImage) {
+        self.requested = requested
+        self.requestedCG = requestedCG
+        self.template = template
+        self.templateCG = templateCG
+    }
+}
 
 extension CALayer {
     var cgSize: CGSize {
@@ -45,7 +55,7 @@ extension CALayer {
             return nil
         }
         
-        return (
+        return BitmapImages(
             NSImage(cgImage: requestedImage, size: cgSize),
             requestedImage,
             NSImage(cgImage: templateImage, size: cgSize),

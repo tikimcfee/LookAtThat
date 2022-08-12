@@ -12,7 +12,7 @@ import MetalKit
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     
-    lazy var linkNodeCache = LinkNodeCache(link: link)
+    lazy var linkNodeCache = MetalLinkGlyphNodeCache(link: link)
     
     lazy var root = RootNode(
         DebugCamera(link: link)
@@ -38,16 +38,29 @@ class TwoETimeRoot: MetalLinkReader {
 
 enum MetalGlyphError: String, Error {
     case noBitmaps
+    case noTextures
+    case noMesh
 }
 
 extension TwoETimeRoot {
     func setup7() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
+        let test = """
+The quick brown fox jumps over the lazy dog.
+Wo lo lo.
+"""
+        let repeated = (0..<50000).map { _ in test }.joined()
+        print("drawing character count: ", repeated.count)
+        
         let collection = try GlyphCollection(
             link: link,
-            text: "The quick brown fox jumps over the lazy dog."
+            text: repeated
         )
+        collection.position.x = -25
+        collection.position.y = -100
+        collection.position.z = -50
+        
         root.add(child: collection)
     }
     
@@ -59,10 +72,10 @@ extension TwoETimeRoot {
         
         func doHello(at yStart: Float = 0.0) {
             var xOffset = Float(0.0)
-            var last: LinkNode?
+            var last: MetalLinkGlyphNode?
             cacheKeys
                 .compactMap { self.linkNodeCache.create($0) }
-                .map { node -> LinkNode in
+                .map { node -> MetalLinkGlyphNode in
                     xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
 //                    print("g:[\(node.key.glyph)]")
                     node.position.z -= 5

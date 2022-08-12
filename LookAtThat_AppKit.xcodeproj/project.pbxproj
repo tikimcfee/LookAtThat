@@ -942,10 +942,10 @@
 		B7F5F67128556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
 		B7F5F67228556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
 		B7F5F67328556B8400AE9009 /* CodeGrid+Writers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */; };
-		B7F67F1528A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
-		B7F67F1628A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
-		B7F67F1728A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
-		B7F67F1828A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
+		B7F67F1528A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */; };
+		B7F67F1628A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */; };
+		B7F67F1728A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */; };
+		B7F67F1828A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */; };
 		B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
 		B7F876D028A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
 		B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
@@ -1342,7 +1342,7 @@
 		B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_MacOS.swift; sourceTree = "<group>"; };
 		B7F44C45276E68D600522B45 /* FocusBoxEngine_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxEngine_iOS.swift; sourceTree = "<group>"; };
 		B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Writers.swift"; sourceTree = "<group>"; };
-		B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGlyph.swift; sourceTree = "<group>"; };
+		B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyph.swift; sourceTree = "<group>"; };
 		B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeptopodCertified.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollection.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2082,7 +2082,7 @@
 		B7F67F1328A4E5630056E540 /* Glyphs */ = {
 			isa = PBXGroup;
 			children = (
-				B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */,
+				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -2819,7 +2819,7 @@
 				B70FDC9C283EAE9900170D5F /* WorldGridSnapping.swift in Sources */,
 				B7AC334F28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDF28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
-				B7F67F1628A4E57A0056E540 /* LinkGlyph.swift in Sources */,
+				B7F67F1628A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B70FDC9D283EAE9900170D5F /* VersionNumber.swift in Sources */,
 				B70FDC9E283EAE9900170D5F /* TAPRawSensorSensitivity.swift in Sources */,
 				B7AC338728A0CA71001172BB /* 2ETRoot.swift in Sources */,
@@ -3019,7 +3019,7 @@
 				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
 				B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */,
-				B7F67F1828A4E57A0056E540 /* LinkGlyph.swift in Sources */,
+				B7F67F1828A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B74A22D82814FFF300F6F727 /* CodeGridParser+Rendering.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
@@ -3410,7 +3410,7 @@
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDE28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
-				B7F67F1528A4E57A0056E540 /* LinkGlyph.swift in Sources */,
+				B7F67F1528A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */,
@@ -3534,7 +3534,7 @@
 				B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
-				B7F67F1728A4E57A0056E540 /* LinkGlyph.swift in Sources */,
+				B7F67F1728A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
 				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				B7AC336428A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
