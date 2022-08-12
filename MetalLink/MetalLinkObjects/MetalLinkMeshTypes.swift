@@ -23,6 +23,7 @@ extension MetalLinkBaseMesh {
 }
 
 class MetalLinkTriangleMesh: MetalLinkBaseMesh {
+    override var name: String { "MLTriangle" }
     override func createVertices() -> [Vertex] { [
         Vertex(position: LFloat3( 0, 1, 0), color: LFloat4(1,0,0,1)),
         Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,1,0,1)),
@@ -31,6 +32,7 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
 }
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
+    override var name: String { "MLQuad" }
     var width: Float {
         get { abs(vertices[0].position.x - vertices[1].position.x) }
         set {
@@ -69,6 +71,7 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
 }
 
 class MetalLinkCubeMesh: MetalLinkBaseMesh {
+    override var name: String { "MLCube" }
     override func createVertices() -> [Vertex] { [
         //Left
         Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),

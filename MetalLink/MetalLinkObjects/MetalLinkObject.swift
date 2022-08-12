@@ -56,6 +56,7 @@ extension MetalLinkObject {
     struct Constants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
         var color = LFloat4.zero;
+        var textureIndex = TextureIndex.zero;
     }
     
     class State {

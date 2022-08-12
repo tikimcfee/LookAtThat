@@ -14,6 +14,8 @@ struct Vertex {
     var textureCoordinate: LFloat2 = .zero
 }
 
+typealias TextureIndex = Int
+
 typealias LInt2 = SIMD2<Int>
 typealias LInt3 = SIMD3<Int>
 

@@ -44,6 +44,8 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             node.position.y = yOffset + 2
             
             instancedConstants[index].color = LFloat4.random_color()
+            instancedConstants[index].textureIndex = node.constants.textureIndex
+            
             last = node
             
             guard index >= 1 else { return }

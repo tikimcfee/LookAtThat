@@ -8,6 +8,18 @@
 #include <metal_stdlib>
 using namespace metal;
 
+struct SceneConstants {
+    float totalGameTime;
+    float4x4 viewMatrix;
+    float4x4 projectionMatrix;
+    float4x4 pointerMatrix;
+};
+
+struct ModelConstants {
+    float4x4 modelMatrix;
+    float4 color;
+    int textureIndex;
+};
 
 struct VertexIn {
     float3 position             [[ attribute(0) ]];
@@ -19,19 +31,8 @@ struct RasterizerData {
     float4 position [[ position ]]; // position implies "don't interpolate this; it's a position"
     float4 color;                   // interpolated
     float2 textureCoordinate;       // interpolated
+    int textureIndex;
     float totalGameTime;            // interpolated
-};
-
-struct ModelConstants {
-    float4x4 modelMatrix;
-    float4 color;
-};
-
-struct SceneConstants {
-    float totalGameTime;
-    float4x4 viewMatrix;
-    float4x4 projectionMatrix;
-    float4x4 pointerMatrix;
 };
 
 struct Material {

@@ -12,6 +12,7 @@ protocol MetalLinkMesh {
     func getVertexBuffer() -> MTLBuffer?
     var vertexCount: Int { get }
     var vertices: [Vertex] { get set }
+    var name: String { get }
 }
 
 class MetalLinkBaseMesh: MetalLinkMesh {
@@ -20,6 +21,7 @@ class MetalLinkBaseMesh: MetalLinkMesh {
     
     var vertexCount: Int { vertices.count }
     var vertices: [Vertex] = []
+    var name: String { "BaseMesh" }
 
     init(_ link: MetalLink) throws {
         self.link = link
@@ -29,6 +31,7 @@ class MetalLinkBaseMesh: MetalLinkMesh {
     func getVertexBuffer() -> MTLBuffer? {
         if let buffer = vertexBuffer { return buffer }
         vertexBuffer = try? Self.createVertexBuffer(with: link, for: vertices)
+        vertexBuffer?.label = name
         return vertexBuffer
     }
     

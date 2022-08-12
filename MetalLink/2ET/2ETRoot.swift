@@ -50,7 +50,7 @@ extension TwoETimeRoot {
 The quick brown fox jumps over the lazy dog.
 Wo lo lo.
 """
-        let repeated = (0..<50000).map { _ in test }.joined()
+        let repeated = (0..<100).map { _ in test }.joined()
         print("drawing character count: ", repeated.count)
         
         let collection = try GlyphCollection(

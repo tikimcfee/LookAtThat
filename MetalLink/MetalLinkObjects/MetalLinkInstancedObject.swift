@@ -75,6 +75,7 @@ private extension MetalLinkInstancedObject {
             length: InstancedConstants.memStride(of: instanceCount),
             options: []
         ) else { throw CoreError.noBufferAvailable }
+        buffer.label = "InstancedConstants"
         return buffer
     }
 }
@@ -134,6 +135,7 @@ extension MetalLinkInstancedObject {
                         
                         let constants = self.instancedConstants[index]
                         pointer[index].color = constants.color
+                        pointer[index].textureIndex = constants.textureIndex
                         index += 1
                     }
                     group.leave()
@@ -147,6 +149,7 @@ extension MetalLinkInstancedObject {
     struct InstancedConstants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
         var color = LFloat4.zero
+        var textureIndex = TextureIndex.zero
     }
     
     class State {

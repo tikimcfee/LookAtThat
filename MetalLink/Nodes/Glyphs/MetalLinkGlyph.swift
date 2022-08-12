@@ -47,12 +47,7 @@ class MetalLinkGlyphNodeMeshCache: LockingCache<GlyphCacheKey, MetalLinkQuadMesh
     }
     
     override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
-        do {
-            return try MetalLinkQuadMesh(link)
-        } catch {
-            print(error)
-            return nil
-        }
+        try? MetalLinkQuadMesh(link)
     }
 }
 
@@ -64,32 +59,50 @@ class MetalLinkGlyphNodeBitmapCache: LockingCache<GlyphCacheKey, BitmapImages?> 
     }
 }
 
-
-class MetalLinkGlyphTextureCache: LockingCache<MetalLinkGlyphTextureCache.TextureCacheKey, MTLTexture?> {
-    struct TextureCacheKey: Hashable, Equatable {
-        let glyph: GlyphCacheKey
-        let bitmaps: BitmapImages
+class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle?> {
+    struct Bundle: Equatable {
+        let texture: MTLTexture
+        let textureIndex: TextureIndex
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(textureIndex)
+        }
+        
+        static func == (_ l: Bundle, _ r: Bundle) -> Bool {
+            l.textureIndex == r.textureIndex
+        }
     }
     
     let link: MetalLink
+    let bitmapCache: MetalLinkGlyphNodeBitmapCache = MetalLinkGlyphNodeBitmapCache()
     
     init(link: MetalLink) {
         self.link = link
     }
     
+    private var _makeTextureIndex: TextureIndex = 0
+    private func nextTextureIndex() -> TextureIndex {
+        let index = _makeTextureIndex
+        _makeTextureIndex += 1
+        return index
+    }
+    
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
-        let glyphTexture = try? link.textureLoader.newTexture(
-            cgImage: key.bitmaps.requestedCG,
+        guard let bitmaps = bitmapCache[key]
+            else { return nil }
+        
+        guard let glyphTexture = try? link.textureLoader.newTexture(
+            cgImage: bitmaps.requestedCG,
             options: [:]
-        )
-        return glyphTexture
+        ) else { return nil}
+        
+        return Bundle(texture: glyphTexture, textureIndex: nextTextureIndex())
     }
 }
 
 class MetalLinkGlyphNodeCache {
     let link: MetalLink
     
-    let bitmapCache: MetalLinkGlyphNodeBitmapCache = MetalLinkGlyphNodeBitmapCache()
     let meshCache: MetalLinkGlyphNodeMeshCache
     let textureCache: MetalLinkGlyphTextureCache
     
@@ -102,22 +115,21 @@ class MetalLinkGlyphNodeCache {
     private typealias TextureKey = MetalLinkGlyphTextureCache.Key
     func create(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
         do {
-            guard let bitmaps = bitmapCache[key]
-                else { throw MetalGlyphError.noBitmaps }
-            
-            let textureKey = TextureKey(glyph: key, bitmaps: bitmaps)
-            guard let glyphTexture = textureCache[textureKey]
+            guard let glyphTexture = textureCache[key]
                 else { throw MetalGlyphError.noTextures }
             
             guard let mesh = meshCache[key]
                 else { throw MetalGlyphError.noMesh }
             
-            return try MetalLinkGlyphNode(
+            let node = try MetalLinkGlyphNode(
                 link,
                 key: key,
-                texture: glyphTexture,
+                texture: glyphTexture.texture,
                 quad: mesh
             )
+            node.constants.textureIndex = glyphTexture.textureIndex
+            
+            return node
         } catch {
             print(error)
             return nil

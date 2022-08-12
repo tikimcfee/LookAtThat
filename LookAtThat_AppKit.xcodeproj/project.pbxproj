@@ -685,10 +685,6 @@
 		B7AC334328A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
 		B7AC334428A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
 		B7AC334528A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
-		B7AC334628A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */; };
-		B7AC334728A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */; };
-		B7AC334828A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */; };
-		B7AC334928A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */; };
 		B7AC334A28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
 		B7AC334B28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
 		B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
@@ -1248,7 +1244,6 @@
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MTKView+Extensions.swift"; sourceTree = "<group>"; };
 		B7AC332528A0CA70001172BB /* CoreError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreError.swift; sourceTree = "<group>"; };
-		B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptorComponents.swift; sourceTree = "<group>"; };
 		B7AC332828A0CA70001172BB /* SafeDrawPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeDrawPass.swift; sourceTree = "<group>"; };
 		B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkObject.swift; sourceTree = "<group>"; };
 		B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkMeshTypes.swift; sourceTree = "<group>"; };
@@ -1796,7 +1791,6 @@
 		B7AC332628A0CA70001172BB /* CoreTypes */ = {
 			isa = PBXGroup;
 			children = (
-				B7AC332728A0CA70001172BB /* VertexDescriptorComponents.swift */,
 				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
 				B750771528A2217D0097278A /* MetalLinkConstants.swift */,
 			);
@@ -2762,7 +2756,6 @@
 				B70FDC71283EAE9900170D5F /* MultipeerData.swift in Sources */,
 				B70FDC72283EAE9900170D5F /* TokenSyntax+Coloring.swift in Sources */,
 				B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
-				B7AC334728A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */,
 				B70FDC73283EAE9900170D5F /* GlyphLayerCache.swift in Sources */,
 				B70FDC74283EAE9900170D5F /* TAPInputMode.swift in Sources */,
 				B7C69FDA28A3572B00A84860 /* CubeNode.swift in Sources */,
@@ -2941,7 +2934,6 @@
 				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
-				B7AC334928A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */,
 				B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B74A22AB2814FFF300F6F727 /* CodeGrid+Glyphs.swift in Sources */,
 				B74A22AC2814FFF300F6F727 /* TAPAirGesture.swift in Sources */,
@@ -3353,7 +3345,6 @@
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
-				B7AC334628A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */,
 				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				B7C75703280CECBA0005A233 /* TAPInputMode.swift in Sources */,
 				B7C69FD928A3572B00A84860 /* CubeNode.swift in Sources */,
@@ -3700,7 +3691,6 @@
 				B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
-				B7AC334828A0CA71001172BB /* VertexDescriptorComponents.swift in Sources */,
 				B7C75721280CEE040005A233 /* BasicIO.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
