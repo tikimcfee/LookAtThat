@@ -7,15 +7,14 @@
 
 import MetalKit
 
-// ----------------------------------
-
-
-class CubeCollection: MetalLinkInstancedObject {
+class CubeCollection: MetalLinkInstancedObject<MetalLinkNode> {
     let size: SIMD3<Int>
     
     init(link: MetalLink, size: SIMD3<Int>) throws {
         self.size = size
-        try super.init(link, mesh: link.meshes[.Cube], initialCount: size.volume)
+        try super.init(link, mesh: link.meshes[.Cube], instances: {
+            (0..<size.volume).map { _ in MetalLinkNode() }
+        })
         setupNodes()
     }
     
@@ -57,7 +56,7 @@ class CubeCollection: MetalLinkInstancedObject {
         rotation.x -= dT / 2
         rotation.y -= dT / 2
         
-        rebuildBuffer = true
+        pushModelConstants = true
         super.update(deltaTime: dT)
     }
     

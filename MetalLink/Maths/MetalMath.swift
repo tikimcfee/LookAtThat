@@ -74,3 +74,7 @@ extension matrix_float4x4 {
 extension SIMD3 where Scalar == Int {
     var volume: Int { x * y * z }
 }
+
+extension SIMD2 where Scalar == Int {
+    var area: Int { x * y }
+}

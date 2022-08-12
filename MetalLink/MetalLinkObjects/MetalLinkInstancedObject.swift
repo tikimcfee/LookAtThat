@@ -8,7 +8,7 @@
 import MetalKit
 import Algorithms
 
-class MetalLinkInstancedObject: MetalLinkNode {
+class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode {
     let link: MetalLink
     var mesh: MetalLinkMesh
     
@@ -24,20 +24,21 @@ class MetalLinkInstancedObject: MetalLinkNode {
     var constants = InstancedConstants() { didSet { rebuildSelf = true }}
     var rebuildSelf: Bool = true
     
-    var instancedNodes: [MetalLinkNode] = [] { didSet { rebuildBuffer = true }}
-    var instancedConstants: [InstancedConstants] = [] { didSet { rebuildBuffer = true }}
+    var instancedNodes: [InstancedNodeType] = [] { didSet { pushModelConstants = true }}
+    var instancedConstants: [InstancedConstants] = [] { didSet { pushModelConstants = true }}
+    
     private var modelConstantsBuffer: MTLBuffer
-    var rebuildBuffer: Bool = true
+    var pushModelConstants: Bool = true
     
     init(_ link: MetalLink,
          mesh: MetalLinkMesh,
-         initialCount: Int) throws {
+         instances: () -> [InstancedNodeType]) throws {
         self.link = link
         self.mesh = mesh
-        self.modelConstantsBuffer = try Self.createBuffers(link, instanceCount: initialCount)
+        (self.modelConstantsBuffer,
+         self.instancedNodes,
+         self.instancedConstants) = try Self.setupNodeBuffers(using: instances, link)
         super.init()
-        
-        (self.instancedNodes, self.instancedConstants) = try generateInstances(count: initialCount)
     }
     
     override func update(deltaTime: Float) {
@@ -52,14 +53,21 @@ class MetalLinkInstancedObject: MetalLinkNode {
 }
 
 private extension MetalLinkInstancedObject {
-    func generateInstances(count: Int) throws -> ([MetalLinkNode], [InstancedConstants]) {
-        var instances: [MetalLinkNode] = []
-        var modelConstants: [InstancedConstants] = []
-        for _ in 0..<count {
-            modelConstants.append(.init())
-            instances.append(.init())
-        }
-        return (instances, modelConstants)
+    static func setupNodeBuffers(
+        using generator: () -> [InstancedNodeType],
+        _ link: MetalLink
+    ) throws -> (
+        MTLBuffer,
+        [InstancedNodeType],
+        [InstancedConstants]
+    ) {
+        let instances = generator()
+        let instanceConstants = instances.map { _ in InstancedConstants() }
+        
+        let count = instances.count
+        let buffer = try createBuffers(link, instanceCount: count)
+        
+        return (buffer, instances, instanceConstants)
     }
     
     static func createBuffers(_ link: MetalLink, instanceCount: Int) throws -> MTLBuffer {
@@ -85,9 +93,9 @@ extension MetalLinkInstancedObject {
             rebuildSelf = false
         }
         
-        if rebuildBuffer {
+        if pushModelConstants {
             pushConstantsBuffer()
-            rebuildBuffer = false
+            pushModelConstants = false
         }
     }
     
@@ -169,4 +177,8 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
             instanceCount: instancedNodes.count
         )
     }
+}
+
+enum LinkInstancingError: String, Error {
+    case generatorFunctionFailed
 }

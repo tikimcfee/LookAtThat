@@ -946,6 +946,10 @@
 		B7F67F1628A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
 		B7F67F1728A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
 		B7F67F1828A4E57A0056E540 /* LinkGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */; };
+		B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
+		B7F876D028A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
+		B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
+		B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -1340,6 +1344,7 @@
 		B7F5F66F28556B8400AE9009 /* CodeGrid+Writers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Writers.swift"; sourceTree = "<group>"; };
 		B7F67F1428A4E57A0056E540 /* LinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGlyph.swift; sourceTree = "<group>"; };
 		B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeptopodCertified.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollection.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -1892,6 +1897,7 @@
 				B7C69FD828A3572B00A84860 /* CubeNode.swift */,
 				B7C69FEC28A404EF00A84860 /* CubeCollection.swift */,
 				B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */,
+				B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */,
 			);
 			path = ObjectTypes;
 			sourceTree = "<group>";
@@ -2588,7 +2594,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					B7D9C0742894B884003FEDA6 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -2898,6 +2904,7 @@
 				B70FDCE1283EAE9900170D5F /* FileBackedArray.swift in Sources */,
 				B70FDCE2283EAE9900170D5F /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B70FDCE3283EAE9900170D5F /* SwiftSyntax+Extensions.swift in Sources */,
+				B7F876D028A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B70FDCE4283EAE9900170D5F /* KeyboardInterceptor.swift in Sources */,
 				B7AC337328A0CA71001172BB /* ShaderTypes.swift in Sources */,
@@ -2976,6 +2983,7 @@
 				B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */,
 				B7C69FD728A356C500A84860 /* ArrowNode.swift in Sources */,
 				B74A22C22814FFF300F6F727 /* CodeGridParser+WorldEditing.swift in Sources */,
+				B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
 				B7C69FD228A356A300A84860 /* RootNode.swift in Sources */,
 				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
@@ -3487,6 +3495,7 @@
 				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
+				B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
 				B7AC337228A0CA71001172BB /* ShaderTypes.swift in Sources */,
@@ -3637,6 +3646,7 @@
 				B7C756F2280CECBA0005A233 /* TAPKit.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
+				B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */,
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,

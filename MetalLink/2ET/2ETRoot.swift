@@ -20,16 +20,18 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup6()
+        try setup7()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
-        let dT = 1.0 / Float(link.view.preferredFramesPerSecond)
+        let dT =  1.0 / Float(link.view.preferredFramesPerSecond)
+        
+//        root.children.forEach {
+//            $0.rotation.x -= dT * 2
+//            $0.rotation.y -= dT * 2
+//        }
+        
         root.update(deltaTime: dT)
-        root.children.forEach {
-            $0.rotation.x -= dT * 2
-            $0.rotation.y -= dT * 2
-        }
         root.render(in: &sdp)
     }
 }
@@ -39,26 +41,44 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setup7() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        let collection = try GlyphCollection(
+            link: link,
+            text: "The quick brown fox jumps over the lazy dog."
+        )
+        root.add(child: collection)
+    }
+    
     func setup6() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        var offset = Float(0.0)
-        var last: LinkNode?
-        ">🥸 Hello there, Metal."
-            .lazy
+        let cacheKeys = ">🥸 Hello there, Metal."
             .map { GlyphCacheKey("\($0)", .red) }
-            .compactMap { self.linkNodeCache.create($0) }
-            .map { node -> LinkNode in
-                offset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
-                print("g:[\(node.key.glyph)]")
-                node.position.z -= 5
-                node.position.x += offset
-                last = node
-                return node
-            }
-            .forEach {
-                self.root.add(child: $0)
-            }
+        
+        func doHello(at yStart: Float = 0.0) {
+            var xOffset = Float(0.0)
+            var last: LinkNode?
+            cacheKeys
+                .compactMap { self.linkNodeCache.create($0) }
+                .map { node -> LinkNode in
+                    xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
+//                    print("g:[\(node.key.glyph)]")
+                    node.position.z -= 5
+                    node.position.x += xOffset
+                    node.position.y = yStart
+                    last = node
+                    return node
+                }
+                .forEach {
+                    self.root.add(child: $0)
+                }
+        }
+        
+        stride(from: 0.0, to: 3, by: 1).forEach {
+            doHello(at: -1 * $0)
+        }
     }
     
     func setup5() throws {
