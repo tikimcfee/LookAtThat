@@ -31,16 +31,22 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     rasterizerData.color = constants.color;
     rasterizerData.textureIndex = constants.textureIndex;
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
+    rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
     
     return rasterizerData;
 }
 
 fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
-                                           constant Material &material [[ buffer(1) ]]) {
+                                           constant Material &material [[ buffer(1) ]],
+                                           texture2d<float, access::sample> atlas [[texture(5)]]) {
 //    float4 color = rasterizerData.color;
+    constexpr sampler sampler(coord::normalized,
+                              address::repeat,
+                              filter::linear);
     
-    float r = cos(rasterizerData.textureIndex * 1.0);
-    float4 color = float4(r / 10.0, r / 10.0, r / 10.0, 1);
+//    float r = cos(rasterizerData.textureIndex * 1.0);
+//    float4 color = float4(r / 10.0, r / 10.0, r / 10.0, 1);
+    float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
     
     // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);

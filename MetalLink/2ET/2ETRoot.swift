@@ -17,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup6()
+        try setup7()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {

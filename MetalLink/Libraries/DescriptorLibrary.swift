@@ -64,11 +64,6 @@ struct Basic_VertexComponent: VertexDescriptorComponent {
         attributeIndex += 1
         attributeOffset += LFloat4.memSize
         
-        // Texture Coordinate
-        descriptor.attributes[attributeIndex].format = .float2
-        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
-        descriptor.attributes[attributeIndex].offset = attributeOffset
-        
         // Layout
         descriptor.layouts[layoutIndex].stride = Vertex.memStride
         descriptor.layouts[layoutIndex].stepFunction = .perVertex
@@ -82,6 +77,7 @@ struct Instanced_VertexComponent: VertexDescriptorComponent {
     var name = "Instanced Vertex Component"
     let descriptor = MTLVertexDescriptor()
     var attributeIndex: Int = 0
+    var attributeOffset: Int = 0
     var bufferIndex: Int = 0
     var layoutIndex: Int = 0
     
@@ -91,11 +87,21 @@ struct Instanced_VertexComponent: VertexDescriptorComponent {
         descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
         descriptor.attributes[attributeIndex].offset = 0
         attributeIndex += 1
+        attributeOffset += LFloat3.memSize
         
         // Color
         descriptor.attributes[attributeIndex].format = .float4
         descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
         descriptor.attributes[attributeIndex].offset = LFloat3.memSize
+        attributeIndex += 1
+        attributeOffset += LFloat4.memSize
+        
+        // Texture Coordinate
+        descriptor.attributes[attributeIndex].format = .float2
+        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
+        descriptor.attributes[attributeIndex].offset = attributeOffset
+        attributeIndex += 1
+        attributeOffset += LFloat2.memSize
         
         // Layout
         descriptor.layouts[layoutIndex].stride = Vertex.memStride
