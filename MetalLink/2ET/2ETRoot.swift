@@ -20,7 +20,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup7()
+        try setup6()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -90,7 +90,7 @@ Wo lo lo.
         }
         
         stride(from: 0.0, to: 3, by: 1).forEach {
-            doHello(at: -1 * $0)
+            doHello(at: -2.1 * $0)
         }
     }
     
