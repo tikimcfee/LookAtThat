@@ -13,10 +13,8 @@ class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     
     lazy var linkNodeCache = MetalLinkGlyphNodeCache(link: link)
-    
-    lazy var root = RootNode(
-        DebugCamera(link: link)
-    )
+    lazy var camera = DebugCamera(link: link)
+    lazy var root = RootNode(camera)
     
     init(link: MetalLink) throws {
         self.link = link
@@ -25,12 +23,10 @@ class TwoETimeRoot: MetalLinkReader {
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
         let dT =  1.0 / Float(link.view.preferredFramesPerSecond)
-        
 //        root.children.forEach {
 //            $0.rotation.x -= dT * 2
 //            $0.rotation.y -= dT * 2
 //        }
-        
         root.update(deltaTime: dT)
         root.render(in: &sdp)
     }
@@ -43,6 +39,27 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setup8() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        // This will size (x, y)
+//        let block = """
+//        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+//        abcdefghijklmnopqrstuvwxyz
+//        1234567890!@#$%^&*()
+//        []\\;',./{}|:"<>?
+//        """
+        let block = ">🥸 Hello there, Metal."
+        let testKey = GlyphCacheKey(block, .red)
+        guard let node = linkNodeCache.create(testKey) else {
+            return
+        }
+        
+        // Map [(0, 0), (x, y)] to [(0, 0), (1, 1)]
+        node.position.z = -10
+        root.add(child: node)
+    }
+    
     func setup7() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
@@ -90,7 +107,7 @@ Wo lo lo.
         }
         
         stride(from: 0.0, to: 3, by: 1).forEach {
-            doHello(at: -2.1 * $0)
+            doHello(at: -1.1 * $0)
         }
     }
     

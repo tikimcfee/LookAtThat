@@ -7,6 +7,21 @@
 
 import MetalKit
 
+extension MTLTexture {
+    var simdSize: LFloat2 {
+        LFloat2(Float(width), Float(height))
+    }
+}
+
+struct UnitSize {
+    static func from(_ source: LFloat2) -> LFloat2 {
+        let unitWidth = 1 / source.x
+        let unitHeight = 1 / source.y
+        return LFloat2(min(source.x * unitHeight, 1),
+                       min(source.y * unitWidth, 1))
+    }
+}
+
 class MetalLinkGlyphNode: MetalLinkObject {
     let key: GlyphCacheKey
     let texture: MTLTexture
@@ -20,18 +35,12 @@ class MetalLinkGlyphNode: MetalLinkObject {
         self.texture = texture
         self.quad = quad
         try super.init(link, mesh: quad)
-        sizeSelf()
+        setQuadSize()
     }
     
-    func sizeSelf() {
-        let (width, height) = (Float(texture.width), Float(texture.height))
-        let unitHeight = 2.0 / height
-        let unitWidth = 2.0 / width
-        if unitHeight > unitWidth {
-            quad.height = height * unitWidth
-        } else {
-            quad.width = width * unitHeight
-        }
+    func setQuadSize() {
+        let size = UnitSize.from(texture.simdSize)
+        (quad.width, quad.height) = (size.x, size.y)
     }
     
     override func applyTextures(_ sdp: inout SafeDrawPass) {

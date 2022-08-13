@@ -629,6 +629,7 @@
 		B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
+		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
 		B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF3280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
@@ -1470,6 +1471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */,
@@ -2576,6 +2578,7 @@
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
 				B7EB7135284812AA00313633 /* ZIPFoundation */,
 				B7195137284C7EA3007FBD3B /* SCNLine */,
+				B79592E728A7615B00F16746 /* Algorithms */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -4621,6 +4624,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
+		};
+		B79592E728A7615B00F16746 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 		B796DEF8280D2AD8006AC749 /* Brotli */ = {
 			isa = XCSwiftPackageProductDependency;
