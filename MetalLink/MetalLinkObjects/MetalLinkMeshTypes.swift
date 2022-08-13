@@ -63,11 +63,35 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
         Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 0 */
         Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1), textureCoordinate: LFloat2(0, 0)), /* T L 1 */
         Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 2 */
-        
         Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 3 */
         Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 4 */
         Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))  /* B R 5 */
     ] }
+    
+    func updateUVs(
+        topRight: LFloat2? = nil,
+        topLeft: LFloat2? = nil,
+        bottomLeft: LFloat2? = nil,
+        bottomRight: LFloat2? = nil
+    ) {
+        if let topRight = topRight {
+            vertices[0].textureCoordinate = topRight
+            vertices[3].textureCoordinate = topRight
+        }
+        
+        if let topLeft = topLeft {
+            vertices[1].textureCoordinate = topLeft
+        }
+        
+        if let bottomLeft = bottomLeft {
+            vertices[2].textureCoordinate = bottomLeft
+            vertices[4].textureCoordinate = bottomLeft
+        }
+        
+        if let bottomRight = bottomRight {
+            vertices[5].textureCoordinate = bottomRight
+        }
+    }
 }
 
 class MetalLinkCubeMesh: MetalLinkBaseMesh {

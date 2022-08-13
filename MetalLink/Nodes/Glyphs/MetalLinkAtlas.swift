@@ -9,7 +9,6 @@ import MetalKit
 
 class MetalLinkAtlas {
     internal let link: MetalLink
-    
     let texture: MTLTexture
     
     init(_ link: MetalLink) throws {
@@ -24,9 +23,9 @@ class MetalLinkAtlas {
 }
 
 extension MetalLinkAtlas: MetalLinkReader {
-    static var glyphCount: Float = 128
-    static var glyphSizeEstimate = LFloat2(14.0, 24.0) // about (13, 23)
-    static var canvasSize = LInt2(glyphSizeEstimate * glyphCount)
+    static var glyphCount: Int = 64
+    static var glyphSizeEstimate = LInt2(14, 24) // about (13, 23)
+    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * glyphCount)
     static var canvasDescriptor: MTLTextureDescriptor = {
         let glyphDescriptor = MTLTextureDescriptor()
         glyphDescriptor.textureType = .type2D
@@ -36,6 +35,13 @@ extension MetalLinkAtlas: MetalLinkReader {
         return glyphDescriptor
     }()
     
+    static var block = """
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    abcdefghijklmnopqrstuvwxyz
+    1234567890!@#$%^&*()
+    []\\;',./{}|:"<>?
+    """.components(separatedBy: .newlines).joined()
+    
     static func buildAtlas(_ link: MetalLink) -> MTLTexture? {
         guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
@@ -43,34 +49,47 @@ extension MetalLinkAtlas: MetalLinkReader {
         else { return nil }
         atlasTexture.label = "MetalLinkAtlas"
         
-        print("Atlas ready: \(atlasTexture.width) x \(atlasTexture.height)")
-        
-        let block = """
-        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        abcdefghijklmnopqrstuvwxyz
-        1234567890!@#$%^&*()
-        []\\;',./{}|:"<>?
-        """.components(separatedBy: .newlines).joined()
-        
+        // draw in rows
+        let atlasSize = atlasTexture.simdSize
         let sourceOrigin = MTLOrigin()
         var targetOrigin = MTLOrigin()
-        
-        // draw in rows
         var lineTop: Int = 0
         var lineBottom: Int = 0
+        var uvOffsetTop: Float = .zero
+        var uvOffset: LFloat2 = .zero
         
-        func updateOriginsAfterCopy(from bundle: MetalLinkGlyphTextureCache.Bundle) {
+        func updateOriginsAfterCopy(
+            from bundle: MetalLinkGlyphTextureCache.Bundle,
+            size bundleUVSize: LFloat2
+        ) {
 //            print("(\(bundle.texture.width), \(bundle.texture.height) -> (\(lineTop), \(lineBottom))")
-            if bundle.textureIndex > 0 && bundle.textureIndex % 127 == 0 {
+            if bundle.textureIndex > 0 && bundle.textureIndex % (Self.glyphCount - 1) == 0 {
                 targetOrigin.x = 0
                 targetOrigin.y = lineBottom
                 lineTop = lineBottom
+
+                uvOffset.x = 0
+                uvOffset.y += bundleUVSize.y
+                uvOffsetTop = uvOffset.y
 //                print("dropLine")
             } else {
                 targetOrigin.x += bundle.texture.width
                 lineBottom = max(lineBottom, lineTop + bundle.texture.height)
+                
+                uvOffset.x += bundleUVSize.x
+                uvOffset.y = max(uvOffset.y, uvOffsetTop + bundleUVSize.y)
             }
+//            let testMesh = link.meshes[.Quad] as! MetalLinkQuadMesh
+//            testMesh.updateUVs(uvTopRight, uvTopLeft, uvBottomLeft, uvBottomRight)
+            
+//            print(testMesh.vertices)
 //            print("--> (\(lineTop), \(lineBottom))")
+//            print("uv: \(uvOffset)")
+        }
+        
+        func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
+            let bundleSize = bundle.texture.simdSize
+            return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
         }
         
         func addGlyph(_ key: GlyphCacheKey) {
@@ -93,7 +112,21 @@ extension MetalLinkAtlas: MetalLinkReader {
                 destinationOrigin: targetOrigin
             )
             
-            updateOriginsAfterCopy(from: textureBundle)
+            // Grab UV top left before updating; grab it again for right side
+            let bundleUVSize = atlasUVSize(for: textureBundle)
+            
+            let uvTopLeft = uvOffset
+            updateOriginsAfterCopy(from: textureBundle, size: bundleUVSize)
+            let uvBottomRight = LFloat2(uvOffset.x, uvOffsetTop + bundleUVSize.y)
+            let uvBottomLeft = LFloat2(uvTopLeft.x, uvBottomRight.y)
+            let uvTopRight = LFloat2(uvBottomRight.x, uvTopLeft.y)
+            
+            link.linkNodeCache.meshCache[key]?.updateUVs(
+                topRight: uvTopRight,
+                topLeft: uvTopLeft,
+                bottomLeft: uvBottomLeft,
+                bottomRight: uvBottomRight
+            )
         }
         
         let colors: [NSUIColor] = [
@@ -103,7 +136,7 @@ extension MetalLinkAtlas: MetalLinkReader {
         ]
         
         for color in colors {
-            block.map { GlyphCacheKey(String($0), color) }
+            Self.block.map { GlyphCacheKey(String($0), color) }
                 .forEach { addGlyph($0) }
         }
         
@@ -112,7 +145,7 @@ extension MetalLinkAtlas: MetalLinkReader {
         blitEncoder.endEncoding()
         commandBuffer.commit()
         
-        print("Atlas Created")
+        print("Atlas ready: \(atlasTexture.width) x \(atlasTexture.height)")
         return atlasTexture
     }
 }
