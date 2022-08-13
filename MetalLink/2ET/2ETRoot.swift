@@ -12,7 +12,6 @@ import MetalKit
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     
-    lazy var linkNodeCache = MetalLinkGlyphNodeCache(link: link)
     lazy var camera = DebugCamera(link: link)
     lazy var root = RootNode(camera)
     

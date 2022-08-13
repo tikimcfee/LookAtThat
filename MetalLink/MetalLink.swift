@@ -24,6 +24,8 @@ class MetalLink {
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
+    lazy var linkNodeCache = MetalLinkGlyphNodeCache(link: self)
+    
     let input = DefaultInputReceiver()
     
     init(view: CustomMTKView) throws {
@@ -47,6 +49,7 @@ extension MetalLinkReader {
     var library: MTLLibrary { link.defaultLibrary }
     var commandQueue: MTLCommandQueue { link.commandQueue }
     var currentDrawable: CAMetalDrawable? { view.currentDrawable }
+    var linkNodeCache: MetalLinkGlyphNodeCache { link.linkNodeCache }
     
     var input: DefaultInputReceiver { link.input }
     

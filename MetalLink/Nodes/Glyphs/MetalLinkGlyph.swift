@@ -84,11 +84,13 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
     
     let link: MetalLink
     let bitmapCache: MetalLinkGlyphNodeBitmapCache = MetalLinkGlyphNodeBitmapCache()
+    lazy var atlas = buildAtlas()
     
     init(link: MetalLink) {
         self.link = link
         super.init()
-        self.buildAtlas()
+        
+        print(atlas)
     }
     
     private var _makeTextureIndex: TextureIndex = 0
@@ -112,35 +114,60 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
         return link.device.makeTexture(descriptor: glyphDescriptor)
     }
     
-    func buildAtlas() {
-        guard let texture = Self.makeAtlasCanvas(link)
-            else { return }
-        print("Atlas ready: \(texture.width) x \(texture.height)")
+    func buildAtlas() -> MTLTexture? {
+        guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
+              let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
+              let atlasTexture = Self.makeAtlasCanvas(link)
+            else { return nil }
+        print("Atlas ready: \(atlasTexture.width) x \(atlasTexture.height)")
+        
+//        let block = """
+//        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+//        abcdefghijklmnopqrstuvwxyz
+//        1234567890!@#$%^&*()
+//        []\\;',./{}|:"<>?
+//        """
         
         let block = """
-        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        abcdefghijklmnopqrstuvwxyz
-        1234567890!@#$%^&*()
-        []\\;',./{}|:"<>?
+        ABCD
         """
         
-        var stylusX: Float = 0
-        var stylusY: Float = 0
+        var sourceOrigin = MTLOrigin()
+        var targetOrigin = MTLOrigin()
         
         func addGlyph(_ key: GlyphCacheKey) {
             guard let textureBundle = self[key] else {
                 print("Missing texture for \(key)")
                 return
             }
+            let glyph = textureBundle.texture
+            let size = MTLSize(width: glyph.width, height: glyph.height, depth: 1)
             
+            blitEncoder.copy(
+                from: textureBundle.texture,
+                sourceSlice: 0,
+                sourceLevel: 0,
+                sourceOrigin: sourceOrigin,
+                sourceSize: size,
+                to: atlasTexture,
+                destinationSlice: 0,
+                destinationLevel: 0,
+                destinationOrigin: targetOrigin
+            )
             
+            targetOrigin.x += size.width
+            targetOrigin.y += size.height
+            
+            print("New target origin: ", targetOrigin)
         }
         
         block.map { GlyphCacheKey(String($0), .red) }
             .forEach { addGlyph($0) }
         
+        blitEncoder.endEncoding()
         
         print("Atlas Created")
+        return atlasTexture
     }
     
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
