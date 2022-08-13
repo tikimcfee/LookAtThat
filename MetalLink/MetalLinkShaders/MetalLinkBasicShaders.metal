@@ -37,7 +37,7 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
 
 fragment half4 basic_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
                                        constant Material &material [[ buffer(1) ]],
-                                       texture2d<half> colorTexture [[ texture(0) ]]) { // AAPLTextureIndexBaseColor?
+                                       texture2d<half> colorTexture [[ texture(0) ]]) { // 0 for per-node, 5 for atlas per this commit. Also set atlas in RootNode
     float2 texCoord = rasterizerData.textureCoordinate;
 //    float time = rasterizerData.totalGameTime;
     

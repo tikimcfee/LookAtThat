@@ -233,6 +233,26 @@
 		B72E9587287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
+		B72FBFD128A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
+		B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
+		B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
+		B72FBFD528A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
+		B72FBFD628A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
+		B72FBFD728A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
+		B72FBFD828A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
+		B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
+		B72FBFDB28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
+		B72FBFDC28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
+		B72FBFDD28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
+		B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
+		B72FBFE028A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
+		B72FBFE128A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
+		B72FBFE228A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
+		B72FBFE428A8263C0098762D /* MetalLinkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */; };
+		B72FBFE528A8263C0098762D /* MetalLinkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */; };
+		B72FBFE628A8263C0098762D /* MetalLinkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */; };
+		B72FBFE728A8263C0098762D /* MetalLinkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
@@ -1176,6 +1196,11 @@
 		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
 		B72A876D287BADA600A78B19 /* CherrieiView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CherrieiView.entitlements; sourceTree = "<group>"; };
 		B72E9585287CBC24005578B6 /* CherrieiCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherrieiCommands.swift; sourceTree = "<group>"; };
+		B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeMeshCache.swift; sourceTree = "<group>"; };
+		B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeBitmapCache.swift; sourceTree = "<group>"; };
+		B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeTextureCache.swift; sourceTree = "<group>"; };
+		B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeCache.swift; sourceTree = "<group>"; };
+		B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkExtensions.swift; sourceTree = "<group>"; };
 		B7321510275858F800BD5C17 /* CodeGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridFocusController.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
@@ -1502,15 +1527,17 @@
 				B7AC333A28A0CA70001172BB /* 2ET */,
 				B7AC339728A0D11E001172BB /* MetalInterop */,
 				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
+				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
 				B7AC332528A0CA70001172BB /* CoreError.swift */,
 				B7AC333328A0CA70001172BB /* MetalLink.swift */,
+				B750771528A2217D0097278A /* MetalLinkConstants.swift */,
 				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
 				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
 				B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */,
+				B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */,
 				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
 				B750771228A21FE20097278A /* Maths */,
 				B7AC33B128A0DC7E001172BB /* Nodes */,
-				B7AC332628A0CA70001172BB /* CoreTypes */,
 				B7AC332E28A0CA70001172BB /* Libraries */,
 				B7AC332928A0CA70001172BB /* MetalLinkObjects */,
 				B7AC333428A0CA70001172BB /* Shaders */,
@@ -1795,15 +1822,6 @@
 			path = __GlyphNodeSamplingProgram;
 			sourceTree = "<group>";
 		};
-		B7AC332628A0CA70001172BB /* CoreTypes */ = {
-			isa = PBXGroup;
-			children = (
-				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
-				B750771528A2217D0097278A /* MetalLinkConstants.swift */,
-			);
-			path = CoreTypes;
-			sourceTree = "<group>";
-		};
 		B7AC332928A0CA70001172BB /* MetalLinkObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -2084,7 +2102,11 @@
 			isa = PBXGroup;
 			children = (
 				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
+				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
+				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
 				B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */,
+				B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */,
+				B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -2731,6 +2753,7 @@
 				B7AC335328A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B7AC339428A0CD85001172BB /* BasicShaders.swift in Sources */,
 				B7F5F67128556B8400AE9009 /* CodeGrid+Writers.swift in Sources */,
+				B72FBFE528A8263C0098762D /* MetalLinkExtensions.swift in Sources */,
 				B70FDC59283EAE9900170D5F /* SyntaxHierarchyView.swift in Sources */,
 				B70FDC5A283EAE9900170D5F /* FocusBox.swift in Sources */,
 				B70FDC5B283EAE9900170D5F /* BackgroundWorker.swift in Sources */,
@@ -2791,6 +2814,7 @@
 				B7AC338B28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B70FDC87283EAE9900170D5F /* SemanticMapTracer.swift in Sources */,
 				B7044C1D28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
+				B72FBFE028A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE928A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */,
 				B70FDC89283EAE9900170D5F /* CodeGridFocusController.swift in Sources */,
@@ -2817,6 +2841,7 @@
 				B70FDC98283EAE9900170D5F /* MacAppRootView.swift in Sources */,
 				B70FDC99283EAE9900170D5F /* Stopwatch.swift in Sources */,
 				B70FDC9A283EAE9900170D5F /* SemanticTracingOutState.swift in Sources */,
+				B72FBFDB28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B7044C1328A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B70FDC9B283EAE9900170D5F /* RenderingVersionThree.swift in Sources */,
 				B70FDC9C283EAE9900170D5F /* WorldGridSnapping.swift in Sources */,
@@ -2841,6 +2866,7 @@
 				B70FDCA8283EAE9900170D5F /* GlyphLayer+macOS.swift in Sources */,
 				B70FDCA9283EAE9900170D5F /* ControlleriOSInputCompat.swift in Sources */,
 				B70FDCAA283EAE9900170D5F /* CodePagesEditor.swift in Sources */,
+				B72FBFD628A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				B70FDCAB283EAE9900170D5F /* AppDelegate.swift in Sources */,
 				B70FDCAC283EAE9900170D5F /* StateCapturingVisitor.swift in Sources */,
 				B70FDCAD283EAE9900170D5F /* CodePagesControllerMacOSInputCompat.swift in Sources */,
@@ -2864,6 +2890,7 @@
 				B70FDCBC283EAE9900170D5F /* FontRenderer.swift in Sources */,
 				B7C69FEE28A404EF00A84860 /* CubeCollection.swift in Sources */,
 				B70FDCBD283EAE9900170D5F /* CodeGridControl.swift in Sources */,
+				B72FBFD128A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B70FDCBE283EAE9900170D5F /* TracingInfoBridging.swift in Sources */,
 				B70FDCBF283EAE9900170D5F /* CodeGridTokenCache.swift in Sources */,
 				B70FDCC0283EAE9900170D5F /* GlyphBuilder.swift in Sources */,
@@ -2953,9 +2980,11 @@
 				B74A22AE2814FFF300F6F727 /* CodeGridParserQueryController.swift in Sources */,
 				B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */,
 				B74A22B02814FFF300F6F727 /* RawSensorDataParser.swift in Sources */,
+				B72FBFD828A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				B7981035281CBAF5009A82BD /* TraceLine.swift in Sources */,
 				B7F3AAA32853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B720FF872824C6DC00C23E6B /* GlyphNode.swift in Sources */,
+				B72FBFE728A8263C0098762D /* MetalLinkExtensions.swift in Sources */,
 				B768B650281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */,
 				B74A22B22814FFF300F6F727 /* BaseSceneController.swift in Sources */,
@@ -3001,8 +3030,10 @@
 				B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B74A22CA2814FFF300F6F727 /* FocusBoxControl.swift in Sources */,
 				B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */,
+				B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B7C69FF028A404EF00A84860 /* CubeCollection.swift in Sources */,
 				B7AC336128A0CA71001172BB /* DescriptorPipelineLibrary.swift in Sources */,
+				B72FBFE228A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B74A22CC2814FFF300F6F727 /* TAPKitDelegateController.swift in Sources */,
 				B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7AC336528A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
@@ -3036,6 +3067,7 @@
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */,
 				B74A22DF2814FFF300F6F727 /* RenderingVersionThree.swift in Sources */,
+				B72FBFDD28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B74A22E12814FFF300F6F727 /* WorldGridSnapping.swift in Sources */,
 				B74A22E32814FFF300F6F727 /* VersionNumber.swift in Sources */,
 				B74A22E42814FFF300F6F727 /* TAPRawSensorSensitivity.swift in Sources */,
@@ -3322,6 +3354,7 @@
 				B7AC335228A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B7AC339328A0CD85001172BB /* BasicShaders.swift in Sources */,
 				B7F5F67028556B8400AE9009 /* CodeGrid+Writers.swift in Sources */,
+				B72FBFE428A8263C0098762D /* MetalLinkExtensions.swift in Sources */,
 				B750771628A2217D0097278A /* MetalLinkConstants.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
@@ -3382,6 +3415,7 @@
 				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
 				B7044C1C28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
+				B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */,
@@ -3408,6 +3442,7 @@
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
 				B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
+				B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B7044C1228A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
@@ -3432,6 +3467,7 @@
 				B720D58A2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
 				B7F44C3D276DB75800522B45 /* ControlleriOSInputCompat.swift in Sources */,
 				B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */,
+				B72FBFD528A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 				B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */,
 				B7F44C35276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
@@ -3455,6 +3491,7 @@
 				B720D586282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B7C69FED28A404EF00A84860 /* CubeCollection.swift in Sources */,
 				B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
+				B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B74A233D2815267E00F6F727 /* TracingInfoBridging.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
 				B720D58228246FF400BF0602 /* GlyphBuilder.swift in Sources */,
@@ -3547,6 +3584,8 @@
 				B7F44C46276E68D600522B45 /* FocusBoxEngine_iOS.swift in Sources */,
 				B720D58328246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
+				B72FBFD728A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
+				B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
@@ -3628,6 +3667,7 @@
 				B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
 				B76E4FF0283493B4005CCAFE /* CodeGridInfoView.swift in Sources */,
 				B7AC335028A0CA71001172BB /* MetalLinkObject.swift in Sources */,
+				B72FBFE628A8263C0098762D /* MetalLinkExtensions.swift in Sources */,
 				B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B7A6F2AE275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
 				B7044C1428A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
@@ -3666,6 +3706,7 @@
 				B762DF1C28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B7241AFF2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
+				B72FBFDC28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B7C69FC028A2404D00A84860 /* MetalMath.swift in Sources */,
 				B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
@@ -3680,6 +3721,7 @@
 				F057D234252044D60094BD83 /* SceneKit+Extensions.swift in Sources */,
 				B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B78159EE273E059500212176 /* SceneKit+BoundsCaching.swift in Sources */,
+				B72FBFE128A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */,

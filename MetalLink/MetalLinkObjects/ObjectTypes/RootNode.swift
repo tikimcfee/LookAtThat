@@ -30,9 +30,10 @@ class RootNode: MetalLinkNode, MetalLinkReader {
     override func render(in sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.setVertexBytes(&constants, length: SceneConstants.memStride, index: 1)
         
-        if let atlas = link.linkNodeCache.textureCache.atlas {
-            sdp.renderCommandEncoder.setFragmentTexture(atlas, index: 5)
-        }
+        // TODO: Allow the atlas to have its own mesh cache so it doesn't break all other nodes / meshes
+//        if let atlas = link.linkNodeCache.textureCache.atlas {
+//            sdp.renderCommandEncoder.setFragmentTexture(atlas, index: 5)
+//        }
         
         super.render(in: &sdp)
     }
