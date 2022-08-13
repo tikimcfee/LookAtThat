@@ -87,6 +87,8 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
     
     init(link: MetalLink) {
         self.link = link
+        super.init()
+        self.buildAtlas()
     }
     
     private var _makeTextureIndex: TextureIndex = 0
@@ -94,6 +96,51 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
         let index = _makeTextureIndex
         _makeTextureIndex += 1
         return index
+    }
+    
+    static func makeAtlasCanvas(_ link: MetalLink) -> MTLTexture? {
+        let glyphCount: Float = 128
+        let glyphSizeEstimate = LFloat2(13.0, 23.0)
+        let canvasSize = LInt2(glyphSizeEstimate * glyphCount)
+        
+        let glyphDescriptor = MTLTextureDescriptor()
+        glyphDescriptor.textureType = .type2D
+        glyphDescriptor.pixelFormat = .rgba8Unorm_srgb
+        glyphDescriptor.width = canvasSize.x
+        glyphDescriptor.height = canvasSize.y
+        
+        return link.device.makeTexture(descriptor: glyphDescriptor)
+    }
+    
+    func buildAtlas() {
+        guard let texture = Self.makeAtlasCanvas(link)
+            else { return }
+        print("Atlas ready: \(texture.width) x \(texture.height)")
+        
+        let block = """
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        1234567890!@#$%^&*()
+        []\\;',./{}|:"<>?
+        """
+        
+        var stylusX: Float = 0
+        var stylusY: Float = 0
+        
+        func addGlyph(_ key: GlyphCacheKey) {
+            guard let textureBundle = self[key] else {
+                print("Missing texture for \(key)")
+                return
+            }
+            
+            
+        }
+        
+        block.map { GlyphCacheKey(String($0), .red) }
+            .forEach { addGlyph($0) }
+        
+        
+        print("Atlas Created")
     }
     
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
