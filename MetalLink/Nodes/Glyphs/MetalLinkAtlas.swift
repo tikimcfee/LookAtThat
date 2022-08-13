@@ -52,7 +52,7 @@ extension MetalLinkAtlas: MetalLinkReader {
         []\\;',./{}|:"<>?
         """.components(separatedBy: .newlines).joined()
         
-        var sourceOrigin = MTLOrigin()
+        let sourceOrigin = MTLOrigin()
         var targetOrigin = MTLOrigin()
         
         // draw in rows
@@ -96,20 +96,16 @@ extension MetalLinkAtlas: MetalLinkReader {
             updateOriginsAfterCopy(from: textureBundle)
         }
         
-        block.map { GlyphCacheKey(String($0), .red) }
-            .forEach { addGlyph($0) }
+        let colors: [NSUIColor] = [
+            .red, .green, .blue, .brown, .orange,
+            .cyan, .magenta, .purple, .yellow, .systemMint,
+            .systemPink, .systemTeal
+        ]
         
-        block.map { GlyphCacheKey(String($0), .green) }
-            .forEach { addGlyph($0) }
-        
-        block.map { GlyphCacheKey(String($0), .blue) }
-            .forEach { addGlyph($0) }
-        
-        block.map { GlyphCacheKey(String($0), .brown) }
-            .forEach { addGlyph($0) }
-
-        block.map { GlyphCacheKey(String($0), .orange) }
-            .forEach { addGlyph($0) }
+        for color in colors {
+            block.map { GlyphCacheKey(String($0), color) }
+                .forEach { addGlyph($0) }
+        }
         
         addGlyph(GlyphCacheKey("\n", .red))
         
