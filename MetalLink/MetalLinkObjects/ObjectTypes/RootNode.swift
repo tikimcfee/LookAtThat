@@ -29,6 +29,11 @@ class RootNode: MetalLinkNode, MetalLinkReader {
     
     override func render(in sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.setVertexBytes(&constants, length: SceneConstants.memStride, index: 1)
+        
+        if let atlas = link.linkNodeCache.textureCache.atlas {
+            sdp.renderCommandEncoder.setFragmentTexture(atlas, index: 5)
+        }
+        
         super.render(in: &sdp)
     }
 }

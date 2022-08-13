@@ -630,6 +630,10 @@
 		B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
+		B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
+		B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
+		B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
+		B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF3280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
@@ -1219,6 +1223,7 @@
 		B790E68E283DEF32002F6512 /* WireDataEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireDataEncodable.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
+		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
 		B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Paths.swift"; sourceTree = "<group>"; };
 		B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Rendering.swift"; sourceTree = "<group>"; };
 		B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+WorldEditing.swift"; sourceTree = "<group>"; };
@@ -2079,6 +2084,7 @@
 			isa = PBXGroup;
 			children = (
 				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
+				B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -2791,6 +2797,7 @@
 				B70FDC8A283EAE9900170D5F /* LaZTrace.swift in Sources */,
 				B70FDC8B283EAE9900170D5F /* FileBrowser+Event.swift in Sources */,
 				B70FDC8C283EAE9900170D5F /* CodeGridParser+GridExtensions.swift in Sources */,
+				B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC338F28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B70FDC8D283EAE9900170D5F /* BasicIO.swift in Sources */,
 				B7AC337B28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
@@ -2968,6 +2975,7 @@
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
 				B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */,
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
+				B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */,
 				B7AC334128A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
 				B74A22BC2814FFF300F6F727 /* TAPInputMode.swift in Sources */,
@@ -3380,6 +3388,7 @@
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B79F930D275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
+				B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC338E28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7C75720280CEE040005A233 /* BasicIO.swift in Sources */,
 				B7AC337A28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
@@ -3589,6 +3598,7 @@
 				B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
+				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC337428A0CA71001172BB /* ShaderTypes.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */,

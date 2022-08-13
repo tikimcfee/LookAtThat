@@ -35,6 +35,7 @@ enum MetalGlyphError: String, Error {
     case noBitmaps
     case noTextures
     case noMesh
+    case noAtlasTexture
 }
 
 extension TwoETimeRoot {
