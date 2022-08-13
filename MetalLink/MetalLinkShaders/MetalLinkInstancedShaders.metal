@@ -24,9 +24,9 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     
     rasterizerData.position =
     sceneConstants.projectionMatrix     // camera
-        * sceneConstants.viewMatrix     // viewport
-        * constants.modelMatrix         // transforms
-        * float4(vertexIn.position, 1); // current position
+    * sceneConstants.viewMatrix     // viewport
+    * constants.modelMatrix         // transforms
+    * float4(vertexIn.position, 1); // current position
     
     rasterizerData.color = constants.color;
     rasterizerData.textureIndex = constants.textureIndex;

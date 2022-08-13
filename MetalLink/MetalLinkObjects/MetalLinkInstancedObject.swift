@@ -101,8 +101,8 @@ extension MetalLinkInstancedObject {
     }
     
     func pushConstantsBuffer() {
-//        iterativePush()
-        multiThreadedPush()
+        iterativePush()
+//        multiThreadedPush()
     }
     
     private func iterativePush() {
@@ -113,6 +113,7 @@ extension MetalLinkInstancedObject {
         zip(instancedNodes, instancedConstants).forEach { node, constants in
             pointer.pointee.modelMatrix = node.modelMatrix
             pointer.pointee.color = constants.color
+            pointer.pointee.textureIndex = constants.textureIndex
             pointer = pointer.advanced(by: 1)
         }
     }
@@ -131,9 +132,8 @@ extension MetalLinkInstancedObject {
                     var index = chunk.startIndex
                     chunk.forEach { node in
                         self.performJITInstanceBufferUpdate(node)
-                        pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
-                        
                         let constants = self.instancedConstants[index]
+                        pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
                         pointer[index].color = constants.color
                         pointer[index].textureIndex = constants.textureIndex
                         index += 1

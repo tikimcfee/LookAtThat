@@ -29,8 +29,8 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     }
     
     func setupNodes() {
-        let left = Float(-50.0)
-        let top = Float(50.0)
+        let left = Float(0.0)
+        let top = Float(0.0)
         let front = Float(-5.0)
         var xOffset = Float(left)
         var yOffset = Float(top)
