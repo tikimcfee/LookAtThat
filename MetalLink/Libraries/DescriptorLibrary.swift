@@ -64,6 +64,13 @@ struct Basic_VertexComponent: VertexDescriptorComponent {
         attributeIndex += 1
         attributeOffset += LFloat4.memSize
         
+        // Texture Coordinate
+        descriptor.attributes[attributeIndex].format = .float2
+        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
+        descriptor.attributes[attributeIndex].offset = attributeOffset
+        attributeIndex += 1
+        attributeOffset += LFloat2.memSize
+        
         // Layout
         descriptor.layouts[layoutIndex].stride = Vertex.memStride
         descriptor.layouts[layoutIndex].stepFunction = .perVertex
