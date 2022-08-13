@@ -41,19 +41,16 @@ extension MetalLinkAtlas: MetalLinkReader {
               let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
               let atlasTexture = link.device.makeTexture(descriptor: canvasDescriptor)
         else { return nil }
+        atlasTexture.label = "MetalLinkAtlas"
         
         print("Atlas ready: \(atlasTexture.width) x \(atlasTexture.height)")
         
-        //        let block = """
-        //        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        //        abcdefghijklmnopqrstuvwxyz
-        //        1234567890!@#$%^&*()
-        //        []\\;',./{}|:"<>?
-        //        """
-        
         let block = """
-        ABCD
-        """
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        1234567890!@#$%^&*()
+        []\\;',./{}|:"<>?
+        """.components(separatedBy: .newlines).joined()
         
         var sourceOrigin = MTLOrigin()
         var targetOrigin = MTLOrigin()
@@ -63,15 +60,17 @@ extension MetalLinkAtlas: MetalLinkReader {
         var lineBottom: Int = 0
         
         func updateOriginsAfterCopy(from bundle: MetalLinkGlyphTextureCache.Bundle) {
-            lineBottom = min(lineBottom, lineTop - bundle.texture.height)
-            
+//            print("(\(bundle.texture.width), \(bundle.texture.height) -> (\(lineTop), \(lineBottom))")
             if bundle.textureIndex > 0 && bundle.textureIndex % 127 == 0 {
-                lineTop = lineBottom
                 targetOrigin.x = 0
-                targetOrigin.y = lineTop
+                targetOrigin.y = lineBottom
+                lineTop = lineBottom
+//                print("dropLine")
             } else {
                 targetOrigin.x += bundle.texture.width
+                lineBottom = max(lineBottom, lineTop + bundle.texture.height)
             }
+//            print("--> (\(lineTop), \(lineBottom))")
         }
         
         func addGlyph(_ key: GlyphCacheKey) {
@@ -95,12 +94,24 @@ extension MetalLinkAtlas: MetalLinkReader {
             )
             
             updateOriginsAfterCopy(from: textureBundle)
-            
-            print("New target origin: ", targetOrigin)
         }
         
         block.map { GlyphCacheKey(String($0), .red) }
             .forEach { addGlyph($0) }
+        
+        block.map { GlyphCacheKey(String($0), .green) }
+            .forEach { addGlyph($0) }
+        
+        block.map { GlyphCacheKey(String($0), .blue) }
+            .forEach { addGlyph($0) }
+        
+        block.map { GlyphCacheKey(String($0), .brown) }
+            .forEach { addGlyph($0) }
+
+        block.map { GlyphCacheKey(String($0), .orange) }
+            .forEach { addGlyph($0) }
+        
+        addGlyph(GlyphCacheKey("\n", .red))
         
         blitEncoder.endEncoding()
         commandBuffer.commit()
