@@ -116,6 +116,7 @@ extension MetalLinkInstancedObject {
             pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
             pointer.pointee.color = constants.color
             pointer.pointee.textureIndex = constants.textureIndex
+            pointer.pointee.textureUV = constants.textureUV
             pointer = pointer.advanced(by: 1)
         }
     }
@@ -145,6 +146,8 @@ extension MetalLinkInstancedObject {
                         pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
                         pointer[index].color = constants.color
                         pointer[index].textureIndex = constants.textureIndex
+                        pointer[index].textureUV = constants.textureUV
+                        pointer[index] = constants
                         index += 1
                     }
                     group.leave()

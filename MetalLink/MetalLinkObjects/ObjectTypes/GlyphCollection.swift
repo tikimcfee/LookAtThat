@@ -43,7 +43,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         instancedNodes.enumerated().forEach { index, node in
             xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
             node.position.x = xOffset + 1
-            node.position.y = yOffset + 2
+            node.position.y += 5
             node.position.z = zOffset
             
             instancedConstants[index].color = LFloat4.random_color()
@@ -63,8 +63,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
                 yOffset = top
             }
         }
-        
-        mesh = instancedNodes.first!.mesh
+//        mesh = instancedNodes[2].mesh
     }
     
     private var _time: Float = 0
@@ -84,7 +83,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     override func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
 //        node.rotation.x -= 0.0167 * 2
-//        node.rotation.y -= 0.0167 * 2
+        node.rotation.y -= 0.0167 * 2
 //        node.position.z = cos(time(0.0167) / 500)
     }
 }

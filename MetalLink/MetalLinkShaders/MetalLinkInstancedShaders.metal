@@ -37,18 +37,42 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     return rasterizerData;
 }
 
+// [[[ 5 M ]]]]
+//fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
+//                                           constant Material &material [[ buffer(1) ]],
+//                                           texture2d<float, access::sample> atlas [[texture(5)]]) {
+//    constexpr sampler sampler(coord::normalized,
+//                              address::repeat,
+//                              filter::linear);
+//    float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
+//
+//    // Apparently there's an r/g/b/a property on float4
+//    return half4(color.r, color.g, color.b, color.a);
+//}
+
+// [[ W.M. Overflow Math ]]
 fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
                                            constant Material &material [[ buffer(1) ]],
                                            texture2d<float, access::sample> atlas [[texture(5)]]) {
-//    float4 color = rasterizerData.color;
     constexpr sampler sampler(coord::normalized,
                               address::repeat,
                               filter::linear);
     
-//    float r = cos(rasterizerData.textureIndex * 1.0);
-//    float4 color = float4(r / 10.0, r / 10.0, r / 10.0, 1);
-    float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
+    // original coordinates, normalized with respect to subimage
+    float2 rootTextureCoordinate = rasterizerData.textureCoordinate;
+
+    // texture dimensions
+    float2 textureSize = float2(atlas.get_width(), atlas.get_height());
+    float4 instanceUV = rasterizerData.textureUV;
+
+    // adjusted texture coordinates, normalized with respect to full texture
+    rootTextureCoordinate = (rootTextureCoordinate * instanceUV.zw + instanceUV.xy) / textureSize;
+
+    // sample color at modified coordinates
     
+    float4 color = atlas.sample(sampler, rootTextureCoordinate);
+
     // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);
 }
+
