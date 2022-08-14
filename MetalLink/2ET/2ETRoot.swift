@@ -17,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup7()
+        try setup8()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -41,22 +41,6 @@ enum MetalGlyphError: String, Error {
 extension TwoETimeRoot {
     func setup8() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
-        
-        let block = "🥸"
-//        let block = ">🥸 Hello there, Metal."
-        let testKey = GlyphCacheKey(block, .red)
-        
-        guard let node = linkNodeCache.create(testKey)
-        else { return }
-        
-        // Map [(0, 0), (x, y)] to [(0, 0), (1, 1)]
-        node.position.z = -10
-        root.add(child: node)
-    }
-    
-    func setup7() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
         let test = """
         The quick brown fox jumps over the lazy dog.
@@ -75,7 +59,7 @@ extension TwoETimeRoot {
         root.add(child: collection)
     }
     
-    func setup6() throws {
+    func setup7() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
         
@@ -107,6 +91,23 @@ extension TwoETimeRoot {
             doHello(at: -1.1 * $0)
         }
     }
+    
+    func setup6() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
+        
+//        let block = "🥸"
+        let block = ">🥸 Hello there, Metal."
+        let testKey = GlyphCacheKey(block, .red)
+        
+        guard let node = linkNodeCache.create(testKey)
+        else { return }
+        
+        // Map [(0, 0), (x, y)] to [(0, 0), (1, 1)]
+        node.position.z = -10
+        root.add(child: node)
+    }
+    
     
     func setup5() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
