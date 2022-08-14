@@ -15,6 +15,7 @@ class MetalLinkGlyphNodeCache {
     
     let meshCache: MetalLinkGlyphNodeMeshCache
     let textureCache: MetalLinkGlyphTextureCache
+    var glyphAtlas: MetalLinkAtlas? { textureCache.linkAtlas }
     
     init(link: MetalLink) {
         self.link = link
@@ -31,7 +32,7 @@ class MetalLinkGlyphNodeCache {
             guard let mesh = meshCache[key]
             else { throw MetalGlyphError.noMesh }
             
-            let node = try MetalLinkGlyphNode(
+            let node = MetalLinkGlyphNode(
                 link,
                 key: key,
                 texture: glyphTexture.texture,

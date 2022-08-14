@@ -14,8 +14,7 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
     // TODO: This is dangerous!
     // TODO: The atlas writes UVs directly in to the mesh cache.
     // It's lazy, so it happens on first call    
-    private lazy var linkAtlas = try? MetalLinkAtlas(link)
-    var atlas: MTLTexture? { linkAtlas?.texture }
+    lazy var linkAtlas = try? MetalLinkAtlas(link)
     
     init(link: MetalLink) {
         self.link = link

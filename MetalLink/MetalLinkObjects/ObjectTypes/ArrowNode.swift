@@ -8,8 +8,8 @@
 import MetalKit
 
 class ArrowNode: MetalLinkObject, MetalLinkReader {
-    init(_ link: MetalLink) throws {
-        try super.init(link, mesh: link.meshes[.Triangle])
+    init(_ link: MetalLink) {
+        super.init(link, mesh: link.meshes[.Triangle])
     }
     
     override func update(deltaTime: Float) {

@@ -24,8 +24,6 @@ class MetalLink {
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
-    lazy var linkNodeCache = MetalLinkGlyphNodeCache(link: self)
-    
     let input = DefaultInputReceiver()
     
     init(view: CustomMTKView) throws {
@@ -49,14 +47,15 @@ extension MetalLinkReader {
     var library: MTLLibrary { link.defaultLibrary }
     var commandQueue: MTLCommandQueue { link.commandQueue }
     var currentDrawable: CAMetalDrawable? { view.currentDrawable }
-    var linkNodeCache: MetalLinkGlyphNodeCache { link.linkNodeCache }
     
     var input: DefaultInputReceiver { link.input }
-    
-    var defaultGestureViewportPosition: SIMD2<Float> {
+}
+
+extension MetalLinkReader {
+    var defaultGestureViewportPosition: LFloat2 {
         let mouse = input.mousePosition
         let size = view.bounds
-        return SIMD2<Float>(
+        return LFloat2(
             Float((mouse.x - size.width * 0.5) / (size.width * 0.5)),
             Float((mouse.y - size.height * 0.5) / (size.height * 0.5))
         )
@@ -67,8 +66,8 @@ extension MetalLinkReader {
         return size.x / size.y
     }
     
-    var viewDrawableSize: SIMD2<Float> {
-        SIMD2<Float>(
+    var viewDrawableSize: LFloat2 {
+        LFloat2(
             Float(view.drawableSize.width),
             Float(view.drawableSize.height)
         )

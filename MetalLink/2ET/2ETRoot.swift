@@ -17,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup6()
+        try setup7()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -41,19 +41,14 @@ enum MetalGlyphError: String, Error {
 extension TwoETimeRoot {
     func setup8() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
         
-        // This will size (x, y)
-//        let block = """
-//        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-//        abcdefghijklmnopqrstuvwxyz
-//        1234567890!@#$%^&*()
-//        []\\;',./{}|:"<>?
-//        """
-        let block = ">🥸 Hello there, Metal."
+        let block = "🥸"
+//        let block = ">🥸 Hello there, Metal."
         let testKey = GlyphCacheKey(block, .red)
-        guard let node = linkNodeCache.create(testKey) else {
-            return
-        }
+        
+        guard let node = linkNodeCache.create(testKey)
+        else { return }
         
         // Map [(0, 0), (x, y)] to [(0, 0), (1, 1)]
         node.position.z = -10
@@ -63,12 +58,10 @@ extension TwoETimeRoot {
     func setup7() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-//        let test = """
-//        The quick brown fox jumps over the lazy dog.
-//        """
-        let test = "TH"
-//        let repeated = (0..<100).map { _ in test }.joined()
-        let repeated = test
+        let test = """
+        The quick brown fox jumps over the lazy dog.
+        """
+        let repeated = (0..<10).map { _ in test }.joined()
         print("drawing character count: ", repeated.count)
         
         let collection = try GlyphCollection(
@@ -77,37 +70,40 @@ extension TwoETimeRoot {
         )
         collection.position.x = -25
         collection.position.y = 0
-        collection.position.z = -50
+        collection.position.z = -10
         
         root.add(child: collection)
     }
     
     func setup6() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
         
         let cacheKeys = ">🥸 Hello there, Metal."
             .map { GlyphCacheKey("\($0)", .red) }
         
         func doHello(at yStart: Float = 0.0) {
+            func updateNode(_ node: MetalLinkGlyphNode) {
+//                print("g:[\(node.key.glyph)]")
+                xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
+                node.position.z -= 5
+                node.position.x += xOffset
+                node.position.y = yStart
+            }
+            
             var xOffset = Float(0.0)
             var last: MetalLinkGlyphNode?
             cacheKeys
-                .compactMap { self.linkNodeCache.create($0) }
-                .map { node -> MetalLinkGlyphNode in
-                    xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
-//                    print("g:[\(node.key.glyph)]")
-                    node.position.z -= 5
-                    node.position.x += xOffset
-                    node.position.y = yStart
+                .lazy
+                .compactMap { linkNodeCache.create($0) }
+                .forEach { node in
+                    updateNode(node)
                     last = node
-                    return node
-                }
-                .forEach {
-                    self.root.add(child: $0)
+                    root.add(child: node)
                 }
         }
         
-        stride(from: 0.0, to: 3, by: 1).forEach {
+        stride(from: 0.0, to: 1000, by: 1).forEach {
             doHello(at: -1.1 * $0)
         }
     }
@@ -115,7 +111,7 @@ extension TwoETimeRoot {
     func setup5() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let quadNode = try MetalLinkObject(link, mesh: link.meshes[.Quad])
+        let quadNode = MetalLinkObject(link, mesh: link.meshes[.Quad])
         quadNode.position.z -= 5
         
         root.add(child: quadNode)
@@ -147,7 +143,7 @@ extension TwoETimeRoot {
                 let yPos = Float(y) + 0.5
                 for z in length {
                     let zPos = Float(z) + 0.5
-                    let cube = try CubeNode(link: link)
+                    let cube = CubeNode(link: link)
                     cube.position = LFloat3(xPos / halfCount, yPos / halfCount, zPos / halfCount)
                     cube.scale = LFloat3(repeating: 1 / (count + 10))
                     root.add(child: cube)
@@ -159,7 +155,7 @@ extension TwoETimeRoot {
     func setup2() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let node = try CubeNode(link: link)
+        let node = CubeNode(link: link)
         node.setColor(LFloat4(0.12, 0.67, 0.23, 1.0))
         root.add(child: node)
     }
@@ -176,7 +172,7 @@ extension TwoETimeRoot {
             for y in length {
                 let y = Float(y)
                 
-                let node = try ArrowNode(link)
+                let node = ArrowNode(link)
                 node.position = LFloat3(
                     (x + 0.5) / halfCount,
                     (y + 0.5) / halfCount,

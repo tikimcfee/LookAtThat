@@ -15,12 +15,16 @@ class MetalLinkGlyphNode: MetalLinkObject {
     init(_ link: MetalLink,
          key: GlyphCacheKey,
          texture: MTLTexture,
-         quad: MetalLinkQuadMesh) throws {
+         quad: MetalLinkQuadMesh) {
         self.key = key
         self.texture = texture
         self.quad = quad
-        try super.init(link, mesh: quad)
+        super.init(link, mesh: quad)
         setQuadSize()
+    }
+    
+    func instanceableClone() -> MetalLinkGlyphNode {
+        MetalLinkGlyphNode(link, key: key, texture: texture, quad: quad)
     }
     
     func setQuadSize() {

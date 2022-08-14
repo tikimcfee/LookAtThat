@@ -33,7 +33,7 @@ class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
 }
 
 extension MeshLibrary {
-    func makeObject(_ type: MeshType) throws -> MetalLinkObject {
-        try MetalLinkObject(link, mesh: self[type])
+    func makeObject(_ type: MeshType) -> MetalLinkObject {
+        MetalLinkObject(link, mesh: self[type])
     }
 }

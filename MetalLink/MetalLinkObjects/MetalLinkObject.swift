@@ -22,7 +22,7 @@ class MetalLinkObject: MetalLinkNode {
     var constants = Constants()
     private var material = MetalLinkMaterial()
     
-    init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
+    init(_ link: MetalLink, mesh: MetalLinkMesh) {
         self.link = link
         self.mesh = mesh
         super.init()

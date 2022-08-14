@@ -21,7 +21,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         
         try super.init(link, mesh: link.meshes[.Quad], instances: {
             text.compactMap { char in
-                cache.create(.init(String(char), .red))
+                cache.create(GlyphCacheKey(String(char), .red))
             }
         })
         
@@ -39,9 +39,9 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         var last: MetalLinkGlyphNode?
         instancedNodes.enumerated().forEach { index, node in
             xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
-            node.position.z = zOffset + 1
             node.position.x = xOffset + 1
             node.position.y = yOffset + 2
+            node.position.z = zOffset
             
             instancedConstants[index].color = LFloat4.random_color()
             instancedConstants[index].textureIndex = node.constants.textureIndex
@@ -51,7 +51,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             guard index >= 1 else { return }
             if index % 100 == 0 {
                 xOffset = left
-                yOffset -= 2.2
+                yOffset -= 1.1
             }
             
             if index % (100 * 100) == 0 {
@@ -67,15 +67,20 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     private func time(_ dT: Float) -> Float { _time += dT; return _time }
     
     override func update(deltaTime dT: Float) {
-        //        rotation.x -= dT / 2
-        //        rotation.y -= dT / 2
-        
-//        pushModelConstants = true
+        pushModelConstants = true
         super.update(deltaTime: dT)
     }
     
+    override func render(in sdp: inout SafeDrawPass) {
+        if let atlas = linkNodeCache.textureCache.linkAtlas?.texture {
+            sdp.renderCommandEncoder.setFragmentTexture(atlas, index: 5)
+        }
+        super.render(in: &sdp)
+    }
+    
     override func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
-        node.rotation.x -= 0.0167 * 2
+//        node.rotation.x -= 0.0167 * 2
         node.rotation.y -= 0.0167 * 2
+//        node.position.z = cos(time(0.0167) / 500)
     }
 }

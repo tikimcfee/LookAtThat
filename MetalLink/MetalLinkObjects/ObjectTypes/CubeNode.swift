@@ -10,8 +10,8 @@ import MetalKit
 func randomFloat(_ range: Range<Float> = (0..<1)) -> Float { Float.random(in: range) }
 
 class CubeNode: MetalLinkObject {
-    init(link: MetalLink) throws {
-        try super.init(link, mesh: link.meshes[.Cube])
+    init(link: MetalLink) {
+        super.init(link, mesh: link.meshes[.Cube])
     }
     
     private var _time: Float = 0
