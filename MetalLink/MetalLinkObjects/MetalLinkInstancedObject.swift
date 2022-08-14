@@ -101,8 +101,8 @@ extension MetalLinkInstancedObject {
     }
     
     func pushConstantsBuffer() {
-//        iterativePush()
-        multiThreadedPush()
+        iterativePush()
+//        multiThreadedPush()
     }
     
     private func iterativePush() {
@@ -121,13 +121,19 @@ extension MetalLinkInstancedObject {
     }
     
     private func multiThreadedPush() {
+        let chunks = instancedNodes.count / 4
+        guard chunks > 1 else {
+            iterativePush()
+            return
+        }
+        
         let pointer = modelConstantsBuffer
             .contents()
             .bindMemory(to: InstancedConstants.self, capacity: instancedNodes.count)
         
         let group = DispatchGroup() // Just throw threads at it, Ivan. Sure.
         instancedNodes
-            .chunks(ofCount: instancedNodes.count / 4)
+            .chunks(ofCount: chunks)
             .forEach { chunk in
                 group.enter()
                 WorkerPool.shared.nextConcurrentWorker().async {
@@ -145,18 +151,6 @@ extension MetalLinkInstancedObject {
                 }
             }
         group.wait()
-    }
-}
-
-extension MetalLinkInstancedObject {
-    struct InstancedConstants: MemoryLayoutSizable {
-        var modelMatrix = matrix_identity_float4x4
-        var color = LFloat4.zero
-        var textureIndex = TextureIndex.zero
-    }
-    
-    class State {
-        var time: Float = 0
     }
 }
 

@@ -19,6 +19,7 @@ struct ModelConstants {
     float4x4 modelMatrix;
     float4 color;
     int textureIndex;
+    float4 textureUV;
 };
 
 struct VertexIn {
@@ -29,10 +30,11 @@ struct VertexIn {
 
 struct RasterizerData {
     float4 position [[ position ]]; // position implies "don't interpolate this; it's a position"
-    float4 color;                   // interpolated
-    float2 textureCoordinate;       // interpolated
-    int textureIndex;
-    float totalGameTime;            // interpolated
+    float4 color;
+    float2 textureCoordinate;
+    int textureIndex [[ flat ]]; /* flat = do not interpolate */
+    float4 textureUV; /* (left, top, width, height) */
+    float totalGameTime;
 };
 
 struct Material {

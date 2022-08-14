@@ -579,10 +579,10 @@
 		B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B750771428A21FFD0097278A /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
-		B750771628A2217D0097278A /* MetalLinkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkConstants.swift */; };
-		B750771728A2217D0097278A /* MetalLinkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkConstants.swift */; };
-		B750771828A2217D0097278A /* MetalLinkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkConstants.swift */; };
-		B750771928A2217D0097278A /* MetalLinkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkConstants.swift */; };
+		B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
+		B750771728A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
+		B750771828A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
+		B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
 		B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
@@ -726,10 +726,10 @@
 		B7AC335728A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
 		B7AC335828A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
 		B7AC335928A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
-		B7AC335A28A0CA71001172BB /* MetalLinkTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */; };
-		B7AC335B28A0CA71001172BB /* MetalLinkTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */; };
-		B7AC335C28A0CA71001172BB /* MetalLinkTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */; };
-		B7AC335D28A0CA71001172BB /* MetalLinkTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */; };
+		B7AC335A28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
+		B7AC335B28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
+		B7AC335C28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
+		B7AC335D28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
 		B7AC335E28A0CA71001172BB /* DescriptorPipelineLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* DescriptorPipelineLibrary.swift */; };
 		B7AC335F28A0CA71001172BB /* DescriptorPipelineLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* DescriptorPipelineLibrary.swift */; };
 		B7AC336028A0CA71001172BB /* DescriptorPipelineLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* DescriptorPipelineLibrary.swift */; };
@@ -1233,7 +1233,7 @@
 		B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+WindowOpen.swift"; sourceTree = "<group>"; };
 		B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelToggles.swift; sourceTree = "<group>"; };
 		B750771328A21FFD0097278A /* MetalMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalMath.swift; sourceTree = "<group>"; };
-		B750771528A2217D0097278A /* MetalLinkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkConstants.swift; sourceTree = "<group>"; };
+		B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGPUTypes.swift; sourceTree = "<group>"; };
 		B75D961B2840385A00912EB0 /* AppStatePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatePreferences.swift; sourceTree = "<group>"; };
 		B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalLinkShared.metal; sourceTree = "<group>"; };
 		B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalLinkBasicShaders.metal; sourceTree = "<group>"; };
@@ -1283,7 +1283,7 @@
 		B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkObject.swift; sourceTree = "<group>"; };
 		B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkMeshTypes.swift; sourceTree = "<group>"; };
 		B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkBaseMesh.swift; sourceTree = "<group>"; };
-		B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkTypes.swift; sourceTree = "<group>"; };
+		B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkAliases.swift; sourceTree = "<group>"; };
 		B7AC332F28A0CA70001172BB /* DescriptorPipelineLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptorPipelineLibrary.swift; sourceTree = "<group>"; };
 		B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
 		B7AC333128A0CA70001172BB /* ShaderLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderLibrary.swift; sourceTree = "<group>"; };
@@ -1535,10 +1535,10 @@
 				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
 				B7AC332528A0CA70001172BB /* CoreError.swift */,
 				B7AC333328A0CA70001172BB /* MetalLink.swift */,
-				B750771528A2217D0097278A /* MetalLinkConstants.swift */,
+				B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */,
 				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
 				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
-				B7AC332D28A0CA70001172BB /* MetalLinkTypes.swift */,
+				B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */,
 				B72FBFE328A8263C0098762D /* MetalLinkExtensions.swift */,
 				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
 				B750771228A21FE20097278A /* Maths */,
@@ -2777,13 +2777,13 @@
 				B70FDC64283EAE9900170D5F /* GlyphNode.swift in Sources */,
 				B70FDC65283EAE9900170D5F /* SplittingFileReader.swift in Sources */,
 				B70FDC66283EAE9900170D5F /* SourceInfoPanelView.swift in Sources */,
-				B7AC335B28A0CA71001172BB /* MetalLinkTypes.swift in Sources */,
+				B7AC335B28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				B7C69FD528A356C500A84860 /* ArrowNode.swift in Sources */,
 				B70FDC67283EAE9900170D5F /* BaseSceneController.swift in Sources */,
 				B70FDC68283EAE9900170D5F /* FloatableView+WindowOpen.swift in Sources */,
 				B70FDC69283EAE9900170D5F /* CommandHandler.swift in Sources */,
 				B70FDC6A283EAE9900170D5F /* FileUrlProvider.swift in Sources */,
-				B750771728A2217D0097278A /* MetalLinkConstants.swift in Sources */,
+				B750771728A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B70FDC6B283EAE9900170D5F /* FocusBoxEngine_MacOS.swift in Sources */,
 				B70FDC6C283EAE9900170D5F /* GridControlAddToFocus.swift in Sources */,
 				B70FDC6D283EAE9900170D5F /* ControllerState.swift in Sources */,
@@ -2996,7 +2996,7 @@
 				B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */,
 				B74A22B22814FFF300F6F727 /* BaseSceneController.swift in Sources */,
 				B74A22B32814FFF300F6F727 /* CommandHandler.swift in Sources */,
-				B7AC335D28A0CA71001172BB /* MetalLinkTypes.swift in Sources */,
+				B7AC335D28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */,
 				B74A22B52814FFF300F6F727 /* FocusBoxEngine_MacOS.swift in Sources */,
@@ -3105,7 +3105,7 @@
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
-				B750771928A2217D0097278A /* MetalLinkConstants.swift in Sources */,
+				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
 				B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */,
@@ -3363,7 +3363,7 @@
 				B7AC339328A0CD85001172BB /* BasicShaders.swift in Sources */,
 				B7F5F67028556B8400AE9009 /* CodeGrid+Writers.swift in Sources */,
 				B72FBFE428A8263C0098762D /* MetalLinkExtensions.swift in Sources */,
-				B750771628A2217D0097278A /* MetalLinkConstants.swift in Sources */,
+				B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
@@ -3382,7 +3382,7 @@
 				B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
 				B7C69FD428A356C500A84860 /* ArrowNode.swift in Sources */,
-				B7AC335A28A0CA71001172BB /* MetalLinkTypes.swift in Sources */,
+				B7AC335A28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				F030B8D225180A9200B94E7A /* BaseSceneController.swift in Sources */,
 				B75014AE283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
@@ -3653,13 +3653,13 @@
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
-				B7AC335C28A0CA71001172BB /* MetalLinkTypes.swift in Sources */,
+				B7AC335C28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
-				B750771828A2217D0097278A /* MetalLinkConstants.swift in Sources */,
+				B750771828A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7F3AAA22853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,

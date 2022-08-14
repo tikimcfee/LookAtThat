@@ -8,12 +8,6 @@
 
 import Foundation
 
-struct Vertex {
-    var position: LFloat3
-    var color: LFloat4
-    var textureCoordinate: LFloat2 = .zero
-}
-
 typealias TextureIndex = Int
 
 typealias LInt2 = SIMD2<Int>

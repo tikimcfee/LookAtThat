@@ -13,24 +13,45 @@ enum LinkAtlasError: Error {
 
 class MetalLinkAtlas {
     private let link: MetalLink
-    private let nodeCache: MetalLinkGlyphNodeCache
+    let nodeCache: MetalLinkGlyphNodeCache
     
-    let texture: MTLTexture
-    
-    init(_ link: MetalLink) throws {
+    init(_ link: MetalLink) {
         self.link = link
         self.nodeCache = MetalLinkGlyphNodeCache(link: link)
-        let builder = try AtlasBuilder(
-            link,
-            textureCache: nodeCache.textureCache, // wait.. this works!?
-            meshCache: nodeCache.meshCache        // is it... allowing self usage.. because it knows atlasCache is initialized?
-        
-        )
-        self.texture = MetalLinkAtlas.buildSampleAtlas(builder: builder)
+    }
+    
+    private var sampleTexture: MTLTexture?
+    func getSampleAtlas() -> MTLTexture? {
+        if let texture = sampleTexture { return texture }
+        guard let builder = makeBuilder() else { return nil }
+        print("Making atlas")
+        self.sampleTexture = MetalLinkAtlas.buildSampleAtlas(builder: builder)
+        return sampleTexture
     }
 }
 
 extension MetalLinkAtlas {
+    func newGlyph(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
+        nodeCache.create(key)
+    }
+}
+
+private extension MetalLinkAtlas {
+    func makeBuilder() -> AtlasBuilder? {
+        do {
+            return try AtlasBuilder(
+                link,
+                textureCache: nodeCache.textureCache,
+                meshCache: nodeCache.meshCache
+            )
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+}
+
+private extension MetalLinkAtlas {
     static var sampleBlock = """
     ABCDEFGHIJKLMNOPQRSTUVWXYZ
     abcdefghijklmnopqrstuvwxyz
@@ -46,7 +67,7 @@ extension MetalLinkAtlas {
             .cyan, .magenta, .purple, .yellow, .systemMint,
             .systemPink, .systemTeal
         ]
-        
+
         for color in colors {
             for character in sampleBlock {
                 let key = GlyphCacheKey(String(character), color)

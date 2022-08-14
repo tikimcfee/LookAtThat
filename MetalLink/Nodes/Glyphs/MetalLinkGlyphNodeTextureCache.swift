@@ -10,12 +10,7 @@ import MetalKit
 class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle?> {
     let link: MetalLink
     let bitmapCache: MetalLinkGlyphNodeBitmapCache
-    
-    // TODO: This is dangerous!
-    // TODO: The atlas writes UVs directly in to the mesh cache.
-    // It's lazy, so it happens on first call    
-    lazy var linkAtlas = try? MetalLinkAtlas(link)
-    
+
     init(link: MetalLink) {
         self.link = link
         self.bitmapCache = MetalLinkGlyphNodeBitmapCache()

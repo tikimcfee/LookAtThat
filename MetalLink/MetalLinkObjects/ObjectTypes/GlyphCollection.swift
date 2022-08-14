@@ -11,17 +11,18 @@ import MetalKit
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var textBody: String
-    var linkNodeCache: MetalLinkGlyphNodeCache
+    var linkAtlas: MetalLinkAtlas
     
     init(link: MetalLink, text: String) throws {
+        let newLinkAtlas = MetalLinkAtlas(link)
+        self.linkAtlas = newLinkAtlas
         self.textBody = text
+        _ = newLinkAtlas.getSampleAtlas()
         
-        let cache = MetalLinkGlyphNodeCache(link: link)
-        self.linkNodeCache = cache
         
         try super.init(link, mesh: link.meshes[.Quad], instances: {
-            text.compactMap { char in
-                cache.create(GlyphCacheKey(String(char), .red))
+            text.compactMap { character in
+                newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .red))
             }
         })
         
@@ -29,6 +30,8 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     }
     
     func setupNodes() {
+        print("Setting up collection nodes")
+        
         let left = Float(0.0)
         let top = Float(0.0)
         let front = Float(-5.0)
@@ -45,6 +48,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             
             instancedConstants[index].color = LFloat4.random_color()
             instancedConstants[index].textureIndex = node.constants.textureIndex
+            node.quad.applyUVsToInstance(&instancedConstants[index])
             
             last = node
             
@@ -60,7 +64,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             }
         }
         
-        mesh = last!.mesh
+        mesh = instancedNodes.first!.mesh
     }
     
     private var _time: Float = 0
@@ -72,7 +76,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     }
     
     override func render(in sdp: inout SafeDrawPass) {
-        if let atlas = linkNodeCache.textureCache.linkAtlas?.texture {
+        if let atlas = linkAtlas.getSampleAtlas() {
             sdp.renderCommandEncoder.setFragmentTexture(atlas, index: 5)
         }
         super.render(in: &sdp)
@@ -80,7 +84,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     override func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
 //        node.rotation.x -= 0.0167 * 2
-        node.rotation.y -= 0.0167 * 2
+//        node.rotation.y -= 0.0167 * 2
 //        node.position.z = cos(time(0.0167) / 500)
     }
 }

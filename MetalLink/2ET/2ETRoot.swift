@@ -17,15 +17,13 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup8()
+        try setup9()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
         let dT =  1.0 / Float(link.view.preferredFramesPerSecond)
-//        root.children.forEach {
-//            $0.rotation.x -= dT * 2
-//            $0.rotation.y -= dT * 2
-//        }
+        
+        // TODO: Make update and render a single pass to avoid repeated child loops
         root.update(deltaTime: dT)
         root.render(in: &sdp)
     }
@@ -39,6 +37,22 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setup9() throws {
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        
+        let test = "METAL"
+        
+        let collection = try GlyphCollection(
+            link: link,
+            text: test
+        )
+        collection.position.x = -5
+        collection.position.y = -5
+        collection.position.z = -10
+        
+        root.add(child: collection)
+    }
+    
     func setup8() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         

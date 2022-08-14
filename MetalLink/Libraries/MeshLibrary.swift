@@ -23,11 +23,11 @@ class MeshLibrary: LockingCache<MeshType, MetalLinkMesh> {
     override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
         switch key {
         case .Triangle:
-            return try! MetalLinkTriangleMesh(link)
+            return MetalLinkTriangleMesh(link)
         case .Quad:
-            return try! MetalLinkQuadMesh(link)
+            return MetalLinkQuadMesh(link)
         case .Cube:
-            return try! MetalLinkCubeMesh(link)
+            return MetalLinkCubeMesh(link)
         }
     }
 }

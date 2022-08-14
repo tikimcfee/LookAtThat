@@ -17,6 +17,7 @@ class AtlasBuilder {
     
     let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
     
+    let link: MetalLink
     let textureCache: MetalLinkGlyphTextureCache
     let meshCache: MetalLinkGlyphNodeMeshCache
     let commandBuffer: MTLCommandBuffer
@@ -36,6 +37,7 @@ class AtlasBuilder {
               let atlasTexture = link.device.makeTexture(descriptor: Self.canvasDescriptor)
         else { throw LinkAtlasError.noStateBuilder }
         
+        self.link = link
         self.textureCache = textureCache
         self.meshCache = meshCache
         self.commandBuffer = commandBuffer
@@ -55,10 +57,12 @@ class AtlasBuilder {
 
 extension AtlasBuilder {
     func addGlyph(_ key: GlyphCacheKey) {
+        print("Adding glyph: \(key.glyph), red=\(key.foreground == NSUIColor.red)")
         guard let textureBundle = textureCache[key] else {
             print("Missing texture for \(key)")
             return
         }
+        
         let glyph = textureBundle.texture
         let size = MTLSize(width: glyph.width, height: glyph.height, depth: 1)
         
@@ -75,30 +79,38 @@ extension AtlasBuilder {
         )
         let bundleUVSize = atlasUVSize(for: textureBundle)
         
-        advanceUVOffsets(from: textureBundle, size: bundleUVSize)
-        let uvTopLeft = uvOffset
-        let uvBottomRight = LFloat2(uvOffset.x, uvOffsetTop + bundleUVSize.y)
-        let uvBottomLeft = LFloat2(uvTopLeft.x, uvBottomRight.y)
-        let uvTopRight = LFloat2(uvBottomRight.x, uvTopLeft.y)
+//        print("setting uvs")
         
-        meshCache[key]?.updateUVs(
-            topRight: uvTopRight,
-            topLeft: uvTopLeft,
-            bottomLeft: uvBottomLeft,
-            bottomRight: uvBottomRight
-        )
+        let advance = advanceUVOffsets(from: textureBundle, size: bundleUVSize)
+        let mesh = meshCache[key]
+        mesh.updateUVs(boundingBox: advance)
+        
+//        let coords = [
+//            "\(mesh.topLeft.textureCoordinate.coordString)",
+//            "\(mesh.topRight.textureCoordinate.coordString)",
+//            "\(mesh.bottomLeft.textureCoordinate.coordString)",
+//            "\(mesh.bottomRight.textureCoordinate.coordString)"
+//        ].joined(separator: "\n")
+//
+//        print("post update: \(key.glyph) \n\(coords)")
+//        print("---")
     }
     
     func advanceUVOffsets(
         from bundle: MetalLinkGlyphTextureCache.Bundle,
         size bundleUVSize: LFloat2
-    ) {
-        if bundle.textureIndex > 0 && bundle.textureIndex % maxWidthGlyphIndex == 0 {
+    ) -> LFloat4 {
+        let uvStartOffset = uvOffset
+        let newLine = bundle.textureIndex > 0
+            && bundle.textureIndex % maxWidthGlyphIndex == 0
+        
+        if newLine {
             // Move to next line;
             targetOrigin.x = 0
             targetOrigin.y = lineBottom
             lineTop = lineBottom
             
+            // Update offsets
             uvOffset.x = 0
             uvOffset.y += bundleUVSize.y
             uvOffsetTop = uvOffset.y
@@ -110,6 +122,13 @@ extension AtlasBuilder {
             uvOffset.x += bundleUVSize.x
             uvOffset.y = max(uvOffset.y, uvOffsetTop + bundleUVSize.y)
         }
+        
+        return LFloat4(/*left, top, width, height*/
+            uvStartOffset.x,
+            uvOffsetTop,
+            bundleUVSize.x,
+            bundleUVSize.y
+        )
     }
     
     func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
@@ -121,7 +140,7 @@ extension AtlasBuilder {
 extension AtlasBuilder {
     static var glyphCount: Int = 64
     static var glyphSizeEstimate = LInt2(14, 24) // about (13, 23)
-    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * glyphCount)
+    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * 32)
     static var canvasDescriptor: MTLTextureDescriptor = {
         let glyphDescriptor = MTLTextureDescriptor()
         glyphDescriptor.textureType = .type2D

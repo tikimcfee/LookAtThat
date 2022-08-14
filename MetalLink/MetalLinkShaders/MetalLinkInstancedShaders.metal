@@ -32,6 +32,7 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     rasterizerData.textureIndex = constants.textureIndex;
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
+    rasterizerData.textureUV = constants.textureUV;
     
     return rasterizerData;
 }

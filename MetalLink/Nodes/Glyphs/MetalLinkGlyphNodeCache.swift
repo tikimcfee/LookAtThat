@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Metal
 
 //TODO: Think if there's a way to do something with saved nodes for *instancing*.
 // Still need 1 instance per glyph, but the mapping of key -> texture + uvs might be reusable?
@@ -15,7 +16,6 @@ class MetalLinkGlyphNodeCache {
     
     let meshCache: MetalLinkGlyphNodeMeshCache
     let textureCache: MetalLinkGlyphTextureCache
-    var glyphAtlas: MetalLinkAtlas? { textureCache.linkAtlas }
     
     init(link: MetalLink) {
         self.link = link
@@ -29,9 +29,7 @@ class MetalLinkGlyphNodeCache {
             guard let glyphTexture = textureCache[key]
             else { throw MetalGlyphError.noTextures }
             
-            guard let mesh = meshCache[key]
-            else { throw MetalGlyphError.noMesh }
-            
+            let mesh = meshCache[key]
             let node = MetalLinkGlyphNode(
                 link,
                 key: key,

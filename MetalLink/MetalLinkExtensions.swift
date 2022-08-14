@@ -21,3 +21,7 @@ struct UnitSize {
                        min(source.y * unitWidth, 1))
     }
 }
+
+extension LFloat2 {
+    var coordString: String { "(\(x), \(y))" }
+}

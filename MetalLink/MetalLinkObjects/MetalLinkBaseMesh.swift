@@ -23,7 +23,7 @@ class MetalLinkBaseMesh: MetalLinkMesh {
     var vertices: [Vertex] = []
     var name: String { "BaseMesh" }
 
-    init(_ link: MetalLink) throws {
+    init(_ link: MetalLink) {
         self.link = link
         self.vertices = createVertices()
     }

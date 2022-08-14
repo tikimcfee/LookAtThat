@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MetalLinkGlyphNodeMeshCache: LockingCache<GlyphCacheKey, MetalLinkQuadMesh?> {
+class MetalLinkGlyphNodeMeshCache: LockingCache<GlyphCacheKey, MetalLinkQuadMesh> {
     let link: MetalLink
     
     init(link: MetalLink) {
@@ -15,6 +15,6 @@ class MetalLinkGlyphNodeMeshCache: LockingCache<GlyphCacheKey, MetalLinkQuadMesh
     }
     
     override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
-        try? MetalLinkQuadMesh(link)
+        MetalLinkQuadMesh(link)
     }
 }

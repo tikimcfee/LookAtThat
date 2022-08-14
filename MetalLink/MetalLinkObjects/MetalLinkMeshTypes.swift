@@ -33,6 +33,42 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
     override var name: String { "MLQuad" }
+    var topLeft: Vertex {
+        get { vertices[1] }
+        set { vertices[1] = newValue }
+    }
+    
+    var topRight: Vertex {
+        get { vertices[0] }
+        set { vertices[0] = newValue; vertices[3] = newValue }
+    }
+    
+    var bottomLeft: Vertex {
+        get { vertices[2] }
+        set { vertices[2] = newValue; vertices[4] = newValue }
+    }
+    
+    var bottomRight: Vertex {
+        get { vertices[5] }
+        set { vertices[5] = newValue }
+    }
+    
+    func applyUVsToInstance<T>(_ instance: inout MetalLinkInstancedObject<T>.InstancedConstants) {
+        // Texture UV (left, top , width, height)
+        //
+        // topLeft = (left, top)
+        // topRight = (left + width, top)
+        // botLeft = (left, top + height)
+        // botRight = (left + width, top + height)
+        //
+        instance.textureUV = LFloat4(
+            topLeft.textureCoordinate.x,
+            topLeft.textureCoordinate.y,
+            topRight.textureCoordinate.x - topLeft.textureCoordinate.x,
+            bottomRight.textureCoordinate.y - topRight.textureCoordinate.y
+        )
+    }
+    
     var width: Float {
         get { abs(vertices[0].position.x - vertices[1].position.x) }
         set {
@@ -67,30 +103,13 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
         Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 4 */
         Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))  /* B R 5 */
     ] }
-    
-    func updateUVs(
-        topRight: LFloat2? = nil,
-        topLeft: LFloat2? = nil,
-        bottomLeft: LFloat2? = nil,
-        bottomRight: LFloat2? = nil
-    ) {
-        if let topRight = topRight {
-            vertices[0].textureCoordinate = topRight
-            vertices[3].textureCoordinate = topRight
-        }
         
-        if let topLeft = topLeft {
-            vertices[1].textureCoordinate = topLeft
-        }
-        
-        if let bottomLeft = bottomLeft {
-            vertices[2].textureCoordinate = bottomLeft
-            vertices[4].textureCoordinate = bottomLeft
-        }
-        
-        if let bottomRight = bottomRight {
-            vertices[5].textureCoordinate = bottomRight
-        }
+    func updateUVs(boundingBox: LFloat4) {
+        let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
+        topLeft.textureCoordinate = LFloat2(left, top)
+        bottomLeft.textureCoordinate = LFloat2(left, top + height)
+        topRight.textureCoordinate = LFloat2(left + width, top)
+        bottomRight.textureCoordinate = LFloat2(left + width, top + height)
     }
 }
 
