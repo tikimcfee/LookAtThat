@@ -28,9 +28,13 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
         guard let bitmaps = bitmapCache[key]
         else { return nil }
         
+        if bitmaps.requestedCG.width != 13 || bitmaps.requestedCG.height != 23 {
+            print("-- Unhandled glyph: \(key.glyph)")
+        }
+        
         guard let glyphTexture = try? link.textureLoader.newTexture(
             cgImage: bitmaps.requestedCG,
-            options: [:]
+            options: [.textureStorageMode: MTLStorageMode.private.rawValue]
         ) else { return nil}
         
         return Bundle(texture: glyphTexture, textureIndex: nextTextureIndex())
