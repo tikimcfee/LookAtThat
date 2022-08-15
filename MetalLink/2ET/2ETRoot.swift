@@ -17,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup8()
+        try setup9()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -40,14 +40,36 @@ extension TwoETimeRoot {
     func setup9() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let test = "METAL"
+        let test = """
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        1234567890!@#$%^&*()
+        []\\;',./{}|:"<>?
+        """.components(separatedBy: .newlines).joined()
+        
+        let colors: [NSUIColor] = [
+            .red, .green, .blue, .brown, .orange,
+            .cyan, .magenta, .purple, .yellow, .systemMint,
+            .systemPink, .systemTeal
+        ]
+        
+        let repeated = (0..<100).map { _ in test }.joined()
+        print("drawing character count: ", repeated.count)
         
         let collection = try GlyphCollection(
             link: link,
-            text: test
-        )
-        collection.position.x = -5
-        collection.position.y = -5
+            text: repeated
+        ) { atlas in
+            var glyphs = [MetalLinkGlyphNode]()
+            for color in colors {
+                repeated.compactMap { atlas.newGlyph(GlyphCacheKey(String($0), color)) }
+                        .forEach { glyphs.append($0) }
+            }
+            return glyphs
+        }
+        
+        collection.position.x = -25
+        collection.position.y = 0
         collection.position.z = -10
         
         root.add(child: collection)
@@ -56,22 +78,17 @@ extension TwoETimeRoot {
     func setup8() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let test = """
-        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        abcdefghijklmnopqrstuvwxyz
-        1234567890!@#$%^&*()
-        []\\;',./{}|:"<>?
-        """.components(separatedBy: .newlines).joined()
-        
-        let repeated = (0..<2).map { _ in test }.joined()
-        print("drawing character count: ", repeated.count)
+        let test = "METAL"
         
         let collection = try GlyphCollection(
             link: link,
-            text: repeated
-        )
-        collection.position.x = -25
-        collection.position.y = 0
+            text: test
+        ) { atlas in
+            test.compactMap { atlas.newGlyph(GlyphCacheKey(String($0), .red)) }
+        }
+        
+        collection.position.x = -5
+        collection.position.y = -5
         collection.position.z = -10
         
         root.add(child: collection)

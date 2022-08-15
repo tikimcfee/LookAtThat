@@ -13,25 +13,17 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var textBody: String
     var linkAtlas: MetalLinkAtlas
     
-    init(link: MetalLink, text: String) throws {
+    init(link: MetalLink,
+         text: String,
+         _ instances: (MetalLinkAtlas) -> [MetalLinkGlyphNode]) throws {
+        self.textBody = text
+        
         let newLinkAtlas = MetalLinkAtlas(link)
         self.linkAtlas = newLinkAtlas
-        self.textBody = text
         _ = newLinkAtlas.getSampleAtlas()
         
-        
         try super.init(link, mesh: link.meshes[.Quad], instances: {
-            [
-                text.compactMap { character in
-                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .red))
-                },
-                text.compactMap { character in
-                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .green))
-                },
-                text.compactMap { character in
-                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .blue))
-                }
-            ].flatMap { $0 }
+            instances(newLinkAtlas)
         })
         
         setupNodes()
