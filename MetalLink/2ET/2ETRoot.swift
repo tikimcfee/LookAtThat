@@ -43,8 +43,10 @@ extension TwoETimeRoot {
         let collection = try GlyphCollection(
             link: link
         ) { atlas in
-            MetalLinkAtlas.allSampleGlyphs.compactMap {
-                atlas.newGlyph($0)
+            (0..<1_00).flatMap { _ in
+                MetalLinkAtlas.allSampleGlyphs.compactMap { key in
+                    atlas.newGlyph(key)
+                }
             }
         }
         
