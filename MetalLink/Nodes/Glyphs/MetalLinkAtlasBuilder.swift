@@ -14,21 +14,13 @@ struct TextureUVPair {
 }
 
 class AtlasBuilder {
-    private let sourceOrigin = MTLOrigin()
-    private var targetOrigin = MTLOrigin()
-    private var lineTop: Int = 0
-    private var lineBottom: Int = 0
-    private var uvOffsetTop: Float = .zero
-    private var uvOffset: LFloat2 = .zero
-    
-    private let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
-    
     private let link: MetalLink
     private let textureCache: MetalLinkGlyphTextureCache
     private let meshCache: MetalLinkGlyphNodeMeshCache
     private let commandBuffer: MTLCommandBuffer
     private let blitEncoder: MTLBlitCommandEncoder
     
+    private let atlasPointer = AtlasPointer()
     private let atlasTexture: MTLTexture
     private var uvPairCache: TextureUVCache = [:]
     
@@ -71,7 +63,7 @@ class AtlasBuilder {
 
 extension AtlasBuilder {
     func addGlyph(_ key: GlyphCacheKey) {
-        print("Adding glyph: \(key.glyph), red=\(key.foreground == NSUIColor.red)")
+//        print("Adding glyph: \(key.glyph), red=\(key.foreground == NSUIColor.red)")
         
         guard let textureBundle = textureCache[key] else {
             print("Missing texture for \(key)")
@@ -85,15 +77,15 @@ extension AtlasBuilder {
             from: textureBundle.texture,
             sourceSlice: 0,
             sourceLevel: 0,
-            sourceOrigin: sourceOrigin,
+            sourceOrigin: atlasPointer.sourceOrigin,
             sourceSize: size,
             to: atlasTexture,
             destinationSlice: 0,
             destinationLevel: 0,
-            destinationOrigin: targetOrigin
+            destinationOrigin: atlasPointer.targetOrigin
         )
         let bundleUVSize = atlasUVSize(for: textureBundle)
-        let boundingBox = advanceUVOffsets(from: textureBundle, size: bundleUVSize)
+        let boundingBox = atlasPointer.advanceUVOffsets(from: textureBundle, size: bundleUVSize)
         let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
         
         let topLeft = LFloat2(left, top)
@@ -106,18 +98,58 @@ extension AtlasBuilder {
             v: LFloat4(topRight.y, topLeft.y, bottomLeft.y, bottomRight.y)
         )
 
-        print("---------------")
-        print("post update: \(key.glyph)")
-        print("---------------")
+//        print("---------------")
+//        print("post update: \(key.glyph)")
+//        print("---------------")
     }
+    
+    func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
+        let bundleSize = bundle.texture.simdSize
+        return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
+    }
+}
+
+extension AtlasBuilder {
+    static var glyphCount: Int = 64
+    static var glyphSizeEstimate = LInt2(15, 25) // about (13, 23)
+    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * glyphCount)
+    static var canvasDescriptor: MTLTextureDescriptor = {
+        let glyphDescriptor = MTLTextureDescriptor()
+        glyphDescriptor.storageMode = .private
+        glyphDescriptor.textureType = .type2D
+        glyphDescriptor.pixelFormat = .rgba8Unorm
+        
+        // TODO: Optimized behavior clears 'empty' backgrounds
+        // We don't want this: spaces count, and they're colored.
+        // Not sure what we lose with this.. but we'll see.
+        glyphDescriptor.allowGPUOptimizedContents = false
+        
+        glyphDescriptor.width = canvasSize.x
+        glyphDescriptor.height = canvasSize.y
+        return glyphDescriptor
+    }()
+}
+
+class AtlasPointer {    
+    private let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
+    
+    let sourceOrigin = MTLOrigin()
+    var targetOrigin = MTLOrigin()
+    
+    private var lineTop: Int = 0
+    private var lineBottom: Int = 0
+    
+    private var uvOffsetTop: Float = .zero
+    private var uvOffset: LFloat2 = .zero
     
     func advanceUVOffsets(
         from bundle: MetalLinkGlyphTextureCache.Bundle,
         size bundleUVSize: LFloat2
     ) -> LFloat4 {
         let uvStartOffset = uvOffset
-        let newLine = bundle.textureIndex > 0
-            && bundle.textureIndex % maxWidthGlyphIndex == 0
+        let newLine =
+        bundle.textureIndex > 0
+        && bundle.textureIndex % maxWidthGlyphIndex == 0
         
         if newLine {
             // Move to next line;
@@ -146,24 +178,4 @@ extension AtlasBuilder {
             bundleUVSize.y
         )
     }
-    
-    func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
-        let bundleSize = bundle.texture.simdSize
-        return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
     }
-}
-
-extension AtlasBuilder {
-    static var glyphCount: Int = 64
-    static var glyphSizeEstimate = LInt2(14, 24) // about (13, 23)
-    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * 32)
-    static var canvasDescriptor: MTLTextureDescriptor = {
-        let glyphDescriptor = MTLTextureDescriptor()
-        glyphDescriptor.storageMode = .private
-        glyphDescriptor.textureType = .type2D
-        glyphDescriptor.pixelFormat = .rgba8Unorm
-        glyphDescriptor.width = canvasSize.x
-        glyphDescriptor.height = canvasSize.y
-        return glyphDescriptor
-    }()
-}
