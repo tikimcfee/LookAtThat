@@ -31,18 +31,8 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
         * constants.modelMatrix         // transforms
         * float4(vertexIn.position, 1); // current position
     
-    
+    // Lol indexing into float4
     uint uvIndex = vertexIn.uvTextureIndex;
-    // Keeping for one commit for posterity: YOU CAN INDEX INTO FLOAT4!?
-//    float u = uvIndex == 0 ? constants.textureDescriptorU.x
-//    : uvIndex == 1 ? constants.textureDescriptorU.y
-//    : uvIndex == 2 ? constants.textureDescriptorU.z
-//    : uvIndex == 3 ? constants.textureDescriptorU.w : 0;
-//
-//    float v = uvIndex == 0 ? constants.textureDescriptorV.x
-//    : uvIndex == 1 ? constants.textureDescriptorV.y
-//    : uvIndex == 2 ? constants.textureDescriptorV.z
-//    : uvIndex == 3 ? constants.textureDescriptorV.w : 0;
     float u = constants.textureDescriptorU[uvIndex];
     float v = constants.textureDescriptorV[uvIndex];
     
@@ -56,7 +46,7 @@ fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stag
                                            texture2d<float, access::sample> atlas [[texture(5)]])
 {
     constexpr sampler sampler(coord::normalized,
-                              address::clamp_to_zero,
+                              address::clamp_to_border,
                               filter::linear);
     
     float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);

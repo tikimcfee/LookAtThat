@@ -43,7 +43,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         instancedNodes.enumerated().forEach { index, node in
             xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
             node.position.x = xOffset + 1
-            node.position.y += 5
+            node.position.y = yOffset
             node.position.z = zOffset
             
             if let cachedPair = linkAtlas.uvPairCache[node.key] {
@@ -98,7 +98,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     override func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
 //        node.rotation.x -= 0.0167 * 2
-        node.rotation.y -= 0.0167 * 2
+//        node.rotation.y -= 0.0167 * 2
 //        node.position.z = cos(time(0.0167) / 500)
     }
 }
