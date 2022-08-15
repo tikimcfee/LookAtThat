@@ -55,29 +55,32 @@ private extension MetalLinkAtlas {
     }
 }
 
-private extension MetalLinkAtlas {
-    static var sampleBlock = """
+extension MetalLinkAtlas {
+    static let sampleAtlasGlyphs = """
     ABCDEFGHIJKLMNOPQRSTUVWXYZ
     abcdefghijklmnopqrstuvwxyz
-    1234567890!@#$%^&*()
-    []\\;',./{}|:"<>? 
-    """
-    .components(separatedBy: .newlines).joined()
+    1234567890
+    !@#$%^&*()[]\\;',./{}|:"<>?
+    """.components(separatedBy: .newlines).joined()
+    
+    static let sampleAtlasColors: [NSUIColor] = [
+        .red, .green, .blue, .brown, .orange,
+        .cyan, .magenta, .purple, .yellow, .systemMint,
+        .systemPink, .systemTeal
+    ]
+    
+    static let allSampleGlyphs = sampleAtlasColors
+        .flatMap { color in
+            sampleAtlasGlyphs.map { character in
+                GlyphCacheKey(String(character), color)
+            }
+        }
 
     static func buildSampleAtlas(
         builder: AtlasBuilder
     ) {
-        let colors: [NSUIColor] = [
-            .red, .green, .blue, .brown, .orange,
-            .cyan, .magenta, .purple, .yellow, .systemMint,
-            .systemPink, .systemTeal
-        ]
-
-        for color in colors {
-            for character in sampleBlock {
-                let key = GlyphCacheKey(String(character), color)
-                builder.addGlyph(key)
-            }
+        allSampleGlyphs.forEach {
+            builder.addGlyph($0)
         }
     }
 }

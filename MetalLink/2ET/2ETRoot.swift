@@ -40,32 +40,12 @@ extension TwoETimeRoot {
     func setup9() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let test = """
-        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        abcdefghijklmnopqrstuvwxyz
-        1234567890!@#$%^&*()
-        []\\;',./{}|:"<>?
-        """.components(separatedBy: .newlines).joined()
-        
-        let colors: [NSUIColor] = [
-            .red, .green, .blue, .brown, .orange,
-            .cyan, .magenta, .purple, .yellow, .systemMint,
-            .systemPink, .systemTeal
-        ]
-        
-        let repeated = (0..<100).map { _ in test }.joined()
-        print("drawing character count: ", repeated.count)
-        
         let collection = try GlyphCollection(
-            link: link,
-            text: repeated
+            link: link
         ) { atlas in
-            var glyphs = [MetalLinkGlyphNode]()
-            for color in colors {
-                repeated.compactMap { atlas.newGlyph(GlyphCacheKey(String($0), color)) }
-                        .forEach { glyphs.append($0) }
+            MetalLinkAtlas.allSampleGlyphs.compactMap {
+                atlas.newGlyph($0)
             }
-            return glyphs
         }
         
         collection.position.x = -25
@@ -81,8 +61,7 @@ extension TwoETimeRoot {
         let test = "METAL"
         
         let collection = try GlyphCollection(
-            link: link,
-            text: test
+            link: link
         ) { atlas in
             test.compactMap { atlas.newGlyph(GlyphCacheKey(String($0), .red)) }
         }

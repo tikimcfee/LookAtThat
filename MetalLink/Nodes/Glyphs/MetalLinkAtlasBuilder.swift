@@ -174,7 +174,6 @@ class AtlasPointer {
             
             uv.offset.x = 0
             uv.offset.y = uv.maxBottom
-            uv.maxBottom = uv.offset.y
         } else {
             // Place directly to right of last position
             targetOrigin.x += bundle.texture.width

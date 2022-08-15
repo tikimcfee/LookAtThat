@@ -10,14 +10,10 @@ import MetalKit
 // ----------------------------------
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
-    var textBody: String
     var linkAtlas: MetalLinkAtlas
     
     init(link: MetalLink,
-         text: String,
          _ instances: (MetalLinkAtlas) -> [MetalLinkGlyphNode]) throws {
-        self.textBody = text
-        
         let newLinkAtlas = MetalLinkAtlas(link)
         self.linkAtlas = newLinkAtlas
         _ = newLinkAtlas.getSampleAtlas()
