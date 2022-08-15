@@ -60,8 +60,9 @@ private extension MetalLinkAtlas {
     ABCDEFGHIJKLMNOPQRSTUVWXYZ
     abcdefghijklmnopqrstuvwxyz
     1234567890!@#$%^&*()
-    []\\;',./{}|:"<>?
-    """.components(separatedBy: .newlines).joined()
+    []\\;',./{}|:"<>? 
+    """
+    .components(separatedBy: .newlines).joined()
 
     static func buildSampleAtlas(
         builder: AtlasBuilder

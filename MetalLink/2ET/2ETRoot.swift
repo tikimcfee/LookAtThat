@@ -17,7 +17,7 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup9()
+        try setup8()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -57,9 +57,13 @@ extension TwoETimeRoot {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
         let test = """
-        The quick brown fox jumps over the lazy dog.
-        """
-        let repeated = (0..<10).map { _ in test }.joined()
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz
+        1234567890!@#$%^&*()
+        []\\;',./{}|:"<>?
+        """.components(separatedBy: .newlines).joined()
+        
+        let repeated = (0..<2).map { _ in test }.joined()
         print("drawing character count: ", repeated.count)
         
         let collection = try GlyphCollection(

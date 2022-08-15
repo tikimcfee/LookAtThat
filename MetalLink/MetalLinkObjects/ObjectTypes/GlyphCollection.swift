@@ -21,9 +21,17 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         
         
         try super.init(link, mesh: link.meshes[.Quad], instances: {
-            text.compactMap { character in
-                newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .red))
-            }
+            [
+                text.compactMap { character in
+                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .red))
+                },
+                text.compactMap { character in
+                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .green))
+                },
+                text.compactMap { character in
+                    newLinkAtlas.newGlyph(GlyphCacheKey(String(character), .blue))
+                }
+            ].flatMap { $0 }
         })
         
         setupNodes()

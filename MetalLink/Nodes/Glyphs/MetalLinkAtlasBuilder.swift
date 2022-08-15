@@ -85,7 +85,7 @@ extension AtlasBuilder {
             destinationOrigin: atlasPointer.targetOrigin
         )
         let bundleUVSize = atlasUVSize(for: textureBundle)
-        let boundingBox = atlasPointer.advanceUVOffsets(from: textureBundle, size: bundleUVSize)
+        let boundingBox = atlasPointer.advance(from: textureBundle, size: bundleUVSize)
         let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
         
         let topLeft = LFloat2(left, top)
@@ -130,52 +130,71 @@ extension AtlasBuilder {
     }()
 }
 
-class AtlasPointer {    
+class AtlasPointer {
+    private typealias Bundle = MetalLinkGlyphTextureCache.Bundle
+    
     private let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
+    
+    private class UV {
+        var maxBottom: Float = .zero
+        var offset: LFloat2 = .zero
+    }
+    
+    private class Vertex {
+        var lineTop: Int = 0
+        var lineBottom: Int = 0
+    }
     
     let sourceOrigin = MTLOrigin()
     var targetOrigin = MTLOrigin()
     
-    private var lineTop: Int = 0
-    private var lineBottom: Int = 0
+    private let uv = UV()
+    private let vertex = Vertex()
     
-    private var uvOffsetTop: Float = .zero
-    private var uvOffset: LFloat2 = .zero
-    
-    func advanceUVOffsets(
+    func advance(
         from bundle: MetalLinkGlyphTextureCache.Bundle,
-        size bundleUVSize: LFloat2
+        size uvSize: LFloat2
     ) -> LFloat4 {
-        let uvStartOffset = uvOffset
-        let newLine =
-        bundle.textureIndex > 0
-        && bundle.textureIndex % maxWidthGlyphIndex == 0
+        let newLine = bundle.textureIndex > 0
+                   && bundle.textureIndex % maxWidthGlyphIndex == 0
         
+        var bounds = LFloat4()
+        bounds.z = uvSize.x
+        bounds.w = uvSize.y
+
         if newLine {
             // Move to next line;
             targetOrigin.x = 0
-            targetOrigin.y = lineBottom
-            lineTop = lineBottom
+            targetOrigin.y = vertex.lineBottom
+            vertex.lineTop = vertex.lineBottom
             
             // Update offsets
-            uvOffset.x = 0
-            uvOffset.y += bundleUVSize.y
-            uvOffsetTop = uvOffset.y
+            bounds.x = 0
+            bounds.y = uv.maxBottom
+            
+            uv.offset.x = 0
+            uv.offset.y = uv.maxBottom
+            uv.maxBottom = uv.offset.y
         } else {
             // Place directly to right of last position
             targetOrigin.x += bundle.texture.width
-            lineBottom = max(lineBottom, lineTop + bundle.texture.height)
+            vertex.lineBottom = max(vertex.lineBottom, vertex.lineTop + bundle.texture.height)
             
-            uvOffset.x += bundleUVSize.x
-            uvOffset.y = max(uvOffset.y, uvOffsetTop + bundleUVSize.y)
+            bounds.x = uv.offset.x
+            bounds.y = uv.offset.y
+            
+            uv.offset.x += uvSize.x
+//            uv.offset.y = max(uv.maxBottom, uvSize.y)
+            uv.maxBottom = max(uv.maxBottom, uv.offset.y + uvSize.y)
         }
         
+        return bounds
         /* (left, top, width, height) */
-        return LFloat4(
-            uvStartOffset.x,
-            uvOffsetTop,
-            bundleUVSize.x,
-            bundleUVSize.y
-        )
+//        return LFloat4(
+//            uvStartOffset.x,
+//            uv.maxBottom,
+//            bundleUVSize.x,
+//            bundleUVSize.y
+//        )
     }
-    }
+}
