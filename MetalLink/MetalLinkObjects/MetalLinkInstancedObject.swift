@@ -102,6 +102,12 @@ extension MetalLinkInstancedObject {
     
     func pushConstantsBuffer() {
         iterativePush()
+        
+        // TODO: Multithreaded push is broken;
+        // I think the render happens too quickly,
+        // and the flag isn't kicked over. Debug this later.
+        // iterative is fine up to 88,000 nodes or so, when
+        // pushing all constants frame by frame.
 //        multiThreadedPush()
     }
     
@@ -112,9 +118,11 @@ extension MetalLinkInstancedObject {
         
         zip(instancedNodes, instancedConstants).forEach { node, constants in
             self.performJITInstanceBufferUpdate(node)
+            
             pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
             pointer.pointee.textureDescriptorU = constants.textureDescriptorU
             pointer.pointee.textureDescriptorV = constants.textureDescriptorV
+            
             pointer = pointer.advanced(by: 1)
         }
     }
@@ -139,8 +147,8 @@ extension MetalLinkInstancedObject {
                     var index = chunk.startIndex
                     chunk.forEach { node in
                         self.performJITInstanceBufferUpdate(node)
-                        
                         let constants = self.instancedConstants[index]
+                        
                         pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
                         pointer[index].textureDescriptorU = constants.textureDescriptorU
                         pointer[index].textureDescriptorV = constants.textureDescriptorV
