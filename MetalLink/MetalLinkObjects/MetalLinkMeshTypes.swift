@@ -8,31 +8,109 @@
 
 import MetalKit
 
-extension MetalLinkBaseMesh {
-    func addVertex(
-        position: LFloat3,
-        color: LFloat4,
-        textureCoordinate: LFloat2
-    ) {
-        vertices.append(Vertex(
-            position: position,
-            color: color,
-            textureCoordinate: textureCoordinate)
-        )
-    }
+enum UVIndex: TextureIndex {
+    case topRight = 0
+    case topLeft = 1
+    case bottomLeft = 2
+    case bottomRight = 3
+    
+    case topMiddle = 4
+    case bottomMiddle = 5
+    case leftMiddle = 6
+    case rightMiddle = 7
+}
+
+private func vertex(
+    _ x: Float,
+    _ y: Float,
+    _ z: Float,
+    _ uvIndex: UVIndex
+) -> Vertex {
+    Vertex(
+        position: LFloat3(x, y, z),
+        uvTextureIndex: uvIndex.rawValue
+    )
 }
 
 class MetalLinkTriangleMesh: MetalLinkBaseMesh {
     override var name: String { "MLTriangle" }
     override func createVertices() -> [Vertex] { [
-        Vertex(position: LFloat3( 0, 1, 0), color: LFloat4(1,0,0,1)),
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,1,0,1)),
-        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(0,0,1,1))
+        vertex( 0, 1, 0, .topMiddle),
+        vertex(-1,-1, 0, .bottomLeft),
+        vertex( 1,-1, 0, .bottomRight)
     ] }
 }
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
     override var name: String { "MLQuad" }
+    
+    // Texture coordinate order:
+    override func createVertices() -> [Vertex] { [
+        vertex( 1, 1, 0, .topRight),    /* T R 0 */
+        vertex(-1, 1, 0, .topLeft),     /* T L 1 */
+        vertex(-1,-1, 0, .bottomLeft),  /* B L 2 */
+        vertex( 1, 1, 0, .topRight),    /* T R 3 */
+        vertex(-1,-1, 0, .bottomLeft),  /* B L 4 */
+        vertex( 1,-1, 0, .bottomRight)  /* B R 5 */
+    ] }
+        
+
+}
+
+class MetalLinkCubeMesh: MetalLinkBaseMesh {
+    override var name: String { "MLCube" }
+    override func createVertices() -> [Vertex] { [
+//        //Left
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 0.5, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 0.5, 1.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0)),
+//
+//        //RIGHT
+//        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 0.5, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(0.0, 0.5, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
+//
+//        //TOP
+//        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.5, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0)),
+//
+//        //BOTTOM
+//        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(0.5, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 1.0, 0.5, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
+//
+//        //BACK
+//        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(0.5, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
+//
+//        //FRONT
+//        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
+//        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(0.5, 0.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 1.0, 0.5, 1.0)),
+//        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
+//        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0))
+    ] }
+}
+
+extension MetalLinkQuadMesh {
     var topLeft: Vertex {
         get { vertices[1] }
         set { vertices[1] = newValue }
@@ -51,22 +129,6 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
     var bottomRight: Vertex {
         get { vertices[5] }
         set { vertices[5] = newValue }
-    }
-    
-    func applyUVsToInstance<T>(_ instance: inout MetalLinkInstancedObject<T>.InstancedConstants) {
-        // Texture UV (left, top , width, height)
-        //
-        // topLeft = (left, top)
-        // topRight = (left + width, top)
-        // botLeft = (left, top + height)
-        // botRight = (left + width, top + height)
-        //
-        instance.textureUV = LFloat4(
-            topLeft.textureCoordinate.x,
-            topLeft.textureCoordinate.y,
-            topRight.textureCoordinate.x - topLeft.textureCoordinate.x,
-            bottomRight.textureCoordinate.y - topRight.textureCoordinate.y
-        )
     }
     
     var width: Float {
@@ -94,74 +156,4 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
             vertices[5].position.y = -height
         }
     }
-    
-    override func createVertices() -> [Vertex] { [
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 0 */
-        Vertex(position: LFloat3(-1, 1, 0), color: LFloat4(0,1,0,1), textureCoordinate: LFloat2(0, 0)), /* T L 1 */
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 2 */
-        Vertex(position: LFloat3( 1, 1, 0), color: LFloat4(1,0,0,1), textureCoordinate: LFloat2(1, 0)), /* T R 3 */
-        Vertex(position: LFloat3(-1,-1, 0), color: LFloat4(0,0,1,1), textureCoordinate: LFloat2(0, 1)), /* B L 4 */
-        Vertex(position: LFloat3( 1,-1, 0), color: LFloat4(1,0,1,1), textureCoordinate: LFloat2(1, 1))  /* B R 5 */
-    ] }
-        
-    func updateUVs(boundingBox: LFloat4) {
-        let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
-        topLeft.textureCoordinate = LFloat2(left, top)
-        bottomLeft.textureCoordinate = LFloat2(left, top + height)
-        topRight.textureCoordinate = LFloat2(left + width, top)
-        bottomRight.textureCoordinate = LFloat2(left + width, top + height)
-    }
-}
-
-class MetalLinkCubeMesh: MetalLinkBaseMesh {
-    override var name: String { "MLCube" }
-    override func createVertices() -> [Vertex] { [
-        //Left
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 0.5, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 0.5, 1.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0)),
-        
-        //RIGHT
-        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 0.5, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(0.0, 0.5, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
-        
-        //TOP
-        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.5, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0)),
-        
-        //BOTTOM
-        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(0.5, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 1.0, 0.5, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
-        
-        //BACK
-        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(0.5, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0,-1.0), color: LFloat4(0.0, 0.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0,-1.0), color: LFloat4(1.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0,-1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0,-1.0), color: LFloat4(1.0, 0.5, 1.0, 1.0)),
-        
-        //FRONT
-        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(1.0, 0.5, 0.0, 1.0)),
-        Vertex(position: LFloat3(-1.0,-1.0, 1.0), color: LFloat4(0.0, 1.0, 0.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(0.5, 0.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0, 1.0, 1.0), color: LFloat4(1.0, 1.0, 0.5, 1.0)),
-        Vertex(position: LFloat3(-1.0, 1.0, 1.0), color: LFloat4(0.0, 1.0, 1.0, 1.0)),
-        Vertex(position: LFloat3( 1.0,-1.0, 1.0), color: LFloat4(1.0, 0.0, 1.0, 1.0))
-    ] }
 }

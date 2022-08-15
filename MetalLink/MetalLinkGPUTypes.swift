@@ -9,8 +9,7 @@ import simd
 
 struct Vertex {
     var position: LFloat3
-    var color: LFloat4
-    var textureCoordinate: LFloat2 = .zero
+    var uvTextureIndex: TextureIndex /* (left, top, width, height) */
 }
 
 struct SceneConstants: MemoryLayoutSizable {
@@ -23,9 +22,9 @@ struct SceneConstants: MemoryLayoutSizable {
 extension MetalLinkInstancedObject {
     struct InstancedConstants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
-        var color = LFloat4.zero
-        var textureIndex = TextureIndex.zero
-        var textureUV = LFloat4.zero
+        
+        var textureDescriptorU = LFloat4.zero
+        var textureDescriptorV = LFloat4.zero
     }
     
     class State {
@@ -42,5 +41,13 @@ extension MetalLinkObject {
     
     class State {
         var time: Float = 0
+    }
+}
+
+// MARK: - Extensions
+
+extension Vertex {
+    var positionString: String {
+        "(\(position.x), \(position.y), \(position.z))"
     }
 }

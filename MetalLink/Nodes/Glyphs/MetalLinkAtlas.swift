@@ -14,6 +14,7 @@ enum LinkAtlasError: Error {
 class MetalLinkAtlas {
     private let link: MetalLink
     let nodeCache: MetalLinkGlyphNodeCache
+    var uvPairCache = TextureUVCache()
     
     init(_ link: MetalLink) {
         self.link = link
@@ -24,8 +25,11 @@ class MetalLinkAtlas {
     func getSampleAtlas() -> MTLTexture? {
         if let texture = sampleTexture { return texture }
         guard let builder = makeBuilder() else { return nil }
+        
         print("Making atlas")
-        self.sampleTexture = MetalLinkAtlas.buildSampleAtlas(builder: builder)
+        MetalLinkAtlas.buildSampleAtlas(builder: builder)
+        (sampleTexture, uvPairCache) = builder.endAndCommitEncoding()
+        
         return sampleTexture
     }
 }
@@ -61,7 +65,7 @@ private extension MetalLinkAtlas {
 
     static func buildSampleAtlas(
         builder: AtlasBuilder
-    ) -> MTLTexture {
+    ) {
         let colors: [NSUIColor] = [
             .red, .green, .blue, .brown, .orange,
             .cyan, .magenta, .purple, .yellow, .systemMint,
@@ -74,10 +78,5 @@ private extension MetalLinkAtlas {
                 builder.addGlyph(key)
             }
         }
-        
-        builder.endAndCommitEncoding()
-        print("Atlas ready: \(builder.atlasSize.x) x \(builder.atlasSize.y)")
-        
-        return builder.atlasTexture
     }
 }

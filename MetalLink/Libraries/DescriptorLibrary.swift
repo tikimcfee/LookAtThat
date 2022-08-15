@@ -96,32 +96,12 @@ struct Instanced_VertexComponent: VertexDescriptorComponent {
         attributeIndex += 1
         attributeOffset += LFloat3.memSize
         
-        // Color
-        descriptor.attributes[attributeIndex].format = .float4
-        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
-        descriptor.attributes[attributeIndex].offset = LFloat3.memSize
-        attributeIndex += 1
-        attributeOffset += LFloat4.memSize
-        
-        // Texture Coordinate
-        descriptor.attributes[attributeIndex].format = .float2
+        // UV Texture Index
+        descriptor.attributes[attributeIndex].format = .uint
         descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
         descriptor.attributes[attributeIndex].offset = attributeOffset
         attributeIndex += 1
-        attributeOffset += LFloat2.memSize
-        
-        // Texture UV (top, left, width, height)
-        //
-        // topLeft = (left, top)
-        // topRight = (left + width, top)
-        // botLeft = (left, top + height)
-        // botRight = (left + width, top + height)
-        //
-        descriptor.attributes[attributeIndex].format = .float4
-        descriptor.attributes[attributeIndex].bufferIndex = bufferIndex
-        descriptor.attributes[attributeIndex].offset = attributeOffset
-        attributeIndex += 1
-        attributeOffset += LFloat4.memSize
+        attributeOffset += UInt.memSize
         
         // Layout
         descriptor.layouts[layoutIndex].stride = Vertex.memStride

@@ -46,9 +46,15 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             node.position.y += 5
             node.position.z = zOffset
             
-            instancedConstants[index].color = LFloat4.random_color()
-            instancedConstants[index].textureIndex = node.constants.textureIndex
-            node.quad.applyUVsToInstance(&instancedConstants[index])
+            if let cachedPair = linkAtlas.uvPairCache[node.key] {
+                instancedConstants[index].textureDescriptorU = cachedPair.u
+                instancedConstants[index].textureDescriptorV = cachedPair.v
+            } else {
+                print("--------------")
+                print("MISSING UV PAIR")
+                print("\(node.key.glyph)")
+                print("--------------")
+            }
             
             last = node
             
@@ -63,7 +69,16 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
                 yOffset = top
             }
         }
-//        mesh = instancedNodes[2].mesh
+        
+        // ***********************************************************************************
+        // TODO:
+        // THIS IS A DIRTY FILTHY HACK
+        // The instance only works because the glyphs are all the same size - hooray monospace.
+        // The moment there's something that's NOT, we'll get stretching / skewing / breaking.
+        // Solving that.. is for next time.
+        // Collections of collections per glyph size? Factored down (scaled) / rotated to deduplicate?
+        // ***********************************************************************************
+        mesh = instancedNodes[0].mesh
     }
     
     private var _time: Float = 0

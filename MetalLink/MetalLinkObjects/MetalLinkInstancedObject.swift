@@ -108,15 +108,13 @@ extension MetalLinkInstancedObject {
     private func iterativePush() {
         var pointer = modelConstantsBuffer
             .contents()
-            .bindMemory(to: InstancedConstants.self, capacity: instancedNodes.count)
+            .bindMemory(to: InstancedConstants.self, capacity: instancedConstants.count)
         
         zip(instancedNodes, instancedConstants).forEach { node, constants in
             self.performJITInstanceBufferUpdate(node)
-            
             pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
-            pointer.pointee.color = constants.color
-            pointer.pointee.textureIndex = constants.textureIndex
-            pointer.pointee.textureUV = constants.textureUV
+            pointer.pointee.textureDescriptorU = constants.textureDescriptorU
+            pointer.pointee.textureDescriptorV = constants.textureDescriptorV
             pointer = pointer.advanced(by: 1)
         }
     }
@@ -130,7 +128,7 @@ extension MetalLinkInstancedObject {
         
         let pointer = modelConstantsBuffer
             .contents()
-            .bindMemory(to: InstancedConstants.self, capacity: instancedNodes.count)
+            .bindMemory(to: InstancedConstants.self, capacity: instancedConstants.count)
         
         let group = DispatchGroup() // Just throw threads at it, Ivan. Sure.
         instancedNodes
@@ -144,10 +142,10 @@ extension MetalLinkInstancedObject {
                         
                         let constants = self.instancedConstants[index]
                         pointer[index].modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
-                        pointer[index].color = constants.color
-                        pointer[index].textureIndex = constants.textureIndex
-                        pointer[index].textureUV = constants.textureUV
+                        pointer[index].textureDescriptorU = constants.textureDescriptorU
+                        pointer[index].textureDescriptorV = constants.textureDescriptorV
                         pointer[index] = constants
+                        
                         index += 1
                     }
                     group.leave()

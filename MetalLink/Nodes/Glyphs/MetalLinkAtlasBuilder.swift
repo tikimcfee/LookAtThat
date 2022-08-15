@@ -7,23 +7,32 @@
 
 import MetalKit
 
+typealias TextureUVCache = [GlyphCacheKey: TextureUVPair]
+struct TextureUVPair {
+    let u: LFloat4
+    let v: LFloat4
+}
+
 class AtlasBuilder {
-    let sourceOrigin = MTLOrigin()
-    var targetOrigin = MTLOrigin()
-    var lineTop: Int = 0
-    var lineBottom: Int = 0
-    var uvOffsetTop: Float = .zero
-    var uvOffset: LFloat2 = .zero
+    private let sourceOrigin = MTLOrigin()
+    private var targetOrigin = MTLOrigin()
+    private var lineTop: Int = 0
+    private var lineBottom: Int = 0
+    private var uvOffsetTop: Float = .zero
+    private var uvOffset: LFloat2 = .zero
     
-    let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
+    private let maxWidthGlyphIndex = AtlasBuilder.glyphCount - 1
     
-    let link: MetalLink
-    let textureCache: MetalLinkGlyphTextureCache
-    let meshCache: MetalLinkGlyphNodeMeshCache
-    let commandBuffer: MTLCommandBuffer
-    let blitEncoder: MTLBlitCommandEncoder
-    let atlasTexture: MTLTexture
-    lazy var atlasSize: LFloat2 = {
+    private let link: MetalLink
+    private let textureCache: MetalLinkGlyphTextureCache
+    private let meshCache: MetalLinkGlyphNodeMeshCache
+    private let commandBuffer: MTLCommandBuffer
+    private let blitEncoder: MTLBlitCommandEncoder
+    
+    private let atlasTexture: MTLTexture
+    private var uvPairCache: TextureUVCache = [:]
+    
+    private lazy var atlasSize: LFloat2 = {
         atlasTexture.simdSize
     }()
     
@@ -49,15 +58,21 @@ class AtlasBuilder {
         atlasTexture.label = "MetalLinkAtlas"
     }
     
-    func endAndCommitEncoding() {
+    func endAndCommitEncoding() -> (
+        atlas: MTLTexture,
+        uvCache: TextureUVCache
+    ) {
         blitEncoder.endEncoding()
         commandBuffer.commit()
+        
+        return (atlasTexture, uvPairCache)
     }
 }
 
 extension AtlasBuilder {
     func addGlyph(_ key: GlyphCacheKey) {
         print("Adding glyph: \(key.glyph), red=\(key.foreground == NSUIColor.red)")
+        
         guard let textureBundle = textureCache[key] else {
             print("Missing texture for \(key)")
             return
@@ -78,22 +93,22 @@ extension AtlasBuilder {
             destinationOrigin: targetOrigin
         )
         let bundleUVSize = atlasUVSize(for: textureBundle)
+        let boundingBox = advanceUVOffsets(from: textureBundle, size: bundleUVSize)
+        let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
         
-//        print("setting uvs")
+        let topLeft = LFloat2(left, top)
+        let bottomLeft = LFloat2(left, top + height)
+        let topRight = LFloat2(left + width, top)
+        let bottomRight = LFloat2(left + width, top + height)
         
-        let advance = advanceUVOffsets(from: textureBundle, size: bundleUVSize)
-        let mesh = meshCache[key]
-        mesh.updateUVs(boundingBox: advance)
-        
-//        let coords = [
-//            "\(mesh.topLeft.textureCoordinate.coordString)",
-//            "\(mesh.topRight.textureCoordinate.coordString)",
-//            "\(mesh.bottomLeft.textureCoordinate.coordString)",
-//            "\(mesh.bottomRight.textureCoordinate.coordString)"
-//        ].joined(separator: "\n")
-//
-//        print("post update: \(key.glyph) \n\(coords)")
-//        print("---")
+        uvPairCache[key] = TextureUVPair(
+            u: LFloat4(topRight.x, topLeft.x, bottomLeft.x, bottomRight.x),
+            v: LFloat4(topRight.y, topLeft.y, bottomLeft.y, bottomRight.y)
+        )
+
+        print("---------------")
+        print("post update: \(key.glyph)")
+        print("---------------")
     }
     
     func advanceUVOffsets(
@@ -123,7 +138,8 @@ extension AtlasBuilder {
             uvOffset.y = max(uvOffset.y, uvOffsetTop + bundleUVSize.y)
         }
         
-        return LFloat4(/*left, top, width, height*/
+        /* (left, top, width, height) */
+        return LFloat4(
             uvStartOffset.x,
             uvOffsetTop,
             bundleUVSize.x,
@@ -143,6 +159,7 @@ extension AtlasBuilder {
     static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * 32)
     static var canvasDescriptor: MTLTextureDescriptor = {
         let glyphDescriptor = MTLTextureDescriptor()
+        glyphDescriptor.storageMode = .private
         glyphDescriptor.textureType = .type2D
         glyphDescriptor.pixelFormat = .rgba8Unorm
         glyphDescriptor.width = canvasSize.x

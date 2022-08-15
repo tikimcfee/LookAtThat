@@ -28,8 +28,7 @@ vertex RasterizerData basic_vertex_function(const VertexIn vertexIn [[ stage_in 
     
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     
-    rasterizerData.color = vertexIn.color;
-    rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
+    rasterizerData.textureCoordinate = float2(vertexIn.position.x, vertexIn.position.y);
     
     return rasterizerData;
 }

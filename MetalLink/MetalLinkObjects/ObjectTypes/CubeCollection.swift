@@ -35,12 +35,12 @@ class CubeCollection: MetalLinkInstancedObject<MetalLinkNode> {
             for y in stride(from: -halfY, to: halfY, by: 1.0) {
                 for z in stride(from: -halfZ, to: halfZ, by: 1.0) {
                     if index >= count { return }
-                    instancedConstants[index].color = LFloat4(
-                        (z+halfZ) / sZ,
-                        (y+halfY) / sY,
-                        (x+halfX) / sX,
-                        1
-                    )
+//                    instancedConstants[index].color = LFloat4(
+//                        (z+halfZ) / sZ,
+//                        (y+halfY) / sY,
+//                        (x+halfX) / sX,
+//                        1
+//                    )
                     instancedNodes[index].position = LFloat3(x, y, z)
                     instancedNodes[index].scale = LFloat3(repeating: 3.0 / Float(size.x))
                     index += 1

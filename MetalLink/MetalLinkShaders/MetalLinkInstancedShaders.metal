@@ -22,57 +22,44 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     RasterizerData rasterizerData;
     ModelConstants constants = modelConstants[instanceId];
     
-    rasterizerData.position =
-    sceneConstants.projectionMatrix     // camera
-    * sceneConstants.viewMatrix     // viewport
-    * constants.modelMatrix         // transforms
-    * float4(vertexIn.position, 1); // current position
-    
-    rasterizerData.color = constants.color;
-    rasterizerData.textureIndex = constants.textureIndex;
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
-    rasterizerData.textureCoordinate = vertexIn.textureCoordinate;
-    rasterizerData.textureUV = constants.textureUV;
+    rasterizerData.vertexPosition = vertexIn.position;
+    
+    rasterizerData.position =
+        sceneConstants.projectionMatrix // camera
+        * sceneConstants.viewMatrix     // viewport
+        * constants.modelMatrix         // transforms
+        * float4(vertexIn.position, 1); // current position
+    
+    
+    uint uvIndex = vertexIn.uvTextureIndex;
+    // Keeping for one commit for posterity: YOU CAN INDEX INTO FLOAT4!?
+//    float u = uvIndex == 0 ? constants.textureDescriptorU.x
+//    : uvIndex == 1 ? constants.textureDescriptorU.y
+//    : uvIndex == 2 ? constants.textureDescriptorU.z
+//    : uvIndex == 3 ? constants.textureDescriptorU.w : 0;
+//
+//    float v = uvIndex == 0 ? constants.textureDescriptorV.x
+//    : uvIndex == 1 ? constants.textureDescriptorV.y
+//    : uvIndex == 2 ? constants.textureDescriptorV.z
+//    : uvIndex == 3 ? constants.textureDescriptorV.w : 0;
+    float u = constants.textureDescriptorU[uvIndex];
+    float v = constants.textureDescriptorV[uvIndex];
+    
+    rasterizerData.textureCoordinate = float2(u, v);
     
     return rasterizerData;
 }
 
 // [[[ 5 M ]]]]
-//fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
-//                                           constant Material &material [[ buffer(1) ]],
-//                                           texture2d<float, access::sample> atlas [[texture(5)]]) {
-//    constexpr sampler sampler(coord::normalized,
-//                              address::repeat,
-//                              filter::linear);
-//    float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
-//
-//    // Apparently there's an r/g/b/a property on float4
-//    return half4(color.r, color.g, color.b, color.a);
-//}
-
-// [[ W.M. Overflow Math ]]
 fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
-                                           constant Material &material [[ buffer(1) ]],
-                                           texture2d<float, access::sample> atlas [[texture(5)]]) {
+                                           texture2d<float, access::sample> atlas [[texture(5)]])
+{
     constexpr sampler sampler(coord::normalized,
-                              address::repeat,
+                              address::clamp_to_zero,
                               filter::linear);
     
-    // original coordinates, normalized with respect to subimage
-    float2 rootTextureCoordinate = rasterizerData.textureCoordinate;
-
-    // texture dimensions
-    float2 textureSize = float2(atlas.get_width(), atlas.get_height());
-    float4 instanceUV = rasterizerData.textureUV;
-
-    // adjusted texture coordinates, normalized with respect to full texture
-    rootTextureCoordinate = (rootTextureCoordinate * instanceUV.zw + instanceUV.xy) / textureSize;
-
-    // sample color at modified coordinates
+    float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
     
-    float4 color = atlas.sample(sampler, rootTextureCoordinate);
-
-    // Apparently there's an r/g/b/a property on float4
     return half4(color.r, color.g, color.b, color.a);
 }
-
