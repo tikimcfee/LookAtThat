@@ -60,7 +60,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
                 yOffset -= 1.1
             }
             
-            if index % (100 * 100) == 0 {
+            if index % 100_000 == 0 {
                 zOffset -= 10.0
                 yOffset = top
             }

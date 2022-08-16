@@ -52,7 +52,7 @@ extension TwoETimeRoot {
         
         collection.position.x = -25
         collection.position.y = 0
-        collection.position.z = -10
+        collection.position.z = -30
         
         root.add(child: collection)
     }
