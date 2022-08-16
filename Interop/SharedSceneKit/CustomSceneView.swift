@@ -1,6 +1,10 @@
 import Foundation
 import SceneKit
 
+protocol KeyDownReceiver: AnyObject {
+    var lastKeyEvent: OSEvent { get set }
+}
+
 #if os(iOS)
 import ARKit
 
@@ -25,10 +29,6 @@ protocol MousePositionReceiver: AnyObject {
     var scrollEvent: NSEvent { get set }
     var mouseDownEvent: NSEvent { get set }
     var mouseUpEvent: NSEvent { get set }
-}
-
-protocol KeyDownReceiver: AnyObject {
-    var lastKeyEvent: NSEvent { get set }
 }
 
 class CustomSceneView: SCNView {

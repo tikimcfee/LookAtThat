@@ -10,6 +10,9 @@ import Foundation
 import MetalKit
 
 class MetalLink {
+    // Have mercy I just want to do some testing
+    static let defaultInputReceiver = DefaultInputReceiver()
+    
     let view: CustomMTKView
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
@@ -24,7 +27,7 @@ class MetalLink {
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
-    let input = DefaultInputReceiver()
+    let input = MetalLink.defaultInputReceiver
     
     init(view: CustomMTKView) throws {
         self.view = view

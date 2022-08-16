@@ -65,7 +65,7 @@ extension MetalLinkAtlas {
     
     static let sampleAtlasColors: [NSUIColor] = [
         .red, .green, .blue, .brown, .orange,
-        .cyan, .magenta, .purple, .yellow, .systemMint,
+        .cyan, .magenta, .purple, .yellow,
         .systemPink, .systemTeal
     ]
     

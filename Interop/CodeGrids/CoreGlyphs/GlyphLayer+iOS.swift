@@ -29,7 +29,8 @@ extension CALayer {
         render(in: context)
         
         let options = NSDictionary(dictionary: [
-            kCGImageDestinationLossyCompressionQuality: 0.0
+            :
+//            kCGImageDestinationLossyCompressionQuality: 0.0
         ])
         
         let outputImage = UIGraphicsGetImageFromCurrentImageContext()!.cgImage!

@@ -6,13 +6,27 @@ import Foundation
 import MetalKit
 import SwiftUI
 
-struct MetalView: NSViewRepresentable {
+struct MetalView: NSUIViewRepresentable {
     var mtkView: CustomMTKView
     
     init() {
         mtkView = CustomMTKView(frame: .zero, device: MTLCreateSystemDefaultDevice())
     }
     
+    #if os(iOS)
+    func makeUIView(context: Context) -> some UIView {
+        mtkView.preferredFramesPerSecond = 60
+        mtkView.enableSetNeedsDisplay = true
+        mtkView.isPaused = false
+        mtkView.colorPixelFormat = .bgra8Unorm
+        mtkView.depthStencilPixelFormat = .depth32Float
+        return mtkView
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        
+    }
+    #elseif os(macOS)
     func makeNSView(context: NSViewRepresentableContext<MetalView>) -> CustomMTKView {
         mtkView.preferredFramesPerSecond = 60
         mtkView.enableSetNeedsDisplay = true
@@ -25,6 +39,7 @@ struct MetalView: NSViewRepresentable {
     func updateNSView(_ nsView: CustomMTKView, context: NSViewRepresentableContext<MetalView>) {
         
     }
+    #endif
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self, mtkView: mtkView)
@@ -67,6 +82,17 @@ extension MetalView {
 class CustomMTKView: MTKView {
     weak var positionReceiver: MousePositionReceiver?
     weak var keyDownReceiver: KeyDownReceiver?
+    
+    
+    #if os(iOS)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touches.forEach { touch in
+            
+        }
+    }
+    #endif
+    
+    #if os(macOS)
     var trackingArea : NSTrackingArea?
     
     override func scrollWheel(with event: NSEvent) {
@@ -148,4 +174,5 @@ class CustomMTKView: MTKView {
     override var acceptsFirstResponder: Bool {
         true
     }
+    #endif
 }

@@ -226,13 +226,11 @@
 		B72A876C287BA67800A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A876E287BBB8E00A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A876F287BBB9100A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
-		B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
 		B72A8777287BE94D00A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8776287BE94D00A78B19 /* ArgumentParser */; };
 		B72E9586287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B72E9587287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
-		B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
 		B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
 		B72FBFD128A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
 		B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
@@ -649,6 +647,12 @@
 		B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
+		B792C88428AB538400AE8CC0 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
+		B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
+		B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88628AB630100AE8CC0 /* Algorithms */; };
+		B792C88828AB649800AE8CC0 /* CherrieiCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72E9585287CBC24005578B6 /* CherrieiCommands.swift */; };
+		B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88928AB64A600AE8CC0 /* ArgumentParser */; };
+		B792C88B28AB64D900AE8CC0 /* CherrieiCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B5699287B9AEA0078EB2D /* CherrieiCore.swift */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
 		B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
@@ -826,7 +830,6 @@
 		B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
 		B7C69FC928A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
 		B7C69FCA28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
-		B7C69FCB28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
 		B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
 		B7C69FCF28A356A300A84860 /* RootNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FCE28A356A300A84860 /* RootNode.swift */; };
 		B7C69FD028A356A300A84860 /* RootNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FCE28A356A300A84860 /* RootNode.swift */; };
@@ -914,6 +917,8 @@
 		B7D9C07C2894B884003FEDA6 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9C07B2894B884003FEDA6 /* SourceEditorExtension.swift */; };
 		B7D9C07E2894B884003FEDA6 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9C07D2894B884003FEDA6 /* SourceEditorCommand.swift */; };
 		B7D9C0832894B884003FEDA6 /* CherrieiPipe.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B7D9C0752894B884003FEDA6 /* CherrieiPipe.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B7DA860228AAAEE800EC70D2 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
+		B7DA860328AAAEF100EC70D2 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
@@ -1448,9 +1453,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */,
 				B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
 				B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */,
+				B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */,
 				B7EB714528487C1800313633 /* SCNLine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2484,6 +2491,8 @@
 				B7EB710D28444D9200313633 /* SwiftSyntaxParser */,
 				B7EB7137284812AF00313633 /* ZIPFoundation */,
 				B7EB714428487C1800313633 /* SCNLine */,
+				B792C88628AB630100AE8CC0 /* Algorithms */,
+				B792C88928AB64A600AE8CC0 /* ArgumentParser */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -3031,6 +3040,7 @@
 				B74A22C52814FFF300F6F727 /* SceneKit+BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
+				B792C88B28AB64D900AE8CC0 /* CherrieiCore.swift in Sources */,
 				B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */,
 				B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B74A22C92814FFF300F6F727 /* HitTestEvaluator.swift in Sources */,
@@ -3050,6 +3060,7 @@
 				B74A233E281526A700F6F727 /* TracingInfoBridging.swift in Sources */,
 				B7AC337928A0CA71001172BB /* MetalLinkShader.swift in Sources */,
 				B74A22D02814FFF300F6F727 /* CodeGridParser+GridExtensions.swift in Sources */,
+				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 				B74A22D12814FFF300F6F727 /* BasicIO.swift in Sources */,
@@ -3087,7 +3098,6 @@
 				B74A22E72814FFF300F6F727 /* CodeGridSemanticMap.swift in Sources */,
 				B74A22E82814FFF300F6F727 /* TAPKit.swift in Sources */,
 				B74A22E92814FFF300F6F727 /* SceneKit+Extensions.swift in Sources */,
-				B72A8772287BBB9700A78B19 /* CherrieiCore.swift in Sources */,
 				B74A22EA2814FFF300F6F727 /* RenderingVersionTwo.swift in Sources */,
 				B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
@@ -3098,9 +3108,9 @@
 				B7AC335528A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B74A22F02814FFF300F6F727 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
+				B792C88828AB649800AE8CC0 /* CherrieiCommands.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
-				B72E958A287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
@@ -3582,6 +3592,7 @@
 				B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
 				B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
+				B7DA860328AAAEF100EC70D2 /* KeyboardInterceptor.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
 				B7F67F1728A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
@@ -3610,6 +3621,7 @@
 				B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B720FF862824C6DC00C23E6B /* GlyphNode.swift in Sources */,
+				B792C88428AB538400AE8CC0 /* MetalView.swift in Sources */,
 				B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */,
 				B7C69FD628A356C500A84860 /* ArrowNode.swift in Sources */,
 				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
@@ -3700,6 +3712,7 @@
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
 				B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
+				B7DA860228AAAEE800EC70D2 /* MetalLinkCamera.swift in Sources */,
 				B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7C9F6F027B4A1380087BD4A /* UserFocusController.swift in Sources */,
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
@@ -3769,7 +3782,6 @@
 				B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 				B7AC337828A0CA71001172BB /* MetalLinkShader.swift in Sources */,
-				B7C69FCB28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4686,6 +4698,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
+		};
+		B792C88628AB630100AE8CC0 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+		B792C88928AB64A600AE8CC0 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
 		};
 		B79592E728A7615B00F16746 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

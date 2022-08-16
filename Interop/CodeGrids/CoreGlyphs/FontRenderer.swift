@@ -36,7 +36,7 @@ extension FontRenderer {
 
 private extension FontRenderer {
 #if os(iOS)
-    static let FONT_SIZE = 8.0
+    static let FONT_SIZE = 16.0
     static let SCALE_FACTOR = 1.0
     static let DESCALE_FACTOR = 16.0
 #else

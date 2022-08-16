@@ -7,9 +7,20 @@
 
 import MetalKit
 
+private struct Size: Hashable, Equatable {
+    let width: Int
+    let height: Int
+    init(_ bitmaps: BitmapImages) {
+        self.width = bitmaps.requestedCG.width
+        self.height = bitmaps.requestedCG.height
+    }
+    var text: String { "(\(width), \(height))" }
+}
+
 class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle?> {
     let link: MetalLink
     let bitmapCache: MetalLinkGlyphNodeBitmapCache
+    private var sizes = Set<Size>()
 
     init(link: MetalLink) {
         self.link = link
@@ -27,10 +38,7 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
     override func make(_ key: Key, _ store: inout [Key: Value]) -> Value {
         guard let bitmaps = bitmapCache[key]
         else { return nil }
-        
-        if bitmaps.requestedCG.width != 13 || bitmaps.requestedCG.height != 23 {
-            print("-- Unhandled glyph: \(key.glyph)")
-        }
+        reportSize(Size(bitmaps))
         
         guard let glyphTexture = try? link.textureLoader.newTexture(
             cgImage: bitmaps.requestedCG,
@@ -38,6 +46,13 @@ class MetalLinkGlyphTextureCache: LockingCache<GlyphCacheKey, MetalLinkGlyphText
         ) else { return nil}
         
         return Bundle(texture: glyphTexture, textureIndex: nextTextureIndex())
+    }
+    
+    private func reportSize(_ size: Size) {
+        let (inserted, _) = sizes.insert(size)
+        if inserted {
+            print("New glyph size reported: ", size.text)
+        }
     }
 }
 

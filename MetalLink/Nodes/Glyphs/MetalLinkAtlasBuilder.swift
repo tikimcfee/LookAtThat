@@ -110,9 +110,8 @@ extension AtlasBuilder {
 }
 
 extension AtlasBuilder {
-    static var glyphCount: Int = 64
-    static var glyphSizeEstimate = LInt2(15, 25) // about (13, 23)
-    static var canvasSize = LInt2(glyphSizeEstimate.x * glyphCount, glyphSizeEstimate.y * glyphCount)
+    static var glyphCount: Int = 100
+    static var canvasSize = LInt2(5024, 5024)
     static var canvasDescriptor: MTLTextureDescriptor = {
         let glyphDescriptor = MTLTextureDescriptor()
         glyphDescriptor.storageMode = .private

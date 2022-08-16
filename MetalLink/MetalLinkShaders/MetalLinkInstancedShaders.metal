@@ -54,11 +54,11 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     rasterizerData.vertexPosition = vertexIn.position;
     
-    float4x4 finalModel = constants.modelMatrix;
+//    float4x4 finalModel = constants.modelMatrix;
     
-//    float4x4 finalModel = constants.modelMatrix
-//    * rotateAboutX(cos(sceneConstants.totalGameTime))
-//    * rotateAboutY(sin(sceneConstants.totalGameTime));
+    float4x4 finalModel = constants.modelMatrix
+    * rotateAboutX(cos(sceneConstants.totalGameTime))
+    * rotateAboutY(sin(sceneConstants.totalGameTime));
     
     rasterizerData.position =
     sceneConstants.projectionMatrix // camera

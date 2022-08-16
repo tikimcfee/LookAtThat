@@ -12,10 +12,10 @@ import SceneKit
 import AppKit
 class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
     private let mouseSubject = PassthroughSubject<CGPoint, Never>()
-    private let scrollSubject = PassthroughSubject<NSEvent, Never>()
-    private let mouseDownSubject = PassthroughSubject<NSEvent, Never>()
-    private let mouseUpSubject = PassthroughSubject<NSEvent, Never>()
-    private let keyEventSubject = PassthroughSubject<NSEvent, Never>()
+    private let scrollSubject = PassthroughSubject<OSEvent, Never>()
+    private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
+    private let mouseUpSubject = PassthroughSubject<OSEvent, Never>()
+    private let keyEventSubject = PassthroughSubject<OSEvent, Never>()
     
     lazy var sharedMouse = mouseSubject.share().eraseToAnyPublisher()
     lazy var sharedScroll = scrollSubject.share().eraseToAnyPublisher()
@@ -52,10 +52,46 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
 }
 #elseif os(iOS)
 import UIKit
-class DefaultInputReceiver: ObservableObject, MousePositionReceiver {
-    var scrollEvent: UIEvent = UIEvent()
-    var mouseDownEvent: UIEvent = UIEvent()
-    var mousePosition: CGPoint = CGPoint()
+class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
+    
+    private let mouseSubject = PassthroughSubject<CGPoint, Never>()
+    private let scrollSubject = PassthroughSubject<OSEvent, Never>()
+    private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
+    private let mouseUpSubject = PassthroughSubject<OSEvent, Never>()
+    private let keyEventSubject = PassthroughSubject<OSEvent, Never>()
+    
+    lazy var sharedMouse = mouseSubject.share().eraseToAnyPublisher()
+    lazy var sharedScroll = scrollSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
+    lazy var sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
+    lazy var sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
+    
+    lazy var touchState: TouchState = TouchState()
+    lazy var gestureShim: GestureShim = GestureShim(
+        { self.pan($0) },
+        { self.magnify($0) },
+        { self.onTap($0) }
+    )
+    
+    var mousePosition: CGPoint = CGPoint.zero {
+        didSet { mouseSubject.send(mousePosition) }
+    }
+    
+    var scrollEvent: OSEvent = OSEvent() {
+        didSet { scrollSubject.send(scrollEvent) }
+    }
+    
+    var mouseDownEvent: OSEvent = OSEvent() {
+        didSet { mouseDownSubject.send(mouseDownEvent) }
+    }
+    
+    var mouseUpEvent: OSEvent = OSEvent() {
+        didSet { mouseUpSubject.send(mouseUpEvent) }
+    }
+    
+    var lastKeyEvent: OSEvent = OSEvent() {
+        didSet { keyEventSubject.send(lastKeyEvent) }
+    }
 }
 #endif
 

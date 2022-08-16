@@ -16,6 +16,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        __ENABLE_STARTUP_LOG_WRITES__()
         
+#if os(iOS)
+        let rootWindow = makeRootWindow()
+        GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
+        rootWindow.contentView = makeRootContentView()
+        rootWindow.makeKeyAndOrderFront(nil)
+        window = rootWindow
+#else
         if CherrieiRootCommand.cherrierArgumentPresent {
             CherrieiRootCommand.sanitizedMainRun()
         } else {
@@ -25,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             rootWindow.makeKeyAndOrderFront(nil)
             window = rootWindow
         }
+#endif
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

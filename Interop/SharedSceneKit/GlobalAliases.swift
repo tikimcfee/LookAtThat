@@ -17,6 +17,7 @@ public typealias OSEvent = NSEvent
 public typealias VectorFloat = CGFloat
 public typealias OSScreen = NSScreen
 public typealias NSUIImage = NSImage
+public typealias NSUIViewRepresentable = NSViewRepresentable
 #elseif os(iOS)
 public typealias NSUIColor = UIColor
 public typealias GestureRecognizer = UIGestureRecognizer
@@ -31,6 +32,7 @@ public typealias OSEvent = UIEvent
 public typealias VectorFloat = Float
 public typealias OSScreen = UIScreen
 public typealias NSUIImage = UIImage
+public typealias NSUIViewRepresentable = UIViewRepresentable
 #endif
 
 extension VectorFloat {

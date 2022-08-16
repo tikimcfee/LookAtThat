@@ -22,7 +22,11 @@ typealias FocusChangeReceiver = (SelfRelativeDirection) -> Void
 extension KeyboardInterceptor {
     class State: ObservableObject {
         @Published var directions: Set<SelfRelativeDirection> = []
-        @Published var currentModifiers: OSEvent.ModifierFlags = .init()
+#if os(iOS)
+        @Published var currentModifiers: OSEvent.ModifierFlags = OSEvent.ModifierFlags.none
+#else
+        @Published var currentModifiers: OSEvent.ModifierFlags = OSEvent.ModifierFlags()
+#endif
         
         // TODO: Track all focus directions and provide a trail?
         @Published var focusPath: [SelfRelativeDirection] = []
@@ -158,6 +162,70 @@ private extension KeyboardInterceptor {
     }
 }
 
+#if os(iOS)
+extension OSEvent {
+    class ModifierFlags: Equatable {
+        static let none = ModifierFlags(-1)
+        static let shift = ModifierFlags(0)
+        static let command = ModifierFlags(1)
+        static let options = ModifierFlags(2)
+        let id: Int
+        private init(_ id: Int) { self.id = id }
+        
+        static func == (lhs: UIEvent.ModifierFlags, rhs: UIEvent.ModifierFlags) -> Bool {
+            return lhs.id == rhs.id
+        }
+        
+        func contains(_ flags: ModifierFlags) -> Bool {
+            id == flags.id
+        }
+    }
+    
+    static let LeftDragKeydown = OSEvent()
+    static let LeftDragKeyup = OSEvent()
+    
+    static let RightDragKeydown = OSEvent()
+    static let RightDragKeyup = OSEvent()
+    
+    static let DownDragKeydown = OSEvent()
+    static let DownDragKeyup = OSEvent()
+    
+    static let UpDragKeydown = OSEvent()
+    static let UpDragKeyup = OSEvent()
+    
+    static let InDragKeydown = OSEvent()
+    static let InDragKeyup = OSEvent()
+    
+    static let OutDragKeydown = OSEvent()
+    static let OutDragKeyup = OSEvent()
+}
+
+private extension KeyboardInterceptor {
+    func enqueuedKeyConsume(_ event: OSEvent) {
+        switch event {
+        case .RightDragKeydown: startMovement(.right)
+        case .RightDragKeyup: stopMovement(.right)
+            
+        case .LeftDragKeydown: startMovement(.left)
+        case .LeftDragKeyup: stopMovement(.left)
+            
+        case .UpDragKeydown: startMovement(.down)
+        case .UpDragKeyup: stopMovement(.down)
+            
+        case .DownDragKeydown: startMovement(.up)
+        case .DownDragKeyup: stopMovement(.up)
+            
+        case .InDragKeydown: startMovement(.forward)
+        case .InDragKeyup: stopMovement(.forward)
+            
+        case .OutDragKeydown: startMovement(.backward)
+        case .OutDragKeyup: stopMovement(.backward)
+        
+        default: break
+        }
+    }
+}
+#elseif os(macOS)
 private extension KeyboardInterceptor {
     
     // Accessing fields from incorrect NSEvent types is incredibly unsafe.
@@ -232,3 +300,4 @@ private extension KeyboardInterceptor {
         onNewFocusChange?(focusDirection)
     }
 }
+#endif
