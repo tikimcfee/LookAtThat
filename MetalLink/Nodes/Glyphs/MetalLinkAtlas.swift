@@ -59,7 +59,7 @@ extension MetalLinkAtlas {
     static let sampleAtlasGlyphs = """
     ABCDEFGHIJKLMNOPQRSTUVWXYZ
     abcdefghijklmnopqrstuvwxyz
-    1234567890
+    1234567890 -_+=/
     !@#$%^&*()[]\\;',./{}|:"<>?
     """.components(separatedBy: .newlines).joined()
     

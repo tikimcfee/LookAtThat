@@ -68,5 +68,14 @@ struct Instanced_RenderPipelineDescriptor: RenderPipelineDescriptor {
         renderPipelineDescriptor.fragmentFunction = fragmentFunction
         renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
         renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+    
+        // TODO: Enable alpha blending with textures.. _somehow_
+//        p.colorAttachments[0].isBlendingEnabled = true
+//        p.colorAttachments[0].rgbBlendOperation = .add
+//        p.colorAttachments[0].alphaBlendOperation = .add
+//        p.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
+//        p.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
+//        p.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+//        p.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
     }
 }
