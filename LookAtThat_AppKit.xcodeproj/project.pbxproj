@@ -26,6 +26,7 @@
 		B70808D4287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B70808D5287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -1180,6 +1181,7 @@
 		B7044C1628A07EAF00D1433C /* ShaderBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderBridge.h; sourceTree = "<group>"; };
 		B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNodeBridge.swift; sourceTree = "<group>"; };
 		B70808D1287E45EB00827CBB /* SearchRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRenderTask.swift; sourceTree = "<group>"; };
+		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
@@ -2290,6 +2292,7 @@
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
+				B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */,
 				B7AB37132745696000CEC7DD /* TestBundle.swift */,
 				F07C49C9251C095200F28173 /* Info.plist */,
 			);
@@ -3578,6 +3581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */,
+				B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */,
 				B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
 				B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */,
