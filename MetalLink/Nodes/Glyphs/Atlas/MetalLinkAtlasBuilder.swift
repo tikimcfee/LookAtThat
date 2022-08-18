@@ -27,11 +27,16 @@ class AtlasBuilder {
     private let meshCache: MetalLinkGlyphNodeMeshCache
     private let commandBuffer: MTLCommandBuffer
     private let blitEncoder: MTLBlitCommandEncoder
-    private var uvPairCache: TextureUVCache = TextureUVCache()
     
     private let atlasTexture: MTLTexture
-    private lazy var atlasPointer = AtlasPointer(atlasTexture)
     private lazy var atlasSize: LFloat2 = atlasTexture.simdSize
+    
+    private lazy var uvPacking = AtlasPacking<UVRect>(width: 1.0, height: 1.0)
+    private lazy var vertexPacking = AtlasPacking<VertexRect>(width: atlasTexture.width, height: atlasTexture.height)
+    private var uvPairCache: TextureUVCache = TextureUVCache()
+    
+    private let sourceOrigin = MTLOrigin()
+    private var targetOrigin = MTLOrigin()
     
     init(
         _ link: MetalLink,
@@ -63,16 +68,30 @@ extension AtlasBuilder {
             return
         }
         
-        // Grab UV info, and allow check to update offsets
+        // Set Vertex and UV info for packing
         let bundleUVSize = atlasUVSize(for: textureBundle)
-        atlasPointer.willEncode(bundle: textureBundle, size: bundleUVSize)
+        let uvRect = UVRect()
+        uvRect.width = bundleUVSize.x
+        uvRect.height = bundleUVSize.y
         
-        // Encode with current state
+        let vertexRect = VertexRect()
+        vertexRect.width = textureBundle.texture.width
+        vertexRect.height = textureBundle.texture.height
+        
+        // Pack it; Update origin from rect position
+        uvPacking.packNextRect(uvRect)
+        vertexPacking.packNextRect(vertexRect)
+        targetOrigin.x = vertexRect.x
+        targetOrigin.y = vertexRect.y
+        
+        // Ship it; Encode with current state
         encodeBlit(for: textureBundle.texture)
         
-        // Update next proposed draw position and UV offsets
-        let boundingBox = atlasPointer.updateBlitOffsets(from: textureBundle, size:  bundleUVSize)
-        let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
+        // Compute UV corners for glyph
+        let (left, top, width, height) = (
+            uvRect.x, uvRect.y,
+            bundleUVSize.x, bundleUVSize.y
+        )
 
         // Create UV pair matching glyph's texture position
         let topLeft = LFloat2(left, top)
@@ -107,16 +126,17 @@ private extension AtlasBuilder {
     
     func encodeBlit(for texture: MTLTexture) {
         let textureSize = MTLSize(width: texture.width, height: texture.height, depth: 1)
+        
         blitEncoder.copy(
             from: texture,
             sourceSlice: 0,
             sourceLevel: 0,
-            sourceOrigin: atlasPointer.sourceOrigin,
+            sourceOrigin: sourceOrigin,
             sourceSize: textureSize,
             to: atlasTexture,
             destinationSlice: 0,
             destinationLevel: 0,
-            destinationOrigin: atlasPointer.targetOrigin
+            destinationOrigin: targetOrigin
         )
     }
 }
@@ -215,5 +235,3 @@ class AtlasPointer {
         return newGlyphUVBounds
     }
 }
-
-

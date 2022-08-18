@@ -35,17 +35,22 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         var yOffset = Float(top)
         var zOffset = Float(front)
         
+        let count = MetalLinkAtlas.sampleAtlasGlyphs.count
         var last: MetalLinkGlyphNode?
+        var lines: Int = 0
+        
         instancedNodes.enumerated().forEach { index, node in
-            if index >= 1 && index % 94 == 0 {
+            if index >= 1 && (index % (count)) == 0 {
                 xOffset = left
                 yOffset -= 1.1
+                lines += 1
                 last = nil
             }
             
-            if index % 10_000 == 0 {
-                zOffset = left
+            if lines >= 1 && lines % 50 == 0 {
+                zOffset -= 5.0
                 yOffset = top
+                lines = 0
             }
             
             xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0

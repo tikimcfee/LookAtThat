@@ -190,6 +190,10 @@
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
 		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B7189F2D28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
+		B7189F2E28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
+		B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
+		B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
 		B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7195137284C7EA3007FBD3B /* SCNLine */; };
 		B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
 		B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
@@ -1184,6 +1188,7 @@
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
+		B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasPacking.swift; sourceTree = "<group>"; };
 		B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Clones.swift"; sourceTree = "<group>"; };
 		B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Consume.swift"; sourceTree = "<group>"; };
 		B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTokenCache.swift; sourceTree = "<group>"; };
@@ -1577,6 +1582,16 @@
 				B723D284283340F3000901C8 /* ios-sim */,
 			);
 			path = ExternalFrameworks;
+			sourceTree = "<group>";
+		};
+		B7189F2B28AEEE2D00E16B0E /* Atlas */ = {
+			isa = PBXGroup;
+			children = (
+				B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */,
+				B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */,
+				B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */,
+			);
+			path = Atlas;
 			sourceTree = "<group>";
 		};
 		B720D58028246FDE00BF0602 /* CoreGlyphs */ = {
@@ -2115,11 +2130,10 @@
 		B7F67F1328A4E5630056E540 /* Glyphs */ = {
 			isa = PBXGroup;
 			children = (
+				B7189F2B28AEEE2D00E16B0E /* Atlas */,
 				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
 				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
 				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
-				B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */,
-				B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */,
 				B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */,
 				B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */,
 			);
@@ -2953,6 +2967,7 @@
 				B70FDCE1283EAE9900170D5F /* FileBackedArray.swift in Sources */,
 				B70FDCE2283EAE9900170D5F /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B70FDCE3283EAE9900170D5F /* SwiftSyntax+Extensions.swift in Sources */,
+				B7189F2E28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B7F876D028A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B70FDCE4283EAE9900170D5F /* KeyboardInterceptor.swift in Sources */,
@@ -3167,6 +3182,7 @@
 				B74A23112814FFF300F6F727 /* WireDataTransformer.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
 				B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
+				B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B74A23142814FFF300F6F727 /* SceneKitRepresentableView.swift in Sources */,
 				B7981031281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */,
@@ -3557,6 +3573,7 @@
 				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
+				B7189F2D28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
@@ -3722,6 +3739,7 @@
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B7C7571D280CEE040005A233 /* StartingTapDelegate.swift in Sources */,
 				B7C756F4280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
+				B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
