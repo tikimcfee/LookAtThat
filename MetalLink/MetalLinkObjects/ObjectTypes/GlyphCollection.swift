@@ -34,26 +34,26 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         var xOffset = Float(left)
         var yOffset = Float(top)
         var zOffset = Float(front)
+        var leadingGlyph: MetalLinkGlyphNode?
         
-        let count = MetalLinkAtlas.sampleAtlasGlyphs.count
-        var last: MetalLinkGlyphNode?
-        var lines: Int = 0
+        let sampleCount = MetalLinkAtlas.sampleAtlasGlyphs.count
+        var currentLines: Int = 0
         
         instancedNodes.enumerated().forEach { index, node in
-            if index >= 1 && (index % (count)) == 0 {
+            if index >= 1 && (index % (sampleCount * 3)) == 0 {
                 xOffset = left
                 yOffset -= 1.1
-                lines += 1
-                last = nil
+                currentLines += 1
+                leadingGlyph = nil
             }
             
-            if lines >= 1 && lines % 50 == 0 {
+            if currentLines >= 1 && currentLines % 100 == 0 {
                 zOffset -= 5.0
                 yOffset = top
-                lines = 0
+                currentLines = 0
             }
             
-            xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
+            xOffset += (leadingGlyph?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
             node.position.x = xOffset
             node.position.y = yOffset
             node.position.z = zOffset
@@ -68,7 +68,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
                 print("--------------")
             }
             
-            last = node
+            leadingGlyph = node
         }
         
         // ***********************************************************************************
