@@ -1,14 +1,19 @@
 import SwiftUI
 import SceneKit
 
+let __MAC_APP_TEST_METAL = true
+
 struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
     
     @State var showMultipeer: Bool = false
 
     var body: some View {
-        __METAL__body
-//        __SCENE__body
+        if __MAC_APP_TEST_METAL {
+            __METAL__body
+        } else {
+            __SCENE__body
+        }        
     }
     
     var __SCENE__body: some View {

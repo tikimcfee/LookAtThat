@@ -11,6 +11,8 @@ import SwiftUI
 import ARKit
 #endif
 
+let __MOBILE_APP_TEST_METAL = true
+
 private extension MobileAppRootView {
     static var receiver: DefaultInputReceiver { MetalLink.defaultInputReceiver }
     static var keyEvent: OSEvent {
@@ -28,8 +30,11 @@ struct MobileAppRootView : View {
     private let delta = CGFloat(20)
     
     var body: some View {
-        __MetalBody__
-//        __ARKitBody__
+        if __MOBILE_APP_TEST_METAL {
+            __MetalBody__
+        } else {
+            __ARKitBody__
+        }
     }
     
     var __MetalBody__: some View {
