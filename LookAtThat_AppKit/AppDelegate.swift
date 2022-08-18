@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-//        __ENABLE_STARTUP_LOG_WRITES__()
+//        __ENABLE_TRACE_LOG_WRITES__()
         
 #if os(iOS)
         let rootWindow = makeRootWindow()
@@ -69,7 +69,7 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-    func __ENABLE_STARTUP_LOG_WRITES__() {
+    func __ENABLE_TRACE_LOG_WRITES__() {
         print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
         TracingRoot.shared.state.traceWritesEnabled = true
         TracingRoot.shared.removeAllTraces()

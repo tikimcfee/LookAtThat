@@ -8,17 +8,17 @@
 import Foundation
 import SwiftSyntax
 import AppKit
+import Combine
 
-extension TracingRoot: TraceDelegate {
+extension TracingRoot {
     class State: ObservableObject {
         @Published var traceWritesEnabled = false
-    }
-    
-    var writesEnabled: Bool {
-        get { state.traceWritesEnabled }
-        set {
-            print("<!> Thread trace writes: enabled=\(newValue)")
-            state.traceWritesEnabled = newValue
+        private var bag = Set<AnyCancellable>()
+        
+        init() {
+            $traceWritesEnabled.dropFirst().sink {
+                PersistentThreadTracer.SHOULD_WRITE = $0
+            }.store(in: &bag)
         }
     }
 }

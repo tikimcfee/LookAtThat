@@ -37,8 +37,19 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         
         var last: MetalLinkGlyphNode?
         instancedNodes.enumerated().forEach { index, node in
+            if index >= 1 && index % 94 == 0 {
+                xOffset = left
+                yOffset -= 1.1
+                last = nil
+            }
+            
+            if index % 10_000 == 0 {
+                zOffset = left
+                yOffset = top
+            }
+            
             xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
-            node.position.x = xOffset + 1
+            node.position.x = xOffset
             node.position.y = yOffset
             node.position.z = zOffset
             
@@ -53,17 +64,6 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             }
             
             last = node
-            
-            guard index >= 1 else { return }
-            if index % 100 == 0 {
-                xOffset = left
-                yOffset -= 1.1
-            }
-            
-            if index % 100_000 == 0 {
-                zOffset -= 10.0
-                yOffset = top
-            }
         }
         
         // ***********************************************************************************

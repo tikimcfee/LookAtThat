@@ -8,6 +8,7 @@
 import MetalKit
 
 enum LinkAtlasError: Error {
+    case noTargetAtlasTexture
     case noStateBuilder
 }
 

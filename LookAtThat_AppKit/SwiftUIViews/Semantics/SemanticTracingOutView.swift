@@ -70,7 +70,12 @@ struct SemanticTracingOutView: View {
         HStack(alignment: .center) {
             VStack(alignment: .trailing) {
                 makeFileIOToggleButton()
-                Button("Start Tracing", action: { state.setupTracing() })
+                if state.tracerState.traceWritesEnabled {
+                    Button("Reset tracing", action: { state.setupTracing() })
+                } else {
+                    Button("Start Tracing", action: { state.setupTracing() })
+                }
+                
                 Button("Load logs", action: { reloadsLogs() })
                 Button("Delete all logs", action: { removeAllLogs() })
                 Button("Reload Wrapper", action: { state.reloadQueryWrapper() })

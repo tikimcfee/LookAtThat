@@ -130,8 +130,12 @@ class SemanticTracingOutState: ObservableObject {
     private lazy var bag = Set<AnyCancellable>()
     private lazy var lineTracker = TraceLineIncrementalTracker()
     
+    
     init() {
-        
+        // Tracer isn't observable; sink from it manually
+        tracerState.$traceWritesEnabled
+            .sink { _ in self.objectWillChange.send() }
+            .store(in: &bag)
     }
         
     var loggedThreads: [Thread] {
@@ -262,6 +266,10 @@ extension SemanticTracingOutState {
 
 extension SemanticTracingOutState {
     func setupTracing() {
+        print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
+        tracer.state.traceWritesEnabled = true
+        tracer.removeAllTraces()
+        tracer.removeMapping()
         tracer.setupTracing()
     }
     

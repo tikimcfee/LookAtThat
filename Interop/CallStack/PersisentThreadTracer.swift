@@ -6,10 +6,7 @@
 //
 
 import Foundation
-
-protocol TraceDelegate {
-    var writesEnabled: Bool { get set }
-}
+import Combine
 
 class PersistentThreadTracer {
     private let idFileTarget: URL
@@ -22,16 +19,18 @@ class PersistentThreadTracer {
     private var isBackingCacheDirty: Bool = false
     private var isOneTimeResetFlag: Bool = false
     
-    private var traceDelegate: TraceDelegate
+    public static var SHOULD_WRITE = false {
+        didSet {
+            print("\n\n\tPersistentThreadTracer.SHOULD_WRITE = \(SHOULD_WRITE)\n\n")
+        }
+    }
     
     init(
         idFileTarget: URL,
-        sourceMap: TraceLineIDMap,
-        traceDelegate: TraceDelegate
+        sourceMap: TraceLineIDMap
     ) throws {
         self.idFileTarget = idFileTarget
         self.sourceMap = sourceMap
-        self.traceDelegate = traceDelegate
         
         self.idFileWriter = AppendingStore(targetFile: idFileTarget)
         self.idFileReader = try FileUUIDArray.from(fileURL: idFileTarget)
@@ -45,7 +44,7 @@ class PersistentThreadTracer {
     
     func onNewTraceLine(_ traceLine: TraceLine) {
         let traceId = sourceMap[traceLine]
-        guard traceDelegate.writesEnabled else {
+        guard Self.SHOULD_WRITE else {
             print("\n\n\t\tWrites disabled!")
             return
         }

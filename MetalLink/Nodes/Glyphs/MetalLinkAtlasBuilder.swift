@@ -7,10 +7,18 @@
 
 import MetalKit
 
-typealias TextureUVCache = [GlyphCacheKey: TextureUVPair]
-struct TextureUVPair {
-    let u: LFloat4
-    let v: LFloat4
+class TextureUVCache {
+    struct Pair {
+        let u: LFloat4
+        let v: LFloat4
+    }
+
+    var map = [GlyphCacheKey: Pair]()
+    
+    subscript(_ key: GlyphCacheKey) -> Pair? {
+        get { map[key] }
+        set { map[key] = newValue }
+    }
 }
 
 class AtlasBuilder {
@@ -19,7 +27,7 @@ class AtlasBuilder {
     private let meshCache: MetalLinkGlyphNodeMeshCache
     private let commandBuffer: MTLCommandBuffer
     private let blitEncoder: MTLBlitCommandEncoder
-    private var uvPairCache: TextureUVCache = [:]
+    private var uvPairCache: TextureUVCache = TextureUVCache()
     
     private let atlasTexture: MTLTexture
     private lazy var atlasPointer = AtlasPointer(atlasTexture)
@@ -63,7 +71,7 @@ extension AtlasBuilder {
         encodeBlit(for: textureBundle.texture)
         
         // Update next proposed draw position and UV offsets
-        let boundingBox = atlasPointer.updateBlitOffsets(from: textureBundle, size: bundleUVSize)
+        let boundingBox = atlasPointer.updateBlitOffsets(from: textureBundle, size:  bundleUVSize)
         let (left, top, width, height) = (boundingBox.x, boundingBox.y, boundingBox.z, boundingBox.w)
 
         // Create UV pair matching glyph's texture position
@@ -74,7 +82,7 @@ extension AtlasBuilder {
         
         // You will see this a lot:
         // (x = left, y = top, z = width, w = height)
-        uvPairCache[key] = TextureUVPair(
+        uvPairCache[key] = TextureUVCache.Pair(
             u: LFloat4(topRight.x, topLeft.x, bottomLeft.x, bottomRight.x),
             v: LFloat4(topRight.y, topLeft.y, bottomLeft.y, bottomRight.y)
         )
