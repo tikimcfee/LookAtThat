@@ -163,9 +163,7 @@ private extension KeyboardInterceptor {
         DispatchQueue.main.async { [positions] in
             positions.totalOffset += positionOffset
             positions.travelOffset = positionOffset
-            positions.rotationOffset.x += rotationOffset.x
-            positions.rotationOffset.y += rotationOffset.y
-            positions.rotationOffset.z += rotationOffset.z
+            positions.rotationOffset += rotationOffset
         }
     }
 }

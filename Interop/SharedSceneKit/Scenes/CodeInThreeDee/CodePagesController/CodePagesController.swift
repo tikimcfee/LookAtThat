@@ -183,9 +183,10 @@ extension CodePagesController {
 
 extension CodePagesController {
     func doTestRender(parent: URL) {
-        codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-            self.addToRoot(rootGrid: rootGrid)
-        }
+//        codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
+//            self.addToRoot(rootGrid: rootGrid)
+//        }
+        doRenderPlan(parent: parent)
     }
     
     func doRenderPlan(parent: URL) {
