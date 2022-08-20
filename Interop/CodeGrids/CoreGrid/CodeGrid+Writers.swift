@@ -9,21 +9,6 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-// MARK: -- Writer Vending
-extension CodeGrid {
-    private func createNodeFor(
-        _ syntaxTokenCharacter: Character,
-        _ color: NSUIColor
-    ) -> GlyphNode {
-        laztrace(#fileID,#function,syntaxTokenCharacter,color)
-        let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
-        let (rootLayer, focusLayer, size) = glyphCache[key]
-        let letterNode = GlyphNode.make(rootLayer, focusLayer, size)
-        letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
-        return letterNode
-    }
-}
-
 //MARK: -- Writers
 extension CodeGrid {
     class Writer {
@@ -78,5 +63,21 @@ extension CodeGrid {
                 grid.renderer.insert(newCharacter, glyphNode, glyphNode.size)
             }
         }
+    }
+}
+
+// MARK: -- Node creation
+
+extension CodeGrid {
+    private func createNodeFor(
+        _ syntaxTokenCharacter: Character,
+        _ color: NSUIColor
+    ) -> GlyphNode {
+        laztrace(#fileID,#function,syntaxTokenCharacter,color)
+        let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
+        let (rootLayer, focusLayer, size) = glyphCache[key]
+        let letterNode = GlyphNode.make(rootLayer, focusLayer, size)
+        letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
+        return letterNode
     }
 }

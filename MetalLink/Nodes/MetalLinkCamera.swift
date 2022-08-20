@@ -29,6 +29,11 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         currentView.dirty()
     } }
     
+    var rotation: LFloat3 = .zero { didSet {
+        currentProjection.dirty()
+        currentView.dirty()
+    } }
+    
     let worldUp: LFloat3 = LFloat3(0, 1, 0)
     let worldRight: LFloat3 = LFloat3(1, 0, 0)
     let worldFront: LFloat3 = LFloat3(0, 0, -1)
@@ -43,6 +48,10 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         
         interceptor.positions.$totalOffset.sink { total in
             self.position = (total / 100)
+        }.store(in: &cancellables)
+        
+        interceptor.positions.$rotationOffset.sink { total in
+            self.rotation = (total / 100)
         }.store(in: &cancellables)
         
         link.input.sharedKeyEvent.sink { event in
@@ -61,17 +70,21 @@ extension DebugCamera {
     }
     
     private func buildProjectionMatrix() -> matrix_float4x4 {
-        matrix_float4x4.init(
+        var final = matrix_float4x4.init(
             perspectiveProjectionFov: Float.pi / 2.0,
             aspectRatio: viewAspectRatio,
             nearZ: 0.1,
             farZ: 1000
         )
+        return final
     }
     
     private func buildViewMatrix() -> matrix_float4x4 {
         var matrix = matrix_identity_float4x4
         matrix.translate(vector: -position)
+        matrix.rotateAbout(axis: X_AXIS, by: rotation.x)
+        matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
+        matrix.rotateAbout(axis: Z_AXIS, by: rotation.z)
         return matrix
     }
 }

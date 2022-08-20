@@ -1,19 +1,25 @@
 import SwiftUI
 import SceneKit
 
-let __MAC_APP_TEST_METAL = true
 
 struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
     
     @State var showMultipeer: Bool = false
+    @State var showMetal: Bool = true
 
     var body: some View {
-        if __MAC_APP_TEST_METAL {
-            __METAL__body
-        } else {
-            __SCENE__body
-        }        
+        ZStack(alignment: .bottomTrailing) {
+            if showMetal {
+                __METAL__body
+            } else {
+                __SCENE__body
+            }
+            
+            Button("Swap Modes") {
+                showMetal.toggle()
+            }.padding(32.0)
+        }
     }
     
     var __SCENE__body: some View {

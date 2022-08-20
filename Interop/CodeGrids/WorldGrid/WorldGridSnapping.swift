@@ -52,6 +52,11 @@ extension WorldGridSnapping {
                 return .forward(grid)
             case .backward:
                 return .backward(grid)
+                
+            case .yawLeft:
+                return .left(grid)
+            case .yawRight:
+                return .right(grid)
             }
         }
     }

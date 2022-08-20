@@ -22,6 +22,9 @@ enum SelfRelativeDirection: Hashable, CaseIterable {
     case right
     case up
     case down
+    
+    case yawLeft
+    case yawRight
 }
 
 struct FocusPosition: CustomStringConvertible, Equatable {

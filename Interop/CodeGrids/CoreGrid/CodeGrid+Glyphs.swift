@@ -61,10 +61,6 @@ extension CodeGrid {
             if checks.isNewline {
                 newLine(size)
             }
-            
-//            if checks.isWhitespace {
-//                letterNode.name?.append("-\(kWhitespaceNodeName)")
-//            }
         }
         
         func newLine(_ size: CGSize) {

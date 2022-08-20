@@ -58,11 +58,13 @@ private extension MetalLinkAtlas {
 
 extension MetalLinkAtlas {
     static let sampleAtlasGlyphs = """
-    ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    abcdefghijklmnopqrstuvwxyz
-    1234567890 -_+=/
+    ABCDEFGHIJ🥸KLMNOPQRSTUVWXYZ
+    abcdefghijkl🤖mnopqrstuvwxyz
+    12345🙀67890 -_+=/👾
     !@#$%^&*()[]\\;',./{}|:"<>?
     """.components(separatedBy: .newlines).joined()
+    
+//    static let sampleAtlasGlyphs = ["ش"]
     
     static let sampleAtlasColors: [NSUIColor] = [
         .red, .green, .blue, .brown, .orange,

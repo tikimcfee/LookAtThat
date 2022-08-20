@@ -35,6 +35,7 @@ extension KeyboardInterceptor {
     class Positions: ObservableObject {
         @Published var totalOffset: LFloat3 = .zero
         @Published var travelOffset: LFloat3 = .zero
+        @Published var rotationOffset: LFloat3 = .zero
     }
 }
 
@@ -142,22 +143,29 @@ private extension KeyboardInterceptor {
         _ finalDelta: VectorFloat
     ) {
         guard let source = positionSource else { return }
-        func delta() -> LFloat3 {
-            switch direction {
-            case .forward:  return source.worldFront * Float(finalDelta)
-            case .backward: return source.worldFront * -Float(finalDelta)
-                
-            case .right:    return source.worldRight * Float(finalDelta)
-            case .left:     return source.worldRight * -Float(finalDelta)
-                
-            case .up:       return source.worldUp * Float(finalDelta)
-            case .down:     return source.worldUp * -Float(finalDelta)
-            }
+        var positionOffset: LFloat3 = .zero
+        var rotationOffset: LFloat3 = .zero
+        
+        switch direction {
+        case .forward:  positionOffset = source.worldFront * Float(finalDelta)
+        case .backward: positionOffset = source.worldFront * -Float(finalDelta)
+            
+        case .right:    positionOffset = source.worldRight * Float(finalDelta)
+        case .left:     positionOffset = source.worldRight * -Float(finalDelta)
+            
+        case .up:       positionOffset = source.worldUp * Float(finalDelta)
+        case .down:     positionOffset = source.worldUp * -Float(finalDelta)
+            
+        case .yawLeft:  rotationOffset = LFloat3(0, -5, 0)
+        case .yawRight:  rotationOffset = LFloat3(0, 5, 0)
         }
-        let delta = delta()
+        
         DispatchQueue.main.async { [positions] in
-            positions.totalOffset += delta
-            positions.travelOffset = delta
+            positions.totalOffset += positionOffset
+            positions.travelOffset = positionOffset
+            positions.rotationOffset.x += rotationOffset.x
+            positions.rotationOffset.y += rotationOffset.y
+            positions.rotationOffset.z += rotationOffset.z
         }
     }
 }
@@ -256,6 +264,8 @@ private extension KeyboardInterceptor {
         case "s", "S": startMovement(.backward)
         case "z", "Z": startMovement(.down)
         case "x", "X": startMovement(.up)
+        case "q", "Q": startMovement(.yawLeft)
+        case "e", "E": startMovement(.yawRight)
             
         case _ where event.specialKey == .leftArrow: changeFocus(.left)
         case _ where event.specialKey == .rightArrow: changeFocus(.right)
@@ -285,6 +295,8 @@ private extension KeyboardInterceptor {
         case "s", "S": stopMovement(.backward)
         case "z", "Z": stopMovement(.down)
         case "x", "X": stopMovement(.up)
+        case "q", "Q": stopMovement(.yawLeft)
+        case "e", "E": stopMovement(.yawRight)
         default:
             break
         }
