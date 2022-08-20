@@ -70,13 +70,16 @@ extension DebugCamera {
     }
     
     private func buildProjectionMatrix() -> matrix_float4x4 {
-        var final = matrix_float4x4.init(
-            perspectiveProjectionFov: Float.pi / 2.0,
+        var matrix = matrix_float4x4.init(
+            perspectiveProjectionFov: Float.pi / 3.0,
             aspectRatio: viewAspectRatio,
             nearZ: 0.1,
             farZ: 1000
         )
-        return final
+//        matrix.rotateAbout(axis: X_AXIS, by: rotation.x)
+//        matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
+//        matrix.rotateAbout(axis: Z_AXIS, by: rotation.z)
+        return matrix
     }
     
     private func buildViewMatrix() -> matrix_float4x4 {
