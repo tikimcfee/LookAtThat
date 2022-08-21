@@ -66,12 +66,12 @@ extension MetalView {
             mtkView.keyDownReceiver = link.input
             mtkView.positionReceiver = link.input
             
-            print("-- Metal Gesture Recognizers --")
-            print("This will disable some view events by default, like 'drag'")
-            mtkView.addGestureRecognizer(link.input.gestureShim.tapGestureRecognizer)
-            mtkView.addGestureRecognizer(link.input.gestureShim.magnificationRecognizer)
-            mtkView.addGestureRecognizer(link.input.gestureShim.panRecognizer)
-            print("-------------------------------")
+//            print("-- Metal Gesture Recognizers --")
+//            print("This will disable some view events by default, like 'drag'")
+//            mtkView.addGestureRecognizer(link.input.gestureShim.tapGestureRecognizer)
+//            mtkView.addGestureRecognizer(link.input.gestureShim.magnificationRecognizer)
+//            mtkView.addGestureRecognizer(link.input.gestureShim.panRecognizer)
+//            print("-------------------------------")
             
             mtkView.delegate = renderer
             mtkView.framebufferOnly = false
@@ -85,7 +85,6 @@ extension MetalView {
 class CustomMTKView: MTKView {
     weak var positionReceiver: MousePositionReceiver?
     weak var keyDownReceiver: KeyDownReceiver?
-    
     
     #if os(iOS)
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

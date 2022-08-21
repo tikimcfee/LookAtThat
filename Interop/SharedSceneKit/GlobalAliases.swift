@@ -78,4 +78,11 @@ extension Float {
     }
 }
 
+
+extension CGFloat {
+    var float: Float {
+        return Float(self)
+    }
+}
+
 typealias VoidCompletion = () -> Void

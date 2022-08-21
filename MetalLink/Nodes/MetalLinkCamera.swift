@@ -42,6 +42,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     let interceptor = KeyboardInterceptor()
     private var cancellables = Set<AnyCancellable>()
     
+    var startRotate: Bool = false
+    
     init(link: MetalLink) {
         self.link = link
         interceptor.positionSource = self
@@ -50,13 +52,33 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
             self.position = (total / 100)
         }.store(in: &cancellables)
         
-        interceptor.positions.$rotationOffset.sink { total in
+        interceptor.positions.$rotationOffset.removeDuplicates().sink { total in
             self.rotation = (total / 100)
         }.store(in: &cancellables)
         
         link.input.sharedKeyEvent.sink { event in
             self.interceptor.onNewKeyEvent(event)
         }.store(in: &cancellables)
+        
+        link.input.sharedMouseDown.sink { event in
+            print("mouse down")
+            self.startRotate = true
+        }.store(in: &cancellables)
+
+        link.input.sharedMouseUp.sink { event in
+            print("mouse up")
+            self.startRotate = false
+        }.store(in: &cancellables)
+        
+        link.input.sharedMouse.sink { event in
+            guard self.startRotate else { return }
+            self.interceptor.positions.rotationOffset.y += event.deltaX.float / 5
+            self.interceptor.positions.rotationOffset.x += event.deltaY.float / 5
+        }.store(in: &cancellables)
+        
+        #if os(macOS)
+        
+        #endif
     }
 }
 
