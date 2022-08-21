@@ -11,15 +11,15 @@ typealias TapReceiver = (GestureEvent) -> Void
 class GestureShim {
     lazy var panRecognizer =
         ModifiersPanGestureRecognizer(target: self, action: #selector(pan))
-    let onPan: PanReceiver
+    var onPan: PanReceiver
 
     lazy var magnificationRecognizer =
         ModifiersMagnificationGestureRecognizer(target: self, action: #selector(magnify))
-    let onMagnify: MagnificationReceiver
+    var onMagnify: MagnificationReceiver
     
     lazy var tapGestureRecognizer =
         TapGestureRecognizer(target: self, action: #selector(noop))
-    let onTap: TapReceiver
+    var onTap: TapReceiver
 
     init(_ onPan: @escaping PanReceiver,
          _ onMagnify: @escaping MagnificationReceiver,
@@ -39,7 +39,9 @@ class GestureShim {
         onMagnify(receiver.makeMagnificationEvent)
     }
     
-    @objc func noop(_ receiver: TapGestureRecognizer) { }
+    @objc func noop(_ receiver: TapGestureRecognizer) {
+        
+    }
 }
 
 #elseif os(iOS)
@@ -47,15 +49,15 @@ class GestureShim {
 class GestureShim {
     lazy var panRecognizer =
         PanGestureRecognizer(target: self, action: #selector(pan))
-    let onPan: PanReceiver
+    var onPan: PanReceiver
 
     lazy var magnificationRecognizer =
         MagnificationGestureRecognizer(target: self, action: #selector(magnify))
-    let onMagnify: MagnificationReceiver
+    var onMagnify: MagnificationReceiver
     
     lazy var tapGestureRecognizer =
         TapGestureRecognizer(target: self, action: #selector(tap))
-    let onTap: TapReceiver
+    var onTap: TapReceiver
 
     init(_ onPan: @escaping PanReceiver,
          _ onMagnify: @escaping MagnificationReceiver,

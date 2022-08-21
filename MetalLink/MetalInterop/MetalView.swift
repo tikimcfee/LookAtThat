@@ -66,9 +66,12 @@ extension MetalView {
             mtkView.keyDownReceiver = link.input
             mtkView.positionReceiver = link.input
             
+            print("-- Metal Gesture Recognizers --")
+            print("This will disable some view events by default, like 'drag'")
             mtkView.addGestureRecognizer(link.input.gestureShim.tapGestureRecognizer)
             mtkView.addGestureRecognizer(link.input.gestureShim.magnificationRecognizer)
             mtkView.addGestureRecognizer(link.input.gestureShim.panRecognizer)
+            print("-------------------------------")
             
             mtkView.delegate = renderer
             mtkView.framebufferOnly = false
@@ -114,11 +117,12 @@ class CustomMTKView: MTKView {
         }
         trackingArea = NSTrackingArea(
             rect: bounds,
-            options: [.mouseEnteredAndExited,
-                      .mouseMoved,
-                      .enabledDuringMouseDrag,
-                      .activeInKeyWindow,
-                      .activeAlways],
+            options: [
+                .mouseMoved,
+                .enabledDuringMouseDrag,
+                .inVisibleRect,
+                .activeAlways
+            ],
             owner: self,
             userInfo: nil
         )
@@ -131,8 +135,7 @@ class CustomMTKView: MTKView {
         // It is NOT SAFE to access these objects outside of this call scope.
         super.mouseMoved(with: event)
         guard let receiver = positionReceiver else { return }
-        let convertedPosition = convert(event.locationInWindow, from: nil)
-        receiver.mousePosition = convertedPosition
+        receiver.mousePosition = event.copy() as! NSEvent
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -143,11 +146,11 @@ class CustomMTKView: MTKView {
         guard let receiver = positionReceiver else { return }
         receiver.mouseDownEvent = event.copy() as! NSEvent
     }
-    
+
     override func mouseUp(with event: NSEvent) {
-        super.mouseDown(with: event)
+        super.mouseUp(with: event)
         guard let receiver = positionReceiver else { return }
-        receiver.mouseDownEvent = event.copy() as! NSEvent
+        receiver.mouseUpEvent = event.copy() as! NSEvent
     }
     
     override func keyDown(with event: NSEvent) {
@@ -164,6 +167,27 @@ class CustomMTKView: MTKView {
         keyDownReceiver?.lastKeyEvent = event.copy() as! NSEvent
     }
     
+    override func otherMouseDragged(with event: NSEvent) {
+        super.otherMouseDragged(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mousePosition = event.copy() as! NSEvent
+    }
+
+    override func rightMouseDragged(with event: NSEvent) {
+        super.rightMouseDragged(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mousePosition = event.copy() as! NSEvent
+    }
+
+    override func mouseDragged(with event: NSEvent) {
+        // WARNING
+        // DO NOT access NSEvents off of the main thread. Copy whatever information you need.
+        // It is NOT SAFE to access these objects outside of this call scope.
+        super.mouseDragged(with: event)
+        guard let receiver = positionReceiver else { return }
+        receiver.mousePosition = event.copy() as! NSEvent
+    }
+
     override func flagsChanged(with event: NSEvent) {
         // WARNING
         // DO NOT access NSEvents off of the main thread. Copy whatever information you need.

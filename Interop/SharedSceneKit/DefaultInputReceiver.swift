@@ -11,7 +11,7 @@ import SceneKit
 #if os(OSX)
 import AppKit
 class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
-    private let mouseSubject = PassthroughSubject<CGPoint, Never>()
+    private let mouseSubject = PassthroughSubject<OSEvent, Never>()
     private let scrollSubject = PassthroughSubject<OSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
     private let mouseUpSubject = PassthroughSubject<OSEvent, Never>()
@@ -30,7 +30,7 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
         { self.onTap($0) }
     )
     
-    var mousePosition: CGPoint = CGPoint.zero {
+    var mousePosition: OSEvent = OSEvent() {
         didSet { mouseSubject.send(mousePosition) }
     }
     
@@ -54,7 +54,7 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
 import UIKit
 class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
     
-    private let mouseSubject = PassthroughSubject<CGPoint, Never>()
+    private let mouseSubject = PassthroughSubject<OSEvent, Never>()
     private let scrollSubject = PassthroughSubject<OSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
     private let mouseUpSubject = PassthroughSubject<OSEvent, Never>()
@@ -73,7 +73,7 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
         { self.onTap($0) }
     )
     
-    var mousePosition: CGPoint = CGPoint.zero {
+    var mousePosition: OSEvent = OSEvent() {
         didSet { mouseSubject.send(mousePosition) }
     }
     
@@ -94,6 +94,10 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
     }
 }
 #endif
+
+extension DefaultInputReceiver {
+    static var shared = DefaultInputReceiver()
+}
 
 // MARK: - Tap / Click
 

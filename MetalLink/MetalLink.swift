@@ -10,13 +10,11 @@ import Foundation
 import MetalKit
 
 class MetalLink {
-    // Have mercy I just want to do some testing
-    static let defaultInputReceiver = DefaultInputReceiver()
-    
     let view: CustomMTKView
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let defaultLibrary: MTLLibrary
+    let input: DefaultInputReceiver
     
     lazy var textureLoader: MTKTextureLoader = MTKTextureLoader(device: device)
     
@@ -27,7 +25,7 @@ class MetalLink {
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
-    let input = MetalLink.defaultInputReceiver
+    
     
     init(view: CustomMTKView) throws {
         self.view = view
@@ -37,6 +35,7 @@ class MetalLink {
         self.device = device
         self.commandQueue = queue
         self.defaultLibrary = library
+        self.input = DefaultInputReceiver.shared
     }
 }
 
@@ -55,12 +54,24 @@ extension MetalLinkReader {
 }
 
 extension MetalLinkReader {
-    var defaultGestureViewportPosition: LFloat2 {
-        let mouse = input.mousePosition
-        let size = view.bounds
+    func viewportPosition(x: Float, y: Float) -> LFloat2 {
+        let bounds = viewBounds
         return LFloat2(
-            Float((mouse.x - size.width * 0.5) / (size.width * 0.5)),
-            Float((mouse.y - size.height * 0.5) / (size.height * 0.5))
+            Float((x - bounds.x * 0.5) / (bounds.x * 0.5)),
+            Float((y - bounds.y * 0.5) / (bounds.y * 0.5))
+        )
+    }
+    
+    var defaultGestureViewportPosition: LFloat2 {
+        let mouseEvent = input.mousePosition
+        let mouse = mouseEvent.locationInWindow
+        return viewportPosition(x: Float(mouse.x), y: Float(mouse.y))
+    }
+    
+    var viewBounds: LFloat2 {
+        LFloat2(
+            Float(view.bounds.width),
+            Float(view.bounds.height)
         )
     }
     
@@ -80,3 +91,11 @@ extension MetalLinkReader {
         view.defaultOrthographicProjection
     }
 }
+
+#if os(iOS)
+extension OSEvent {
+    var locationInWindow: LFloat2 { LFloat2.zero }
+    var deltaY: Float { 0.0 }
+    var deltaX: Float { 0.0 }
+}
+#endif

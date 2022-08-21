@@ -106,10 +106,10 @@ class CodePagesControllerMacOSInputCompat {
         keyboardInterceptor.onNewKeyEvent(event)
     }
     
-    func newMousePosition(_ point: CGPoint) {
+    func newMousePosition(_ event: OSEvent) {
         // this should be a single walk with a switch that handles the node each time. this is slow otherwise, lots of
         // O(M * N) operations on each position update which is Woof.
-        doCodeGridHover(point)
+        doCodeGridHover(event.locationInWindow)
     }
     
     func doNewSearch(

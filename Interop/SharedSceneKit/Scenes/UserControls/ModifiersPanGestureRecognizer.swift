@@ -133,6 +133,12 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
         store.modifierFlags = event.modifierFlags
         store.computePositions(currentLocation)
     }
+    
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        store.modifierFlags = event.modifierFlags
+        store.computePositions(currentLocation)
+    }
 
     subscript(index: NSEvent.ModifierFlags) -> CGPoint? {
         return store.positionsForFlagChanges[index]

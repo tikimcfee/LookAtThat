@@ -9,9 +9,9 @@ protocol KeyDownReceiver: AnyObject {
 import ARKit
 
 protocol MousePositionReceiver: AnyObject {
-    var mousePosition: CGPoint { get set }
-    var scrollEvent: UIEvent { get set }
-    var mouseDownEvent: UIEvent { get set }
+    var mousePosition: OSEvent { get set }
+    var scrollEvent: OSEvent { get set }
+    var mouseDownEvent: OSEvent { get set }
 }
 
 class CustomSceneView: ARSCNView {
@@ -25,10 +25,10 @@ class CustomSceneView: ARSCNView {
 #elseif os(OSX)
 
 protocol MousePositionReceiver: AnyObject {
-    var mousePosition: CGPoint { get set }
-    var scrollEvent: NSEvent { get set }
-    var mouseDownEvent: NSEvent { get set }
-    var mouseUpEvent: NSEvent { get set }
+    var mousePosition: OSEvent { get set }
+    var scrollEvent: OSEvent { get set }
+    var mouseDownEvent: OSEvent { get set }
+    var mouseUpEvent: OSEvent { get set }
 }
 
 class CustomSceneView: SCNView {
@@ -94,8 +94,7 @@ class CustomSceneView: SCNView {
         // It is NOT SAFE to access these objects outside of this call scope.
         super.mouseMoved(with: event)
         guard let receiver = positionReceiver else { return }
-        let convertedPosition = convert(event.locationInWindow, from: nil)
-        receiver.mousePosition = convertedPosition
+        receiver.mousePosition = event.copy() as! NSEvent
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -108,9 +107,9 @@ class CustomSceneView: SCNView {
     }
     
     override func mouseUp(with event: NSEvent) {
-        super.mouseDown(with: event)
+        super.mouseUp(with: event)
         guard let receiver = positionReceiver else { return }
-        receiver.mouseDownEvent = event.copy() as! NSEvent
+        receiver.mouseUpEvent = event.copy() as! NSEvent
     }
     
     override func keyDown(with event: NSEvent) {

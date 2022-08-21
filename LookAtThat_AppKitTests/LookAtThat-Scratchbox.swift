@@ -69,7 +69,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
             descriptor: AtlasBuilder.canvasDescriptor
         ) else { throw LinkAtlasError.noTargetAtlasTexture }
         
-        var uvCache = TextureUVCache()
+        let uvCache = TextureUVCache()
         let textureBundles: [(GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle)] =
             MetalLinkAtlas.sampleAtlasGlyphs.lazy
                 .map { GlyphCacheKey(String($0), .red) }

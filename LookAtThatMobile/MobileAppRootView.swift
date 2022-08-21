@@ -14,7 +14,7 @@ import ARKit
 let __MOBILE_APP_TEST_METAL = true
 
 private extension MobileAppRootView {
-    static var receiver: DefaultInputReceiver { MetalLink.defaultInputReceiver }
+    static var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
     static var keyEvent: OSEvent {
         get { receiver.lastKeyEvent }
         set { receiver.lastKeyEvent  = newValue }
