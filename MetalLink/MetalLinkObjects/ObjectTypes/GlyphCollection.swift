@@ -14,6 +14,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     init(link: MetalLink,
          _ instances: (MetalLinkAtlas) -> [MetalLinkGlyphNode]) throws {
+        
         let newLinkAtlas = MetalLinkAtlas(link)
         self.linkAtlas = newLinkAtlas
         _ = newLinkAtlas.getSampleAtlas()

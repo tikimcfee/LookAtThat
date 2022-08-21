@@ -20,8 +20,8 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     
     private var material = MetalLinkMaterial()
     
-    var state = State()
-    var constants = InstancedConstants() { didSet { rebuildSelf = true }}
+    var rootState = State()
+    var rootConstants = InstancedConstants() { didSet { rebuildSelf = true }}
     var rebuildSelf: Bool = true
     
     var instancedNodes: [InstancedNodeType] = [] { didSet { pushModelConstants = true }}
@@ -42,7 +42,7 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     }
     
     override func update(deltaTime: Float) {
-        state.time += deltaTime
+        rootState.time += deltaTime
         updateModelConstants()
         super.update(deltaTime: deltaTime)
     }
@@ -90,7 +90,7 @@ extension MetalLinkInstancedObject {
 extension MetalLinkInstancedObject {
     func updateModelConstants() {
         if rebuildSelf {
-            constants.modelMatrix = modelMatrix
+            rootConstants.modelMatrix = modelMatrix
             rebuildSelf = false
         }
         
