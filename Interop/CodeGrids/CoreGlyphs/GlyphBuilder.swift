@@ -50,12 +50,14 @@ class GlyphBuilder {
         let textLayer = CATextLayer()
         textLayer.foregroundColor = key.foreground.cgColor
         textLayer.string = safeString
-        textLayer.font = fontRenderer.unitFont
+        textLayer.font = fontRenderer.renderingFont
         textLayer.alignmentMode = .left
         textLayer.fontSize = wordSizeScaled.height
         textLayer.frame.size = textLayer.preferredFrameSize()
-        textLayer.display() // Try to get the layer content to update manually. Docs say not to do it;
-                            // experimentally, it fills the backing content properly and can be used immediately
+        
+        // Try to get the layer content to update manually. Docs say not to do it;
+        // experimentally, it fills the backing content properly and can be used immediately
+        textLayer.display()
         
         return textLayer
     }

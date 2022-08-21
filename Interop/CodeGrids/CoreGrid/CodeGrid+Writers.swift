@@ -22,7 +22,7 @@ extension CodeGrid {
         func attributedString(_ string: String, _ color: NSUIColor) -> NSAttributedString {
             NSAttributedString(string: string, attributes: [
                 .foregroundColor: color.cgColor,
-                .font: FontRenderer.shared.font
+                .font: FontRenderer.shared.measuringFont
             ])
         }
         

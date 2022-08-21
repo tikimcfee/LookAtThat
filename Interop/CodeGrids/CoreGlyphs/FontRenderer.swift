@@ -11,15 +11,15 @@ import SceneKit
 struct FontRenderer {
     static let shared: FontRenderer = FontRenderer()
     
-    let font: NSUIFont = MONOSPACE_FONT
-    let unitFont: NSUIFont = UNIT_FONT
+    let measuringFont: NSUIFont = MONOSPACE_FONT
+    let renderingFont: NSUIFont = UNIT_FONT
     
     private init() { }
 }
 
 extension FontRenderer {
     func measure(_ text: String) -> (CGSize, CGSize) {
-        let textSize = text.size(withAttributes: [.font: font])
+        let textSize = text.size(withAttributes: [.font: measuringFont])
         let textSizeScaled = CGSize(
             width: textSize.width * Self.SCALE_FACTOR,
             height: textSize.height * Self.SCALE_FACTOR
@@ -52,4 +52,7 @@ private extension FontRenderer {
     // So, we use UNIT_FONT when requesting a text-layer to render, and MONOSPACE_FONT to
     static let MONOSPACE_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
     static let UNIT_FONT = NSUIFont.monospacedSystemFont(ofSize: 1.0, weight: .regular)
+    
+    static let STANDARD_FONT = NSUIFont.systemFont(ofSize: FONT_SIZE, weight: .regular)
+    static let STANDARD_UNIT_FONT = NSUIFont.systemFont(ofSize: 1.0, weight: .regular)
 }

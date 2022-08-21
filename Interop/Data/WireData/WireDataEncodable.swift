@@ -175,7 +175,7 @@ struct WireText: Codable, Equatable {
 
     var scnText: SCNText {
         let text = SCNText(string: string, extrusionDepth: extrusion)
-        text.font = FontRenderer.shared.unitFont
+        text.font = FontRenderer.shared.renderingFont
         text.firstMaterial?.diffuse.contents = color?.make
         return text
     }
