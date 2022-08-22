@@ -17,7 +17,9 @@ class TwoETimeRoot: MetalLinkReader {
     
     init(link: MetalLink) throws {
         self.link = link
-        try setup9()
+        
+        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
+        try setup10()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -37,9 +39,7 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
-    func setup9() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
+    func setup10() throws {
         let collection = GlyphCollection(link: link)
         collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
@@ -56,139 +56,34 @@ extension TwoETimeRoot {
         collection.position.z = -30
         
         root.add(child: collection)
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            collection.instanceState.refreshState(with: {
+                "Metal Magic".compactMap { letter in
+                    collection.linkAtlas.newGlyph(GlyphCacheKey(String(letter), .green))
+                }
+            }())
+            collection.setupNodes()
+        }
     }
     
-    func setup8() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let test = "METAL"
-        
+    func setup9() throws {
         let collection = GlyphCollection(link: link)
         collection.instanceState.refreshState(with: {
-            test.compactMap {
-                collection.linkAtlas.newGlyph(GlyphCacheKey(String($0), .red))
+            (0..<1_00).flatMap { _ in
+                MetalLinkAtlas.allSampleGlyphs.compactMap { key in
+                    collection.linkAtlas.newGlyph(key)
+                }
             }
         }())
         collection.setupNodes()
         
-        collection.position.x = -5
-        collection.position.y = -5
-        collection.position.z = -10
+        collection.scale = LFloat3(0.5, 0.5, 0.5)
+        collection.position.x = -25
+        collection.position.y = 0
+        collection.position.z = -30
         
         root.add(child: collection)
-    }
-    
-    func setup7() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
-        
-        let cacheKeys = ">🥸 Hello there, Metal."
-            .map { GlyphCacheKey("\($0)", .red) }
-        
-        func doHello(at yStart: Float = 0.0) {
-            func updateNode(_ node: MetalLinkGlyphNode) {
-//                print("g:[\(node.key.glyph)]")
-                xOffset += (last?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
-                node.position.z -= 5
-                node.position.x += xOffset
-                node.position.y = yStart
-            }
-            
-            var xOffset = Float(0.0)
-            var last: MetalLinkGlyphNode?
-            cacheKeys
-                .lazy
-                .compactMap { linkNodeCache.create($0) }
-                .forEach { node in
-                    updateNode(node)
-                    last = node
-                    root.add(child: node)
-                }
-        }
-        
-        stride(from: 0.0, to: 1000, by: 1).forEach {
-            doHello(at: -1.1 * $0)
-        }
-    }
-    
-    func setup6() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        let linkNodeCache = MetalLinkGlyphNodeCache(link: link)
-        
-//        let block = "🥸"
-        let block = ">🥸 Hello there, Metal."
-        let testKey = GlyphCacheKey(block, .red)
-        
-        guard let node = linkNodeCache.create(testKey)
-        else { return }
-        
-        // Map [(0, 0), (x, y)] to [(0, 0), (1, 1)]
-        node.position.z = -10
-        root.add(child: node)
-    }
-    
-    
-    func setup5() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let quadNode = MetalLinkObject(link, mesh: link.meshes[.Quad])
-        quadNode.position.z -= 5
-        
-        root.add(child: quadNode)
-    }
-    
-    func setup3() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let (min, max) = (-20, 20)
-        let length = (min..<max)
-        let count = Float(length.count)
-        let halfCount = count / 2.0 // iterate from left to right, left/right symmetry
-        
-        for x in length {
-            let xPos = Float(x) + 0.5
-            for y in length {
-                let yPos = Float(y) + 0.5
-                for z in length {
-                    let zPos = Float(z) + 0.5
-                    let cube = CubeNode(link: link)
-                    cube.position = LFloat3(xPos / halfCount, yPos / halfCount, zPos / halfCount)
-                    cube.scale = LFloat3(repeating: 1 / (count + 10))
-                    root.add(child: cube)
-                }
-            }
-        }
-    }
-    
-    func setup2() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let node = CubeNode(link: link)
-        node.setColor(LFloat4(0.12, 0.67, 0.23, 1.0))
-        root.add(child: node)
-    }
-    
-    func setup() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let (min, max) = (-10, 10)
-        let length = (min..<max)
-        let count = Float(length.count)
-        let halfCount = count / 2.0 // iterate from left to right, left/right symmetry
-        for x in length {
-            let x = Float(x)
-            for y in length {
-                let y = Float(y)
-                
-                let node = ArrowNode(link)
-                node.position = LFloat3(
-                    (x + 0.5) / halfCount,
-                    (y + 0.5) / halfCount,
-                    1
-                )
-                node.scale = LFloat3(repeating: 1 / count)
-                root.add(child: node)
-            }
-        }
     }
 }

@@ -82,14 +82,18 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
         sdp.renderCommandEncoder.setDepthStencilState(stencilState)
         
-        // Set small <4kb buffered constants and main mesh buffer
+        // Set small buffered constants and main mesh buffer
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
         sdp.renderCommandEncoder.setVertexBuffer(constantsBuffer, offset: 0, index: 2)
         
         // Update fragment shader
+        // TODO: I'm not even using the fragment shader buffer. Wut do with now?
+        // TODO: How do fragment bytes move when using instancing?
         sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
         
-        // Do the draw
+        // Draw the single instanced glyph mesh (see DIRTY FILTHY HACK for details).
+        // Constants need to capture vertex transforms for emoji/nonstandard.
+        // OR, use multiple draw calls for sizes (noooo...)
         sdp.renderCommandEncoder.drawPrimitives(
             type: .triangle,
             vertexStart: 0,
