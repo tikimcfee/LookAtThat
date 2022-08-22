@@ -40,15 +40,15 @@ extension TwoETimeRoot {
     func setup9() throws {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        let collection = try GlyphCollection(
-            link: link
-        ) { atlas in
+        let collection = GlyphCollection(link: link)
+        collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
                 MetalLinkAtlas.allSampleGlyphs.compactMap { key in
-                    atlas.newGlyph(key)
+                    collection.linkAtlas.newGlyph(key)
                 }
             }
-        }
+        }())
+        collection.setupNodes()
         
         collection.scale = LFloat3(0.5, 0.5, 0.5)
         collection.position.x = -25
@@ -63,11 +63,13 @@ extension TwoETimeRoot {
         
         let test = "METAL"
         
-        let collection = try GlyphCollection(
-            link: link
-        ) { atlas in
-            test.compactMap { atlas.newGlyph(GlyphCacheKey(String($0), .red)) }
-        }
+        let collection = GlyphCollection(link: link)
+        collection.instanceState.refreshState(with: {
+            test.compactMap {
+                collection.linkAtlas.newGlyph(GlyphCacheKey(String($0), .red))
+            }
+        }())
+        collection.setupNodes()
         
         collection.position.x = -5
         collection.position.y = -5
@@ -133,18 +135,6 @@ extension TwoETimeRoot {
         quadNode.position.z -= 5
         
         root.add(child: quadNode)
-    }
-    
-    func setup4() throws {
-        view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        
-        let collection = try CubeCollection(
-            link: link,
-            size: SIMD3<Int>(20, 20, 20)
-        )
-        collection.position.z -= 50
-        
-        root.add(child: collection)
     }
     
     func setup3() throws {

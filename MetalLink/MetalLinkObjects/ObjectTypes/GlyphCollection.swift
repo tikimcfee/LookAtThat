@@ -12,19 +12,16 @@ import MetalKit
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var linkAtlas: MetalLinkAtlas
     
-    init(link: MetalLink,
-         _ instances: (MetalLinkAtlas) -> [MetalLinkGlyphNode]) throws {
-        
+    init(link: MetalLink) {
         let newLinkAtlas = MetalLinkAtlas(link)
         self.linkAtlas = newLinkAtlas
+        super.init(link, mesh: link.meshes[.Quad])
+        
+        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
         _ = newLinkAtlas.getSampleAtlas()
-        
-        try super.init(link, mesh: link.meshes[.Quad], instances: {
-            instances(newLinkAtlas)
-        })
-        
-        setupNodes()
     }
+    
+    
     
     func setupNodes() {
         print("Setting up collection nodes")
@@ -40,7 +37,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         let sampleCount = MetalLinkAtlas.sampleAtlasGlyphs.count
         var currentLines: Int = 0
         
-        instancedNodes.enumerated().forEach { index, node in
+        instanceState.nodes.enumerated().forEach { index, node in
             if index >= 1 && (index % (sampleCount * 3)) == 0 {
                 xOffset = left
                 yOffset -= 1.1
@@ -60,8 +57,8 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             node.position.z = zOffset
             
             if let cachedPair = linkAtlas.uvPairCache[node.key] {
-                instancedConstants[index].textureDescriptorU = cachedPair.u
-                instancedConstants[index].textureDescriptorV = cachedPair.v
+                instanceState.constants[index].textureDescriptorU = cachedPair.u
+                instanceState.constants[index].textureDescriptorV = cachedPair.v
             } else {
                 print("--------------")
                 print("MISSING UV PAIR")
@@ -80,7 +77,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         // Solving that.. is for next time.
         // Collections of collections per glyph size? Factored down (scaled) / rotated to deduplicate?
         // ***********************************************************************************
-        mesh = instancedNodes[0].mesh
+        mesh = instanceState.nodes[0].mesh
     }
     
     private var _time: Float = 0

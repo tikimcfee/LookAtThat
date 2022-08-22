@@ -76,15 +76,19 @@ struct matrix_cached_float4x4 {
     }
 }
 
-struct Cached<T> {
+class Cached<T> {
     private(set) var rebuildModel = true // implicit rebuild on first call
-    var current: T
+    private var current: T
+    var update: () -> T
     
-    let update: () -> T
+    init(current: T, update: @escaping () -> T) {
+        self.current = current
+        self.update = update
+    }
     
-    mutating func dirty() { rebuildModel = true }
-    
-    mutating func get() -> T {
+    func dirty() { rebuildModel = true }
+
+    func get() -> T {
         guard rebuildModel else { return current }
         rebuildModel = false
         current = update()
