@@ -50,7 +50,20 @@ class MetalLinkAtlas {
 
 extension MetalLinkAtlas {
     func newGlyph(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
-        nodeCache.create(key)
+        addGlyphToAtlasIfMissing(key)
+        return nodeCache.create(key)
+    }
+    
+    private func addGlyphToAtlasIfMissing(_ key: GlyphCacheKey) {
+        guard uvPairCache[key] == nil else { return }
+        print("Adding glyph to Atlas: [\(key.glyph)]")
+        do {
+            let block = try builder.startAtlasUpdate()
+            builder.addGlyph(key, block)
+            (_sampleTexture, uvPairCache) = builder.finishAtlasUpdate(from: block)
+        } catch {
+            print(error)
+        }
     }
 }
 

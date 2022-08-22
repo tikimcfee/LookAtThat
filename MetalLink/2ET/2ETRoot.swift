@@ -19,7 +19,7 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        try setup10()
+        try setup10_allJITGlyphs()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -39,11 +39,9 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
-    func setup10() throws {
+    func setup10_allJITGlyphs() throws {
         let atlas = try MetalLinkAtlas(link)
         let collection = GlyphCollection(link: link, linkAtlas: atlas)
-        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
-        _ = atlas.getSampleAtlas()
         
         collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
@@ -76,12 +74,11 @@ extension TwoETimeRoot {
 //        loop()
     }
     
-    func setup9() throws {
+    func setup9_PreloadGlyphs() throws {
         let atlas = try MetalLinkAtlas(link)
         let collection = GlyphCollection(link: link, linkAtlas: atlas)
         // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
         _ = atlas.getSampleAtlas()
-        
         
         collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
