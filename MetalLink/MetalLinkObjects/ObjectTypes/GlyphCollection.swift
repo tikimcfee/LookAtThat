@@ -12,16 +12,11 @@ import MetalKit
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var linkAtlas: MetalLinkAtlas
     
-    init(link: MetalLink) {
-        let newLinkAtlas = MetalLinkAtlas(link)
-        self.linkAtlas = newLinkAtlas
+    init(link: MetalLink,
+         linkAtlas: MetalLinkAtlas) {
+        self.linkAtlas = linkAtlas
         super.init(link, mesh: link.meshes[.Quad])
-        
-        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
-        _ = newLinkAtlas.getSampleAtlas()
     }
-    
-    
     
     func setupNodes() {
         print("Setting up collection nodes")

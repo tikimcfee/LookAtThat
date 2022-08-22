@@ -25,8 +25,6 @@ class AtlasBuilder {
     private let link: MetalLink
     private let textureCache: MetalLinkGlyphTextureCache
     private let meshCache: MetalLinkGlyphNodeMeshCache
-    private let commandBuffer: MTLCommandBuffer
-    private let blitEncoder: MTLBlitCommandEncoder
     
     private let atlasTexture: MTLTexture
     private lazy var atlasSize: LFloat2 = atlasTexture.simdSize
@@ -43,26 +41,72 @@ class AtlasBuilder {
         textureCache: MetalLinkGlyphTextureCache,
         meshCache: MetalLinkGlyphNodeMeshCache
     ) throws {
-        guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
-              let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
-              let atlasTexture = link.device.makeTexture(descriptor: Self.canvasDescriptor)
-        else { throw LinkAtlasError.noStateBuilder }
+        guard let atlasTexture = link.device.makeTexture(descriptor: Self.canvasDescriptor)
+        else { throw LinkAtlasError.noTargetAtlasTexture }
         
         self.link = link
         self.textureCache = textureCache
         self.meshCache = meshCache
-        self.commandBuffer = commandBuffer
-        self.blitEncoder = blitEncoder
         self.atlasTexture = atlasTexture
         
-        commandBuffer.label = "AtlasBuilderCommands"
-        blitEncoder.label = "AtlasBuilderBlitter"
         atlasTexture.label = "MetalLinkAtlas"
     }
 }
 
 extension AtlasBuilder {
-    func addGlyph(_ key: GlyphCacheKey) {
+    struct BuildBlock {
+        let commandBuffer: MTLCommandBuffer
+        let blitEncoder: MTLBlitCommandEncoder
+        let atlasTexture: MTLTexture
+        
+        static func start(
+            with link: MetalLink,
+            targeting atlasTexture: MTLTexture
+        ) throws -> BuildBlock {
+            guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
+                  let blitEncoder = commandBuffer.makeBlitCommandEncoder()
+            else { throw LinkAtlasError.noStateBuilder }
+            
+            let id = Self.NEXT_ID()
+            commandBuffer.label = "AtlasBuilderCommands-\(id)"
+            blitEncoder.label = "AtlasBuilderBlitter-\(id)"
+            
+            return BuildBlock(
+                commandBuffer: commandBuffer,
+                blitEncoder: blitEncoder,
+                atlasTexture: atlasTexture
+            )
+        }
+        
+        private static var _MY_ID = 0
+        private static func NEXT_ID() -> Int {
+            let id = _MY_ID
+            _MY_ID += 1
+            return id
+        }
+    }
+}
+    
+extension AtlasBuilder {
+    typealias UpdatedAtlas = (
+        atlas: MTLTexture,
+        uvCache: TextureUVCache
+    )
+    
+    func startAtlasUpdate() throws -> BuildBlock {
+        try BuildBlock.start(with: link, targeting: atlasTexture)
+    }
+    
+    func finishAtlasUpdate(from block: BuildBlock) -> UpdatedAtlas {
+        block.blitEncoder.endEncoding()
+        block.commandBuffer.commit()
+        return (atlasTexture, uvPairCache)
+    }
+    
+    func addGlyph(
+        _ key: GlyphCacheKey,
+        _ block: BuildBlock
+    ) {
         guard let textureBundle = textureCache[key] else {
             print("Missing texture for \(key)")
             return
@@ -85,7 +129,7 @@ extension AtlasBuilder {
         targetOrigin.y = vertexRect.y
         
         // Ship it; Encode with current state
-        encodeBlit(for: textureBundle.texture)
+        encodeBlit(for: textureBundle.texture, with: block)
         
         // Compute UV corners for glyph
         let (left, top, width, height) = (
@@ -107,27 +151,13 @@ extension AtlasBuilder {
         )
     }
     
-    func endAndCommitEncoding() -> (
-        atlas: MTLTexture,
-        uvCache: TextureUVCache
+    func encodeBlit(
+        for texture: MTLTexture,
+        with block: BuildBlock
     ) {
-        blitEncoder.endEncoding()
-        commandBuffer.commit()
-        
-        return (atlasTexture, uvPairCache)
-    }
-}
-
-private extension AtlasBuilder {
-    func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
-        let bundleSize = bundle.texture.simdSize
-        return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
-    }
-    
-    func encodeBlit(for texture: MTLTexture) {
         let textureSize = MTLSize(width: texture.width, height: texture.height, depth: 1)
         
-        blitEncoder.copy(
+        block.blitEncoder.copy(
             from: texture,
             sourceSlice: 0,
             sourceLevel: 0,
@@ -138,6 +168,13 @@ private extension AtlasBuilder {
             destinationLevel: 0,
             destinationOrigin: targetOrigin
         )
+    }
+}
+
+private extension AtlasBuilder {
+    func atlasUVSize(for bundle: MetalLinkGlyphTextureCache.Bundle) -> LFloat2 {
+        let bundleSize = bundle.texture.simdSize
+        return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
     }
 }
 

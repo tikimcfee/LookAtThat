@@ -14,45 +14,43 @@ enum LinkAtlasError: Error {
 
 class MetalLinkAtlas {
     private let link: MetalLink
+    private let builder: AtlasBuilder
     let nodeCache: MetalLinkGlyphNodeCache
-    var uvPairCache = TextureUVCache()
+    var uvPairCache: TextureUVCache
     
-    init(_ link: MetalLink) {
+    init(_ link: MetalLink) throws {
         self.link = link
+        self.uvPairCache = TextureUVCache()
         self.nodeCache = MetalLinkGlyphNodeCache(link: link)
+        self.builder = try AtlasBuilder(
+            link,
+            textureCache: nodeCache.textureCache,
+            meshCache: nodeCache.meshCache
+        )
     }
     
-    private var sampleTexture: MTLTexture?
+    private var _sampleTexture: MTLTexture?
     func getSampleAtlas() -> MTLTexture? {
-        if let texture = sampleTexture { return texture }
-        guard let builder = makeBuilder() else { return nil }
+        if let texture = _sampleTexture { return texture }
         
-        print("Making atlas")
-        MetalLinkAtlas.buildSampleAtlas(builder: builder)
-        (sampleTexture, uvPairCache) = builder.endAndCommitEncoding()
-        
-        return sampleTexture
+        print("Making sample atlas")
+        do {
+            let block = try builder.startAtlasUpdate()
+            Self.allSampleGlyphs.forEach { glyph in
+                builder.addGlyph(glyph, block) // TODO: make the block the insert call point?
+            }
+            (_sampleTexture, uvPairCache) = builder.finishAtlasUpdate(from: block)
+            return _sampleTexture
+        } catch {
+            print(error)
+            return _sampleTexture
+        }
     }
 }
 
 extension MetalLinkAtlas {
     func newGlyph(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
         nodeCache.create(key)
-    }
-}
-
-private extension MetalLinkAtlas {
-    func makeBuilder() -> AtlasBuilder? {
-        do {
-            return try AtlasBuilder(
-                link,
-                textureCache: nodeCache.textureCache,
-                meshCache: nodeCache.meshCache
-            )
-        } catch {
-            print(error)
-            return nil
-        }
     }
 }
 
@@ -78,12 +76,4 @@ extension MetalLinkAtlas {
                 GlyphCacheKey(String(character), color)
             }
         }
-
-    static func buildSampleAtlas(
-        builder: AtlasBuilder
-    ) {
-        allSampleGlyphs.forEach {
-            builder.addGlyph($0)
-        }
-    }
 }

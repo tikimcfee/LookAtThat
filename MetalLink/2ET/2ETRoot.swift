@@ -40,7 +40,11 @@ enum MetalGlyphError: String, Error {
 
 extension TwoETimeRoot {
     func setup10() throws {
-        let collection = GlyphCollection(link: link)
+        let atlas = try MetalLinkAtlas(link)
+        let collection = GlyphCollection(link: link, linkAtlas: atlas)
+        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
+        _ = atlas.getSampleAtlas()
+        
         collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
                 MetalLinkAtlas.allSampleGlyphs.compactMap { key in
@@ -69,11 +73,16 @@ extension TwoETimeRoot {
                 loop()
             }
         }
-        loop()
+//        loop()
     }
     
     func setup9() throws {
-        let collection = GlyphCollection(link: link)
+        let atlas = try MetalLinkAtlas(link)
+        let collection = GlyphCollection(link: link, linkAtlas: atlas)
+        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
+        _ = atlas.getSampleAtlas()
+        
+        
         collection.instanceState.refreshState(with: {
             (0..<1_00).flatMap { _ in
                 MetalLinkAtlas.allSampleGlyphs.compactMap { key in
