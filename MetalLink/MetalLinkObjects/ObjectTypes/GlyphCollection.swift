@@ -46,7 +46,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
                 currentLines = 0
             }
             
-            xOffset += (leadingGlyph?.quad.width ?? 0) / 2.0 + node.quad.width / 2.0
+            xOffset += (leadingGlyph?.quad.halfWidth ?? 0) + node.quad.halfWidth
             node.position.x = xOffset
             node.position.y = yOffset
             node.position.z = zOffset

@@ -131,6 +131,7 @@ extension MetalLinkQuadMesh {
         set { vertices[5] = newValue }
     }
     
+    var halfWidth: Float { width / 2.0 }
     var width: Float {
         get { abs(vertices[0].position.x - vertices[1].position.x) }
         set {
@@ -144,6 +145,7 @@ extension MetalLinkQuadMesh {
         }
     }
     
+    var halfHeight: Float { height / 2.0 }
     var height: Float {
         get { abs(vertices[1].position.y - vertices[2].position.y) }
         set {
