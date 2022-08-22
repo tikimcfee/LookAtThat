@@ -651,6 +651,10 @@
 		B785521528B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
 		B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
 		B785521728B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
+		B785521928B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
+		B785521A28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
+		B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
+		B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
 		B790E68F283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B790E690283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
@@ -1267,6 +1271,7 @@
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
 		B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+State.swift"; sourceTree = "<group>"; };
 		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
+		B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Consume.swift"; sourceTree = "<group>"; };
 		B790E68E283DEF32002F6512 /* WireDataEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireDataEncodable.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
@@ -1772,6 +1777,7 @@
 			isa = PBXGroup;
 			children = (
 				B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */,
+				B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */,
 				B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */,
 			);
 			path = GlyphCollection;
@@ -2811,6 +2817,7 @@
 				B70FDC59283EAE9900170D5F /* SyntaxHierarchyView.swift in Sources */,
 				B70FDC5A283EAE9900170D5F /* FocusBox.swift in Sources */,
 				B70FDC5B283EAE9900170D5F /* BackgroundWorker.swift in Sources */,
+				B785521A28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
 				B70FDC5C283EAE9900170D5F /* CodeGrid+Glyphs.swift in Sources */,
 				B70FDC5D283EAE9900170D5F /* GlobalWindowDelegate.swift in Sources */,
 				B70FDC5E283EAE9900170D5F /* TAPAirGesture.swift in Sources */,
@@ -3027,6 +3034,7 @@
 				B7044C1F28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
 				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */,
+				B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
 				B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B74A22AB2814FFF300F6F727 /* CodeGrid+Glyphs.swift in Sources */,
@@ -3419,6 +3427,7 @@
 				B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7BB9B79275D68290082EBAC /* FocusBox.swift in Sources */,
+				B785521928B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B7A6F2AD275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
 				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
@@ -3704,6 +3713,7 @@
 				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
 				B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
+				B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,

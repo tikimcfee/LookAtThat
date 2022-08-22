@@ -62,7 +62,11 @@ extension MetalLinkInstancedObject {
         private func makeBuffer() -> MTLBuffer? {
             print("Creating buffer for instanced constants: \(self.constants.count)")
             do {
-                return try link.makeBuffer(of: InstancedConstants.self, count: self.constants.count)
+                if self.constants.count == 0 {
+                    print("\n\n\tAttempting to create empty buffer!")
+                }
+                let safeCount = max(1, self.constants.count)
+                return try link.makeBuffer(of: InstancedConstants.self, count: safeCount)
             } catch {
                 print(error)
                 return nil

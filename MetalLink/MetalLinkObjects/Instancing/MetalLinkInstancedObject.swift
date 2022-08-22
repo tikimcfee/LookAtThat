@@ -74,7 +74,8 @@ extension MetalLinkInstancedObject {
 
 extension MetalLinkInstancedObject: MetalLinkRenderable {
     func doRender(in sdp: inout SafeDrawPass) {
-        guard let meshVertexBuffer = mesh.getVertexBuffer(),
+        guard !instanceState.nodes.isEmpty,
+              let meshVertexBuffer = mesh.getVertexBuffer(),
               let constantsBuffer = instanceState.bufferCache.get()
         else { return }
         

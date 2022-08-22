@@ -16,6 +16,8 @@ extension GlyphCollection {
         func left(_ dX: Float) { position.x -= dX }
         func up(_ dY: Float) { position.y += dY }
         func down(_ dY: Float) { position.y -= dY }
+        func away(_ dZ: Float) { position.z -= dZ }
+        func toward(_ dZ: Float) { position.z += dZ }
     }
     
     class Renderer {
@@ -38,9 +40,11 @@ extension GlyphCollection {
             
             letterNode.position = currentPosition.translated(dX: size.x)
             
-            if !checks.isWhitespace {
-                targetCollection.add(child: letterNode)
-            }
+            // TODO: Move this to the renderer, where it can remove whitespace
+            // instead of always adding instances: [ whitespace newlines new line ]
+//            if !checks.isWhitespace {
+//                targetCollection.instanceState.nodes.append(letterNode)
+//            }
             
             pointer.right(size.x)
             

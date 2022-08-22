@@ -16,9 +16,12 @@ struct MacAppRootView: View {
                 __SCENE__body
             }
             
-            Button("Swap Modes") {
-                showMetal.toggle()
-            }.padding(32.0)
+            VStack {
+                SourceInfoPanelView()
+                Button("Swap Modes") {
+                    showMetal.toggle()
+                }.padding(32.0)
+            }
         }
     }
     

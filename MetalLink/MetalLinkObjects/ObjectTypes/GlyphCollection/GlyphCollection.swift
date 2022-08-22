@@ -9,7 +9,7 @@ import MetalKit
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var linkAtlas: MetalLinkAtlas
-    private lazy var renderer = Renderer(collection: self)
+    lazy var renderer = Renderer(collection: self)
     
     init(link: MetalLink,
          linkAtlas: MetalLinkAtlas) {
@@ -38,7 +38,13 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             print("--------------")
         }
         
-        instanceState.appendToState(node: newGlyph, constants: constants)
+        
+        if !newGlyph.key.source.isNewline {
+            // TODO: Move this to the renderer, where it can remove whitespace
+            // instead of always adding instances: [ whitespace newlines new line ]
+            instanceState.appendToState(node: newGlyph, constants: constants)
+        }
+        
         renderer.insert(newGlyph)
     }
     
