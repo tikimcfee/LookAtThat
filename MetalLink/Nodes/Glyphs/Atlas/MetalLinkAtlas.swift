@@ -17,6 +17,7 @@ class MetalLinkAtlas {
     private let builder: AtlasBuilder
     let nodeCache: MetalLinkGlyphNodeCache
     var uvPairCache: TextureUVCache
+    var currentAtlas: MTLTexture { builder.atlasTexture }
     
     init(_ link: MetalLink) throws {
         self.link = link
@@ -28,30 +29,14 @@ class MetalLinkAtlas {
             meshCache: nodeCache.meshCache
         )
     }
-    
-    private var _sampleTexture: MTLTexture?
-    func getSampleAtlas() -> MTLTexture? {
-        if let texture = _sampleTexture { return texture }
-        
-        print("Making sample atlas")
-        do {
-            let block = try builder.startAtlasUpdate()
-            Self.allSampleGlyphs.forEach { glyph in
-                builder.addGlyph(glyph, block) // TODO: make the block the insert call point?
-            }
-            (_sampleTexture, uvPairCache) = builder.finishAtlasUpdate(from: block)
-            return _sampleTexture
-        } catch {
-            print(error)
-            return _sampleTexture
-        }
-    }
 }
 
 extension MetalLinkAtlas {
     func newGlyph(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
+        // TODO: Can't I just reuse the constants on the nodes themselves?
         addGlyphToAtlasIfMissing(key)
-        return nodeCache.create(key)
+        let newNode = nodeCache.create(key)
+        return newNode
     }
     
     private func addGlyphToAtlasIfMissing(_ key: GlyphCacheKey) {
@@ -60,7 +45,7 @@ extension MetalLinkAtlas {
         do {
             let block = try builder.startAtlasUpdate()
             builder.addGlyph(key, block)
-            (_sampleTexture, uvPairCache) = builder.finishAtlasUpdate(from: block)
+            (_, uvPairCache) = builder.finishAtlasUpdate(from: block)
         } catch {
             print(error)
         }
@@ -86,7 +71,7 @@ extension MetalLinkAtlas {
     static let allSampleGlyphs = sampleAtlasColors
         .flatMap { color in
             sampleAtlasGlyphs.map { character in
-                GlyphCacheKey(String(character), color)
+                GlyphCacheKey(source: character, color)
             }
         }
 }

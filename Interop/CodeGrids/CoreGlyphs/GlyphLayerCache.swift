@@ -6,14 +6,16 @@ import Foundation
 import SceneKit
 
 public struct GlyphCacheKey: Hashable, Equatable {
+    public let source: Character
     public let glyph: String
     public let foreground: NSUIColor
     public let background: NSUIColor
     
-    public init(_ glyph: String,
+    public init(source: Character,
                 _ foreground: NSUIColor,
                 _ background: NSUIColor = NSUIColor.black) {
-        self.glyph = glyph
+        self.source = source
+        self.glyph = String(source)
         self.foreground = foreground
         self.background = background
     }

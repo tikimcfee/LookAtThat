@@ -78,7 +78,7 @@ extension CodeGrid {
     }
 }
 
-private extension Character {
+extension Character {
     struct Check {
         let isWhitespace: Bool
         let isNewline: Bool

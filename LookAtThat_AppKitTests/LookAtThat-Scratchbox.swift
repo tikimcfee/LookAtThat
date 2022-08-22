@@ -17,7 +17,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
     var device: MTLDevice!
     var customMTKView: CustomMTKView!
     var metalLink: MetalLink!
-    lazy var atlas = MetalLinkAtlas(metalLink)
+    var atlas: MetalLinkAtlas!
     
     override func setUpWithError() throws {
         // Fields reset on each test!
@@ -30,6 +30,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         self.device = device
         self.customMTKView = CustomMTKView(frame: .zero, device: device)
         self.metalLink = try MetalLink(view: customMTKView)
+        self.atlas = try MetalLinkAtlas(metalLink)
         
         printStart()
     }
@@ -72,7 +73,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         let uvCache = TextureUVCache()
         let textureBundles: [(GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle)] =
             MetalLinkAtlas.sampleAtlasGlyphs.lazy
-                .map { GlyphCacheKey(String($0), .red) }
+                .map { GlyphCacheKey(source: $0, .red) }
                 .compactMap {
                     guard let bundle = self.atlas.nodeCache.textureCache[$0]
                     else { return nil }

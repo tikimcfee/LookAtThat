@@ -26,7 +26,7 @@ class AtlasBuilder {
     private let textureCache: MetalLinkGlyphTextureCache
     private let meshCache: MetalLinkGlyphNodeMeshCache
     
-    private let atlasTexture: MTLTexture
+    let atlasTexture: MTLTexture
     private lazy var atlasSize: LFloat2 = atlasTexture.simdSize
     
     private lazy var uvPacking = AtlasPacking<UVRect>(width: 1.0, height: 1.0)
@@ -195,80 +195,4 @@ extension AtlasBuilder {
         glyphDescriptor.height = canvasSize.y
         return glyphDescriptor
     }()
-}
-
-class AtlasPointer {
-
-    // TODO: Use a 'last bounds' for these to make sure we translate
-    // relative to that. This is only working because all the glyphs
-    // have the same size.
-    private class UV {
-        var uvBottom: Float = .zero
-        var placementOffset: LFloat2 = .zero
-        var placedFirst = false
-    }
-    
-    private class Vertex {
-        var vertexBottom: Int = 0
-    }
-    
-    let sourceOrigin = MTLOrigin()
-    var targetOrigin = MTLOrigin()
-    
-    private let uv = UV()
-    private let vertex = Vertex()
-    private let target: MTLTexture
-    
-    init(_ target: MTLTexture) {
-        self.target = target
-    }
-    
-    // Do line breaks / bottom positioning before draw.
-    // Easy way to make sure the next drawn glyph and
-    // UV's are reset if they don't fit current bounds.
-    func willEncode(
-        bundle: MetalLinkGlyphTextureCache.Bundle,
-        size uvSize: LFloat2
-    ) {
-        let willDrawOutOfBounds = targetOrigin.x + bundle.texture.width >= target.width
-        if  willDrawOutOfBounds {
-            targetOrigin.x = 0
-            targetOrigin.y = vertex.vertexBottom
-            vertex.vertexBottom += bundle.texture.height
-            
-            uv.placementOffset.x = 0
-            uv.placementOffset.y = uv.uvBottom
-        }
-        
-        uv.uvBottom = max(uv.uvBottom, uv.placementOffset.y + uvSize.y)
-        vertex.vertexBottom = max(vertex.vertexBottom, targetOrigin.y + bundle.texture.height)
-    }
-    
-    // Bounds defines rectangular region.
-    // targetOrigin defines top-left position of copy.
-    func updateBlitOffsets(
-        from bundle: MetalLinkGlyphTextureCache.Bundle,
-        size uvSize: LFloat2
-    ) -> LFloat4 {
-        var newGlyphUVBounds = LFloat4()
-        newGlyphUVBounds.z = uvSize.x // z == width
-        newGlyphUVBounds.w = uvSize.y // w == height
-        newGlyphUVBounds.y = uv.placementOffset.y
-        
-        // Don't update _new_ offsets if this is the first draw.
-        // We want our first offsets to be 0. Subsequent calls
-        // will get the proper left-x position.
-        // Not pretty, but it works.
-        if uv.placedFirst {
-            let nextUVOffsetX = uvSize.x + uv.placementOffset.x
-            newGlyphUVBounds.x = nextUVOffsetX
-            uv.placementOffset.x += uvSize.x
-        } else {
-            uv.placedFirst = true
-        }
-        
-        targetOrigin.x += bundle.texture.width
-        
-        return newGlyphUVBounds
-    }
 }

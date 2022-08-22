@@ -98,4 +98,8 @@ extension OSEvent {
     var deltaY: Float { 0.0 }
     var deltaX: Float { 0.0 }
 }
+
+extension Float {
+    var float: Float { self }
+}
 #endif

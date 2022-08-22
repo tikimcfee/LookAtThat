@@ -66,6 +66,10 @@ extension Int {
     var cg: CGFloat {
         return CGFloat(self)
     }
+    
+    var float: Float {
+        return Float(self)
+    }
 }
 
 extension Float {

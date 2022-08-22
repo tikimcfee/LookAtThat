@@ -10,6 +10,12 @@ let X_AXIS = LFloat3(1, 0, 0)
 let Y_AXIS = LFloat3(0, 1, 0)
 let Z_AXIS = LFloat3(0, 0, 1)
 
+extension LFloat3 {
+    func translated(dX: Float = 0, dY: Float = 0, dZ: Float = 0) -> LFloat3 {
+        LFloat3(x + dX, y + dY, z + dZ)
+    }
+}
+
 extension matrix_float4x4 {
     mutating func scale(amount: LFloat3) {
         self = matrix_multiply(self, .init(scaleBy: amount))

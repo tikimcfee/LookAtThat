@@ -19,7 +19,7 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        try setup10_allJITGlyphs()
+        try setup11()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -39,61 +39,24 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
-    func setup10_allJITGlyphs() throws {
+    func setup11() throws {
         let atlas = try MetalLinkAtlas(link)
         let collection = GlyphCollection(link: link, linkAtlas: atlas)
-        
-        collection.instanceState.refreshState(with: {
-            (0..<1_00).flatMap { _ in
-                MetalLinkAtlas.allSampleGlyphs.compactMap { key in
-                    collection.linkAtlas.newGlyph(key)
-                }
-            }
-        }())
-        collection.setupNodes()
-        
         collection.scale = LFloat3(0.5, 0.5, 0.5)
         collection.position.x = -25
         collection.position.y = 0
         collection.position.z = -30
-        
         root.add(child: collection)
         
-        func loop() {
-            let color = [NSUIColor.gray, .green, .purple, .blue, .red].randomElement()!
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                collection.instanceState.refreshState(with: {
-                    "Metal Magic".compactMap { letter in
-                        collection.linkAtlas.newGlyph(GlyphCacheKey(String(letter), color))
-                    }
-                }())
-                collection.setupNodes()
-                loop()
-            }
+        let test = """
+        Hello, Metal.
+        This is some text.
+        And you're rendering it just fine.
+        """
+        
+        test.forEach { symbol in
+            collection.addGlyph(GlyphCacheKey(source: symbol, .red))
         }
-//        loop()
-    }
-    
-    func setup9_PreloadGlyphs() throws {
-        let atlas = try MetalLinkAtlas(link)
-        let collection = GlyphCollection(link: link, linkAtlas: atlas)
-        // TODO: Make the atlas 'live' with a 'finalize()' somewhere in a refresh.
-        _ = atlas.getSampleAtlas()
-        
-        collection.instanceState.refreshState(with: {
-            (0..<1_00).flatMap { _ in
-                MetalLinkAtlas.allSampleGlyphs.compactMap { key in
-                    collection.linkAtlas.newGlyph(key)
-                }
-            }
-        }())
-        collection.setupNodes()
-        
-        collection.scale = LFloat3(0.5, 0.5, 0.5)
-        collection.position.x = -25
-        collection.position.y = 0
-        collection.position.z = -30
-        
-        root.add(child: collection)
+        collection.setRootMesh()
     }
 }

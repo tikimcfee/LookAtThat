@@ -28,6 +28,11 @@ extension MetalLinkInstancedObject {
             self.constants = nodes.map { _ in InstancedConstants() }
         }
         
+        func appendToState(node: InstancedNodeType, constants: InstancedConstants) {
+            self.nodes.append(node)
+            self.constants.append(constants)
+        }
+        
         typealias BufferOperator = (
             InstancedNodeType,
             InstancedConstants,

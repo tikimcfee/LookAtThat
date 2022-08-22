@@ -74,7 +74,7 @@ extension CodeGrid {
         _ color: NSUIColor
     ) -> GlyphNode {
         laztrace(#fileID,#function,syntaxTokenCharacter,color)
-        let key = GlyphCacheKey("\(syntaxTokenCharacter)", color)
+        let key = GlyphCacheKey(source: syntaxTokenCharacter, color)
         let (rootLayer, focusLayer, size) = glyphCache[key]
         let letterNode = GlyphNode.make(rootLayer, focusLayer, size)
         letterNode.categoryBitMask = HitTestType.codeGridToken.rawValue
