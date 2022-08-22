@@ -57,15 +57,19 @@ extension TwoETimeRoot {
         
         root.add(child: collection)
         
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            collection.instanceState.refreshState(with: {
-                "Metal Magic".compactMap { letter in
-                    collection.linkAtlas.newGlyph(GlyphCacheKey(String(letter), .green))
-                }
-            }())
-            collection.setupNodes()
+        func loop() {
+            let color = [NSUIColor.gray, .green, .purple, .blue, .red].randomElement()!
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                collection.instanceState.refreshState(with: {
+                    "Metal Magic".compactMap { letter in
+                        collection.linkAtlas.newGlyph(GlyphCacheKey(String(letter), color))
+                    }
+                }())
+                collection.setupNodes()
+                loop()
+            }
         }
+        loop()
     }
     
     func setup9() throws {

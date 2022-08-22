@@ -69,7 +69,7 @@ extension MetalLinkAtlas {
     static let sampleAtlasColors: [NSUIColor] = [
         .red, .green, .blue, .brown, .orange,
         .cyan, .magenta, .purple, .yellow,
-        .systemPink, .systemTeal
+        .systemPink, .systemTeal, .gray
     ]
     
     static let allSampleGlyphs = sampleAtlasColors
