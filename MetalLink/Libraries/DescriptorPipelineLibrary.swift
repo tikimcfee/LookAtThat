@@ -41,9 +41,9 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
     var name = "Basic RenderPipelineDescriptor"
     var renderPipelineDescriptor: MTLRenderPipelineDescriptor
     init(_ link: MetalLink) {
-        let vertexFunction = link.shaderLibrary[.BasicVertex]?.function
+        let vertexFunction = link.shaderLibrary[.BasicVertex]
         let vertexDescriptor = link.descriptorLibrary[.BasicDescriptor].descriptor
-        let fragmentFunction = link.shaderLibrary[.BasicFragment]?.function
+        let fragmentFunction = link.shaderLibrary[.BasicFragment]
         
         self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineDescriptor.vertexFunction = vertexFunction
@@ -58,9 +58,9 @@ struct Instanced_RenderPipelineDescriptor: RenderPipelineDescriptor {
     var name = "Instanced RenderPipelineDescriptor"
     var renderPipelineDescriptor: MTLRenderPipelineDescriptor
     init(_ link: MetalLink) {
-        let vertexFunction = link.shaderLibrary[.InstancedVertex]?.function
+        let vertexFunction = link.shaderLibrary[.InstancedVertex]
         let vertexDescriptor = link.descriptorLibrary[.InstancedDescriptor].descriptor
-        let fragmentFunction = link.shaderLibrary[.InstancedFragment]?.function
+        let fragmentFunction = link.shaderLibrary[.InstancedFragment]
         
         self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineDescriptor.vertexFunction = vertexFunction
@@ -68,14 +68,5 @@ struct Instanced_RenderPipelineDescriptor: RenderPipelineDescriptor {
         renderPipelineDescriptor.fragmentFunction = fragmentFunction
         renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
         renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-    
-        // TODO: Enable alpha blending with textures.. _somehow_
-//        p.colorAttachments[0].isBlendingEnabled = true
-//        p.colorAttachments[0].rgbBlendOperation = .add
-//        p.colorAttachments[0].alphaBlendOperation = .add
-//        p.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
-//        p.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
-//        p.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
-//        p.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
     }
 }

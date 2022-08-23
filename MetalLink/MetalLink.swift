@@ -19,7 +19,7 @@ class MetalLink {
     lazy var textureLoader: MTKTextureLoader = MTKTextureLoader(device: device)
     
     lazy var meshes = MeshLibrary(self)
-    lazy var shaderLibrary = ShaderLibrary(link: self)
+    lazy var shaderLibrary = MetalLinkShaderCache(link: self)
     lazy var descriptorLibrary = VertexDescriptorComponentLibrary(link: self)
     lazy var pipelineLibrary = DescriptorPipelineLibrary(link: self)
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
