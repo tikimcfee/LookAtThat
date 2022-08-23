@@ -20,7 +20,7 @@ class MetalLink {
     
     lazy var meshes = MeshLibrary(self)
     lazy var shaderLibrary = MetalLinkShaderCache(link: self)
-    lazy var descriptorLibrary = VertexDescriptorComponentLibrary(link: self)
+    lazy var descriptorLibrary = VertexDescriptorLibrary(link: self)
     lazy var pipelineLibrary = DescriptorPipelineLibrary(link: self)
     lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
