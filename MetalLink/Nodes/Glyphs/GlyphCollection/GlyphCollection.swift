@@ -14,7 +14,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     init(link: MetalLink,
          linkAtlas: MetalLinkAtlas) {
         self.linkAtlas = linkAtlas
-        super.init(link, mesh: link.meshes[.Quad])
+        super.init(link, mesh: link.meshLibrary[.Quad])
     }
     
     // TODO: Add a 'render all of this' function to avoid

@@ -18,14 +18,12 @@ class MetalLink {
     
     lazy var textureLoader: MTKTextureLoader = MTKTextureLoader(device: device)
     
-    lazy var meshes = MeshLibrary(self)
+    lazy var meshLibrary = MeshLibrary(self)
     lazy var shaderLibrary = MetalLinkShaderCache(link: self)
-    lazy var descriptorLibrary = VertexDescriptorLibrary(link: self)
-    lazy var pipelineLibrary = DescriptorPipelineLibrary(link: self)
-    lazy var pipelineStateLibrary = PipelineStateLibrary(link: self)
+    lazy var vertexDescriptorLibrary = VertexDescriptorLibrary(link: self)
+    lazy var renderPipelineDescriptorLibrary = RenderPipelineDescriptorLibrary(link: self)
+    lazy var pipelineStateLibrary = RenderPipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
-    
-    
     
     init(view: CustomMTKView) throws {
         self.view = view

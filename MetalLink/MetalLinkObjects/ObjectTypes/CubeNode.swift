@@ -11,7 +11,7 @@ func randomFloat(_ range: Range<Float> = (0..<1)) -> Float { Float.random(in: ra
 
 class CubeNode: MetalLinkObject {
     init(link: MetalLink) {
-        super.init(link, mesh: link.meshes[.Cube])
+        super.init(link, mesh: link.meshLibrary[.Cube])
     }
     
     private var _time: Float = 0

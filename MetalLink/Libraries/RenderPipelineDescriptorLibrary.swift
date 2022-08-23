@@ -18,7 +18,7 @@ enum MetalLinkDescriptorPipeline {
     case Instanced
 }
 
-class DescriptorPipelineLibrary: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
+class RenderPipelineDescriptorLibrary: LockingCache<MetalLinkDescriptorPipeline, RenderPipelineDescriptor> {
     let link: MetalLink
     
     init(link: MetalLink) {
@@ -42,7 +42,7 @@ struct Basic_RenderPipelineDescriptor: RenderPipelineDescriptor {
     var renderPipelineDescriptor: MTLRenderPipelineDescriptor
     init(_ link: MetalLink) {
         let vertexFunction = link.shaderLibrary[.BasicVertex]
-        let vertexDescriptor = link.descriptorLibrary[.Basic]
+        let vertexDescriptor = link.vertexDescriptorLibrary[.Basic]
         let fragmentFunction = link.shaderLibrary[.BasicFragment]
         
         self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()
@@ -59,7 +59,7 @@ struct Instanced_RenderPipelineDescriptor: RenderPipelineDescriptor {
     var renderPipelineDescriptor: MTLRenderPipelineDescriptor
     init(_ link: MetalLink) {
         let vertexFunction = link.shaderLibrary[.InstancedVertex]
-        let vertexDescriptor = link.descriptorLibrary[.Instanced]
+        let vertexDescriptor = link.vertexDescriptorLibrary[.Instanced]
         let fragmentFunction = link.shaderLibrary[.InstancedFragment]
         
         self.renderPipelineDescriptor = MTLRenderPipelineDescriptor()

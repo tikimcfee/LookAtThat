@@ -9,7 +9,7 @@ import MetalKit
 
 class ArrowNode: MetalLinkObject, MetalLinkReader {
     init(_ link: MetalLink) {
-        super.init(link, mesh: link.meshes[.Triangle])
+        super.init(link, mesh: link.meshLibrary[.Triangle])
     }
     
     override func update(deltaTime: Float) {

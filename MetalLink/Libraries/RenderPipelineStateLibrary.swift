@@ -18,8 +18,7 @@ enum MetalLinkRenderPipelineState {
     case Instanced
 }
 
-
-class PipelineStateLibrary: LockingCache<MetalLinkRenderPipelineState, RenderPipelineState> {
+class RenderPipelineStateLibrary: LockingCache<MetalLinkRenderPipelineState, RenderPipelineState> {
     let link: MetalLink
     
     init(link: MetalLink) {
@@ -47,7 +46,7 @@ struct Basic_RenderPipelineState: RenderPipelineState {
     var renderPipelineState: MTLRenderPipelineState
     init(_ link: MetalLink) throws {
         self.renderPipelineState = try link.device.makeRenderPipelineState(
-            descriptor: link.pipelineLibrary[.BasicPipelineDescriptor].renderPipelineDescriptor
+            descriptor: link.renderPipelineDescriptorLibrary[.BasicPipelineDescriptor].renderPipelineDescriptor
         )
     }
 }
@@ -57,7 +56,7 @@ struct Instanced_RenderPipelineState: RenderPipelineState {
     var renderPipelineState: MTLRenderPipelineState
     init(_ link: MetalLink) throws {
         self.renderPipelineState = try link.device.makeRenderPipelineState(
-            descriptor: link.pipelineLibrary[.Instanced].renderPipelineDescriptor
+            descriptor: link.renderPipelineDescriptorLibrary[.Instanced].renderPipelineDescriptor
         )
     }
 }
