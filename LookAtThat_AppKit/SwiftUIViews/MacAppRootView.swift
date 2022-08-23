@@ -6,7 +6,7 @@ struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
     
     @State var showMultipeer: Bool = false
-    @State var showMetal: Bool = true
+    @State var showMetal: Bool = false
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {

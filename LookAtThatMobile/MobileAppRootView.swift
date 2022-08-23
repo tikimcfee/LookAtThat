@@ -11,8 +11,6 @@ import SwiftUI
 import ARKit
 #endif
 
-let __MOBILE_APP_TEST_METAL = true
-
 private extension MobileAppRootView {
     static var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
     static var keyEvent: OSEvent {
@@ -26,18 +24,27 @@ struct MobileAppRootView : View {
     @State var showGitFetch = false
     
     @State var touchStart: CGPoint? = nil
+    @State var showMetal: Bool = false
     
     private let delta = CGFloat(20)
     
     var body: some View {
-        if __MOBILE_APP_TEST_METAL {
-            __MetalBody__
-        } else {
-            __ARKitBody__
+        ZStack(alignment: .bottomTrailing) {
+            if showMetal {
+                __METAL__body
+            } else {
+                __ARKIT__body__
+            }
+            
+            VStack {
+                Button("Swap Modes") {
+                    showMetal.toggle()
+                }.padding(32.0)
+            }
         }
     }
     
-    var __MetalBody__: some View {
+    var __METAL__body: some View {
         ZStack(alignment: .topLeading) {
             MetalView()
             
@@ -105,7 +112,7 @@ struct MobileAppRootView : View {
         )
     }
     
-    var __ARKitBody__: some View {
+    var __ARKIT__body__: some View {
         return ZStack(alignment: .bottomTrailing) {
 #if os(iOS)
             ARKitRepresentableView(
