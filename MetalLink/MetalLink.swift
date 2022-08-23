@@ -18,6 +18,8 @@ class MetalLink {
     
     lazy var textureLoader: MTKTextureLoader = MTKTextureLoader(device: device)
     
+    // TODO: Move these classes into a hierarchy
+    // They all use MetalLink._library to fetch, and could be fields instead
     lazy var meshLibrary = MeshLibrary(self)
     lazy var shaderLibrary = MetalLinkShaderCache(link: self)
     lazy var vertexDescriptorLibrary = VertexDescriptorLibrary(link: self)

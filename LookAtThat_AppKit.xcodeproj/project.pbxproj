@@ -1885,9 +1885,9 @@
 		B7AC332E28A0CA70001172BB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */,
 				B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */,
 				B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */,
-				B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */,
 				B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */,
 				B7AC33AC28A0D479001172BB /* MeshLibrary.swift */,
 			);

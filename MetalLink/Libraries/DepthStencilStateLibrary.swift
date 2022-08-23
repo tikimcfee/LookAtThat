@@ -18,27 +18,27 @@ class DepthStencilStateLibrary: LockingCache<MetalLinkDepthStencilStateType, MTL
         self.link = link
     }
     
-    override func make(
-        _ key: MetalLinkDepthStencilStateType,
-        _ store: inout [MetalLinkDepthStencilStateType : MTLDepthStencilState]
-    ) -> MTLDepthStencilState {
+    override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
         switch key {
         case .Less:
-            return try! MetalLinkDepthStencilState_Less(link).depthStencilState
+            return try! Less(link).depthStencilState
         }
     }
 }
 
-class MetalLinkDepthStencilState_Less {
-    var depthStencilState: MTLDepthStencilState
-    
-    init(_ link: MetalLink) throws {
-        let depthStencilDescriptor = MTLDepthStencilDescriptor()
-        depthStencilDescriptor.isDepthWriteEnabled = true
-        depthStencilDescriptor.depthCompareFunction = .less
-        depthStencilDescriptor.label = "MetalLink Depth Stencil"
-        guard let state = link.device.makeDepthStencilState(descriptor: depthStencilDescriptor)
-        else { throw CoreError.noStencilDescriptor }
-        self.depthStencilState = state
+extension DepthStencilStateLibrary {
+    class Less {
+        var depthStencilState: MTLDepthStencilState
+        
+        init(_ link: MetalLink) throws {
+            let depthStencilDescriptor = MTLDepthStencilDescriptor()
+            depthStencilDescriptor.isDepthWriteEnabled = true
+            depthStencilDescriptor.depthCompareFunction = .less
+            depthStencilDescriptor.label = "MetalLink Depth Stencil"
+            guard let state = link.device.makeDepthStencilState(descriptor: depthStencilDescriptor)
+            else { throw CoreError.noStencilDescriptor }
+            self.depthStencilState = state
+        }
     }
+
 }

@@ -28,9 +28,9 @@ class RenderPipelineStateLibrary: LockingCache<MetalLinkRenderPipelineState, Ren
     override func make(_ key: Key, _ store: inout [Key: Value]) -> RenderPipelineState {
         switch key {
         case .Basic:
-            return try! Basic_RenderPipelineState(link)
+            return try! Basic(link)
         case .Instanced:
-            return try! Instanced_RenderPipelineState(link)
+            return try! Instanced(link)
         }
     }
     
@@ -41,23 +41,26 @@ class RenderPipelineStateLibrary: LockingCache<MetalLinkRenderPipelineState, Ren
 
 // MARK: - States
 
-struct Basic_RenderPipelineState: RenderPipelineState {
-    var name = "Basic RenderPipelineState"
-    var renderPipelineState: MTLRenderPipelineState
-    init(_ link: MetalLink) throws {
-        self.renderPipelineState = try link.device.makeRenderPipelineState(
-            descriptor: link.renderPipelineDescriptorLibrary[.BasicPipelineDescriptor].renderPipelineDescriptor
-        )
+extension RenderPipelineStateLibrary {
+    struct Basic: RenderPipelineState {
+        var name = "Basic RenderPipelineState"
+        var renderPipelineState: MTLRenderPipelineState
+        init(_ link: MetalLink) throws {
+            self.renderPipelineState = try link.device.makeRenderPipelineState(
+                descriptor: link.renderPipelineDescriptorLibrary[.BasicPipelineDescriptor].renderPipelineDescriptor
+            )
+        }
     }
 }
 
-struct Instanced_RenderPipelineState: RenderPipelineState {
-    var name = "Instanced RenderPipelineState"
-    var renderPipelineState: MTLRenderPipelineState
-    init(_ link: MetalLink) throws {
-        self.renderPipelineState = try link.device.makeRenderPipelineState(
-            descriptor: link.renderPipelineDescriptorLibrary[.Instanced].renderPipelineDescriptor
-        )
+extension RenderPipelineStateLibrary {
+    struct Instanced: RenderPipelineState {
+        var name = "Instanced RenderPipelineState"
+        var renderPipelineState: MTLRenderPipelineState
+        init(_ link: MetalLink) throws {
+            self.renderPipelineState = try link.device.makeRenderPipelineState(
+                descriptor: link.renderPipelineDescriptorLibrary[.Instanced].renderPipelineDescriptor
+            )
+        }
     }
 }
-
