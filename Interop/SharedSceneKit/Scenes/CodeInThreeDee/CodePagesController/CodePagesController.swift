@@ -186,7 +186,9 @@ extension CodePagesController {
 //        codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
 //            self.addToRoot(rootGrid: rootGrid)
 //        }
-        doRenderPlan(parent: parent)
+        
+        // TODO: Don't render both paths when doing SCENE / Metal
+//        doRenderPlan(parent: parent)
     }
     
     func doRenderPlan(parent: URL) {

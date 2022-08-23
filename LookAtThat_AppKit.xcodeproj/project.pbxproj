@@ -1884,8 +1884,8 @@
 			isa = PBXGroup;
 			children = (
 				B7C69FCD28A3569200A84860 /* ObjectTypes */,
-				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
 				B785520C28B3081300F57954 /* Instancing */,
+				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
 				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
 				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
 			);
@@ -1973,7 +1973,6 @@
 				B7C69FD328A356C500A84860 /* ArrowNode.swift */,
 				B7C69FD828A3572B00A84860 /* CubeNode.swift */,
 				B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */,
-				B785521228B34C3D00F57954 /* GlyphCollection */,
 			);
 			path = ObjectTypes;
 			sourceTree = "<group>";
@@ -2159,6 +2158,7 @@
 			isa = PBXGroup;
 			children = (
 				B7189F2B28AEEE2D00E16B0E /* Atlas */,
+				B785521228B34C3D00F57954 /* GlyphCollection */,
 				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
 				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
 				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,

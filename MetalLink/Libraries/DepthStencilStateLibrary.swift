@@ -36,8 +36,9 @@ class MetalLinkDepthStencilState_Less {
         let depthStencilDescriptor = MTLDepthStencilDescriptor()
         depthStencilDescriptor.isDepthWriteEnabled = true
         depthStencilDescriptor.depthCompareFunction = .less
+        depthStencilDescriptor.label = "MetalLink Depth Stencil"
         guard let state = link.device.makeDepthStencilState(descriptor: depthStencilDescriptor)
         else { throw CoreError.noStencilDescriptor }
-        self.depthStencilState = state        
+        self.depthStencilState = state
     }
 }

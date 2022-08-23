@@ -64,7 +64,6 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     private func time(_ dT: Float) -> Float { _time += dT; return _time }
     
     override func update(deltaTime dT: Float) {
-//        pushModelConstants = true
         super.update(deltaTime: dT)
     }
     
