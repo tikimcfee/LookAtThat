@@ -22,6 +22,8 @@ struct ModelConstants {
     
     float4 textureDescriptorU;
     float4 textureDescriptorV;
+    
+    uint modelInstanceID;
 };
 
 // MARK: - GPU Constants
@@ -38,9 +40,15 @@ struct RasterizerData {
     float3 vertexPosition [[ flat ]];
     
     float2 textureCoordinate;
+    uint modelInstanceID;
 };
 
 struct Material {
     float4 color;
     bool useMaterialColor;
+};
+
+struct PickingTextureFragmentOut {
+    half4 mainColor [[ color(0) ]];
+    uint pickingID [[ color(1) ]];
 };

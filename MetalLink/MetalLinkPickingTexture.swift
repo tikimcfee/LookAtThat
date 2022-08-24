@@ -14,8 +14,9 @@ enum PickingTextureError: Error {
     case noTextureAvailable
 }
 
-private extension MetalLinkPickingTexture {
+extension MetalLinkPickingTexture {
     struct Config {
+        private init() { }
         static let colorIndex: Int = 1
         static let pixelFormat: MTLPixelFormat = .r32Uint
         static let clearColor: MTLClearColor = MTLClearColor(
@@ -47,7 +48,7 @@ class MetalLinkPickingTexture: MetalLinkReader {
         }
         
         target.colorAttachments[Config.colorIndex].texture = pickingTexture
-        target.colorAttachments[Config.colorIndex].loadAction = .dontCare
+        target.colorAttachments[Config.colorIndex].loadAction = .clear
         target.colorAttachments[Config.colorIndex].storeAction = .store
         target.colorAttachments[Config.colorIndex].clearColor = Config.clearColor
     }

@@ -51,11 +51,10 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     RasterizerData rasterizerData;
     ModelConstants constants = modelConstants[instanceId];
     
-    rasterizerData.totalGameTime = sceneConstants.totalGameTime;
-    rasterizerData.vertexPosition = vertexIn.position;
-    
+    // Static matrix
     float4x4 finalModel = constants.modelMatrix;
     
+    // Do test rotation
 //    float4x4 finalModel = constants.modelMatrix
 //    * rotateAboutX(cos(sceneConstants.totalGameTime))
 //    * rotateAboutY(sin(sceneConstants.totalGameTime));
@@ -70,15 +69,19 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     uint uvIndex = vertexIn.uvTextureIndex;
     float u = constants.textureDescriptorU[uvIndex];
     float v = constants.textureDescriptorV[uvIndex];
-    
     rasterizerData.textureCoordinate = float2(u, v);
+    
+    rasterizerData.totalGameTime = sceneConstants.totalGameTime;
+    rasterizerData.vertexPosition = vertexIn.position;
+    rasterizerData.modelInstanceID = constants.modelInstanceID;
     
     return rasterizerData;
 }
 
-// [[[ 5 M ]]]]
-fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stage_in ]],
-                                           texture2d<float, access::sample> atlas [[texture(5)]])
+// Instanced texturing and 'instanceID' coloring for hit-test/picking
+fragment PickingTextureFragmentOut instanced_fragment_function(
+   RasterizerData rasterizerData [[ stage_in ]],
+   texture2d<float, access::sample> atlas [[texture(5)]])
 {
     constexpr sampler sampler(coord::normalized,
                               address::clamp_to_border,
@@ -86,5 +89,9 @@ fragment half4 instanced_fragment_function(RasterizerData rasterizerData [[ stag
     
     float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
     
-    return half4(color.r, color.g, color.b, color.a);
+    PickingTextureFragmentOut out;
+    out.mainColor = half4(color.r, color.g, color.b, color.a);
+    out.pickingID = rasterizerData.modelInstanceID;
+    
+    return out;
 }

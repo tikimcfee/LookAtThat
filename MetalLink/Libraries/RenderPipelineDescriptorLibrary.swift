@@ -73,6 +73,7 @@ extension RenderPipelineDescriptorLibrary {
             renderPipelineDescriptor.vertexDescriptor = vertexDescriptor
             renderPipelineDescriptor.fragmentFunction = fragmentFunction
             renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
+            renderPipelineDescriptor.colorAttachments[1].pixelFormat = MetalLinkPickingTexture.Config.pixelFormat
             renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
             renderPipelineDescriptor.label = name
         }

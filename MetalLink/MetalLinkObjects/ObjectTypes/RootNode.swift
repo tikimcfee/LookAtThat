@@ -30,8 +30,6 @@ class RootNode: MetalLinkNode, MetalLinkReader {
     override func render(in sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.setVertexBytes(&constants, length: SceneConstants.memStride, index: 1)
         
-        link.pickingTexture.updateDescriptor(sdp.renderPassDescriptor)
-        
         super.render(in: &sdp)
     }
 }

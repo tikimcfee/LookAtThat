@@ -68,6 +68,7 @@ extension MetalLinkInstancedObject {
             pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
             pointer.pointee.textureDescriptorU = constants.textureDescriptorU
             pointer.pointee.textureDescriptorV = constants.textureDescriptorV
+            pointer.pointee.instanceID = constants.instanceID
         }
     }
 }

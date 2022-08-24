@@ -14,8 +14,12 @@ struct SafeDrawPass {
     let commandBuffer: MTLCommandBuffer
     
     static func wrap(_ link: MetalLink) -> SafeDrawPass? {
-        guard let renderPassDescriptor = link.view.currentRenderPassDescriptor,
-              let commandBuffer = link.commandQueue.makeCommandBuffer(),
+        guard let renderPassDescriptor = link.view.currentRenderPassDescriptor
+        else { return nil }
+        
+        link.pickingTexture.updateDescriptor(renderPassDescriptor)
+        
+        guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
         else {
             return nil
