@@ -655,6 +655,10 @@
 		B785521A28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
 		B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
 		B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
+		B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
+		B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
+		B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
+		B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B790E68F283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B790E690283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
@@ -1264,6 +1268,7 @@
 		B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+State.swift"; sourceTree = "<group>"; };
 		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
 		B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Consume.swift"; sourceTree = "<group>"; };
+		B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkPickingTexture.swift; sourceTree = "<group>"; };
 		B790E68E283DEF32002F6512 /* WireDataEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireDataEncodable.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
@@ -1553,6 +1558,7 @@
 				B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */,
 				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
 				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
+				B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */,
 				B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */,
 				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
 				B750771228A21FE20097278A /* Maths */,
@@ -2936,6 +2942,7 @@
 				B70FDCB8283EAE9900170D5F /* CodeGrid+Clones.swift in Sources */,
 				B70FDCB9283EAE9900170D5F /* SemanticTracingOutView.swift in Sources */,
 				B70FDCBA283EAE9900170D5F /* InputStreamReader.swift in Sources */,
+				B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B70FDCBB283EAE9900170D5F /* ThreadExtensions.swift in Sources */,
 				B70FDCBC283EAE9900170D5F /* FontRenderer.swift in Sources */,
 				B70FDCBD283EAE9900170D5F /* CodeGridControl.swift in Sources */,
@@ -3151,6 +3158,7 @@
 				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
+				B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */,
 				B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */,
 				B74A22F42814FFF300F6F727 /* SCNAction+Extensions.swift in Sources */,
@@ -3542,6 +3550,7 @@
 				B71C59572766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */,
+				B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */,
 				B720D586282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
@@ -3803,6 +3812,7 @@
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
 				B720D587282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B7AC335428A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
+				B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B7C75710280CED4D0005A233 /* FingerView.swift in Sources */,
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,
 				B7F44C38276D9A2100522B45 /* ControlleriOSCompat.swift in Sources */,

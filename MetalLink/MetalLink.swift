@@ -8,6 +8,7 @@
 
 import Foundation
 import MetalKit
+import Combine
 
 class MetalLink {
     let view: CustomMTKView
@@ -27,6 +28,10 @@ class MetalLink {
     lazy var pipelineStateLibrary = RenderPipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
+    lazy var pickingTexture = MetalLinkPickingTexture(link: self)
+    private lazy var sizeSubject = PassthroughSubject<CGSize, Never>()
+    private(set) lazy var sizeSharedUpdates = sizeSubject.share()
+    
     init(view: CustomMTKView) throws {
         self.view = view
         guard let device = view.device else { throw CoreError.noMetalDevice }
@@ -37,6 +42,17 @@ class MetalLink {
         self.defaultLibrary = library
         self.input = DefaultInputReceiver.shared
     }
+}
+
+extension MetalLink {
+    func onSizeChange(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        sizeSubject.send(size)
+    }
+}
+
+// MetalLink reads itself lol
+extension MetalLink: MetalLinkReader {
+    var link: MetalLink { self }
 }
 
 protocol MetalLinkReader {
@@ -76,14 +92,21 @@ extension MetalLinkReader {
     }
     
     var viewAspectRatio: Float {
-        let size = viewDrawableSize
+        let size = viewDrawableFloatSize
         return size.x / size.y
     }
-    
-    var viewDrawableSize: LFloat2 {
+
+    var viewDrawableFloatSize: LFloat2 {
         LFloat2(
             Float(view.drawableSize.width),
             Float(view.drawableSize.height)
+        )
+    }
+    
+    var viewDrawableRoundSize: LInt2 {
+        LInt2(
+            Int(view.drawableSize.width),
+            Int(view.drawableSize.height)
         )
     }
     
