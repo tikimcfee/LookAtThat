@@ -123,8 +123,6 @@ extension TwoETimeRoot {
         }.store(in: &bag)
         
         link.pickingTexture.sharedPickingHover.sink { glyphID in
-            print("Hovering on: \(glyphID)")
-            
             guard let constants = collection.instanceState.getConstantsPointer(),
                   let index = collection.instanceCache.findConstantIndex(for: glyphID)
             else { return }
