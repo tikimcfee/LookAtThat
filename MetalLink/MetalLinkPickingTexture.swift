@@ -26,6 +26,12 @@ class MetalLinkPickingTexture: MetalLinkReader {
     var pickingTexture: MTLTexture?
     var generateNewTexture: Bool = false
     
+    var currentHover: UInt = .zero {
+        didSet { pickingHover.send(currentHover) }
+    }
+    private let pickingHover = PassthroughSubject<UInt, Never>()
+    lazy var sharedPickingHover = pickingHover.share()
+    
     private var bag = Set<AnyCancellable>()
 
     init(link: MetalLink) {
@@ -56,14 +62,11 @@ class MetalLinkPickingTexture: MetalLinkReader {
 
 private extension MetalLinkPickingTexture {
     func onMouseDown(_ mouseDown: OSEvent) {
-        let (x, y) = (mouseDown.locationInWindow.x.float, mouseDown.locationInWindow.y.float)
+        let (x, y) = (mouseDown.locationInWindow.x.float,
+                      mouseDown.locationInWindow.y.float)
         
-        let drawableSize = link.viewDrawableFloatSize
-        let viewSize = link.viewPercentagePosition(x: x, y: y)
-        let drawablePosition = (viewSize.x * drawableSize.x,
-                                drawableSize.y - viewSize.y * drawableSize.y)
-        
-        let origin = MTLOrigin(x: Int(drawablePosition.0), y: Int(drawablePosition.1), z: 0)
+        let position = convertToDrawablePosition(windowX: x, windowY: y)
+        let origin = MTLOrigin(x: Int(position.x), y: Int(position.y), z: 0)
         doPickingTextureBlitRead(at: origin)
     }
     
@@ -103,6 +106,8 @@ private extension MetalLinkPickingTexture {
         let pointer = pickBuffer.contents().bindMemory(to: UInt.self, capacity: 1)
         print(pointer.pointee)
         print("--------------------------------------\n")
+        
+        currentHover = pointer.pointee
     }
 }
 

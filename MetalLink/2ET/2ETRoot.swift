@@ -119,6 +119,15 @@ extension TwoETimeRoot {
                 break
             }
         }.store(in: &bag)
+        
+        link.pickingTexture.sharedPickingHover.sink { glyphID in
+            print("Hovering on: \(glyphID)")
+            
+            guard let constants = collection.instanceState.getConstantsPointer()
+            else { return }
+            constants[Int(glyphID)].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
+            
+        }.store(in: &bag)
     }
     
     func setup11() throws {

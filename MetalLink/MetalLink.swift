@@ -70,6 +70,15 @@ extension MetalLinkReader {
 }
 
 extension MetalLinkReader {
+    func convertToDrawablePosition(windowX x: Float, windowY y: Float) -> LFloat2 {
+        let drawableSize = link.viewDrawableFloatSize
+        let viewSize = link.viewPercentagePosition(x: x, y: y)
+        return LFloat2(
+            viewSize.x * drawableSize.x,
+            drawableSize.y - viewSize.y * drawableSize.y
+        )
+    }
+    
     func viewportPosition(x: Float, y: Float) -> LFloat2 {
         let bounds = viewBounds
         return LFloat2(
