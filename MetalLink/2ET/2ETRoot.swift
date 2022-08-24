@@ -20,7 +20,7 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        try setup13()
+        try setup12()
         
 //        link.input.sharedMouse.sink { event in
 //            collection.instanceState.bufferCache.dirty()

@@ -49,6 +49,6 @@ struct Material {
 };
 
 struct PickingTextureFragmentOut {
-    half4 mainColor [[ color(0) ]];
-    uint pickingID [[ color(1) ]];
+    half4 mainColor     [[ color(0) ]];
+    uint pickingID      [[ color(1) ]];
 };

@@ -10,10 +10,6 @@ import MetalKit
 import Metal
 import Combine
 
-enum PickingTextureError: Error {
-    case noTextureAvailable
-}
-
 extension MetalLinkPickingTexture {
     struct Config {
         private init() { }
@@ -39,6 +35,10 @@ class MetalLinkPickingTexture: MetalLinkReader {
         link.sizeSharedUpdates.sink { newSize in
             self.onSizeChanged(newSize)
         }.store(in: &bag)
+        
+        link.input.sharedMouseDown.sink { mouseDown in
+            self.onMouseDown(mouseDown)
+        }.store(in: &bag)
     }
     
     func updateDescriptor(_ target: MTLRenderPassDescriptor) {
@@ -51,6 +51,58 @@ class MetalLinkPickingTexture: MetalLinkReader {
         target.colorAttachments[Config.colorIndex].loadAction = .clear
         target.colorAttachments[Config.colorIndex].storeAction = .store
         target.colorAttachments[Config.colorIndex].clearColor = Config.clearColor
+    }
+}
+
+private extension MetalLinkPickingTexture {
+    func onMouseDown(_ mouseDown: OSEvent) {
+        let (x, y) = (mouseDown.locationInWindow.x.float, mouseDown.locationInWindow.y.float)
+        
+        let drawableSize = link.viewDrawableFloatSize
+        let viewSize = link.viewPercentagePosition(x: x, y: y)
+        let drawablePosition = (viewSize.x * drawableSize.x,
+                                drawableSize.y - viewSize.y * drawableSize.y)
+        
+        let origin = MTLOrigin(x: Int(drawablePosition.0), y: Int(drawablePosition.1), z: 0)
+        doPickingTextureBlitRead(at: origin)
+    }
+    
+    func doPickingTextureBlitRead(at sourceOrigin: MTLOrigin) {
+        guard let pickingTexture = pickingTexture,
+              let commandBuffer = link.commandQueue.makeCommandBuffer(),
+              let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
+              let pickBuffer = link.device.makeBuffer(length: IDType.memStride) else {
+            return
+        }
+        commandBuffer.label = "PickingBuffer"
+        blitEncoder.label = "PickingEncoder"
+        commandBuffer.addCompletedHandler { buffer in
+            self.onPickBlitComplete(pickBuffer)
+        }
+        
+        let sourceSize = MTLSize(width: 1, height: 1, depth: 1)
+        
+        blitEncoder.copy(
+            from: pickingTexture,
+            sourceSlice: 0,
+            sourceLevel: 0,
+            sourceOrigin: sourceOrigin,
+            sourceSize: sourceSize,
+            to: pickBuffer,
+            destinationOffset: 0,
+            destinationBytesPerRow: IDType.memStride,
+            destinationBytesPerImage: IDType.memStride
+        )
+        
+        blitEncoder.endEncoding()
+        commandBuffer.commit()
+    }
+    
+    func onPickBlitComplete(_ pickBuffer: MTLBuffer) {
+        print("\nPick complete")
+        let pointer = pickBuffer.contents().bindMemory(to: UInt.self, capacity: 1)
+        print(pointer.pointee)
+        print("--------------------------------------\n")
     }
 }
 
@@ -75,6 +127,10 @@ private extension MetalLinkPickingTexture {
         print("New size reported: \(newSize)")
         generateNewTexture = true
     }
+}
+
+enum PickingTextureError: Error {
+    case noTextureAvailable
 }
 
 extension MetalLinkPickingTexture {

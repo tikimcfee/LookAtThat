@@ -78,6 +78,13 @@ extension MetalLinkReader {
         )
     }
     
+    func viewPercentagePosition(x: Float, y: Float) -> LFloat2 {
+        LFloat2(
+            x / Float(view.bounds.width),
+            y / Float(view.bounds.height)
+        )
+    }
+    
     var defaultGestureViewportPosition: LFloat2 {
         let mouseEvent = input.mousePosition
         let mouse = mouseEvent.locationInWindow
