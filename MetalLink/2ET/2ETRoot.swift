@@ -16,6 +16,8 @@ class TwoETimeRoot: MetalLinkReader {
     lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
+    var lastId = InstanceIDType.zero
+    
     init(link: MetalLink) throws {
         self.link = link
         
@@ -132,7 +134,14 @@ extension TwoETimeRoot {
                 return
             }
             
-            constants[index].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
+            if let oldIndex = collection.instanceCache.findConstantIndex(for: self.lastId) {
+                constants[oldIndex].addedColor = .zero
+            }
+            self.lastId = glyphID
+            
+//            constants[index].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
+            constants[index].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
+            
         }.store(in: &bag)
     }
     

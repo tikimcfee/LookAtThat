@@ -26,6 +26,7 @@ extension MetalLinkInstancedObject {
         var textureDescriptorV = LFloat4.zero
         
         var instanceID: InstanceIDType
+        var addedColor: LFloat4 = .zero
     }
     
     class State {

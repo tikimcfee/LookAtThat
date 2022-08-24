@@ -42,7 +42,7 @@ class MetalLinkPickingTexture: MetalLinkReader {
             self.onSizeChanged(newSize)
         }.store(in: &bag)
         
-        link.input.sharedMouseDown.sink { mouseDown in
+        link.input.sharedMouse.sink { mouseDown in
             self.onMouseDown(mouseDown)
         }.store(in: &bag)
     }
@@ -103,10 +103,9 @@ private extension MetalLinkPickingTexture {
     
     func onPickBlitComplete(_ pickBuffer: MTLBuffer) {
         let pointer = pickBuffer.boundPointer(as: UInt.self, count: 1)
-        print("--------------------------------------\n")
-        print("\nPick complete, found: \(pointer.pointee)")
-        print("--------------------------------------\n")
-        
+//        print("--------------------------------------\n")
+//        print("\nPick complete, found: \(pointer.pointee)")
+//        print("--------------------------------------\n")
         currentHover = pointer.pointee
     }
 }

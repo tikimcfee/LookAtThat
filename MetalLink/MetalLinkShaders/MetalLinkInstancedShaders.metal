@@ -74,6 +74,7 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     rasterizerData.vertexPosition = vertexIn.position;
     rasterizerData.modelInstanceID = constants.modelInstanceID;
+    rasterizerData.addedColor = constants.addedColor;
     
     return rasterizerData;
 }
@@ -88,6 +89,7 @@ fragment PickingTextureFragmentOut instanced_fragment_function(
                               filter::linear);
     
     float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
+    color = color + rasterizerData.addedColor;
     
     PickingTextureFragmentOut out;
     out.mainColor = float4(color.r, color.g, color.b, color.a);
