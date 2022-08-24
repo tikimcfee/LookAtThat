@@ -102,9 +102,9 @@ private extension MetalLinkPickingTexture {
     }
     
     func onPickBlitComplete(_ pickBuffer: MTLBuffer) {
-        print("\nPick complete")
-        let pointer = pickBuffer.contents().bindMemory(to: UInt.self, capacity: 1)
-        print(pointer.pointee)
+        let pointer = pickBuffer.boundPointer(as: UInt.self, count: 1)
+        print("--------------------------------------\n")
+        print("\nPick complete, found: \(pointer.pointee)")
         print("--------------------------------------\n")
         
         currentHover = pointer.pointee

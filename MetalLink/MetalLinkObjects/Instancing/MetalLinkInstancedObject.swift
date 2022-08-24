@@ -10,15 +10,26 @@ import Algorithms
 
 typealias InstanceIDType = UInt
 
-// TODO: don't leave this variable hanging outside the extension
-// Leave outside class extension to allow 'static' stored property. Oof.
-private var _currentGeneratedID: InstanceIDType = .zero
+// TODO: don't leave this hanging out like this
+private class InstanceCounter {
+    static let shared = InstanceCounter()
+    private init() { }
+    
+    private var currentGeneratedID: InstanceIDType = 10
+    func nextId() -> InstanceIDType {
+        let id = currentGeneratedID
+        print("Gen: \(id)")
+        currentGeneratedID += 1
+        return id
+    }
+}
+
 extension MetalLinkInstancedObject {
     class InstancedConstantsCache: LockingCache<InstanceIDType, InstancedConstants> {
         private var indexCache = ConcurrentDictionary<UInt, Int>()
         
         func createNew() -> InstancedConstants {
-            return self[nextId()]
+            return self[InstanceCounter.shared.nextId()]
         }
         
         override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
@@ -26,12 +37,6 @@ extension MetalLinkInstancedObject {
                 print("Warning - constants for this ID already exist; have you lost track of it?: \(key)")
             }
             return InstancedConstants(instanceID: key)
-        }
-        
-        private func nextId() -> InstanceIDType {
-            let id = _currentGeneratedID
-            _currentGeneratedID += 1
-            return id
         }
         
         // Really? Mapping Uint to Int? Hoo boy I'm missing something.
@@ -111,6 +116,7 @@ extension MetalLinkInstancedObject {
             pointer.pointee.textureDescriptorU = constants.textureDescriptorU
             pointer.pointee.textureDescriptorV = constants.textureDescriptorV
             pointer.pointee.instanceID = constants.instanceID
+//            pointer.pointee.isSelected = constants.isSelected
             
             self.instanceCache.track(constant: constants, at: constantsBufferIndex)
             constantsBufferIndex += 1

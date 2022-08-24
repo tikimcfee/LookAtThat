@@ -38,9 +38,9 @@ struct RasterizerData {
     
     float4 position [[ position ]];
     float3 vertexPosition [[ flat ]];
-    
     float2 textureCoordinate;
-    uint modelInstanceID;
+    
+    uint modelInstanceID [[ flat ]];
 };
 
 struct Material {
@@ -49,6 +49,6 @@ struct Material {
 };
 
 struct PickingTextureFragmentOut {
-    half4 mainColor     [[ color(0) ]];
-    uint pickingID      [[ color(1) ]];
+    float4 mainColor     [[ color(0) ]];
+    uint pickingID       [[ color(1) ]];
 };

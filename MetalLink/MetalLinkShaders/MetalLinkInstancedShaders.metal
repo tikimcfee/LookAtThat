@@ -52,17 +52,17 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     ModelConstants constants = modelConstants[instanceId];
     
     // Static matrix
-    float4x4 finalModel = constants.modelMatrix;
+    float4x4 instanceModel = constants.modelMatrix;
     
     // Do test rotation
-//    float4x4 finalModel = constants.modelMatrix
+//    float4x4 instanceModel = constants.modelMatrix
 //    * rotateAboutX(cos(sceneConstants.totalGameTime))
 //    * rotateAboutY(sin(sceneConstants.totalGameTime));
     
     rasterizerData.position =
     sceneConstants.projectionMatrix // camera
     * sceneConstants.viewMatrix     // viewport
-    * finalModel                    // transforms
+    * instanceModel                 // transforms
     * float4(vertexIn.position, 1); // current position
     
     // Lol indexing into float4
@@ -90,7 +90,7 @@ fragment PickingTextureFragmentOut instanced_fragment_function(
     float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
     
     PickingTextureFragmentOut out;
-    out.mainColor = half4(color.r, color.g, color.b, color.a);
+    out.mainColor = float4(color.r, color.g, color.b, color.a);
     out.pickingID = rasterizerData.modelInstanceID;
     
     return out;

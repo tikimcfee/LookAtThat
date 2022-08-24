@@ -57,6 +57,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         // Solving that.. is for next time.
         // Collections of collections per glyph size? Factored down (scaled) / rotated to deduplicate?
         // ***********************************************************************************
+        guard !instanceState.nodes.isEmpty else { return }
         mesh = instanceState.nodes[0].mesh
     }
         
