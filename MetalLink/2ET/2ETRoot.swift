@@ -125,21 +125,15 @@ extension TwoETimeRoot {
         link.pickingTexture.sharedPickingHover.sink { glyphID in
             print("Hovering on: \(glyphID)")
             
-            guard let constants = collection.instanceState.getConstantsPointer()
+            guard let constants = collection.instanceState.getConstantsPointer(),
+                  let index = collection.instanceCache.findConstantIndex(for: glyphID)
             else { return }
-            
-            guard let index = collection.instanceCache.findConstantIndex(for: glyphID)
-            else {
-                print("Missing glyph for \(glyphID)")
-                return
-            }
             
             if let oldIndex = collection.instanceCache.findConstantIndex(for: self.lastId) {
                 constants[oldIndex].addedColor = .zero
             }
             self.lastId = glyphID
             
-//            constants[index].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
             constants[index].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
             
         }.store(in: &bag)
