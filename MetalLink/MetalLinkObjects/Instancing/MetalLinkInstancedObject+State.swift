@@ -23,11 +23,6 @@ extension MetalLinkInstancedObject {
             self.bufferCache.update = makeBuffer
         }
         
-        func refreshState(with nodes: [InstancedNodeType]) {
-            self.nodes = nodes
-            self.constants = nodes.map { _ in InstancedConstants() }
-        }
-        
         func appendToState(node: InstancedNodeType, constants: InstancedConstants) {
             self.nodes.append(node)
             self.constants.append(constants)

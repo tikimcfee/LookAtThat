@@ -8,6 +8,45 @@
 import MetalKit
 import Algorithms
 
+typealias InstanceIDType = UInt
+
+// TODO: don't leave this variable hanging outside the extension
+// Leave outside class extension to allow 'static' stored property. Oof.
+private var _currentGeneratedID: InstanceIDType = .zero
+extension MetalLinkInstancedObject {
+    class InstancedConstantsCache: LockingCache<InstanceIDType, InstancedConstants> {
+        private var indexCache = ConcurrentDictionary<UInt, Int>()
+        
+        func createNew() -> InstancedConstants {
+            return self[nextId()]
+        }
+        
+        override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
+            if store[key] != nil {
+                print("Warning - constants for this ID already exist; have you lost track of it?: \(key)")
+            }
+            return InstancedConstants(instanceID: key)
+        }
+        
+        private func nextId() -> InstanceIDType {
+            let id = _currentGeneratedID
+            _currentGeneratedID += 1
+            return id
+        }
+        
+        // Really? Mapping Uint to Int? Hoo boy I'm missing something.
+        // Like not having all these constants objects and indexing directly into the buffer...
+        // make like way easier. We'll see. As this gets uglier.
+        func track(constant: InstancedConstants, at index: Int) {
+            indexCache[constant.instanceID] = index
+        }
+        
+        func findConstantIndex(for instanceID: InstanceIDType) -> Int? {
+            indexCache[instanceID]
+        }
+    }
+}
+
 class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode {
     let link: MetalLink
     var mesh: MetalLinkMesh
@@ -20,10 +59,12 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     
     private var material = MetalLinkMaterial()
     
-    var rootState = State()
-    var rootConstants = InstancedConstants() { didSet { rebuildSelf = true }}
-    var rebuildSelf: Bool = true
+    // TODO: Use regular constants for root, not instanced
+    var rootConstants = InstancedConstants(instanceID: 0) { didSet { rebuildSelf = true }}
+    lazy var instanceCache = InstancedConstantsCache()
     
+    var rebuildSelf: Bool = true
+    var rootState = State()
     let instanceState: InstanceState
     
     init(_ link: MetalLink, mesh: MetalLinkMesh) {
@@ -62,6 +103,7 @@ extension MetalLinkInstancedObject {
     }
     
     private func iterativePush() {
+        var constantsBufferIndex = 0
         instanceState.zipUpdate { node, constants, pointer in
             self.performJITInstanceBufferUpdate(node)
             
@@ -69,6 +111,9 @@ extension MetalLinkInstancedObject {
             pointer.pointee.textureDescriptorU = constants.textureDescriptorU
             pointer.pointee.textureDescriptorV = constants.textureDescriptorV
             pointer.pointee.instanceID = constants.instanceID
+            
+            self.instanceCache.track(constant: constants, at: constantsBufferIndex)
+            constantsBufferIndex += 1
         }
     }
 }

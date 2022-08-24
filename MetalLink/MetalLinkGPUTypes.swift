@@ -19,26 +19,13 @@ struct SceneConstants: MemoryLayoutSizable {
     var pointerMatrix = matrix_identity_float4x4
 }
 
-typealias IDType = UInt
-
-private class IDGenerator {
-    private static var _currentGeneratedID: IDType = .zero
-    static func generate() -> IDType {
-        let id = _currentGeneratedID
-        _currentGeneratedID += 1
-        return id
-    }
-    private init() { }
-}
-
 extension MetalLinkInstancedObject {
     struct InstancedConstants: MemoryLayoutSizable {
         var modelMatrix = matrix_identity_float4x4
-        
         var textureDescriptorU = LFloat4.zero
         var textureDescriptorV = LFloat4.zero
         
-        var instanceID: IDType = IDGenerator.generate()
+        var instanceID: InstanceIDType
     }
     
     class State {

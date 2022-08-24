@@ -74,7 +74,7 @@ private extension MetalLinkPickingTexture {
         guard let pickingTexture = pickingTexture,
               let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
-              let pickBuffer = link.device.makeBuffer(length: IDType.memStride) else {
+              let pickBuffer = link.device.makeBuffer(length: InstanceIDType.memStride) else {
             return
         }
         commandBuffer.label = "PickingBuffer"
@@ -93,8 +93,8 @@ private extension MetalLinkPickingTexture {
             sourceSize: sourceSize,
             to: pickBuffer,
             destinationOffset: 0,
-            destinationBytesPerRow: IDType.memStride,
-            destinationBytesPerImage: IDType.memStride
+            destinationBytesPerRow: InstanceIDType.memStride,
+            destinationBytesPerImage: InstanceIDType.memStride
         )
         
         blitEncoder.endEncoding()

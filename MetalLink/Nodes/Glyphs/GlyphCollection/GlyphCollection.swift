@@ -27,7 +27,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
             return
         }
         
-        var constants = InstancedConstants()
+        var constants = instanceCache.createNew()
         if let cachedPair = linkAtlas.uvPairCache[key] {
             constants.textureDescriptorU = cachedPair.u
             constants.textureDescriptorV = cachedPair.v

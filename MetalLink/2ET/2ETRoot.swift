@@ -125,8 +125,14 @@ extension TwoETimeRoot {
             
             guard let constants = collection.instanceState.getConstantsPointer()
             else { return }
-            constants[Int(glyphID)].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
             
+            guard let index = collection.instanceCache.findConstantIndex(for: glyphID)
+            else {
+                print("Missing glyph for \(glyphID)")
+                return
+            }
+            
+            constants[index].modelMatrix.rotateAbout(axis: Y_AXIS, by: 10)
         }.store(in: &bag)
     }
     
