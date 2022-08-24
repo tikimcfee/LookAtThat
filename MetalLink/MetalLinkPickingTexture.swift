@@ -53,6 +53,11 @@ class MetalLinkPickingTexture: MetalLinkReader {
             generateNewTexture = false
         }
         
+        
+        // TODO: Make better usage of clear color + constants for picking
+        // .clear load action to sure *everything* is reset on the draw.
+        // If not (.dontCare), the hover itself will work when directly over a node,
+        // but outside values give spurious values - likely because of choice of clear color.
         target.colorAttachments[Config.colorIndex].texture = pickingTexture
         target.colorAttachments[Config.colorIndex].loadAction = .clear
         target.colorAttachments[Config.colorIndex].storeAction = .store
