@@ -24,10 +24,14 @@ class SafeDrawPass {
         self.renderCommandEncoder = renderCommandEncoder
         self.commandBuffer = commandBuffer
     }
-    
+}
+
+extension SafeDrawPass {
     static func wrap(_ link: MetalLink) -> SafeDrawPass? {
         guard let renderPassDescriptor = link.view.currentRenderPassDescriptor
-        else { return nil }
+        else {
+            return nil
+        }
         
         link.pickingTexture.updateDescriptor(renderPassDescriptor)
         

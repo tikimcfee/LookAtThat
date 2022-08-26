@@ -50,7 +50,7 @@ class MetalLinkPickingTexture: MetalLinkReader {
     }
     
     func updateDescriptor(_ target: MTLRenderPassDescriptor) {
-        if generateNewTexture || detectedSizeDifference {
+        if generateNewTexture {
             pickingTexture = Self.generatePickingTexture(for: link)
             generateNewTexture = false
         }
