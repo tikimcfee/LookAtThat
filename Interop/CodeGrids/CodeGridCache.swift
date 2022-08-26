@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftSyntax
-import SceneKit
 import SwiftUI
 
 class GridCache {

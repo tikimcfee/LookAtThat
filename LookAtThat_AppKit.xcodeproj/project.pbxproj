@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		45A5E5572729071700A94FCE /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
+		B701DDB928B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
+		B701DDBA28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
+		B701DDBB28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
+		B701DDBC28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
+		B701DDBD28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
 		B7044C1228A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
 		B7044C1328A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
 		B7044C1428A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
@@ -65,7 +70,6 @@
 		B70FDC79283EAE9900170D5F /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B70FDC7A283EAE9900170D5F /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B70FDC7B283EAE9900170D5F /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
-		B70FDC7C283EAE9900170D5F /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B70FDC7E283EAE9900170D5F /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
 		B70FDC7F283EAE9900170D5F /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
@@ -144,7 +148,6 @@
 		B70FDCCE283EAE9900170D5F /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B70FDCCF283EAE9900170D5F /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B70FDCD0283EAE9900170D5F /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
-		B70FDCD1283EAE9900170D5F /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		B70FDCD2283EAE9900170D5F /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
 		B70FDCD3283EAE9900170D5F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		B70FDCD4283EAE9900170D5F /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
@@ -152,7 +155,6 @@
 		B70FDCD6283EAE9900170D5F /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
 		B70FDCD7283EAE9900170D5F /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75715280CEE040005A233 /* Structures.swift */; };
 		B70FDCD8283EAE9900170D5F /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
-		B70FDCD9283EAE9900170D5F /* WireDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */; };
 		B70FDCDA283EAE9900170D5F /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		B70FDCDB283EAE9900170D5F /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
 		B70FDCDC283EAE9900170D5F /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
@@ -338,14 +340,12 @@
 		B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
-		B74A230A2814FFF300F6F727 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
 		B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B74A230F2814FFF300F6F727 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75715280CEE040005A233 /* Structures.swift */; };
 		B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
-		B74A23112814FFF300F6F727 /* WireDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */; };
 		B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		B74A23142814FFF300F6F727 /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
 		B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */; };
@@ -418,7 +418,6 @@
 		B74B56D4287BA1300078EB2D /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B74B56D5287BA1300078EB2D /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B74B56D6287BA1300078EB2D /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
-		B74B56D7287BA1300078EB2D /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B74B56D8287BA1300078EB2D /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B74B56D9287BA1300078EB2D /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
 		B74B56DA287BA1300078EB2D /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
@@ -496,7 +495,6 @@
 		B74B572A287BA1300078EB2D /* AppStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */; };
 		B74B572B287BA1300078EB2D /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B74B572C287BA1300078EB2D /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
-		B74B572D287BA1300078EB2D /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		B74B572E287BA1300078EB2D /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
 		B74B572F287BA1300078EB2D /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		B74B5730287BA1300078EB2D /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
@@ -504,7 +502,6 @@
 		B74B5732287BA1300078EB2D /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
 		B74B5733287BA1300078EB2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75715280CEE040005A233 /* Structures.swift */; };
 		B74B5734287BA1300078EB2D /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
-		B74B5735287BA1300078EB2D /* WireDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */; };
 		B74B5736287BA1300078EB2D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		B74B5737287BA1300078EB2D /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
 		B74B5738287BA1300078EB2D /* SceneKitRepresentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */; };
@@ -633,9 +630,6 @@
 		B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
-		B790E68F283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
-		B790E690283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
-		B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E68E283DEF32002F6512 /* WireDataEncodable.swift */; };
 		B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
@@ -987,7 +981,6 @@
 		F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB1012517BFC500937279 /* NodeHitTests.swift */; };
-		F057D282252048500094BD83 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		F057D28A2520491C0094BD83 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */; };
 		F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
@@ -1005,7 +998,6 @@
 		F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
 		F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */; };
-		F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5C025101B9200B18894 /* CustomAnimations.swift */; };
 		F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
@@ -1020,8 +1012,6 @@
 		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
-		F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */; };
-		F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */; };
 		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
 		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
@@ -1146,6 +1136,7 @@
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
+		B701DDB828B907E6004F7203 /* ConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionExtensions.swift; sourceTree = "<group>"; };
 		B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DefaultSceneNodeShaders.metal; sourceTree = "<group>"; };
 		B7044C1628A07EAF00D1433C /* ShaderBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderBridge.h; sourceTree = "<group>"; };
 		B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNodeBridge.swift; sourceTree = "<group>"; };
@@ -1229,7 +1220,6 @@
 		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
 		B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Consume.swift"; sourceTree = "<group>"; };
 		B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkPickingTexture.swift; sourceTree = "<group>"; };
-		B790E68E283DEF32002F6512 /* WireDataEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireDataEncodable.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
 		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
@@ -1386,7 +1376,6 @@
 		F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpolatorFunctions.swift; sourceTree = "<group>"; };
 		F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNAction+Extensions.swift"; sourceTree = "<group>"; };
-		F092E5C025101B9200B18894 /* CustomAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimations.swift; sourceTree = "<group>"; };
 		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0A82EF32510819B00BEA636 /* CodePagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesController.swift; sourceTree = "<group>"; };
@@ -1396,7 +1385,6 @@
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0CCB1012517BFC500937279 /* NodeHitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHitTests.swift; sourceTree = "<group>"; };
 		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
-		F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireDataTransformer.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
 		F0F679CF251047AC00426059 /* SceneKitRepresentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitRepresentableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1730,15 +1718,6 @@
 				B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */,
 			);
 			path = GlyphCollection;
-			sourceTree = "<group>";
-		};
-		B790E68D283DEF04002F6512 /* WireData */ = {
-			isa = PBXGroup;
-			children = (
-				B790E68E283DEF32002F6512 /* WireDataEncodable.swift */,
-				F0F0D8D8252689DF00EC8E75 /* WireDataTransformer.swift */,
-			);
-			path = WireData;
 			sourceTree = "<group>";
 		};
 		B796DEED280D1AB8006AC749 /* CoreGrid */ = {
@@ -2169,7 +2148,6 @@
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
 				B73EF75628111E2C008BEE85 /* ConcurrentCollections */,
 				B7241AF7282887E0006A6A3E /* IOArrays */,
-				B790E68D283DEF04002F6512 /* WireData */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -2245,7 +2223,6 @@
 				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
 				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
-				F092E5C025101B9200B18894 /* CustomAnimations.swift */,
 				F0F205702522D6D3009B6D2C /* CustomSceneView.swift */,
 			);
 			path = SharedSceneKit;
@@ -2325,6 +2302,7 @@
 				B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */,
 				B7C756D6280CEC9D0005A233 /* Tapping */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
+				B701DDB828B907E6004F7203 /* ConversionExtensions.swift */,
 			);
 			path = Interop;
 			sourceTree = "<group>";
@@ -2781,7 +2759,6 @@
 				B70FDC79283EAE9900170D5F /* CodeGrid.swift in Sources */,
 				B70FDC7A283EAE9900170D5F /* CodeGridParser+WorldEditing.swift in Sources */,
 				B70FDC7B283EAE9900170D5F /* BidirectionalMap.swift in Sources */,
-				B70FDC7C283EAE9900170D5F /* WireDataEncodable.swift in Sources */,
 				B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */,
 				B70FDC7E283EAE9900170D5F /* SourceInfoPanelState.swift in Sources */,
 				B70FDC7F283EAE9900170D5F /* SceneKit+BoundsCaching.swift in Sources */,
@@ -2890,7 +2867,6 @@
 				B7F3AAA12853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B70FDCCF283EAE9900170D5F /* TracingRoot.swift in Sources */,
 				B70FDCD0283EAE9900170D5F /* SceneLibrary.swift in Sources */,
-				B70FDCD1283EAE9900170D5F /* CustomAnimations.swift in Sources */,
 				B762DF1B28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B70FDCD2283EAE9900170D5F /* RawFingerData.swift in Sources */,
 				B70FDCD3283EAE9900170D5F /* MultipeerInfoView.swift in Sources */,
@@ -2899,7 +2875,6 @@
 				B70FDCD6283EAE9900170D5F /* SemanticInfo.swift in Sources */,
 				B70FDCD7283EAE9900170D5F /* Structures.swift in Sources */,
 				B70FDCD8283EAE9900170D5F /* SemanticInfoBuilder.swift in Sources */,
-				B70FDCD9283EAE9900170D5F /* WireDataTransformer.swift in Sources */,
 				B70FDCDA283EAE9900170D5F /* GlobalAliases.swift in Sources */,
 				B70FDCDB283EAE9900170D5F /* PersisentThreadTracer.swift in Sources */,
 				B70FDCDC283EAE9900170D5F /* SceneKitRepresentableView.swift in Sources */,
@@ -2908,6 +2883,7 @@
 				B70FDCDE283EAE9900170D5F /* MatchedTraceValue.swift in Sources */,
 				B70FDCDF283EAE9900170D5F /* ConnectionBundle+Streams.swift in Sources */,
 				B70FDCE0283EAE9900170D5F /* MultipeerStreamController.swift in Sources */,
+				B701DDBA28B907E6004F7203 /* ConversionExtensions.swift in Sources */,
 				B70FDCE1283EAE9900170D5F /* FileBackedArray.swift in Sources */,
 				B70FDCE2283EAE9900170D5F /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B70FDCE3283EAE9900170D5F /* SwiftSyntax+Extensions.swift in Sources */,
@@ -3069,7 +3045,6 @@
 				B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
-				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
@@ -3106,7 +3081,6 @@
 				B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */,
 				B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
-				B74A230A2814FFF300F6F727 /* CustomAnimations.swift in Sources */,
 				B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */,
 				B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */,
 				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
@@ -3115,8 +3089,8 @@
 				B74A230F2814FFF300F6F727 /* Structures.swift in Sources */,
 				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B7F5F67328556B8400AE9009 /* CodeGrid+Writers.swift in Sources */,
+				B701DDBD28B907E6004F7203 /* ConversionExtensions.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
-				B74A23112814FFF300F6F727 /* WireDataTransformer.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
 				B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
@@ -3186,7 +3160,6 @@
 				B74B56D4287BA1300078EB2D /* CodeGrid.swift in Sources */,
 				B74B56D5287BA1300078EB2D /* CodeGridParser+WorldEditing.swift in Sources */,
 				B74B56D6287BA1300078EB2D /* BidirectionalMap.swift in Sources */,
-				B74B56D7287BA1300078EB2D /* WireDataEncodable.swift in Sources */,
 				B74B56D8287BA1300078EB2D /* FilePaths.swift in Sources */,
 				B74B56D9287BA1300078EB2D /* SourceInfoPanelState.swift in Sources */,
 				B74B56DA287BA1300078EB2D /* SceneKit+BoundsCaching.swift in Sources */,
@@ -3195,6 +3168,7 @@
 				B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B74B56DD287BA1300078EB2D /* HitTestEvaluator.swift in Sources */,
 				B74B56DF287BA1300078EB2D /* Syntax+Caching.swift in Sources */,
+				B701DDBB28B907E6004F7203 /* ConversionExtensions.swift in Sources */,
 				B74B56E0287BA1300078EB2D /* TAPKitDelegateController.swift in Sources */,
 				B74B56E1287BA1300078EB2D /* CodeGridGlobalSemantics.swift in Sources */,
 				B74B56E2287BA1300078EB2D /* SemanticMapTracer.swift in Sources */,
@@ -3265,7 +3239,6 @@
 				B74B572A287BA1300078EB2D /* AppStatusView.swift in Sources */,
 				B74B572B287BA1300078EB2D /* TracingRoot.swift in Sources */,
 				B74B572C287BA1300078EB2D /* SceneLibrary.swift in Sources */,
-				B74B572D287BA1300078EB2D /* CustomAnimations.swift in Sources */,
 				B74B572E287BA1300078EB2D /* RawFingerData.swift in Sources */,
 				B74B572F287BA1300078EB2D /* MultipeerInfoView.swift in Sources */,
 				B74B5730287BA1300078EB2D /* LockingCache.swift in Sources */,
@@ -3273,7 +3246,6 @@
 				B74B5732287BA1300078EB2D /* SemanticInfo.swift in Sources */,
 				B74B5733287BA1300078EB2D /* Structures.swift in Sources */,
 				B74B5734287BA1300078EB2D /* SemanticInfoBuilder.swift in Sources */,
-				B74B5735287BA1300078EB2D /* WireDataTransformer.swift in Sources */,
 				B74B5736287BA1300078EB2D /* GlobalAliases.swift in Sources */,
 				B74B5737287BA1300078EB2D /* PersisentThreadTracer.swift in Sources */,
 				B74B5738287BA1300078EB2D /* SceneKitRepresentableView.swift in Sources */,
@@ -3365,7 +3337,6 @@
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
-				B790E68F283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B74E7A7F26770E5F0021299F /* SceneKit+BoundsCaching.swift in Sources */,
@@ -3474,7 +3445,6 @@
 				B7F3AAA02853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */,
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
-				F092E5C125101B9200B18894 /* CustomAnimations.swift in Sources */,
 				B762DF1A28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B7C7571E280CEE040005A233 /* RawFingerData.swift in Sources */,
 				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
@@ -3483,7 +3453,6 @@
 				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B7C7571A280CEE040005A233 /* Structures.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
-				F0F0D8D9252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				F0F679D0251047AC00426059 /* SceneKitRepresentableView.swift in Sources */,
@@ -3492,6 +3461,7 @@
 				B798102F281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
+				B701DDB928B907E6004F7203 /* ConversionExtensions.swift in Sources */,
 				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
@@ -3582,7 +3552,6 @@
 				B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B7044C1E28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
-				B790E690283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
 				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
 				F057D24D252045400094BD83 /* TokenHoverInteractionTracker.swift in Sources */,
 				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
@@ -3642,7 +3611,6 @@
 				B7C7570A280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7C756F6280CECBA0005A233 /* TAPDevice.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
-				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */,
@@ -3709,13 +3677,13 @@
 				B7F44C38276D9A2100522B45 /* ControlleriOSCompat.swift in Sources */,
 				B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */,
-				F057D282252048500094BD83 /* CustomAnimations.swift in Sources */,
 				B7C75721280CEE040005A233 /* BasicIO.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
 				B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7C75702280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
+				B701DDBC28B907E6004F7203 /* ConversionExtensions.swift in Sources */,
 				B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */,
 				B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */,

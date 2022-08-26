@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 class FocusBoxEngineMacOS: FocusBoxLayoutEngine {
     var xLengthPadding: VectorFloat = 8.0

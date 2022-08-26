@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 struct FocusBoxEngineiOS: FocusBoxLayoutEngine {
     private let userShim = FocusBoxUserEngineiOS()

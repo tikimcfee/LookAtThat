@@ -5,7 +5,6 @@
 //  Created by Ivan Lugo on 11/25/21.
 //
 
-import SceneKit
 import SwiftUI
 import SwiftSyntax
 import Combine

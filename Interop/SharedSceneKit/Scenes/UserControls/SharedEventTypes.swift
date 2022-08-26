@@ -1,5 +1,4 @@
 import Foundation
-import SceneKit
 
 enum EventState {
     case began, changed, ended

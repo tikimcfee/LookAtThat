@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 import SwiftSyntax
 import Combine
 import SwiftUI
@@ -172,7 +171,7 @@ private extension CodePagesControllerMacOSCompat {
                 return
             }
             
-            let startPosition: SCNVector3 = parent
+            let startPosition = parent
                 .convertPosition(nextGrid.rootNode.position, to: nil)
                 .translated(
                     dX: nextGrid.measures.lengthX / 2.0,

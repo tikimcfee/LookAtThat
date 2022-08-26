@@ -6,7 +6,6 @@
 //
 
 import Combine
-import SceneKit
 
 #if os(OSX)
 import AppKit

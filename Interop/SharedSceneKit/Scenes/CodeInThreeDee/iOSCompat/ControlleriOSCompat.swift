@@ -15,8 +15,7 @@ class ControlleriOSCompat {
     
     lazy var resizeCommand = inputCompat.focus.resize
     lazy var layoutCommand = inputCompat.focus.layout
-    lazy var insertControl = parser.gridCache.insertControl
-    
+
     init(controller: CodePagesController) {
         self.controller = controller
         self.inputCompat = CodePagesInput(controller: controller)
@@ -91,7 +90,6 @@ extension ControlleriOSCompat {
                 #if os(macOS)
                 moveNewGrid(newGrid, box)
                 #endif
-                addControls(newGrid, box)
             }
         }
     }
@@ -111,37 +109,5 @@ extension ControlleriOSCompat {
                 print("iOS: moveNewGrid not implemented .cylinder")
             }
         }
-    }
-    
-    func addControls(_ newGrid: CodeGrid, _ box: FocusBox) {
-        //TODO: The control is off by a few points.. WHY!?
-        let swapControl = GridControlSwapModes(newGrid, inputCompat.focus).applying {
-            insertControl($0)
-            newGrid.addingChild($0)
-        }
-        
-        swapControl.setPositionConstraint(
-            target: newGrid.rootNode,
-            positionOffset: SCNVector3(
-                x: 0,
-                y: swapControl.displayGrid.measures.lengthY + Constants.topOffsetPad,
-                z: 0
-            )
-        )
-        print("swap:----\n", swapControl.displayGrid.measures.dumpstats)
-        
-        let focusControl = GridControlAddToFocus(newGrid, inputCompat.focus).applying {
-            insertControl($0)
-            newGrid.addingChild($0)
-        }
-        focusControl.setPositionConstraint(
-            target: swapControl.displayGrid.rootNode,
-            positionOffset: SCNVector3(
-                x: focusControl.displayGrid.measures.lengthX + Constants.trailingOffsetPad,
-                y: 0,
-                z: 0
-            )
-        )
-        print("focusControl:----\n", focusControl.displayGrid.measures.dumpstats)
     }
 }

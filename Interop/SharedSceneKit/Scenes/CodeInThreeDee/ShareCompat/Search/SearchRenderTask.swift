@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 class RenderTask {
     var matchedInfo: [CodeGrid: Array<Set<SemanticInfo>>] = [:]

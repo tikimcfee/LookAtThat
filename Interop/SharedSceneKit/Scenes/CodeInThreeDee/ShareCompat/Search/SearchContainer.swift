@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 class SearchContainer {
     enum Mode {

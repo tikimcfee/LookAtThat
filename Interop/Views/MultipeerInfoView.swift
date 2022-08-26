@@ -355,13 +355,7 @@ struct MessageSendView: View {
         
         switch event {
         case let .newSingleCommand(path, _):
-            guard let fileData = try? Data(contentsOf: path),
-                  let compressed = manager.sheetDataTransformer.compress(fileData) else {
-                print("No file data it exploded what a shame")
-                return
-            }
-            
-            manager.multipeerStreamController.streamRaw(to: peer.targetPeerId, compressed)
+            print("Command not implemented")
 
         default:
             print("Ignoring event: \(event)")

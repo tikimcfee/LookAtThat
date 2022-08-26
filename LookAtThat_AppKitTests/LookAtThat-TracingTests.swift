@@ -100,27 +100,6 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
     }
     
-    func testTracingCompression() throws {
-        printStart()
-        
-        let traceFile = bundle.testTraceFile
-        let data = try Data(contentsOf: traceFile, options: .mappedIfSafe)
-        print("Starting compression for \(traceFile)")
-        print("Data size: \(data.count) bytes || \(data.kb)kb")
-        let transformer = WireDataTransformer()
-        transformer.mode = .standard
-        
-        print("> mode=[\(transformer.mode)] compression starting")
-        let watch = Stopwatch(running: true)
-        let result = try XCTUnwrap(transformer.compress(data), "Must compress trace correctly")
-        watch.stop()
-        print("> Compression complete")
-        print("> Compressed size: \(result.count) bytes || \(result.kb)kb")
-        print("> Final: \(Double(result.count) / Double(data.count))%")
-        
-        printEnd()
-    }
-    
     func testFileBackArrays() throws {
         let traceFile = bundle.testTraceFile
         let traceFileSpec = AppFiles.createTraceIDFile(named: "test-spec")

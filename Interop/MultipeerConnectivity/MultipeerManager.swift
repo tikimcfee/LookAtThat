@@ -9,7 +9,6 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     public static let shared = MultipeerConnectionManager()
     let workerQueue = DispatchQueue(label: "MultipeerManager", qos: .userInitiated)
     let mainQueue = DispatchQueue.main
-    let sheetDataTransformer = WireDataTransformer()
 
     // Multipeer API setup
     var currentConnection = ConnectionBundle()
@@ -54,13 +53,6 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
 extension MultipeerConnectionManager {
     func onStreamDataReady(_ data: Data) {
         print("Handling received stream of size \(data.count)")
-        
-        guard let decompressed = sheetDataTransformer.decompress(data) else {
-            print("StreamReady call could not be decompressed. Well that sucks.")
-            return
-        }
-        
-        receivedCodeGrids.append(decompressed)
     }
 }
 

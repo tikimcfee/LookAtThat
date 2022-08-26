@@ -56,23 +56,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
-    func testRendering_versionTwo() throws {
-        CodeGrid.Defaults.displayMode = .glyphs
-        CodeGrid.Defaults.walkSemantics = false
-        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
-        measure {
-            let awaitRender = expectation(description: "Version two rendered")
-            bundle.gridParser.__versionTwo__RenderPathAsRoot(rootDirectory) { _ in
-                print("receiver emitted for versionTwo")
-                awaitRender.fulfill()
-            }
-            wait(for: [awaitRender], timeout: 60)
-            bundle.glyphs = GlyphLayerCache()
-            bundle.gridParser = CodeGridParser()
-        }
-    }
-    
-    
     func testRendering_versionThree() throws {
         CodeGrid.Defaults.displayMode = .glyphs
         CodeGrid.Defaults.walkSemantics = true
@@ -191,28 +174,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         print("Depth: \(depth)")
         XCTAssertEqual(depth, 3, "Calls to parent and depth count must match")
-    }
-    
-    func testAttributedWrites() throws {
-        let testFile = bundle.testFile
-        let fileData = try Data(contentsOf: testFile)
-        let dataString = try XCTUnwrap(String(data: fileData, encoding: .utf8))
-        
-        let dataStringAttributed = NSMutableAttributedString(
-            string: dataString,
-            attributes: [.foregroundColor: NSUIColor.red]
-        )
-        let appendedTestString = NSMutableAttributedString(
-            string: "yet this is dog",
-            attributes: [.foregroundColor: NSUIColor.blue]
-        )
-        dataStringAttributed.append(appendedTestString)
-        
-        let transformer = WireDataTransformer()
-        let encodedTest = try XCTUnwrap(transformer.encodeAttributedString(dataStringAttributed))
-        let (decodedTest, _) = try transformer.decodeAttributedString(encodedTest)
-        print("Size of encode: \(encodedTest.mb)mb")
-        XCTAssert(decodedTest == dataStringAttributed, "AttributedString write and re-read didn't reeturn same attributes")
     }
     
     func testRewriting() throws {

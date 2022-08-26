@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 // associate tokens to sets of nodes.
 // { let nodesToUpdate = tracker[someToken] }
