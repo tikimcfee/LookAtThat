@@ -16,7 +16,6 @@ class GlyphBuilder {
     static let loader: MTKTextureLoader = MTKTextureLoader(device: device)
     
     let fontRenderer = FontRenderer.shared
-    let bridge = MetalLinkNodeBridge()
     
     func makeGlyph(_ key: GlyphCacheKey) -> SizedText {
         let textLayer = makeTextLayer(key)

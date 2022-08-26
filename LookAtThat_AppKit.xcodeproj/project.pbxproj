@@ -14,18 +14,10 @@
 		B701DDBB28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
 		B701DDBC28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
 		B701DDBD28B907E6004F7203 /* ConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* ConversionExtensions.swift */; };
-		B7044C1228A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
-		B7044C1328A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
-		B7044C1428A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
-		B7044C1528A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */; };
 		B7044C1728A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B7044C1828A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B7044C1928A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B7044C1A28A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
-		B7044C1C28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */; };
-		B7044C1D28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */; };
-		B7044C1E28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */; };
-		B7044C1F28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */; };
 		B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B70808D4287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
@@ -1137,9 +1129,7 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSemanticMap.swift; sourceTree = "<group>"; };
 		B701DDB828B907E6004F7203 /* ConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionExtensions.swift; sourceTree = "<group>"; };
-		B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DefaultSceneNodeShaders.metal; sourceTree = "<group>"; };
 		B7044C1628A07EAF00D1433C /* ShaderBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderBridge.h; sourceTree = "<group>"; };
-		B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNodeBridge.swift; sourceTree = "<group>"; };
 		B70808D1287E45EB00827CBB /* SearchRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRenderTask.swift; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1488,7 +1478,6 @@
 		B7044C1028A07DE100D1433C /* MetalLink */ = {
 			isa = PBXGroup;
 			children = (
-				B7AC332228A0CA41001172BB /* __GlyphNodeSamplingProgram */,
 				B7AC333A28A0CA70001172BB /* 2ET */,
 				B7AC339728A0D11E001172BB /* MetalInterop */,
 				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
@@ -1795,15 +1784,6 @@
 				B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */,
 			);
 			path = CodeGrid;
-			sourceTree = "<group>";
-		};
-		B7AC332228A0CA41001172BB /* __GlyphNodeSamplingProgram */ = {
-			isa = PBXGroup;
-			children = (
-				B7044C1128A07DFF00D1433C /* DefaultSceneNodeShaders.metal */,
-				B7044C1B28A07F5A00D1433C /* MetalLinkNodeBridge.swift */,
-			);
-			path = __GlyphNodeSamplingProgram;
 			sourceTree = "<group>";
 		};
 		B7AC332928A0CA70001172BB /* MetalLinkObjects */ = {
@@ -2772,7 +2752,6 @@
 				B70FDC86283EAE9900170D5F /* CodeGridGlobalSemantics.swift in Sources */,
 				B7AC338B28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B70FDC87283EAE9900170D5F /* SemanticMapTracer.swift in Sources */,
-				B7044C1D28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
 				B72FBFE028A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE928A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */,
@@ -2800,7 +2779,6 @@
 				B70FDC99283EAE9900170D5F /* Stopwatch.swift in Sources */,
 				B70FDC9A283EAE9900170D5F /* SemanticTracingOutState.swift in Sources */,
 				B72FBFDB28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
-				B7044C1328A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B70FDC9B283EAE9900170D5F /* RenderingVersionThree.swift in Sources */,
 				B70FDC9C283EAE9900170D5F /* WorldGridSnapping.swift in Sources */,
 				B7AC334F28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
@@ -2920,7 +2898,6 @@
 				B74A22A82814FFF300F6F727 /* SCNBezierPath.swift in Sources */,
 				B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
-				B7044C1F28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
 				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */,
 				B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
@@ -3073,7 +3050,6 @@
 				B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */,
 				B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */,
 				B7AC335128A0CA71001172BB /* MetalLinkObject.swift in Sources */,
-				B7044C1528A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
 				B74A23022814FFF300F6F727 /* UserFocusController.swift in Sources */,
 				B74A23032814FFF300F6F727 /* InterpolatorFunctions.swift in Sources */,
@@ -3350,7 +3326,6 @@
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
-				B7044C1C28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
 				B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
@@ -3378,7 +3353,6 @@
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
 				B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
-				B7044C1228A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
@@ -3551,7 +3525,6 @@
 				B71C59582766AAD400E406AE /* CodeGrid+Clones.swift in Sources */,
 				B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
-				B7044C1E28A07F5A00D1433C /* MetalLinkNodeBridge.swift in Sources */,
 				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
 				F057D24D252045400094BD83 /* TokenHoverInteractionTracker.swift in Sources */,
 				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
@@ -3602,7 +3575,6 @@
 				B72FBFE628A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B7A6F2AE275ED98C004CAA66 /* CodeGrid+Glyphs.swift in Sources */,
-				B7044C1428A07DFF00D1433C /* DefaultSceneNodeShaders.metal in Sources */,
 				B7C69FDB28A3572B00A84860 /* CubeNode.swift in Sources */,
 				B7C75700280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
 				B7C69FBD28A2403F00A84860 /* MetalLinkNode.swift in Sources */,
