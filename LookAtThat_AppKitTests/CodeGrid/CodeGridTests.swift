@@ -31,7 +31,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             print($0.triviaAndText)
             $0.triviaAndText.forEach {
                 let (geometry, template, size) = bundle.glyphs[
-                    GlyphCacheKey("\($0)", NSUIColor.white)
+                    GlyphCacheKey(source: $0, NSUIColor.white)
                 ]
                 
                 print(size, "--", geometry.lengthX, geometry.lengthY, geometry.lengthZ)

@@ -44,9 +44,6 @@ class HitTestEvaluator {
 
         case let type where isFocus(type):
             return safeExtract(node, extraFocus(_:))
-            
-        case let type where isControl(type):
-            return safeExtract(node, extractControl(_:))
 
         default:
             return .unknown(node)
@@ -111,16 +108,6 @@ private extension HitTestEvaluator {
             }
         }
     }
-    
-    func extractControl(_ node: SCNNode) -> Result? {
-        return searchUp(from: node) { node, name, stop in
-            if let control = maybeGetControl(name) {
-                return .control(control)
-            } else {
-                return nil
-            }
-        }
-    }
 }
 
 private extension HitTestEvaluator {
@@ -159,17 +146,12 @@ private extension HitTestEvaluator {
     func maybeGetFocus(_ id: FocusBox.ID) -> FocusBox? {
         return compat.inputCompat.focus.focusCache.maybeGet(id)
     }
-    
-    func maybeGetControl(_ id: CodeGrid.ID) -> CodeGridControl? {
-        return parser.gridCache.cachedControls[id]
-    }
 }
 
 extension HitTestEvaluator {
     enum Result {
         case grid(CodeGrid)
         case focusBox(FocusBox)
-        case control(CodeGridControl)
         case token(SCNNode, String)
         case unknown(SCNNode)
         
@@ -179,8 +161,6 @@ extension HitTestEvaluator {
                 return codeGrid.rootNode
             case .focusBox(let focusBox):
                 return focusBox.rootNode
-            case .control(let control):
-                return control.displayGrid.rootNode
             case .token(let scnNode, _):
                 return scnNode
             case .unknown(let scnNode):
@@ -194,8 +174,6 @@ extension HitTestEvaluator {
                 return codeGrid as? T
             case .focusBox(let focusBox):
                 return focusBox as? T
-            case .control(let control):
-                return control as? T
             case .unknown(let scnNode):
                 return scnNode as? T
             case .token(let scnNode, _):
@@ -207,8 +185,6 @@ extension HitTestEvaluator {
             switch self {
             case .grid:
                 return 0
-            case .control:
-                return 1
             case .focusBox:
                 return 2
             case .token:

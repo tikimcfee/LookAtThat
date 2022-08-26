@@ -18,7 +18,6 @@ class CodePagesControllerMacOSCompat {
     
     lazy var resizeCommand = inputCompat.focus.resize
     lazy var layoutCommand = inputCompat.focus.layout
-    lazy var insertControl = parser.gridCache.insertControl
     
     init(controller: CodePagesController) {
         self.controller = controller

@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import SceneKit
 
 public struct GlyphCacheKey: Hashable, Equatable {
     public let source: Character
@@ -27,11 +26,5 @@ class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
     
     override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
         return glyphBuilder.makeGlyph(key)
-    }
-    
-    func diffuseMaterial(_ any: Any?) -> SCNMaterial {
-        let material = SCNMaterial()
-        material.diffuse.contents = any
-        return material
     }
 }

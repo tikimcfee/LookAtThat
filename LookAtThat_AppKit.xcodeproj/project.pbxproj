@@ -28,7 +28,6 @@
 		B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
-		B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		B70FDC57283EAE9900170D5F /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B70FDC58283EAE9900170D5F /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
@@ -51,7 +50,6 @@
 		B70FDC69283EAE9900170D5F /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B70FDC6A283EAE9900170D5F /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		B70FDC6B283EAE9900170D5F /* FocusBoxEngine_MacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */; };
-		B70FDC6C283EAE9900170D5F /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
 		B70FDC6D283EAE9900170D5F /* ControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AFD2828AD63006A6A3E /* ControllerState.swift */; };
 		B70FDC6E283EAE9900170D5F /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B70FDC6F283EAE9900170D5F /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
@@ -74,7 +72,6 @@
 		B70FDC80283EAE9900170D5F /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B70FDC81283EAE9900170D5F /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B70FDC82283EAE9900170D5F /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
-		B70FDC83283EAE9900170D5F /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
 		B70FDC84283EAE9900170D5F /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B70FDC85283EAE9900170D5F /* TAPKitDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */; };
 		B70FDC86283EAE9900170D5F /* CodeGridGlobalSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */; };
@@ -86,7 +83,6 @@
 		B70FDC8C283EAE9900170D5F /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B70FDC8D283EAE9900170D5F /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B70FDC8E283EAE9900170D5F /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B70FDC8F283EAE9900170D5F /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B70FDC90283EAE9900170D5F /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		B70FDC91283EAE9900170D5F /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B70FDC92283EAE9900170D5F /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
@@ -108,7 +104,6 @@
 		B70FDCA2283EAE9900170D5F /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B70FDCA3283EAE9900170D5F /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
 		B70FDCA4283EAE9900170D5F /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
-		B70FDCA5283EAE9900170D5F /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B70FDCA6283EAE9900170D5F /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B70FDCA7283EAE9900170D5F /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		B70FDCA8283EAE9900170D5F /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
@@ -118,7 +113,6 @@
 		B70FDCAC283EAE9900170D5F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B70FDCAD283EAE9900170D5F /* CodePagesControllerMacOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */; };
 		B70FDCAE283EAE9900170D5F /* TAPDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DD280CECBA0005A233 /* TAPDevice.swift */; };
-		B70FDCAF283EAE9900170D5F /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B70FDCB0283EAE9900170D5F /* TestButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C39276DB2B300522B45 /* TestButtonsView.swift */; };
 		B70FDCB1283EAE9900170D5F /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
 		B70FDCB2283EAE9900170D5F /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
@@ -132,7 +126,6 @@
 		B70FDCBA283EAE9900170D5F /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B70FDCBB283EAE9900170D5F /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
 		B70FDCBC283EAE9900170D5F /* FontRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D585282470CA00BF0602 /* FontRenderer.swift */; };
-		B70FDCBD283EAE9900170D5F /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
 		B70FDCBE283EAE9900170D5F /* TracingInfoBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233C2815267E00F6F727 /* TracingInfoBridging.swift */; };
 		B70FDCBF283EAE9900170D5F /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B70FDCC0283EAE9900170D5F /* GlyphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58128246FF400BF0602 /* GlyphBuilder.swift */; };
@@ -145,7 +138,6 @@
 		B70FDCC7283EAE9900170D5F /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B70FDCC8283EAE9900170D5F /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		B70FDCC9283EAE9900170D5F /* CodePagesGridLSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AAE282B2443000F99EB /* CodePagesGridLSP.swift */; };
-		B70FDCCA283EAE9900170D5F /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B70FDCCB283EAE9900170D5F /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B70FDCCC283EAE9900170D5F /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B70FDCCD283EAE9900170D5F /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
@@ -258,7 +250,6 @@
 		B72FBFE728A8263C0098762D /* MetalLink+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */; };
 		B7321511275858F800BD5C17 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
-		B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
@@ -268,7 +259,6 @@
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
-		B74A22A62814FFF300F6F727 /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		B74A22A82814FFF300F6F727 /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
 		B74A22A92814FFF300F6F727 /* FocusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B78275D68290082EBAC /* FocusBox.swift */; };
@@ -284,7 +274,6 @@
 		B74A22B32814FFF300F6F727 /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		B74A22B52814FFF300F6F727 /* FocusBoxEngine_MacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */; };
-		B74A22B62814FFF300F6F727 /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
 		B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B74A22B82814FFF300F6F727 /* CodeGrid+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */; };
 		B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1110251EEF240052D993 /* MultipeerData.swift */; };
@@ -300,7 +289,6 @@
 		B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B74A22C92814FFF300F6F727 /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
-		B74A22CA2814FFF300F6F727 /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
 		B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74A22CC2814FFF300F6F727 /* TAPKitDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */; };
 		B74A22CE2814FFF300F6F727 /* CodeGridFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7321510275858F800BD5C17 /* CodeGridFocusController.swift */; };
@@ -308,7 +296,6 @@
 		B74A22D02814FFF300F6F727 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B74A22D12814FFF300F6F727 /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B74A22D32814FFF300F6F727 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B74A22D42814FFF300F6F727 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
@@ -327,14 +314,12 @@
 		B74A22E72814FFF300F6F727 /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B74A22E82814FFF300F6F727 /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
 		B74A22E92814FFF300F6F727 /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
-		B74A22EA2814FFF300F6F727 /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		B74A22ED2814FFF300F6F727 /* ControlleriOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3C276DB75800522B45 /* ControlleriOSInputCompat.swift */; };
 		B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74A22F02814FFF300F6F727 /* CodePagesControllerMacOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */; };
 		B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DD280CECBA0005A233 /* TAPDevice.swift */; };
-		B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B74A22F32814FFF300F6F727 /* TestButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C39276DB2B300522B45 /* TestButtonsView.swift */; };
 		B74A22F42814FFF300F6F727 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BB25101B0600B18894 /* SCNAction+Extensions.swift */; };
 		B74A22F52814FFF300F6F727 /* TAPKitLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756E3280CECBA0005A233 /* TAPKitLog.swift */; };
@@ -342,7 +327,6 @@
 		B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
 		B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		B74A22FA2814FFF300F6F727 /* CodeGrid+Clones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59562766AAD400E406AE /* CodeGrid+Clones.swift */; };
-		B74A22FB2814FFF300F6F727 /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
 		B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1115251EEFE40052D993 /* MultipeerControls.swift */; };
 		B74A22FE2814FFF300F6F727 /* CodePagesControllerMacOSCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */; };
@@ -351,7 +335,6 @@
 		B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B74A23022814FFF300F6F727 /* UserFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9F6EE27B4A1380087BD4A /* UserFocusController.swift */; };
 		B74A23032814FFF300F6F727 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
-		B74A23042814FFF300F6F727 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
@@ -396,7 +379,6 @@
 		B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
 		B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233A2815265300F6F727 /* SemanticMapTracer.swift */; };
 		B74B56AD287BA1300078EB2D /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
-		B74B56AE287BA1300078EB2D /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B74B56AF287BA1300078EB2D /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		B74B56B0287BA1300078EB2D /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B74B56B1287BA1300078EB2D /* SCNBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B825101B0600B18894 /* SCNBezierPath.swift */; };
@@ -421,7 +403,6 @@
 		B74B56C4287BA1300078EB2D /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B74B56C5287BA1300078EB2D /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		B74B56C6287BA1300078EB2D /* FocusBoxEngine_MacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C3F276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift */; };
-		B74B56C7287BA1300078EB2D /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
 		B74B56C8287BA1300078EB2D /* ControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AFD2828AD63006A6A3E /* ControllerState.swift */; };
 		B74B56C9287BA1300078EB2D /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B74B56CA287BA1300078EB2D /* FloatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A428305B160024B7C0 /* FloatableView.swift */; };
@@ -444,7 +425,6 @@
 		B74B56DB287BA1300078EB2D /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B74B56DC287BA1300078EB2D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B74B56DD287BA1300078EB2D /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
-		B74B56DE287BA1300078EB2D /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
 		B74B56DF287BA1300078EB2D /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74B56E0287BA1300078EB2D /* TAPKitDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */; };
 		B74B56E1287BA1300078EB2D /* CodeGridGlobalSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */; };
@@ -455,7 +435,6 @@
 		B74B56E7287BA1300078EB2D /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B74B56E8287BA1300078EB2D /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B74B56E9287BA1300078EB2D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B74B56EA287BA1300078EB2D /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B74B56EB287BA1300078EB2D /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		B74B56EC287BA1300078EB2D /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B74B56ED287BA1300078EB2D /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
@@ -477,7 +456,6 @@
 		B74B56FD287BA1300078EB2D /* CodeGridSemanticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* CodeGridSemanticMap.swift */; };
 		B74B56FE287BA1300078EB2D /* TAPKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756D8280CECBA0005A233 /* TAPKit.swift */; };
 		B74B56FF287BA1300078EB2D /* SceneKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* SceneKit+Extensions.swift */; };
-		B74B5700287BA1300078EB2D /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B74B5701287BA1300078EB2D /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B74B5702287BA1300078EB2D /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		B74B5703287BA1300078EB2D /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
@@ -487,7 +465,6 @@
 		B74B5707287BA1300078EB2D /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74B5708287BA1300078EB2D /* CodePagesControllerMacOSInputCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C34276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift */; };
 		B74B5709287BA1300078EB2D /* TAPDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DD280CECBA0005A233 /* TAPDevice.swift */; };
-		B74B570A287BA1300078EB2D /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
 		B74B570B287BA1300078EB2D /* TestButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F44C39276DB2B300522B45 /* TestButtonsView.swift */; };
 		B74B570C287BA1300078EB2D /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
 		B74B570D287BA1300078EB2D /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
@@ -501,7 +478,6 @@
 		B74B5715287BA1300078EB2D /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B74B5716287BA1300078EB2D /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
 		B74B5717287BA1300078EB2D /* FontRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D585282470CA00BF0602 /* FontRenderer.swift */; };
-		B74B5718287BA1300078EB2D /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
 		B74B571A287BA1300078EB2D /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B74B571B287BA1300078EB2D /* GlyphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58128246FF400BF0602 /* GlyphBuilder.swift */; };
 		B74B571C287BA1300078EB2D /* MultipeerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1115251EEFE40052D993 /* MultipeerControls.swift */; };
@@ -513,7 +489,6 @@
 		B74B5722287BA1300078EB2D /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
 		B74B5723287BA1300078EB2D /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		B74B5724287BA1300078EB2D /* CodePagesGridLSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AAE282B2443000F99EB /* CodePagesGridLSP.swift */; };
-		B74B5725287BA1300078EB2D /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B74B5726287BA1300078EB2D /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B74B5727287BA1300078EB2D /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B74B5728287BA1300078EB2D /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
@@ -633,7 +608,6 @@
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
-		B78159E9273E057B00212176 /* HighlightCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B735A9EE2676AB6300F351B4 /* HighlightCache.swift */; };
 		B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B78159ED273E057B00212176 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B78159EE273E059500212176 /* SceneKit+BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* SceneKit+BoundsCaching.swift */; };
@@ -711,7 +685,6 @@
 		B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
-		B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */; };
 		B79F931627508FB300E46A96 /* RenderingVersionThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931527508FB300E46A96 /* RenderingVersionThree.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
@@ -809,12 +782,6 @@
 		B7AC33B928A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
 		B7AC33BA28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
 		B7AC33BB28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
-		B7B18C61276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
-		B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C60276991220043DA1B /* RenderingVersionFour.swift */; };
-		B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
-		B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */; };
-		B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
-		B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */; };
 		B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */; };
 		B7B18C72276CFD030043DA1B /* HitTestEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */; };
@@ -934,12 +901,6 @@
 		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88362723955E0098541C /* CodeGridParser.swift */; };
-		B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
-		B7EAA4C82771443700E91C29 /* GridControlAddToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */; };
-		B7EAA4CA27718F3C00E91C29 /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
-		B7EAA4CB27718F3C00E91C29 /* FocusBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */; };
-		B7EAA4CE2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
-		B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */; };
 		B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71072844119800313633 /* SwiftSyntaxParser */; };
 		B7EB7109284448A100313633 /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1223,7 +1184,6 @@
 		B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLink+Extensions.swift"; sourceTree = "<group>"; };
 		B7321510275858F800BD5C17 /* CodeGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridFocusController.swift; sourceTree = "<group>"; };
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
-		B735A9EE2676AB6300F351B4 /* HighlightCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCache.swift; sourceTree = "<group>"; };
 		B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
 		B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionary.swift; sourceTree = "<group>"; };
 		B73EF75A28111E2C008BEE85 /* RWLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWLock.swift; sourceTree = "<group>"; };
@@ -1286,7 +1246,6 @@
 		B79F93092750683B00E46A96 /* CodePagesControllerMacOSCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesControllerMacOSCompat.swift; sourceTree = "<group>"; };
 		B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+GridExtensions.swift"; sourceTree = "<group>"; };
 		B79F930F2750741900E46A96 /* CodeGridCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridCache.swift; sourceTree = "<group>"; };
-		B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionTwo.swift; sourceTree = "<group>"; };
 		B79F931527508FB300E46A96 /* RenderingVersionThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionThree.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
@@ -1318,9 +1277,6 @@
 		B7AC33AC28A0D479001172BB /* MeshLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshLibrary.swift; sourceTree = "<group>"; };
 		B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNode.swift; sourceTree = "<group>"; };
 		B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkRenderable.swift; sourceTree = "<group>"; };
-		B7B18C60276991220043DA1B /* RenderingVersionFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingVersionFour.swift; sourceTree = "<group>"; };
-		B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridControl.swift; sourceTree = "<group>"; };
-		B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlSwapModes.swift; sourceTree = "<group>"; };
 		B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHandler.swift; sourceTree = "<group>"; };
 		B7B18C71276CFD030043DA1B /* HitTestEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitTestEvaluator.swift; sourceTree = "<group>"; };
 		B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlasBuilder.swift; sourceTree = "<group>"; };
@@ -1376,9 +1332,6 @@
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
-		B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridControlAddToFocus.swift; sourceTree = "<group>"; };
-		B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusBoxControl.swift; sourceTree = "<group>"; };
-		B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusControlShiftFocus.swift; sourceTree = "<group>"; };
 		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
 		B7EB713F284878B100313633 /* GitHubClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientView.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
@@ -1828,9 +1781,7 @@
 			isa = PBXGroup;
 			children = (
 				B7F344CD2839C89400629932 /* RenderPlan.swift */,
-				B79F931327508F6C00E46A96 /* RenderingVersionTwo.swift */,
 				B79F931527508FB300E46A96 /* RenderingVersionThree.swift */,
-				B7B18C60276991220043DA1B /* RenderingVersionFour.swift */,
 				B79F931727509D3400E46A96 /* Stopwatch.swift */,
 			);
 			path = CoreRendering;
@@ -1935,17 +1886,6 @@
 				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
 			);
 			path = Nodes;
-			sourceTree = "<group>";
-		};
-		B7B18C66276C1B590043DA1B /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				B7EAA4CC2771A3BD00E91C29 /* FocusBoxControls */,
-				B7B18C67276C1B6A0043DA1B /* CodeGridControl.swift */,
-				B7B18C6A276C1C680043DA1B /* GridControlSwapModes.swift */,
-				B7EAA4C62771443700E91C29 /* GridControlAddToFocus.swift */,
-			);
-			path = Controls;
 			sourceTree = "<group>";
 		};
 		B7B18C6D276C1EC30043DA1B /* CodePagesController */ = {
@@ -2089,7 +2029,6 @@
 				B796DEED280D1AB8006AC749 /* CoreGrid */,
 				B796DEEE280D1B00006AC749 /* CoreParser */,
 				B79F931227508F5600E46A96 /* CoreRendering */,
-				B7B18C66276C1B590043DA1B /* Controls */,
 				B732150F275858A800BD5C17 /* Focusing */,
 				B72197242737428B00E1CB60 /* WorldGrid */,
 				B79F930F2750741900E46A96 /* CodeGridCache.swift */,
@@ -2100,15 +2039,6 @@
 				B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */,
 			);
 			path = CodeGrids;
-			sourceTree = "<group>";
-		};
-		B7EAA4CC2771A3BD00E91C29 /* FocusBoxControls */ = {
-			isa = PBXGroup;
-			children = (
-				B7EAA4C927718F3C00E91C29 /* FocusBoxControl.swift */,
-				B7EAA4CD2771A41900E91C29 /* FocusControlShiftFocus.swift */,
-			);
-			path = FocusBoxControls;
 			sourceTree = "<group>";
 		};
 		B7EB71392848748E00313633 /* GitHubIO */ = {
@@ -2287,7 +2217,6 @@
 		F043BB0F2515369000FB1EF6 /* Caches */ = {
 			isa = PBXGroup;
 			children = (
-				B735A9EE2676AB6300F351B4 /* HighlightCache.swift */,
 				F043BB0D2515315600FB1EF6 /* LockingCache.swift */,
 			);
 			path = Caches;
@@ -2800,7 +2729,6 @@
 			files = (
 				B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */,
 				B7C69FBE28A2404B00A84860 /* MetalMath.swift in Sources */,
-				B70FDC55283EAE9900170D5F /* GridControlSwapModes.swift in Sources */,
 				B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B70FDC57283EAE9900170D5F /* TraceLineIDMap.swift in Sources */,
 				B70FDC58283EAE9900170D5F /* SCNBezierPath.swift in Sources */,
@@ -2833,7 +2761,6 @@
 				B70FDC6A283EAE9900170D5F /* FileUrlProvider.swift in Sources */,
 				B750771728A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B70FDC6B283EAE9900170D5F /* FocusBoxEngine_MacOS.swift in Sources */,
-				B70FDC6C283EAE9900170D5F /* GridControlAddToFocus.swift in Sources */,
 				B70FDC6D283EAE9900170D5F /* ControllerState.swift in Sources */,
 				B70FDC6E283EAE9900170D5F /* FileBrowser.swift in Sources */,
 				B7AC334328A0CA71001172BB /* CoreError.swift in Sources */,
@@ -2862,7 +2789,6 @@
 				B785521528B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B70FDC81283EAE9900170D5F /* String+Extensions.swift in Sources */,
 				B70FDC82283EAE9900170D5F /* HitTestEvaluator.swift in Sources */,
-				B70FDC83283EAE9900170D5F /* FocusBoxControl.swift in Sources */,
 				B72E9587287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B70FDC84283EAE9900170D5F /* Syntax+Caching.swift in Sources */,
 				B70FDC85283EAE9900170D5F /* TAPKitDelegateController.swift in Sources */,
@@ -2883,7 +2809,6 @@
 				B7AC337B28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7AC336328A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				B70FDC8E283EAE9900170D5F /* FileBrowserView.swift in Sources */,
-				B70FDC8F283EAE9900170D5F /* FocusControlShiftFocus.swift in Sources */,
 				B70FDC90283EAE9900170D5F /* BaseSceneController+Interactions.swift in Sources */,
 				B7AC33B428A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B70FDC91283EAE9900170D5F /* ConnectionBundle.swift in Sources */,
@@ -2915,7 +2840,6 @@
 				B70FDCA3283EAE9900170D5F /* TAPKit.swift in Sources */,
 				B70FDCA4283EAE9900170D5F /* SceneKit+Extensions.swift in Sources */,
 				B762DF1628A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
-				B70FDCA5283EAE9900170D5F /* RenderingVersionTwo.swift in Sources */,
 				B70FDCA6283EAE9900170D5F /* FileBrowser+Scope.swift in Sources */,
 				B70FDCA7283EAE9900170D5F /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7C69FE428A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
@@ -2927,7 +2851,6 @@
 				B70FDCAC283EAE9900170D5F /* StateCapturingVisitor.swift in Sources */,
 				B70FDCAD283EAE9900170D5F /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B70FDCAE283EAE9900170D5F /* TAPDevice.swift in Sources */,
-				B70FDCAF283EAE9900170D5F /* RenderingVersionFour.swift in Sources */,
 				B70FDCB0283EAE9900170D5F /* TestButtonsView.swift in Sources */,
 				B70FDCB1283EAE9900170D5F /* CallStackParsing.swift in Sources */,
 				B7C69FC428A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
@@ -2945,7 +2868,6 @@
 				B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B70FDCBB283EAE9900170D5F /* ThreadExtensions.swift in Sources */,
 				B70FDCBC283EAE9900170D5F /* FontRenderer.swift in Sources */,
-				B70FDCBD283EAE9900170D5F /* CodeGridControl.swift in Sources */,
 				B72FBFD128A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B70FDCBE283EAE9900170D5F /* TracingInfoBridging.swift in Sources */,
 				B70FDCBF283EAE9900170D5F /* CodeGridTokenCache.swift in Sources */,
@@ -2961,7 +2883,6 @@
 				B70FDCC7283EAE9900170D5F /* CodeGridColors.swift in Sources */,
 				B70FDCC8283EAE9900170D5F /* InterpolatorFunctions.swift in Sources */,
 				B70FDCC9283EAE9900170D5F /* CodePagesGridLSP.swift in Sources */,
-				B70FDCCA283EAE9900170D5F /* HighlightCache.swift in Sources */,
 				B70FDCCB283EAE9900170D5F /* CodePagesEditorState.swift in Sources */,
 				B70FDCCC283EAE9900170D5F /* SearchContainer.swift in Sources */,
 				B70FDCCD283EAE9900170D5F /* DragSizableView.swift in Sources */,
@@ -3018,7 +2939,6 @@
 				B7AC335928A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
 				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
-				B74A22A62814FFF300F6F727 /* GridControlSwapModes.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B74A22A82814FFF300F6F727 /* SCNBezierPath.swift in Sources */,
@@ -3051,7 +2971,6 @@
 				B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */,
 				B74A22B52814FFF300F6F727 /* FocusBoxEngine_MacOS.swift in Sources */,
-				B74A22B62814FFF300F6F727 /* GridControlAddToFocus.swift in Sources */,
 				B7AC33A728A0D11E001172BB /* MetalView.swift in Sources */,
 				B7241B002828AD63006A6A3E /* ControllerState.swift in Sources */,
 				B7AC33BB28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
@@ -3088,7 +3007,6 @@
 				B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B74A22C92814FFF300F6F727 /* HitTestEvaluator.swift in Sources */,
 				B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
-				B74A22CA2814FFF300F6F727 /* FocusBoxControl.swift in Sources */,
 				B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */,
 				B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B7AC336128A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
@@ -3106,7 +3024,6 @@
 				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 				B74A22D12814FFF300F6F727 /* BasicIO.swift in Sources */,
 				B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */,
-				B74A22D32814FFF300F6F727 /* FocusControlShiftFocus.swift in Sources */,
 				B74A22D42814FFF300F6F727 /* BaseSceneController+Interactions.swift in Sources */,
 				B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
@@ -3138,7 +3055,6 @@
 				B74A22E72814FFF300F6F727 /* CodeGridSemanticMap.swift in Sources */,
 				B74A22E82814FFF300F6F727 /* TAPKit.swift in Sources */,
 				B74A22E92814FFF300F6F727 /* SceneKit+Extensions.swift in Sources */,
-				B74A22EA2814FFF300F6F727 /* RenderingVersionTwo.swift in Sources */,
 				B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
 				B74A22ED2814FFF300F6F727 /* ControlleriOSInputCompat.swift in Sources */,
@@ -3154,7 +3070,6 @@
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
 				B790E691283DEF32002F6512 /* WireDataEncodable.swift in Sources */,
-				B74A22F22814FFF300F6F727 /* RenderingVersionFour.swift in Sources */,
 				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
@@ -3175,7 +3090,6 @@
 				B720D588282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */,
 				B74A22FA2814FFF300F6F727 /* CodeGrid+Clones.swift in Sources */,
-				B74A22FB2814FFF300F6F727 /* CodeGridControl.swift in Sources */,
 				B720D58428246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */,
 				B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */,
@@ -3188,7 +3102,6 @@
 				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
 				B74A23022814FFF300F6F727 /* UserFocusController.swift in Sources */,
 				B74A23032814FFF300F6F727 /* InterpolatorFunctions.swift in Sources */,
-				B74A23042814FFF300F6F727 /* HighlightCache.swift in Sources */,
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */,
 				B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */,
@@ -3231,7 +3144,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B74B56AD287BA1300078EB2D /* CodeGridCache.swift in Sources */,
-				B74B56AE287BA1300078EB2D /* GridControlSwapModes.swift in Sources */,
 				B74B56AF287BA1300078EB2D /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B74B56B0287BA1300078EB2D /* TraceLineIDMap.swift in Sources */,
 				B74B56B1287BA1300078EB2D /* SCNBezierPath.swift in Sources */,
@@ -3258,7 +3170,6 @@
 				B74B56C4287BA1300078EB2D /* CommandHandler.swift in Sources */,
 				B74B56C5287BA1300078EB2D /* FileUrlProvider.swift in Sources */,
 				B74B56C6287BA1300078EB2D /* FocusBoxEngine_MacOS.swift in Sources */,
-				B74B56C7287BA1300078EB2D /* GridControlAddToFocus.swift in Sources */,
 				B74B56C8287BA1300078EB2D /* ControllerState.swift in Sources */,
 				B74B56C9287BA1300078EB2D /* FileBrowser.swift in Sources */,
 				B74B56CA287BA1300078EB2D /* FloatableView.swift in Sources */,
@@ -3283,7 +3194,6 @@
 				B74B56DC287BA1300078EB2D /* String+Extensions.swift in Sources */,
 				B72E9588287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B74B56DD287BA1300078EB2D /* HitTestEvaluator.swift in Sources */,
-				B74B56DE287BA1300078EB2D /* FocusBoxControl.swift in Sources */,
 				B74B56DF287BA1300078EB2D /* Syntax+Caching.swift in Sources */,
 				B74B56E0287BA1300078EB2D /* TAPKitDelegateController.swift in Sources */,
 				B74B56E1287BA1300078EB2D /* CodeGridGlobalSemantics.swift in Sources */,
@@ -3294,7 +3204,6 @@
 				B74B56E7287BA1300078EB2D /* CodeGridParser+GridExtensions.swift in Sources */,
 				B74B56E8287BA1300078EB2D /* BasicIO.swift in Sources */,
 				B74B56E9287BA1300078EB2D /* FileBrowserView.swift in Sources */,
-				B74B56EA287BA1300078EB2D /* FocusControlShiftFocus.swift in Sources */,
 				B74B56EB287BA1300078EB2D /* BaseSceneController+Interactions.swift in Sources */,
 				B74B56EC287BA1300078EB2D /* ConnectionBundle.swift in Sources */,
 				B74B56ED287BA1300078EB2D /* ThreadInfoExtract.swift in Sources */,
@@ -3316,7 +3225,6 @@
 				B74B56FD287BA1300078EB2D /* CodeGridSemanticMap.swift in Sources */,
 				B74B56FE287BA1300078EB2D /* TAPKit.swift in Sources */,
 				B74B56FF287BA1300078EB2D /* SceneKit+Extensions.swift in Sources */,
-				B74B5700287BA1300078EB2D /* RenderingVersionTwo.swift in Sources */,
 				B74B5701287BA1300078EB2D /* FileBrowser+Scope.swift in Sources */,
 				B74B5702287BA1300078EB2D /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B74B5703287BA1300078EB2D /* GlyphLayer+macOS.swift in Sources */,
@@ -3326,7 +3234,6 @@
 				B74B5707287BA1300078EB2D /* StateCapturingVisitor.swift in Sources */,
 				B74B5708287BA1300078EB2D /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B74B5709287BA1300078EB2D /* TAPDevice.swift in Sources */,
-				B74B570A287BA1300078EB2D /* RenderingVersionFour.swift in Sources */,
 				B74B570B287BA1300078EB2D /* TestButtonsView.swift in Sources */,
 				B74B570C287BA1300078EB2D /* CallStackParsing.swift in Sources */,
 				B74B570D287BA1300078EB2D /* SourceInfoPanelToggles.swift in Sources */,
@@ -3340,7 +3247,6 @@
 				B74B5715287BA1300078EB2D /* InputStreamReader.swift in Sources */,
 				B74B5716287BA1300078EB2D /* ThreadExtensions.swift in Sources */,
 				B74B5717287BA1300078EB2D /* FontRenderer.swift in Sources */,
-				B74B5718287BA1300078EB2D /* CodeGridControl.swift in Sources */,
 				B74B571A287BA1300078EB2D /* CodeGridTokenCache.swift in Sources */,
 				B74B571B287BA1300078EB2D /* GlyphBuilder.swift in Sources */,
 				B74B571C287BA1300078EB2D /* MultipeerControls.swift in Sources */,
@@ -3352,7 +3258,6 @@
 				B74B5722287BA1300078EB2D /* CodeGridColors.swift in Sources */,
 				B74B5723287BA1300078EB2D /* InterpolatorFunctions.swift in Sources */,
 				B74B5724287BA1300078EB2D /* CodePagesGridLSP.swift in Sources */,
-				B74B5725287BA1300078EB2D /* HighlightCache.swift in Sources */,
 				B74B5726287BA1300078EB2D /* CodePagesEditorState.swift in Sources */,
 				B74B5727287BA1300078EB2D /* SearchContainer.swift in Sources */,
 				B74B5728287BA1300078EB2D /* DragSizableView.swift in Sources */,
@@ -3408,7 +3313,6 @@
 			files = (
 				B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B750771428A21FFD0097278A /* MetalMath.swift in Sources */,
-				B7B18C6B276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				F092E5BC25101B0600B18894 /* SCNBezierPath.swift in Sources */,
@@ -3441,7 +3345,6 @@
 				B7B18C6F276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
 				B7F44C40276DCFEE00522B45 /* FocusBoxEngine_MacOS.swift in Sources */,
-				B7EAA4C72771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B7241AFE2828AD63006A6A3E /* ControllerState.swift in Sources */,
 				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
 				B7AC334228A0CA71001172BB /* CoreError.swift in Sources */,
@@ -3470,7 +3373,6 @@
 				B785521428B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				B7B18C72276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,
-				B7EAA4CA27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
 				B72E9586287CBC24005578B6 /* CherrieiCommands.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
 				B7C756F3280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
@@ -3491,7 +3393,6 @@
 				B7AC337A28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7AC336228A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
-				B7EAA4CE2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
 				F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */,
 				B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
@@ -3523,7 +3424,6 @@
 				B7C756F1280CECBA0005A233 /* TAPKit.swift in Sources */,
 				F041F120251027E7000C2F87 /* SceneKit+Extensions.swift in Sources */,
 				B762DF1528A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
-				B79F931427508F6C00E46A96 /* RenderingVersionTwo.swift in Sources */,
 				B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7C69FE328A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
@@ -3535,7 +3435,6 @@
 				B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */,
 				B7F44C35276D98E900522B45 /* CodePagesControllerMacOSInputCompat.swift in Sources */,
 				B7C756F5280CECBA0005A233 /* TAPDevice.swift in Sources */,
-				B7B18C61276991220043DA1B /* RenderingVersionFour.swift in Sources */,
 				B7F44C3A276DB2B300522B45 /* TestButtonsView.swift in Sources */,
 				B798102B281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B7C69FC328A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
@@ -3553,7 +3452,6 @@
 				B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */,
 				B720D586282470CA00BF0602 /* FontRenderer.swift in Sources */,
-				B7B18C68276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B74A233D2815267E00F6F727 /* TracingInfoBridging.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
@@ -3569,7 +3467,6 @@
 				B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B7D79AAF282B2443000F99EB /* CodePagesGridLSP.swift in Sources */,
-				B735A9EF2676AB6300F351B4 /* HighlightCache.swift in Sources */,
 				B7C404DB2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */,
 				B75014A12830505C0024B7C0 /* DragSizableView.swift in Sources */,
@@ -3641,7 +3538,6 @@
 				B7DA860328AAAEF100EC70D2 /* KeyboardInterceptor.swift in Sources */,
 				B7F44C2E276D945C00522B45 /* FocusBox.swift in Sources */,
 				B7F67F1728A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
-				B7EAA4CF2771A41900E91C29 /* FocusControlShiftFocus.swift in Sources */,
 				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				B7AC336428A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
@@ -3703,7 +3599,6 @@
 				B7AC338828A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				F057D27E252046B90094BD83 /* NodeHitTests.swift in Sources */,
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
-				B7B18C6C276C1C680043DA1B /* GridControlSwapModes.swift in Sources */,
 				B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
@@ -3730,7 +3625,6 @@
 				F057D225252043A50094BD83 /* SceneLibrary.swift in Sources */,
 				B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */,
 				B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */,
-				B7EAA4CB27718F3C00E91C29 /* FocusBoxControl.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
@@ -3747,11 +3641,9 @@
 				F057D28C2520491C0094BD83 /* SCNBezierPath.swift in Sources */,
 				B7C7570A280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
 				B7C756F6280CECBA0005A233 /* TAPDevice.swift in Sources */,
-				B7EAA4C82771443700E91C29 /* GridControlAddToFocus.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				F0F0D8DA252689DF00EC8E75 /* WireDataTransformer.swift in Sources */,
 				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
-				B78159E9273E057B00212176 /* HighlightCache.swift in Sources */,
 				B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7B18C70276C1EE40043DA1B /* CommandHandler.swift in Sources */,
 				B7B18C73276CFD030043DA1B /* HitTestEvaluator.swift in Sources */,
@@ -3798,7 +3690,6 @@
 				B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */,
 				B7C7571B280CEE040005A233 /* Structures.swift in Sources */,
-				B7B18C62276991220043DA1B /* RenderingVersionFour.swift in Sources */,
 				B7AC337C28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7EB713D284874A800313633 /* GitHubClient.swift in Sources */,
 				F057D273252046A00094BD83 /* BaseSceneController.swift in Sources */,
@@ -3824,7 +3715,6 @@
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
 				B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7C75702280CECBA0005A233 /* VersionNumber.swift in Sources */,
-				B7B18C69276C1B6A0043DA1B /* CodeGridControl.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 				B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */,

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 struct FontRenderer {
     static let shared: FontRenderer = FontRenderer()

@@ -1,5 +1,4 @@
 import Foundation
-import SceneKit
 
 // Returns reads immediately, and if no value exists, locks dictionary write
 // and creates a new object from the given builder. Passed map to allow additional

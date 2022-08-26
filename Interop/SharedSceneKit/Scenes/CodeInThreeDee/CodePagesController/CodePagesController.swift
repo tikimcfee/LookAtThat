@@ -356,8 +356,6 @@ private extension CodePagesController {
 #else
                 codeGrid.toggleGlyphs()
 #endif
-            case let .control(codeGridControl):
-                codeGridControl.activate()
             default:
                 break
             }

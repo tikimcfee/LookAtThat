@@ -14,7 +14,6 @@ class GridCache {
     typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
     let parser: CodeGridParser
     let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
-    var cachedControls = ConcurrentDictionary<CodeGrid.ID, CodeGridControl>()
     var cachedFiles = ConcurrentDictionary<URL, CodeGrid.ID>()
     
     init(parser: CodeGridParser) {
@@ -23,10 +22,6 @@ class GridCache {
     
     func insertGrid(_ key: CodeGrid) {
         cachedGrids[key.id] = (key, key.makeClone())
-    }
-    
-    func insertControl(_ key: CodeGridControl) {
-        cachedControls[key.displayGrid.id] = key
     }
     
     func setCache(_ key: URL, _ setOriginalAsClone: Bool = true) -> CodeGrid {

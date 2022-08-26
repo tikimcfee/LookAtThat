@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreServices
-import SceneKit
+import AppKit
 
 struct BitmapImages: Hashable {
     let requested: NSUIImage

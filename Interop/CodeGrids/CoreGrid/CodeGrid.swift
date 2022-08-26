@@ -228,13 +228,6 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func addingChild(_ child: CodeGridControl) -> Self {
-        laztrace(#fileID,#function,child)
-        rootContainerNode.addChildNode(child.displayGrid.rootNode)
-        return self
-    }
-    
-    @discardableResult
     func addingChild(_ child: CodeGrid) -> Self {
         laztrace(#fileID,#function,child)
         rootContainerNode.addChildNode(child.rootNode)

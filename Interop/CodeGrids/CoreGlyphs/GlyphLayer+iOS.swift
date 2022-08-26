@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreServices
-import SceneKit
+import UIKit
 
 typealias BitmapImages = (
     requested: NSUIImage,

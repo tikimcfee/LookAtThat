@@ -2,7 +2,6 @@
 
 import AppKit
 import PlaygroundSupport
-import SceneKit
 
 let delegate = AppDelegate()
 let root = delegate.makeRootContentView()

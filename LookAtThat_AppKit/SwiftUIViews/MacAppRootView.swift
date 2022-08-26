@@ -1,6 +1,4 @@
 import SwiftUI
-import SceneKit
-
 
 struct MacAppRootView: View {
     @ObservedObject var library: SceneLibrary = SceneLibrary.global
