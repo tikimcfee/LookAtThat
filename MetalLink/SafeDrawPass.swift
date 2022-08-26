@@ -8,10 +8,22 @@
 
 import MetalKit
 
-struct SafeDrawPass {
-    let renderPassDescriptor: MTLRenderPassDescriptor
-    let renderCommandEncoder: MTLRenderCommandEncoder
-    let commandBuffer: MTLCommandBuffer
+class SafeDrawPass {
+    private static var reusedPassContainer: SafeDrawPass?
+    
+    var renderPassDescriptor: MTLRenderPassDescriptor
+    var renderCommandEncoder: MTLRenderCommandEncoder
+    var commandBuffer: MTLCommandBuffer
+        
+    private init(
+        renderPassDescriptor: MTLRenderPassDescriptor,
+        renderCommandEncoder: MTLRenderCommandEncoder,
+        commandBuffer: MTLCommandBuffer
+    ) {
+        self.renderPassDescriptor = renderPassDescriptor
+        self.renderCommandEncoder = renderCommandEncoder
+        self.commandBuffer = commandBuffer
+    }
     
     static func wrap(_ link: MetalLink) -> SafeDrawPass? {
         guard let renderPassDescriptor = link.view.currentRenderPassDescriptor
@@ -25,10 +37,19 @@ struct SafeDrawPass {
             return nil
         }
         
-        return SafeDrawPass(
-            renderPassDescriptor: renderPassDescriptor,
-            renderCommandEncoder: renderCommandEncoder,
-            commandBuffer: commandBuffer
-        )
+        if let container = reusedPassContainer {
+            container.renderPassDescriptor = renderPassDescriptor
+            container.renderCommandEncoder = renderCommandEncoder
+            container.commandBuffer = commandBuffer
+            return container
+        } else {
+            let container = SafeDrawPass(
+                renderPassDescriptor: renderPassDescriptor,
+                renderCommandEncoder: renderCommandEncoder,
+                commandBuffer: commandBuffer
+            )
+            reusedPassContainer = container
+            return container
+        }
     }
 }

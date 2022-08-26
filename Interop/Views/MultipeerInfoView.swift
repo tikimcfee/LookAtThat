@@ -348,18 +348,18 @@ struct MessageSendView: View {
     }
     
     func sendFileStreamToPeers() {
-        guard let peer = selectedPeer else {
-            print("Well so much for the disabled state")
-            return
-        }
-        
-        switch event {
-        case let .newSingleCommand(path, _):
-            print("Command not implemented")
-
-        default:
-            print("Ignoring event: \(event)")
-        }
+//        guard let peer = selectedPeer else {
+//            print("Well so much for the disabled state")
+//            return
+//        }
+//        
+//        switch event {
+//        case let .newSingleCommand(path, _):
+//            print("Command not implemented")
+//
+//        default:
+//            print("Ignoring event: \(event)")
+//        }
     }
 
     func sendMessageToPeers() {

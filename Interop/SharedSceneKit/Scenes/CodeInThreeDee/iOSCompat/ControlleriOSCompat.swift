@@ -32,19 +32,19 @@ class ControlleriOSCompat {
     }
     
     func attachSearchInputSink() {
-        SceneLibrary.global.codePagesController
-            .codeGridParser
-            .query
-            .$searchInput
-        // The pipe from the view's text field is messy ... with whatever my setup is I guess
-        // Debouncing and dropping duplicates helps to fix the ordering problem on the emits (that's a new one)
-            .debounce(for: .milliseconds(160), scheduler: RunLoop.main)
-            .removeDuplicates(by: { last, this in last == this })
-            .sink { [inputCompat] searchEvent in
-//                  print("\t\t--> search event [\(searchEvent)]")
-//                inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
-            }
-            .store(in: &controller.cancellables)
+//        SceneLibrary.global.codePagesController
+//            .codeGridParser
+//            .query
+//            .$searchInput
+//        // The pipe from the view's text field is messy ... with whatever my setup is I guess
+//        // Debouncing and dropping duplicates helps to fix the ordering problem on the emits (that's a new one)
+//            .debounce(for: .milliseconds(160), scheduler: RunLoop.main)
+//            .removeDuplicates(by: { last, this in last == this })
+//            .sink { [inputCompat] searchEvent in
+////                  print("\t\t--> search event [\(searchEvent)]")
+////                inputCompat.doNewSearch(searchEvent, SceneLibrary.global.codePagesController.sceneState)
+//            }
+//            .store(in: &controller.cancellables)
     }
 }
 
