@@ -231,7 +231,7 @@ extension CodeGridSemanticMap {
         return sort ? allFound.sorted(by: sortTuplesTopLeft) : allFound
     }
     
-    private func sortTopLeft(_ left: SCNNode, _ right: SCNNode) -> Bool {
+    private func sortTopLeft(_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {
         return left.position.y > right.position.y
         && left.position.x < right.position.x
     }

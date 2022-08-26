@@ -277,7 +277,7 @@ func helloWorld() {
     static var randomId: String {
         let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
         let offset = characterIndex.utf16Offset(in: sourceString)
-        return sourceGrid.rawGlyphsNode.childNodes[offset].name ?? "no-id"
+        return sourceGrid.rootNode.nodeId
     }
     
     static var sourceState: SourceInfoPanelState = {

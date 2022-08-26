@@ -3,7 +3,6 @@ import SwiftUI
 import SceneKit
 
 #if os(OSX)
-public typealias NSUIPreview = NSViewRepresentableContext<SceneKitRepresentableView>
 public typealias NSUIColor = NSColor
 public typealias GestureRecognizer = NSGestureRecognizer
 public typealias TapGestureRecognizer = NSGestureRecognizer
@@ -14,7 +13,7 @@ public typealias MagnificationGestureRecognizerState = NSMagnificationGestureRec
 public typealias NSUIFont = NSFont
 public typealias NSUIBezierPath = NSBezierPath
 public typealias OSEvent = NSEvent
-public typealias VectorFloat = CGFloat
+public typealias VectorFloat = Float
 public typealias OSScreen = NSScreen
 public typealias NSUIImage = NSImage
 public typealias NSUIViewRepresentable = NSViewRepresentable

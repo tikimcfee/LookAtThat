@@ -170,13 +170,6 @@ private extension SourceInfoPanelState {
     }
     
     func setupBindings() {
-        CodePagesController.shared.hover.$state
-            .receive(on: DispatchQueue.main)
-            .sink {
-                self.hoveredToken = $0.hoveredTokenId ?? self.hoveredToken
-                self.sourceInfo = $0.hoveredInfo
-                self.sourceGrid = $0.hoveredGrid
-            }
-            .store(in: &bag)
+        print("Not implemented: \(#function)")
     }
 }

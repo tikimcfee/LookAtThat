@@ -16,23 +16,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        __ENABLE_TRACE_LOG_WRITES__()
         
-#if os(iOS)
         let rootWindow = makeRootWindow()
         GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
         rootWindow.contentView = makeRootContentView()
         rootWindow.makeKeyAndOrderFront(nil)
         window = rootWindow
-#else
-        if CherrieiRootCommand.cherrierArgumentPresent {
-            CherrieiRootCommand.sanitizedMainRun()
-        } else {
-            let rootWindow = makeRootWindow()
-            GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
-            rootWindow.contentView = makeRootContentView()
-            rootWindow.makeKeyAndOrderFront(nil)
-            window = rootWindow
-        }
-#endif
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

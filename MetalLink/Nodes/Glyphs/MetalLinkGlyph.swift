@@ -23,10 +23,6 @@ class MetalLinkGlyphNode: MetalLinkObject {
         setQuadSize()
     }
     
-    func instanceableClone() -> MetalLinkGlyphNode {
-        MetalLinkGlyphNode(link, key: key, texture: texture, quad: quad)
-    }
-    
     func setQuadSize() {
         let size = UnitSize.from(texture.simdSize)
         (quad.width, quad.height) = (size.x, size.y)

@@ -8,11 +8,11 @@
 
 import Foundation
 
-typealias TextureIndex = Int
+public typealias TextureIndex = Int
 
-typealias LInt2 = SIMD2<Int>
-typealias LInt3 = SIMD3<Int>
+public typealias LInt2 = SIMD2<Int>
+public typealias LInt3 = SIMD3<Int>
 
-typealias LFloat2 = SIMD2<Float>
-typealias LFloat3 = SIMD3<Float>
-typealias LFloat4 = SIMD4<Float>
+public typealias LFloat2 = SIMD2<Float>
+public typealias LFloat3 = SIMD3<Float>
+public typealias LFloat4 = SIMD4<Float>

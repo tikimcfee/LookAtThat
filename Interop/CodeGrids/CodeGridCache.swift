@@ -10,7 +10,7 @@ import SwiftSyntax
 import SwiftUI
 
 class GridCache {
-    typealias CacheValue = (source: CodeGrid, clone: CodeGrid)
+    typealias CacheValue = CodeGrid
     let parser: CodeGridParser
     let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
     var cachedFiles = ConcurrentDictionary<URL, CodeGrid.ID>()
@@ -20,7 +20,7 @@ class GridCache {
     }
     
     func insertGrid(_ key: CodeGrid) {
-        cachedGrids[key.id] = (key, key.makeClone())
+        cachedGrids[key.id] = key
     }
     
     func setCache(_ key: URL, _ setOriginalAsClone: Bool = true) -> CodeGrid {
@@ -29,11 +29,7 @@ class GridCache {
             return parser.createNewGrid()
         }()
         
-        let newCacheValue = setOriginalAsClone
-            ? (source: newGrid, clone: newGrid)
-            : (source: newGrid, clone: newGrid.makeClone())
-        
-        cachedGrids[newGrid.id] = newCacheValue
+        cachedGrids[newGrid.id] = newGrid
         cachedFiles[key] = newGrid.id
         return newGrid
     }
@@ -41,7 +37,7 @@ class GridCache {
     func getOrCache(_ key: URL) -> CodeGrid {
         if let gridId = cachedFiles[key],
            let grid = cachedGrids[gridId] {
-            return grid.source
+            return grid
         }
         
         return setCache(key)

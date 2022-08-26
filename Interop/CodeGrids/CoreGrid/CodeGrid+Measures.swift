@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 
 // MARK: -- Measuring and layout
-extension SCNNode {
+extension MetalLinkNode {
     var worldLeading: VectorFloat {
         get { worldPosition.x - abs(manualBoundingBox.min.x) }
     }
@@ -29,12 +29,12 @@ extension SCNNode {
         get { worldPosition.z - abs(manualBoundingBox.min.z) }
     }
     
-    var worldBoundsMin: SCNVector3 {
-        SCNVector3(worldLeading, worldBottom, worldBack)
+    var worldBoundsMin: LFloat3 {
+        LFloat3(worldLeading, worldBottom, worldBack)
     }
     
-    var worldBoundsMax: SCNVector3 {
-        SCNVector3(worldTrailing, worldTop, worldFront)
+    var worldBoundsMax: LFloat3 {
+        LFloat3(worldTrailing, worldTop, worldFront)
     }
     
     var worldBounds: Bounds {
@@ -65,12 +65,12 @@ extension CodeGrid {
             set { positionNode.position.z = newValue }
         }
         
-        var position: SCNVector3 {
+        var position: LFloat3 {
             get { positionNode.position }
             set { positionNode.position = newValue }
         }
         
-        var worldPosition: SCNVector3 {
+        var worldPosition: LFloat3 {
             get { positionNode.worldPosition }
             set { positionNode.worldPosition = newValue }
         }
@@ -86,35 +86,35 @@ extension CodeGrid {
         var frontOffset: VectorFloat { abs(scaledLocalFront) }
         var backOffset: VectorFloat { abs(scaledLocalBack) }
         
-        var boundsMin: SCNVector3 {
+        var boundsMin: LFloat3 {
             positionNode.convertPosition(
-                SCNVector3(localLeading, localBottom, localBack),
+                LFloat3(localLeading, localBottom, localBack),
                 to: positionNode.parent
             )
         }
         
-        var boundsMax: SCNVector3 {
+        var boundsMax: LFloat3 {
             positionNode.convertPosition(
-                SCNVector3(localTrailing, localTop, localFront),
+                LFloat3(localTrailing, localTop, localFront),
                 to: positionNode.parent
             )
         }
         
-        var worldBoundsMin: SCNVector3 {
-            SCNVector3(worldLeading, worldBottom, worldBack)
+        var worldBoundsMin: LFloat3 {
+            LFloat3(worldLeading, worldBottom, worldBack)
         }
         
-        var worldBoundsMax: SCNVector3 {
-            SCNVector3(worldTrailing, worldTop, worldFront)
+        var worldBoundsMax: LFloat3 {
+            LFloat3(worldTrailing, worldTop, worldFront)
         }
         
         var worldBounds: Bounds {
             (min: worldBoundsMin, max: worldBoundsMax)
         }
         
-        var centerPosition: SCNVector3 {
+        var centerPosition: LFloat3 {
             positionNode.convertPosition(
-                SCNVector3(x: localCenterX, y: localCenterY, z: localCenterZ),
+                LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ),
                 to: positionNode.parent
             )
         }
@@ -224,9 +224,9 @@ extension CodeGrid {
 }
 
 private extension CodeGrid.Measures {
-    private var scaledLengthX: VectorFloat { sizeNode.lengthX * DeviceScale }
-    private var scaledLengthY: VectorFloat { sizeNode.lengthY * DeviceScale }
-    private var scaledLengthZ: VectorFloat { sizeNode.lengthZ * DeviceScale }
+    private var scaledLengthX: VectorFloat { positionNode.lengthX * DeviceScale }
+    private var scaledLengthY: VectorFloat { positionNode.lengthY * DeviceScale }
+    private var scaledLengthZ: VectorFloat { positionNode.lengthZ * DeviceScale }
     
     private var scaledLocalLeading: VectorFloat {
         get { localLeading * DeviceScale }
@@ -259,8 +259,7 @@ private extension CodeGrid.Measures {
 }
 
 extension CodeGrid.Measures {
-    private var positionNode: SCNNode { target.rootNode }
-    private var sizeNode: SCNNode { target.rootNode }
+    private var positionNode: MetalLinkNode { target.rootNode }
     
     var worldLeading: VectorFloat {
         get { positionNode.worldPosition.x - positionNode.manualBoundingBox.min.x }
@@ -301,13 +300,13 @@ extension CodeGrid.Measures {
     }
     
     var localCenterX: VectorFloat {
-        get { localLeading + (sizeNode.lengthX / 2.0) }
+        get { localLeading + (positionNode.lengthX / 2.0) }
     }
     var localCenterY: VectorFloat {
-        get { localTop - (sizeNode.lengthY / 2.0) }
+        get { localTop - (positionNode.lengthY / 2.0) }
     }
     var localCenterZ: VectorFloat {
-        get { localFront - (sizeNode.lengthZ / 2.0) }
+        get { localFront - (positionNode.lengthZ / 2.0) }
     }
 }
 

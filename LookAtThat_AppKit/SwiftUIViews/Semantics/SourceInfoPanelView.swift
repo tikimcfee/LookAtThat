@@ -100,13 +100,15 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var gridStateView: some View {
         // TODO: This isn't global yet, but it can / should / will be
-        CodeGridInfoView()
+        Text("Grid state view not yet reimplemented")
+            .padding(32)
     }
     
     @ViewBuilder
     var globalSearchView: some View {
         // TODO: This isn't global yet, but it can / should / will be
-        FocusSearchInputView()
+        print("Not implemented: \(#file):\(#function)")
+        return EmptyView()
     }
     
     @ViewBuilder
@@ -180,7 +182,7 @@ func helloWorld() {
     static var randomId: String {
         let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
         let offset = characterIndex.utf16Offset(in: sourceString)
-        return sourceGrid.rawGlyphsNode.childNodes[offset].name ?? "no-id"
+        return "no-id" // TODO: Expose node ids somehow
     }
     
     static var sourceState: SourceInfoPanelState = {

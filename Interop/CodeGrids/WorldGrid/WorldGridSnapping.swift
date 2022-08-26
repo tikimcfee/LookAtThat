@@ -15,18 +15,14 @@ class WorldGridSnapping {
     private typealias Mapping = [CodeGrid: [SourcedRelativeGridMapping]]
     private var mapping = Mapping()
     
-    var focusReg1: FocusBox?
-    var focusReg2: FocusBox?
-    var focusReg3: FocusBox?
-    var focusReg4: FocusBox?
     var gridReg1: CodeGrid?
     var gridReg2: CodeGrid?
     var gridReg3: CodeGrid?
     var gridReg4: CodeGrid?
-    var nodeReg1: SCNNode?
-    var nodeReg2: SCNNode?
-    var nodeReg3: SCNNode?
-    var nodeReg4: SCNNode?
+    var nodeReg1: MetalLinkNode?
+    var nodeReg2: MetalLinkNode?
+    var nodeReg3: MetalLinkNode?
+    var nodeReg4: MetalLinkNode?
 }
 
 extension WorldGridSnapping {

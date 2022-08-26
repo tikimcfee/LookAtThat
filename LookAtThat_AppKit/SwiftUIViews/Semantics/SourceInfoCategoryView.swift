@@ -115,7 +115,7 @@ struct SourceInfoCategoryView: View {
             .padding(4)
             .overlay(Rectangle().stroke(Color.gray))
             .onTapGesture {
-                CodePagesController.shared.selection.selected(id: info.syntaxId, in: grid)
+                print("Not implemented: \(#file):\(#function), tap")
             }
     }
 }

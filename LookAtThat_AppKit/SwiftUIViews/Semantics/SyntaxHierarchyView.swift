@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SyntaxHierarchyView: View {
-    @ObservedObject var hover: CodeGridHoverController = CodePagesController.shared.hover
-    @ObservedObject var selection: CodeGridSelectionController = CodePagesController.shared.selection
     
-    var hoveredId: String { hover.state.hoveredTokenId ?? "" }
+    var hoveredId: String {
+        // TODO: hoveredId not implemented!
+        print("TODO: hoveredId not implemented!")
+        return ""
+    }
     
     var body: some View {
         hoveredNodeInfoView(hoveredId)
@@ -68,15 +70,19 @@ struct SyntaxHierarchyView: View {
 
 extension SyntaxHierarchyView {
     func didTapRow(semantics: SemanticInfo) {
-        selection.selected(
-            id: semantics.syntaxId, in: sourceInfo
-        )
+        print("Not implemented: \(#function)")
     }
 }
 
 extension SyntaxHierarchyView {
-    var sourceGrid: CodeGrid? { hover.state.hoveredGrid }
-    var sourceInfo: CodeGridSemanticMap { hover.state.hoveredInfo }
+    var sourceGrid: CodeGrid? {
+        print("Not implemented: \(#file):\(#function)")
+        return nil
+    }
+    var sourceInfo: CodeGridSemanticMap {
+        print("Not implemented: \(#file):\(#function)")
+        return CodeGridSemanticMap()
+    }
     var sourceGridName: String {
         sourceGrid.map
             { "Target grid: \($0.fileName)" }
@@ -94,6 +100,7 @@ extension SyntaxHierarchyView {
     }
     
     func isSelected(info: SemanticInfo) -> Bool {
-        return selection.state.isSelected(info.syntaxId)
+        print("Not implemented: \(#file):\(#function)")
+        return false
     }
 }

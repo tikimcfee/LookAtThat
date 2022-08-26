@@ -129,7 +129,6 @@ struct MobileAppRootView : View {
                         Text("Fetch GitHub").padding()
                     }
                 }
-                TestButtons_Debugging()
                 FileBrowserView()
                     .frame(maxHeight: 192.0)
             }

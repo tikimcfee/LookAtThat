@@ -12,7 +12,6 @@ class RenderTask {
     var missedInfo: Set<CodeGrid> = []
     lazy var task = DispatchWorkItem(block: sharedDispatchBlock)
     
-    let codeGridFocus: CodeGridFocusController
     let codeGridParser: CodeGridParser
     
     let newInput: String
@@ -22,14 +21,12 @@ class RenderTask {
     private let stopwatch = Stopwatch()
     
     init(
-        codeGridFocus: CodeGridFocusController,
         codeGridParser: CodeGridParser,
         newInput: String,
         state: SceneState,
         mode: SearchContainer.Mode,
         onComplete: @escaping () -> Void
     ) {
-        self.codeGridFocus = codeGridFocus
         self.codeGridParser = codeGridParser
         self.newInput = newInput
         self.sceneState = state
@@ -74,11 +71,11 @@ private extension RenderTask {
     func doSearchWalk() throws {
         try codeGridParser.query.walkGridsForSearch(
             newInput,
-            onPositive: { source, clone, matchInfo in
+            onPositive: { source, matchInfo in
                 try throwIfCancelled()
                 matchedInfo[source, default: []].append(matchInfo)
             },
-            onNegative: { source, clone in
+            onNegative: { source in
                 try throwIfCancelled()
                 missedInfo.insert(source)
             }
@@ -91,11 +88,12 @@ private extension RenderTask {
 extension RenderTask {
     func doInlineGlobalSearch() throws {
         func isFocused(grid: CodeGrid) -> Bool {
-            sceneState.gridMetaCache[grid].searchFocused
+            print("Not implemented: \(#function)")
+            return false
         }
         
         func updateMeta(grid: CodeGrid, _ op: (SceneState.GridMeta) -> Void) {
-            op(sceneState.gridMetaCache[grid])
+            print("Not implemented: \(#function)")
         }
         
         func doMissedInfo() throws {
@@ -104,34 +102,25 @@ extension RenderTask {
                     if isFocused(grid: grid) {
                         updateMeta(grid: grid) { $0.searchFocused = false }
                         grid.rootNode.translate(dY: -128.0)
-                        grid.swapOutRootGlyphs()
                     }
                     try defocusNodesForSemanticInfo(source: grid)
-                    grid.rootNode.opacity = 0.67
                 }
         }
         
         func doMatchedInfo() throws {
-            matchedInfo
+            try matchedInfo
                 .forEach { matchPair in
                     let matchedGrid = matchPair.key
                     let semanticInfo = matchPair.value
                     
-                    sceneTransaction {
-                        if !isFocused(grid: matchedGrid) {
-                            updateMeta(grid: matchedGrid) { $0.searchFocused = true }
-                            matchedGrid.rootNode.opacity = 1.0
-                            matchedGrid.rootNode.translate(dY: 128.0)
-                            
-                            if matchedInfo.count < 20 {
-                                matchedGrid.swapInRootGlyphs()
-                            }
-                        }
-                        
-                        for semanticSet in semanticInfo {
-                            for info in semanticSet {
-                                try focusNodesForSemanticInfo(source: matchedGrid, info)
-                            }
+                    if !isFocused(grid: matchedGrid) {
+                        updateMeta(grid: matchedGrid) { $0.searchFocused = true }
+                        matchedGrid.rootNode.translate(dY: 128.0)
+                    }
+                    
+                    for semanticSet in semanticInfo {
+                        for info in semanticSet {
+                            try focusNodesForSemanticInfo(source: matchedGrid, info)
                         }
                     }
                 }
@@ -139,10 +128,6 @@ extension RenderTask {
         
         try doMissedInfo()
         try doMatchedInfo()
-        
-        LineVendor().recursivePipes(
-            codeGridFocus.currentTargetFocus.rootFocus
-        )
     }
 }
 
@@ -151,37 +136,21 @@ extension RenderTask {
 private extension RenderTask {
     func doFocusContainerSearch() throws {
         try missedInfo.forEach { missedGrid in
-            codeGridFocus.removeGridFromFocus(missedGrid)
-            missedGrid.swapOutRootGlyphs()
-            missedGrid.unlockGlyphSwapping()
             try defocusNodesForSemanticInfo(source: missedGrid)
         }
         
-        let swapIn = matchedInfo.count < 15
         try matchedInfo
             .sorted(by: { leftMatch, rightMatch in
                 leftMatch.key.measures.lengthY < rightMatch.key.measures.lengthY
             })
             .enumerated()
             .forEach { index, matchPair in
-                if swapIn {
-                    matchPair.key.unlockGlyphSwapping()
-                    matchPair.key.swapInRootGlyphs()
-                    matchPair.key.lockGlyphSwapping()
-                }
-                codeGridFocus.addGridToFocus(matchPair.key, index)
-                
                 for semanticSet in matchPair.value {
                     for info in semanticSet {
                         try focusNodesForSemanticInfo(source: matchPair.key, info)
                     }
                 }
             }
-        
-        // Layout pass on grids to give first set of focus positions
-        codeGridFocus.layoutFocusedGrids()
-        codeGridFocus.resetBounds()
-        codeGridFocus.setFocusedDepth(0)
     }
 }
 

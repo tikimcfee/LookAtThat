@@ -16,17 +16,11 @@ class SearchContainer {
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
     private var currentRenderTask: RenderTask?
     
-    var hovers = TokenHoverInteractionTracker()
-    var codeGridFocus: CodeGridFocusController
     var codeGridParser: CodeGridParser
     var mode: Mode = .inPlace
     
-    lazy var focusControls = FocusControls(container: self)
-    
-    init(codeGridParser: CodeGridParser,
-         codeGridFocus: CodeGridFocusController) {
+    init(codeGridParser: CodeGridParser) {
         self.codeGridParser = codeGridParser
-        self.codeGridFocus = codeGridFocus
     }
         
     func search(
@@ -40,7 +34,6 @@ class SearchContainer {
         }
         
         let renderTask = RenderTask(
-            codeGridFocus: codeGridFocus,
             codeGridParser: codeGridParser,
             newInput: newInput,
             state: state,
@@ -51,22 +44,5 @@ class SearchContainer {
         currentRenderTask?.task.cancel()
         currentRenderTask?.task = renderTask.task
         searchQueue.async(execute: renderTask.task)
-    }
-}
-
-extension SearchContainer {
-    struct InlineControls {
-        var container: SearchContainer
-    }
-}
-
-extension SearchContainer {
-    struct FocusControls {
-        var container: SearchContainer
-        
-        func createNewSearchFocus(_ state: SceneState) {
-            print("creating new search focus")
-            container.codeGridFocus.setNewFocus()
-        }
     }
 }

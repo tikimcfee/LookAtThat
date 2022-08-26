@@ -35,19 +35,19 @@ extension CodeGridParserQueryController {
         onNegative: NegativeReceiver
     ) throws {
         resetAllGridFocusLevels()
-        for cloneTuple in cache.cachedGrids.values {
+        for grid in cache.cachedGrids.values {
             var matches = Set<SemanticInfo>()
             
-            for (_, info) in cloneTuple.source.codeGridSemanticInfo.semanticsLookupBySyntaxId {
+            for (_, info) in grid.codeGridSemanticInfo.semanticsLookupBySyntaxId {
                 if info.referenceName.containsMatch(searchText) {
                     matches.insert(info)
                 }
             }
             
             if matches.isEmpty {
-                try onNegative(cloneTuple.source, cloneTuple.clone)
+                try onNegative(grid)
             } else {
-                try onPositive(cloneTuple.source, cloneTuple.clone, matches)
+                try onPositive(grid, matches)
             }
         }
     }
@@ -58,12 +58,10 @@ extension CodeGridParserQueryController {
 extension CodeGridParserQueryController {
     typealias SearchReceiver = (
         _ source: CodeGrid,
-        _ clone: CodeGrid,
         _ semantics: Set<SemanticInfo>
     ) throws -> Void
     
     typealias NegativeReceiver = (
-        _ source: CodeGrid,
-        _ clone: CodeGrid
+        _ source: CodeGrid
     ) throws -> Void
 }

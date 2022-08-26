@@ -15,29 +15,13 @@ extension CodeGrid {
     // it adds caches layer glyphs motivated by display requirements inherited by those clients.
     @discardableResult
     func consume(text: String) -> CodeGrid {
-        let gridResult = sceneTransactionSafe(0) {
-            doTextConsume(text: text)
-        }
-        return gridResult
-        
-//        doTextConsume(text: text)
+        doTextConsume(text: text)
+        return self
     }
     
     @discardableResult
     private func doTextConsume(text: String) -> CodeGrid {
-        let writer: Writer
-        switch displayMode {
-        case .glyphs:
-            let raw = rawGlyphWriter
-            raw.writeGlyphs(text)
-            writer = raw
-        case .all:
-            let raw = rawGlyphWriter
-            raw.writeGlyphs(text)
-            writer = raw
-        }
-        writer.finalize()
-        recomputeDisplayMode()
+        print("TODO: Add text consume!")
         return self
     }
 }
@@ -51,10 +35,8 @@ extension CodeGrid {
     
     @discardableResult
     func consume(rootSyntaxNode: Syntax) -> CodeGrid {
-        let gridResult = sceneTransactionSafe(0) {
-            doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
-        }
-        return gridResult
+        doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
+        return self
         
 //        doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
     }
@@ -72,18 +54,11 @@ extension CodeGrid {
         }
         
         for token in rootSyntaxNode.tokens {
-            sceneTransactionSafe {
-                consumeSyntaxToken(token)
-            }
+            consumeSyntaxToken(token)
         }
         
         consumedRootSyntaxNodes.append(rootSyntaxNode)
-        
-        if writeGlyphs {
-            attributedGlyphsWriter.finalize()
-        }
-        
-        recomputeDisplayMode()
+    
         return self
     }
     
@@ -105,16 +80,13 @@ extension CodeGrid {
         var trailingTriviaNodes = CodeGridNodes()
         let trailingTrivia = token.trailingTrivia.stringified
         
-        // Write glyphs
-        if writeGlyphs {
-            attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
-            attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
-            attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
-        }
+//        // Write glyphs
+//        attributedGlyphsWriter.writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
+//        attributedGlyphsWriter.writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
+//        attributedGlyphsWriter.writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
         
         // Save nodes to tokenCache *after* glyphs area created and inserted
         // Skippable to shave off time for large root directories
-        //#if !CherrieiSkip
         tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
         tokenCache[tokenIdNodeName] = tokenTextNodes
         tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
@@ -122,38 +94,5 @@ extension CodeGrid {
         codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
         codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
         codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
-        //#endif
-    }
-}
-
-// MARK: -- Displays configuration
-extension CodeGrid {
-    enum DisplayMode {
-        case glyphs
-        case all
-    }
-    
-    func didSetDisplayMode() {
-        recomputeDisplayMode()
-    }
-    
-    func recomputeDisplayMode() {
-//        switch displayMode {
-//        case .layers:
-//            fullTextBlitter.rootNode.isHidden = false
-//            fullTextBlitter.backgroundGeometryNode.isHidden = false
-//            rawGlyphsNode.isHidden = true
-//            backgroundGeometryNode.isHidden = true
-//        case .glyphs:
-//            fullTextBlitter.rootNode.isHidden = true
-//            fullTextBlitter.backgroundGeometryNode.isHidden = true
-//            rawGlyphsNode.isHidden = false
-//            backgroundGeometryNode.isHidden = false
-//        case .all:
-//            fullTextBlitter.rootNode.isHidden = false
-//            fullTextBlitter.backgroundGeometryNode.isHidden = false
-//            rawGlyphsNode.isHidden = true
-//            backgroundGeometryNode.isHidden = true
-//        }
     }
 }

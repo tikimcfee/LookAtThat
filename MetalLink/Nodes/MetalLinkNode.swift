@@ -9,8 +9,9 @@ import MetalKit
 
 class MetalLinkNode {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
+    lazy var nodeId = UUID().uuidString
     
-    var children: [MetalLinkNode] = []
+    private(set) var children: [MetalLinkNode] = []
     
     var position: LFloat3 = .zero
         { didSet { currentModel.dirty() } }
@@ -31,9 +32,26 @@ class MetalLinkNode {
     }
 }
 
+extension MetalLinkNode: Hashable, Equatable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(nodeId)
+    }
+    
+    static func == (_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {
+        return left.nodeId == right.nodeId
+    }
+}
+
 extension MetalLinkNode {
     func add(child: MetalLinkNode) {
         children.append(child)
+    }
+    
+    func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+        for child in children {
+            action(child)
+            child.enumerateChildren(action)
+        }
     }
 }
 

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SceneKit
 
 var default__PlaneSpacing: VectorFloat = 256.0
 var default__CameraSpacingFromPlaneOnShift: VectorFloat = 128.0
@@ -132,7 +131,7 @@ class WorldGridEditor {
             }
 
             codeGrid.rootNode.position = (
-                leftMostGrid?.rootNode.position ?? SCNVector3Zero
+                leftMostGrid?.rootNode.position ?? .zero
             ).translated(
                 dX: 0,
                 dY: -maxHeight - 8.0,

@@ -47,25 +47,20 @@ protocol KeyboardPositionSource {
 
 extension KeyboardInterceptor {
     struct CameraTarget: KeyboardPositionSource {
-        let targetCamera: SCNCamera
-        let targetCameraNode: SCNNode
+        var targetCamera: MetalLinkCamera
         private let disposable: AnyCancellable
 
-        var worldUp: LFloat3 { targetCameraNode.simdWorldUp }
-        var worldRight: LFloat3 { targetCameraNode.simdWorldRight }
-        var worldFront: LFloat3 { targetCameraNode.simdWorldFront }
-        var current: LFloat3 { targetCameraNode.simdPosition }
+        var worldUp: LFloat3 { targetCamera.simdWorldUp }
+        var worldRight: LFloat3 { targetCamera.simdWorldRight }
+        var worldFront: LFloat3 { targetCamera.simdWorldFront }
+        var current: LFloat3 { targetCamera.simdPosition }
         
-        init(targetCamera: SCNCamera,
-             targetCameraNode: SCNNode,
+        init(targetCamera: MetalLinkCamera,
              interceptor: KeyboardInterceptor
         ) {
             self.targetCamera = targetCamera
-            self.targetCameraNode = targetCameraNode
             self.disposable = interceptor.positions.$travelOffset.sink { offset in
-                sceneTransaction(0.0835, .easeOut) {
-                    targetCameraNode.simdPosition += offset
-                }
+                self.targetCamera.position += offset
             }
         }
     }

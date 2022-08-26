@@ -82,13 +82,13 @@ public class CodeGridGlobalSemantics: ObservableObject {
         // Two passes
         // 1. collect all the participating grids that have values
         source.cachedGrids.directWriteAccess { mutableGridStore in
-            for (_, gridTuple) in mutableGridStore {
+            for (_, grid) in mutableGridStore {
                 for category in categories {
-                    gridTuple.source.codeGridSemanticInfo.category(category) { map in
+                    grid.codeGridSemanticInfo.category(category) { map in
                         guard !map.isEmpty else { return }
                         let participant = globalParticipants.retrieve(
-                            key: gridTuple.source.id,
-                            defaulting: GlobalSemanticParticipant(grid: gridTuple.source)
+                            key: grid.id,
+                            defaulting: GlobalSemanticParticipant(grid: grid)
                         )
                         participant.queryCategories.append(category)
                     }

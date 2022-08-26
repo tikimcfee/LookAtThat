@@ -19,7 +19,7 @@ class ConcurrentGridRenderer {
     }
     
     subscript(_ id: CodeGrid.ID) -> CodeGrid? {
-        return cache.cachedGrids[id]?.source
+        return cache.cachedGrids[id]
     }
     
     func renderConcurrent(_ path: URL, _ onRender: @escaping (CodeGrid) -> Void) {

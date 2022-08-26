@@ -30,3 +30,24 @@ extension CommandHandler {
         return newGrid
     }
 }
+
+struct DefaultCommandHandler: CommandHandler {
+    var controller: CodePagesController
+    
+    func handleSingleCommand(_ path: URL, _ style: FileBrowser.Event.SelectType) {
+        switch style {
+        case .addToFocus:
+            guard let newGrid = renderAndCache(path) else { return }
+            print("Not implemented: \(#file):\(#function)")
+            
+        case .focusOnExistingGrid:
+            guard let cachedGrid = parser.gridCache.get(path) else { return }
+            print("Not implemented: \(#file):\(#function)")
+            
+        case .addToWorld:
+            print("Not implemented: \(#file):\(#function)")
+            break
+        }
+    }
+
+}
