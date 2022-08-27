@@ -11,43 +11,6 @@ func BoundsWidth(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.x - bounds.mi
 func BoundsHeight(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.y - bounds.min.y) }
 func BoundsLength(_ bounds: Bounds) -> VectorFloat { abs(bounds.max.z - bounds.min.z) }
 
-extension MetalLinkNode {
-    var boundsWidth: VectorFloat { abs(manualBoundingBox.max.x - manualBoundingBox.min.x) }
-    var boundsHeight: VectorFloat { abs(manualBoundingBox.max.y - manualBoundingBox.min.y) }
-    var boundsLength: VectorFloat { abs(manualBoundingBox.max.z - manualBoundingBox.min.z) }
-    
-    var boundsCenterWidth: VectorFloat { boundsWidth / 2.0 + manualBoundingBox.min.x }
-    var boundsCenterHeight: VectorFloat { boundsHeight / 2.0 + manualBoundingBox.min.y }
-    var boundsCenterLength: VectorFloat { boundsLength / 2.0 + manualBoundingBox.min.z }
-    
-    var boundsCenterPosition: LFloat3 {
-        let vector = LFloat3(
-            x: boundsCenterWidth,
-            y: boundsCenterHeight,
-            z: boundsCenterLength
-        )
-        return convertPosition(vector, to: parent)
-    }
-    
-    func bounds(convertedTo requestParent: SCNNode?) -> Bounds {
-        let minVector = convertPosition(manualBoundingBox.min, to: requestParent)
-        let maxVector = convertPosition(manualBoundingBox.max, to: requestParent)
-        return (minVector, maxVector)
-    }
-    
-    var boundsInParent: Bounds {
-        let minVector = convertPosition(manualBoundingBox.min, to: parent)
-        let maxVector = convertPosition(manualBoundingBox.max, to: parent)
-        return (minVector, maxVector)
-    }
-    
-    var boundsInWorld: Bounds {
-        let minVector = convertPosition(manualBoundingBox.min, to: nil)
-        let maxVector = convertPosition(manualBoundingBox.max, to: nil)
-        return (minVector, maxVector)
-    }
-}
-
 public typealias Bounds = (
     min: LFloat3,
     max: LFloat3

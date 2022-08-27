@@ -149,10 +149,10 @@ struct GitHubClientView: View {
     }
     
     func onRepositoryUrlSelected(_ url: URL) {
-        CodePagesController.shared
+        GlobalInstances
             .fileBrowser
             .fileSelectionEvents = .newMultiCommandRecursiveAllLayout(url, .addToWorld)
-        CodePagesController.shared
+        GlobalInstances
             .fileBrowser
             .setRootScope(url)
     }

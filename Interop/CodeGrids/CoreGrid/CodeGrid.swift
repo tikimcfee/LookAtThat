@@ -49,8 +49,8 @@ public class CodeGrid: Identifiable, Equatable {
     private(set) var rootNode: GlyphCollection
     let tokenCache: CodeGridTokenCache
 
-    init(_ rootNode: GlyphCollection,
-         _ tokenCache: CodeGridTokenCache) {
+    init(rootNode: GlyphCollection,
+         tokenCache: CodeGridTokenCache) {
         self.rootNode = rootNode
         self.tokenCache = tokenCache
     }

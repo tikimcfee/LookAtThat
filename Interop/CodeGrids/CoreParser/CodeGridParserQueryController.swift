@@ -24,7 +24,7 @@ class CodeGridParserQueryController: ObservableObject {
 
 extension CodeGridParserQueryController {
     func resetAllGridFocusLevels() {
-        cache.parser.tokenCache.doOnEach { _, nodeSet in
+        cache.tokenCache.doOnEach { _, nodeSet in
             nodeSet.forEach { $0.focus(level: 0) }
         }
     }

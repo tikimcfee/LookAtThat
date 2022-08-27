@@ -12,10 +12,15 @@ enum MetalLinkCameraType {
     case Debug
 }
 
-protocol MetalLinkCamera {
+protocol MetalLinkCamera: AnyObject {
     var type: MetalLinkCameraType { get }
     var position: LFloat3 { get set }
+    var rotation: LFloat3 { get set }
     var projectionMatrix: matrix_float4x4 { get }
+    
+    var worldUp: LFloat3 { get }
+    var worldRight: LFloat3 { get }
+    var worldFront: LFloat3 { get }
 }
 
 class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
@@ -34,9 +39,9 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         currentView.dirty()
     } }
     
-    let worldUp: LFloat3 = LFloat3(0, 1, 0)
-    let worldRight: LFloat3 = LFloat3(1, 0, 0)
-    let worldFront: LFloat3 = LFloat3(0, 0, -1)
+    var worldUp: LFloat3 { LFloat3(0, 1, 0) * rotation.x }
+    var worldRight: LFloat3 { LFloat3(1, 0, 0) * rotation.z }
+    var worldFront: LFloat3 { LFloat3(0, 0, -1) * rotation.y }
     
     let link: MetalLink
     let interceptor = KeyboardInterceptor()

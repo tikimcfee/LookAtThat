@@ -67,7 +67,9 @@ extension TwoETimeRoot {
             root.add(child: collection)
         }
         
-        CodePagesController.shared.fileEventStream.sink { event in
+        GlobalInstances
+            .fileBrowser
+            .$fileSelectionEvents.sink { event in
             switch event {
             case let .newMultiCommandRecursiveAllLayout(rootPath, _):
                 FileBrowser.recursivePaths(rootPath)
@@ -105,22 +107,24 @@ extension TwoETimeRoot {
             collection.setRootMesh()
         }
         
-        CodePagesController.shared.fileEventStream.sink { event in
-            switch event {
-            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
-                FileBrowser.recursivePaths(rootPath)
-                    .filter { !$0.isDirectory }
-                    .forEach { childPath in
-                        consume(childPath)
-                    }
-                
-            case let .newSingleCommand(url, _):
-                consume(url)
-                
-            default:
-                break
-            }
-        }.store(in: &bag)
+        GlobalInstances
+            .fileEventStream
+            .sink { event in
+                switch event {
+                case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                    FileBrowser.recursivePaths(rootPath)
+                        .filter { !$0.isDirectory }
+                        .forEach { childPath in
+                            consume(childPath)
+                        }
+                    
+                case let .newSingleCommand(url, _):
+                    consume(url)
+                    
+                default:
+                    break
+                }
+            }.store(in: &bag)
         
         link.pickingTexture.sharedPickingHover.sink { glyphID in
             guard let constants = collection.instanceState.getConstantsPointer(),

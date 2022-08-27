@@ -88,7 +88,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var appStatusView: some View {
         AppStatusView(
-            status: CodePagesController.shared.appStatus
+            status: GlobalInstances.appStatus
         )
     }
     
@@ -104,7 +104,6 @@ extension SourceInfoPanelView {
             .padding(32)
     }
     
-    @ViewBuilder
     var globalSearchView: some View {
         // TODO: This isn't global yet, but it can / should / will be
         print("Not implemented: \(#file):\(#function)")
@@ -131,7 +130,7 @@ extension SourceInfoPanelView {
     var editorView: some View {
 #if !TARGETING_SUI
         CodePagesPopupEditor(
-            state: CodePagesController.shared.editorState
+            state: GlobalInstances.editorState
         )
 #endif
     }
@@ -169,8 +168,8 @@ func helloWorld() {
 """
     
     static var sourceGrid: CodeGrid = {
-        let parser = CodeGridParser()
-        let grid = parser.renderGrid(sourceString)!
+        let cache = GridCache()
+        let grid = cache.renderGrid(sourceString)!
         return grid
     }()
     

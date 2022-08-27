@@ -18,7 +18,7 @@ extension CommandHandler {
     var parser: CodeGridParser { controller.codeGridParser }
     
     func renderAndCache(_ path: URL) -> CodeGrid? {
-        guard let newGrid = parser.renderGrid(path) else {
+        guard let newGrid = parser.gridCache.renderGrid(path) else {
             print("No code grid we cry")
             return nil
         }

@@ -67,7 +67,7 @@ extension AppDelegate {
     
     private func onRootViewAppeared() {
         // Set initial state on appearance
-        CodePagesController.shared.fileBrowser.loadRootScopeFromDefaults()
+        GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
     }
     
     private func onRootViewDisappeared() {

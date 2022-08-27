@@ -15,11 +15,15 @@ struct SourceInfoCategoryView: View {
     @State var targetedInfo: CodeGridSemanticMap = .init()
     @State var targetedGrid: CodeGrid?
     
+    private var global: CodeGridGlobalSemantics { SceneLibrary.global.codePagesController.globalSemantics }
+    
     var body: some View {
         VStack {
             HStack {
                 Toggle("Show global semantics", isOn: $sourceState.categories.showGlobalMap)
-                Button("Reset snapshot", action: { CodePagesController.shared.globalSemantics.snapshotDefault() })
+                Button("Reset snapshot", action: {
+                    global.snapshotDefault()
+                })
             }.padding(4)
             
             if sourceState.categories.showGlobalMap {
@@ -36,7 +40,7 @@ struct SourceInfoCategoryView: View {
             targetedInfo = info
         })
         .onAppear {
-            CodePagesController.shared.globalSemantics.snapshotDefault()
+            global.snapshotDefault()
         }
         .frame(width: 384.0)
     }
@@ -46,7 +50,7 @@ struct SourceInfoCategoryView: View {
         if let targetedGrid = targetedGrid  {
             ScrollView {
                 makeInfoRowGroup(
-                    for: CodePagesController.shared.globalSemantics.defaultCategories,
+                    for: global.defaultCategories,
                     in: targetedGrid
                 )
             }.padding(4.0)
@@ -59,7 +63,7 @@ struct SourceInfoCategoryView: View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 ForEach(
-                    CodePagesController.shared.globalSemantics.categorySnapshot,
+                    global.categorySnapshot,
                     id: \.self
                 ) { snapshotParticipant in
                     VStack {

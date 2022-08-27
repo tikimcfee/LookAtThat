@@ -4,33 +4,20 @@ import SwiftSyntax
 import Combine
 import SwiftUI
 
-extension CodePagesController {
-    static var shared: CodePagesController {
-        SceneLibrary.global.codePagesController
-    }
-}
-
 class CodePagesController: ObservableObject {
         
-    let codeGridParser: CodeGridParser
+    let codeGridParser: CodeGridParser = CodeGridParser()
     
-    lazy var appStatus = AppStatus()
-    lazy var editorState = CodePagesPopupEditorState()
-    lazy var globalSemantics = CodeGridGlobalSemantics(source: codeGridParser.gridCache)
-    
-    lazy var fileBrowser = FileBrowser()
+    var fileBrowser: FileBrowser { GlobalInstances.fileBrowser }
     lazy var fileStream = fileBrowser.$scopes.share().eraseToAnyPublisher()
     lazy var fileEventStream = fileBrowser.$fileSelectionEvents.share().eraseToAnyPublisher()
-
+    
+    lazy var globalSemantics = CodeGridGlobalSemantics(source: codeGridParser.gridCache)
     var cancellables = Set<AnyCancellable>()
 
     lazy var commandHandler = DefaultCommandHandler(controller: self)
 
     init() {
-        self.codeGridParser = CodeGridParser()
-    }
-    
-    func sceneActive() {
         
     }
 }

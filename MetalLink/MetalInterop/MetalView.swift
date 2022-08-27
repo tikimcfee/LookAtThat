@@ -9,8 +9,8 @@ import SwiftUI
 struct MetalView: NSUIViewRepresentable {
     var mtkView: CustomMTKView
     
-    init() {
-        mtkView = CustomMTKView(frame: .zero, device: MTLCreateSystemDefaultDevice())
+    init() throws {
+        self.mtkView = GlobalInstances.rootCustomMTKView
     }
     
     #if os(iOS)
@@ -42,7 +42,7 @@ struct MetalView: NSUIViewRepresentable {
     #endif
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, mtkView: mtkView)
+        try! Coordinator(self, mtkView: mtkView)
     }
 }
 
@@ -51,14 +51,14 @@ extension MetalView {
     class Coordinator {
         var parent: MetalView
         
-        var link: MetalLink?
-        var renderer: MetalLinkRenderer?
+        var link: MetalLink
+        var renderer: MetalLinkRenderer
         
-        init(_ parent: MetalView, mtkView: CustomMTKView) {
+        init(_ parent: MetalView, mtkView: CustomMTKView) throws {
             self.parent = parent
             guard let link = try? MetalLink(view: mtkView),
                   let renderer = try? MetalLinkRenderer(link: link)
-            else { return }
+            else { throw CoreError.noMetalDevice }
             
             self.link = link
             self.renderer = renderer

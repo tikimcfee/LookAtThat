@@ -138,8 +138,9 @@ struct MobileAppRootView : View {
             GitHubClientView()
         }
         .sheet(isPresented: $showInfoView) {
-            MultipeerInfoView()
-                .environmentObject(MultipeerConnectionManager.shared)
+            EmptyView().onAppear {
+                print("Not implemented: \(#file):\(#function) (MultipeerInfo)")
+            }
         }
     }
 }

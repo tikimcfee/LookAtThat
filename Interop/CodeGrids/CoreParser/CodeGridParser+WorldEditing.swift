@@ -9,13 +9,13 @@ import Foundation
 
 extension CodeGridParser {   
     func withNewGrid(_ url: URL, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
-        if let grid = renderGrid(url) {
+        if let grid = gridCache.renderGrid(url) {
             operation(editorWrapper, grid)
         }
     }
     
     func withNewGrid(_ source: String, _ operation: (CodeGridWorld, CodeGrid) -> Void) {
-        if let grid = renderGrid(source) {
+        if let grid = gridCache.renderGrid(source) {
             operation(editorWrapper, grid)
         }
     }

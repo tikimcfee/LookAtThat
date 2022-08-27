@@ -48,20 +48,21 @@ protocol KeyboardPositionSource {
 extension KeyboardInterceptor {
     struct CameraTarget: KeyboardPositionSource {
         var targetCamera: MetalLinkCamera
-        private let disposable: AnyCancellable
+        var bag = Set<AnyCancellable>()
 
-        var worldUp: LFloat3 { targetCamera.simdWorldUp }
-        var worldRight: LFloat3 { targetCamera.simdWorldRight }
-        var worldFront: LFloat3 { targetCamera.simdWorldFront }
-        var current: LFloat3 { targetCamera.simdPosition }
+        var worldUp: LFloat3 { targetCamera.worldUp }
+        var worldRight: LFloat3 { targetCamera.worldRight }
+        var worldFront: LFloat3 { targetCamera.worldFront }
+        var current: LFloat3 { targetCamera.position }
         
         init(targetCamera: MetalLinkCamera,
              interceptor: KeyboardInterceptor
         ) {
             self.targetCamera = targetCamera
-            self.disposable = interceptor.positions.$travelOffset.sink { offset in
-                self.targetCamera.position += offset
-            }
+            
+            interceptor.positions.$travelOffset.sink { offset in
+                targetCamera.position += offset
+            }.store(in: &bag)
         }
     }
 }

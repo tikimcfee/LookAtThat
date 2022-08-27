@@ -49,6 +49,12 @@ class MultipeerConnectionManager: NSObject, ObservableObject {
     }
 }
 
+struct MultipeerStateViewModel {
+    var displayName: String = UserKeys.peerDisplayName.safeValue(using: "")
+    var isBrowsing: Bool = false
+    var isAdvertising: Bool = false
+}
+
 // MARK: - CodeGrid Stream Parsing
 extension MultipeerConnectionManager {
     func onStreamDataReady(_ data: Data) {

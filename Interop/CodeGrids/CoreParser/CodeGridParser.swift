@@ -14,9 +14,6 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     
     let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
     
-    let rootGridColor  = NSUIColor(displayP3Red: 0.0, green: 0.4, blue: 0.6, alpha: 0.2)
-    let directoryColor = NSUIColor(displayP3Red: 0.2, green: 0.6, blue: 0.8, alpha: 0.2)
-    
     var glyphCache: GlyphLayerCache = GlyphLayerCache()
     var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     
@@ -27,7 +24,7 @@ class CodeGridParser: SwiftSyntaxFileLoadable {
     
     lazy var gridCache: GridCache = {
         return GridCache(
-            parser: self
+            tokenCache: tokenCache
         )
     }()
     

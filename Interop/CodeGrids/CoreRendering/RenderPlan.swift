@@ -16,7 +16,7 @@ struct RenderPlan {
     let renderer: ConcurrentGridRenderer
     let state: RecurseState = RecurseState()
     
-    var statusObject: AppStatus { CodePagesController.shared.appStatus }
+    var statusObject: AppStatus { GlobalInstances.appStatus }
     
     func startRender() {
         queue.async {

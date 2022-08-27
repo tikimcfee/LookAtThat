@@ -9,39 +9,6 @@ import Foundation
 import SceneKit
 
 // MARK: -- Measuring and layout
-extension MetalLinkNode {
-    var worldLeading: VectorFloat {
-        get { worldPosition.x - abs(manualBoundingBox.min.x) }
-    }
-    var worldTrailing: VectorFloat {
-        get { worldPosition.x + abs(manualBoundingBox.max.x) }
-    }
-    var worldTop: VectorFloat {
-        get { worldPosition.y + abs(manualBoundingBox.max.y) }
-    }
-    var worldBottom: VectorFloat {
-        get { worldPosition.y - abs(manualBoundingBox.min.y) }
-    }
-    var worldFront: VectorFloat {
-        get { worldPosition.z + abs(manualBoundingBox.max.z) }
-    }
-    var worldBack: VectorFloat {
-        get { worldPosition.z - abs(manualBoundingBox.min.z) }
-    }
-    
-    var worldBoundsMin: LFloat3 {
-        LFloat3(worldLeading, worldBottom, worldBack)
-    }
-    
-    var worldBoundsMax: LFloat3 {
-        LFloat3(worldTrailing, worldTop, worldFront)
-    }
-    
-    var worldBounds: Bounds {
-        (min: worldBoundsMin, max: worldBoundsMax)
-    }
-}
-
 extension CodeGrid {
     class Measures {
         private let target: CodeGrid
@@ -87,16 +54,14 @@ extension CodeGrid {
         var backOffset: VectorFloat { abs(scaledLocalBack) }
         
         var boundsMin: LFloat3 {
-            positionNode.convertPosition(
-                LFloat3(localLeading, localBottom, localBack),
-                to: positionNode.parent
+            positionNode.convertPositionToParent(
+                LFloat3(localLeading, localBottom, localBack)
             )
         }
         
         var boundsMax: LFloat3 {
-            positionNode.convertPosition(
-                LFloat3(localTrailing, localTop, localFront),
-                to: positionNode.parent
+            positionNode.convertPositionToParent(
+                LFloat3(localTrailing, localTop, localFront)
             )
         }
         
@@ -113,9 +78,8 @@ extension CodeGrid {
         }
         
         var centerPosition: LFloat3 {
-            positionNode.convertPosition(
-                LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ),
-                to: positionNode.parent
+            positionNode.convertPositionToParent(
+                LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ)
             )
         }
 

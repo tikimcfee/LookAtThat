@@ -264,8 +264,8 @@ func helloWorld() {
 """
     
     static var sourceGrid: CodeGrid = {
-        let parser = CodeGridParser()
-        let grid = parser.renderGrid(sourceString)!
+        let cache = GridCache()
+        let grid = cache.renderGrid(sourceString)!
         return grid
     }()
     

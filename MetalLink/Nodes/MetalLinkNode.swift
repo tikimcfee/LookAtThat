@@ -11,6 +11,7 @@ class MetalLinkNode {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     lazy var nodeId = UUID().uuidString
     
+    private(set) var parent: MetalLinkNode?
     private(set) var children: [MetalLinkNode] = []
     
     var position: LFloat3 = .zero
@@ -45,6 +46,10 @@ extension MetalLinkNode: Hashable, Equatable {
 extension MetalLinkNode {
     func add(child: MetalLinkNode) {
         children.append(child)
+        if let parent = child.parent {
+            print("[\(nodeId)] parent already set to [\(parent.nodeId)]")
+        }
+        child.parent = self
     }
     
     func enumerateChildren(_ action: (MetalLinkNode) -> Void) {

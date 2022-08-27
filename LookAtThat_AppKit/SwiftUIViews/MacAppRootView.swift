@@ -1,13 +1,15 @@
 import SwiftUI
 
 struct MacAppRootView: View {
-    @ObservedObject var library: SceneLibrary = SceneLibrary.global
-    
     @State var showMultipeer: Bool = false
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            __METAL__body
+            if let metal = __METAL__body {
+                metal
+            } else {
+                EmptyView()
+            }
             
             VStack {
                 extras()
@@ -19,16 +21,18 @@ struct MacAppRootView: View {
         }
     }
     
-    var __METAL__body: some View {
-        MetalView()
+    var __METAL__body: MetalView? {
+        do {
+            return try MetalView()
+        } catch {
+            print(error)
+            return nil
+        }
+        
     }
     
     @ViewBuilder
     func extras() -> some View {
-        HStack {
-            if showMultipeer {
-                MultipeerInfoView().frame(width: 256.0)
-            }
-        }
+        EmptyView()
     }
 }

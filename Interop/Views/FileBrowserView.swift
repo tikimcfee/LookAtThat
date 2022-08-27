@@ -16,7 +16,7 @@ let DirectoryIconExpanded = "🔽"
 
 extension FileBrowserView {
     var fileBrowser: FileBrowser {
-        SceneLibrary.global.codePagesController.fileBrowser
+        GlobalInstances.fileBrowser
     }
     
     func pathDepths(_ scope: FileBrowser.Scope) -> Int {
@@ -32,7 +32,7 @@ struct FileBrowserView: View {
     var body: some View {
         fileRows(files)
             .onReceive(
-                SceneLibrary.global.codePagesController.fileStream
+                GlobalInstances.fileStream
                     .subscribe(on: DispatchQueue.global())
                     .receive(on: DispatchQueue.main)
             ) { selectedScopes in
@@ -128,17 +128,19 @@ struct FileBrowserView: View {
     }
     
     func fileSelected(_ path: URL, _ selectType: FileBrowser.Event.SelectType) {
-        SceneLibrary.global.codePagesController
+        GlobalInstances
             .fileBrowser
             .fileSelectionEvents = .newSingleCommand(path, selectType)
     }
     
     func fileScopeSelected(_ scope: FileBrowser.Scope) {
-        SceneLibrary.global.codePagesController.fileBrowser.onScopeSelected(scope)
+        GlobalInstances
+            .fileBrowser
+            .onScopeSelected(scope)
     }
     
     func genericSelection(_ action: FileBrowser.Event) {
-        SceneLibrary.global.codePagesController
+        GlobalInstances
             .fileBrowser
             .fileSelectionEvents = action
     }

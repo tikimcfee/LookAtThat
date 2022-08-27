@@ -64,14 +64,12 @@
 		B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B70FDC8A283EAE9900170D5F /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B70FDC8B283EAE9900170D5F /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
-		B70FDC8C283EAE9900170D5F /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B70FDC8D283EAE9900170D5F /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B70FDC8E283EAE9900170D5F /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B70FDC90283EAE9900170D5F /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		B70FDC91283EAE9900170D5F /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B70FDC92283EAE9900170D5F /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
 		B70FDC93283EAE9900170D5F /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		B70FDC94283EAE9900170D5F /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
 		B70FDC95283EAE9900170D5F /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B70FDC96283EAE9900170D5F /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
 		B70FDC97283EAE9900170D5F /* TAPCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756E7280CECBA0005A233 /* TAPCombination.swift */; };
@@ -122,7 +120,6 @@
 		B70FDCCF283EAE9900170D5F /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B70FDCD0283EAE9900170D5F /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
 		B70FDCD2283EAE9900170D5F /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
-		B70FDCD3283EAE9900170D5F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		B70FDCD4283EAE9900170D5F /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B70FDCD5283EAE9900170D5F /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B70FDCD6283EAE9900170D5F /* SemanticInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234228161C4600F6F727 /* SemanticInfo.swift */; };
@@ -240,13 +237,11 @@
 		B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74A22CC2814FFF300F6F727 /* TAPKitDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756DB280CECBA0005A233 /* TAPKitDelegateController.swift */; };
 		B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
-		B74A22D02814FFF300F6F727 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B74A22D12814FFF300F6F727 /* BasicIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75719280CEE040005A233 /* BasicIO.swift */; };
 		B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B74A22D42814FFF300F6F727 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		B74A22D82814FFF300F6F727 /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
 		B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B74A22DB2814FFF300F6F727 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5B925101B0600B18894 /* SCNVector3+Extensions.swift */; };
 		B74A22DC2814FFF300F6F727 /* TAPCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756E7280CECBA0005A233 /* TAPCombination.swift */; };
@@ -279,7 +274,6 @@
 		B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030B8D72518741E00B94E7A /* SceneLibrary.swift */; };
 		B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75718280CEE040005A233 /* RawFingerData.swift */; };
-		B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B74A230F2814FFF300F6F727 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75715280CEE040005A233 /* Structures.swift */; };
@@ -426,8 +420,6 @@
 		B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
-		B796DEF3280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
-		B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */; };
 		B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B796DEF8280D2AD8006AC749 /* Brotli */; };
@@ -451,8 +443,6 @@
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
-		B79F930D275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
-		B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */; };
 		B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
@@ -465,6 +455,14 @@
 		B7A60F8A28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
 		B7A60F8C28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
 		B7A60F8D28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
+		B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
+		B7A60F9028B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
+		B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
+		B7A60F9228B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
+		B7A60F9428B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
+		B7A60F9528B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
+		B7A60F9628B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
+		B7A60F9728B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
 		B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */; };
 		B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */; };
 		B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */; };
@@ -751,8 +749,6 @@
 		F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
 		F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
-		F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
-		F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */; };
 		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
 		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
@@ -924,7 +920,6 @@
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
 		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
 		B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Paths.swift"; sourceTree = "<group>"; };
-		B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Rendering.swift"; sourceTree = "<group>"; };
 		B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+WorldEditing.swift"; sourceTree = "<group>"; };
 		B7981026281C3050009A82BD /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		B798102A281CBA39009A82BD /* CallStackParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackParsing.swift; sourceTree = "<group>"; };
@@ -933,12 +928,13 @@
 		B7981036281CC279009A82BD /* ThreadInfoExtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadInfoExtract.swift; sourceTree = "<group>"; };
 		B798103A281CC6BC009A82BD /* ThreadExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadExtensions.swift; sourceTree = "<group>"; };
 		B79F93052750528B00E46A96 /* Syntax+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Syntax+Caching.swift"; sourceTree = "<group>"; };
-		B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+GridExtensions.swift"; sourceTree = "<group>"; };
 		B79F930F2750741900E46A96 /* CodeGridCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridCache.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
 		B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSceneState.swift; sourceTree = "<group>"; };
+		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
+		B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExtensions.swift; sourceTree = "<group>"; };
 		B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Measures.swift"; sourceTree = "<group>"; };
 		B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParserQueryController.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
@@ -1063,7 +1059,6 @@
 		F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEventTypes.swift; sourceTree = "<group>"; };
 		F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseSceneController+Interactions.swift"; sourceTree = "<group>"; };
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
-		F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerInfoView.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1370,8 +1365,6 @@
 				B7EA88362723955E0098541C /* CodeGridParser.swift */,
 				B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */,
 				B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */,
-				B796DEF2280D1D86006AC749 /* CodeGridParser+Rendering.swift */,
-				B79F930C275070EA00E46A96 /* CodeGridParser+GridExtensions.swift */,
 				B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */,
 			);
 			path = CoreParser;
@@ -1473,6 +1466,7 @@
 				B7F67F1328A4E5630056E540 /* Glyphs */,
 				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
 				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
+				B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */,
 				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
 			);
 			path = Nodes;
@@ -1883,6 +1877,7 @@
 				B7C756D6280CEC9D0005A233 /* Tapping */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
 				B701DDB828B907E6004F7203 /* ConversionExtensions.swift */,
+				B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */,
 				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
 			);
 			path = Interop;
@@ -1902,7 +1897,6 @@
 			isa = PBXGroup;
 			children = (
 				B7C7570E280CED4D0005A233 /* FingerView.swift */,
-				F0E685B9251EF841000E4B9F /* MultipeerInfoView.swift */,
 				B7C2319827645F14003B1C3D /* FileBrowserView.swift */,
 				B75014A02830505C0024B7C0 /* DragSizableView.swift */,
 				B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */,
@@ -2220,6 +2214,7 @@
 				B7EB7141284878B100313633 /* GitHubClientView.swift in Sources */,
 				B7AC33A528A0D11E001172BB /* MetalView.swift in Sources */,
 				B70FDC60283EAE9900170D5F /* CodeGridParserQueryController.swift in Sources */,
+				B7A60F9528B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B70FDC61283EAE9900170D5F /* SharedEventTypes.swift in Sources */,
 				B70FDC62283EAE9900170D5F /* RawSensorDataParser.swift in Sources */,
 				B7AC333F28A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
@@ -2264,7 +2259,6 @@
 				B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */,
 				B70FDC8A283EAE9900170D5F /* LaZTrace.swift in Sources */,
 				B70FDC8B283EAE9900170D5F /* FileBrowser+Event.swift in Sources */,
-				B70FDC8C283EAE9900170D5F /* CodeGridParser+GridExtensions.swift in Sources */,
 				B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC338F28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B70FDC8D283EAE9900170D5F /* BasicIO.swift in Sources */,
@@ -2277,7 +2271,6 @@
 				B7AC336728A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B70FDC92283EAE9900170D5F /* ThreadInfoExtract.swift in Sources */,
 				B70FDC93283EAE9900170D5F /* CustomSceneView.swift in Sources */,
-				B70FDC94283EAE9900170D5F /* CodeGridParser+Rendering.swift in Sources */,
 				B70FDC95283EAE9900170D5F /* WorldGrid.swift in Sources */,
 				B70FDC96283EAE9900170D5F /* SCNVector3+Extensions.swift in Sources */,
 				B70FDC97283EAE9900170D5F /* TAPCombination.swift in Sources */,
@@ -2315,6 +2308,7 @@
 				B70FDCB2283EAE9900170D5F /* SourceInfoPanelToggles.swift in Sources */,
 				B7AC334B28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B70FDCB3283EAE9900170D5F /* SCNAction+Extensions.swift in Sources */,
+				B7A60F9028B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B70FDCB4283EAE9900170D5F /* TAPKitLog.swift in Sources */,
 				B70FDCB5283EAE9900170D5F /* RWLock.swift in Sources */,
 				B70FDCB6283EAE9900170D5F /* CodeGridParser.swift in Sources */,
@@ -2347,7 +2341,6 @@
 				B70FDCD0283EAE9900170D5F /* SceneLibrary.swift in Sources */,
 				B762DF1B28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B70FDCD2283EAE9900170D5F /* RawFingerData.swift in Sources */,
-				B70FDCD3283EAE9900170D5F /* MultipeerInfoView.swift in Sources */,
 				B70FDCD4283EAE9900170D5F /* LockingCache.swift in Sources */,
 				B70FDCD5283EAE9900170D5F /* WorkerPool.swift in Sources */,
 				B70FDCD6283EAE9900170D5F /* SemanticInfo.swift in Sources */,
@@ -2402,6 +2395,7 @@
 				B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B74A22AC2814FFF300F6F727 /* TAPAirGesture.swift in Sources */,
 				B7AC336D28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
+				B7A60F9728B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B74A22AE2814FFF300F6F727 /* CodeGridParserQueryController.swift in Sources */,
 				B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */,
 				B74A22B02814FFF300F6F727 /* RawSensorDataParser.swift in Sources */,
@@ -2456,7 +2450,6 @@
 				B7AC338928A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */,
 				B74A233E281526A700F6F727 /* TracingInfoBridging.swift in Sources */,
-				B74A22D02814FFF300F6F727 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
@@ -2468,7 +2461,6 @@
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
 				B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */,
 				B7F67F1828A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
-				B74A22D82814FFF300F6F727 /* CodeGridParser+Rendering.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
@@ -2497,6 +2489,7 @@
 				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
 				B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */,
 				B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */,
+				B7A60F9228B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B7AC335528A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
@@ -2535,7 +2528,6 @@
 				B74A23092814FFF300F6F727 /* SceneLibrary.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
 				B74A230B2814FFF300F6F727 /* RawFingerData.swift in Sources */,
-				B74A230C2814FFF300F6F727 /* MultipeerInfoView.swift in Sources */,
 				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
@@ -2584,6 +2576,7 @@
 				B7C756FF280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
 				B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */,
 				B7AC33A428A0D11E001172BB /* MetalView.swift in Sources */,
+				B7A60F9428B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				B7C75705280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
@@ -2628,7 +2621,6 @@
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
-				B79F930D275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC338E28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7C75720280CEE040005A233 /* BasicIO.swift in Sources */,
@@ -2641,7 +2633,6 @@
 				B7AC336628A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
-				B796DEF3280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
 				F092E5BD25101B0600B18894 /* SCNVector3+Extensions.swift in Sources */,
 				B7C756FB280CECBA0005A233 /* TAPCombination.swift in Sources */,
@@ -2679,6 +2670,7 @@
 				B75014B32831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B7AC334A28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				F092E5BF25101B0600B18894 /* SCNAction+Extensions.swift in Sources */,
+				B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B7C756F7280CECBA0005A233 /* TAPKitLog.swift in Sources */,
 				B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */,
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
@@ -2711,7 +2703,6 @@
 				F030B8D82518741E00B94E7A /* SceneLibrary.swift in Sources */,
 				B762DF1A28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B7C7571E280CEE040005A233 /* RawFingerData.swift in Sources */,
-				F0E685BA251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
@@ -2793,7 +2784,6 @@
 				B785521028B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
 				B792C88428AB538400AE8CC0 /* MetalView.swift in Sources */,
 				B78159F6273E05EA00212176 /* CodeGridParser.swift in Sources */,
-				F0E685BB251EF841000E4B9F /* MultipeerInfoView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
 				B7AC335828A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
@@ -2817,6 +2807,7 @@
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
 				B7C75704280CECBA0005A233 /* TAPInputMode.swift in Sources */,
 				B7AC334428A0CA71001172BB /* CoreError.swift in Sources */,
+				B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B7AC338828A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
 				B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
@@ -2837,7 +2828,6 @@
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				B750771828A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7F3AAA22853903E00273ED1 /* AppStatusView.swift in Sources */,
-				B79F930E275070EA00E46A96 /* CodeGridParser+GridExtensions.swift in Sources */,
 				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,
 				B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */,
 				B7C756FA280CECBA0005A233 /* TAPKitCentral.swift in Sources */,
@@ -2915,6 +2905,7 @@
 				B720D587282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B7AC335428A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
+				B7A60F9628B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B7C75710280CED4D0005A233 /* FingerView.swift in Sources */,
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,
 				B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
@@ -2922,7 +2913,6 @@
 				B7C75721280CEE040005A233 /* BasicIO.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
-				B796DEF4280D1D86006AC749 /* CodeGridParser+Rendering.swift in Sources */,
 				B7C75702280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				F057D28B2520491C0094BD83 /* SCNVector3+Extensions.swift in Sources */,
 				B701DDBC28B907E6004F7203 /* ConversionExtensions.swift in Sources */,

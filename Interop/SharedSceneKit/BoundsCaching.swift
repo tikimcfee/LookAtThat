@@ -54,10 +54,10 @@ extension MetalLinkNode {
     func computeBoundingBox() -> Bounds {
         let computing = BoundsComputing()
         
-        enumerateChildren { node in
-            var safeBox = node.manualBoundingBox
-            safeBox.min = convertPosition(safeBox.min, from: node)
-            safeBox.max = convertPosition(safeBox.max, from: node)
+        enumerateChildren { childNode in
+            var safeBox = childNode.manualBoundingBox
+            safeBox.min = convertPositionToParent(safeBox.min)
+            safeBox.max = convertPositionToParent(safeBox.max)
             computing.consumeBounds(safeBox)
         }
         
