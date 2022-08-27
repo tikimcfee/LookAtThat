@@ -27,9 +27,10 @@ extension MetalLinkNode {
     }
     
     var boundsInParent: Bounds {
-//        let minVector = convertPositionToParent(manualBoundingBox.min)
-//        let maxVector = convertPositionToParent(manualBoundingBox.max)
-        return manualBoundingBox
+        let minVector = convertPositionToParent(manualBoundingBox.min)
+        let maxVector = convertPositionToParent(manualBoundingBox.max)
+        return (minVector, maxVector)
+//        return manualBoundingBox
     }
     
     var boundsInWorld: Bounds {
@@ -41,7 +42,7 @@ extension MetalLinkNode {
 
 extension MetalLinkNode {
     func convertPositionToParent(_ convertTarget: LFloat3) -> LFloat3 {
-        return (parent?.position ?? .zero) + convertTarget
+        return (parent?.position ?? position) + convertTarget
     }
     
     func convertPosition(_ convertTarget: LFloat3, to final: MetalLinkNode?) -> LFloat3 {

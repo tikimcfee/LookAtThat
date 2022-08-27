@@ -58,8 +58,8 @@ extension MetalLinkNode {
         
         enumerateChildren { childNode in
             var safeBox = childNode.manualBoundingBox
-//            safeBox.min = convertPositionToParent(safeBox.min)
-//            safeBox.max = convertPositionToParent(safeBox.max)
+            safeBox.min = convertPositionToParent(safeBox.min)
+            safeBox.max = convertPositionToParent(safeBox.max)
             computing.consumeBounds(safeBox)
         }
         
