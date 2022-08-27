@@ -90,6 +90,8 @@ extension CGPoint {
     func scaled(_ factor: CGFloat) -> CGPoint {
         return CGPoint(x: x * factor, y: y * factor)
     }
+    
+    var asSimd: LFloat2 { LFloat2(x.float, y.float) }
 }
 
 class TouchState {

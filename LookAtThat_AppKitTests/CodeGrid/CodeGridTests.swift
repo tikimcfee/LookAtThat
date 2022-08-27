@@ -26,22 +26,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         try bundle.tearDownWithError()
     }
     
-    func testGridSizing() throws {
-        bundle.gridParser.loadSourceUrl(bundle.testFile)?.tokens.forEach {
-            print($0.triviaAndText)
-            $0.triviaAndText.forEach {
-                let (geometry, template, size) = bundle.glyphs[
-                    GlyphCacheKey(source: $0, NSUIColor.white)
-                ]
-                
-                print(size, "--", geometry.lengthX, geometry.lengthY, geometry.lengthZ)
-                print("\(geometry)\n\(template)")
-                XCTAssertEqual(size.width, geometry.lengthX, accuracy: 0.0)
-                XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)   
-            }
-        }
-    }
-    
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -54,70 +38,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 nextParent = next
             }
         }
-    }
-    
-    func testRendering_versionThree() throws {
-        CodeGrid.Defaults.displayMode = .glyphs
-        CodeGrid.Defaults.walkSemantics = true
-        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
-        measure {
-            let awaitRender = expectation(description: "Version three rendered")
-            bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { _ in
-                print("receiver emitted versionThree")
-                awaitRender.fulfill()
-            }
-            wait(for: [awaitRender], timeout: 60)
-            bundle.glyphs = GlyphLayerCache()
-            bundle.gridParser = CodeGridParser()
-        }
-    }
-    
-    func testSearch() throws {
-        CodeGrid.Defaults.displayMode = .glyphs
-        CodeGrid.Defaults.walkSemantics = true
-        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
-        let awaitRender = expectation(description: "Version three rendered")
-        var finalNode: SCNNode?
-        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { rootGrid in
-            print("Searchable grids rendered")
-            finalNode = rootGrid.rootNode
-            awaitRender.fulfill()
-        }
-        wait(for: [awaitRender], timeout: 60)
-        let _ = try XCTUnwrap(finalNode, "wut missing root")
-        
-        var bimap: BiMap<CodeGrid, Int> = BiMap()
-        var depth = 1
-        bundle.gridParser.gridCache.cachedGrids.values.forEach { grid, clone in
-            bimap[grid] = depth
-            depth += 1
-        }
-        bimap.keysToValues.forEach { print($0) }
-    }
-    
-    func testClones() throws {
-        let sourceFile = try bundle.loadTestSource()
-        let sourceSyntax = Syntax(sourceFile)
-        let firstGrid = bundle.gridParser.createNewGrid()
-            .consume(rootSyntaxNode: sourceSyntax)
-            .sizeGridToContainerNode()
-        
-        var firstGridGlyphs = Set<SCNNode>()
-        firstGrid.rawGlyphsNode.enumerateChildNodes { node, _ in
-            firstGridGlyphs.insert(node)
-        }
-        
-        let clonedGrid = firstGrid.makeClone()
-        var clonedGridGlyphs = Set<SCNNode>()
-        
-        clonedGrid.rawGlyphsNode.enumerateChildNodes { node, _ in
-            clonedGridGlyphs.insert(node)
-        }
-        
-        let firstNames = firstGridGlyphs.reduce(into: Set<String>()) { $0.insert($1.name) }
-        let secondNames = clonedGridGlyphs.reduce(into: Set<String>()) { $0.insert($1.name) }
-        
-        XCTAssertEqual(firstNames, secondNames)
     }
     
     func testFileRecursion() throws {
@@ -136,12 +56,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         let parsed = try SyntaxParser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
-            CodeGrid(glyphCache: bundle.glyphs,
-                     tokenCache: bundle.tokenCache)
-            .withFileName(bundle.testFile.lastPathComponent)
-            .consume(rootSyntaxNode: parsed.root)
-            .sizeGridToContainerNode()
+            bundle
+                .newGrid()
+                .withFileName(bundle.testFile.lastPathComponent)
+                .consume(rootSyntaxNode: parsed.root)
         }
+        
         let testGrid = newGrid()
         let testClass = try XCTUnwrap(testGrid.codeGridSemanticInfo.classes.first, "Must have id to test")
 
@@ -204,21 +124,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
         
-        class CodeGridEmpty: CodeGrid {
-            static let emptyGlyphCache = GlyphLayerCache()
-            static let emptyTokenCache = CodeGridTokenCache()
-            static func make() -> CodeGrid {
-                laztrace(#fileID,#function)
-                return CodeGrid(
-                    glyphCache: emptyGlyphCache,
-                    tokenCache: emptyTokenCache
-                )
-            }
-        }
         
-        let firstGrid = CodeGridEmpty.make()
-        let second_toRightOfFirst = CodeGridEmpty.make()
-        let third_toRightOfSecond = CodeGridEmpty.make()
+        let firstGrid = bundle.newGrid()
+        let second_toRightOfFirst = bundle.newGrid()
+        let third_toRightOfSecond = bundle.newGrid()
         
         snapping.connect(sourceGrid: firstGrid, to: .right(second_toRightOfFirst))
         snapping.connect(sourceGrid: second_toRightOfFirst, to: .right(third_toRightOfSecond))
@@ -264,20 +173,18 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testPositions() throws {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
-            CodeGrid(glyphCache: bundle.glyphs,
-                     tokenCache: bundle.tokenCache)
+            bundle.newGrid()
                 .withFileName(bundle.testFile.lastPathComponent)
                 .consume(rootSyntaxNode: parsed.root)
-                .sizeGridToContainerNode()
         }
         let testGrid = newGrid()
-        var (deltaX, deltaY, deltaZ) = (0.0, 0.0, 0.0)
+        var (deltaX, deltaY, deltaZ) = (Float.zero, Float.zero, Float.zero)
         
         printStart()
         print("start: ----")
         print(testGrid.measures.dumpstats)
 
-        XCTAssertEqual(testGrid.measures.position, SCNVector3Zero, "Must start at 0,0,0")
+        XCTAssertEqual(testGrid.measures.position, .zero, "Must start at 0,0,0")
         
         testGrid.measures.setLeading(0)
         testGrid.measures.setTop(0)
@@ -306,16 +213,14 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testMeasuresAndSizes() throws {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
-            CodeGrid(glyphCache: bundle.glyphs,
-                     tokenCache: bundle.tokenCache)
+            bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)
-                .sizeGridToContainerNode()
         }
         
         let testGrid = newGrid()
         stats(testGrid)
         XCTAssert(testGrid.measures.lengthX > 0, "Should have some size")
-        XCTAssertEqual(testGrid.rootNode.position, SCNVector3Zero, "Must start at zero position for test")
+        XCTAssertEqual(testGrid.rootNode.position, .zero, "Must start at zero position for test")
         
         // Test initial sizing works
         let testGridWidth = testGrid.measures.lengthX
@@ -417,11 +322,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()
         func newGrid() -> CodeGrid {
-            let newGrid = CodeGrid(glyphCache: bundle.glyphs,
-                                   tokenCache: bundle.tokenCache)
+            let newGrid = bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)
-                .sizeGridToContainerNode()
-            
             allGrids.append(newGrid)
             return newGrid
         }

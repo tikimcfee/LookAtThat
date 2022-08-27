@@ -96,7 +96,6 @@ extension TracingRoot {
         GlobablWindowDelegate.self,
         GlobalSemanticParticipant.self,
         GlyphBuilder.self,
-        GlyphLayerCache.self,
         GlyphNode.self,
         GridCache.self,
         InterpolatorFunctions.self,

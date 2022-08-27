@@ -30,23 +30,17 @@ struct MobileAppRootView : View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            if showMetal {
-                __METAL__body
-            } else {
-                __ARKIT__body__
-            }
-            
-            VStack {
-                Button("Swap Modes") {
-                    showMetal.toggle()
-                }.padding(32.0)
-            }
+            __METAL__body
         }
     }
     
     var __METAL__body: some View {
         ZStack(alignment: .topLeading) {
-            MetalView()
+            if let metal = try? MetalView() {
+                metal
+            } else {
+                EmptyView()
+            }
             
             #if os(macOS)
             Spacer()
@@ -112,76 +106,8 @@ struct MobileAppRootView : View {
         )
     }
     
-    var __ARKIT__body__: some View {
-        return ZStack(alignment: .bottomTrailing) {
-#if os(iOS)
-            ARKitRepresentableView(
-                arView: SceneLibrary.global.sharedSceneView
-            ).edgesIgnoringSafeArea(.all)
-            
-            VStack(alignment: .trailing) {
-                HStack {
-                    Button(action: { showInfoView = true }) {
-                        Text("📶").padding()
-                    }
-                    
-                    Button(action: { showGitFetch = true }) {
-                        Text("Fetch GitHub").padding()
-                    }
-                }
-                FileBrowserView()
-                    .frame(maxHeight: 192.0)
-            }
-#endif
-        }
-        .sheet(isPresented: $showGitFetch) {
-            GitHubClientView()
-        }
-        .sheet(isPresented: $showInfoView) {
-            EmptyView().onAppear {
-                print("Not implemented: \(#file):\(#function) (MultipeerInfo)")
-            }
-        }
-    }
-}
-
-#if os(iOS)
-class ARViewDelegate: NSObject, ARSCNViewDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
-
-    }
-
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-
-    }
-}
-
-struct ARKitRepresentableView: UIViewRepresentable {
-
-    let arView: ARSCNView
-    let delegate = ARViewDelegate()
-    
-    func makeUIView(context: Context) -> ARSCNView {
-
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal, .vertical]
-        arView.debugOptions = [ARSCNDebugOptions.showFeaturePoints,
-                               ARSCNDebugOptions.showWorldOrigin]
-        arView.autoenablesDefaultLighting  = true
-        arView.delegate = delegate
-        arView.scene = SceneLibrary.global.currentController.scene
-        arView.session.run(config)
-        
-        return arView
-        
-    }
-    
-    func updateUIView(_ uiView: ARSCNView, context: Context) {
-
-    }
     
 }
-#endif
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {

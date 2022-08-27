@@ -19,12 +19,3 @@ public struct GlyphCacheKey: Hashable, Equatable {
         self.background = background
     }
 }
-
-class GlyphLayerCache: LockingCache<GlyphCacheKey, SizedText> {
-    
-    let glyphBuilder = GlyphBuilder()
-    
-    override func make(_ key: GlyphCacheKey, _ store: inout [GlyphCacheKey: SizedText]) -> Value {
-        return glyphBuilder.makeGlyph(key)
-    }
-}

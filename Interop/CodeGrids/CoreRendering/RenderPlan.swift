@@ -18,7 +18,7 @@ struct RenderPlan {
     
     var statusObject: AppStatus { GlobalInstances.appStatus }
     
-    func startRender() {
+    func startRender(_ onComplete: @escaping () -> Void = { }) {
         queue.async {
             statusObject.resetProgress()
             
@@ -31,6 +31,8 @@ struct RenderPlan {
                 $0.message = "Render complete!"
                 $0.currentValue = statusObject.progress.totalValue
             }
+            
+            onComplete()
         }
     }
 }

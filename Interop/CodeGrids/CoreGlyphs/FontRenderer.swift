@@ -17,31 +17,32 @@ struct FontRenderer {
 }
 
 extension FontRenderer {
-    func measure(_ text: String) -> (CGSize, CGSize) {
-        let textSize = text.size(withAttributes: [.font: measuringFont])
-        let textSizeScaled = CGSize(
-            width: textSize.width * Self.SCALE_FACTOR,
-            height: textSize.height * Self.SCALE_FACTOR
+    func measure(_ text: String) -> (LFloat2, LFloat2) {
+        let measureSize = text.size(withAttributes: [.font: measuringFont])
+        let textSize = LFloat2(measureSize.width.float, measureSize.height.float)
+        let textSizeScaled = LFloat2(
+            x: textSize.x * Self.SCALE_FACTOR,
+            y: textSize.y * Self.SCALE_FACTOR
         )
         return (textSize, textSizeScaled)
     }
     
-    func descale(_ size: CGSize) -> CGSize {
-        let descaledWidth = size.width / Self.DESCALE_FACTOR
-        let descaledHeight = size.height / Self.DESCALE_FACTOR
-        return CGSize(width: descaledWidth, height: descaledHeight)
+    func descale(_ size: LFloat2) -> LFloat2 {
+        let descaledWidth = size.x / Self.DESCALE_FACTOR
+        let descaledHeight = size.y / Self.DESCALE_FACTOR
+        return LFloat2(x: descaledWidth, y: descaledHeight)
     }
 }
 
 private extension FontRenderer {
 #if os(iOS)
-    static let FONT_SIZE = 16.0
-    static let SCALE_FACTOR = 1.0
-    static let DESCALE_FACTOR = 16.0
+    static let FONT_SIZE: Float = 16.0
+    static let SCALE_FACTOR: Float = 1.0
+    static let DESCALE_FACTOR: Float = 16.0
 #else
-    static let FONT_SIZE = 24.0
-    static let SCALE_FACTOR = 1.0
-    static let DESCALE_FACTOR = 24.0
+    static let FONT_SIZE: Float = 24.0
+    static let SCALE_FACTOR: Float = 1.0
+    static let DESCALE_FACTOR: Float = 24.0
 #endif
     
     // TODO: !WARNING! NOTE! PAY ATTENTION!
@@ -49,9 +50,9 @@ private extension FontRenderer {
     // and measuring with a sized font... and if you don't do that, you end up with things not
     // working correctly, as the font will take into account all sorts of text measuring stuff.
     // So, we use UNIT_FONT when requesting a text-layer to render, and MONOSPACE_FONT to
-    static let MONOSPACE_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE, weight: .regular)
+    static let MONOSPACE_FONT = NSUIFont.monospacedSystemFont(ofSize: FONT_SIZE.cg, weight: .regular)
     static let UNIT_FONT = NSUIFont.monospacedSystemFont(ofSize: 1.0, weight: .regular)
     
-    static let STANDARD_FONT = NSUIFont.systemFont(ofSize: FONT_SIZE, weight: .regular)
+    static let STANDARD_FONT = NSUIFont.systemFont(ofSize: FONT_SIZE.cg, weight: .regular)
     static let STANDARD_UNIT_FONT = NSUIFont.systemFont(ofSize: 1.0, weight: .regular)
 }

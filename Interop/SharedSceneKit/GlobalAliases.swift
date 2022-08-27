@@ -55,10 +55,6 @@ extension CGFloat {
     var cg: CGFloat {
         return self
     }
-    
-//    var device: CGFloat {
-//        return self * DeviceScale
-//    }
 }
 
 extension Int {
@@ -81,6 +77,9 @@ extension Float {
     }
 }
 
+extension CGSize {
+    var asSimd: LFloat2 { LFloat2(width.float, height.float) }
+}
 
 extension CGFloat {
     var float: Float {

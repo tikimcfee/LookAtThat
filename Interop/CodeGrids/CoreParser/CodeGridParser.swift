@@ -13,8 +13,6 @@ import SwiftUI
 class CodeGridParser: SwiftSyntaxFileLoadable {
     
     let renderQueue = DispatchQueue(label: "RenderClock", qos: .userInitiated)
-    
-    var glyphCache: GlyphLayerCache = GlyphLayerCache()
     var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     
     lazy var editorWrapper: CodeGridWorld = {

@@ -41,7 +41,6 @@ class TestBundle {
     lazy var testFileRaw = Self.testFilesAbsolute[0]
     lazy var testFileAbsolute = Self.testFilesRawPath[0]
     lazy var testTraceFile = Self.testTraceFile
-    var glyphs: GlyphLayerCache!
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
@@ -61,10 +60,9 @@ class TestBundle {
     
     func setUpWithError() throws {
         gridParser = CodeGridParser()
-        glyphs = gridParser.glyphCache
         tokenCache = gridParser.tokenCache
         semanticBuilder = SemanticInfoBuilder()
-        controller = CodePagesController(sceneView: CustomSceneView(frame: .zero))
+        controller = CodePagesController()
     }
     
     func tearDownWithError() throws {
@@ -76,5 +74,9 @@ class TestBundle {
             gridParser.loadSourceUrl(testFileRaw),
             "Failed to load test file"
         )
+    }
+    
+    func newGrid() -> CodeGrid {
+        gridParser.gridCache.createNewGrid()
     }
 }

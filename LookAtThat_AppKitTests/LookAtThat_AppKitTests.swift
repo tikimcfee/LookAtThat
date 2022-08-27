@@ -17,22 +17,6 @@ class LookAtThat_AppKitTests: XCTestCase {
     override func tearDownWithError() throws {
 		try bundle.tearDownWithError()
     }
-    
-    func testSwiftSyntax() throws {
-		bundle.gridParser.loadSourceUrl(bundle.testFile)?.tokens.forEach {
-            print($0.triviaAndText)
-            $0.triviaAndText.forEach {
-				let (geometry, template, size) = bundle.glyphs[
-                    GlyphCacheKey("\($0)", NSUIColor.white)
-                ]
-                
-                print(size, "key --", geometry.lengthX, geometry.lengthY, geometry.lengthZ)
-                print(size, "tmp --", template.lengthX, template.lengthY, template.lengthZ)
-                XCTAssertEqual(size.width, geometry.lengthX, accuracy: 0.0)
-                XCTAssertEqual(size.height, geometry.lengthY, accuracy: 0.0)
-            }
-        }
-    }
 
     func test_runningAWorker() throws {
         printStart()

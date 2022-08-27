@@ -12,7 +12,7 @@ extension UITapGestureRecognizer {
         return GestureEvent(
             state: state.translated,
             type: .deviceTap,
-            currentLocation: currentLocation,
+            currentLocation: currentLocation.asSimd,
             commandStart: nil,
             optionStart: nil
         )
@@ -23,7 +23,7 @@ extension UIPanGestureRecognizer {
     var makePanEvent: PanEvent {
         return PanEvent(
             state: state.translated,
-            currentLocation: currentLocation,
+            currentLocation: currentLocation.asSimd,
             commandStart: nil,
             optionStart: nil
         )
@@ -33,7 +33,7 @@ extension UIPinchGestureRecognizer {
     var makeMagnificationEvent: MagnificationEvent {
         return MagnificationEvent(
             state: state.translated,
-            rawMagnification: scale
+            rawMagnification: scale.float
         )
     }
 }
@@ -60,7 +60,7 @@ extension GestureRecognizer {
         return GestureEvent(
             state: state.translated,
             type: .deviceTap,
-            currentLocation: currentLocation,
+            currentLocation: currentLocation.asSimd,
             commandStart: nil,
             optionStart: nil,
             controlStart: nil
@@ -111,7 +111,7 @@ class ModifiersMagnificationGestureRecognizer: MagnificationGestureRecognizer {
     var makeMagnificationEvent: MagnificationEvent {
         return MagnificationEvent(
             state: state.translated,
-            rawMagnification: magnification
+            rawMagnification: magnification.float
         )
     }
 }
@@ -147,11 +147,10 @@ class ModifiersPanGestureRecognizer: PanGestureRecognizer {
     var makePanEvent: PanEvent {
         return PanEvent(
             state: state.translated,
-            currentLocation: currentLocation,
-//            commandStart: self[.command],
-            commandStart: self[.shift],
-            optionStart: self[.option],
-            controlStart: self[.control]
+            currentLocation: currentLocation.asSimd,
+            commandStart: self[.shift]?.asSimd,
+            optionStart: self[.option]?.asSimd,
+            controlStart: self[.control]?.asSimd
         )
     }
 }

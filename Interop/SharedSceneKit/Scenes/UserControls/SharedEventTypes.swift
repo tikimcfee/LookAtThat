@@ -11,8 +11,8 @@ enum EventType {
 struct MagnificationEvent {
     let state: EventState?
 
-    let rawMagnification: CGFloat
-    var magnification: CGFloat {
+    let rawMagnification: VectorFloat
+    var magnification: VectorFloat {
         #if os(iOS)
         return rawMagnification
         #elseif os(OSX)
@@ -24,15 +24,15 @@ struct MagnificationEvent {
 struct PanEvent {
     let state: EventState?
 
-    let currentLocation: CGPoint
+    let currentLocation: LFloat2
 
-    var commandStart: CGPoint?
+    var commandStart: LFloat2?
     var pressingCommand: Bool { commandStart != nil }
 
-    var optionStart: CGPoint?
+    var optionStart: LFloat2?
     var pressingOption: Bool { optionStart != nil }
 
-    var controlStart: CGPoint?
+    var controlStart: LFloat2?
     var pressingControl: Bool { controlStart != nil }
 }
 
@@ -40,14 +40,14 @@ public struct GestureEvent {
     let state: EventState?
     let type: EventType?
     
-    let currentLocation: CGPoint
+    let currentLocation: LFloat2
     
-    var commandStart: CGPoint?
+    var commandStart: LFloat2?
     var pressingCommand: Bool { commandStart != nil }
     
-    var optionStart: CGPoint?
+    var optionStart: LFloat2?
     var pressingOption: Bool { optionStart != nil }
     
-    var controlStart: CGPoint?
+    var controlStart: LFloat2?
     var pressingControl: Bool { controlStart != nil }
 }

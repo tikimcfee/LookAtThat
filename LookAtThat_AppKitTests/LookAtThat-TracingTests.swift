@@ -42,7 +42,7 @@ class LookAtThat_TracingTests: XCTestCase {
         printStart()
         
         
-        let dummyGrid = bundle.gridParser.createNewGrid()
+        let dummyGrid = bundle.newGrid()
         let visitor = FlatteningVisitor(
             target: dummyGrid.codeGridSemanticInfo,
             builder: dummyGrid.semanticInfoBuilder
@@ -79,10 +79,9 @@ class LookAtThat_TracingTests: XCTestCase {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
         
-        let grid = bundle.gridParser.createNewGrid()
+        let grid = bundle.newGrid()
             .applying { _ in printStart() }
             .consume(rootSyntaxNode: sourceSyntax)
-            .sizeGridToContainerNode()
         printEnd()
         
         let _ = SemanticMapTracer.wrapForLazyLoad(
@@ -215,15 +214,18 @@ class LookAtThat_TracingTests: XCTestCase {
         
         let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
         let awaitRender = expectation(description: "Version three rendered")
-        bundle.gridParser.__versionThree_RenderConcurrent(rootDirectory) { _ in
-            print("Receiver emitted versionThree")
-            awaitRender.fulfill()
-        }
+        RenderPlan(
+            rootPath: rootDirectory,
+            queue: bundle.gridParser.renderQueue,
+            renderer: bundle.gridParser.concurrency
+        ).startRender { awaitRender.fulfill() }
+        
+        
         wait(for: [awaitRender], timeout: 60)
         
         tracer.commitMappingState()
         let _ = SemanticMapTracer.wrapForLazyLoad(
-            sourceGrids: bundle.gridParser.gridCache.cachedGrids.values.map { $0.source },
+            sourceGrids: bundle.gridParser.gridCache.cachedGrids.values,
             sourceTracer: tracer
         )
         

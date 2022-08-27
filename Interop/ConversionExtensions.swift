@@ -31,6 +31,10 @@ extension NSData {
  https://github.com/jeffreymorganio/nscolor-components/blob/master/Sources/NSColor%2BComponents.swift
  https://stackoverflow.com/questions/15682923/convert-nscolor-to-rgb/15682981#15682981
  */
+#if os(iOS)
+import UIKit
+#endif
+
 extension NSUIColor {
 #if os(OSX)
     var rgba: (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)? {
