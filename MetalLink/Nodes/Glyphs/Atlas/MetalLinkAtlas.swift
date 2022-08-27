@@ -41,7 +41,7 @@ extension MetalLinkAtlas {
     
     private func addGlyphToAtlasIfMissing(_ key: GlyphCacheKey) {
         guard uvPairCache[key] == nil else { return }
-        print("Adding glyph to Atlas: [\(key.glyph)]")
+//        print("Adding glyph to Atlas: [\(key.glyph)]")
         do {
             let block = try builder.startAtlasUpdate()
             builder.addGlyph(key, block)

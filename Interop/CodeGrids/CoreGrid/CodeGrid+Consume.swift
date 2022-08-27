@@ -37,25 +37,17 @@ extension CodeGrid {
     func consume(rootSyntaxNode: Syntax) -> CodeGrid {
         doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
         return self
-        
-//        doSyntaxConsume(rootSyntaxNode: rootSyntaxNode)
     }
     
     @discardableResult
     private func doSyntaxConsume(rootSyntaxNode: Syntax) -> CodeGrid {
         laztrace(#fileID,#function,rootSyntaxNode)
         
-        // Precache all known syntax
-        if walkSemantics {
-            FlatteningVisitor(
-                target: codeGridSemanticInfo,
-                builder: semanticInfoBuilder
-            ).walkRecursiveFromSyntax(rootSyntaxNode)
-        }
-        
-        for token in rootSyntaxNode.tokens {
-            consumeSyntaxToken(token)
-        }
+        let consumer = GlyphCollectionSyntaxConsumer(
+            targetCollection: rootNode,
+            targetGrid: self
+        )
+        consumer.consume(rootSyntaxNode: rootSyntaxNode)
         
         consumedRootSyntaxNodes.append(rootSyntaxNode)
     

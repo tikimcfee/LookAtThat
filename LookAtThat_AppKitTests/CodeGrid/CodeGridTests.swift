@@ -51,6 +51,42 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printEnd()
     }
     
+    func testLinkNodeStats() throws {
+        printStart()
+        
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let testGrid = bundle.newGrid()
+            .withFileName(bundle.testFile.lastPathComponent)
+            .consume(rootSyntaxNode: parsed.root)
+        
+        XCTAssertFalse(testGrid.tokenCache.isEmpty(), "TokenCache must have built nodes")
+        
+    }
+    
+    func testGridSize() throws {
+        printStart()
+        
+        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let testGrid = bundle.newGrid()
+            .withFileName(bundle.testFile.lastPathComponent)
+            .consume(rootSyntaxNode: parsed.root)
+        
+//        let testClass = try XCTUnwrap(
+//            testGrid.codeGridSemanticInfo.classes.first,
+//            "Must have id to test"
+//        )
+        
+        let (x, y, z) = (
+            testGrid.measures.lengthX,
+            testGrid.measures.lengthY,
+            testGrid.measures.lengthZ
+        )
+        
+        XCTAssertGreaterThan(x, 0, "Must have some width")
+        XCTAssertGreaterThan(y, 0, "Must have some height")
+        XCTAssertGreaterThan(z, 0, "Must have some depth")
+    }
+    
     func testNodeBoundsFinding() throws {
         printStart()
         

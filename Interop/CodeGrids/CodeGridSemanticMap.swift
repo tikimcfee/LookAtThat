@@ -10,7 +10,7 @@ import SwiftSyntax
 import SceneKit
 
 typealias NodeID = String
-typealias NodeSet = Set<SCNNode>
+typealias NodeSet = Set<GlyphNode>
 typealias SortedNodeSet = [GlyphNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]

@@ -395,10 +395,10 @@
 		B785521528B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
 		B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
 		B785521728B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
-		B785521928B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
-		B785521A28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
-		B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
-		B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */; };
+		B785521928B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
+		B785521A28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
+		B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
+		B785521C28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
@@ -914,7 +914,7 @@
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
 		B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+State.swift"; sourceTree = "<group>"; };
 		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
-		B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Consume.swift"; sourceTree = "<group>"; };
+		B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollectionSyntaxConsumer.swift; sourceTree = "<group>"; };
 		B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkPickingTexture.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
@@ -1343,7 +1343,7 @@
 			isa = PBXGroup;
 			children = (
 				B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */,
-				B785521828B3503E00F57954 /* GlyphCollection+Consume.swift */,
+				B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */,
 				B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */,
 			);
 			path = GlyphCollection;
@@ -2208,7 +2208,7 @@
 				B72FBFE528A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B70FDC59283EAE9900170D5F /* SyntaxHierarchyView.swift in Sources */,
 				B70FDC5B283EAE9900170D5F /* BackgroundWorker.swift in Sources */,
-				B785521A28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
+				B785521A28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B70FDC5D283EAE9900170D5F /* GlobalWindowDelegate.swift in Sources */,
 				B70FDC5E283EAE9900170D5F /* TAPAirGesture.swift in Sources */,
 				B7EB7141284878B100313633 /* GitHubClientView.swift in Sources */,
@@ -2390,7 +2390,7 @@
 				B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
-				B785521C28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
+				B785521C28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
 				B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B74A22AC2814FFF300F6F727 /* TAPAirGesture.swift in Sources */,
@@ -2570,7 +2570,7 @@
 				B72FBFE428A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
-				B785521928B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
+				B785521928B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7C756FF280CECBA0005A233 /* TAPAirGesture.swift in Sources */,
@@ -2810,7 +2810,7 @@
 				B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B7AC338828A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
-				B785521B28B3503E00F57954 /* GlyphCollection+Consume.swift in Sources */,
+				B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B7C75706280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,

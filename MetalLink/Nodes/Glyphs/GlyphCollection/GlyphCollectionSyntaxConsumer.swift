@@ -8,19 +8,26 @@
 import Foundation
 import SwiftSyntax
 
-struct SyntaxGlyphTransformer: SwiftSyntaxFileLoadable {
-    let target: GlyphCollection
+struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
+    let targetCollection: GlyphCollection
+    let targetGrid: CodeGrid
     
-    func consume(url: URL) {
+    func consume(
+        url: URL
+    ) {
         guard let source = loadSourceUrl(url) else { return }
-        doSyntaxConsume(rootSyntaxNode: Syntax(source))
+        consume(
+            rootSyntaxNode: Syntax(source)
+        )
     }
     
-    private func doSyntaxConsume(rootSyntaxNode: Syntax) {
-        //        FlatteningVisitor(
-        //            target: codeGridSemanticInfo,
-        //            builder: semanticInfoBuilder
-        //        ).walkRecursiveFromSyntax(rootSyntaxNode)
+    func consume(
+        rootSyntaxNode: Syntax
+    ) {
+        FlatteningVisitor(
+            target: targetGrid.codeGridSemanticInfo,
+            builder: targetGrid.semanticInfoBuilder
+        ).walkRecursiveFromSyntax(rootSyntaxNode)
         
         for token in rootSyntaxNode.tokens {
             consumeSyntaxToken(token)
@@ -48,6 +55,14 @@ struct SyntaxGlyphTransformer: SwiftSyntaxFileLoadable {
         writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
         writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
         writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+        
+        targetGrid.tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
+        targetGrid.tokenCache[tokenIdNodeName] = tokenTextNodes
+        targetGrid.tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
+        
+        targetGrid.codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
+        targetGrid.codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
+        targetGrid.codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
     }
     
     func writeString(
@@ -57,7 +72,12 @@ struct SyntaxGlyphTransformer: SwiftSyntaxFileLoadable {
         _ set: inout CodeGridNodes
     ) {
         for newCharacter in string {
-            target.addGlyph(GlyphCacheKey(source: newCharacter, color))
+            let glyph = targetCollection.addGlyph(GlyphCacheKey(source: newCharacter, color))
+            guard let glyph = glyph else {
+                print("Failed to render glyph for: \(newCharacter)")
+                return
+            }
+            set.insert(glyph)
         }
     }
 }

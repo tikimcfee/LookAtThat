@@ -50,11 +50,18 @@ enum MetalGlyphError: String, Error {
 extension TwoETimeRoot {
     func setup13() throws {
         let atlas = try MetalLinkAtlas(link)
+        let testMap = CodeGridSemanticMap()
+        let testTokens = CodeGridTokenCache()
         
         var z: Float = -30.0
         func addCollection(_ path: URL) {
             let collection = GlyphCollection(link: link, linkAtlas: atlas)
-            let consumer = SyntaxGlyphTransformer(target: collection)
+            let grid = CodeGrid(rootNode: collection, tokenCache: testTokens)
+            let consumer = GlyphCollectionSyntaxConsumer(
+                targetCollection: collection,
+                targetGrid: grid
+            )
+            
             consumer.consume(url: path)
             collection.setRootMesh()
             
@@ -96,7 +103,15 @@ extension TwoETimeRoot {
         collection.position.z = -30
         root.add(child: collection)
         
-        let consumer = SyntaxGlyphTransformer(target: collection)
+        let testMap = CodeGridSemanticMap()
+        let testTokens = CodeGridTokenCache()
+        
+        let grid = CodeGrid(rootNode: collection, tokenCache: testTokens)
+        let consumer = GlyphCollectionSyntaxConsumer(
+            targetCollection: collection,
+            targetGrid: grid
+        )
+        
         func consume(_ url: URL) {
             consumer.consume(url: url)
             

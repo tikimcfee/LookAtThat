@@ -8,25 +8,24 @@
 import Foundation
 import SceneKit
 
-class GlyphNode: MetalLinkGlyphNode {
-    var size: CGSize!
-    var focusCount = 0
-    
+typealias GlyphNode = MetalLinkGlyphNode
+
+extension MetalLinkGlyphNode {
     func focus(level: Int) {
-        position = position.translated(dZ: 8.0 * Float(level - focusCount))
-        focusCount = level
+        position = position.translated(dZ: 8.0 * Float(level))
+//        focusCount = level
         //TODO: Do internal updates to buffer
     }
     
     func focus() {
         position = position.translated(dZ: 8)
-        focusCount += 1
+//        focusCount += 1
         //TODO: Do internal updates to buffer
     }
     
     func unfocus() {
         position = position.translated(dZ: -8)
-        focusCount = max(0, focusCount - 1)
+//        focusCount = max(0, focusCount - 1)
         //TODO: Do internal updates to buffer
     }
 }

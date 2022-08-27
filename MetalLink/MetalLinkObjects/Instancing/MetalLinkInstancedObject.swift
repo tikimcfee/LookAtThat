@@ -18,7 +18,7 @@ private class InstanceCounter {
     private var currentGeneratedID: InstanceIDType = 10
     func nextId() -> InstanceIDType {
         let id = currentGeneratedID
-        print("Gen: \(id)")
+//        print("Gen: \(id)")
         currentGeneratedID += 1
         return id
     }
