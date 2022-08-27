@@ -34,16 +34,23 @@ extension GlyphCollection {
             self.targetCollection = collection
         }
         
-        func insert(_ letterNode: MetalLinkGlyphNode) {
+        func insert(
+            _ letterNode: MetalLinkGlyphNode,
+            _ constants: InstancedConstants
+        ) {
             let checks = letterNode.key.source.checks
-            let size = LFloat2(letterNode.quad.width, letterNode.quad.height)
+            let size = LFloat2(
+                letterNode.quad.width,
+                letterNode.quad.height
+            )
             
-            letterNode.position = currentPosition.translated(dX: size.x)
+            letterNode.position = currentPosition
             
             // TODO: Move this to the renderer, where it can remove whitespace
             // instead of always adding instances: [ whitespace newlines new line ]
-//            if !checks.isWhitespace {
-//                targetCollection.instanceState.nodes.append(letterNode)
+//            if !(checks.isNewline || checks.isWhitespace) {
+                targetCollection.instanceState
+                    .appendToState(node: letterNode, constants: constants)
 //            }
             
             pointer.right(size.x)
@@ -54,7 +61,8 @@ extension GlyphCollection {
         }
         
         func newLine(_ size: LFloat2) {
-            pointer.down(size.y * Config.newLineSizeRatio)
+//            pointer.down(size.y * Config.newLineSizeRatio)
+            pointer.down(size.y)
             pointer.left(currentPosition.x)
             lineCount += 1
         }

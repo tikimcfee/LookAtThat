@@ -463,6 +463,18 @@
 		B7A60F9528B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
 		B7A60F9628B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
 		B7A60F9728B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */; };
+		B7A60F9A28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
+		B7A60F9B28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
+		B7A60F9C28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
+		B7A60F9D28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
+		B7A60F9F28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */; };
+		B7A60FA028B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */; };
+		B7A60FA128B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */; };
+		B7A60FA228B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */; };
+		B7A60FA428B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
+		B7A60FA528B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
+		B7A60FA628B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
+		B7A60FA728B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
 		B7A6F2AA275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */; };
 		B7A6F2AB275ED95E004CAA66 /* CodeGrid+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */; };
 		B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */; };
@@ -935,6 +947,9 @@
 		B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSceneState.swift; sourceTree = "<group>"; };
 		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* SwiftUIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExtensions.swift; sourceTree = "<group>"; };
+		B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizing.swift; sourceTree = "<group>"; };
+		B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Bounds.swift"; sourceTree = "<group>"; };
+		B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsComputing.swift; sourceTree = "<group>"; };
 		B7A6F2A9275ED95E004CAA66 /* CodeGrid+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Measures.swift"; sourceTree = "<group>"; };
 		B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParserQueryController.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
@@ -1393,6 +1408,17 @@
 			path = Semantics;
 			sourceTree = "<group>";
 		};
+		B7A60F9828B9EB2100ACA4E6 /* Bounds */ = {
+			isa = PBXGroup;
+			children = (
+				B74E7A7E26770E5F0021299F /* BoundsCaching.swift */,
+				B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */,
+				B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */,
+				B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */,
+			);
+			path = Bounds;
+			sourceTree = "<group>";
+		};
 		B7A6F2B2275EE52B004CAA66 /* LaZTrace */ = {
 			isa = PBXGroup;
 			children = (
@@ -1790,10 +1816,10 @@
 		F057D22B2520444B0094BD83 /* SharedSceneKit */ = {
 			isa = PBXGroup;
 			children = (
+				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
 				F092E5B625101B0600B18894 /* SceneUtils */,
 				F0341048250C7D3700031147 /* Scenes */,
 				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
-				B74E7A7E26770E5F0021299F /* BoundsCaching.swift */,
 				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
 				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
@@ -2217,6 +2243,7 @@
 				B7A60F9528B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B70FDC61283EAE9900170D5F /* SharedEventTypes.swift in Sources */,
 				B70FDC62283EAE9900170D5F /* RawSensorDataParser.swift in Sources */,
+				B7A60FA028B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */,
 				B7AC333F28A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
 				B70FDC63283EAE9900170D5F /* TraceLine.swift in Sources */,
 				B70FDC64283EAE9900170D5F /* GlyphNode.swift in Sources */,
@@ -2246,6 +2273,7 @@
 				B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */,
 				B70FDC7E283EAE9900170D5F /* SourceInfoPanelState.swift in Sources */,
 				B70FDC7F283EAE9900170D5F /* BoundsCaching.swift in Sources */,
+				B7A60FA528B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B70FDC80283EAE9900170D5F /* SwiftSyntax+FileLoading.swift in Sources */,
 				B785521528B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B70FDC81283EAE9900170D5F /* String+Extensions.swift in Sources */,
@@ -2313,6 +2341,7 @@
 				B70FDCB5283EAE9900170D5F /* RWLock.swift in Sources */,
 				B70FDCB6283EAE9900170D5F /* CodeGridParser.swift in Sources */,
 				B70FDCB7283EAE9900170D5F /* MultipeerManager.swift in Sources */,
+				B7A60F9B28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B7AC336F28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B70FDCB9283EAE9900170D5F /* SemanticTracingOutView.swift in Sources */,
 				B70FDCBA283EAE9900170D5F /* InputStreamReader.swift in Sources */,
@@ -2398,6 +2427,7 @@
 				B7A60F9728B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B74A22AE2814FFF300F6F727 /* CodeGridParserQueryController.swift in Sources */,
 				B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */,
+				B7A60FA228B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */,
 				B74A22B02814FFF300F6F727 /* RawSensorDataParser.swift in Sources */,
 				B72FBFD828A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				B7981035281CBAF5009A82BD /* TraceLine.swift in Sources */,
@@ -2427,6 +2457,7 @@
 				B7AC334528A0CA71001172BB /* CoreError.swift in Sources */,
 				B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */,
 				B74A22C22814FFF300F6F727 /* CodeGridParser+WorldEditing.swift in Sources */,
+				B7A60FA728B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
 				B7C69FD228A356A300A84860 /* RootNode.swift in Sources */,
@@ -2494,6 +2525,7 @@
 				B74A22F12814FFF300F6F727 /* TAPDevice.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
+				B7A60F9D28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
 				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
@@ -2579,6 +2611,7 @@
 				B7A60F9428B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B7A6F2B0275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
 				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
+				B7A60F9F28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */,
 				B7C75705280CECBA0005A233 /* RawSensorDataParser.swift in Sources */,
 				B7AC333E28A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
 				B7981033281CBAF5009A82BD /* TraceLine.swift in Sources */,
@@ -2608,6 +2641,7 @@
 				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B74E7A7F26770E5F0021299F /* BoundsCaching.swift in Sources */,
+				B7A60FA428B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B785521428B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
@@ -2675,6 +2709,7 @@
 				B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */,
 				B7EA88372723955E0098541C /* CodeGridParser.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
+				B7A60F9A28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B7AC336E28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */,
@@ -2767,6 +2802,7 @@
 				B720D58328246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B72FBFD728A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
+				B7A60FA128B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift in Sources */,
 				B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
@@ -2864,6 +2900,7 @@
 				B7C756F4280CECBA0005A233 /* TAPKitDelegateController.swift in Sources */,
 				B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
+				B7A60F9C28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
 				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
@@ -2882,6 +2919,7 @@
 				B7981028281C3050009A82BD /* FileIO.swift in Sources */,
 				B7A6F2B1275EDA09004CAA66 /* CodeGridParserQueryController.swift in Sources */,
 				B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */,
+				B7A60FA628B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B7C69FE528A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				B7C69FF428A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,

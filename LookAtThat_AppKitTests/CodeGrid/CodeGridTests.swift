@@ -19,11 +19,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         // Fields reset on each test!
         bundle = TestBundle()
         try bundle.setUpWithError()
-        
+        printStart()
     }
     
     override func tearDownWithError() throws {
         try bundle.tearDownWithError()
+        printEnd()
     }
     
     func testSemanticInfo() throws {
@@ -41,26 +42,58 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testFileRecursion() throws {
-        printStart()
-        
         let path = try XCTUnwrap(URL(string: bundle.rootDirectory), "Must have valid root directory")
         FileBrowser.recursivePaths(path).forEach {
             print("\($0.description)")
         }
-        
-        printEnd()
     }
     
     func testLinkNodeStats() throws {
-        printStart()
+        let codez = """
+        let s = "Hello, Metal".
+        print(s)
+        """
         
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try SyntaxParser.parse(source: codez)
         let testGrid = bundle.newGrid()
             .withFileName(bundle.testFile.lastPathComponent)
             .consume(rootSyntaxNode: parsed.root)
         
-        XCTAssertFalse(testGrid.tokenCache.isEmpty(), "TokenCache must have built nodes")
+        XCTAssertFalse(
+            testGrid.tokenCache.isEmpty(),
+            "TokenCache must have built nodes"
+        )
         
+        let testBounds = BoundsComputing()
+        testGrid.tokenCache.doOnEach { id, nodeSet in
+//            printSeparator()
+//            print("token", id)
+            for node in nodeSet {
+                XCTAssertTrue(node.width > 0, "Glyph nodes usually have some width")
+                XCTAssertTrue(node.height > 0, "Glyph nodes usually have some height")
+                XCTAssertTrue(node.depth > 0, "Glyph nodes usually have some depth")
+                testBounds.consumeBounds(node.boundsInParent)
+//                print("\t", node.nodeId)
+//                print("\tpos ", node.position)
+//                print("\tsize", node.size)
+//                print("\tbox ", node.manualBoundingBox)
+            }
+        }
+        // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
+        // The above bounds are computed with all nodes.
+        print("grid size: ", BoundsSize(testGrid.rootNode.manualBoundingBox))
+        print("test size: ", BoundsSize(testBounds.bounds))
+        XCTAssertEqual(
+            testBounds.bounds.min,
+            testGrid.rootNode.manualBoundingBox.min,
+            "An unmoved collection has the same bounds as its children"
+        )
+        
+        XCTAssertEqual(
+            testBounds.bounds.max,
+            testGrid.rootNode.manualBoundingBox.max,
+            "An unmoved collection has the same bounds as its children"
+        )
     }
     
     func testGridSize() throws {

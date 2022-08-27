@@ -27,9 +27,9 @@ extension MetalLinkNode {
     }
     
     var boundsInParent: Bounds {
-        let minVector = convertPositionToParent(manualBoundingBox.min)
-        let maxVector = convertPositionToParent(manualBoundingBox.max)
-        return (minVector, maxVector)
+//        let minVector = convertPositionToParent(manualBoundingBox.min)
+//        let maxVector = convertPositionToParent(manualBoundingBox.max)
+        return manualBoundingBox
     }
     
     var boundsInWorld: Bounds {

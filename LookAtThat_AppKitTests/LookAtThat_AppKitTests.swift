@@ -91,6 +91,10 @@ enum TestLine {
     case message(String)
 }
 
+func printSeparator() {
+    print(Array(repeating: "-", count: 22).joined())
+}
+
 func printStart(_ testLine: TestLine = .none) {
     print("------------------------------- Starting -------------------------------\n\n")
     switch testLine {

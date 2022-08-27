@@ -11,8 +11,8 @@ class MetalLinkNode {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     lazy var nodeId = UUID().uuidString
     
-    private(set) var parent: MetalLinkNode?
-    private(set) var children: [MetalLinkNode] = []
+    var parent: MetalLinkNode?
+    var children: [MetalLinkNode] = []
     
     var position: LFloat3 = .zero
         { didSet { currentModel.dirty() } }
@@ -31,19 +31,7 @@ class MetalLinkNode {
     func update(deltaTime: Float) {
         children.forEach { $0.update(deltaTime: deltaTime) }
     }
-}
-
-extension MetalLinkNode: Hashable, Equatable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(nodeId)
-    }
     
-    static func == (_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {
-        return left.nodeId == right.nodeId
-    }
-}
-
-extension MetalLinkNode {
     func add(child: MetalLinkNode) {
         children.append(child)
         if let parent = child.parent {
@@ -57,6 +45,16 @@ extension MetalLinkNode {
             action(child)
             child.enumerateChildren(action)
         }
+    }
+}
+
+extension MetalLinkNode: Hashable, Equatable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(nodeId)
+    }
+    
+    static func == (_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {
+        return left.nodeId == right.nodeId
     }
 }
 

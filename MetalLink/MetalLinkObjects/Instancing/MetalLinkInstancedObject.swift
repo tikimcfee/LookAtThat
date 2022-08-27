@@ -85,6 +85,10 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
         super.update(deltaTime: deltaTime)
     }
     
+    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+        
+    }
+    
     func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
         // override to do stuff right before instance buffer updates
     }

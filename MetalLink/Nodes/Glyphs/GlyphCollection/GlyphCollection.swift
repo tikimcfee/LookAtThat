@@ -32,6 +32,16 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         super.render(in: &sdp)
     }
     
+    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+        enumerateInstanceChildren(action)
+    }
+    
+    func enumerateInstanceChildren(_ action: (MetalLinkGlyphNode) -> Void) {
+        for instance in instanceState.nodes {
+            action(instance)
+        }
+    }
+    
     override func performJITInstanceBufferUpdate(_ node: MetalLinkNode) {
 //        node.rotation.x -= 0.0167 * 2
 //        node.rotation.y -= 0.0167 * 2
@@ -61,13 +71,8 @@ extension GlyphCollection {
             print("--------------")
         }
         
-        // TODO: Move this to the renderer, where it can remove whitespace
-        // instead of always adding instances: [ whitespace newlines new line ]
-        if !newGlyph.key.source.isNewline {
-            instanceState.appendToState(node: newGlyph, constants: constants)
-        }
-        
-        renderer.insert(newGlyph)
+        newGlyph.parent = self
+        renderer.insert(newGlyph, constants)
         
         return newGlyph
     }
