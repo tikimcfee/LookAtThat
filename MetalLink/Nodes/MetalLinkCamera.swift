@@ -39,9 +39,9 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         currentView.dirty()
     } }
     
-    var worldUp: LFloat3 { LFloat3(0, 1, 0) * rotation.x }
-    var worldRight: LFloat3 { LFloat3(1, 0, 0) * rotation.z }
-    var worldFront: LFloat3 { LFloat3(0, 0, -1) * rotation.y }
+    var worldUp: LFloat3 { LFloat3(0, 1, 0) }
+    var worldRight: LFloat3 { LFloat3(1, 0, 0) }
+    var worldFront: LFloat3 { LFloat3(0, 0, -1) }
     
     let link: MetalLink
     let interceptor = KeyboardInterceptor()
