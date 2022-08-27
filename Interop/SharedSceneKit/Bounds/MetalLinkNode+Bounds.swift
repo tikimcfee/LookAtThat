@@ -67,10 +67,10 @@ extension MetalLinkNode {
             let size = sizable.size
             let min = LFloat3(position.x,
                               position.y - size.y,
-                              position.z - size.z)
+                              position.z)
             let max = LFloat3(position.x + size.x,
                               position.y,
-                              position.z)
+                              position.z + size.z)
 //            print("min", min, "max", max)
             computing.consumeBounds((
                 min: min,
