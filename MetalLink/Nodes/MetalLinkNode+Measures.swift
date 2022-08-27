@@ -23,14 +23,21 @@ extension MetalLinkNode {
             y: boundsCenterHeight,
             z: boundsCenterLength
         )
-        return convertPositionToParent(vector)
+//
+        return vector
+        // Note: See CodeGrid+Measures for similar note.
+        // Parent conversion isn't necessary for the semantic meaning.
+        // The bounds are already in parent space. I think.
+        // [center position, offset, parent, convert]
+        ///
+        /// return convertPositionToParent(vector)
+        ///
     }
     
     var boundsInParent: Bounds {
         let minVector = convertPositionToParent(manualBoundingBox.min)
         let maxVector = convertPositionToParent(manualBoundingBox.max)
         return (minVector, maxVector)
-//        return manualBoundingBox
     }
     
     var boundsInWorld: Bounds {

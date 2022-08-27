@@ -217,15 +217,19 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let second_toRightOfFirst = bundle.newGrid()
         let third_toRightOfSecond = bundle.newGrid()
         
+        print("connect first[\(firstGrid.id)] to second[\(second_toRightOfFirst.id)]")
         snapping.connect(sourceGrid: firstGrid, to: .right(second_toRightOfFirst))
+        print("connect second to third[\(third_toRightOfSecond.id)]")
         snapping.connect(sourceGrid: second_toRightOfFirst, to: .right(third_toRightOfSecond))
-                
+        
+        print("finding relative grids..")
         let firstRelative = try XCTUnwrap(snapping.gridsRelativeTo(firstGrid).first,
                                           "Must find relative grid immediately")
         guard case WorldGridSnapping.RelativeGridMapping.right = firstRelative else {
             XCTFail("Where did \(firstRelative) come from?")
             return
         }
+        print("found: \(firstRelative.targetGrid.id)")
         
         let secondRelative = try XCTUnwrap(snapping.gridsRelativeTo(firstRelative.targetGrid).first,
                                            "Must find relative grid immediately")
@@ -233,11 +237,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             XCTFail("Where did \(secondRelative) come from???")
             return
         }
+        print("relative: \(secondRelative.targetGrid.id)")
         
+        print("checking targets align with snapping results...")
         XCTAssert(firstRelative.targetGrid === second_toRightOfFirst)
         XCTAssert(secondRelative.targetGrid === third_toRightOfSecond)
-        
-        
+        print("sweet.")
     }
     
     func stats(_ testGrid: CodeGrid) {
@@ -245,17 +250,27 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGridHeight = testGrid.measures.lengthY
         let testGridLength = testGrid.measures.lengthZ
         let testGridCenter = testGrid.measures.centerPosition
-        print()
-        print(testGrid.fileName)
-        print("gw:\(testGridWidth), gh:\(testGridHeight), gl:\(testGridLength), gcenter: \(testGridCenter)")
+
+        let gridInfo = """
+        ---
+        Reported from grid: \(testGrid.fileName)
+        gridWidth : \(testGridWidth), gridHeight:\(testGridHeight), gridLength:\(testGridLength),
+        gridCenter: \(testGridCenter)
+        """
+        print(gridInfo)
         
         let manualWidth = BoundsWidth(testGrid.rootNode.manualBoundingBox)
         let manualHeight = BoundsHeight(testGrid.rootNode.manualBoundingBox)
         let manualLength = BoundsLength(testGrid.rootNode.manualBoundingBox)
         let manualCenter = testGrid.rootNode.boundsCenterPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
-        print("mw:\(manualWidth), mh:\(manualHeight), ml:\(manualLength), mcenter: \(manualCenter), mcenterConv: \(manualCenterConverted)")
-        print()
+        let manualInfo = """
+        ---
+        'Manual' Calculation
+        manualWidth   : \(manualWidth),   manualHeight:          \(manualHeight), manualLength:\(manualLength)
+        manualCenter  : \(manualCenter),  manualCenterConverted: \(manualCenterConverted)
+        """
+        print(manualInfo)
     }
     
     func testPositions() throws {
@@ -299,7 +314,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testMeasuresAndSizes() throws {
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+//        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try SyntaxParser.parse(source: TestBundle.RawCode.threeLine)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)

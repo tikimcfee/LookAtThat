@@ -78,9 +78,16 @@ extension CodeGrid {
         }
         
         var centerPosition: LFloat3 {
-            positionNode.convertPositionToParent(
-                LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ)
-            )
+        LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ)
+            // Note: At some point I thought center needed to be converted up.
+            // By not converting, though, all my tests pass. I think it's because
+            // the position assumptions for SCNNodes and our LinkNodes are different.
+            // Could also just be something else was changed in the calculations where
+            // this isn't needed anymore. Or maybe even the glyph offset that used to be
+            // in GlyphNode were part of it. [center position, offset, parent, convert]
+            ///            positionNode.convertPositionToParent(
+            ///                LFloat3(x: localCenterX, y: localCenterY, z: localCenterZ)
+            ///            )
         }
 
         var leading: VectorFloat {
