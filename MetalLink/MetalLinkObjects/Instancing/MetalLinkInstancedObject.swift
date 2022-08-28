@@ -8,10 +8,6 @@
 import MetalKit
 import Algorithms
 
-class MetalLinkInstancedNode: MetalLinkNode {
-    
-}
-
 class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode {
     let link: MetalLink
     var mesh: MetalLinkMesh

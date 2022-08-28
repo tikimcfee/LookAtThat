@@ -129,6 +129,35 @@ extension TwoETimeRoot {
 //        let editor = WorldGridEditor()
 //        editor.transformedByAdding(.trailingFromLastGrid(firstConsumer.targetGrid))
 //        editor.transformedByAdding(.inNextPlane(secondConsumer.targetGrid))
+        
+        func loop() {
+            firstConsumer.targetGrid.forAllNodesInCollection { info, nodeSet in
+                for node in nodeSet {
+                    firstConsumer.targetCollection.updateConstants(for: node) { pointer in
+                        pointer.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 180)
+                        return pointer
+                    }
+                }
+            }
+            
+            secondConsumer.targetGrid.forAllNodesInCollection { info, nodeSet in
+                for node in nodeSet {
+                    firstConsumer.targetCollection.updateConstants(for: node) { pointer in
+                        pointer.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 90)
+                        return pointer
+                    }
+                }
+            }
+            
+            
+            DispatchQueue.global().asyncAfter(
+                deadline: .now() + .milliseconds(33),
+                execute: loop
+            )
+        }
+        
+        attachPickingStream(to: rootCollection)
+        loop()
     }
     
     func setupSnapTest() throws {

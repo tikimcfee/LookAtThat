@@ -204,7 +204,6 @@ extension CodeGridSemanticMap {
 }
 
 // MARK: Node Sorting
-
 extension CodeGridSemanticMap {
     func doOnAssociatedNodes(
         _ nodeId: SyntaxIdentifier,

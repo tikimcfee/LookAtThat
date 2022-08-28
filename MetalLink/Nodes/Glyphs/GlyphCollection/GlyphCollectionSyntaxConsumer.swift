@@ -20,10 +20,8 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     func consume(
         url: URL
     ) {
-        guard let source = loadSourceUrl(url) else { return }
-        consume(
-            rootSyntaxNode: Syntax(source)
-        )
+        guard let fileSource = loadSourceUrl(url) else { return }
+        consume(rootSyntaxNode: Syntax(fileSource))
     }
     
     func consume(
@@ -38,6 +36,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             consumeSyntaxToken(token)
         }
         
+        targetGrid.consumedRootSyntaxNodes.append(rootSyntaxNode)
         targetCollection.setRootMesh()
     }
     

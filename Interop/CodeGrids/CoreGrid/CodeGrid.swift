@@ -60,7 +60,20 @@ public class CodeGrid: Identifiable, Equatable {
     }
 }
 
-// MARK: -- Hashing
+// MARK: - Collection Updates
+extension CodeGrid {
+    func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) -> Void) {
+        // TODO: Oof multiple consumed files is torture
+        guard let rootId = consumedRootSyntaxNodes.first?.id
+        else {
+            print("No root nodes to find nodes")
+            return
+        }
+        codeGridSemanticInfo.doOnAssociatedNodes(rootId, tokenCache, operation)
+    }
+}
+
+// MARK: - Hashing
 extension CodeGrid: Hashable {
     public func hash(into hasher: inout Hasher) {
         laztrace(#fileID,#function,hasher)
@@ -68,7 +81,7 @@ extension CodeGrid: Hashable {
     }
 }
 
-// MARK: -- Builder-style configuration
+// MARK: - Builder-style configuration
 extension CodeGrid {
     
     @discardableResult

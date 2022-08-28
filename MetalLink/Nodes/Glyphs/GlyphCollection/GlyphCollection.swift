@@ -71,12 +71,49 @@ extension GlyphCollection {
             print("--------------")
         }
         
+        // Setting group type is kinda iffy, would be nice to have the node
+        // directly own it via instance, but then we'd have to un-generic the
+        // LinkNode stuff and ugh... early generics. They always get you.
         newGlyph.parent = self
-        renderer.insert(newGlyph, constants)
+        newGlyph.groupType = .glyphCollection(instanceID: constants.instanceID)
         
+        renderer.insert(newGlyph, constants)
         return newGlyph
     }
-    
+}
+
+extension MetalLinkInstancedObject
+where InstancedNodeType == MetalLinkGlyphNode {
+    func updateConstants(
+        for node: InstancedNodeType,
+        _ operation: (inout InstancedConstants) -> InstancedConstants
+    ) {
+        guard case let .glyphCollection(instanceID) = node.groupType
+        else { return }
+        
+        guard let bufferIndex = instanceCache.findConstantIndex(for: instanceID)
+        else {
+            print("Missing buffer index for \(node.nodeId)")
+            return
+        }
+        
+        guard instanceState.constants.indices.contains(bufferIndex)
+        else {
+            print("Invalid buffer index for \(node.nodeId)")
+            return
+        }
+        
+        guard let pointer = instanceState.getConstantsPointer()
+        else {
+            print("Unavailable pointer to update node: \(node.nodeId)")
+            return
+        }
+        
+        // This may be unsafe... not sure what happens here with multithreading.
+        // Probably very bad things. If there's a crash here, just create a copy
+        // and don't be too fancy.
+        pointer[bufferIndex] = operation(&pointer[bufferIndex])
+    }
 }
 
 extension GlyphCollection {
