@@ -10,7 +10,7 @@ import SwiftSyntax
 
 struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     let targetGrid: CodeGrid
-    private let targetCollection: GlyphCollection
+    let targetCollection: GlyphCollection
     
     init(targetGrid: CodeGrid) {
         self.targetGrid = targetGrid
@@ -37,6 +37,8 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         for token in rootSyntaxNode.tokens {
             consumeSyntaxToken(token)
         }
+        
+        targetCollection.setRootMesh()
     }
     
     private func consumeSyntaxToken(_ token: TokenSyntax) {

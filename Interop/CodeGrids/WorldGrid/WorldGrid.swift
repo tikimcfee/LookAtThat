@@ -144,7 +144,7 @@ class WorldGridEditor {
             codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
                 dX: 0,
                 dY: 0,
-                dZ: 128.0
+                dZ: -64.0
             )
 
         }

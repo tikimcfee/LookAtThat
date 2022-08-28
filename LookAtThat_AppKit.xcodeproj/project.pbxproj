@@ -686,6 +686,10 @@
 		B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB714528487C1800313633 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB714428487C1800313633 /* SCNLine */; };
+		B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B7F010AE28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B7F010B028BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -1024,6 +1028,7 @@
 		B7EA88362723955E0098541C /* CodeGridParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridParser.swift; sourceTree = "<group>"; };
 		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
 		B7EB713F284878B100313633 /* GitHubClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientView.swift; sourceTree = "<group>"; };
+		B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlyphCollectionBuilder.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusView.swift; sourceTree = "<group>"; };
 		B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyph.swift; sourceTree = "<group>"; };
@@ -1360,6 +1365,7 @@
 				B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */,
 				B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */,
 				B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */,
+				B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */,
 			);
 			path = GlyphCollection;
 			sourceTree = "<group>";
@@ -2268,6 +2274,7 @@
 				B70FDC76283EAE9900170D5F /* StartingTapDelegate.swift in Sources */,
 				B70FDC78283EAE9900170D5F /* SourceInfoCategoryView.swift in Sources */,
 				B70FDC79283EAE9900170D5F /* CodeGrid.swift in Sources */,
+				B7F010AE28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B70FDC7A283EAE9900170D5F /* CodeGridParser+WorldEditing.swift in Sources */,
 				B70FDC7B283EAE9900170D5F /* BidirectionalMap.swift in Sources */,
 				B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */,
@@ -2452,6 +2459,7 @@
 				B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */,
 				B7AC334128A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
+				B7F010B028BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B74A22BC2814FFF300F6F727 /* TAPInputMode.swift in Sources */,
 				B74A22BF2814FFF300F6F727 /* StartingTapDelegate.swift in Sources */,
 				B7AC334528A0CA71001172BB /* CoreError.swift in Sources */,
@@ -2636,6 +2644,7 @@
 				B7C7571C280CEE040005A233 /* StartingTapDelegate.swift in Sources */,
 				B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
+				B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
@@ -2945,6 +2954,7 @@
 				B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B7A60F9628B99C5800ACA4E6 /* SwiftUIExtensions.swift in Sources */,
 				B7C75710280CED4D0005A233 /* FingerView.swift in Sources */,
+				B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B78159F7273E05EA00212176 /* CodeGridSemanticMap.swift in Sources */,
 				B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */,

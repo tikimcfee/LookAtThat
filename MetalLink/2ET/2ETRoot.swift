@@ -8,6 +8,8 @@
 
 import Combine
 import MetalKit
+import SwiftUI
+import SwiftSyntaxParser
 
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
@@ -19,12 +21,15 @@ class TwoETimeRoot: MetalLinkReader {
     var lastID = UInt.zero
     var lastCollection: GlyphCollection?
     
+    lazy var builder = CodeGridGlyphCollectionBuilder(link: link)
+    
     init(link: MetalLink) throws {
         self.link = link
         
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
 //        try testMultiCollection()
-        try testMonoCollection()
+//        try testMonoCollection()
+        try setupSnapTest()
         
 //        link.input.sharedMouse.sink { event in
 //            collection.instanceState.bufferCache.dirty()
@@ -51,37 +56,45 @@ enum MetalGlyphError: String, Error {
 
 extension TwoETimeRoot {
     func setupSnapTest() throws {
+        // TODO: make switching between multi/mono better
+        // multi needs to add each collection; mono needs to add root
+        builder.mode = .multiCollection
         
-    }
-}
-
-struct CodeGridGlyphCollectionBuilder {
-    let link: MetalLink
-    let atlas: MetalLinkAtlas
-    let semanticMap: CodeGridSemanticMap
-    let tokenCache: CodeGridTokenCache
-    
-    init(
-        link: MetalLink,
-        sharedSemanticMap semanticMap: CodeGridSemanticMap = .init(),
-        sharedTokenCache tokenCache: CodeGridTokenCache = .init()
-    ) {
-        self.link = link
-        self.atlas = GlobalInstances.defaultAtlas
-        self.semanticMap = semanticMap
-        self.tokenCache = tokenCache
-    }
-    
-    func createCollection() -> GlyphCollection {
-        GlyphCollection(link: link, linkAtlas: atlas)
-    }
-    
-    func createGrid() -> CodeGrid {
-        CodeGrid(rootNode: createCollection(), tokenCache: tokenCache)
-    }
-    
-    func createSyntaxConsumer() -> GlyphCollectionSyntaxConsumer {
-        GlyphCollectionSyntaxConsumer(targetGrid: createGrid())
+//        let rootCollection = builder.getCollection()
+//        root.add(child: rootCollection)
+//        root.scale = LFloat3(0.5, 0.5, 0.5)
+//        root.position.z -= 30
+        
+        let firstConsumer = builder.createConsumerForNewGrid()
+        let firstSource = """
+        let x = 10
+        let y = 15
+        let sum = x + y
+        print(sum)
+        """
+        let firstSyntax = try SyntaxParser.parse(source: firstSource)
+        firstConsumer.consume(rootSyntaxNode: firstSyntax._syntaxNode)
+        firstConsumer.targetCollection.position.z -= 30
+        root.add(child: firstConsumer.targetCollection)
+        
+        let secondConsumer = builder.createConsumerForNewGrid()
+        let secondSource = """
+        if suggestions(of: yourFace.parameters).implies([.dork, .nerd, .geek, .spaz]) {
+            do {
+                try welcome(yourFace)
+            } catch {
+                print(error, "Well, you are still welcome here.")
+            }
+        }
+        """
+        let secondSyntax = try SyntaxParser.parse(source: secondSource)
+        secondConsumer.consume(rootSyntaxNode: secondSyntax._syntaxNode)
+        secondConsumer.targetCollection.position.z -= 30
+        root.add(child: secondConsumer.targetCollection)
+        
+        let editor = WorldGridEditor()
+        editor.transformedByAdding(.trailingFromLastGrid(firstConsumer.targetGrid))
+        editor.transformedByAdding(.inNextPlane(secondConsumer.targetGrid))
     }
 }
 
@@ -107,16 +120,14 @@ extension TwoETimeRoot {
     }
     
     func testMultiCollection() throws {
-        let builder = CodeGridGlyphCollectionBuilder(link: link)
-        
+        builder.mode = .multiCollection
         var offset = LFloat3(-5, 0, -30)
         func addCollection(_ path: URL) {
-            let consumer = builder.createSyntaxConsumer()
+            let consumer = builder.createConsumerForNewGrid()
             let grid = consumer.targetGrid
             let collection = grid.rootNode
             
             consumer.consume(url: path)
-            collection.setRootMesh()
             
             collection.scale = LFloat3(0.5, 0.5, 0.5)
             collection.position += offset
@@ -146,8 +157,8 @@ extension TwoETimeRoot {
     }
     
     func testMonoCollection() throws {
-        let builder = CodeGridGlyphCollectionBuilder(link: link)
-        let consumer = builder.createSyntaxConsumer()
+        builder.mode = .monoCollection
+        let consumer = builder.createConsumerForNewGrid()
         let grid = consumer.targetGrid
         let collection = grid.rootNode
         collection.scale = LFloat3(0.5, 0.5, 0.5)
@@ -162,8 +173,6 @@ extension TwoETimeRoot {
             collection.renderer.pointer.position.x = 0
             collection.renderer.pointer.position.y = 0
             collection.renderer.pointer.away(50.0)
-            
-            collection.setRootMesh()
         }
         
         GlobalInstances.fileEventStream.sink { event in
