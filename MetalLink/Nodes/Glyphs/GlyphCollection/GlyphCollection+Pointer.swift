@@ -18,6 +18,8 @@ extension GlyphCollection {
         func down(_ dY: Float) { position.y -= dY }
         func away(_ dZ: Float) { position.z -= dZ }
         func toward(_ dZ: Float) { position.z += dZ }
+        
+        func reset() { position = .zero }
     }
     
     class Renderer {

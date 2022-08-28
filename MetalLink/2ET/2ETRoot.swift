@@ -29,7 +29,8 @@ class TwoETimeRoot: MetalLinkReader {
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
 //        try testMultiCollection()
 //        try testMonoCollection()
-        try setupSnapTest()
+//        try setupSnapTest()
+        try setupSnapTestMono()
         
 //        link.input.sharedMouse.sink { event in
 //            collection.instanceState.bufferCache.dirty()
@@ -55,15 +56,60 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setupSnapTestMono() throws {
+        builder.mode = .monoCollection
+        
+        let rootCollection = builder.getCollection()
+        rootCollection.scale = LFloat3(0.5, 0.5, 0.5)
+        rootCollection.position.z -= 30
+        root.add(child: rootCollection)
+        
+        let firstConsumer = builder.createConsumerForNewGrid()
+        let firstSource = """
+        let x = 10
+        let y = 15
+        let sum = x + y
+        print(sum)
+        """
+        let firstSyntax = try SyntaxParser.parse(source: firstSource)
+        firstConsumer.consume(rootSyntaxNode: firstSyntax._syntaxNode)
+        firstConsumer.targetCollection.renderer.pointer.away(30)
+        firstConsumer.targetCollection.renderer.pointer.position.x = 0
+        firstConsumer.targetCollection.renderer.pointer.position.y = 0
+        
+        let secondConsumer = builder.createConsumerForNewGrid()
+        let secondSource = """
+        if suggestions(of: yourFace.parameters).implies([.dork, .nerd, .geek, .spaz]) {
+            do {
+                try welcome(yourFace)
+            } catch {
+                print(error, "Well, you are still welcome here.")
+            }
+        }
+        """
+        let secondSyntax = try SyntaxParser.parse(source: secondSource)
+        secondConsumer.consume(rootSyntaxNode: secondSyntax._syntaxNode)
+        secondConsumer.targetCollection.renderer.pointer.away(30)
+        firstConsumer.targetCollection.renderer.pointer.position.x = 0
+        firstConsumer.targetCollection.renderer.pointer.position.y = 0
+        
+        // TODO: Editor works on rootNode.position, but mono collection uses internal pointer
+        // DO something about the CodeGrid breaking the mono/multi setup.
+        // Maybe hook up the WorldEditor to target collection pointers instead of root nodes?
+//        let editor = WorldGridEditor()
+//        editor.transformedByAdding(.trailingFromLastGrid(firstConsumer.targetGrid))
+//        editor.transformedByAdding(.inNextPlane(secondConsumer.targetGrid))
+    }
+    
     func setupSnapTest() throws {
         // TODO: make switching between multi/mono better
         // multi needs to add each collection; mono needs to add root
         builder.mode = .multiCollection
         
-//        let rootCollection = builder.getCollection()
-//        root.add(child: rootCollection)
-//        root.scale = LFloat3(0.5, 0.5, 0.5)
-//        root.position.z -= 30
+        let rootCollection = builder.getCollection()
+        root.add(child: rootCollection)
+        root.scale = LFloat3(0.5, 0.5, 0.5)
+        root.position.z -= 30
         
         let firstConsumer = builder.createConsumerForNewGrid()
         let firstSource = """
