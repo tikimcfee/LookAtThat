@@ -8,48 +8,8 @@
 import MetalKit
 import Algorithms
 
-typealias InstanceIDType = UInt
-
-// TODO: don't leave this hanging out like this
-private class InstanceCounter {
-    static let shared = InstanceCounter()
-    private init() { }
+class MetalLinkInstancedNode: MetalLinkNode {
     
-    private var currentGeneratedID: InstanceIDType = 10
-    func nextId() -> InstanceIDType {
-        let id = currentGeneratedID
-//        print("Gen: \(id)")
-        currentGeneratedID += 1
-        return id
-    }
-}
-
-extension MetalLinkInstancedObject {
-    class InstancedConstantsCache: LockingCache<InstanceIDType, InstancedConstants> {
-        private var indexCache = ConcurrentDictionary<UInt, Int>()
-        
-        func createNew() -> InstancedConstants {
-            return self[InstanceCounter.shared.nextId()]
-        }
-        
-        override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
-            if store[key] != nil {
-                print("Warning - constants for this ID already exist; have you lost track of it?: \(key)")
-            }
-            return InstancedConstants(instanceID: key)
-        }
-        
-        // Really? Mapping Uint to Int? Hoo boy I'm missing something.
-        // Like not having all these constants objects and indexing directly into the buffer...
-        // make like way easier. We'll see. As this gets uglier.
-        func track(constant: InstancedConstants, at index: Int) {
-            indexCache[constant.instanceID] = index
-        }
-        
-        func findConstantIndex(for instanceID: InstanceIDType) -> Int? {
-            indexCache[instanceID]
-        }
-    }
 }
 
 class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode {
@@ -120,7 +80,7 @@ extension MetalLinkInstancedObject {
             pointer.pointee.textureDescriptorU = constants.textureDescriptorU
             pointer.pointee.textureDescriptorV = constants.textureDescriptorV
             pointer.pointee.instanceID = constants.instanceID
-//            pointer.pointee.isSelected = constants.isSelected
+            pointer.pointee.addedColor = constants.addedColor
             
             self.instanceCache.track(constant: constants, at: constantsBufferIndex)
             constantsBufferIndex += 1

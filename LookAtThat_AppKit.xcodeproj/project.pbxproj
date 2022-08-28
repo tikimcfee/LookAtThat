@@ -373,6 +373,10 @@
 		B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
+		B768E2AA28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
+		B768E2AB28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
+		B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
+		B768E2AD28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
 		B775C78F2671A1BE00414972 /* SmallFile in Resources */ = {isa = PBXBuildFile; fileRef = B775C78D2671A1BE00414972 /* SmallFile */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -933,6 +937,7 @@
 		B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentThreadGroup.swift; sourceTree = "<group>"; };
 		B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRootConsumer.swift; sourceTree = "<group>"; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
+		B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+InstanceCache.swift"; sourceTree = "<group>"; };
 		B775C78D2671A1BE00414972 /* SmallFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmallFile; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
@@ -1366,6 +1371,7 @@
 			isa = PBXGroup;
 			children = (
 				B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */,
+				B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */,
 				B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */,
 			);
 			path = Instancing;
@@ -2332,6 +2338,7 @@
 				B7F67F1628A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B70FDC9D283EAE9900170D5F /* VersionNumber.swift in Sources */,
 				B70FDC9E283EAE9900170D5F /* TAPRawSensorSensitivity.swift in Sources */,
+				B768E2AB28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7F010B328BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B7AC338728A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B7AC336B28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
@@ -2519,6 +2526,7 @@
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B762DF1828A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
+				B768E2AD28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7F010B528BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B74A22DB2814FFF300F6F727 /* SCNVector3+Extensions.swift in Sources */,
 				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
@@ -2706,6 +2714,7 @@
 				B7F67F1528A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
+				B768E2AA28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7F010B228BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B7AC336A28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
@@ -2854,6 +2863,7 @@
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
 				B7AC336028A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				B7C75708280CECBA0005A233 /* RawSensorData.swift in Sources */,
+				B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7AC339028A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7C7571F280CEE040005A233 /* RawFingerData.swift in Sources */,
 				B7AC336828A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
