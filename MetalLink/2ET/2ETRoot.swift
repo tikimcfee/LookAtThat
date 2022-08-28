@@ -64,7 +64,26 @@ extension TwoETimeRoot {
         rootCollection.position.z -= 30
         root.add(child: rootCollection)
         
-        
+        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
+            switch event {
+            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                FileBrowser.recursivePaths(rootPath)
+                    .filter { !$0.isDirectory }
+                    .forEach { childPath in
+                        self.builder
+                            .createConsumerForNewGrid()
+                            .consume(url: childPath)
+                    }
+                
+            case let .newSingleCommand(url, _):
+                self.builder
+                    .createConsumerForNewGrid()
+                    .consume(url: url)
+                
+            default:
+                break
+            }
+        }.store(in: &bag)
     }
     
     func setupSnapTestMono() throws {

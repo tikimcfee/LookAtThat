@@ -15,11 +15,11 @@ let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
 extension CodeGrid {
     #if os(iOS)
     struct Defaults {
-        static var walkSemantics: Bool = true
+        
     }
     #else
     struct Defaults {
-        static var walkSemantics: Bool = true
+        
     }
     #endif
 }
@@ -43,7 +43,6 @@ public class CodeGrid: Identifiable, Equatable {
     var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    var walkSemantics: Bool = Defaults.walkSemantics
     lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)
     
     private(set) var rootNode: GlyphCollection
@@ -79,9 +78,11 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func translated(dX: Float = 0,
-                    dY: Float = 0,
-                    dZ: Float = 0) -> CodeGrid {
+    func translated(
+        dX: Float = 0,
+        dY: Float = 0,
+        dZ: Float = 0
+    ) -> CodeGrid {
         laztrace(#fileID,#function,dX,dY,dZ)
         rootNode.position = rootNode.position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
