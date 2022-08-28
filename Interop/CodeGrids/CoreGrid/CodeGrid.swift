@@ -60,19 +60,6 @@ public class CodeGrid: Identifiable, Equatable {
     }
 }
 
-// MARK: - Collection Updates
-extension CodeGrid {
-    func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) -> Void) {
-        // TODO: Oof multiple consumed files is torture
-        guard let rootId = consumedRootSyntaxNodes.first?.id
-        else {
-            print("No root nodes to find nodes")
-            return
-        }
-        codeGridSemanticInfo.doOnAssociatedNodes(rootId, tokenCache, operation)
-    }
-}
-
 // MARK: - Hashing
 extension CodeGrid: Hashable {
     public func hash(into hasher: inout Hasher) {
@@ -82,6 +69,12 @@ extension CodeGrid: Hashable {
 }
 
 // MARK: - Builder-style configuration
+// NOTE: - Word of warning
+// Grids can describe an entire glyph collection, or represent
+// a set of nodes in a collection. Because of this dual job and
+// from how the clearinghouse went, Grids owned a reference
+// to a collection now, and assume they are the representing object.
+// TODO: Add another `GroupMode` to switch between rootNode and collection node updates
 extension CodeGrid {
     
     @discardableResult

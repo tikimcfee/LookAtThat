@@ -131,24 +131,16 @@ extension TwoETimeRoot {
 //        editor.transformedByAdding(.inNextPlane(secondConsumer.targetGrid))
         
         func loop() {
-            firstConsumer.targetGrid.forAllNodesInCollection { info, nodeSet in
-                for node in nodeSet {
-                    firstConsumer.targetCollection.updateConstants(for: node) { pointer in
-                        pointer.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 180)
-                        return pointer
-                    }
-                }
+            firstConsumer.targetGrid.updateAllNodeConstants { constant in
+                constant.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 180)
+                return constant
             }
             
-            secondConsumer.targetGrid.forAllNodesInCollection { info, nodeSet in
-                for node in nodeSet {
-                    firstConsumer.targetCollection.updateConstants(for: node) { pointer in
-                        pointer.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 90)
-                        return pointer
-                    }
-                }
+            secondConsumer.targetGrid.updateAllNodeConstants { constant in
+//                constant.modelMatrix.rotateAbout(axis: Y_AXIS, by: Float.pi / 90)
+                constant.modelMatrix.translate(vector: LFloat3(x: cos(root.constants.totalTotalGameTime), y: 0, z: 0))
+                return constant
             }
-            
             
             DispatchQueue.global().asyncAfter(
                 deadline: .now() + .milliseconds(33),
