@@ -690,6 +690,14 @@
 		B7F010AE28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F010B028BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B7F010B228BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */; };
+		B7F010B328BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */; };
+		B7F010B428BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */; };
+		B7F010B528BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */; };
+		B7F010B728BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
+		B7F010B828BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
+		B7F010B928BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
+		B7F010BA28BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -1029,6 +1037,8 @@
 		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
 		B7EB713F284878B100313633 /* GitHubClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientView.swift; sourceTree = "<group>"; };
 		B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlyphCollectionBuilder.swift; sourceTree = "<group>"; };
+		B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorldGrid+FocusPosition.swift"; sourceTree = "<group>"; };
+		B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfRelativeDirections.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusView.swift; sourceTree = "<group>"; };
 		B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyph.swift; sourceTree = "<group>"; };
@@ -1228,6 +1238,8 @@
 			isa = PBXGroup;
 			children = (
 				B7219725273742B400E1CB60 /* WorldGrid.swift */,
+				B7F010B128BAF46B00182FF5 /* WorldGrid+FocusPosition.swift */,
+				B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */,
 				B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */,
 			);
 			path = WorldGrid;
@@ -2313,12 +2325,14 @@
 				B70FDC99283EAE9900170D5F /* Stopwatch.swift in Sources */,
 				B70FDC9A283EAE9900170D5F /* SemanticTracingOutState.swift in Sources */,
 				B72FBFDB28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
+				B7F010B828BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B70FDC9C283EAE9900170D5F /* WorldGridSnapping.swift in Sources */,
 				B7AC334F28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDF28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B7F67F1628A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B70FDC9D283EAE9900170D5F /* VersionNumber.swift in Sources */,
 				B70FDC9E283EAE9900170D5F /* TAPRawSensorSensitivity.swift in Sources */,
+				B7F010B328BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B7AC338728A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B7AC336B28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				B70FDC9F283EAE9900170D5F /* CodePagesController.swift in Sources */,
@@ -2498,12 +2512,14 @@
 				B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
+				B7F010BA28BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */,
 				B7F67F1828A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B762DF1828A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
+				B7F010B528BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B74A22DB2814FFF300F6F727 /* SCNVector3+Extensions.swift in Sources */,
 				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B74A22DC2814FFF300F6F727 /* TAPCombination.swift in Sources */,
@@ -2683,12 +2699,14 @@
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
 				B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
+				B7F010B728BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B7C69FDE28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B7F67F1528A4E57A0056E540 /* MetalLinkGlyph.swift in Sources */,
 				B7C75701280CECBA0005A233 /* VersionNumber.swift in Sources */,
 				B7C75709280CECBA0005A233 /* TAPRawSensorSensitivity.swift in Sources */,
+				B7F010B228BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B7AC336A28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				F0A82EF42510819B00BEA636 /* CodePagesController.swift in Sources */,
@@ -2843,6 +2861,7 @@
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
 				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
 				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
+				B7F010B428BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7AC336C28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				B7C69FD128A356A300A84860 /* RootNode.swift in Sources */,
@@ -2934,6 +2953,7 @@
 				B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
 				F057D234252044D60094BD83 /* MetalLinkNode+Extensions.swift in Sources */,
 				B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
+				B7F010B928BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B78159EE273E059500212176 /* BoundsCaching.swift in Sources */,
 				B72FBFE128A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,

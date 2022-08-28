@@ -56,6 +56,17 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setupSnapTestMonoMuchDataManyGrid() throws {
+        builder.mode = .monoCollection
+        
+        let rootCollection = builder.getCollection()
+        rootCollection.scale = LFloat3(0.5, 0.5, 0.5)
+        rootCollection.position.z -= 30
+        root.add(child: rootCollection)
+        
+        
+    }
+    
     func setupSnapTestMono() throws {
         builder.mode = .monoCollection
         

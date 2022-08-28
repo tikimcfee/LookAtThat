@@ -14,86 +14,6 @@ typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
 typealias WorldGridRow = [CodeGrid]
 
-enum SelfRelativeDirection: Hashable, CaseIterable {
-    case forward
-    case backward
-    case left
-    case right
-    case up
-    case down
-    
-    case yawLeft
-    case yawRight
-}
-
-struct FocusPosition: CustomStringConvertible, Equatable {
-    var x: Int {
-        didSet { pfocus() }
-    }
-    var y: Int {
-        didSet { pfocus() }
-    }
-    var z: Int {
-        didSet { pfocus() }
-    }
-    
-    func pfocus() {
-//        print("\(x), \(y), \(z)")
-    }
-    
-    var description: String {
-        "(\(x), \(y), \(z))"
-    }
-    
-    init(x: Int = 0, y: Int = 0, z: Int = 0) {
-        self.x = x
-        self.y = y
-        self.z = z
-    }
-    
-    mutating func left() {
-        x = max(0, x - 1)
-    }
-    
-    mutating func right() {
-        x = min(x + 1, Int.max - 2)
-    }
-    
-    mutating func up() {
-        y = max(0, y - 1)
-    }
-    
-    mutating func down() {
-        y = min(y + 1, Int.max - 2)
-    }
-    
-    mutating func forward() {
-        z = min(z + 1, Int.max - 2)
-    }
-    
-    mutating func backward() {
-        z = max(0, z - 1)
-    }
-}
-
-extension WorldGridEditor {
-    enum AddStyle {
-        case trailingFromLastGrid(CodeGrid)
-        case inNextRow(CodeGrid)
-        case inNextPlane(CodeGrid)
-        var grid: CodeGrid {
-            switch self {
-            case .trailingFromLastGrid(let codeGrid):
-                return codeGrid
-            case .inNextRow(let codeGrid):
-                return codeGrid
-            case .inNextPlane(let codeGrid):
-                return codeGrid
-            }
-        }
-    }
-}
-
 class WorldGridEditor {
     private let snapping = WorldGridSnapping()
     var lastFocusedGrid: CodeGrid?
@@ -112,45 +32,62 @@ class WorldGridEditor {
         
         switch style {
         case .trailingFromLastGrid(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: .right(codeGrid))
-            codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
-                dX: lastGrid.measures.lengthX + 8.0,
-                dY: 0,
-                dZ: 0
-            )
-            lastFocusedGrid = codeGrid
+            addTrailing(codeGrid, to: lastGrid)
             
         case .inNextRow(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: .down(codeGrid))
-            lastFocusedGrid = codeGrid
-            var maxHeight: VectorFloat = 0.0
-            var leftMostGrid: CodeGrid?
-            snapping.iterateOver(lastGrid, direction: .left) { _, grid, _ in
-                maxHeight = max(maxHeight, grid.measures.lengthY)
-                leftMostGrid = grid
-            }
-
-            codeGrid.rootNode.position = (
-                leftMostGrid?.rootNode.position ?? .zero
-            ).translated(
-                dX: 0,
-                dY: -maxHeight - 8.0,
-                dZ: 0
-            )
-
+            addInNextRow(codeGrid, from: lastGrid)
+            
         case .inNextPlane(let codeGrid):
-            snapping.connectWithInverses(sourceGrid: lastGrid, to: .backward(codeGrid))
-            lastFocusedGrid = codeGrid
-            codeGrid.rootNode.position = lastGrid.rootNode.position.translated(
-                dX: 0,
-                dY: 0,
-                dZ: -64.0
-            )
-
+            addInNextPlane(codeGrid, from: lastGrid)
         }
+        
         return self
     }
+}
+
+extension WorldGridEditor {
+    func addTrailing(_ codeGrid: CodeGrid, to other: CodeGrid) {
+        snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
+        codeGrid.rootNode.position = other.rootNode.position.translated(
+            dX: other.measures.lengthX + 8.0,
+            dY: 0,
+            dZ: 0
+        )
+        lastFocusedGrid = codeGrid
+    }
     
+    func addInNextRow(_ codeGrid: CodeGrid, from other: CodeGrid) {
+        snapping.connectWithInverses(sourceGrid: other, to: .down(codeGrid))
+        lastFocusedGrid = codeGrid
+        var maxHeight: VectorFloat = 0.0
+        var leftMostGrid: CodeGrid?
+        snapping.iterateOver(other, direction: .left) { _, grid, _ in
+            maxHeight = max(maxHeight, grid.measures.lengthY)
+            leftMostGrid = grid
+        }
+        
+        codeGrid.rootNode.position = (
+            leftMostGrid?.rootNode.position ?? .zero
+        ).translated(
+            dX: 0,
+            dY: -maxHeight - 8.0,
+            dZ: 0
+        )
+    }
+    
+    func addInNextPlane(_ codeGrid: CodeGrid, from other: CodeGrid) {
+        snapping.connectWithInverses(sourceGrid: other, to: .backward(codeGrid))
+        lastFocusedGrid = codeGrid
+        codeGrid.rootNode.position = other.rootNode.position.translated(
+            dX: 0,
+            dY: 0,
+            dZ: -64.0
+        )
+    }
+}
+
+// TODO: Does focus belong on editor? Probably. Maybe better state?
+extension WorldGridEditor {
     func shiftFocus(_ shiftDirection: SelfRelativeDirection) {
         guard let lastGrid = lastFocusedGrid else {
             print("No grid to shift focus from; check that at least one transform completed")
@@ -165,5 +102,23 @@ class WorldGridEditor {
         }
         
         lastFocusedGrid = firstAvailableGrid.targetGrid
+    }
+}
+
+extension WorldGridEditor {
+    enum AddStyle {
+        case trailingFromLastGrid(CodeGrid)
+        case inNextRow(CodeGrid)
+        case inNextPlane(CodeGrid)
+        var grid: CodeGrid {
+            switch self {
+            case .trailingFromLastGrid(let codeGrid):
+                return codeGrid
+            case .inNextRow(let codeGrid):
+                return codeGrid
+            case .inNextPlane(let codeGrid):
+                return codeGrid
+            }
+        }
     }
 }
