@@ -39,7 +39,6 @@ extension CodeGrid {
         laztrace(#fileID,#function,rootSyntaxNode)
         
         let consumer = GlyphCollectionSyntaxConsumer(
-            targetCollection: rootNode,
             targetGrid: self
         )
         consumer.consume(rootSyntaxNode: rootSyntaxNode)

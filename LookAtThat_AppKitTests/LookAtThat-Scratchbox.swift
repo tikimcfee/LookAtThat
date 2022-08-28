@@ -30,7 +30,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         self.device = device
         self.customMTKView = CustomMTKView(frame: .zero, device: device)
         self.metalLink = try MetalLink(view: customMTKView)
-        self.atlas = try MetalLinkAtlas(metalLink)
+        self.atlas = GlobalInstances.defaultAtlas
         
         printStart()
     }

@@ -44,8 +44,8 @@ class MetalLinkPickingTexture: MetalLinkReader {
             self.onSizeChanged(newSize)
         }.store(in: &bag)
         
-        link.input.sharedMouse.sink { mouseDown in
-            self.onMouseDown(mouseDown)
+        link.input.sharedMouse.sink { mouseMove in
+            self.onMouseMove(mouseMove)
         }.store(in: &bag)
     }
     
@@ -68,10 +68,9 @@ class MetalLinkPickingTexture: MetalLinkReader {
 }
 
 private extension MetalLinkPickingTexture {
-    func onMouseDown(_ mouseDown: OSEvent) {
-        let (x, y) = (mouseDown.locationInWindow.x.float,
-                      mouseDown.locationInWindow.y.float)
-        
+    func onMouseMove(_ mouseMove: OSEvent) {
+        let (x, y) = (mouseMove.locationInWindow.x.float,
+                      mouseMove.locationInWindow.y.float)
         let position = convertToDrawablePosition(windowX: x, windowY: y)
         let origin = MTLOrigin(x: Int(position.x), y: Int(position.y), z: 0)
         doPickingTextureBlitRead(at: origin)
@@ -84,6 +83,12 @@ private extension MetalLinkPickingTexture {
               let pickBuffer = link.device.makeBuffer(length: InstanceIDType.memStride) else {
             return
         }
+        
+        guard sourceOrigin.simd2DSize < pickingTexture.simdSize else {
+            print("Source origin is out of bounds: \(sourceOrigin.simd2DSize)")
+            return
+        }
+        
         commandBuffer.label = "PickingBuffer"
         blitEncoder.label = "PickingEncoder"
         commandBuffer.addCompletedHandler { buffer in
@@ -164,5 +169,18 @@ extension MetalLinkPickingTexture {
             print(error)
             return nil
         }
+    }
+}
+
+extension LFloat2: Comparable {
+    public static func < (lhs: SIMD2<Scalar>, rhs: SIMD2<Scalar>) -> Bool {
+        return lhs.x < rhs.x
+            && lhs.y < rhs.y
+    }
+}
+
+extension MTLOrigin {
+    var simd2DSize: LFloat2 {
+        LFloat2(x.float, y.float)
     }
 }

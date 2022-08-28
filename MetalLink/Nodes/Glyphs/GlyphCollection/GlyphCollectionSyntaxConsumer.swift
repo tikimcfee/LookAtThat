@@ -9,8 +9,13 @@ import Foundation
 import SwiftSyntax
 
 struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
-    let targetCollection: GlyphCollection
     let targetGrid: CodeGrid
+    private let targetCollection: GlyphCollection
+    
+    init(targetGrid: CodeGrid) {
+        self.targetGrid = targetGrid
+        self.targetCollection = targetGrid.rootNode
+    }
     
     func consume(
         url: URL

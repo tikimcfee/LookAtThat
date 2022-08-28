@@ -16,13 +16,15 @@ class TwoETimeRoot: MetalLinkReader {
     lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
-    var lastId = InstanceIDType.zero
+    var lastID = UInt.zero
+    var lastCollection: GlyphCollection?
     
     init(link: MetalLink) throws {
         self.link = link
         
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
-        try setup12()
+//        try testMultiCollection()
+        try testMonoCollection()
         
 //        link.input.sharedMouse.sink { event in
 //            collection.instanceState.bufferCache.dirty()
@@ -48,35 +50,84 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
-    func setup13() throws {
-        let atlas = try MetalLinkAtlas(link)
-        let testMap = CodeGridSemanticMap()
-        let testTokens = CodeGridTokenCache()
+    func setupSnapTest() throws {
         
-        var z: Float = -30.0
+    }
+}
+
+struct CodeGridGlyphCollectionBuilder {
+    let link: MetalLink
+    let atlas: MetalLinkAtlas
+    let semanticMap: CodeGridSemanticMap
+    let tokenCache: CodeGridTokenCache
+    
+    init(
+        link: MetalLink,
+        sharedSemanticMap semanticMap: CodeGridSemanticMap = .init(),
+        sharedTokenCache tokenCache: CodeGridTokenCache = .init()
+    ) {
+        self.link = link
+        self.atlas = GlobalInstances.defaultAtlas
+        self.semanticMap = semanticMap
+        self.tokenCache = tokenCache
+    }
+    
+    func createCollection() -> GlyphCollection {
+        GlyphCollection(link: link, linkAtlas: atlas)
+    }
+    
+    func createGrid() -> CodeGrid {
+        CodeGrid(rootNode: createCollection(), tokenCache: tokenCache)
+    }
+    
+    func createSyntaxConsumer() -> GlyphCollectionSyntaxConsumer {
+        GlyphCollectionSyntaxConsumer(targetGrid: createGrid())
+    }
+}
+
+extension TwoETimeRoot {
+    func attachPickingStream(to collection: GlyphCollection) {
+        link.pickingTexture.sharedPickingHover.sink { glyphID in
+            guard let constants = collection.instanceState.getConstantsPointer(),
+                  let index = collection.instanceCache.findConstantIndex(for: glyphID)
+            else { return }
+            
+            if let lastCollection = self.lastCollection,
+               let lastPointer = lastCollection.instanceState.getConstantsPointer(),
+               let lastIndex = lastCollection.instanceCache.findConstantIndex(for: self.lastID) {
+                lastPointer[lastIndex].addedColor = .zero
+            }
+            
+            self.lastID = glyphID
+            self.lastCollection = collection
+            
+            constants[index].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
+            
+        }.store(in: &bag)
+    }
+    
+    func testMultiCollection() throws {
+        let builder = CodeGridGlyphCollectionBuilder(link: link)
+        
+        var offset = LFloat3(-5, 0, -30)
         func addCollection(_ path: URL) {
-            let collection = GlyphCollection(link: link, linkAtlas: atlas)
-            let grid = CodeGrid(rootNode: collection, tokenCache: testTokens)
-            let consumer = GlyphCollectionSyntaxConsumer(
-                targetCollection: collection,
-                targetGrid: grid
-            )
+            let consumer = builder.createSyntaxConsumer()
+            let grid = consumer.targetGrid
+            let collection = grid.rootNode
             
             consumer.consume(url: path)
             collection.setRootMesh()
             
             collection.scale = LFloat3(0.5, 0.5, 0.5)
-            collection.position.x = -25
-            collection.position.y = 0
-            collection.position.z = z
-            z -= 10
+            collection.position += offset
+            offset.z -= 30
             
             root.add(child: collection)
+            
+            attachPickingStream(to: collection)
         }
         
-        GlobalInstances
-            .fileBrowser
-            .$fileSelectionEvents.sink { event in
+        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
             switch event {
             case let .newMultiCommandRecursiveAllLayout(rootPath, _):
                 FileBrowser.recursivePaths(rootPath)
@@ -94,25 +145,18 @@ extension TwoETimeRoot {
         }.store(in: &bag)
     }
     
-    func setup12() throws {
-        let atlas = try MetalLinkAtlas(link)
-        let collection = GlyphCollection(link: link, linkAtlas: atlas)
+    func testMonoCollection() throws {
+        let builder = CodeGridGlyphCollectionBuilder(link: link)
+        let consumer = builder.createSyntaxConsumer()
+        let grid = consumer.targetGrid
+        let collection = grid.rootNode
         collection.scale = LFloat3(0.5, 0.5, 0.5)
         collection.position.x = -25
         collection.position.y = 0
         collection.position.z = -30
         root.add(child: collection)
         
-        let testMap = CodeGridSemanticMap()
-        let testTokens = CodeGridTokenCache()
-        
-        let grid = CodeGrid(rootNode: collection, tokenCache: testTokens)
-        let consumer = GlyphCollectionSyntaxConsumer(
-            targetCollection: collection,
-            targetGrid: grid
-        )
-        
-        func consume(_ url: URL) {
+        func doConsume(_ url: URL) {
             consumer.consume(url: url)
             
             collection.renderer.pointer.position.x = 0
@@ -122,42 +166,28 @@ extension TwoETimeRoot {
             collection.setRootMesh()
         }
         
-        GlobalInstances
-            .fileEventStream
-            .sink { event in
-                switch event {
-                case let .newMultiCommandRecursiveAllLayout(rootPath, _):
-                    FileBrowser.recursivePaths(rootPath)
-                        .filter { !$0.isDirectory }
-                        .forEach { childPath in
-                            consume(childPath)
-                        }
-                    
-                case let .newSingleCommand(url, _):
-                    consume(url)
-                    
-                default:
-                    break
-                }
-            }.store(in: &bag)
-        
-        link.pickingTexture.sharedPickingHover.sink { glyphID in
-            guard let constants = collection.instanceState.getConstantsPointer(),
-                  let index = collection.instanceCache.findConstantIndex(for: glyphID)
-            else { return }
-            
-            if let oldIndex = collection.instanceCache.findConstantIndex(for: self.lastId) {
-                constants[oldIndex].addedColor = .zero
+        GlobalInstances.fileEventStream.sink { event in
+            switch event {
+            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                FileBrowser.recursivePaths(rootPath)
+                    .filter { !$0.isDirectory }
+                    .forEach { childPath in
+                        doConsume(childPath)
+                    }
+                
+            case let .newSingleCommand(url, _):
+                doConsume(url)
+                
+            default:
+                break
             }
-            self.lastId = glyphID
-            
-            constants[index].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
-            
         }.store(in: &bag)
+        
+        attachPickingStream(to: collection)
     }
     
     func setup11() throws {
-        let atlas = try MetalLinkAtlas(link)
+        let atlas = GlobalInstances.defaultAtlas
         let collection = GlyphCollection(link: link, linkAtlas: atlas)
         collection.scale = LFloat3(0.5, 0.5, 0.5)
         collection.position.x = -25
@@ -172,7 +202,7 @@ extension TwoETimeRoot {
         """
         
         test.forEach { symbol in
-            collection.addGlyph(GlyphCacheKey(source: symbol, .red))
+            _ = collection.addGlyph(GlyphCacheKey(source: symbol, .red))
         }
         collection.setRootMesh()
     }
