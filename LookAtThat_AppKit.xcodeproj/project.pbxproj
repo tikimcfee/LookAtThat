@@ -50,7 +50,6 @@
 		B70FDC76283EAE9900170D5F /* StartingTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75717280CEE040005A233 /* StartingTapDelegate.swift */; };
 		B70FDC78283EAE9900170D5F /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
 		B70FDC79283EAE9900170D5F /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B70FDC7A283EAE9900170D5F /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B70FDC7B283EAE9900170D5F /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B70FDC7E283EAE9900170D5F /* SourceInfoPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A23352815197000F6F727 /* SourceInfoPanelState.swift */; };
@@ -228,7 +227,6 @@
 		B74A22BC2814FFF300F6F727 /* TAPInputMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C756EB280CECBA0005A233 /* TAPInputMode.swift */; };
 		B74A22BF2814FFF300F6F727 /* StartingTapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C75717280CEE040005A233 /* StartingTapDelegate.swift */; };
 		B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B74A22C22814FFF300F6F727 /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B74A22C52814FFF300F6F727 /* BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* BoundsCaching.swift */; };
@@ -436,8 +434,6 @@
 		B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B796DEF0280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B796DEF1280D1D4A006AC749 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
-		B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
-		B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */; };
 		B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B796DEF8280D2AD8006AC749 /* Brotli */; };
 		B7981027281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
 		B7981028281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
@@ -964,7 +960,6 @@
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
 		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
 		B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+Paths.swift"; sourceTree = "<group>"; };
-		B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGridParser+WorldEditing.swift"; sourceTree = "<group>"; };
 		B7981026281C3050009A82BD /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		B798102A281CBA39009A82BD /* CallStackParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackParsing.swift; sourceTree = "<group>"; };
 		B798102E281CBA70009A82BD /* MatchedTraceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedTraceValue.swift; sourceTree = "<group>"; };
@@ -1430,7 +1425,6 @@
 			children = (
 				B7EA88362723955E0098541C /* CodeGridParser.swift */,
 				B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */,
-				B796DEF5280D1DD5006AC749 /* CodeGridParser+WorldEditing.swift */,
 				B7A6F2AF275EDA09004CAA66 /* CodeGridParserQueryController.swift */,
 			);
 			path = CoreParser;
@@ -2319,7 +2313,6 @@
 				B70FDC78283EAE9900170D5F /* SourceInfoCategoryView.swift in Sources */,
 				B70FDC79283EAE9900170D5F /* CodeGrid.swift in Sources */,
 				B7F010AE28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
-				B70FDC7A283EAE9900170D5F /* CodeGridParser+WorldEditing.swift in Sources */,
 				B70FDC7B283EAE9900170D5F /* BidirectionalMap.swift in Sources */,
 				B70FDC7D283EAE9900170D5F /* FilePaths.swift in Sources */,
 				B70FDC7E283EAE9900170D5F /* SourceInfoPanelState.swift in Sources */,
@@ -2514,7 +2507,6 @@
 				B74A22BF2814FFF300F6F727 /* StartingTapDelegate.swift in Sources */,
 				B7AC334528A0CA71001172BB /* CoreError.swift in Sources */,
 				B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */,
-				B74A22C22814FFF300F6F727 /* CodeGridParser+WorldEditing.swift in Sources */,
 				B7A60FA728B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
@@ -2701,7 +2693,6 @@
 				B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
-				B796DEF6280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */,
@@ -2980,7 +2971,6 @@
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
 				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
 				B7AC337028A0CA71001172BB /* MetalLink.swift in Sources */,
-				B796DEF7280D1DD6006AC749 /* CodeGridParser+WorldEditing.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B768E2BC28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B762DF1C28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,

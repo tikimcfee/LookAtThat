@@ -30,7 +30,8 @@ class TwoETimeRoot: MetalLinkReader {
 //        try testMultiCollection()
 //        try testMonoCollection()
 //        try setupSnapTest()
-        try setupSnapTestMono()
+//        try setupSnapTestMono()
+        try setupSnapTestMonoMuchDataManyGrid()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -58,21 +59,27 @@ extension TwoETimeRoot {
         rootCollection.position.z -= 30
         root.add(child: rootCollection)
         
+        let editor = WorldGridEditor()
+        editor.layoutStrategy = .collection(target: rootCollection)
+        
+        func doEditorAdd(_ childPath: URL) {
+            let consumer = builder.createConsumerForNewGrid()
+            consumer.consume(url: childPath)
+            rootCollection.updateModelConstants()
+            editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
+        }
+        
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
             switch event {
             case let .newMultiCommandRecursiveAllLayout(rootPath, _):
                 FileBrowser.recursivePaths(rootPath)
                     .filter { !$0.isDirectory }
                     .forEach { childPath in
-                        self.builder
-                            .createConsumerForNewGrid()
-                            .consume(url: childPath)
+                        doEditorAdd(childPath)
                     }
                 
             case let .newSingleCommand(url, _):
-                self.builder
-                    .createConsumerForNewGrid()
-                    .consume(url: url)
+                doEditorAdd(url)
                 
             default:
                 break
@@ -117,20 +124,18 @@ extension TwoETimeRoot {
         firstConsumer.targetCollection.renderer.pointer.position.x = 0
         firstConsumer.targetCollection.renderer.pointer.position.y = 0
         
-        // TODO: Editor works on rootNode.position, but mono collection uses internal pointer
-        // DO something about the CodeGrid breaking the mono/multi setup.
-        // Maybe hook up the WorldEditor to target collection pointers instead of root nodes?
-//        let editor = WorldGridEditor()
-//        editor.transformedByAdding(.trailingFromLastGrid(firstConsumer.targetGrid))
-//        editor.transformedByAdding(.inNextPlane(secondConsumer.targetGrid))
+        // TODO: see other comments about nodes updating buffer directly
+        // Manually update to push index mapping update.
+        firstConsumer.targetCollection.updateModelConstants()
+        secondConsumer.targetCollection.updateModelConstants()
         
         func loop() {
-            firstConsumer.targetGrid.updateAllNodeConstants { constant in
+            firstConsumer.targetGrid.updateAllNodeConstants { node, constant in
                 constant.modelMatrix.rotateAbout(axis: Z_AXIS, by: Float.pi / 180)
                 return constant
             }
             
-            secondConsumer.targetGrid.updateAllNodeConstants { constant in
+            secondConsumer.targetGrid.updateAllNodeConstants { node, constant in
 //                constant.modelMatrix.rotateAbout(axis: Y_AXIS, by: Float.pi / 90)
                 constant.modelMatrix.translate(vector: LFloat3(x: cos(root.constants.totalTotalGameTime), y: 0, z: 0))
                 return constant

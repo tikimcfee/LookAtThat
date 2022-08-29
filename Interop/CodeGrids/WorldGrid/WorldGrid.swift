@@ -38,8 +38,9 @@ class WorldGridEditor {
         }
         
         switch (style, layoutStrategy) {
+        // Grid Relative
         case let (.trailingFromLastGrid(codeGrid), .gridRelative):
-            addTrailing(codeGrid, to: lastGrid)
+            addTrailing(codeGrid, from: lastGrid)
             
         case let (.inNextRow(codeGrid), .gridRelative):
             addInNextRow(codeGrid, from: lastGrid)
@@ -47,14 +48,15 @@ class WorldGridEditor {
         case let (.inNextPlane(codeGrid), .gridRelative):
             addInNextPlane(codeGrid, from: lastGrid)
             
+        // Collection
         case let (.trailingFromLastGrid(codeGrid), .collection(targetCollection)):
-            addTrailing(grid: codeGrid, inCollection: targetCollection)
+            addTrailing(codeGrid, from: lastGrid, inCollection: targetCollection)
             
         case let (.inNextRow(codeGrid), .collection(targetCollection)):
-            addInNextRow(grid: codeGrid, inCollection: targetCollection)
+            addInNextRow(codeGrid, from: lastGrid, inCollection: targetCollection)
             
         case let (.inNextPlane(codeGrid), .collection(targetCollection)):
-            addInNextPlane(grid: codeGrid, from: lastGrid, inCollection: targetCollection)
+            addInNextPlane(codeGrid, from: lastGrid, inCollection: targetCollection)
         }
         
         return self
@@ -62,24 +64,31 @@ class WorldGridEditor {
 }
 
 // MARK: - Collection relative
-
-extension WorldGridEditor {
+import simd
+extension WorldGridEditor {    
     func addTrailing(
-        grid: CodeGrid,
+        _ grid: CodeGrid,
+        from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        
+        let xOffset = otherGrid.measures.trailing + 4.0
+//        let yStart = otherGrid.measures.top
+        grid.updateAllNodeConstants { node, nodeConstants in
+            node.position.x += xOffset
+            return nodeConstants
+        }
     }
     
     func addInNextRow(
-        grid: CodeGrid,
+        _ grid: CodeGrid,
+        from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
         
     }
     
     func addInNextPlane(
-        grid: CodeGrid,
+        _ grid: CodeGrid,
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
@@ -92,7 +101,7 @@ extension WorldGridEditor {
 extension WorldGridEditor {
     func addTrailing(
         _ codeGrid: CodeGrid,
-        to other: CodeGrid
+        from other: CodeGrid
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
         codeGrid.rootNode.position = other.rootNode.position.translated(

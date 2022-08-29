@@ -104,7 +104,8 @@ struct matrix_cached_float4x4 {
 }
 
 class Cached<T> {
-    private(set) var willRebuild = true // implicit rebuild on first call
+    private(set) var builtInitial = false
+    private(set) var willRebuild = true   // implicit rebuild on first call
     private var current: T
     var update: () -> T
     
@@ -117,6 +118,7 @@ class Cached<T> {
 
     func get() -> T {
         guard willRebuild else { return current }
+        builtInitial = true
         willRebuild = false
         current = update()
         return current

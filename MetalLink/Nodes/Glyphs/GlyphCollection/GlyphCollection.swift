@@ -61,7 +61,7 @@ extension GlyphCollection {
             print("No glyph for", key)
             return nil
         }
-        
+
         var constants = instanceCache.createNew()
         if let cachedPair = linkAtlas.uvPairCache[key] {
             constants.textureDescriptorU = cachedPair.u

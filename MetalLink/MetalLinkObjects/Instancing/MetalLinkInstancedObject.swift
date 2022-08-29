@@ -23,7 +23,6 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     // TODO: Use regular constants for root, not instanced
     var rootConstants = InstancedConstants(instanceID: 0) { didSet { rebuildSelf = true }}
     
-    
     var rebuildSelf: Bool = true
     var rootState = State()
     let instanceState: InstanceState
@@ -82,6 +81,10 @@ extension MetalLinkInstancedObject {
             pointer.pointee.instanceID = constants.instanceID
             pointer.pointee.addedColor = constants.addedColor
             
+            // I am ashamed I am doing this. Nodes really should just point back to buffer.
+            // This solves the issue of things being out of order and rebuilt, but it creates
+            // rendering timing issues. E.g., right after everything is manually built, you
+            // should call an update() to get a push for the initial model constants.
             self.instanceCache.track(constant: constants, at: constantsBufferIndex)
             constantsBufferIndex += 1
         }
