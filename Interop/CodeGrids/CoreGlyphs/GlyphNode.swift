@@ -10,7 +10,7 @@ import SceneKit
 
 typealias GlyphNode = MetalLinkGlyphNode
 
-extension MetalLinkGlyphNode {
+extension GlyphNode {
     func focus(level: Int) {
         position = position.translated(dZ: 8.0 * Float(level))
 //        focusCount = level

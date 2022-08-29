@@ -38,15 +38,9 @@ extension CodeGrid {
     
     @discardableResult
     private func doSyntaxConsume(rootSyntaxNode: Syntax) -> CodeGrid {
-        laztrace(#fileID,#function,rootSyntaxNode)
-        
-        let consumer = GlyphCollectionSyntaxConsumer(
-            targetGrid: self
-        )
+        let consumer = GlyphCollectionSyntaxConsumer(targetGrid: self)
         consumer.consume(rootSyntaxNode: rootSyntaxNode)
-        
         consumedRootSyntaxNodes.append(rootSyntaxNode)
-    
         return self
     }
 }
