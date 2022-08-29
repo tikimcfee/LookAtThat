@@ -23,7 +23,7 @@ extension CodeGrid {
     private func doTextConsume(text: String) -> CodeGrid {
         var nodes = CodeGridNodes()
         GlyphCollectionSyntaxConsumer(targetGrid: self)
-            .writeString(text, .white, &nodes)
+            .write(text, "raw-text-\(UUID().uuidString)", NSUIColor.white, &nodes)
         return self
     }
 }

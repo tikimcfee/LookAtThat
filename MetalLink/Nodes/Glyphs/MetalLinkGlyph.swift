@@ -12,6 +12,7 @@ class MetalLinkGlyphNode: MetalLinkObject {
     let texture: MTLTexture
     var quad: MetalLinkQuadMesh
     var groupType: GroupType
+    var meta: Meta
     
     init(_ link: MetalLink,
          key: GlyphCacheKey,
@@ -22,6 +23,7 @@ class MetalLinkGlyphNode: MetalLinkObject {
         self.texture = texture
         self.quad = quad
         self.groupType = groupType
+        self.meta = Meta()
         super.init(link, mesh: quad)
         setQuadSize()
     }
@@ -33,6 +35,17 @@ class MetalLinkGlyphNode: MetalLinkObject {
     
     override func applyTextures(_ sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.setFragmentTexture(texture, index: 0)
+    }
+}
+
+extension MetalLinkGlyphNode {
+    // Optional meta on nodes; I think I'm shifting to using these as the
+    // carrier of truth since I have more control of where they come from.
+    // I think SCNNode made it trickier to know what was what. I'm decreasing
+    // flexibility and adding cohesion (coupling?). This is basically what I
+    // encoded into SCNNode.name. This is more explicit.
+    struct Meta {
+        var syntaxID: NodeID?
     }
 }
 

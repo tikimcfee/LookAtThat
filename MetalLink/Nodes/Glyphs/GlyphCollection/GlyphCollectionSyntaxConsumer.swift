@@ -53,18 +53,19 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         let tokenText = token.text
         let trailingTrivia = token.trailingTrivia.stringified
         
-        writeString(leadingTrivia, triviaColor, &allCharacterNodes)
-        writeString(tokenText, tokenColor, &allCharacterNodes)
-        writeString(trailingTrivia, triviaColor, &allCharacterNodes)
+        write(leadingTrivia, tokenIdNodeName, triviaColor, &allCharacterNodes)
+        write(tokenText, tokenIdNodeName, tokenColor, &allCharacterNodes)
+        write(trailingTrivia, tokenIdNodeName, triviaColor, &allCharacterNodes)
         
         targetGrid.tokenCache[tokenIdNodeName] = allCharacterNodes
         targetGrid.semanticInfoMap.insertNodeInfo(tokenIdNodeName, tokenId)
     }
     
-    func writeString(
+    func write(
         _ string: String,
+        _ nodeID: NodeID,
         _ color: NSUIColor,
-        _ set: inout CodeGridNodes
+        _ writtenNodeSet: inout CodeGridNodes
     ) {
         for newCharacter in string {
             // NOTE: This is awkard, but we immediately update the node's ID
@@ -77,7 +78,8 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
                 print("Failed to render glyph for: \(newCharacter)")
                 return
             }
-            set.insert(glyph)
+            glyph.meta.syntaxID = nodeID
+            writtenNodeSet.insert(glyph)
         }
     }
 }

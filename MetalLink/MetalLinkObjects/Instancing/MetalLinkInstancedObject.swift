@@ -85,7 +85,7 @@ extension MetalLinkInstancedObject {
             // This solves the issue of things being out of order and rebuilt, but it creates
             // rendering timing issues. E.g., right after everything is manually built, you
             // should call an update() to get a push for the initial model constants.
-            self.instanceCache.track(constant: constants, at: constantsBufferIndex)
+            self.instanceCache.track(node: node, constants: constants, at: constantsBufferIndex)
             constantsBufferIndex += 1
         }
     }

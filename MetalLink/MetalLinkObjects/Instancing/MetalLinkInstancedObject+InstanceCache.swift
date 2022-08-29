@@ -12,7 +12,8 @@ typealias InstanceIDType = UInt
 extension MetalLinkInstancedObject {
     class InstancedConstantsCache: LockingCache<InstanceIDType, InstancedConstants> {
         private var indexCache = ConcurrentDictionary<UInt, Int>()
-        
+        private var nodeCache = ConcurrentBiMap<UInt, InstancedNodeType>()
+
         func createNew() -> InstancedConstants {
             return self[InstanceCounter.shared.nextId()]
         }
@@ -27,12 +28,32 @@ extension MetalLinkInstancedObject {
         // Really? Mapping Uint to Int? Hoo boy I'm missing something.
         // Like not having all these constants objects and indexing directly into the buffer...
         // make like way easier. We'll see. As this gets uglier.
-        func track(constant: InstancedConstants, at index: Int) {
-            indexCache[constant.instanceID] = index
+        func track(
+            node: InstancedNodeType,
+            constants: InstancedConstants,
+            at index: Int
+        ) {
+            indexCache[constants.instanceID] = index
+            nodeCache[constants.instanceID] = node
         }
         
         func findConstantIndex(for instanceID: InstanceIDType) -> Int? {
             indexCache[instanceID]
+        }
+        
+        func findConstantIndex(for node: InstancedNodeType) -> Int? {
+            guard let id = findID(for: node) else {
+                return nil
+            }
+            return findConstantIndex(for: id)
+        }
+        
+        func findNode(for instanceID: InstanceIDType) -> InstancedNodeType? {
+            nodeCache[instanceID]
+        }
+        
+        func findID(for node: InstancedNodeType) -> InstanceIDType? {
+            nodeCache[node]
         }
     }
 }

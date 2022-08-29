@@ -10,6 +10,7 @@ import Combine
 import MetalKit
 import SwiftUI
 import SwiftSyntaxParser
+import SwiftSyntax
 
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
@@ -18,8 +19,9 @@ class TwoETimeRoot: MetalLinkReader {
     lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
-    var lastID = UInt.zero
-    var lastCollection: GlyphCollection?
+    var lastID: UInt = UInt.zero
+    var lastGrid: CodeGrid?
+    var lastSyntaxID: SyntaxIdentifier? = nil
     
     lazy var builder = CodeGridGlyphCollectionBuilder(
         link: link,
@@ -95,7 +97,7 @@ extension TwoETimeRoot {
             }
             
             files += 1
-            attachPickingStream(to: consumer.targetCollection)
+            attachPickingStream(to: consumer.targetGrid)
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
@@ -161,12 +163,12 @@ extension TwoETimeRoot {
     
     func setupSnapTestMono() throws {
         builder.mode = .monoCollection
-        
+        let rootGrid = builder.createGrid()
         let rootCollection = builder.getCollection()
         rootCollection.scale = LFloat3(0.5, 0.5, 0.5)
         rootCollection.position.z -= 30
         root.add(child: rootCollection)
-        
+            
         let firstConsumer = builder.createConsumerForNewGrid()
         let firstSource = """
         let x = 10
@@ -219,7 +221,7 @@ extension TwoETimeRoot {
             )
         }
         
-        attachPickingStream(to: rootCollection)
+        attachPickingStream(to: rootGrid)
         loop()
     }
     
@@ -267,24 +269,76 @@ extension TwoETimeRoot {
 }
 
 extension TwoETimeRoot {
-    func attachPickingStream(to collection: GlyphCollection) {
+    typealias ConstantsPointer = UnsafeMutablePointer<MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants>
+    
+    func getPointerInfo(
+        for glyphID: UInt,
+        in collection: GlyphCollection
+    ) -> (ConstantsPointer, MetalLinkGlyphNode, Int)? {
+        guard let pointer = collection.instanceState.getConstantsPointer(),
+              let index = collection.instanceCache.findConstantIndex(for: glyphID),
+              let node = collection.instanceCache.findNode(for: glyphID)
+        else { return nil }
+        return (pointer, node, index)
+    }
+    
+    func attachPickingStream(to grid: CodeGrid) {
         link.pickingTexture.sharedPickingHover.sink { glyphID in
-            guard let constants = collection.instanceState.getConstantsPointer(),
-                  let index = collection.instanceCache.findConstantIndex(for: glyphID)
-            else { return }
-            
-            if let lastCollection = self.lastCollection,
-               let lastPointer = lastCollection.instanceState.getConstantsPointer(),
-               let lastIndex = lastCollection.instanceCache.findConstantIndex(for: self.lastID) {
-                lastPointer[lastIndex].addedColor = .zero
-            }
-            
-            self.lastID = glyphID
-            self.lastCollection = collection
-            
-            constants[index].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
-            
+            self.doPickingTest(in: grid, glyphID: glyphID)
         }.store(in: &bag)
+    }
+    
+    func doPickingTest(in targetGrid: CodeGrid, glyphID: UInt) {
+        guard glyphID != lastID else { return }
+        
+        let tokenCache = GlobalInstances.gridStore.tokenCache
+        
+        // Do last stuff
+        if let lastGrid = lastGrid, lastGrid.id != targetGrid.id,
+           let (lastPointer, _, lastIndex) = getPointerInfo(for: lastID, in: lastGrid.rootNode) {
+            lastPointer[lastIndex].addedColor = .zero
+            
+            let lastCollection = lastGrid.rootNode
+            let semanticMap = lastGrid.semanticInfoMap
+            if let lastSyntaxID = lastSyntaxID  {
+                semanticMap.doOnAssociatedNodes(lastSyntaxID, tokenCache) { info, nodes in
+                    for node in nodes {
+                        if let index = lastCollection.instanceCache.findConstantIndex(for: node) {
+                            lastPointer[index].addedColor -= LFloat4(0.0, 0.3, 0.0, 0.0)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Test highlight tweaking
+        let targetCollection = targetGrid.rootNode
+        guard let (newPointer, newNode, newIndex) = getPointerInfo(for: glyphID, in: targetCollection)
+            else { return }
+        newPointer[newIndex].addedColor = LFloat4(0.3, 0.3, 0.3, 0)
+        
+        // Test glyph searching
+        // TODO: Use global map? Or GlobalParticipants?
+//        let semanticMap = GlobalInstances.gridStore.semanticMap
+        let semanticMap = targetGrid.semanticInfoMap
+        guard let currentNodeNameSyntaxID = newNode.meta.syntaxID,
+              let currentSyntaxID = semanticMap.syntaxIDLookupByNodeId[currentNodeNameSyntaxID] else {
+            print("Missing syntax info for node: \(newNode.key)")
+            return
+        }
+        
+        lastID = glyphID
+        lastGrid = targetGrid
+        lastSyntaxID = currentSyntaxID
+        
+        semanticMap.doOnAssociatedNodes(currentSyntaxID, tokenCache) { info, nodes in
+            for node in nodes {
+                if let index = targetCollection.instanceCache.findConstantIndex(for: node) {
+//                    newPointer[index].modelMatrix.scale(amount: LFloat3(5, 5, 5))
+                    newPointer[index].addedColor += LFloat4(0.0, 0.3, 0.0, 0.0)
+                }
+            }
+        }
     }
     
     func testMultiCollection() throws {
@@ -303,7 +357,7 @@ extension TwoETimeRoot {
             
             root.add(child: collection)
             
-            attachPickingStream(to: collection)
+            attachPickingStream(to: consumer.targetGrid)
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
@@ -360,7 +414,7 @@ extension TwoETimeRoot {
             }
         }.store(in: &bag)
         
-        attachPickingStream(to: collection)
+        attachPickingStream(to: consumer.targetGrid)
     }
     
     func setup11() throws {

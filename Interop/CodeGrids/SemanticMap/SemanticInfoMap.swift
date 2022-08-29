@@ -20,6 +20,9 @@ public class SemanticInfoMap {
     // MARK: - Core association sets
     
     // TODO: *1 = these can be merged! SemanticInfo wraps Syntax
+    // var totalProtonicReversal = [NodeId: (Syntax, SemanticInfo)]
+    // Or just one can be removed.. I think I walked myself into duplicating the map
+    // since SemanticInfo captures the node Syntax... TreeSitter will make me laughcry.
     var flattenedSyntax = [SyntaxIdentifier: Syntax]()  //TODO: *1
     var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()  //TODO: *1
     var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
