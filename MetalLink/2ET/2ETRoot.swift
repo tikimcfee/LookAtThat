@@ -62,11 +62,12 @@ extension TwoETimeRoot {
         
         let rootCollection = builder.getCollection()
         root.add(child: rootCollection)
-        root.scale = LFloat3(0.5, 0.5, 0.5)
+        root.scale = LFloat3(0.25, 0.25, 0.25)
         root.position.z -= 30
         
         let editor = WorldGridEditor()
         
+        var files = 1
         func doEditorAdd(_ childPath: URL) {
             let consumer = builder.createConsumerForNewGrid()
             consumer.targetCollection.position.z -= 30
@@ -77,10 +78,21 @@ extension TwoETimeRoot {
             let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
             let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
-            let random = Bool.random() ? nextRow : Bool.random() ? nextPlane : trailing
-            editor.transformedByAdding(random)
             
+//            let random = Bool.random() ? nextRow : Bool.random() ? nextPlane : trailing
+//            editor.transformedByAdding(random)
 //            editor.transformedByAdding(trailing)
+            
+            if files % 11 == 0 {
+                editor.transformedByAdding(nextRow)
+            } else if files % 51 == 0 {
+                editor.transformedByAdding(nextPlane)
+            } else {
+                editor.transformedByAdding(trailing)
+            }
+            
+            files += 1
+            attachPickingStream(to: consumer.targetCollection)
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
