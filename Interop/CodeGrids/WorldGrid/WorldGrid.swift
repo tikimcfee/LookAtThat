@@ -7,8 +7,10 @@
 
 import Foundation
 
-var default__PlaneSpacing: VectorFloat = 256.0
-var default__CameraSpacingFromPlaneOnShift: VectorFloat = 128.0
+var default__VerticalSpacing: VectorFloat = 4.0
+var default__HorizontalSpacing: VectorFloat = 4.0
+var default__PlaneSpacing: VectorFloat = 128.0
+var default__CameraSpacingFromPlaneOnShift: VectorFloat = 64.0
 
 typealias WorldGrid = [[[CodeGrid]]]
 typealias WorldGridPlane = [[CodeGrid]]
@@ -105,9 +107,7 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
         codeGrid.rootNode.position = other.rootNode.position.translated(
-            dX: other.measures.lengthX + 8.0,
-            dY: 0,
-            dZ: 0
+            dX: other.measures.lengthX + default__HorizontalSpacing
         )
         lastFocusedGrid = codeGrid
     }
@@ -121,29 +121,33 @@ extension WorldGridEditor {
         var maxHeight: VectorFloat = 0.0
         var leftMostGrid: CodeGrid?
         snapping.iterateOver(other, direction: .left) { _, grid, _ in
+            /* do this to have everything connected? */
+//            snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
             maxHeight = max(maxHeight, grid.measures.lengthY)
             leftMostGrid = grid
         }
         
-        codeGrid.rootNode.position = (
-            leftMostGrid?.rootNode.position ?? .zero
-        ).translated(
-            dX: 0,
-            dY: -maxHeight - 8.0,
-            dZ: 0
-        )
+        if let leftMostGrid = leftMostGrid {
+            codeGrid.rootNode.position = leftMostGrid.rootNode.position.translated(
+                dY: -maxHeight - default__VerticalSpacing
+            )
+        } else {
+            codeGrid.rootNode.position = other.rootNode.position.translated(
+                dY: -other.measures.lengthY - default__VerticalSpacing
+            )
+        }
     }
     
     func addInNextPlane(
         _ codeGrid: CodeGrid,
         from other: CodeGrid
     ) {
-        snapping.connectWithInverses(sourceGrid: other, to: .backward(codeGrid))
+        snapping.connectWithInverses(sourceGrid: other, to: .forward(codeGrid))
         lastFocusedGrid = codeGrid
-        codeGrid.rootNode.position = other.rootNode.position.translated(
-            dX: 0,
-            dY: 0,
-            dZ: -64.0
+        codeGrid.rootNode.position = LFloat3(
+            x: 0,
+            y: 0,
+            z: other.rootNode.position.z - default__PlaneSpacing
         )
     }
 }

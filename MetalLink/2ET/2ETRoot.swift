@@ -31,7 +31,11 @@ class TwoETimeRoot: MetalLinkReader {
 //        try testMonoCollection()
 //        try setupSnapTest()
 //        try setupSnapTestMono()
-        try setupSnapTestMonoMuchDataManyGrid()
+
+        // TODO: ManyGrid need more abstractions
+//        try setupSnapTestMonoMuchDataManyGrid()
+        
+        try setupSnapTestMulti()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -51,6 +55,59 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setupSnapTestMulti() throws {
+        // TODO: make switching between multi/mono better
+        // multi needs to add each collection; mono needs to add root
+        builder.mode = .multiCollection
+        
+        let rootCollection = builder.getCollection()
+        root.add(child: rootCollection)
+        root.scale = LFloat3(0.5, 0.5, 0.5)
+        root.position.z -= 30
+        
+        let editor = WorldGridEditor()
+        
+        func doEditorAdd(_ childPath: URL) {
+            let consumer = builder.createConsumerForNewGrid()
+            consumer.targetCollection.position.z -= 30
+            root.add(child: consumer.targetCollection)
+            
+            consumer.consume(url: childPath)
+            
+            let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
+            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
+            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
+            let random = Bool.random() ? nextRow : Bool.random() ? nextPlane : trailing
+            editor.transformedByAdding(random)
+            
+//            editor.transformedByAdding(trailing)
+        }
+        
+        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
+            switch event {
+            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                FileBrowser.recursivePaths(rootPath)
+                    .filter { !$0.isDirectory }
+                    .forEach { childPath in
+                        doEditorAdd(childPath)
+                    }
+                
+            case let .newSingleCommand(url, _):
+                doEditorAdd(url)
+                
+            default:
+                break
+            }
+        }.store(in: &bag)
+    }
+    
+    // TODO: This is going to be complicated.
+    // I will try to update the SyntaxConsumer and GlyphCollection
+    // to have some kind of child grid relationship.
+    // Maybe a subclass of GlyphCollection that is MultiGridCollection.
+    // If I do this, the child grids will have to update the parent buffer
+    // somehow, without making duplicates.
+    // Maybe avoiding the draw calls isn't important for now? ...
     func setupSnapTestMonoMuchDataManyGrid() throws {
         builder.mode = .monoCollection
         
