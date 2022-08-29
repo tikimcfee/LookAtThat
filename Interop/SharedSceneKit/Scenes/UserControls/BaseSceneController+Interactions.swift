@@ -18,7 +18,7 @@ class GestureShim {
     var onMagnify: MagnificationReceiver
     
     lazy var tapGestureRecognizer =
-        TapGestureRecognizer(target: self, action: #selector(noop))
+        TapGestureRecognizer(target: self, action: #selector(tap))
     var onTap: TapReceiver
 
     init(_ onPan: @escaping PanReceiver,
@@ -30,6 +30,10 @@ class GestureShim {
         
         tapGestureRecognizer.isEnabled = false
     }
+    
+    @objc func tap(_ receiver: TapGestureRecognizer) {
+        onTap(receiver.makeTapEvent)
+    }
 
     @objc func pan(_ receiver: ModifiersPanGestureRecognizer) {
         onPan(receiver.makePanEvent)
@@ -37,10 +41,6 @@ class GestureShim {
 
     @objc func magnify(_ receiver: ModifiersMagnificationGestureRecognizer) {
         onMagnify(receiver.makeMagnificationEvent)
-    }
-    
-    @objc func noop(_ receiver: TapGestureRecognizer) {
-        
     }
 }
 
