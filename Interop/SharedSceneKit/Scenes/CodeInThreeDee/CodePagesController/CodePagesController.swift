@@ -96,12 +96,7 @@ extension CodePagesController {
 
 extension CodePagesController {
     func doTestRender(parent: URL) {
-//        codeGridParser.__versionThree_RenderConcurrent(parent) { rootGrid in
-//            self.addToRoot(rootGrid: rootGrid)
-//        }
-        
-        // TODO: Don't render both paths when doing SCENE / Metal
-//        doRenderPlan(parent: parent)
+        doRenderPlan(parent: parent)
     }
     
     func doRenderPlan(parent: URL) {

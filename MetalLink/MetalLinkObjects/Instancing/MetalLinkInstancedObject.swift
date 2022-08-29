@@ -107,8 +107,7 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
         sdp.renderCommandEncoder.setVertexBuffer(constantsBuffer, offset: 0, index: 2)
         
         // Update fragment shader
-        // TODO: I'm not even using the fragment shader buffer. Wut do with now?
-        // TODO: How do fragment bytes move when using instancing?
+        // TODO: Think of something to do with fragment buffer
         sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
         
         // Draw the single instanced glyph mesh (see DIRTY FILTHY HACK for details).

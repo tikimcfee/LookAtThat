@@ -234,11 +234,6 @@ private extension KeyboardInterceptor {
     //  You must check type before access, and ensure any fields are expected to be returned.
     //  E.g., `event.characters` results in an immediate fatal exception thrown if the type is NOT .keyDown or .keyUp
     // We break up the fields on type to make slightly safer assumptions in the implementation
-    //
-    // TODO: there is a bug when interacting with pan / drag etc.
-    // If you drag while holding a control, you lose keyup events
-    // and start listing in the last direction. Figure out why.
-    // Maybe something is wrong with share? Event is being diverted?
     func enqueuedKeyConsume(_ event: OSEvent) {
         switch event.type {
         case .keyDown:

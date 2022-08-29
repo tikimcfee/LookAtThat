@@ -37,7 +37,7 @@ extension MetalLinkInstancedObject {
     }
 }
 
-// TODO: don't leave this hanging out like this
+// TODO: Make a smarter / safer glyph instance counter
 private class InstanceCounter {
     static let shared = InstanceCounter()
     private init() { }

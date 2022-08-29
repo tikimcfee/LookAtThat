@@ -385,7 +385,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterY = centerY + delta
             let newExpectedCenterZ = centerZ + delta
             
-            // TODO: -- Rounding between boxes and positions is off
             // Current measurements and position have a precision of about 3-4 places.
             let deltaX = abs(newCenterX - newExpectedCenterX)
             let deltaY = abs(newCenterY - newExpectedCenterY)

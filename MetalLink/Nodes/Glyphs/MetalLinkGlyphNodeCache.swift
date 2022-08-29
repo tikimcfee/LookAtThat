@@ -8,9 +8,6 @@
 import Foundation
 import Metal
 
-//TODO: Think if there's a way to do something with saved nodes for *instancing*.
-// Still need 1 instance per glyph, but the mapping of key -> texture + uvs might be reusable?
-// I have no freaking idea and I'm tired again.
 class MetalLinkGlyphNodeCache {
     let link: MetalLink
     

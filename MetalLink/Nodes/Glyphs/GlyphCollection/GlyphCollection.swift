@@ -121,7 +121,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
 extension GlyphCollection {
     func setRootMesh() {
         // ***********************************************************************************
-        // TODO:
+        // TODO: mesh instance hack
         // THIS IS A DIRTY FILTHY HACK
         // The instance only works because the glyphs are all the same size - hooray monospace.
         // The moment there's something that's NOT, we'll get stretching / skewing / breaking.

@@ -18,7 +18,6 @@ extension MetalLinkInstancedObject {
         
         init(link: MetalLink) {
             self.link = link
-            // TODO: This is bad API. Why am I doing this?
             self.bufferCache = Cached(current: nil, update: { nil })
             self.bufferCache.update = makeBuffer
         }

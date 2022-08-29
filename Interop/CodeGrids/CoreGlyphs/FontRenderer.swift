@@ -45,7 +45,7 @@ private extension FontRenderer {
     static let DESCALE_FACTOR: Float = 24.0
 #endif
     
-    // TODO: !WARNING! NOTE! PAY ATTENTION!
+    // A font size warning:
     // I never realized this, but I was using the `WORD_POINT_SIZE` font when making glyphs,
     // and measuring with a sized font... and if you don't do that, you end up with things not
     // working correctly, as the font will take into account all sorts of text measuring stuff.

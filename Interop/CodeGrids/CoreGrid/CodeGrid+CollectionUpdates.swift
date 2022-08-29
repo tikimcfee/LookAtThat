@@ -15,9 +15,9 @@ extension CodeGrid {
     
     func updateAllNodeConstants(_ update: Update) {
         guard !rootNode.willRebuildState else {
-            // TODO: This is bad news. It means we haven't updated the buffer indices yet.
-            // There should be a thing that does this before the first render.
-            // Ideally, get rid of the whole mapping thing and figure out direct calling.
+            // To avoid initial update errors, call update() manually
+            // if creating nodes, then using their instance positions
+            // to do additional work.
             print("Waiting for model build...")
             return
         }

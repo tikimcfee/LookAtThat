@@ -21,7 +21,9 @@ extension CodeGrid {
     
     @discardableResult
     private func doTextConsume(text: String) -> CodeGrid {
-        print("TODO: Add text consume!")
+        var nodes = CodeGridNodes()
+        GlyphCollectionSyntaxConsumer(targetGrid: self)
+            .writeString(text, .white, &nodes)
         return self
     }
 }

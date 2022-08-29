@@ -102,6 +102,7 @@ extension SourceInfoPanelView {
         // TODO: This isn't global yet, but it can / should / will be
         Text("Grid state view not yet reimplemented")
             .padding(32)
+
     }
     
     var globalSearchView: some View {
