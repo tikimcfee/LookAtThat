@@ -81,7 +81,7 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
             let multiplier = speedModified ? sensitivityModified : sensitivity
             let dX = -event.scrollingDeltaX.float * multiplier
             let dY = inOutModifier ? 0 : event.scrollingDeltaY.float * multiplier
-            let dZ = inOutModifier ? event.scrollingDeltaY.float * multiplier : 0
+            let dZ = inOutModifier ? -event.scrollingDeltaY.float * multiplier : 0
             let delta = LFloat3(dX, dY, dZ)
             
             self.interceptor.positions.totalOffset += delta
