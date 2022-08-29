@@ -73,11 +73,12 @@ private extension MetalLinkPickingTexture {
                       mouseMove.locationInWindow.y.float)
         let position = convertToDrawablePosition(windowX: x, windowY: y)
         let origin = MTLOrigin(x: Int(position.x), y: Int(position.y), z: 0)
-        guard origin.x >= 0 && origin.y >= 0 else { return }
         doPickingTextureBlitRead(at: origin)
     }
     
     func doPickingTextureBlitRead(at sourceOrigin: MTLOrigin) {
+        guard sourceOrigin.x >= 0 && sourceOrigin.y >= 0 else { return }
+        
         guard let pickingTexture = pickingTexture,
               let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let blitEncoder = commandBuffer.makeBlitCommandEncoder(),
@@ -85,13 +86,18 @@ private extension MetalLinkPickingTexture {
             return
         }
         
+        defer {
+            blitEncoder.endEncoding()
+            commandBuffer.commit()
+        }
+        
         guard sourceOrigin.simd2DSize < pickingTexture.simdSize else {
             print("Source origin is out of bounds: \(sourceOrigin.simd2DSize)")
             return
         }
         
-        commandBuffer.label = "PickingBuffer"
-        blitEncoder.label = "PickingEncoder"
+        commandBuffer.label = "PickingBuffer:\(sourceOrigin.x):\(sourceOrigin.y)"
+        blitEncoder.label = "PickingEncoder:\(sourceOrigin.x):\(sourceOrigin.y)"
         commandBuffer.addCompletedHandler { buffer in
             self.onPickBlitComplete(pickBuffer)
         }
@@ -110,8 +116,7 @@ private extension MetalLinkPickingTexture {
             destinationBytesPerImage: InstanceIDType.memStride
         )
         
-        blitEncoder.endEncoding()
-        commandBuffer.commit()
+//        print("Reached end of blit")
     }
     
     func onPickBlitComplete(_ pickBuffer: MTLBuffer) {

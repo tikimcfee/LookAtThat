@@ -21,7 +21,11 @@ class TwoETimeRoot: MetalLinkReader {
     var lastID = UInt.zero
     var lastCollection: GlyphCollection?
     
-    lazy var builder = CodeGridGlyphCollectionBuilder(link: link)
+    lazy var builder = CodeGridGlyphCollectionBuilder(
+        link: link,
+        sharedSemanticMap: GlobalInstances.gridStore.semanticMap,
+        sharedTokenCache: GlobalInstances.gridStore.tokenCache
+    )
     
     init(link: MetalLink) throws {
         self.link = link
@@ -31,11 +35,10 @@ class TwoETimeRoot: MetalLinkReader {
 //        try testMonoCollection()
 //        try setupSnapTest()
 //        try setupSnapTestMono()
-
+        try setupSnapTestMulti()
+        
         // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
-        
-        try setupSnapTestMulti()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {

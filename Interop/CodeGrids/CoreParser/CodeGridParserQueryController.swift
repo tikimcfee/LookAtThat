@@ -10,13 +10,12 @@ import Foundation
 //MARK: - Observable controller
 
 class CodeGridParserQueryController: ObservableObject {
-    let parser: CodeGridParser
-    private var cache: GridCache { parser.gridCache }
+    private var cache: GridCache { GlobalInstances.gridStore.gridCache }
     
     @Published var searchInput: String = ""
 
-    init(parser: CodeGridParser) {
-        self.parser = parser
+    init() {
+        
     }
 }
 

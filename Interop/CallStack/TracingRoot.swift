@@ -134,7 +134,6 @@ extension TracingRoot {
         WatchWrap.self,
         WorkerPool.self,
         WorldGridEditor.self,
-        WorldGridNavigator.self,
         WorldGridSnapping.self,
     ]
     

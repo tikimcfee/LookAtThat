@@ -9,12 +9,9 @@ import Foundation
 
 class ConcurrentGridRenderer {
     private let cache: GridCache
-    private var parser: CodeGridParser
     var nextWorkerQueue: DispatchQueue { WorkerPool.shared.nextWorker() }
     
-    init(parser: CodeGridParser,
-         cache: GridCache) {
-        self.parser = parser
+    init(cache: GridCache) {
         self.cache = cache
     }
     

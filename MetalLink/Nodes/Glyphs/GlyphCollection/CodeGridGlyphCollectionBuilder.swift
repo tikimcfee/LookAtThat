@@ -25,8 +25,8 @@ class CodeGridGlyphCollectionBuilder {
     
     init(
         link: MetalLink,
-        sharedSemanticMap semanticMap: SemanticInfoMap = .init(),
-        sharedTokenCache tokenCache: CodeGridTokenCache = .init()
+        sharedSemanticMap semanticMap: SemanticInfoMap,
+        sharedTokenCache tokenCache: CodeGridTokenCache
     ) {
         self.link = link
         self.atlas = GlobalInstances.defaultAtlas

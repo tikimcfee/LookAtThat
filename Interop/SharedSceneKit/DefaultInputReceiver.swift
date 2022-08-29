@@ -7,52 +7,11 @@
 
 import Combine
 
-#if os(OSX)
-import AppKit
-class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
-    private let mouseSubject = PassthroughSubject<OSEvent, Never>()
-    private let scrollSubject = PassthroughSubject<OSEvent, Never>()
-    private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
-    private let mouseUpSubject = PassthroughSubject<OSEvent, Never>()
-    private let keyEventSubject = PassthroughSubject<OSEvent, Never>()
-    
-    lazy var sharedMouse = mouseSubject.share().eraseToAnyPublisher()
-    lazy var sharedScroll = scrollSubject.share().eraseToAnyPublisher()
-    lazy var sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
-    lazy var sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
-    lazy var sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
-    
-    lazy var touchState: TouchState = TouchState()
-    lazy var gestureShim: GestureShim = GestureShim(
-        { self.pan($0) },
-        { self.magnify($0) },
-        { self.onTap($0) }
-    )
-    
-    var mousePosition: OSEvent = OSEvent() {
-        didSet { mouseSubject.send(mousePosition) }
-    }
-    
-    var scrollEvent: NSEvent = NSEvent() {
-        didSet { scrollSubject.send(scrollEvent) }
-    }
-    
-    var mouseDownEvent: NSEvent = NSEvent() {
-        didSet { mouseDownSubject.send(mouseDownEvent) }
-    }
-    
-    var mouseUpEvent: NSEvent = NSEvent() {
-        didSet { mouseUpSubject.send(mouseUpEvent) }
-    }
-    
-    var lastKeyEvent: NSEvent = NSEvent() {
-        didSet { keyEventSubject.send(lastKeyEvent) }
-    }
+extension DefaultInputReceiver {
+    static var shared = DefaultInputReceiver()
 }
-#elseif os(iOS)
-import UIKit
+
 class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownReceiver {
-    
     private let mouseSubject = PassthroughSubject<OSEvent, Never>()
     private let scrollSubject = PassthroughSubject<OSEvent, Never>()
     private let mouseDownSubject = PassthroughSubject<OSEvent, Never>()
@@ -64,13 +23,6 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
     lazy var sharedMouseDown = mouseDownSubject.share().eraseToAnyPublisher()
     lazy var sharedMouseUp = mouseUpSubject.share().eraseToAnyPublisher()
     lazy var sharedKeyEvent = keyEventSubject.share().eraseToAnyPublisher()
-    
-    lazy var touchState: TouchState = TouchState()
-    lazy var gestureShim: GestureShim = GestureShim(
-        { self.pan($0) },
-        { self.magnify($0) },
-        { self.onTap($0) }
-    )
     
     var mousePosition: OSEvent = OSEvent() {
         didSet { mouseSubject.send(mousePosition) }
@@ -91,40 +43,11 @@ class DefaultInputReceiver: ObservableObject, MousePositionReceiver, KeyDownRece
     var lastKeyEvent: OSEvent = OSEvent() {
         didSet { keyEventSubject.send(lastKeyEvent) }
     }
-}
-#endif
-
-extension DefaultInputReceiver {
-    static var shared = DefaultInputReceiver()
-}
-
-// MARK: - Tap / Click
-
-extension DefaultInputReceiver {
-    func onTap(_ event: GestureEvent) {
-        print("Got gesture event: \(event)")
-    }
-}
-
-// MARK: - Magnify
-
-extension DefaultInputReceiver {
-    func magnify(_ event: MagnificationEvent) {
-        switch event.state {
-        case .began:
-            break
-        case .changed:
-            break
-        default:
-            break
-        }
-    }
-}
-
-// MARK: - Pan
-
-extension DefaultInputReceiver {
-    func pan(_ panEvent: PanEvent) {
-        
-    }
+    
+    lazy var touchState: TouchState = TouchState()
+    lazy var gestureShim: GestureShim = GestureShim(
+        { print(#line, "DefaultInput received: \($0)") },
+        { print(#line, "DefaultInput received: \($0)") },
+        { print(#line, "DefaultInput received: \($0)") }
+    )
 }
