@@ -47,10 +47,55 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     let interceptor = KeyboardInterceptor()
     private var cancellables = Set<AnyCancellable>()
     
+    var holdingOption: Bool = false
     var startRotate: Bool = false
     
     init(link: MetalLink) {
         self.link = link
+        bindToLink()
+        bindToInterceptor()
+    }
+    
+    func bindToLink() {
+        link.input.sharedKeyEvent.sink { event in
+            self.interceptor.onNewKeyEvent(event)
+        }.store(in: &cancellables)
+        
+        link.input.sharedMouseDown.sink { event in
+            print("mouse down")
+            self.startRotate = true
+        }.store(in: &cancellables)
+        
+        link.input.sharedMouseUp.sink { event in
+            print("mouse up")
+            self.startRotate = false
+        }.store(in: &cancellables)
+        
+        #if os(macOS)
+        link.input.sharedScroll.sink { event in
+            let sensitivity = Float(5.0)
+            let sensitivityModified = Float(20.0)
+            
+            let speedModified = self.interceptor.state.currentModifiers.contains(.shift)
+            let inOutModifier = self.interceptor.state.currentModifiers.contains(.option)
+            let multiplier = speedModified ? sensitivityModified : sensitivity
+            let dX = -event.scrollingDeltaX.float * multiplier
+            let dY = inOutModifier ? 0 : event.scrollingDeltaY.float * multiplier
+            let dZ = inOutModifier ? event.scrollingDeltaY.float * multiplier : 0
+            let delta = LFloat3(dX, dY, dZ)
+            
+            self.interceptor.positions.totalOffset += delta
+        }.store(in: &cancellables)
+        #endif
+        
+        link.input.sharedMouse.sink { event in
+            guard self.startRotate else { return }
+            self.interceptor.positions.rotationOffset.y += event.deltaX.float / 5
+            self.interceptor.positions.rotationOffset.x += event.deltaY.float / 5
+        }.store(in: &cancellables)
+    }
+    
+    func bindToInterceptor() {
         interceptor.positionSource = self
         
         interceptor.positions.$totalOffset.sink { total in
@@ -60,31 +105,11 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         interceptor.positions.$rotationOffset.removeDuplicates().sink { total in
             self.rotation = (total / 100)
         }.store(in: &cancellables)
-        
-        link.input.sharedKeyEvent.sink { event in
-            self.interceptor.onNewKeyEvent(event)
-        }.store(in: &cancellables)
-        
-        link.input.sharedMouseDown.sink { event in
-            print("mouse down")
-            self.startRotate = true
-        }.store(in: &cancellables)
-
-        link.input.sharedMouseUp.sink { event in
-            print("mouse up")
-            self.startRotate = false
-        }.store(in: &cancellables)
-        
-        link.input.sharedMouse.sink { event in
-            guard self.startRotate else { return }
-            self.interceptor.positions.rotationOffset.y += event.deltaX.float / 5
-            self.interceptor.positions.rotationOffset.x += event.deltaY.float / 5
-        }.store(in: &cancellables)
-        
-        #if os(macOS)
-        
-        #endif
     }
+}
+
+extension DebugCamera {
+    
 }
 
 extension DebugCamera {
