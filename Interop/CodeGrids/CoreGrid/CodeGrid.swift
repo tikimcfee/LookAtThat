@@ -40,7 +40,7 @@ public class CodeGrid: Identifiable, Equatable {
     var sourcePath: URL?
     
     var consumedRootSyntaxNodes: [Syntax] = []
-    var codeGridSemanticInfo: CodeGridSemanticMap = CodeGridSemanticMap()
+    var semanticInfoMap: SemanticInfoMap = SemanticInfoMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     lazy var measures: CodeGrid.Measures = CodeGrid.Measures(targetGrid: self)

@@ -8,11 +8,11 @@
 import Foundation
 import SwiftSyntax
 
-typealias AssociatedSyntaxMapSnapshot = [CodeGridSemanticMap.Category: [(SyntaxIdentifier, [SyntaxIdentifier])]]
+typealias AssociatedSyntaxMapSnapshot = [SemanticInfoMap.Category: [(SyntaxIdentifier, [SyntaxIdentifier])]]
 
 class GlobalSemanticParticipant {
     let sourceGrid: CodeGrid
-    var queryCategories = [CodeGridSemanticMap.Category]()
+    var queryCategories = [SemanticInfoMap.Category]()
     var snapshot = AssociatedSyntaxMapSnapshot()
     
     init(grid: CodeGrid) {
@@ -21,7 +21,7 @@ class GlobalSemanticParticipant {
     
     func updateQuerySnapshot() {
         snapshot = queryCategories.reduce(into: AssociatedSyntaxMapSnapshot()) { result, category in
-            sourceGrid.codeGridSemanticInfo.category(category) { categoryMap in
+            sourceGrid.semanticInfoMap.category(category) { categoryMap in
                 guard !categoryMap.isEmpty else { return }
                 categoryMap.forEach { rootId, associationStore in
                     // TODO: Feels gross making a new array out of the store keys.
@@ -57,7 +57,7 @@ public class CodeGridGlobalSemantics: ObservableObject {
         self.source = source
     }
     
-    var defaultCategories: [CodeGridSemanticMap.Category] {[
+    var defaultCategories: [SemanticInfoMap.Category] {[
         .structs,
         .classes,
         .enumerations,
@@ -76,7 +76,7 @@ public class CodeGridGlobalSemantics: ObservableObject {
         watch.stop()
     }
     
-    func snapshot(categories: [CodeGridSemanticMap.Category]) -> Snapshot {
+    func snapshot(categories: [SemanticInfoMap.Category]) -> Snapshot {
         var globalParticipants = AutoCache<GlobalSemanticParticipant.ID, GlobalSemanticParticipant>()
         
         // Two passes
@@ -84,7 +84,7 @@ public class CodeGridGlobalSemantics: ObservableObject {
         source.cachedGrids.directWriteAccess { mutableGridStore in
             for (_, grid) in mutableGridStore {
                 for category in categories {
-                    grid.codeGridSemanticInfo.category(category) { map in
+                    grid.semanticInfoMap.category(category) { map in
                         guard !map.isEmpty else { return }
                         let participant = globalParticipants.retrieve(
                             key: grid.id,

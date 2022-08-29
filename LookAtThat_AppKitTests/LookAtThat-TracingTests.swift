@@ -44,7 +44,7 @@ class LookAtThat_TracingTests: XCTestCase {
         
         let dummyGrid = bundle.newGrid()
         let visitor = FlatteningVisitor(
-            target: dummyGrid.codeGridSemanticInfo,
+            target: dummyGrid.semanticInfoMap,
             builder: dummyGrid.semanticInfoBuilder
         )
         
@@ -57,8 +57,8 @@ class LookAtThat_TracingTests: XCTestCase {
             visitor.walkRecursiveFromSyntax(sourceSyntax)
         }
         
-        let classes = dummyGrid.codeGridSemanticInfo.classes.keys.compactMap {
-            dummyGrid.codeGridSemanticInfo.semanticsLookupBySyntaxId[$0]
+        let classes = dummyGrid.semanticInfoMap.classes.keys.compactMap {
+            dummyGrid.semanticInfoMap.semanticsLookupBySyntaxId[$0]
         }.compactMap { (info: SemanticInfo) -> String? in
             "\(info.referenceName).self"
         }

@@ -31,12 +31,6 @@ class TwoETimeRoot: MetalLinkReader {
 //        try testMonoCollection()
 //        try setupSnapTest()
         try setupSnapTestMono()
-        
-//        link.input.sharedMouse.sink { event in
-//            collection.instanceState.bufferCache.dirty()
-//            collection.rotation.y += event.deltaX.float / 5
-//            collection.rotation.x += event.deltaY.float / 5
-//        }.store(in: &bag)
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -308,7 +302,9 @@ extension TwoETimeRoot {
         """
         
         test.forEach { symbol in
-            _ = collection.addGlyph(GlyphCacheKey(source: symbol, .red))
+            _ = collection.addGlyph(
+                GlyphCacheKey(source: symbol, .red)
+            )
         }
         collection.setRootMesh()
     }

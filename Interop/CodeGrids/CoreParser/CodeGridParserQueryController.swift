@@ -38,7 +38,7 @@ extension CodeGridParserQueryController {
         for grid in cache.cachedGrids.values {
             var matches = Set<SemanticInfo>()
             
-            for (_, info) in grid.codeGridSemanticInfo.semanticsLookupBySyntaxId {
+            for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
                 if info.referenceName.containsMatch(searchText) {
                     matches.insert(info)
                 }

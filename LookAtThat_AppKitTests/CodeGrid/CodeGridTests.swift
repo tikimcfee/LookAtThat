@@ -74,7 +74,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     XCTAssertTrue(node.height > 0, "Glyph nodes usually have some height")
                     XCTAssertTrue(node.depth > 0, "Glyph nodes usually have some depth")
                     testBounds.consumeBounds(node.boundsInParent)
-                    //                print("\t", node.nodeId)
+                    //                print("\t", node.id)
                     //                print("\tpos ", node.position)
                     //                print("\tsize", node.size)
                     //                print("\tbox ", node.manualBoundingBox)
@@ -124,7 +124,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .consume(rootSyntaxNode: parsed.root)
         
 //        let testClass = try XCTUnwrap(
-//            testGrid.codeGridSemanticInfo.classes.first,
+//            testGrid.semanticInfoMap.classes.first,
 //            "Must have id to test"
 //        )
         
@@ -151,11 +151,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
         
         let testGrid = newGrid()
-        let testClass = try XCTUnwrap(testGrid.codeGridSemanticInfo.classes.first, "Must have id to test")
+        let testClass = try XCTUnwrap(testGrid.semanticInfoMap.classes.first, "Must have id to test")
 
         let computing = BoundsComputing()
         testGrid
-            .codeGridSemanticInfo
+            .semanticInfoMap
             .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in
                 computing.consumeNodeSet(nodes, convertingTo: nil)
             }

@@ -269,8 +269,8 @@ func helloWorld() {
         return grid
     }()
     
-    static var sourceInfo = WrappedBinding<CodeGridSemanticMap>({
-        let info = sourceGrid.codeGridSemanticInfo
+    static var sourceInfo = WrappedBinding<SemanticInfoMap>({
+        let info = sourceGrid.semanticInfoMap
         return info
     }())
     
@@ -296,7 +296,7 @@ func helloWorld() {
         TracingRoot.shared.capturedLoggingThreads[Thread()] = 1
         (0...10).forEach { _ in TracingRoot.shared.addRandomEvent() }
 #if TARGETING_SUI
-        SemanticTracingOutState.randomTestData = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+        SemanticTracingOutState.randomTestData = sourceGrid.semanticInfoMap.allSemanticInfo
             .filter { !$0.callStackName.isEmpty }
             .map {
                 Bool.random()

@@ -54,7 +54,9 @@ extension GlyphCollection {
     // potentially recreating the buffer hundreds of times.
     // Buffer *should* only reset when the texture is called,
     // but that's a fragile guarantee.
-    func addGlyph(_ key: GlyphCacheKey) -> GlyphNode? {
+    func addGlyph(
+        _ key: GlyphCacheKey
+    ) -> GlyphNode? {
         guard let newGlyph = linkAtlas.newGlyph(key) else {
             print("No glyph for", key)
             return nil
@@ -87,13 +89,13 @@ where InstancedNodeType == MetalLinkGlyphNode {
     func updateConstants(
         for node: InstancedNodeType,
         _ operation: (inout InstancedConstants) -> InstancedConstants
-    ) {
+    ) {        
         guard case let .glyphCollection(instanceID) = node.groupType
         else { return }
         
         guard let bufferIndex = instanceCache.findConstantIndex(for: instanceID)
         else {
-            print("Missing buffer index for \(node.nodeId)")
+            print("Missing buffer index for [\(node.key.source)]: \(node.nodeId)")
             return
         }
         

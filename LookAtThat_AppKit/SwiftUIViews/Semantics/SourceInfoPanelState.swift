@@ -37,7 +37,7 @@ class SourceInfoPanelState: ObservableObject {
     @Published var categories: Categories = Categories()
 
     // Individual hovering stuff
-    @Published var sourceInfo: CodeGridSemanticMap = CodeGridSemanticMap()
+    @Published var sourceInfo: SemanticInfoMap = SemanticInfoMap()
     @Published var sourceGrid: CodeGrid?
     @Published var hoveredToken: String = ""
     

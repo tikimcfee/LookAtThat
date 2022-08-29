@@ -23,7 +23,6 @@ class MetalLinkGlyphNodeCache {
         self.textureCache = MetalLinkGlyphTextureCache(link: link)
     }
     
-    private typealias TextureKey = MetalLinkGlyphTextureCache.Key
     func create(_ key: GlyphCacheKey) -> MetalLinkGlyphNode? {
         do {
             guard let glyphTexture = textureCache[key]

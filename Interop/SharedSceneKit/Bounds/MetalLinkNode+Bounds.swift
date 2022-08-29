@@ -49,9 +49,7 @@ extension MetalLinkNode {
 }
 
 extension MetalLinkNode {
-    var boundsCacheKey: BoundsKey {
-        return nodeId
-    }
+    var boundsCacheKey: BoundsKey { nodeId }
     
     func computeBoundingBox() -> Bounds {
         let computing = BoundsComputing()

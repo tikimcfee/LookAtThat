@@ -22,16 +22,20 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     
     // TODO: Use regular constants for root, not instanced
     var rootConstants = InstancedConstants(instanceID: 0) { didSet { rebuildSelf = true }}
-    lazy var instanceCache = InstancedConstantsCache()
+    
     
     var rebuildSelf: Bool = true
     var rootState = State()
     let instanceState: InstanceState
+    let instanceCache: InstancedConstantsCache
+    
+    var willRebuildState: Bool { instanceState.bufferCache.willRebuild }
     
     init(_ link: MetalLink, mesh: MetalLinkMesh) {
         self.link = link
         self.mesh = mesh
         self.instanceState = InstanceState(link: link)
+        self.instanceCache = InstancedConstantsCache()
         super.init()
     }
     

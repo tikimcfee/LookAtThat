@@ -35,7 +35,7 @@ extension MetalLinkInstancedObject {
         ) -> Void
         
         func zipUpdate(_ nodeUpdateFunction: BufferOperator)  {
-            guard bufferCache.rebuildModel else {
+            guard bufferCache.willRebuild else {
                 return
             }
             

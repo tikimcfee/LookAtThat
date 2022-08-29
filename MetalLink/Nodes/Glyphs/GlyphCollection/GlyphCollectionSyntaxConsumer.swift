@@ -28,7 +28,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         rootSyntaxNode: Syntax
     ) {
         FlatteningVisitor(
-            target: targetGrid.codeGridSemanticInfo,
+            target: targetGrid.semanticInfoMap,
             builder: targetGrid.semanticInfoBuilder
         ).walkRecursiveFromSyntax(rootSyntaxNode)
         
@@ -44,41 +44,35 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         // Setup identifiers and build out token text
         let tokenId = token.id
         let tokenIdNodeName = tokenId.stringIdentifier
-        let leadingTriviaNodeName = "\(tokenIdNodeName)-leadingTrivia"
-        let trailingTriviaNodeName = "\(tokenIdNodeName)-trailingTrivia"
         let triviaColor = CodeGridColors.trivia
         let tokenColor = token.defaultColor
         
-        var leadingTriviaNodes = CodeGridNodes()
+        // Combine all nodes into same set, colorize trivia differently
+        var allCharacterNodes = CodeGridNodes()
         let leadingTrivia = token.leadingTrivia.stringified
-        
-        var tokenTextNodes = CodeGridNodes()
         let tokenText = token.text
-        
-        var trailingTriviaNodes = CodeGridNodes()
         let trailingTrivia = token.trailingTrivia.stringified
         
-        writeString(leadingTrivia, leadingTriviaNodeName, triviaColor, &leadingTriviaNodes)
-        writeString(tokenText, tokenIdNodeName, tokenColor, &tokenTextNodes)
-        writeString(trailingTrivia, trailingTriviaNodeName, triviaColor, &trailingTriviaNodes)
+        writeString(leadingTrivia, triviaColor, &allCharacterNodes)
+        writeString(tokenText, tokenColor, &allCharacterNodes)
+        writeString(trailingTrivia, triviaColor, &allCharacterNodes)
         
-        targetGrid.tokenCache[leadingTriviaNodeName] = leadingTriviaNodes
-        targetGrid.tokenCache[tokenIdNodeName] = tokenTextNodes
-        targetGrid.tokenCache[trailingTriviaNodeName] = trailingTriviaNodes
-        
-        targetGrid.codeGridSemanticInfo.insertNodeInfo(leadingTriviaNodeName, tokenId)
-        targetGrid.codeGridSemanticInfo.insertNodeInfo(tokenIdNodeName, tokenId)
-        targetGrid.codeGridSemanticInfo.insertNodeInfo(trailingTriviaNodeName, tokenId)
+        targetGrid.tokenCache[tokenIdNodeName] = allCharacterNodes
+        targetGrid.semanticInfoMap.insertNodeInfo(tokenIdNodeName, tokenId)
     }
     
     func writeString(
         _ string: String,
-        _ name: String,
         _ color: NSUIColor,
         _ set: inout CodeGridNodes
     ) {
         for newCharacter in string {
-            let glyph = targetCollection.addGlyph(GlyphCacheKey(source: newCharacter, color))
+            // NOTE: This is awkard, but we immediately update the node's ID
+            // to the given name. This is unsafe, as the ID is set deep down
+            // in the node itself automatically. Might want to create a new
+            // pathway for this...
+            let glyphKey = GlyphCacheKey(source: newCharacter, color)
+            let glyph = targetCollection.addGlyph(glyphKey)
             guard let glyph = glyph else {
                 print("Failed to render glyph for: \(newCharacter)")
                 return

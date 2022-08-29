@@ -79,9 +79,9 @@ extension SyntaxHierarchyView {
         print("Not implemented: \(#file):\(#function)")
         return nil
     }
-    var sourceInfo: CodeGridSemanticMap {
+    var sourceInfo: SemanticInfoMap {
         print("Not implemented: \(#file):\(#function)")
-        return CodeGridSemanticMap()
+        return SemanticInfoMap()
     }
     var sourceGridName: String {
         sourceGrid.map

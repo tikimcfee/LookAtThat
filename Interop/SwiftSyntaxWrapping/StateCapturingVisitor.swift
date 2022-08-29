@@ -73,10 +73,10 @@ class IterativeRecursiveVisitor {
 }
 
 class FlatteningVisitor {
-    let target: CodeGridSemanticMap
+    let target: SemanticInfoMap
     let builder: SemanticInfoBuilder
     
-    init(target: CodeGridSemanticMap, builder: SemanticInfoBuilder) {
+    init(target: SemanticInfoMap, builder: SemanticInfoBuilder) {
         self.target = target
         self.builder = builder
     }

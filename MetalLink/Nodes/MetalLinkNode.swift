@@ -51,10 +51,16 @@ class MetalLinkNode {
 extension MetalLinkNode: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(nodeId)
+//        hasher.combine(position)
+//        hasher.combine(rotation)
+//        hasher.combine(scale)
     }
     
     static func == (_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {
         return left.nodeId == right.nodeId
+//            && left.position == right.position
+//            && left.rotation == right.rotation
+//            && left.scale == right.scale
     }
 }
 
@@ -98,7 +104,7 @@ struct matrix_cached_float4x4 {
 }
 
 class Cached<T> {
-    private(set) var rebuildModel = true // implicit rebuild on first call
+    private(set) var willRebuild = true // implicit rebuild on first call
     private var current: T
     var update: () -> T
     
@@ -107,11 +113,11 @@ class Cached<T> {
         self.update = update
     }
     
-    func dirty() { rebuildModel = true }
+    func dirty() { willRebuild = true }
 
     func get() -> T {
-        guard rebuildModel else { return current }
-        rebuildModel = false
+        guard willRebuild else { return current }
+        willRebuild = false
         current = update()
         return current
     }

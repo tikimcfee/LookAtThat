@@ -160,7 +160,7 @@ private extension RenderTask {
     // Collect all nodes from all semantic info that contributed to passed test
     func focusNodesForSemanticInfo(source: CodeGrid,
                                    _ matchingSemanticInfo: SemanticInfo) throws {
-        try source.codeGridSemanticInfo.tokenNodes(
+        try source.semanticInfoMap.tokenNodes(
             from: matchingSemanticInfo.syntaxId,
             in: source.tokenCache
         ) { info, associatedMatchingNodes in
@@ -176,7 +176,7 @@ private extension RenderTask {
             print("Missing consumed syntax node for: \(source.fileName)")
             return
         }
-        try source.codeGridSemanticInfo.walkFlattened(
+        try source.semanticInfoMap.walkFlattened(
             from: rootSyntax.id,
             in: codeGridParser.tokenCache
         ) { info, associatedMatchingNodes in

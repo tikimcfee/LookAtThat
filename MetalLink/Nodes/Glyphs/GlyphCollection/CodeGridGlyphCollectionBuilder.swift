@@ -17,7 +17,7 @@ extension CodeGridGlyphCollectionBuilder {
 class CodeGridGlyphCollectionBuilder {
     let link: MetalLink
     let atlas: MetalLinkAtlas
-    let semanticMap: CodeGridSemanticMap
+    let semanticMap: SemanticInfoMap
     let tokenCache: CodeGridTokenCache
     
     var mode: Mode = .monoCollection
@@ -25,7 +25,7 @@ class CodeGridGlyphCollectionBuilder {
     
     init(
         link: MetalLink,
-        sharedSemanticMap semanticMap: CodeGridSemanticMap = .init(),
+        sharedSemanticMap semanticMap: SemanticInfoMap = .init(),
         sharedTokenCache tokenCache: CodeGridTokenCache = .init()
     ) {
         self.link = link

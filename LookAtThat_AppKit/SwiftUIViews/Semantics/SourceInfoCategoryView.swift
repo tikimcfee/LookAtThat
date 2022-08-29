@@ -12,7 +12,7 @@ import Combine
 struct SourceInfoCategoryView: View {
     @EnvironmentObject var sourceState: SourceInfoPanelState
     
-    @State var targetedInfo: CodeGridSemanticMap = .init()
+    @State var targetedInfo: SemanticInfoMap = .init()
     @State var targetedGrid: CodeGrid?
     
     private var global: CodeGridGlobalSemantics { SceneLibrary.global.codePagesController.globalSemantics }
@@ -88,11 +88,11 @@ struct SourceInfoCategoryView: View {
     }
     
     func makeInfoRowGroup(
-        for categories: [CodeGridSemanticMap.Category],
+        for categories: [SemanticInfoMap.Category],
         in targetGrid: CodeGrid
     ) -> some View {
         ForEach(categories, id: \.self) { category in
-            if let categoryMap = targetGrid.codeGridSemanticInfo.map(for: category), !categoryMap.isEmpty {
+            if let categoryMap = targetGrid.semanticInfoMap.map(for: category), !categoryMap.isEmpty {
                 Text(category.rawValue).underline().padding(.top, 8)
                 infoRows(from: targetGrid, categoryMap)
             }
@@ -102,7 +102,7 @@ struct SourceInfoCategoryView: View {
     func infoRows(from grid: CodeGrid, _ map: AssociatedSyntaxMap) -> some View {
         List {
             ForEach(Array(map.keys), id:\.self) { (id: SyntaxIdentifier) in
-                if let info = grid.codeGridSemanticInfo.semanticsLookupBySyntaxId[id] {
+                if let info = grid.semanticInfoMap.semanticsLookupBySyntaxId[id] {
                     semanticInfoRow(info, grid)
                 } else {
                     Text("No SemanticInfo")

@@ -80,7 +80,7 @@ extension TracingRoot {
         CodeGridGlobalSemantics.self,
         CodeGridParser.self,
         CodeGridParserQueryController.self,
-        CodeGridSemanticMap.self,
+        SemanticInfoMap.self,
         CodeGridTokenCache.self,
         CodeGridWorld.self,
         CodePagesController.self,

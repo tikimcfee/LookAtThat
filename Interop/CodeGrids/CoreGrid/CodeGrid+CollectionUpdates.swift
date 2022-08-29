@@ -11,13 +11,11 @@ import Foundation
 
 extension CodeGrid {
     func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) -> Void) {
-        // TODO: Oof multiple consumed files is torture
-        guard let rootId = consumedRootSyntaxNodes.first?.id
-        else {
-            print("No root nodes to find nodes")
-            return
+        // TODO: Oof multiple consumed files is torture, and wrong...
+        for rootSyntaxNode in consumedRootSyntaxNodes {
+            let rootSyntaxId = rootSyntaxNode.id
+            semanticInfoMap.doOnAssociatedNodes(rootSyntaxId, tokenCache, operation)
         }
-        codeGridSemanticInfo.doOnAssociatedNodes(rootId, tokenCache, operation)
     }
 }
 
@@ -26,6 +24,11 @@ extension CodeGrid {
     typealias Update = (inout GlyphConstants) -> GlyphConstants
     
     func updateAllNodeConstants(_ update: Update) {
+        guard !rootNode.willRebuildState else {
+            print("Waiting for model build...")
+            return
+        }
+        
         forAllNodesInCollection { _, nodeSet in
             for node in nodeSet {
                 rootNode.updateConstants(for: node) { pointer in

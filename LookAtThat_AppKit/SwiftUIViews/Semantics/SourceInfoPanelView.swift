@@ -13,7 +13,7 @@ struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
-    var sourceInfo: CodeGridSemanticMap { state.sourceInfo }
+    var sourceInfo: SemanticInfoMap { state.sourceInfo }
     var sourceGrid: CodeGrid? { state.sourceGrid }
     
     var body: some View {
@@ -173,8 +173,8 @@ func helloWorld() {
         return grid
     }()
     
-    static var sourceInfo = WrappedBinding<CodeGridSemanticMap>({
-        let info = sourceGrid.codeGridSemanticInfo
+    static var sourceInfo = WrappedBinding<SemanticInfoMap>({
+        let info = sourceGrid.semanticInfoMap
         return info
     }())
     
@@ -195,7 +195,7 @@ func helloWorld() {
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
 //        #if TARGETING_SUI
-//        state.allTracedInfo = sourceGrid.codeGridSemanticInfo.allSemanticInfo
+//        state.allTracedInfo = sourceGrid.semanticInfoMap.allSemanticInfo
 //            .filter { !$0.callStackName.isEmpty }
 //            .map {
 //                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
