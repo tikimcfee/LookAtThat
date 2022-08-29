@@ -15,7 +15,6 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
     case semanticCategories = "Semantic Categories"
     case hoverInfo = "Hover Info"
     case tracingInfo = "Tracing Info"
-    case tappingControls = "Taps"
     case globalSearch = "Global Search"
     case windowControls = "Window Controls"
     case appStatusInfo = "App Status Info"

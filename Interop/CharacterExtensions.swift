@@ -13,8 +13,8 @@ extension Character {
         let isNewline: Bool
     }
     
-    private class CheckCaches: LockingCache<Character, Check> {
-        static let shared: CheckCaches = CheckCaches()
+    private class ChecksCache: LockingCache<Character, Check> {
+        static let shared: ChecksCache = ChecksCache()
         override func make(_ key: Key, _ store: inout [Key : Value]) -> Character.Check {
             Check(
                 isWhitespace: CharacterSet.whitespacesAndNewlines.containsUnicodeScalars(of: key),
@@ -24,15 +24,15 @@ extension Character {
     }
     
     var checks: Check {
-        CheckCaches.shared[self]
+        ChecksCache.shared[self]
     }
     
     var isWhitespaceCharacter: Bool {
-        CheckCaches.shared[self].isWhitespace
+        ChecksCache.shared[self].isWhitespace
     }
     
     var isNewlineCharacter: Bool {
-        CheckCaches.shared[self].isNewline
+        ChecksCache.shared[self].isNewline
     }
 }
 

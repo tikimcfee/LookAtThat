@@ -65,3 +65,11 @@ private var queueName: String {
         return "n/a"
     }
 }
+
+extension URL {
+    var hasData: Bool {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: path) as NSDictionary
+        let size = attributes?.fileSize() ?? 0
+        return size > 0
+    }
+}

@@ -36,7 +36,6 @@ extension AppDelegate {
     func makeRootContentView() -> NSView {
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
-            .environmentObject(TapObserving.shared)
             .onAppear { self.onRootViewAppeared() }
             .onDisappear { self.onRootViewDisappeared() }
         

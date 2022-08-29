@@ -1,9 +1,0 @@
-import Foundation
-
-class ThisIsATestClass {
-    var memberBool: Bool = true
-    
-    func testFunc() {
-        var funcVarDecl: Bool = true
-    }
-}

@@ -151,9 +151,6 @@ struct GitHubClientView: View {
     func onRepositoryUrlSelected(_ url: URL) {
         GlobalInstances
             .fileBrowser
-            .fileSelectionEvents = .newMultiCommandRecursiveAllLayout(url, .addToWorld)
-        GlobalInstances
-            .fileBrowser
             .setRootScope(url)
     }
 }

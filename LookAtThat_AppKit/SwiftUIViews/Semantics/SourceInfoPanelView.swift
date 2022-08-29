@@ -76,8 +76,6 @@ extension SourceInfoPanelView {
             hoverInfoView
         case .tracingInfo:
             traceInfoView
-        case .tappingControls:
-            tapControlsView
         case .windowControls:
             windowControlsView
         case .githubTools:
@@ -139,12 +137,6 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var fileBrowserView: some View {
         FileBrowserView()
-    }
-        
-    @ViewBuilder
-    var tapControlsView: some View {
-        FingerTapView()
-            .environmentObject(TapObserving.shared)
     }
     
     var windowControlsView: some View {
@@ -211,7 +203,7 @@ func helloWorld() {
 //            SourceInfoPanelView(state: sourceState)
             SourceInfoCategoryView()
                 .environmentObject(sourceState)
-        }.environmentObject(TapObserving.shared)
+        }
     }
 }
 #endif
