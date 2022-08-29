@@ -550,6 +550,10 @@
 		B7B46AE828BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
 		B7B46AE928BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
 		B7B46AEA28BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
+		B7B46AEC28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
+		B7B46AED28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
+		B7B46AEE28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
+		B7B46AEF28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
 		B7B866AA28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
 		B7B866AB28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
 		B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
@@ -934,6 +938,7 @@
 		B7B46AD728BC81750004CA2D /* GlobalInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInstances.swift; sourceTree = "<group>"; };
 		B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		B7B46AE628BD76620004CA2D /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkReader.swift; sourceTree = "<group>"; };
 		B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlasBuilder.swift; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
@@ -1088,23 +1093,24 @@
 		B7044C1028A07DE100D1433C /* MetalLink */ = {
 			isa = PBXGroup;
 			children = (
-				B7AC333A28A0CA70001172BB /* 2ET */,
-				B7AC339728A0D11E001172BB /* MetalInterop */,
 				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
-				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
 				B7AC332528A0CA70001172BB /* CoreError.swift */,
 				B7AC333328A0CA70001172BB /* MetalLink.swift */,
 				B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */,
+				B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */,
 				B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */,
 				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
-				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
 				B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */,
-				B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */,
-				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
-				B750771228A21FE20097278A /* Maths */,
-				B7AC33B128A0DC7E001172BB /* Nodes */,
+				B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */,
+				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
+				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
+				B7AC333A28A0CA70001172BB /* 2ET */,
 				B7AC332E28A0CA70001172BB /* Libraries */,
+				B750771228A21FE20097278A /* Maths */,
+				B7AC339728A0D11E001172BB /* MetalInterop */,
 				B7AC332928A0CA70001172BB /* MetalLinkObjects */,
+				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
+				B7AC33B128A0DC7E001172BB /* Nodes */,
 				B7AC333428A0CA70001172BB /* Shaders */,
 			);
 			path = MetalLink;
@@ -1376,11 +1382,11 @@
 		B7AC332928A0CA70001172BB /* MetalLinkObjects */ = {
 			isa = PBXGroup;
 			children = (
-				B7C69FCD28A3569200A84860 /* ObjectTypes */,
-				B785520C28B3081300F57954 /* Instancing */,
-				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
-				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
 				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
+				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
+				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
+				B785520C28B3081300F57954 /* Instancing */,
+				B7C69FCD28A3569200A84860 /* ObjectTypes */,
 			);
 			path = MetalLinkObjects;
 			sourceTree = "<group>";
@@ -1388,11 +1394,11 @@
 		B7AC332E28A0CA70001172BB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */,
+				B7AC33AC28A0D479001172BB /* MeshLibrary.swift */,
 				B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */,
 				B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */,
-				B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */,
 				B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */,
-				B7AC33AC28A0D479001172BB /* MeshLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -1426,11 +1432,11 @@
 		B7AC33B128A0DC7E001172BB /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
-				B7F67F1328A4E5630056E540 /* Glyphs */,
-				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
+				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
 				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
 				B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */,
-				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
+				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
+				B7F67F1328A4E5630056E540 /* Glyphs */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1458,16 +1464,16 @@
 		B7EA8835272394AB0098541C /* CodeGrids */ = {
 			isa = PBXGroup;
 			children = (
-				B720D58028246FDE00BF0602 /* CoreGlyphs */,
-				B796DEED280D1AB8006AC749 /* CoreGrid */,
-				B796DEEE280D1B00006AC749 /* CoreParser */,
-				B79F931227508F5600E46A96 /* CoreRendering */,
-				B72197242737428B00E1CB60 /* WorldGrid */,
 				B79F930F2750741900E46A96 /* CodeGridCache.swift */,
 				B74A234628161C9200F6F727 /* CodeGridColors.swift */,
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
+				B720D58028246FDE00BF0602 /* CoreGlyphs */,
+				B796DEED280D1AB8006AC749 /* CoreGrid */,
+				B796DEEE280D1B00006AC749 /* CoreParser */,
+				B79F931227508F5600E46A96 /* CoreRendering */,
 				B768E2B328BC2D940067858F /* SemanticMap */,
+				B72197242737428B00E1CB60 /* WorldGrid */,
 			);
 			path = CodeGrids;
 			sourceTree = "<group>";
@@ -1483,8 +1489,8 @@
 		B7F44C33276D98C900522B45 /* ShareCompat */ = {
 			isa = PBXGroup;
 			children = (
-				B70808D0287E45DA00827CBB /* Search */,
 				B7B18C6E276C1EE40043DA1B /* CommandHandler.swift */,
+				B70808D0287E45DA00827CBB /* Search */,
 			);
 			path = ShareCompat;
 			sourceTree = "<group>";
@@ -1502,13 +1508,13 @@
 		B7F67F1328A4E5630056E540 /* Glyphs */ = {
 			isa = PBXGroup;
 			children = (
+				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
+				B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */,
+				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
+				B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */,
+				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
 				B7189F2B28AEEE2D00E16B0E /* Atlas */,
 				B785521228B34C3D00F57954 /* GlyphCollection */,
-				B7F67F1428A4E57A0056E540 /* MetalLinkGlyph.swift */,
-				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
-				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
-				B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */,
-				B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -1524,12 +1530,12 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
-				B7044C1028A07DE100D1433C /* MetalLink */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
+				B7044C1028A07DE100D1433C /* MetalLink */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
-				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
+				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
 				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
@@ -1577,13 +1583,13 @@
 		F00FC742250C53820092AFF9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				B7EB71392848748E00313633 /* GitHubIO */,
 				B73286A62733833C00C9C82A /* FileBrowser.swift */,
 				B790E696283DF078002F6512 /* FileBrowser+Event.swift */,
 				B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */,
 				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
 				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
 				B73EF75628111E2C008BEE85 /* ConcurrentCollections */,
+				B7EB71392848748E00313633 /* GitHubIO */,
 				B7241AF7282887E0006A6A3E /* IOArrays */,
 			);
 			path = Data;
@@ -1610,9 +1616,9 @@
 		F0341048250C7D3700031147 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				F0CCB0FE2517BF6100937279 /* UserControls */,
-				F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */,
 				B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */,
+				F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */,
+				F0CCB0FE2517BF6100937279 /* UserControls */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1637,12 +1643,12 @@
 		F057D2132520428B0094BD83 /* MultipeerConnectivity */ = {
 			isa = PBXGroup;
 			children = (
-				F038D91A252EB7D500A9E6BC /* Streams */,
+				F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */,
+				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
+				F02E1110251EEF240052D993 /* MultipeerData.swift */,
 				F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */,
 				F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */,
-				F02E1110251EEF240052D993 /* MultipeerData.swift */,
-				F02E1115251EEFE40052D993 /* MultipeerControls.swift */,
-				F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */,
+				F038D91A252EB7D500A9E6BC /* Streams */,
 			);
 			path = MultipeerConnectivity;
 			sourceTree = "<group>";
@@ -1650,15 +1656,15 @@
 		F057D22B2520444B0094BD83 /* SharedSceneKit */ = {
 			isa = PBXGroup;
 			children = (
-				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
-				F092E5B625101B0600B18894 /* SceneUtils */,
-				F0341048250C7D3700031147 /* Scenes */,
-				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
-				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
-				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
+				F0F205702522D6D3009B6D2C /* CustomSceneView.swift */,
 				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
-				F0F205702522D6D3009B6D2C /* CustomSceneView.swift */,
+				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
+				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
+				F030B8D72518741E00B94E7A /* SceneLibrary.swift */,
+				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
+				F0341048250C7D3700031147 /* Scenes */,
+				F092E5B625101B0600B18894 /* SceneUtils */,
 			);
 			path = SharedSceneKit;
 			sourceTree = "<group>";
@@ -1717,12 +1723,17 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
 				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
+				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
+				B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */,
+				B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */,
 				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
 				B7241AF928288C26006A6A3E /* InputStreamReader.swift */,
+				B7B46AE628BD76620004CA2D /* Structures.swift */,
 				F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */,
 				B7C7565E280B82E80005A233 /* WorkerPool.swift */,
-				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
+				B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */,
 				F043BB0F2515369000FB1EF6 /* Caches */,
 				B77DCAB226781E40002DF299 /* CallStack */,
 				B7EA8835272394AB0098541C /* CodeGrids */,
@@ -1732,11 +1743,6 @@
 				F057D22B2520444B0094BD83 /* SharedSceneKit */,
 				B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
-				B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */,
-				B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */,
-				B7B46AE628BD76620004CA2D /* Structures.swift */,
-				B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */,
-				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
 			);
 			path = Interop;
 			sourceTree = "<group>";
@@ -1770,9 +1776,9 @@
 		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
 			isa = PBXGroup;
 			children = (
-				B7F44C33276D98C900522B45 /* ShareCompat */,
-				B7B18C6D276C1EC30043DA1B /* CodePagesController */,
 				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
+				B7B18C6D276C1EC30043DA1B /* CodePagesController */,
+				B7F44C33276D98C900522B45 /* ShareCompat */,
 			);
 			path = CodeInThreeDee;
 			sourceTree = "<group>";
@@ -2182,6 +2188,7 @@
 				B70FDCC1283EAE9900170D5F /* MultipeerControls.swift in Sources */,
 				B7AC335728A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B70FDCC3283EAE9900170D5F /* CodeGridConcurrentRenderer.swift in Sources */,
+				B7B46AED28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
 				B70FDCC4283EAE9900170D5F /* ConcurrentDictionary.swift in Sources */,
 				B70FDCC5283EAE9900170D5F /* ConcurrentArray.swift in Sources */,
 				B785520F28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
@@ -2354,6 +2361,7 @@
 				B7C69FEB28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
+				B7B46AEF28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
 				B74A22F82814FFF300F6F727 /* CodeGridParser.swift in Sources */,
 				B7EB713E284874A800313633 /* GitHubClient.swift in Sources */,
 				B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */,
@@ -2526,6 +2534,7 @@
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B7AC335628A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
+				B7B46AEC28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
 				B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
 				B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B785520E28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
@@ -2740,6 +2749,7 @@
 				B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
+				B7B46AEE28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
 				B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
 				B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */,
