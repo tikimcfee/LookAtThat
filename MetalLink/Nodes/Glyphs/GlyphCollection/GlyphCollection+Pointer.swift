@@ -47,14 +47,6 @@ extension GlyphCollection {
             )
             
             letterNode.position = currentPosition
-            
-            // TODO: Move this to the renderer, where it can remove whitespace
-            // instead of always adding instances: [ whitespace newlines new line ]
-//            if !(checks.isNewline || checks.isWhitespace) {
-                targetCollection.instanceState
-                    .appendToState(node: letterNode, constants: constants)
-//            }
-            
             pointer.right(size.x)
             
             if checks.isNewline {

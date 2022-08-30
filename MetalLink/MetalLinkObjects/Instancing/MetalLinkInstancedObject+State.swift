@@ -22,10 +22,14 @@ extension MetalLinkInstancedObject {
             self.bufferCache.update = makeBuffer
         }
         
-        func appendToState(node newNode: InstancedNodeType, constants newConstants: InstancedConstants) {
+        // Appends info and returns last index
+        func appendToState(
+            node newNode: InstancedNodeType,
+            constants newConstants: InstancedConstants
+        ) -> Int {
             nodes.append(newNode)
             constants.append(newConstants)
-            onNodeAdded(newNode, newConstants, at: constants.endIndex - 1)
+            return constants.endIndex - 1
         }
         
         open func onNodeAdded(
@@ -36,7 +40,7 @@ extension MetalLinkInstancedObject {
             // override to update node meta et al.
             // so dirty.. I don't like this, but I'm just in a mood today.
             // I really just want to make things work because I need a win.
-            // Code can be a diary, did you know that? =)    
+            // Code can be a diary, did you know that? =)
         }
         
         typealias BufferOperator = (

@@ -73,21 +73,17 @@ extension GlyphCollection {
             print("--------------")
         }
         
+        let appendIndex = instanceState.appendToState(
+            node: newGlyph,
+            constants: constants
+        )
+        
+        newGlyph.parent = self
+        newGlyph.meta.instanceBufferIndex = appendIndex
+        newGlyph.meta.instanceID = constants.instanceID
+   
         renderer.insert(newGlyph, constants)
         return newGlyph
-    }
-    
-    // Such a dirty hack. I haven't planned any of this and my frustration is making
-    // me just make the thing work. This is now a super critical function.
-    // addGlyph -> renderer.insert() -> instanceState.appendToState() -> onNodeAdded()
-    open func onNodeAdded(
-        _ newNode: MetalLinkGlyphNode,
-        _ newConstants: InstancedConstants,
-        at index: Int
-    ) {
-        newNode.parent = self
-        newNode.meta.instanceBufferIndex = index
-        newNode.meta.instanceID = newConstants.instanceID
     }
 }
 

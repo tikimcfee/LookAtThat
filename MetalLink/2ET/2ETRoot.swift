@@ -276,9 +276,12 @@ extension TwoETimeRoot {
         in collection: GlyphCollection
     ) -> (ConstantsPointer, MetalLinkGlyphNode, Int)? {
         guard let pointer = collection.instanceState.getConstantsPointer(),
-              let index = collection.instanceCache.findConstantIndex(for: glyphID),
-              let node = collection.instanceCache.findNode(for: glyphID)
-        else { return nil }
+              let node = collection.instanceCache.findNode(for: glyphID),
+              let index = node.meta.instanceBufferIndex
+        else {
+            return nil
+        }
+        
         return (pointer, node, index)
     }
     
@@ -303,7 +306,7 @@ extension TwoETimeRoot {
             if let lastSyntaxID = lastSyntaxID  {
                 semanticMap.doOnAssociatedNodes(lastSyntaxID, tokenCache) { info, nodes in
                     for node in nodes {
-                        if let index = lastCollection.instanceCache.findConstantIndex(for: node) {
+                        if let index = node.meta.instanceBufferIndex {
                             lastPointer[index].addedColor -= LFloat4(0.0, 0.3, 0.0, 0.0)
                         }
                     }
@@ -333,8 +336,7 @@ extension TwoETimeRoot {
         
         semanticMap.doOnAssociatedNodes(currentSyntaxID, tokenCache) { info, nodes in
             for node in nodes {
-                if let index = targetCollection.instanceCache.findConstantIndex(for: node) {
-//                    newPointer[index].modelMatrix.scale(amount: LFloat3(5, 5, 5))
+                if let index = node.meta.instanceBufferIndex {
                     newPointer[index].addedColor += LFloat4(0.0, 0.3, 0.0, 0.0)
                 }
             }
