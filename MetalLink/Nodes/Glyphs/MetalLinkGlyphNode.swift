@@ -11,18 +11,15 @@ class MetalLinkGlyphNode: MetalLinkObject {
     let key: GlyphCacheKey
     let texture: MTLTexture
     var quad: MetalLinkQuadMesh
-    var groupType: GroupType
     var meta: Meta
     
     init(_ link: MetalLink,
          key: GlyphCacheKey,
          texture: MTLTexture,
-         quad: MetalLinkQuadMesh,
-         groupType: GroupType = .standardGroup) {
+         quad: MetalLinkQuadMesh) {
         self.key = key
         self.texture = texture
         self.quad = quad
-        self.groupType = groupType
         self.meta = Meta()
         super.init(link, mesh: quad)
         setQuadSize()
@@ -45,7 +42,9 @@ extension MetalLinkGlyphNode {
     // flexibility and adding cohesion (coupling?). This is basically what I
     // encoded into SCNNode.name. This is more explicit.
     struct Meta {
-        var syntaxID: NodeID?
+        var syntaxID: NodeSyntaxID?
+        var instanceID: InstanceIDType?
+        var instanceBufferIndex: Int?
     }
 }
 

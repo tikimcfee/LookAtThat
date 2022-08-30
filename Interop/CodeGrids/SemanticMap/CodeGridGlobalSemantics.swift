@@ -4,11 +4,18 @@
 //
 //  Created by Ivan Lugo on 5/12/22.
 //
+// This whole thing just remaps everything from a bunch of grids at once without getting
+// *everything*, like every text node or variable. High level stuff.
+//
 
 import Foundation
 import SwiftSyntax
 
-typealias AssociatedSyntaxMapSnapshot = [SemanticInfoMap.Category: [(SyntaxIdentifier, [SyntaxIdentifier])]]
+// A mapping of a category to an array of tuples that associate a given SyntaxID
+// with all of the other IDs related to it.
+typealias AssociatedSyntaxMapSnapshot = [
+    SemanticInfoMap.Category: [(SyntaxIdentifier, [SyntaxIdentifier])]
+]
 
 class GlobalSemanticParticipant {
     let sourceGrid: CodeGrid
@@ -20,6 +27,7 @@ class GlobalSemanticParticipant {
     }
     
     func updateQuerySnapshot() {
+        // Start creating a snapshot of all known IDs for that category.
         snapshot = queryCategories.reduce(into: AssociatedSyntaxMapSnapshot()) { result, category in
             sourceGrid.semanticInfoMap.category(category) { categoryMap in
                 guard !categoryMap.isEmpty else { return }

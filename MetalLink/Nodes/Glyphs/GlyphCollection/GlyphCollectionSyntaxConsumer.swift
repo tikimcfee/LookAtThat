@@ -63,7 +63,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     
     func write(
         _ string: String,
-        _ nodeID: NodeID,
+        _ nodeID: NodeSyntaxID,
         _ color: NSUIColor,
         _ writtenNodeSet: inout CodeGridNodes
     ) {

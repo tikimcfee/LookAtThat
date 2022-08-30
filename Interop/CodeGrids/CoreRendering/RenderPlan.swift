@@ -37,15 +37,6 @@ struct RenderPlan {
     }
 }
 
-extension RenderPlan {
-    class State {
-        let rootPath: URL
-        init(rootPath: URL) {
-            self.rootPath = rootPath
-        }
-    }
-}
-
 // MARK: - Focus Style
 
 private extension RenderPlan {
@@ -58,8 +49,7 @@ private extension RenderPlan {
     
     
     func doPathRender(
-        _ childPath: URL,
-        _ state: State
+        _ childPath: URL
     ) {
         statusObject.update {
             $0.totalValue += 1

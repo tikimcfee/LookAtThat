@@ -40,11 +40,11 @@ class CodeGridWorld {
     }
     
     func doInWorld(_ operation: Receiver) {
-        
+        print("not implemented!", #function)
     }
     
     func addInFrontOfCamera(grid: CodeGrid) {
-        
+        print("not implemented!", #function)
     }
     
     func addGrid(style: WorldGridEditor.AddStyle) {

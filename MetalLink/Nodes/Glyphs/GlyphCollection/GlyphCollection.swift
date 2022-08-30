@@ -73,14 +73,21 @@ extension GlyphCollection {
             print("--------------")
         }
         
-        // Setting group type is kinda iffy, would be nice to have the node
-        // directly own it via instance, but then we'd have to un-generic the
-        // LinkNode stuff and ugh... early generics. They always get you.
-        newGlyph.parent = self
-        newGlyph.groupType = .glyphCollection(instanceID: constants.instanceID)
-        
         renderer.insert(newGlyph, constants)
         return newGlyph
+    }
+    
+    // Such a dirty hack. I haven't planned any of this and my frustration is making
+    // me just make the thing work. This is now a super critical function.
+    // addGlyph -> renderer.insert() -> instanceState.appendToState() -> onNodeAdded()
+    open func onNodeAdded(
+        _ newNode: MetalLinkGlyphNode,
+        _ newConstants: InstancedConstants,
+        at index: Int
+    ) {
+        newNode.parent = self
+        newNode.meta.instanceBufferIndex = index
+        newNode.meta.instanceID = newConstants.instanceID
     }
 }
 
@@ -90,10 +97,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
         for node: InstancedNodeType,
         _ operation: (inout InstancedConstants) -> InstancedConstants
     ) {        
-        guard case let .glyphCollection(instanceID) = node.groupType
-        else { return }
-        
-        guard let bufferIndex = instanceCache.findConstantIndex(for: instanceID)
+        guard let bufferIndex = node.meta.instanceBufferIndex
         else {
             print("Missing buffer index for [\(node.key.source)]: \(node.nodeId)")
             return

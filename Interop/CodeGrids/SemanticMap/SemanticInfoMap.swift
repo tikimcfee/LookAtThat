@@ -9,7 +9,7 @@ import Foundation
 import SwiftSyntax
 import SceneKit
 
-typealias NodeID = String
+typealias NodeSyntaxID = String
 typealias NodeSet = Set<GlyphNode>
 typealias SortedNodeSet = [GlyphNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
@@ -25,7 +25,7 @@ public class SemanticInfoMap {
     // since SemanticInfo captures the node Syntax... TreeSitter will make me laughcry.
     var flattenedSyntax = [SyntaxIdentifier: Syntax]()  //TODO: *1
     var semanticsLookupBySyntaxId = [SyntaxIdentifier: SemanticInfo]()  //TODO: *1
-    var syntaxIDLookupByNodeId = [NodeID: SyntaxIdentifier]()
+    var syntaxIDLookupByNodeId = [NodeSyntaxID: SyntaxIdentifier]()
 
 	var structs = AssociatedSyntaxMap()
 	var classes = AssociatedSyntaxMap()
@@ -106,7 +106,7 @@ extension SemanticInfoMap {
         semanticsLookupBySyntaxId[id] = info
     }
     
-    func insertNodeInfo(_ nodeId: NodeID, _ syntaxId: SyntaxIdentifier) {
+    func insertNodeInfo(_ nodeId: NodeSyntaxID, _ syntaxId: SyntaxIdentifier) {
         syntaxIDLookupByNodeId[nodeId] = syntaxId
     }
 }

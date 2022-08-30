@@ -19,7 +19,7 @@ class TwoETimeRoot: MetalLinkReader {
     lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
-    var lastID: UInt = UInt.zero
+    var lastID: InstanceIDType = UInt.zero
     var lastGrid: CodeGrid?
     var lastSyntaxID: SyntaxIdentifier? = nil
     
@@ -269,10 +269,10 @@ extension TwoETimeRoot {
 }
 
 extension TwoETimeRoot {
-    typealias ConstantsPointer = UnsafeMutablePointer<MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants>
+    
     
     func getPointerInfo(
-        for glyphID: UInt,
+        for glyphID: InstanceIDType,
         in collection: GlyphCollection
     ) -> (ConstantsPointer, MetalLinkGlyphNode, Int)? {
         guard let pointer = collection.instanceState.getConstantsPointer(),
@@ -288,7 +288,7 @@ extension TwoETimeRoot {
         }.store(in: &bag)
     }
     
-    func doPickingTest(in targetGrid: CodeGrid, glyphID: UInt) {
+    func doPickingTest(in targetGrid: CodeGrid, glyphID: InstanceIDType) {
         guard glyphID != lastID else { return }
         
         let tokenCache = GlobalInstances.gridStore.tokenCache

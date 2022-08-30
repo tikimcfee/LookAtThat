@@ -96,7 +96,7 @@ extension SemanticInfoMap {
 
 extension SemanticInfoMap {
     func parentList(
-        _ nodeId: NodeID,
+        _ nodeId: NodeSyntaxID,
         _ reversed: Bool = false
     ) -> [SemanticInfo] {
         var parentList = [SemanticInfo]()
@@ -107,7 +107,7 @@ extension SemanticInfoMap {
     }
     
     private func walkToRootFrom(
-        _ nodeId: NodeID?,
+        _ nodeId: NodeSyntaxID?,
         _ walker: (SemanticInfo) -> Void
     ) {
         guard let nodeId = nodeId,
