@@ -71,8 +71,15 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         ) else { throw LinkAtlasError.noTargetAtlasTexture }
         
         let uvCache = TextureUVCache()
+        let sampleAtlasGlyphs = """
+        ABCDEFGHIJ🥸KLMNOPQRSTUVWXYZ
+        abcdefghijkl🤖mnopqrstuvwxyz
+        12345🙀67890 -_+=/👾
+        !@#$%^&*()[]\\;',./{}|:"<>?
+        """.components(separatedBy: .newlines).joined()
+        
         let textureBundles: [(GlyphCacheKey, MetalLinkGlyphTextureCache.Bundle)] =
-            MetalLinkAtlas.sampleAtlasGlyphs.lazy
+            sampleAtlasGlyphs.lazy
                 .map { GlyphCacheKey(source: $0, .red) }
                 .compactMap {
                     guard let bundle = self.atlas.nodeCache.textureCache[$0]

@@ -22,18 +22,6 @@ class CodePagesController: ObservableObject {
     }
 }
 
-extension Set where Element == SyntaxIdentifier {
-    mutating func toggle(_ id: SyntaxIdentifier) -> Bool {
-        if contains(id) {
-            remove(id)
-            return false
-        } else {
-            insert(id)
-            return true
-        }
-    }
-}
-
 // MARK: File loading
 
 extension CodePagesController {
@@ -60,50 +48,5 @@ extension CodePagesController {
                 print(error)
             }
         }
-    }
-}
-
-// MARK: - File Events
-
-extension CodePagesController {
-    func onNewFileStreamEvent(_ event: FileBrowser.Event) {
-        switch event {
-        case .noSelection:
-            break
-            
-        case let .newSingleCommand(path, style):
-            commandHandler.handleSingleCommand(path, style)
-            
-        case let .newMultiCommandRecursiveAllLayout(parent, style):
-            switch style {
-            case .addToFocus:
-                print("Not implemented: \(#file):\(#function)")
-                break
-                
-            case .addToWorld:
-                doTestRender(parent: parent)
-                
-            default: break
-            }
-            
-            
-        case let .newMultiCommandRecursiveAllCache(parent):
-            print("Start cache: \(parent.fileName)")
-            print("Not implemented: \(#file):\(#function)")
-        }
-    }
-}
-
-extension CodePagesController {
-    func doTestRender(parent: URL) {
-        doRenderPlan(parent: parent)
-    }
-    
-    func doRenderPlan(parent: URL) {
-        RenderPlan(
-            rootPath: parent,
-            queue: codeGridParser.renderQueue,
-            renderer: codeGridParser.concurrency
-        ).startRender()
     }
 }

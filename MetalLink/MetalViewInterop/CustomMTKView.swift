@@ -22,8 +22,8 @@ class CustomMTKView: MTKView {
 //        }
     }
     
-    override func touchesEnded(with event: NSEvent) {
-        super.touchesEnded(with: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
     }
 #endif
     

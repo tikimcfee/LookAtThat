@@ -82,8 +82,6 @@ extension TracingRoot {
         CodeGridParserQueryController.self,
         SemanticInfoMap.self,
         CodeGridTokenCache.self,
-        CodeGridWorld.self,
-        CodePagesController.self,
         CodePagesPopupEditorState.self,
         ConcurrentGridRenderer.self,
         ConnectionBundle.self,

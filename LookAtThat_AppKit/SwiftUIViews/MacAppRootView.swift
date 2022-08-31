@@ -5,11 +5,7 @@ struct MacAppRootView: View {
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            if let metal = __METAL__body {
-                metal
-            } else {
-                EmptyView()
-            }
+            MetalView()
             
             VStack {
                 extras()
@@ -19,16 +15,6 @@ struct MacAppRootView: View {
                 
             }
         }
-    }
-    
-    var __METAL__body: MetalView? {
-        do {
-            return try MetalView()
-        } catch {
-            print(error)
-            return nil
-        }
-        
     }
     
     @ViewBuilder

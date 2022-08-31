@@ -9,7 +9,7 @@ import SwiftUI
 struct MetalView: NSUIViewRepresentable {
     var mtkView: CustomMTKView
     
-    init() throws {
+    init() {
         self.mtkView = GlobalInstances.rootCustomMTKView
     }
     

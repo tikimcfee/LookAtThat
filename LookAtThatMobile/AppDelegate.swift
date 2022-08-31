@@ -14,7 +14,6 @@ struct AppDelegate: App {
     var body: some Scene {
          WindowGroup {
             MobileAppRootView()
-                 .environmentObject(TapObserving.shared)
          }
      }
 }

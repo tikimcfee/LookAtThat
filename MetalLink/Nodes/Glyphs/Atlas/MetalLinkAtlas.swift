@@ -53,25 +53,6 @@ extension MetalLinkAtlas {
 }
 
 extension MetalLinkAtlas {
-    static let sampleAtlasGlyphs = """
-    ABCDEFGHIJ🥸KLMNOPQRSTUVWXYZ
-    abcdefghijkl🤖mnopqrstuvwxyz
-    12345🙀67890 -_+=/👾
-    !@#$%^&*()[]\\;',./{}|:"<>?
-    """.components(separatedBy: .newlines).joined()
-    
+    // XCode doesn't handle these well either
 //    static let sampleAtlasGlyphs = ["ش"]
-    
-    static let sampleAtlasColors: [NSUIColor] = [
-        .red, .green, .blue, .brown, .orange,
-        .cyan, .magenta, .purple, .yellow,
-        .systemPink, .systemTeal, .gray
-    ]
-    
-    static let allSampleGlyphs = sampleAtlasColors
-        .flatMap { color in
-            sampleAtlasGlyphs.map { character in
-                GlyphCacheKey(source: character, color)
-            }
-        }
 }

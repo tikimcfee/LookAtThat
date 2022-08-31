@@ -30,24 +30,18 @@ struct MobileAppRootView : View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            __METAL__body
+            MetalView()
+            gestureControl
         }
     }
     
-    var __METAL__body: some View {
+    var gestureControl: some View {
         ZStack(alignment: .topLeading) {
-            if let metal = try? MetalView() {
-                metal
-            } else {
-                EmptyView()
-            }
-            
-            #if os(macOS)
+            #if os(macOS) // used for previews
             Spacer()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.gray)
             #endif
-            
             if let touch = touchStart {
                 Circle()
                     .foregroundColor(Color.red)
@@ -105,8 +99,6 @@ struct MobileAppRootView : View {
                 }
         )
     }
-    
-    
 }
 
 #if DEBUG
