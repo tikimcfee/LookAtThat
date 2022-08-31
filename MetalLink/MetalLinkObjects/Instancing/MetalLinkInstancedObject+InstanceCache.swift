@@ -11,7 +11,7 @@ typealias InstanceIDType = UInt
 
 extension MetalLinkInstancedObject {
     class InstancedConstantsCache: LockingCache<InstanceIDType, InstancedConstants> {
-        private var nodeCache = ConcurrentBiMap<UInt, InstancedNodeType>()
+        private var nodeCache = ConcurrentDictionary<UInt, InstancedNodeType>()
 
         func createNew() -> InstancedConstants {
             return self[InstanceCounter.shared.nextId()]
@@ -42,13 +42,15 @@ extension MetalLinkInstancedObject {
 }
 
 // TODO: Make a smarter / safer glyph instance counter
-private class InstanceCounter {
-    static let shared = InstanceCounter()
-    private init() { }
-    
+class InstanceCounter {
     // Starting at 10 to avoid conflict with picking texture color
     // start value (1 when .black)
-    private var currentGeneratedID: InstanceIDType = 10
+    static let startingGeneratedID: InstanceIDType = 10
+    static let shared = InstanceCounter()
+    
+    private var currentGeneratedID: InstanceIDType = InstanceCounter.startingGeneratedID
+    private init() { }
+    
     func nextId() -> InstanceIDType {
         let id = currentGeneratedID
         //        print("Gen: \(id)")

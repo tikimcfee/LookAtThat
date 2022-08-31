@@ -85,6 +85,10 @@ extension GlyphCollection {
         renderer.insert(newGlyph, constants)
         return newGlyph
     }
+    
+    subscript(glyphID: InstanceIDType) -> MetalLinkGlyphNode? {
+        instanceCache.findNode(for: glyphID)
+    }
 }
 
 extension MetalLinkInstancedObject

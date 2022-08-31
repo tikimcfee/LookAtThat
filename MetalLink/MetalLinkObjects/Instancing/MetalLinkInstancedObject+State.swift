@@ -32,17 +32,6 @@ extension MetalLinkInstancedObject {
             return constants.endIndex - 1
         }
         
-        open func onNodeAdded(
-            _ newNode: InstancedNodeType,
-            _ newConstants: InstancedConstants,
-            at index: Int
-        ) {
-            // override to update node meta et al.
-            // so dirty.. I don't like this, but I'm just in a mood today.
-            // I really just want to make things work because I need a win.
-            // Code can be a diary, did you know that? =)
-        }
-        
         typealias BufferOperator = (
             InstancedNodeType,
             InstancedConstants,

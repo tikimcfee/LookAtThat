@@ -124,6 +124,7 @@ private extension MetalLinkPickingTexture {
 //        print("--------------------------------------\n")
 //        print("\nPick complete, found: \(pointer.pointee)")
 //        print("--------------------------------------\n")
+        guard pointer.pointee >= InstanceCounter.startingGeneratedID else { return }
         currentHover = pointer.pointee
     }
 }
