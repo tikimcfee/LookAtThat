@@ -51,16 +51,16 @@ extension MetalView {
     class Coordinator {
         var parent: MetalView
         
-        var link: MetalLink
+
         var renderer: MetalLinkRenderer
         
         init(_ parent: MetalView, mtkView: CustomMTKView) throws {
             self.parent = parent
-            guard let link = try? MetalLink(view: mtkView),
-                  let renderer = try? MetalLinkRenderer(link: link)
+            
+            let link = GlobalInstances.defaultLink
+            guard let renderer = try? MetalLinkRenderer(link: link)
             else { throw CoreError.noMetalDevice }
             
-            self.link = link
             self.renderer = renderer
             
             mtkView.keyDownReceiver = link.input

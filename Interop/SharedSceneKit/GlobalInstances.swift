@@ -68,6 +68,8 @@ extension GlobalInstances {
 // MARK: - Shared Workers and caches
 // ______________________________________________________________
 class GridStore {
+    private var link: MetalLink { GlobalInstances.defaultLink }
+    private(set) lazy var semanticsController: MetalLinkSemanticsController = MetalLinkSemanticsController(link: link)
     private(set) lazy var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     private(set) lazy var semanticMap: SemanticInfoMap = SemanticInfoMap()
     

@@ -29,7 +29,9 @@ class TwoETimeRoot: MetalLinkReader {
         sharedTokenCache: GlobalInstances.gridStore.tokenCache
     )
     
-    lazy var semanticsController = MetalLinkSemanticsController(link: link)
+    var semanticsController: MetalLinkSemanticsController {
+        GlobalInstances.gridStore.semanticsController
+    }
     
     init(link: MetalLink) throws {
         self.link = link
