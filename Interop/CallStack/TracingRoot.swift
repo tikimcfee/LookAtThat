@@ -110,8 +110,6 @@ extension TracingRoot {
         PeerConnection.self,
         QuickLooper.self,
         RecurseState.self,
-        SceneLibrary.self,
-        SceneState.self,
         SearchContainer.self,
         SemanticInfoBuilder.self,
         SemanticMapTracer.self,

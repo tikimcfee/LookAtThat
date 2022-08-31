@@ -157,7 +157,7 @@ extension SemanticTracingOutState {
     }
     
     func reloadQueryWrapper() {
-        let cache = SceneLibrary.global.codePagesController.codeGridParser.gridCache
+        let cache = GlobalInstances.gridStore.gridCache
         let allGrid = cache.cachedGrids.values
         
         wrapper = SemanticMapTracer.wrapForLazyLoad(

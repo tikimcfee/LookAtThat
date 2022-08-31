@@ -22,7 +22,6 @@ class TestBundle {
     var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
-    var controller: CodePagesController!
     
     var testSourceDirectory: URL? {
         let absolutePath = Self.testDirectoriesAbsolute[0]
@@ -40,7 +39,6 @@ class TestBundle {
         gridParser = CodeGridParser()
         tokenCache = gridParser.tokenCache
         semanticBuilder = SemanticInfoBuilder()
-        controller = CodePagesController()
     }
     
     func tearDownWithError() throws {

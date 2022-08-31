@@ -49,15 +49,16 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testLinkNodeStats() throws {
-        let codez = """
-        let s = "Hello, Metal".
-        print(s)
-        """
-        
-        let parsed = try SyntaxParser.parse(source: codez)
-        let testGrid = bundle.newGrid()
+        let link = GlobalInstances.defaultLink
+        let builder = CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache()
+        )
+        let consumer = builder.createConsumerForNewGrid()
+        consumer.consume(url: bundle.testFile)
+        let testGrid = consumer.targetGrid
             .withFileName(bundle.testFile.lastPathComponent)
-            .consume(rootSyntaxNode: parsed.root)
         
         XCTAssertFalse(
             testGrid.tokenCache.isEmpty(),
@@ -184,30 +185,30 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(depth, 3, "Calls to parent and depth count must match")
     }
     
-    func testRewriting() throws {
-        let rewriter = TraceCapturingRewriter()
-        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
-        let rewritten = rewriter.visit(parsed)
-        let rewrittenAgain = rewriter.visit(rewritten)
-        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
-        
-        let fileRewriter = TraceFileWriter()
-        fileRewriter.addTracesToFile(bundle.testFileRaw)
-    }
-    
-    func test__RewritingAll() throws {
-        let fileRewriter = TraceFileWriter()
-        
-        printStart()
-        let root = TestBundle.rewriteDirectories.first!
-        let finder = TracingFileFinder()
-        
-        finder.findFiles(root).forEach { path in
-            fileRewriter.addTracesToFile(path)
-        }
-        
-        printEnd()
-    }
+//    func testRewriting() throws {
+//        let rewriter = TraceCapturingRewriter()
+//        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
+//        let rewritten = rewriter.visit(parsed)
+//        let rewrittenAgain = rewriter.visit(rewritten)
+//        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
+//
+//        let fileRewriter = TraceFileWriter()
+//        fileRewriter.addTracesToFile(bundle.testFileRaw)
+//    }
+//
+//    func test__RewritingAll() throws {
+//        let fileRewriter = TraceFileWriter()
+//
+//        printStart()
+//        let root = TestBundle.rewriteDirectories.first!
+//        let finder = TracingFileFinder()
+//
+//        finder.findFiles(root).forEach { path in
+//            fileRewriter.addTracesToFile(path)
+//        }
+//
+//        printEnd()
+//    }
     
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()

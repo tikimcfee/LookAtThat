@@ -15,7 +15,9 @@ struct SourceInfoCategoryView: View {
     @State var targetedInfo: SemanticInfoMap = .init()
     @State var targetedGrid: CodeGrid?
     
-    private var global: CodeGridGlobalSemantics { SceneLibrary.global.codePagesController.globalSemantics }
+    private var global: CodeGridGlobalSemantics {
+        GlobalInstances.gridStore.globalSemantics
+    }
     
     var body: some View {
         VStack {

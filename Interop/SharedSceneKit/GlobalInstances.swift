@@ -79,4 +79,5 @@ class GridStore {
     
     private(set) lazy var gridCache: GridCache = GridCache(tokenCache: tokenCache)
     private(set) lazy var concurrentRenderer: ConcurrentGridRenderer = ConcurrentGridRenderer(cache: gridCache)
+    private(set) lazy var globalSemantics: CodeGridGlobalSemantics = CodeGridGlobalSemantics(source: gridCache)
 }
