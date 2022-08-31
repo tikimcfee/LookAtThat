@@ -5,9 +5,9 @@
 //  Created by Ivan Lugo on 8/30/22.
 //
 
-import Foundation
 import Combine
 import SwiftSyntax
+import SwiftUI
 
 typealias GlyphConstants = MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants
 typealias ConstantsPointer = UnsafeMutablePointer<GlyphConstants>
@@ -31,7 +31,7 @@ struct PickingState {
     }
 }
 
-class MetalLinkSemanticsController {
+class MetalLinkSemanticsController: ObservableObject {
     enum Iteration {
         case stop
         case tryNext
@@ -40,7 +40,8 @@ class MetalLinkSemanticsController {
     let link: MetalLink
     private var bag = Set<AnyCancellable>()
     
-    private var lastState: PickingState?
+    @Published var lastState: PickingState?
+    
     private var trackedGrids: [CodeGrid.ID: CodeGrid] = [:]
     
     init(link: MetalLink) {

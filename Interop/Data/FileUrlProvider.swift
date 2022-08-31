@@ -11,6 +11,17 @@ typealias FileReceiver = (FileResult) -> Void
 typealias DirectoryResult = Result<Directory, FileError>
 typealias DirectoryReceiver = (DirectoryResult) -> Void
 
+extension DirectoryResult {
+    var parent: URL? {
+        if case let .success(url) = self { return url.parent }
+        return nil
+    }
+    var children: [URL]? {
+        if case let .success(url) = self { return url.swiftUrls }
+        return nil
+    }
+}
+
 struct Directory {
     let parent: URL
     let swiftUrls: [URL]

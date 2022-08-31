@@ -159,6 +159,10 @@ enum PickingTextureError: Error {
 extension MetalLinkPickingTexture {
     static func generatePickingTexture(for link: MetalLink) -> MTLTexture? {
         let drawableSize = link.viewDrawableRoundSize
+        guard drawableSize.x > 0 && drawableSize.y > 0 else {
+            print("Invalid drawable size: \(drawableSize)")
+            return nil
+        }
         print("Generating new picking texture: \(drawableSize)")
         
         let descriptor = MTLTextureDescriptor()

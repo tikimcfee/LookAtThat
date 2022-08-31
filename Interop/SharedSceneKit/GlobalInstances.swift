@@ -44,17 +44,21 @@ extension GlobalInstances {
 // MARK: - Metal
 // ______________________________________________________________
 extension GlobalInstances {
-    static let rootCustomMTKView: CustomMTKView = {
+    static let rootCustomMTKView: CustomMTKView = makeRootCustomMTKView()
+    static let defaultLink: MetalLink = makeDefaultLink()
+    static let defaultAtlas: MetalLinkAtlas = makeDefaultAtlas()
+    
+    private static func makeRootCustomMTKView() -> CustomMTKView {
         CustomMTKView(frame: .zero, device: MTLCreateSystemDefaultDevice())
-    }()
+    }
     
-    static let defaultLink: MetalLink = {
+    private static func makeDefaultLink() -> MetalLink {
         return try! MetalLink(view: rootCustomMTKView)
-    }()
+    }
     
-    static let defaultAtlas: MetalLinkAtlas = {
+    private static func makeDefaultAtlas() -> MetalLinkAtlas {
         return try! MetalLinkAtlas(defaultLink)
-    }()
+    }
 }
 
 

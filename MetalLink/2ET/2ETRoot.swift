@@ -29,10 +29,6 @@ class TwoETimeRoot: MetalLinkReader {
         sharedTokenCache: GlobalInstances.gridStore.tokenCache
     )
     
-    var semanticsController: MetalLinkSemanticsController {
-        GlobalInstances.gridStore.semanticsController
-    }
-    
     init(link: MetalLink) throws {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
@@ -79,7 +75,7 @@ extension TwoETimeRoot {
             root.add(child: consumer.targetCollection)
             
             consumer.consume(url: childPath)
-            
+        
             let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
             let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
@@ -97,7 +93,8 @@ extension TwoETimeRoot {
             }
             
             files += 1
-            semanticsController.attachPickingStream(to: consumer.targetGrid)
+            GlobalInstances.gridStore.semanticsController
+                .attachPickingStream(to: consumer.targetGrid)
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in

@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct SyntaxHierarchyView: View {
-    
-    var hoveredId: String {
-        // TODO: hoveredId not implemented!
-        print("TODO: hoveredId not implemented!")
-        return ""
-    }
+    @State var lastState: PickingState?
+    var hoveredId: String { lastState?.nodeSyntaxID ?? "" }
     
     var body: some View {
         hoveredNodeInfoView(hoveredId)
+            .onReceive(
+                GlobalInstances.gridStore.semanticsController
+                    .$lastState
+                    .subscribe(on: RunLoop.main)
+                    .receive(on: RunLoop.main),
+                perform: {
+                    lastState = $0
+                }
+            )
     }
     
     func hoveredNodeInfoView(_ hoveredId: String) -> some View {
@@ -76,12 +81,10 @@ extension SyntaxHierarchyView {
 
 extension SyntaxHierarchyView {
     var sourceGrid: CodeGrid? {
-        print("Not implemented: \(#file):\(#function)")
-        return nil
+        lastState?.targetGrid
     }
     var sourceInfo: SemanticInfoMap {
-        print("Not implemented: \(#file):\(#function)")
-        return SemanticInfoMap()
+        sourceGrid?.semanticInfoMap ?? SemanticInfoMap()
     }
     var sourceGridName: String {
         sourceGrid.map
