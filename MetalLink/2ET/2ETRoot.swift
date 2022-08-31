@@ -75,6 +75,7 @@ extension TwoETimeRoot {
             root.add(child: consumer.targetCollection)
             
             consumer.consume(url: childPath)
+            consumer.targetGrid.fileName = childPath.fileName
         
             let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)

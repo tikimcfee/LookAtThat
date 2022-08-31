@@ -67,20 +67,16 @@ class MetalLinkSemanticsController: ObservableObject {
             node: node
         )
         
-        if var lastState = lastState {
-            // If the last state wasn't handled, remove the highlight and set the flag
-            if !lastState.handledAsLast {
+        if let lastState = lastState {
+            if lastState.parserSyntaxID == newState.parserSyntaxID {
+                // If the lastState found the same syntaxID, we can skip doing stuff.
+                // At the moment, different glyphs finding the same syntax don't do much
+                // for us.
+                return .stop
+            } else {
                 updateState(lastState) {
                     $0.addedColor -= LFloat4(0.0, 0.3, 0.0, 0.0)
                 }
-                lastState.handledAsLast = true
-                self.lastState = lastState
-            }
-            // If the lastState found the same syntaxID, we can skip doing stuff.
-            // At the moment, different glyphs finding the same syntax don't do much
-            // for us.
-            else if lastState.parserSyntaxID == newState.parserSyntaxID {
-                return .stop
             }
         }
         

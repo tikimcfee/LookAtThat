@@ -17,16 +17,12 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         self.targetCollection = targetGrid.rootNode
     }
     
-    func consume(
-        url: URL
-    ) {
+    func consume(url: URL) {
         guard let fileSource = loadSourceUrl(url) else { return }
         consume(rootSyntaxNode: Syntax(fileSource))
     }
     
-    func consume(
-        rootSyntaxNode: Syntax
-    ) {
+    func consume(rootSyntaxNode: Syntax) {
         FlatteningVisitor(
             target: targetGrid.semanticInfoMap,
             builder: targetGrid.semanticInfoBuilder

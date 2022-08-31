@@ -27,6 +27,9 @@ struct SyntaxHierarchyView: View {
     func hoveredNodeInfoView(_ hoveredId: String) -> some View {
         VStack {
             Text("\(sourceGridName)")
+                .bold()
+                .padding()
+            
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     ForEach(enumeratedParents(of: hoveredId), id: \.0) { index, semantics in
@@ -88,7 +91,7 @@ extension SyntaxHierarchyView {
     }
     var sourceGridName: String {
         sourceGrid.map
-            { "Target grid: \($0.fileName)" }
+            { "\($0.fileName)" }
             ?? "No target grid"
     }
     
