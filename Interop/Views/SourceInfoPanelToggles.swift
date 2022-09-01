@@ -31,10 +31,10 @@ struct SourceInfoPanelToggles: View {
                 .frame(minWidth: 160.0, alignment: .leading)
             
             visibilityControl(section)
-                .disabled(state.isWindow(section))
+//                .disabled(state.isWindow(section))
             
             dockControl(section)
-                .disabled(!state.isVisible(section))
+//                .disabled(!state.isVisible(section))
         }
     }
     
