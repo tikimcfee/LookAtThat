@@ -104,9 +104,7 @@ extension SourceInfoPanelView {
     }
     
     var globalSearchView: some View {
-        // TODO: This isn't global yet, but it can / should / will be
-        print("Not implemented: \(#file):\(#function)")
-        return EmptyView()
+        GlobalSearchView()
     }
     
     @ViewBuilder

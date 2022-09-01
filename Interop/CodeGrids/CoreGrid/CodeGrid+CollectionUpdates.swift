@@ -11,7 +11,7 @@ import Foundation
 
 extension CodeGrid {
     typealias GlyphConstants = MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants
-    typealias Update = (GlyphNode, inout GlyphConstants) -> GlyphConstants
+    typealias Update = (GlyphNode, inout GlyphConstants, inout Bool) -> GlyphConstants
     
     func updateAllNodeConstants(_ update: Update) {
         guard !rootNode.willRebuildState else {
@@ -22,10 +22,13 @@ extension CodeGrid {
             return
         }
         
+        var stopFlag = false
         forAllNodesInCollection { _, nodeSet in
+            if stopFlag { return }
             for node in nodeSet {
+                if stopFlag { return }
                 rootNode.updateConstants(for: node) { pointer in
-                    let newPointer = update(node, &pointer)
+                    let newPointer = update(node, &pointer, &stopFlag)
                     pointer.modelMatrix = node.modelMatrix
                     return newPointer
                 }

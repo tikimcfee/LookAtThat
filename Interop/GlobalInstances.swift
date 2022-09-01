@@ -73,11 +73,14 @@ extension GlobalInstances {
 // ______________________________________________________________
 class GridStore {
     private var link: MetalLink { GlobalInstances.defaultLink }
-    private(set) lazy var semanticsController: MetalLinkSemanticsController = MetalLinkSemanticsController(link: link)
     private(set) lazy var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
     private(set) lazy var semanticMap: SemanticInfoMap = SemanticInfoMap()
     
     private(set) lazy var gridCache: GridCache = GridCache(tokenCache: tokenCache)
     private(set) lazy var concurrentRenderer: ConcurrentGridRenderer = ConcurrentGridRenderer(cache: gridCache)
     private(set) lazy var globalSemantics: CodeGridGlobalSemantics = CodeGridGlobalSemantics(source: gridCache)
+    
+    private(set) lazy var semanticsController: MetalLinkHoverController = MetalLinkHoverController(link: link)
+    private(set) lazy var searchContainer: SearchContainer = SearchContainer(gridCache: gridCache)
+    
 }

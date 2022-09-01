@@ -14,7 +14,6 @@ struct RenderPlan {
     let queue: DispatchQueue
     
     let renderer: ConcurrentGridRenderer
-    let state: RecurseState = RecurseState()
     
     var statusObject: AppStatus { GlobalInstances.appStatus }
     

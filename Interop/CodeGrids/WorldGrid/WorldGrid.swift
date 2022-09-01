@@ -74,8 +74,7 @@ extension WorldGridEditor {
         inCollection collection: GlyphCollection
     ) {
         let xOffset = otherGrid.measures.trailing + 4.0
-//        let yStart = otherGrid.measures.top
-        grid.updateAllNodeConstants { node, nodeConstants in
+        grid.updateAllNodeConstants { node, nodeConstants, _ in
             node.position.x += xOffset
             return nodeConstants
         }

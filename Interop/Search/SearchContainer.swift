@@ -10,17 +10,16 @@ import Foundation
 class SearchContainer {
     enum Mode {
         case inPlace
-        case focusBox
     }
     
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
     private var currentRenderTask: RenderTask?
     
-    var codeGridParser: CodeGridParser
+    private let gridCache: GridCache
     var mode: Mode = .inPlace
     
-    init(codeGridParser: CodeGridParser) {
-        self.codeGridParser = codeGridParser
+    init(gridCache: GridCache) {
+        self.gridCache = gridCache
     }
         
     func search(
@@ -33,8 +32,8 @@ class SearchContainer {
         }
         
         let renderTask = RenderTask(
-            codeGridParser: codeGridParser,
             newInput: newInput,
+            gridCache: gridCache,
             mode: mode,
             onComplete: completion
         )

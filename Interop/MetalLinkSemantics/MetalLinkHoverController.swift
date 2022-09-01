@@ -31,7 +31,7 @@ struct PickingState {
     }
 }
 
-class MetalLinkSemanticsController: ObservableObject {
+class MetalLinkHoverController: ObservableObject {
     enum Iteration {
         case stop
         case tryNext
@@ -107,7 +107,7 @@ class MetalLinkSemanticsController: ObservableObject {
     }
 }
 
-private extension MetalLinkSemanticsController {
+private extension MetalLinkHoverController {
     func setupPickingHoverStream() {
         link.pickingTexture.sharedPickingHover.sink { glyphID in
             let allGrids = self.trackedGrids // this is going to cause threading issues.
