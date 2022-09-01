@@ -15,7 +15,6 @@ class RenderTask {
     let codeGridParser: CodeGridParser
     
     let newInput: String
-    let sceneState: SceneState
     let onComplete: () -> Void
     let mode: SearchContainer.Mode
     private let stopwatch = Stopwatch()
@@ -23,13 +22,11 @@ class RenderTask {
     init(
         codeGridParser: CodeGridParser,
         newInput: String,
-        state: SceneState,
         mode: SearchContainer.Mode,
         onComplete: @escaping () -> Void
     ) {
         self.codeGridParser = codeGridParser
         self.newInput = newInput
-        self.sceneState = state
         self.mode = mode
         self.onComplete = onComplete
     }
@@ -92,7 +89,7 @@ extension RenderTask {
             return false
         }
         
-        func updateMeta(grid: CodeGrid, _ op: (SceneState.GridMeta) -> Void) {
+        func updateMeta(grid: CodeGrid, _ op: (GridMeta) -> Void) {
             print("Not implemented: \(#function)")
         }
         

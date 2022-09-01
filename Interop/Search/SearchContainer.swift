@@ -25,7 +25,6 @@ class SearchContainer {
         
     func search(
         _ newInput: String,
-        _ state: SceneState,
         _ completion: @escaping () -> Void
     ) {
         if currentRenderTask == nil && newInput.isEmpty {
@@ -36,7 +35,6 @@ class SearchContainer {
         let renderTask = RenderTask(
             codeGridParser: codeGridParser,
             newInput: newInput,
-            state: state,
             mode: mode,
             onComplete: completion
         )

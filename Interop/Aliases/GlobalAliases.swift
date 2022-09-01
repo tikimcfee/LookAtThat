@@ -1,6 +1,9 @@
-import Foundation
+#if os(OSX)
+import AppKit
+#elseif os(iOS)
+import UIKit
+#endif
 import SwiftUI
-import SceneKit
 
 #if os(OSX)
 public typealias NSUIColor = NSColor
@@ -33,58 +36,3 @@ public typealias OSScreen = UIScreen
 public typealias NSUIImage = UIImage
 public typealias NSUIViewRepresentable = UIViewRepresentable
 #endif
-
-extension VectorFloat {
-    var toDouble: Double { Double(self) }
-}
-
-extension Double {
-    var cg: CGFloat {
-        return self
-    }
-//    var device: Double {
-//        return self * DeviceScale
-//    }
-}
-
-extension CGFloat {
-    var vector: VectorFloat {
-        return VectorFloat(self)
-    }
-
-    var cg: CGFloat {
-        return self
-    }
-}
-
-extension Int {
-    var cg: CGFloat {
-        return CGFloat(self)
-    }
-    
-    var float: Float {
-        return Float(self)
-    }
-}
-
-extension Float {
-    var vector: VectorFloat {
-        return VectorFloat(self)
-    }
-
-    var cg: CGFloat {
-        return CGFloat(self)
-    }
-}
-
-extension CGSize {
-    var asSimd: LFloat2 { LFloat2(width.float, height.float) }
-}
-
-extension CGFloat {
-    var float: Float {
-        return Float(self)
-    }
-}
-
-typealias VoidCompletion = () -> Void

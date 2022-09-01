@@ -32,6 +32,10 @@ CodeGrid(\(id))
     }
 }
 
+class GridMeta {
+    var searchFocused = false
+}
+
 public class CodeGrid: Identifiable, Equatable {
     
     public lazy var id = { "\(kCodeGridContainerName)-\(UUID().uuidString)" }()

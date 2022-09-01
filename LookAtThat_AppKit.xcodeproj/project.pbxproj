@@ -57,10 +57,10 @@
 		B70FDC8A283EAE9900170D5F /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B70FDC8B283EAE9900170D5F /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
 		B70FDC8E283EAE9900170D5F /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B70FDC90283EAE9900170D5F /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
+		B70FDC90283EAE9900170D5F /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		B70FDC91283EAE9900170D5F /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B70FDC92283EAE9900170D5F /* ThreadInfoExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981036281CC279009A82BD /* ThreadInfoExtract.swift */; };
-		B70FDC93283EAE9900170D5F /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
+		B70FDC93283EAE9900170D5F /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 		B70FDC95283EAE9900170D5F /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B70FDC98283EAE9900170D5F /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		B70FDC99283EAE9900170D5F /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
@@ -92,7 +92,6 @@
 		B70FDCC4283EAE9900170D5F /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
 		B70FDCC5283EAE9900170D5F /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B70FDCC7283EAE9900170D5F /* CodeGridColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234628161C9200F6F727 /* CodeGridColors.swift */; };
-		B70FDCC8283EAE9900170D5F /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		B70FDCCB283EAE9900170D5F /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B70FDCCC283EAE9900170D5F /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B70FDCCD283EAE9900170D5F /* DragSizableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014A02830505C0024B7C0 /* DragSizableView.swift */; };
@@ -154,6 +153,14 @@
 		B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
+		B725167428C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
+		B725167528C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
+		B725167628C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
+		B725167728C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
+		B725167928C0871F0094F29B /* DeviceScaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167828C0871F0094F29B /* DeviceScaling.swift */; };
+		B725167A28C0871F0094F29B /* DeviceScaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167828C0871F0094F29B /* DeviceScaling.swift */; };
+		B725167B28C0871F0094F29B /* DeviceScaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167828C0871F0094F29B /* DeviceScaling.swift */; };
+		B725167C28C0871F0094F29B /* DeviceScaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167828C0871F0094F29B /* DeviceScaling.swift */; };
 		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
 		B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
 		B72FBFD128A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
@@ -204,9 +211,9 @@
 		B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B74A22D42814FFF300F6F727 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
+		B74A22D42814FFF300F6F727 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
-		B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
+		B74A22D72814FFF300F6F727 /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 		B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
@@ -224,7 +231,6 @@
 		B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
 		B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
-		B74A23032814FFF300F6F727 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
 		B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B796DEEF280D1D4A006AC749 /* CodeGridParser+Paths.swift */; };
 		B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
@@ -413,10 +419,6 @@
 		B7A60F8428B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8728B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
-		B7A60F8928B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
-		B7A60F8A28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
-		B7A60F8C28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
-		B7A60F8D28B9847F00ACA4E6 /* RootSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */; };
 		B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
 		B7A60F9028B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
 		B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
@@ -687,9 +689,8 @@
 		F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
-		F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
+		F057D27C252046B90094BD83 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
-		F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
@@ -699,7 +700,6 @@
 		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
 		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
 		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
-		F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */; };
 		F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
@@ -707,12 +707,12 @@
 		F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
 		F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
-		F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */; };
+		F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
 		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
-		F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
-		F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* CustomSceneView.swift */; };
+		F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
+		F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -828,6 +828,8 @@
 		B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B7241AF928288C26006A6A3E /* InputStreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStreamReader.swift; sourceTree = "<group>"; };
 		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
+		B725167328C086060094F29B /* NumberConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberConversions.swift; sourceTree = "<group>"; };
+		B725167828C0871F0094F29B /* DeviceScaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScaling.swift; sourceTree = "<group>"; };
 		B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeMeshCache.swift; sourceTree = "<group>"; };
 		B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeBitmapCache.swift; sourceTree = "<group>"; };
 		B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeTextureCache.swift; sourceTree = "<group>"; };
@@ -894,7 +896,6 @@
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
-		B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSceneState.swift; sourceTree = "<group>"; };
 		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
 		B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizing.swift; sourceTree = "<group>"; };
@@ -997,14 +998,13 @@
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F07C49F4251C5AE900F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpolatorFunctions.swift; sourceTree = "<group>"; };
 		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
 		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
 		F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEventTypes.swift; sourceTree = "<group>"; };
-		F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseSceneController+Interactions.swift"; sourceTree = "<group>"; };
+		F0CCB0FC2517BF2900937279 /* GestureShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureShim.swift; sourceTree = "<group>"; };
 		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
-		F0F205702522D6D3009B6D2C /* CustomSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSceneView.swift; sourceTree = "<group>"; };
+		F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverAliases.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1099,9 +1099,9 @@
 				B7AC332E28A0CA70001172BB /* Libraries */,
 				B750771228A21FE20097278A /* Maths */,
 				B7AC339728A0D11E001172BB /* MetalViewInterop */,
+				B7AC33B128A0DC7E001172BB /* Nodes */,
 				B7AC332928A0CA70001172BB /* MetalLinkObjects */,
 				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
-				B7AC33B128A0DC7E001172BB /* Nodes */,
 				B7AC333428A0CA70001172BB /* Shaders */,
 			);
 			path = MetalLink;
@@ -1348,7 +1348,6 @@
 				B74E7A7E26770E5F0021299F /* BoundsCaching.swift */,
 				B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */,
 				B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */,
-				B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */,
 			);
 			path = Bounds;
 			sourceTree = "<group>";
@@ -1427,6 +1426,8 @@
 				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
 				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
 				B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */,
+				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
+				B7A60F9E28B9EB5200ACA4E6 /* MetalLinkNode+Bounds.swift */,
 				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
 				B7F67F1328A4E5630056E540 /* Glyphs */,
 			);
@@ -1482,14 +1483,6 @@
 				B7EB713A284874A800313633 /* GitHubClient.swift */,
 			);
 			path = GitHubIO;
-			sourceTree = "<group>";
-		};
-		B7F44C33276D98C900522B45 /* ShareCompat */ = {
-			isa = PBXGroup;
-			children = (
-				B70808D0287E45DA00827CBB /* Search */,
-			);
-			path = ShareCompat;
 			sourceTree = "<group>";
 		};
 		B7F67F1228A4909C0056E540 /* MetalLinkShaders */ = {
@@ -1610,16 +1603,6 @@
 			path = SwiftUIViews;
 			sourceTree = "<group>";
 		};
-		F0341048250C7D3700031147 /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				B7A60F8828B9847F00ACA4E6 /* RootSceneState.swift */,
-				F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */,
-				F0CCB0FE2517BF6100937279 /* UserControls */,
-			);
-			path = Scenes;
-			sourceTree = "<group>";
-		};
 		F038D91A252EB7D500A9E6BC /* Streams */ = {
 			isa = PBXGroup;
 			children = (
@@ -1650,19 +1633,13 @@
 			path = MultipeerConnectivity;
 			sourceTree = "<group>";
 		};
-		F057D22B2520444B0094BD83 /* SharedSceneKit */ = {
+		F057D22B2520444B0094BD83 /* Aliases */ = {
 			isa = PBXGroup;
 			children = (
-				F0F205702522D6D3009B6D2C /* CustomSceneView.swift */,
-				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
+				F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */,
 				F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */,
-				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
-				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
-				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
-				F0341048250C7D3700031147 /* Scenes */,
-				F092E5B625101B0600B18894 /* SceneUtils */,
 			);
-			path = SharedSceneKit;
+			path = Aliases;
 			sourceTree = "<group>";
 		};
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
@@ -1700,22 +1677,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		F092E5B625101B0600B18894 /* SceneUtils */ = {
-			isa = PBXGroup;
-			children = (
-				F092E5B725101B0600B18894 /* SCNBezier */,
-			);
-			path = SceneUtils;
-			sourceTree = "<group>";
-		};
-		F092E5B725101B0600B18894 /* SCNBezier */ = {
-			isa = PBXGroup;
-			children = (
-				F092E5BA25101B0600B18894 /* InterpolatorFunctions.swift */,
-			);
-			path = SCNBezier;
-			sourceTree = "<group>";
-		};
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1724,12 +1685,17 @@
 				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
 				B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */,
 				B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */,
+				B725167828C0871F0094F29B /* DeviceScaling.swift */,
 				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
+				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
 				B7241AF928288C26006A6A3E /* InputStreamReader.swift */,
+				B725167328C086060094F29B /* NumberConversions.swift */,
 				B7B46AE628BD76620004CA2D /* Structures.swift */,
 				F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */,
 				B7C7565E280B82E80005A233 /* WorkerPool.swift */,
 				B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */,
+				F057D22B2520444B0094BD83 /* Aliases */,
+				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
 				F043BB0F2515369000FB1EF6 /* Caches */,
 				B77DCAB226781E40002DF299 /* CallStack */,
 				B7EA8835272394AB0098541C /* CodeGrids */,
@@ -1737,8 +1703,9 @@
 				B7A6F2B2275EE52B004CAA66 /* LaZTrace */,
 				B7B46AF528BE69090004CA2D /* MetalLinkSemantics */,
 				F057D2132520428B0094BD83 /* MultipeerConnectivity */,
-				F057D22B2520444B0094BD83 /* SharedSceneKit */,
+				B70808D0287E45DA00827CBB /* Search */,
 				B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */,
+				F0CCB0FE2517BF6100937279 /* UserControls */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
 			);
 			path = Interop;
@@ -1747,7 +1714,9 @@
 		F0CCB0FE2517BF6100937279 /* UserControls */ = {
 			isa = PBXGroup;
 			children = (
-				F0CCB0FC2517BF2900937279 /* BaseSceneController+Interactions.swift */,
+				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
+				F0CCB0FC2517BF2900937279 /* GestureShim.swift */,
+				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
 				F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */,
 				F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */,
 			);
@@ -1769,15 +1738,6 @@
 				B75014B1283072ED0024B7C0 /* FloatableView */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		F0F6BCFC25199D9B0073A4ED /* CodeInThreeDee */ = {
-			isa = PBXGroup;
-			children = (
-				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
-				B7F44C33276D98C900522B45 /* ShareCompat */,
-			);
-			path = CodeInThreeDee;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2068,6 +2028,7 @@
 				B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B70FDC57283EAE9900170D5F /* TraceLineIDMap.swift in Sources */,
 				B7AC335328A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
+				B725167A28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B72FBFE528A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B70FDC59283EAE9900170D5F /* SyntaxHierarchyView.swift in Sources */,
 				B70FDC5B283EAE9900170D5F /* BackgroundWorker.swift in Sources */,
@@ -2118,6 +2079,7 @@
 				B7AC338B28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7B46AD928BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B70FDC87283EAE9900170D5F /* SemanticMapTracer.swift in Sources */,
+				B725167528C086060094F29B /* NumberConversions.swift in Sources */,
 				B72FBFE028A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE928A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */,
@@ -2128,12 +2090,12 @@
 				B7AC337B28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7AC336328A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				B70FDC8E283EAE9900170D5F /* FileBrowserView.swift in Sources */,
-				B70FDC90283EAE9900170D5F /* BaseSceneController+Interactions.swift in Sources */,
+				B70FDC90283EAE9900170D5F /* GestureShim.swift in Sources */,
 				B7AC33B428A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B70FDC91283EAE9900170D5F /* ConnectionBundle.swift in Sources */,
 				B7AC336728A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B70FDC92283EAE9900170D5F /* ThreadInfoExtract.swift in Sources */,
-				B70FDC93283EAE9900170D5F /* CustomSceneView.swift in Sources */,
+				B70FDC93283EAE9900170D5F /* ReceiverAliases.swift in Sources */,
 				B70FDC95283EAE9900170D5F /* WorldGrid.swift in Sources */,
 				B70FDC98283EAE9900170D5F /* MacAppRootView.swift in Sources */,
 				B70FDC99283EAE9900170D5F /* Stopwatch.swift in Sources */,
@@ -2190,7 +2152,6 @@
 				B70FDCC5283EAE9900170D5F /* ConcurrentArray.swift in Sources */,
 				B785520F28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
 				B70FDCC7283EAE9900170D5F /* CodeGridColors.swift in Sources */,
-				B70FDCC8283EAE9900170D5F /* InterpolatorFunctions.swift in Sources */,
 				B70FDCCB283EAE9900170D5F /* CodePagesEditorState.swift in Sources */,
 				B70FDCCC283EAE9900170D5F /* SearchContainer.swift in Sources */,
 				B70FDCCD283EAE9900170D5F /* DragSizableView.swift in Sources */,
@@ -2218,7 +2179,6 @@
 				B70FDCE4283EAE9900170D5F /* KeyboardInterceptor.swift in Sources */,
 				B7AC337328A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B70FDCE5283EAE9900170D5F /* CodeGrid+Consume.swift in Sources */,
-				B7A60F8A28B9847F00ACA4E6 /* RootSceneState.swift in Sources */,
 				B7C69FF328A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B768E2BB28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B70FDCE8283EAE9900170D5F /* PersistentThreadGroup.swift in Sources */,
@@ -2239,6 +2199,7 @@
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
 				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
+				B725167C28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
@@ -2289,6 +2250,7 @@
 				B7AC339128A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */,
 				B7B46ADB28BC81750004CA2D /* GlobalInstances.swift in Sources */,
+				B725167728C086060094F29B /* NumberConversions.swift in Sources */,
 				B74A22C52814FFF300F6F727 /* BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
@@ -2308,12 +2270,12 @@
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 				B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */,
-				B74A22D42814FFF300F6F727 /* BaseSceneController+Interactions.swift in Sources */,
+				B74A22D42814FFF300F6F727 /* GestureShim.swift in Sources */,
 				B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
 				B7F010BA28BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
-				B74A22D72814FFF300F6F727 /* CustomSceneView.swift in Sources */,
+				B74A22D72814FFF300F6F727 /* ReceiverAliases.swift in Sources */,
 				B7F67F1828A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
 				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
@@ -2371,7 +2333,6 @@
 				B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */,
 				B7AC335128A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
-				B74A23032814FFF300F6F727 /* InterpolatorFunctions.swift in Sources */,
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B74A23062814FFF300F6F727 /* CodeGridParser+Paths.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
@@ -2388,7 +2349,6 @@
 				B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */,
 				B74A23162814FFF300F6F727 /* MultipeerStreamController.swift in Sources */,
 				B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
-				B7A60F8D28B9847F00ACA4E6 /* RootSceneState.swift in Sources */,
 				B74A23172814FFF300F6F727 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B74A23182814FFF300F6F727 /* SwiftSyntax+Extensions.swift in Sources */,
 				B74A23192814FFF300F6F727 /* KeyboardInterceptor.swift in Sources */,
@@ -2410,6 +2370,7 @@
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7AC335228A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
+				B725167928C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B72FBFE428A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
@@ -2460,6 +2421,7 @@
 				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
+				B725167428C086060094F29B /* NumberConversions.swift in Sources */,
 				B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
@@ -2470,12 +2432,12 @@
 				B7AC337A28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7AC336228A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
-				F0CCB0FD2517BF2900937279 /* BaseSceneController+Interactions.swift in Sources */,
+				F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */,
 				B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7AC336628A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
-				F0F205712522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
+				F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
@@ -2532,7 +2494,6 @@
 				B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B785520E28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
 				B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */,
-				F092E5BE25101B0600B18894 /* InterpolatorFunctions.swift in Sources */,
 				B7C404DB2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */,
 				B75014A12830505C0024B7C0 /* DragSizableView.swift in Sources */,
@@ -2560,7 +2521,6 @@
 				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
 				B7AC337228A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
-				B7A60F8928B9847F00ACA4E6 /* RootSceneState.swift in Sources */,
 				B7C69FF228A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B768E2BA28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
@@ -2630,7 +2590,6 @@
 				B7AC336828A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
-				F057D2892520491C0094BD83 /* InterpolatorFunctions.swift in Sources */,
 				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B7F010B428BAF46B00182FF5 /* WorldGrid+FocusPosition.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
@@ -2646,6 +2605,7 @@
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
 				B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
+				B725167628C086060094F29B /* NumberConversions.swift in Sources */,
 				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC337428A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
@@ -2683,7 +2643,6 @@
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
 				B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
-				B7A60F8C28B9847F00ACA4E6 /* RootSceneState.swift in Sources */,
 				B7DA860228AAAEE800EC70D2 /* MetalLinkCamera.swift in Sources */,
 				B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
@@ -2693,6 +2652,7 @@
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B768E2B128BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
+				B725167B28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
 				B7AC337028A0CA71001172BB /* MetalLink.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
@@ -2721,11 +2681,11 @@
 				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7B46AF928BE692E0004CA2D /* MetalLinkSemanticsController.swift in Sources */,
 				B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
-				F057D27C252046B90094BD83 /* BaseSceneController+Interactions.swift in Sources */,
+				F057D27C252046B90094BD83 /* GestureShim.swift in Sources */,
 				B7AC337C28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B7EB713D284874A800313633 /* GitHubClient.swift in Sources */,
 				B7AC33AF28A0D479001172BB /* MeshLibrary.swift in Sources */,
-				F0F205722522D6D3009B6D2C /* CustomSceneView.swift in Sources */,
+				F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
