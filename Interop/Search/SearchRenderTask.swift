@@ -91,8 +91,11 @@ private extension RenderTask {
     
     func resetAllGridFocusLevels() {
         for grid in gridCache.cachedGrids.values {
-            grid.updateAllNodeConstants { node, constants, _ in
+            if task.isCancelled { return }
+            
+            grid.updateAllNodeConstants { node, constants, stopFlag in
                 constants.addedColor = .zero
+                stopFlag = task.isCancelled
                 return constants
             }
         }
@@ -108,6 +111,8 @@ private extension RenderTask {
             try throwIfCancelled()
             
             for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
+                try throwIfCancelled()
+                
                 if info.referenceName.containsMatch(searchText) {
                     matches.insert(info)
                 }
@@ -166,8 +171,9 @@ private extension RenderTask {
             }
         }
         
-        source.updateAllNodeConstants { updateNode, constants, _ in
+        source.updateAllNodeConstants { updateNode, constants, stopFlag in
             constants.addedColor += toFocus[updateNode, default: .zero]
+            stopFlag = task.isCancelled
             return constants
         }
     }
@@ -186,8 +192,9 @@ private extension RenderTask {
                 }
             }
             
-            source.updateAllNodeConstants { updateNode, constants, _ in
+            source.updateAllNodeConstants { updateNode, constants, stopFlag in
                 constants.addedColor += toFocus[updateNode, default: .zero]
+                stopFlag = task.isCancelled
                 return constants
             }
         }
