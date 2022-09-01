@@ -5,14 +5,15 @@
 //  Created by Ivan Lugo on 12/10/21.
 //
 
+import Combine
 import SwiftUI
 import Foundation
 
 let FileIcon = "📄"
 let FocusIcon = "👁️‍🗨️"
 let AddToOriginIcon = "🌐"
-let DirectoryIconCollapsed = "▶️"
-let DirectoryIconExpanded = "🔽"
+let DirectoryIconCollapsed = "📁"
+let DirectoryIconExpanded = "📂"
 
 extension FileBrowserView {
     var fileBrowser: FileBrowser {
@@ -24,20 +25,64 @@ extension FileBrowserView {
     }
 }
 
+class FileBrowserViewState: ObservableObject {
+    @Published var files: FileBrowserView.RowType = []
+    @Published var filterText: String = ""
+    
+    private var selectedfiles: FileBrowserView.RowType = []
+    private var bag = Set<AnyCancellable>()
+    
+    init() {
+        GlobalInstances.fileStream
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] selectedScopes in
+                guard let self = self else { return }
+                self.selectedfiles = selectedScopes
+                self.files = self.filter(files: selectedScopes)
+            }.store(in: &bag)
+        
+        $filterText.sink { [weak self] _ in
+            guard let self = self else { return }
+            self.files = self.filter(files: self.selectedfiles)
+        }.store(in: &bag)
+    }
+    
+    func filter(files: [FileBrowser.Scope]) -> [FileBrowser.Scope] {
+        guard !filterText.isEmpty else { return files }
+        return files.filter { $0.path.path.fuzzyMatch(filterText) }
+    }
+}
+
 struct FileBrowserView: View {
     
     typealias RowType = [FileBrowser.Scope]
-    @State var files: RowType = []
+    @StateObject var browserState = FileBrowserViewState()
     
     var body: some View {
-        fileRows(files)
-            .onReceive(
-                GlobalInstances.fileStream
-                    .subscribe(on: DispatchQueue.global())
-                    .receive(on: DispatchQueue.main)
-            ) { selectedScopes in
-                self.files = selectedScopes
-            }
+        rootView
+            .padding(4.0)
+            .frame(
+                minWidth: 256.0,
+                maxWidth: 640.0,
+                maxHeight: 768.0,
+                alignment: .leading
+            )
+    }
+    
+    var rootView: some View {
+        VStack(alignment: .leading) {
+            fileRows(browserState.files)
+            searchInput
+        }
+    }
+    
+    
+    var searchInput: some View {
+        TextField(
+            "🔍 Find",
+            text: $browserState.filterText
+        )
     }
     
     func fileRows(_ rows: RowType) -> some View {
@@ -46,13 +91,6 @@ struct FileBrowserView: View {
                 rowForScope(scope)
             }
         }
-        .padding(4.0)
-        .frame(
-            minWidth: 256.0,
-            maxWidth: 384.0,
-            maxHeight: 768.0,
-            alignment: .leading
-        )
     }
     
     func actionButton(
@@ -61,7 +99,7 @@ struct FileBrowserView: View {
         event: FileBrowser.Event
     ) -> some View {
         Text(text)
-            .font(.footnote)
+            .font(.title)
             .onTapGesture { genericSelection(event) }
             .padding(8.0)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
@@ -72,61 +110,78 @@ struct FileBrowserView: View {
     func rowForScope(_ scope: FileBrowser.Scope) -> some View {
         switch scope {
         case let .file(path):
-            HStack(spacing: 2) {
-                Spacer().frame(width: 2.0)
-                makeSpacer(pathDepths(scope))
-                Text(FileIcon)
-                    .font(.footnote)
-                    .truncationMode(.middle)
-                Text(path.lastPathComponent)
-                    .fontWeight(.light)
-                
-                Spacer()
-
-                actionButton("\(FocusIcon)+", path, event: .newSingleCommand(path, .addToFocus))
-                actionButton("\(AddToOriginIcon) v3", path, event: .newSingleCommand(path, .addToWorld))
-            }
-            .padding(0.5)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
-            .onTapGesture {
-                genericSelection(.newSingleCommand(path, .focusOnExistingGrid))
-            }
+            fileView(scope, path)
         case let .directory(path):
-            HStack {
-                makeSpacer(pathDepths(scope))
-                Text(DirectoryIconCollapsed)
-                
-                Text(path.lastPathComponent)
-                    .fontWeight(.medium)
-                
-                Spacer()
-                
-                actionButton("\(FocusIcon)+", path, event: .newMultiCommandRecursiveAllLayout(path, .addToFocus))
-                actionButton("\(AddToOriginIcon) v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
-            }
-            .padding(0.5)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
-            .onTapGesture { fileScopeSelected(scope) }
+            directoryView(scope, path)
         case let .expandedDirectory(path):
-            HStack {
-                makeSpacer(pathDepths(scope))
-                Text(DirectoryIconExpanded)
-                
-                Text(path.lastPathComponent)
-                    .underline()
-                    .fontWeight(.heavy)
-                
-                Spacer()
-                
-                actionButton("\(FocusIcon)+", path, event: .newMultiCommandRecursiveAllLayout(path, .addToFocus))
-                actionButton("\(AddToOriginIcon) v3", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
-            }
-            .padding(0.5)
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
-            .onTapGesture { fileScopeSelected(scope) }
+            expandedDirectoryView(scope, path)
         }
     }
     
+    @ViewBuilder
+    func makeSpacer(_ depth: Int?) -> some View {
+        HStack(spacing: 2.0) {
+            RectangleDivider()
+        }.frame(
+            width: 16.0 * CGFloat(depth ?? 1),
+            height: 16.0
+        )
+    }
+}
+
+private extension FileBrowserView {
+    @ViewBuilder
+    func fileView(_ scope: FileBrowser.Scope, _ path: URL) -> some View {
+        HStack(spacing: 2) {
+            Spacer().frame(width: 2.0)
+            makeSpacer(pathDepths(scope))
+            Text(FileIcon)
+                .font(.footnote)
+                .truncationMode(.middle)
+            Text(path.lastPathComponent)
+                .fontWeight(.light)
+            Spacer()
+        }
+        .padding(0.5)
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.1))
+        .onTapGesture {
+            genericSelection(.newSingleCommand(path, .focusOnExistingGrid))
+        }
+    }
+    
+    @ViewBuilder
+    func directoryView(_ scope: FileBrowser.Scope, _ path: URL) -> some View {
+        HStack {
+            makeSpacer(pathDepths(scope))
+            Text(DirectoryIconCollapsed)
+            Text(path.lastPathComponent)
+                .fontWeight(.medium)
+            Spacer()
+            actionButton("\(AddToOriginIcon)", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+        }
+        .padding(0.5)
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
+        .onTapGesture { fileScopeSelected(scope) }
+    }
+    
+    @ViewBuilder
+    func expandedDirectoryView(_ scope: FileBrowser.Scope, _ path: URL) -> some View {
+        HStack {
+            makeSpacer(pathDepths(scope))
+            Text(DirectoryIconExpanded)
+            Text(path.lastPathComponent)
+                .underline()
+                .fontWeight(.heavy)
+            Spacer()
+            actionButton("\(AddToOriginIcon)", path, event: .newMultiCommandRecursiveAllLayout(path, .addToWorld))
+        }
+        .padding(0.5)
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.3))
+        .onTapGesture { fileScopeSelected(scope) }
+    }
+}
+
+private extension FileBrowserView {
     func fileSelected(_ path: URL, _ selectType: FileBrowser.Event.SelectType) {
         GlobalInstances
             .fileBrowser
@@ -143,17 +198,6 @@ struct FileBrowserView: View {
         GlobalInstances
             .fileBrowser
             .fileSelectionEvents = action
-    }
-    
-    @ViewBuilder
-    func makeSpacer(_ depth: Int?) -> some View {
-        HStack(spacing: 2.0) {
-//            RectangleDivider()
-            RectangleDivider()
-        }.frame(
-            width: 16.0 * CGFloat(depth ?? 1),
-            height: 16.0
-        )
     }
 }
 
@@ -182,11 +226,19 @@ struct FileBrowserView_Previews: PreviewProvider {
     static let testFiles = {
         testPaths.reduce(into: [FileBrowser.Scope]()) { result, path in
             result.append(.file(URL(fileURLWithPath: path)))
+            result.append(.directory(URL(fileURLWithPath: path)))
+            result.append(.expandedDirectory(URL(fileURLWithPath: path)))
         }
     }()
     
+    static let testState: FileBrowserViewState = {
+        let state = FileBrowserViewState()
+        state.files = testFiles
+        return state
+    }()
+    
     static var previews: some View {
-        FileBrowserView(files: testFiles)
+        FileBrowserView(browserState: testState)
     }
 }
 #endif
