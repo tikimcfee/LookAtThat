@@ -11,9 +11,9 @@ import Foundation
 
 extension CodeGrid {
     typealias GlyphConstants = MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants
-    typealias Update = (GlyphNode, inout GlyphConstants, inout Bool) -> GlyphConstants
+    typealias Update = (GlyphNode, inout GlyphConstants, inout Bool) throws -> GlyphConstants
     
-    func updateAllNodeConstants(_ update: Update) {
+    func updateAllNodeConstants(_ update: Update) rethrows {
         guard !rootNode.willRebuildState else {
             // To avoid initial update errors, call update() manually
             // if creating nodes, then using their instance positions
@@ -23,12 +23,12 @@ extension CodeGrid {
         }
         
         var stopFlag = false
-        forAllNodesInCollection { _, nodeSet in
+        try forAllNodesInCollection { _, nodeSet in
             if stopFlag { return }
             for node in nodeSet {
                 if stopFlag { return }
-                rootNode.updateConstants(for: node) { pointer in
-                    let newPointer = update(node, &pointer, &stopFlag)
+                try rootNode.updateConstants(for: node) { pointer in
+                    let newPointer = try update(node, &pointer, &stopFlag)
                     pointer.modelMatrix = node.modelMatrix
                     return newPointer
                 }
@@ -36,10 +36,10 @@ extension CodeGrid {
         }
     }
     
-    private func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) -> Void) { 
+    private func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) throws -> Void) rethrows {
         for rootSyntaxNode in consumedRootSyntaxNodes {
             let rootSyntaxId = rootSyntaxNode.id
-            semanticInfoMap.doOnAssociatedNodes(rootSyntaxId, tokenCache, operation)
+            try semanticInfoMap.doOnAssociatedNodes(rootSyntaxId, tokenCache, operation)
         }
     }
 }

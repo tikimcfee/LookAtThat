@@ -26,9 +26,6 @@ class RenderTask {
     private static let _stopwatch = Stopwatch()
     private var stopwatch: Stopwatch { Self._stopwatch }
     
-    var matchedInfo: [CodeGrid: Array<Set<SemanticInfo>>] = [:]
-    var missedInfo: Set<CodeGrid> = []
-    
     init(
         newInput: String,
         gridCache: GridCache,
@@ -59,34 +56,9 @@ private extension RenderTask {
     
     func doSearch() throws {
         printStart(newInput)
-        
-        do {
-            try doSearchWalk()
-            switch mode {
-            case .inPlace:
-                try doInlineGlobalSearch()
-            }
-        } catch {
-            print(error)
-        }
-        
-        printStop(newInput + " ++ end of call")
-    }
-    
-    // Start search
-    func doSearchWalk() throws {
         resetAllGridFocusLevels()
-        try walkGridsForSearch(
-            newInput,
-            onPositive: { source, matchInfo in
-                try throwIfCancelled()
-                matchedInfo[source, default: []].append(matchInfo)
-            },
-            onNegative: { source in
-                try throwIfCancelled()
-                missedInfo.insert(source)
-            }
-        )
+        kickoffGridWalks()
+        printStop(newInput + " ++ end of call")
     }
     
     func resetAllGridFocusLevels() {
@@ -101,55 +73,34 @@ private extension RenderTask {
         }
     }
     
-    func walkGridsForSearch(
-        _ searchText: String,
-        onPositive: SearchReceiver,
-        onNegative: NegativeReceiver
-    ) throws {
-        for grid in gridCache.cachedGrids.values {
-            var matches = Set<SemanticInfo>()
-            try throwIfCancelled()
-            
-            for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
-                try throwIfCancelled()
-                
-                if info.referenceName.containsMatch(searchText) {
-                    matches.insert(info)
-                }
-            }
-            
-            if matches.isEmpty {
-                try onNegative(grid)
-            } else {
-                try onPositive(grid, matches)
+    func kickoffGridWalks() {
+        var gridWork = gridCache.cachedGrids.values.makeIterator()
+        let workGroup = DispatchGroup()
+        let searchText = newInput
+        while !task.isCancelled, let next = gridWork.next() {
+            workGroup.enter()
+            WorkerPool.shared.nextWorker().async {
+                defer { workGroup.leave() }
+                do { try self.test(grid: next, searchText: searchText) }
+                catch { return }
             }
         }
+        workGroup.wait()
     }
-}
-
-// MARK: - In-place Search
-
-extension RenderTask {
-    func doInlineGlobalSearch() throws {
-        try missedInfo
-            .forEach { grid in
-                try defocusNodesForSemanticInfo(source: grid)
-                try throwIfCancelled()
+    
+    func test(grid: CodeGrid, searchText: String) throws {
+        var foundMatch: Bool = false
+        for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
+            try self.throwIfCancelled()
+            
+            if info.referenceName.containsMatch(searchText) {
+                try self.focusNodesForSemanticInfo(source: grid, info)
+                foundMatch = true
             }
-        
-        try matchedInfo
-            .forEach { matchPair in
-                let matchedGrid = matchPair.key
-                let semanticInfo = matchPair.value
-                try throwIfCancelled()
-                
-                for semanticSet in semanticInfo {
-                    for info in semanticSet {
-                        try focusNodesForSemanticInfo(source: matchedGrid, info)
-                        try throwIfCancelled()
-                    }
-                }
-            }
+        }
+        if !foundMatch {
+            try self.defocusNodesForSemanticInfo(source: grid)
+        }
     }
 }
 
@@ -158,44 +109,39 @@ extension RenderTask {
 private extension RenderTask {
     var focusAddition: LFloat4 { LFloat4(0.1, 0.2, 0.3, 0.0) }
     
-    // Collect all nodes from all semantic info that contributed to passed test
     func focusNodesForSemanticInfo(source: CodeGrid, _ matchingSemanticInfo: SemanticInfo) throws {
-        var toFocus = [GlyphNode: LFloat4]()
         try source.semanticInfoMap.walkFlattened(
             from: matchingSemanticInfo.syntaxId,
             in: source.tokenCache
         ) { info, targetNodes in
-            try targetNodes.forEach {
-                toFocus[$0, default: .zero] += self.focusAddition
+            for node in targetNodes {
                 try self.throwIfCancelled()
+                source.rootNode.updateConstants(for: node) {
+                    $0.addedColor += self.focusAddition
+                    return $0
+                }
             }
-        }
-        
-        source.updateAllNodeConstants { updateNode, constants, stopFlag in
-            constants.addedColor += toFocus[updateNode, default: .zero]
-            stopFlag = task.isCancelled
-            return constants
         }
     }
     
     func defocusNodesForSemanticInfo(source: CodeGrid) throws {
-        // this is oogly
+        let clearFocus = newInput.isEmpty
         for rootNode in source.consumedRootSyntaxNodes {
-            var toFocus = [GlyphNode: LFloat4]()
             try source.semanticInfoMap.walkFlattened(
                 from: rootNode.id,
                 in: source.tokenCache
             ) { info, targetNodes in
-                try targetNodes.forEach {
-                    toFocus[$0, default: .zero] -= self.focusAddition
+                for node in targetNodes {
                     try self.throwIfCancelled()
+                    source.rootNode.updateConstants(for: node) {
+                        if clearFocus {
+                            $0.addedColor = .zero
+                        } else {
+                            $0.addedColor -= self.focusAddition
+                        }
+                        return $0
+                    }
                 }
-            }
-            
-            source.updateAllNodeConstants { updateNode, constants, stopFlag in
-                constants.addedColor += toFocus[updateNode, default: .zero]
-                stopFlag = task.isCancelled
-                return constants
             }
         }
     }

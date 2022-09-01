@@ -95,8 +95,8 @@ extension MetalLinkInstancedObject
 where InstancedNodeType == MetalLinkGlyphNode {
     func updateConstants(
         for node: InstancedNodeType,
-        _ operation: (inout InstancedConstants) -> InstancedConstants
-    ) {        
+        _ operation: (inout InstancedConstants) throws -> InstancedConstants
+    ) rethrows {
         guard let bufferIndex = node.meta.instanceBufferIndex
         else {
             print("Missing buffer index for [\(node.key.source)]: \(node.nodeId)")
@@ -118,7 +118,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
         // This may be unsafe... not sure what happens here with multithreading.
         // Probably very bad things. If there's a crash here, just create a copy
         // and don't be too fancy.
-        pointer[bufferIndex] = operation(&pointer[bufferIndex])
+        pointer[bufferIndex] = try operation(&pointer[bufferIndex])
     }
 }
 

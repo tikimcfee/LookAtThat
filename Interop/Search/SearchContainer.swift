@@ -26,15 +26,14 @@ class SearchContainer {
         _ newInput: String,
         _ completion: @escaping () -> Void
     ) {
+        currentRenderTask?.task.cancel()
         let renderTask = RenderTask(
             newInput: newInput,
             gridCache: gridCache,
             mode: mode,
             onComplete: completion
         )
-        
-        currentRenderTask?.task.cancel()
-        currentRenderTask?.task = renderTask.task
+        currentRenderTask = renderTask
         searchQueue.async(execute: renderTask.task)
     }
 }

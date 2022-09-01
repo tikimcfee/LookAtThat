@@ -13,11 +13,13 @@ class GlobalSearchViewState: ObservableObject {
     var bag = Set<AnyCancellable>()
     
     init() {
-        $filterText.removeDuplicates().sink { newText in
-            GlobalInstances.gridStore.searchContainer.search(newText) {
-                print("Filter completion reported: \(newText)")
-            }
-        }.store(in: &bag)
+        $filterText.removeDuplicates()
+            .receive(on: DispatchQueue.global())
+            .sink { newText in
+                GlobalInstances.gridStore.searchContainer.search(newText) {
+                    print("Filter completion reported: \(newText)")
+                }
+            }.store(in: &bag)
     }
 }
 

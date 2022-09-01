@@ -14,10 +14,10 @@ extension SemanticInfoMap {
     func doOnAssociatedNodes(
         _ nodeId: SyntaxIdentifier,
         _ cache: CodeGridTokenCache,
-        _ receiver: ((SemanticInfo, CodeGridNodes)) -> Void
-    ) {
-        walkFlattenedNonEscaping(from: nodeId, in: cache) { infoForNodeSet, nodeSet in
-            receiver((infoForNodeSet, nodeSet))
+        _ receiver: ((SemanticInfo, CodeGridNodes)) throws -> Void
+    ) rethrows {
+        try walkFlattenedNonEscaping(from: nodeId, in: cache) { infoForNodeSet, nodeSet in
+            try receiver((infoForNodeSet, nodeSet))
         }
     }
     
