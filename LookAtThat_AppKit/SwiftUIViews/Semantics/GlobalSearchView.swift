@@ -13,7 +13,7 @@ class GlobalSearchViewState: ObservableObject {
     var bag = Set<AnyCancellable>()
     
     init() {
-        $filterText.sink { newText in
+        $filterText.removeDuplicates().sink { newText in
             GlobalInstances.gridStore.searchContainer.search(newText) {
                 print("Filter completion reported: \(newText)")
             }

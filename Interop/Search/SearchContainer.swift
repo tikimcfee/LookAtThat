@@ -26,11 +26,6 @@ class SearchContainer {
         _ newInput: String,
         _ completion: @escaping () -> Void
     ) {
-        if currentRenderTask == nil && newInput.isEmpty {
-            print("Skipping search; input empty, nothing to reset")
-            return
-        }
-        
         let renderTask = RenderTask(
             newInput: newInput,
             gridCache: gridCache,

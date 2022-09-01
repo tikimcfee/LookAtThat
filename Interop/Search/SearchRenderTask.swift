@@ -151,6 +151,8 @@ extension RenderTask {
 // MARK: - Default Highlighting
 
 private extension RenderTask {
+    var focusAddition: LFloat4 { LFloat4(0.1, 0.2, 0.3, 0.0) }
+    
     // Collect all nodes from all semantic info that contributed to passed test
     func focusNodesForSemanticInfo(source: CodeGrid, _ matchingSemanticInfo: SemanticInfo) throws {
         var toFocus = [GlyphNode: LFloat4]()
@@ -159,7 +161,7 @@ private extension RenderTask {
             in: source.tokenCache
         ) { info, targetNodes in
             try targetNodes.forEach {
-                toFocus[$0, default: .zero] += LFloat4(0.05, 0.08, 0.1, 0.0)
+                toFocus[$0, default: .zero] += self.focusAddition
                 try self.throwIfCancelled()
             }
         }
@@ -179,7 +181,7 @@ private extension RenderTask {
                 in: source.tokenCache
             ) { info, targetNodes in
                 try targetNodes.forEach {
-                    toFocus[$0, default: .zero] -= LFloat4(0.05, 0.08, 0.1, 0.0)
+                    toFocus[$0, default: .zero] -= self.focusAddition
                     try self.throwIfCancelled()
                 }
             }

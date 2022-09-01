@@ -19,6 +19,7 @@ class CodeGridGlyphCollectionBuilder {
     let atlas: MetalLinkAtlas
     let semanticMap: SemanticInfoMap
     let tokenCache: CodeGridTokenCache
+    let gridCache: GridCache
     
     var mode: Mode = .monoCollection
     private lazy var monoCollection = GlyphCollection(link: link, linkAtlas: atlas)
@@ -26,12 +27,14 @@ class CodeGridGlyphCollectionBuilder {
     init(
         link: MetalLink,
         sharedSemanticMap semanticMap: SemanticInfoMap,
-        sharedTokenCache tokenCache: CodeGridTokenCache
+        sharedTokenCache tokenCache: CodeGridTokenCache,
+        sharedGridCache gridCache: GridCache
     ) {
         self.link = link
         self.atlas = GlobalInstances.defaultAtlas
         self.semanticMap = semanticMap
         self.tokenCache = tokenCache
+        self.gridCache = gridCache
     }
     
     func getCollection() -> GlyphCollection {
@@ -42,7 +45,9 @@ class CodeGridGlyphCollectionBuilder {
     }
     
     func createGrid() -> CodeGrid {
-        CodeGrid(rootNode: getCollection(), tokenCache: tokenCache)
+        let grid = CodeGrid(rootNode: getCollection(), tokenCache: tokenCache)
+        gridCache.cachedGrids[grid.id] = grid
+        return grid
     }
     
     func createConsumerForNewGrid() -> GlyphCollectionSyntaxConsumer {
