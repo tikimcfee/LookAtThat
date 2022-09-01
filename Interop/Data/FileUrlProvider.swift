@@ -108,22 +108,16 @@ func openDirectory(_ receiver: @escaping DirectoryReceiver) {
                 return
             }
 
-            let contents = try? FileManager.default.contentsOfDirectory(
+            let swiftFiles = try? FileManager.default.contentsOfDirectory(
                 at: directoryUrl,
                 includingPropertiesForKeys: nil,
                 options: .skipsSubdirectoryDescendants
-            )
-
-            guard let swiftFiles = contents?.filter({ $0.pathExtension == "swift" }),
-                swiftFiles.count > 0 else {
-                receiver(.failure(.noSwiftSource))
-                return
-            }
+            ).filter({ $0.pathExtension == "swift" })
 
             receiver(.success(
                 Directory(
                     parent: directoryUrl,
-                    swiftUrls: swiftFiles
+                    swiftUrls: swiftFiles ?? []
                 ))
             )
         }

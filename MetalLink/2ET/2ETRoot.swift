@@ -35,6 +35,17 @@ class TwoETimeRoot: MetalLinkReader {
         
         try setupSnapTestMulti()
         
+        func handleDirectory(_ file: FileOperation) {
+            switch file {
+            case .openDirectory:
+                openDirectory { file in
+                    guard let url = file.parent else { return }
+                    GlobalInstances.fileBrowser.setRootScope(url)
+                }
+            }
+        }
+        camera.interceptor.onNewFileOperation = handleDirectory
+        
         // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
     }

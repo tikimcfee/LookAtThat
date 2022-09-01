@@ -57,18 +57,6 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     }
     
     func bindToLink() {
-        func handleDirectory(_ file: FileOperation) {
-            switch file {
-            case .openDirectory:
-                openDirectory { file in
-                    guard let url = file.parent else { return }
-                    GlobalInstances.fileBrowser.setRootScope(url)
-                }
-            }
-        }
-        interceptor.onNewFileOperation = handleDirectory
-        
-        
         link.input.sharedKeyEvent.sink { event in
             self.interceptor.onNewKeyEvent(event)
         }.store(in: &cancellables)
