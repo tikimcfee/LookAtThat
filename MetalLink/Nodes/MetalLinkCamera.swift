@@ -126,7 +126,7 @@ extension DebugCamera {
             perspectiveProjectionFov: Float.pi / 3.0,
             aspectRatio: viewAspectRatio,
             nearZ: 0.1,
-            farZ: 1000
+            farZ: 5000
         )
 //        matrix.rotateAbout(axis: X_AXIS, by: rotation.x)
 //        matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
