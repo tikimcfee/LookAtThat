@@ -53,7 +53,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let builder = CodeGridGlyphCollectionBuilder(
             link: link,
             sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache()
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
         )
         let consumer = builder.createConsumerForNewGrid()
         consumer.consume(url: bundle.testFile)

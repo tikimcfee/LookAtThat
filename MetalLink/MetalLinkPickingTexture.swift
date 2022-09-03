@@ -55,7 +55,6 @@ class MetalLinkPickingTexture: MetalLinkReader {
             generateNewTexture = false
         }
         
-        
         // TODO: Make better usage of clear color + constants for picking
         // .clear load action to sure *everything* is reset on the draw.
         // If not (.dontCare), the hover itself will work when directly over a node,
@@ -115,8 +114,6 @@ private extension MetalLinkPickingTexture {
             destinationBytesPerRow: InstanceIDType.memStride,
             destinationBytesPerImage: InstanceIDType.memStride
         )
-        
-//        print("Reached end of blit")
     }
     
     func onPickBlitComplete(_ pickBuffer: MTLBuffer) {

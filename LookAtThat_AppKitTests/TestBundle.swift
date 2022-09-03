@@ -19,9 +19,10 @@ class TestBundle {
     lazy var testFileRaw = Self.testFilesAbsolute[0]
     lazy var testFileAbsolute = Self.testFilesRawPath[0]
     lazy var testTraceFile = Self.testTraceFile
-    var gridParser: CodeGridParser!
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
+    var gridCache: GridCache!
+    var concurrent: ConcurrentGridRenderer!
     
     var testSourceDirectory: URL? {
         let absolutePath = Self.testDirectoriesAbsolute[0]
@@ -36,9 +37,10 @@ class TestBundle {
     }
     
     func setUpWithError() throws {
-        gridParser = CodeGridParser()
-        tokenCache = gridParser.tokenCache
+        tokenCache = CodeGridTokenCache()
         semanticBuilder = SemanticInfoBuilder()
+        gridCache = GridCache(tokenCache: tokenCache)
+        concurrent = ConcurrentGridRenderer(cache: gridCache)
     }
     
     func tearDownWithError() throws {
@@ -47,13 +49,13 @@ class TestBundle {
     
     func loadTestSource() throws -> SourceFileSyntax {
         try XCTUnwrap(
-            gridParser.loadSourceUrl(testFileRaw),
+            gridCache.loadSourceUrl(testFileRaw),
             "Failed to load test file"
         )
     }
     
     func newGrid() -> CodeGrid {
-        gridParser.gridCache.createNewGrid()
+        gridCache.createNewGrid()
     }
 }
 

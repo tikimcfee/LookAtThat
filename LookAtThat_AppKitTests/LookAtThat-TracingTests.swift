@@ -17,6 +17,8 @@ class LookAtThat_TracingTests: XCTestCase {
     
     override func setUpWithError() throws {
         // Fields reset on each test!
+        printStart()
+        
         bundle = TestBundle()
         try bundle.setUpWithError()
         
@@ -24,24 +26,16 @@ class LookAtThat_TracingTests: XCTestCase {
     
     override func tearDownWithError() throws {
         try bundle.tearDownWithError()
+        printEnd()
     }
     
     func testDeepRecursion() throws {
         let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
-//        let enumerator = try XCTUnwrap(FileManager.default.enumerator(atPath: rootUrl.path), "Need enumerator")
-        
-        printStart()
-        
         rootUrl.enumeratedChildren().forEach { print($0) }
-        
-        printEnd()
     }
     
     func testClassCollection() throws {
         let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
-        printStart()
-        
-        
         let dummyGrid = bundle.newGrid()
         let visitor = FlatteningVisitor(
             target: dummyGrid.semanticInfoMap,
@@ -52,7 +46,7 @@ class LookAtThat_TracingTests: XCTestCase {
             guard !url.isDirectory else {
                 return
             }
-            let sourceFile = try XCTUnwrap(bundle.gridParser.loadSourceUrl(url), "Must render syntax from file")
+            let sourceFile = try XCTUnwrap(bundle.gridCache.loadSourceUrl(url), "Must render syntax from file")
             let sourceSyntax = Syntax(sourceFile)
             visitor.walkRecursiveFromSyntax(sourceSyntax)
         }
@@ -98,76 +92,10 @@ class LookAtThat_TracingTests: XCTestCase {
         
         XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
     }
-    
-    func testFileBackArrays() throws {
-        let traceFile = bundle.testTraceFile
-        let traceFileSpec = AppFiles.createTraceIDFile(named: "test-spec")
-        let idMap = TraceLineIDMap()
-        
-        let specFileWriter = AppendingStore(targetFile: traceFileSpec)
-        specFileWriter.cleanFile()
-        
-        var startingLineCount = 0
-        //        var testStop = 10
-        SplittingFileReader(targetURL: traceFile)
-            .cancellableRead { newLine, shouldStop in
-                guard let generatedTraceId = try? XCTUnwrap(idMap.insertRawLine(newLine), "Must get ID from new trace line")
-                else {
-                    shouldStop = true
-                    return
-                }
-                specFileWriter.appendText(generatedTraceId.uuidString)
-                startingLineCount += 1
-                
-                //                testStop -= 1
-                //                shouldStop = testStop <= 0
-            }
-        
-        printStart()
-        print("Trace reads from: \(traceFile)")
-        print("Spec  reads from: \(traceFileSpec)")
-        print("Map: \(idMap.persistedBiMap.keysToValues.keys.count) keys")
-        print("Had lines: \(startingLineCount)")
-        
-        let uuidArray = try XCTUnwrap(
-            FileUUIDArray.from(fileURL: traceFileSpec)
-        )
-        
-        print("File array: start  \(uuidArray.startIndex)")
-        print("File array: end    \(uuidArray.endIndex)")
-        print("File array: count  \(uuidArray.count)")
-        
-        
-        let finalData = try Data(contentsOf: traceFileSpec)
-        let originalData = try Data(contentsOf: traceFile)
-        print("End spec file size: \(finalData.kb)")
-        print("Original file size: \(originalData.kb)")
-        
-        let enodedMap = try idMap.encodeValues()
-        print("Encoded new map size: \(enodedMap)")
-        
-        let decodedMap = try TraceLineIDMap.decodeFrom(enodedMap)
-        print("Decoded map keys: \(decodedMap.persistedBiMap.valuesToKeys.keys.count)")
-        
-        let recodedMap = try decodedMap.encodeValues()
-        XCTAssertEqual(enodedMap.count, recodedMap.count, "ID map must be resilient to reencode")
-        
-        print("Checking for all matched lines...")
-        var finalMatchedCount = 0
-        for case .some(let uuid) in uuidArray {
-            let _ = try XCTUnwrap(decodedMap[uuid], "Must have mapped trace for \(uuid)")
-            finalMatchedCount += 1
-        }
-        print("Total lines matched: \(finalMatchedCount)")
-        XCTAssertEqual(finalMatchedCount, startingLineCount, "All lines must be matchable from decoded store")
-        
-        printEnd()
-    }
-    
+
     func testTracingGroup() throws {
-        printStart()
         let group = PersistentThreadGroup()
-//        PersistentThreadTracer.AllWritesEnabled = true
+        PersistentThreadTracer.SHOULD_WRITE = true
         let tracer = try XCTUnwrap(
             group.tracer(for: currentQueueName()),
             "Must recreate from the same thread during runtime"
@@ -200,42 +128,6 @@ class LookAtThat_TracingTests: XCTestCase {
         group.reloadTraceMap()
         let reloadedKeyCount = group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count
         XCTAssertEqual(groupMapKeyCount, reloadedKeyCount, "Reload must not mutate data")
-        
-        printEnd()
-    }
-    
-    func testTracingMulti() throws {
-        printStart()
-        let tracer = TracingRoot.shared
-        tracer.removeAllTraces()
-        tracer.removeMapping()
-        tracer.state.traceWritesEnabled = true
-        tracer.setupTracing()
-        
-        let rootDirectory = try XCTUnwrap(bundle.testSourceDirectory)
-        let awaitRender = expectation(description: "Version three rendered")
-        RenderPlan(
-            rootPath: rootDirectory,
-            queue: bundle.gridParser.renderQueue,
-            renderer: bundle.gridParser.concurrency
-        ).startRender { awaitRender.fulfill() }
-        
-        
-        wait(for: [awaitRender], timeout: 60)
-        
-        tracer.commitMappingState()
-        let _ = SemanticMapTracer.wrapForLazyLoad(
-            sourceGrids: bundle.gridParser.gridCache.cachedGrids.values,
-            sourceTracer: tracer
-        )
-        
-        let allTraceFileSizes = totalTraceFilesByteCount
-        print("ID list total: \(allTraceFileSizes) bytes || \(allTraceFileSizes.kb)kb")
-        
-        let data = try Data(contentsOf: PersistentThreadGroup.defaultMapFile)
-        print("traceIdMap   : \(data.count) bytes || \(data.kb)kb")
-        
-        printEnd()
     }
     
     var totalTraceFilesByteCount: Int {
