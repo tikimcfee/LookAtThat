@@ -387,13 +387,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterY = centerY + delta
             let newExpectedCenterZ = centerZ + delta
             
-            // Current measurements and position have a precision of about 3-4 places.
-            let deltaX = abs(newCenterX - newExpectedCenterX)
-            let deltaY = abs(newCenterY - newExpectedCenterY)
-            let deltaZ = abs(newCenterZ - newExpectedCenterZ)
-            XCTAssertLessThanOrEqual(deltaX, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(deltaY, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(deltaZ, 0.1, "Error should be within 1 point")
+            // Current measurements and position have a precision of about 3-4 places
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.001, "Error should be within 1 point")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.001, "Error should be within 1 point")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.001, "Error should be within 1 point")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY
@@ -449,6 +446,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let expectedRightCommands = gridCount
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
+        
         var totalLengthX: VectorFloat = firstGrid.measures.lengthX
         func sumLength(grid: CodeGrid, _ direction: SelfRelativeDirection, _ op: @escaping () -> Void ) {
             snapping.iterateOver(grid, direction: direction) { _, grid, stop in
@@ -473,7 +471,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         printEnd()
         
-        let oneGridLength = firstGrid.measures.lengthX
+        let oneGridLength = allGrids[2].measures.lengthX
         totalLengthX = oneGridLength
         printStart()
         snapping.detachRetaining(allGrids[2])
@@ -481,18 +479,19 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(totalLengthX, expectedLengthX - oneGridLength, "Retaining detach should do the retaining thing")
         printEnd()
         
-        totalLengthX = oneGridLength
         printStart()
+        let second = allGrids[7].measures.lengthX
+        totalLengthX = second
         snapping.detachRetaining(allGrids[7])
         sumLength(grid: allGrids.last!, .backward, { })
-        XCTAssertEqual(totalLengthX, expectedLengthX - oneGridLength - oneGridLength, "Retaining detach should do the retaining thing")
+        XCTAssertEqual(totalLengthX, expectedLengthX - oneGridLength - second, accuracy: 0.0001, "Retaining detach should do the retaining thing")
         printEnd()
         
         totalLengthX = oneGridLength
         printStart()
         snapping.detachRetaining(allGrids[4])
         sumLength(grid: allGrids.last!, .backward, { })
-        XCTAssertEqual(totalLengthX, expectedLengthX - oneGridLength - oneGridLength - oneGridLength, "Retaining detach should do the retaining thing")
+        XCTAssertEqual(totalLengthX, expectedLengthX - oneGridLength - oneGridLength - oneGridLength, accuracy: 0.0001, "Retaining detach should do the retaining thing")
         printEnd()
     }
     

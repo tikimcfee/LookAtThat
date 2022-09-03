@@ -11,10 +11,12 @@ import SceneKit
 // MARK: -- Measuring and layout
 extension CodeGrid {
     class Measures {
-        private let target: CodeGrid
+        private let target: MetalLinkNode
         
-        init(targetGrid: CodeGrid) {
-            self.target = targetGrid
+        private var positionNode: MetalLinkNode { target }
+        
+        init(target: MetalLinkNode) {
+            self.target = target
         }
         
         var xpos: VectorFloat {
@@ -230,8 +232,6 @@ private extension CodeGrid.Measures {
 }
 
 extension CodeGrid.Measures {
-    private var positionNode: MetalLinkNode { target.rootNode }
-    
     var worldLeading: VectorFloat {
         get { positionNode.worldPosition.x - positionNode.manualBoundingBox.min.x }
     }
@@ -285,7 +285,7 @@ extension CodeGrid.Measures {
 extension CodeGrid.Measures {
     var dumpstats: String {
 """
--- \(target.fileName) || \(target.id)
+-- \(target.nodeId)
 ComputedBoundsWidth:             \(positionNode.boundsWidth)
 ComputedBoundsHeight:            \(positionNode.boundsHeight)
 ComputedBoundsLength:            \(positionNode.boundsLength)

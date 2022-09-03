@@ -74,7 +74,6 @@ extension TracingRoot {
         AppStatePreferences.self,
         BackgroundWorker.self,
         BoundsComputing.self,
-        CodeGrid.Measures.self,
         CodeGrid.self,
         CodeGridColors.self,
         CodeGridGlobalSemantics.self,
