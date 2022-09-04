@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ZIPFoundation
+import Zip
 
 // MARK: - File Operations
 public struct AppFiles {
@@ -58,7 +58,8 @@ public struct AppFiles {
     }
     
     public static func unzip(fileUrl: URL, to targetUrl: URL) throws {
-        try fileManager.unzipItem(at: fileUrl, to: targetUrl)
+        Zip.addCustomFileExtension("tmp")
+        try Zip.unzipFile(fileUrl, destination: targetUrl, overwrite: true, password: nil)
     }
 }
 

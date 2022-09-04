@@ -594,6 +594,7 @@
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7C9AFB1284352D60077BCA7 /* SCNLine */; };
+		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
@@ -612,11 +613,6 @@
 		B7EB710A284448A500313633 /* lib_InternalSwiftStaticMirror.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710B28444D2A00313633 /* SwiftSyntaxParser */; };
 		B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB710D28444D9200313633 /* SwiftSyntaxParser */; };
-		B7EB71302848128700313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB712F2848128700313633 /* ZIPFoundation */; };
-		B7EB71322848129E00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB71312848129E00313633 /* ZIPFoundation */; };
-		B7EB7134284812A300313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7133284812A300313633 /* ZIPFoundation */; };
-		B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7135284812AA00313633 /* ZIPFoundation */; };
-		B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB7137284812AF00313633 /* ZIPFoundation */; };
 		B7EB713B284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7EB713C284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7EB713D284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
@@ -1006,7 +1002,6 @@
 				B70FDCF1283EAE9900170D5F /* CodeEditorView in Frameworks */,
 				B70FDCF2283EAE9900170D5F /* SwiftSyntaxParser in Frameworks */,
 				B70FDCF3283EAE9900170D5F /* Brotli in Frameworks */,
-				B7EB71322848129E00313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,7 +1012,6 @@
 				B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */,
 				B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
-				B7EB7138284812AF00313633 /* ZIPFoundation in Frameworks */,
 				B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */,
 				B7EB714528487C1800313633 /* SCNLine in Frameworks */,
 			);
@@ -1033,8 +1027,8 @@
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
+				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
 				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
-				B7EB71302848128700313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,7 +1038,6 @@
 			files = (
 				B713405828170F92005E0E31 /* SwiftTrace in Frameworks */,
 				B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */,
-				B7EB7134284812A300313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,7 +1050,6 @@
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */,
 				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
-				B7EB7136284812AA00313633 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1778,7 +1770,6 @@
 				B70FDC4A283EAE9900170D5F /* SwiftTrace */,
 				B70FDC4C283EAE9900170D5F /* CodeEditorView */,
 				B70FDC51283EAE9900170D5F /* SwiftSyntaxParser */,
-				B7EB71312848129E00313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */;
@@ -1802,7 +1793,6 @@
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B7EB710D28444D9200313633 /* SwiftSyntaxParser */,
-				B7EB7137284812AF00313633 /* ZIPFoundation */,
 				B7EB714428487C1800313633 /* SCNLine */,
 				B792C88628AB630100AE8CC0 /* Algorithms */,
 				B792C88928AB64A600AE8CC0 /* ArgumentParser */,
@@ -1833,9 +1823,9 @@
 				B7661B572829DF0C001F185B /* CodeEditorView */,
 				B7C9AFB1284352D60077BCA7 /* SCNLine */,
 				B7EB71072844119800313633 /* SwiftSyntaxParser */,
-				B7EB712F2848128700313633 /* ZIPFoundation */,
 				B72A8774287BE93900A78B19 /* ArgumentParser */,
 				B7C69FF728A4526500A84860 /* Algorithms */,
+				B7D1871E28C44A0900BACAA1 /* Zip */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1861,7 +1851,6 @@
 			packageProductDependencies = (
 				B796DEF8280D2AD8006AC749 /* Brotli */,
 				B713405728170F92005E0E31 /* SwiftTrace */,
-				B7EB7133284812A300313633 /* ZIPFoundation */,
 			);
 			productName = LookAtThat_AppKitTests;
 			productReference = F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */;
@@ -1886,7 +1875,6 @@
 				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
-				B7EB7135284812AA00313633 /* ZIPFoundation */,
 				B7195137284C7EA3007FBD3B /* SCNLine */,
 				B79592E728A7615B00F16746 /* Algorithms */,
 			);
@@ -1931,9 +1919,9 @@
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
 				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
 				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 				B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -3295,20 +3283,20 @@
 				kind = branch;
 			};
 		};
+		B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/swift-syntax";
 			requirement = {
 				branch = main;
 				kind = branch;
-			};
-		};
-		B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.9;
 			};
 		};
 		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
@@ -3407,6 +3395,11 @@
 			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
 			productName = SCNLine;
 		};
+		B7D1871E28C44A0900BACAA1 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
 		B7D79AB9282B2DF5000F99EB /* CodeEditorView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
@@ -3426,31 +3419,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
-		};
-		B7EB712F2848128700313633 /* ZIPFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
-			productName = ZIPFoundation;
-		};
-		B7EB71312848129E00313633 /* ZIPFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
-			productName = ZIPFoundation;
-		};
-		B7EB7133284812A300313633 /* ZIPFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
-			productName = ZIPFoundation;
-		};
-		B7EB7135284812AA00313633 /* ZIPFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
-			productName = ZIPFoundation;
-		};
-		B7EB7137284812AF00313633 /* ZIPFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7EB712E2848128700313633 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
-			productName = ZIPFoundation;
 		};
 		B7EB714428487C1800313633 /* SCNLine */ = {
 			isa = XCSwiftPackageProductDependency;
