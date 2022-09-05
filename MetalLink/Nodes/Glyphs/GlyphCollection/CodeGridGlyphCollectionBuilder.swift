@@ -50,10 +50,7 @@ class CodeGridGlyphCollectionBuilder {
         gridCache.cachedGrids[grid.id] = grid
         switch mode {
         case .monoCollection:
-            let node = VirtualGlyphParent(
-                parentGlyphCollection: monoCollection
-            )
-            monoCollection.add(child: node)
+            let node = makeVirtualParent()
             grid.virtualParent = node
             break
         case .multiCollection:
@@ -66,8 +63,12 @@ class CodeGridGlyphCollectionBuilder {
         GlyphCollectionSyntaxConsumer(targetGrid: createGrid())
     }
     
-    func makeVirtualParent() {
-        
+    func makeVirtualParent() -> VirtualGlyphParent {
+        let node = VirtualGlyphParent(
+            parentGlyphCollection: monoCollection
+        )
+        monoCollection.add(child: node)
+        return node
     }
 }
 
@@ -86,7 +87,6 @@ class VirtualGlyphParent: MetalLinkNode {
     override func render(in sdp: inout SafeDrawPass) {
         // super.render(in: &sdp)
         // virtual nodes don't render
-        
     }
    
     override func update(deltaTime: Float) {
