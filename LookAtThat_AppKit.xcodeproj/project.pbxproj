@@ -595,6 +595,7 @@
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7C9AFB1284352D60077BCA7 /* SCNLine */; };
 		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
+		B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1872028C57AFA00BACAA1 /* Zip */; };
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
 		B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
@@ -1045,6 +1046,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
@@ -1877,6 +1879,7 @@
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
 				B7195137284C7EA3007FBD3B /* SCNLine */,
 				B79592E728A7615B00F16746 /* Algorithms */,
+				B7D1872028C57AFA00BACAA1 /* Zip */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -3396,6 +3399,11 @@
 			productName = SCNLine;
 		};
 		B7D1871E28C44A0900BACAA1 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+		B7D1872028C57AFA00BACAA1 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;

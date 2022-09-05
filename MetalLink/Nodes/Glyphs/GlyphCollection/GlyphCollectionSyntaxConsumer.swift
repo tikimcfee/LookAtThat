@@ -63,6 +63,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         _ color: NSUIColor,
         _ writtenNodeSet: inout CodeGridNodes
     ) {
+        let parent = targetGrid.virtualParent
         for newCharacter in string {
             // NOTE: This is awkard, but we immediately update the node's ID
             // to the given name. This is unsafe, as the ID is set deep down
@@ -75,6 +76,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             }
             glyph.meta.syntaxID = nodeID
             writtenNodeSet.insert(glyph)
+            parent?.add(child: glyph)
         }
     }
 }

@@ -388,9 +388,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterZ = centerZ + delta
             
             // Current measurements and position have a precision of about 3-4 places
-            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.001, "Error should be within 1 point")
-            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.001, "Error should be within 1 point")
-            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.001, "Error should be within 1 point")
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.000, "Error should be within 1 point")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.000, "Error should be within 1 point")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.000, "Error should be within 1 point")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY
@@ -406,17 +406,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let sizeDeltaY = abs(testGridHeight - newBoundsHeight)
             let sizeDeltaZ = abs(testGridLength - newBoundsLength)
             
-            XCTAssertLessThanOrEqual(sizeDeltaX, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaY, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.1, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within 1 point")
             
             let boundsDeltaX = abs(newCenterX - newBoundsCenter.x)
             let boundsDeltaY = abs(newCenterY - newBoundsCenter.y)
             let boundsDeltaZ = abs(newCenterZ - newBoundsCenter.z)
             
-            XCTAssertLessThanOrEqual(boundsDeltaX, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaY, 0.1, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.1, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within 1 point")
         }
     }
     

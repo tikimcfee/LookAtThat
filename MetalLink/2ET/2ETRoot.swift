@@ -34,7 +34,7 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        try setupSnapTestMulti()
+//        try setupSnapTestMulti()
         
         func handleDirectory(_ file: FileOperation) {
             switch file {
@@ -48,7 +48,7 @@ class TwoETimeRoot: MetalLinkReader {
         camera.interceptor.onNewFileOperation = handleDirectory
         
         // TODO: ManyGrid need more abstractions
-//        try setupSnapTestMonoMuchDataManyGrid()
+        try setupSnapTestMonoMuchDataManyGrid()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
@@ -99,7 +99,7 @@ extension TwoETimeRoot {
             
             if files % 11 == 0 {
                 editor.transformedByAdding(nextRow)
-            } else if files % 51 == 0 {
+            } else if files % (11 * 11) == 0 {
                 editor.transformedByAdding(nextPlane)
             } else {
                 editor.transformedByAdding(trailing)
@@ -146,11 +146,24 @@ extension TwoETimeRoot {
         let editor = WorldGridEditor()
         editor.layoutStrategy = .collection(target: rootCollection)
         
+        var isFirst = true
         func doEditorAdd(_ childPath: URL) {
             let consumer = builder.createConsumerForNewGrid()
             consumer.consume(url: childPath)
             rootCollection.updateModelConstants()
             editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
+            guard isFirst else { return }
+            isFirst = false
+            
+            var time = Float(0.0)
+            func testAnimation() {
+                DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(30)) {
+                    time += 30
+                    consumer.targetGrid.measures.position += LFloat3(cos(time / 1000), 0, 0)
+                    testAnimation()
+                }
+            }
+            testAnimation()
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in

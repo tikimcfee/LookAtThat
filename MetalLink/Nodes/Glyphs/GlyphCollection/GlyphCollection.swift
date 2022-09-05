@@ -93,6 +93,23 @@ extension GlyphCollection {
 
 extension MetalLinkInstancedObject
 where InstancedNodeType == MetalLinkGlyphNode {
+    func updatePointer(
+        _ operation: (inout UnsafeMutablePointer<InstancedConstants>) throws -> Void
+    ) {
+        guard var pointer = instanceState.getConstantsPointer()
+        else {
+            print("Unavailable pointer to update in \(self.nodeId)")
+            return
+        }
+
+        do {
+            try operation(&pointer)
+        } catch {
+            print("pointer operation update failed")
+            print(error)
+        }
+    }
+    
     func updateConstants(
         for node: InstancedNodeType,
         _ operation: (inout InstancedConstants) throws -> InstancedConstants

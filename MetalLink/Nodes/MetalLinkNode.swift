@@ -65,6 +65,12 @@ extension MetalLinkNode: Hashable, Equatable {
 }
 
 extension MetalLinkNode {
+    var willUpdate: Bool { currentModel.rebuildModel }
+    
+    func setDirty() {
+        currentModel.dirty()
+    }
+    
     var modelMatrix: matrix_float4x4 {
         currentModel.get()
     }

@@ -47,12 +47,12 @@ public class CodeGrid: Identifiable, Equatable {
     var semanticInfoMap: SemanticInfoMap = SemanticInfoMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    lazy var measures: CodeGrid.Measures = makeMeasures()
-    func makeMeasures() -> Measures { CodeGrid.Measures(target: virtualParent ?? rootNode) }
+    lazy var measures: Measures = makeMeasures()
+    func makeMeasures() -> Measures { Measures(target: virtualParent ?? rootNode) }
     func resetMeasures() { measures = makeMeasures() }
     
     private(set) var rootNode: GlyphCollection
-    private(set) var virtualParent: MetalLinkNode?
+    var virtualParent: MetalLinkNode?
     let tokenCache: CodeGridTokenCache
 
     init(rootNode: GlyphCollection,
