@@ -88,7 +88,7 @@ extension CodeGrid {
     
     @discardableResult
     func zeroedPosition() -> CodeGrid {
-        rootNode.position = .zero
+        measures.position = .zero
         return self
     }
     
@@ -99,7 +99,7 @@ extension CodeGrid {
         dZ: Float = 0
     ) -> CodeGrid {
         laztrace(#fileID,#function,dX,dY,dZ)
-        rootNode.position = rootNode.position.translated(dX: dX, dY: dY, dZ: dZ)
+        measures.position = measures.position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
     }
     

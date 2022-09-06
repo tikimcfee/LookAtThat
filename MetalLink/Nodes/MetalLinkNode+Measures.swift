@@ -45,7 +45,8 @@ extension MetalLinkNode {
     }
     
     func convertPosition(_ convertTarget: LFloat3, to final: MetalLinkNode?) -> LFloat3 {
-        var position = position
+//        var position = position
+        var position: LFloat3 = convertTarget
         var nodeParent = parent
         while !(nodeParent == final || nodeParent == nil) {
             position += nodeParent?.position ?? .zero

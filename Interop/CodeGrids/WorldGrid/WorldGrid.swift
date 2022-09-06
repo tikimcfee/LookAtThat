@@ -105,7 +105,7 @@ extension WorldGridEditor {
         from other: CodeGrid
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
-        codeGrid.rootNode.position = other.rootNode.position.translated(
+        codeGrid.measures.position = other.measures.position.translated(
             dX: other.measures.lengthX + default__HorizontalSpacing
         )
         lastFocusedGrid = codeGrid
@@ -127,11 +127,11 @@ extension WorldGridEditor {
         }
         
         if let leftMostGrid = leftMostGrid {
-            codeGrid.rootNode.position = leftMostGrid.rootNode.position.translated(
+            codeGrid.measures.position = leftMostGrid.measures.position.translated(
                 dY: -maxHeight - default__VerticalSpacing
             )
         } else {
-            codeGrid.rootNode.position = other.rootNode.position.translated(
+            codeGrid.measures.position = other.measures.position.translated(
                 dY: -other.measures.lengthY - default__VerticalSpacing
             )
         }
@@ -143,10 +143,10 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .forward(codeGrid))
         lastFocusedGrid = codeGrid
-        codeGrid.rootNode.position = LFloat3(
+        codeGrid.measures.position = LFloat3(
             x: 0,
             y: 0,
-            z: other.rootNode.position.z - default__PlaneSpacing
+            z: other.measures.position.z - default__PlaneSpacing
         )
     }
 }

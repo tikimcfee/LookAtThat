@@ -60,7 +60,8 @@ extension MetalLinkNode {
             safeBox.max = convertPositionToParent(safeBox.max)
             computing.consumeBounds(safeBox)
         }
-        
+       
+//        print("computing: \(computing.bounds)")
         if let sizable = self as? ContentSizing {
             let size = sizable.size
             let min = LFloat3(position.x,

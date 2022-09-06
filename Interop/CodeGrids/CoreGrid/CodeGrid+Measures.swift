@@ -53,6 +53,10 @@ class Measures {
         get { positionNode.worldPosition }
         set { positionNode.worldPosition = newValue }
     }
+   
+    var bounds: Bounds {
+        (min: boundsMin, max: boundsMax)
+    }
     
     var boundsMin: LFloat3 {
         positionNode.convertPositionToParent(
@@ -65,17 +69,9 @@ class Measures {
             LFloat3(localTrailing, localTop, localFront)
         )
     }
-    
-    var worldBoundsMin: LFloat3 {
-        LFloat3(worldLeading, worldBottom, worldBack)
-    }
-    
-    var worldBoundsMax: LFloat3 {
-        LFloat3(worldTrailing, worldTop, worldFront)
-    }
-    
-    var worldBounds: Bounds {
-        (min: worldBoundsMin, max: worldBoundsMax)
+
+    var boundsInWorld: Bounds {
+        positionNode.boundsInWorld
     }
     
     var centerPosition: LFloat3 {
@@ -189,22 +185,22 @@ extension Measures {
 
 extension Measures {
     var worldLeading: VectorFloat {
-        get { positionNode.worldPosition.x - positionNode.manualBoundingBox.min.x }
+        get { positionNode.worldLeading }
     }
     var worldTrailing: VectorFloat {
-        get { positionNode.worldPosition.x + positionNode.manualBoundingBox.max.x }
+        get { positionNode.worldTrailing }
     }
     var worldTop: VectorFloat {
-        get { positionNode.worldPosition.y + positionNode.manualBoundingBox.max.y }
+        get { positionNode.worldTop }
     }
     var worldBottom: VectorFloat {
-        get { positionNode.worldPosition.y - positionNode.manualBoundingBox.min.y }
+        get { positionNode.worldBottom }
     }
     var worldFront: VectorFloat {
-        get { positionNode.worldPosition.z + positionNode.manualBoundingBox.max.z }
+        get { positionNode.worldFront }
     }
     var worldBack: VectorFloat {
-        get { positionNode.worldPosition.z - positionNode.manualBoundingBox.min.z }
+        get { positionNode.worldBack }
     }
     
     var localLeading: VectorFloat {

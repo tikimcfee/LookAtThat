@@ -76,7 +76,12 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             }
             glyph.meta.syntaxID = nodeID
             writtenNodeSet.insert(glyph)
-            parent?.add(child: glyph)
+            if let parent = parent {
+                // Parent is set by collection; reset before
+                // adding to acknowledge multiparent warning
+                glyph.parent = nil
+                parent.add(child: glyph)
+            }
         }
     }
 }

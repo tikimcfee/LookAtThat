@@ -34,7 +34,7 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-//        try setupSnapTestMulti()
+        try setupSnapTestMulti()
         
         func handleDirectory(_ file: FileOperation) {
             switch file {
@@ -48,7 +48,7 @@ class TwoETimeRoot: MetalLinkReader {
         camera.interceptor.onNewFileOperation = handleDirectory
         
         // TODO: ManyGrid need more abstractions
-        try setupSnapTestMonoMuchDataManyGrid()
+//        try setupSnapTestMonoMuchDataManyGrid()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {

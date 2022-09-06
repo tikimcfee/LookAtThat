@@ -56,6 +56,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
+        builder.mode = .multiCollection
         let consumer = builder.createConsumerForNewGrid()
         consumer.consume(url: bundle.testFile)
         let testGrid = consumer.targetGrid
@@ -67,6 +68,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
+            testGrid.virtualParent?.update(deltaTime: 0.0167)
             let testBounds = BoundsComputing()
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 //            printSeparator()
@@ -75,7 +77,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     XCTAssertTrue(node.width > 0, "Glyph nodes usually have some width")
                     XCTAssertTrue(node.height > 0, "Glyph nodes usually have some height")
                     XCTAssertTrue(node.depth > 0, "Glyph nodes usually have some depth")
-                    testBounds.consumeBounds(node.boundsInParent)
+                    testBounds.consumeBounds(node.boundsInWorld)
                     //                print("\t", node.id)
                     //                print("\tpos ", node.position)
                     //                print("\tsize", node.size)
@@ -84,21 +86,21 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             }
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
             // The above bounds are computed with all nodes.
-            print("grid size: ", BoundsSize(testGrid.rootNode.manualBoundingBox))
+            print("grid size: ", BoundsSize(testGrid.measures.boundsInWorld))
             print("test size: ", BoundsSize(testBounds.bounds))
             
-            print("grid bounds: ", testGrid.rootNode.manualBoundingBox)
+            print("grid bounds: ", testGrid.measures.boundsInWorld)
             print("test bounds: ", testBounds.bounds)
             XCTAssertEqual(
                 testBounds.bounds.min,
-                testGrid.rootNode.manualBoundingBox.min,
-                "An unmoved collection has the same bounds as its children"
+                testGrid.measures.boundsInWorld.min,
+                "Bounds min must match from node calculation and grid measures"
             )
             
             XCTAssertEqual(
                 testBounds.bounds.max,
-                testGrid.rootNode.manualBoundingBox.max,
-                "An unmoved collection has the same bounds as its children"
+                testGrid.measures.boundsInWorld.max,
+                "Bounds max must match from node calculation and grid measures"
             )
         }
         
@@ -261,13 +263,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         """
         print(gridInfo)
         
-        let manualWidth = BoundsWidth(testGrid.rootNode.manualBoundingBox)
-        let manualHeight = BoundsHeight(testGrid.rootNode.manualBoundingBox)
-        let manualLength = BoundsLength(testGrid.rootNode.manualBoundingBox)
-        let manualCenter = testGrid.rootNode.boundsCenterPosition
+        let manualWidth = BoundsWidth(testGrid.measures.bounds)
+        let manualHeight = BoundsHeight(testGrid.measures.bounds)
+        let manualLength = BoundsLength(testGrid.measures.bounds)
+        let manualCenter = testGrid.measures.centerPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
         let manualInfo = """
-        ---
         'Manual' Calculation
         manualWidth   : \(manualWidth),   manualHeight:          \(manualHeight), manualLength:\(manualLength)
         manualCenter  : \(manualCenter),  manualCenterConverted: \(manualCenterConverted)
