@@ -48,7 +48,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
-    func testLinkNodeStats() throws {
+    func testLinkNodeStatsForMultiCollection() throws {
         let link = GlobalInstances.defaultLink
         let builder = CodeGridGlyphCollectionBuilder(
             link: link,
