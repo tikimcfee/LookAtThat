@@ -99,7 +99,7 @@ extension TwoETimeRoot {
             
             if files % 11 == 0 {
                 editor.transformedByAdding(nextRow)
-            } else if files % (11 * 11) == 0 {
+            } else if files % (75) == 0 {
                 editor.transformedByAdding(nextPlane)
             } else {
                 editor.transformedByAdding(trailing)

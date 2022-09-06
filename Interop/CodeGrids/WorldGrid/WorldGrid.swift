@@ -117,7 +117,7 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .down(codeGrid))
         lastFocusedGrid = codeGrid
-        var maxHeight: VectorFloat = 0.0
+        var maxHeight: VectorFloat = other.measures.lengthY
         var leftMostGrid: CodeGrid?
         snapping.iterateOver(other, direction: .left) { _, grid, _ in
             /* do this to have everything connected? */
