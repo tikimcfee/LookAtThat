@@ -33,7 +33,11 @@ extension SafeDrawPass {
             return nil
         }
         
-        link.pickingTexture.updateDescriptor(renderPassDescriptor)
+        // TODO:
+        // setup a start/stop for descriptor updates.
+        // look at other implementations of engines.
+        // or... use one... ...  .
+//        link.pickingTexture.updateDescriptor(renderPassDescriptor)
         
         guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)

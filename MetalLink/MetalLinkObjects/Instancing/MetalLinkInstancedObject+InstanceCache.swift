@@ -14,7 +14,7 @@ extension MetalLinkInstancedObject {
         private var nodeCache = ConcurrentDictionary<UInt, InstancedNodeType>()
 
         func createNew() -> InstancedConstants {
-            return self[InstanceCounter.shared.nextId()]
+            return self[InstanceCounter.shared.nextId(.glyph)]
         }
         
         override func make(_ key: Key, _ store: inout [Key : Value]) -> Value {
@@ -43,18 +43,24 @@ extension MetalLinkInstancedObject {
 
 // TODO: Make a smarter / safer glyph instance counter
 class InstanceCounter {
+    enum Kind {
+        case glyph
+        case grid
+    }
+    
     // Starting at 10 to avoid conflict with picking texture color
     // start value (1 when .black)
     static let startingGeneratedID: InstanceIDType = 10
     static let shared = InstanceCounter()
     
-    private var currentGeneratedID: InstanceIDType = InstanceCounter.startingGeneratedID
+    static var idMap = [Kind: InstanceIDType]()
+    
+//    private var currentGeneratedID: InstanceIDType = InstanceCounter.startingGeneratedID
     private init() { }
     
-    func nextId() -> InstanceIDType {
-        let id = currentGeneratedID
-        //        print("Gen: \(id)")
-        currentGeneratedID += 1
+    func nextId(_ kind: Kind) -> InstanceIDType {
+        let id = Self.idMap[kind, default: Self.startingGeneratedID]
+        Self.idMap[kind] = id + 1
         return id
     }
 }

@@ -70,7 +70,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             // in the node itself automatically. Might want to create a new
             // pathway for this...
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
-            guard let glyph = targetCollection.addGlyph(glyphKey) else {
+            guard let (glyph, constants) = targetCollection.addGlyph(glyphKey) else {
                 print("Failed to render glyph for: \(newCharacter)")
                 return
             }

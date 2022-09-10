@@ -12,14 +12,18 @@ extension MetalLinkInstancedObject {
     class InstanceState {
         let link: MetalLink
         
-        private(set) var bufferCache: Cached<MTLBuffer?>
+        private(set) var parentCache = Cached<MTLBuffer?>(current: nil, update: { nil })
+        private(set) var bufferCache = Cached<MTLBuffer?>(current: nil, update: { nil })
+        
+        var virtualParents: [MetalLinkNode] = [] { didSet { parentCache.dirty() }}
         var nodes: [InstancedNodeType] = [] { didSet { bufferCache.dirty() } }
         var constants: [InstancedConstants] = [] { didSet { bufferCache.dirty() } }
         
         init(link: MetalLink) {
             self.link = link
-            self.bufferCache = Cached(current: nil, update: { nil })
-            self.bufferCache.update = makeBuffer
+            
+            self.bufferCache.update = makeInstancesBuffer
+            self.parentCache.update = makeParentsBuffer
         }
         
         // Appends info and returns last index
@@ -58,7 +62,21 @@ extension MetalLinkInstancedObject {
                 .boundPointer(as: InstancedConstants.self, count: constants.count)
         }
         
-        private func makeBuffer() -> MTLBuffer? {
+        private func makeParentsBuffer() -> MTLBuffer? {
+            print("Creating buffer for parent constants: \(self.virtualParents.count)")
+            do {
+                if self.virtualParents.count == 0 {
+                    print("\n\n\tAttempting to create empty buffer!")
+                }
+                let safeCount = max(1, self.virtualParents.count)
+                return try link.makeBuffer(of: ParentConstants.self, count: safeCount)
+            } catch {
+                print(error)
+                return nil
+            }
+        }
+        
+        private func makeInstancesBuffer() -> MTLBuffer? {
             print("Creating buffer for instanced constants: \(self.constants.count)")
             do {
                 if self.constants.count == 0 {

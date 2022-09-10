@@ -34,7 +34,8 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        try setupSnapTestMulti()
+        try setupBackgroundTest()
+//        try setupSnapTestMulti()
         
         func handleDirectory(_ file: FileOperation) {
             switch file {
@@ -68,6 +69,46 @@ enum MetalGlyphError: String, Error {
 }
 
 extension TwoETimeRoot {
+    func setupBackgroundTest() throws {
+        class BackgroundQuad: MetalLinkObject, ContentSizing {
+            let quad: MetalLinkQuadMesh
+            var width: Float { quad.width }
+            var height: Float { quad.height }
+            var depth: Float { 0 }
+            
+            init(_ link: MetalLink) {
+                self.quad = link.meshLibrary[.Quad] as! MetalLinkQuadMesh
+                super.init(link, mesh: quad)
+            }
+            
+            func set(dimensions: LFloat3) {
+                // This should technically work the first time it's called.
+                // I could try tracking the scale value, inverting, and reapplying...
+                self.constants.modelMatrix.scale(amount: dimensions)
+            }
+        }
+        
+        let background = BackgroundQuad(link)
+        background.position = LFloat3(0.0, 0.0, -50.0)
+        background.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
+        
+        let background2 = BackgroundQuad(link)
+        background2.position = LFloat3(4.0, 0.0, -50.0)
+        background2.setColor(LFloat4(0.0, 1.0, 0.0, 1.0))
+        
+        let background3 = BackgroundQuad(link)
+        background3.position = LFloat3(8.0, 0.0, -50.0)
+        background3.setColor(LFloat4(0.0, 0.0, 1.0, 1.0))
+       
+        print(background.centerPosition)
+        print(background2.centerPosition)
+        print(background3.centerPosition)
+        
+        root.add(child: background)
+        root.add(child: background2)
+        root.add(child: background3)
+    }
+    
     func setupSnapTestMulti() throws {
         // TODO: make switching between multi/mono better
         // multi needs to add each collection; mono needs to add root

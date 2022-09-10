@@ -24,7 +24,9 @@ class MetalLinkNode {
         { didSet { currentModel.dirty() } }
     
     func render(in sdp: inout SafeDrawPass) {
-        children.forEach { $0.render(in: &sdp) }
+        for child in children {
+            child.render(in: &sdp)
+        }
         asRenderable?.doRender(in: &sdp)
     }
     

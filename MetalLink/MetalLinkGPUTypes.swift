@@ -27,6 +27,7 @@ extension MetalLinkInstancedObject {
         
         var instanceID: InstanceIDType
         var addedColor: LFloat4 = .zero
+//        var parentIndex: UInt = .zero
     }
     
     class State {
@@ -44,6 +45,10 @@ extension MetalLinkObject {
     class State {
         var time: Float = 0
     }
+}
+
+struct ParentConstants: MemoryLayoutSizable {
+    let modelMatrix = matrix_identity_float4x4
 }
 
 // MARK: - Extensions

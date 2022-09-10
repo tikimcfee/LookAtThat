@@ -21,5 +21,5 @@ extension ContentSizing {
 extension MetalLinkGlyphNode: ContentSizing {
     var width: Float { quad.width }
     var height: Float { quad.height }
-    var depth: Float { Float(1.0) }
+    var depth: Float { 0.0 }
 }

@@ -17,6 +17,12 @@ struct SceneConstants {
     float4x4 pointerMatrix;
 };
 
+struct BasicModelConstants {
+    float4x4 modelMatrix;
+    float4 color;
+    uint textureIndex;
+};
+
 struct ModelConstants {
     float4x4 modelMatrix;
     

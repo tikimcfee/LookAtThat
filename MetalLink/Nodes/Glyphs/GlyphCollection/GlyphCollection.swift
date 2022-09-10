@@ -56,7 +56,7 @@ extension GlyphCollection {
     // but that's a fragile guarantee.
     func addGlyph(
         _ key: GlyphCacheKey
-    ) -> GlyphNode? {
+    ) -> (GlyphNode, InstancedConstants)? {
         guard let newGlyph = linkAtlas.newGlyph(key) else {
             print("No glyph for", key)
             return nil
@@ -83,7 +83,7 @@ extension GlyphCollection {
         newGlyph.meta.instanceID = constants.instanceID
    
         renderer.insert(newGlyph, constants)
-        return newGlyph
+        return (newGlyph, constants)
     }
     
     subscript(glyphID: InstanceIDType) -> MetalLinkGlyphNode? {
