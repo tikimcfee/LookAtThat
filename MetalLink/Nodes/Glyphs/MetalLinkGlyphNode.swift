@@ -54,3 +54,12 @@ extension MetalLinkGlyphNode {
         case standardGroup
     }
 }
+
+extension MetalLinkGlyphNode: ContentSizing {
+    var contentWidth: Float { quad.width }
+    var contentHeight: Float { quad.height }
+    var contentDepth: Float { 1.0 }
+    var offset: LFloat3 {
+        LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0)
+    }
+}

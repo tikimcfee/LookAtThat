@@ -34,21 +34,13 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-//        try setupBackgroundTest()
-        try setupSnapTestMulti()
-        
-        func handleDirectory(_ file: FileOperation) {
-            switch file {
-            case .openDirectory:
-                openDirectory { file in
-                    guard let url = file.parent else { return }
-                    GlobalInstances.fileBrowser.setRootScope(url)
-                }
-            }
-        }
         camera.interceptor.onNewFileOperation = handleDirectory
         
-        // TODO: ManyGrid need more abstractions
+        try setupNodeBackgroundTest()
+//        try setupBackgroundTest()
+//        try setupSnapTestMulti()
+        
+         // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
     }
     
@@ -59,6 +51,46 @@ class TwoETimeRoot: MetalLinkReader {
         root.update(deltaTime: dT)
         root.render(in: &sdp)
     }
+    
+    func handleDirectory(_ file: FileOperation) {
+        switch file {
+        case .openDirectory:
+            openDirectory { file in
+                guard let url = file.parent else { return }
+                GlobalInstances.fileBrowser.setRootScope(url)
+            }
+        }
+    }
+    
+    func basicGridPipeline(_ childPath: URL) -> GlyphCollectionSyntaxConsumer {
+        let consumer = builder.createConsumerForNewGrid()
+        consumer.consume(url: childPath)
+        consumer.targetGrid.fileName = childPath.fileName
+        
+        GlobalInstances.gridStore.semanticsController
+            .attachPickingStream(to: consumer.targetGrid)
+        
+        return consumer
+    }
+    
+    func basicAddPipeline(_ action: @escaping (URL) -> Void) {
+        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
+            switch event {
+            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                FileBrowser.recursivePaths(rootPath)
+                    .filter { !$0.isDirectory }
+                    .forEach { childPath in
+                        action(childPath)
+                    }
+                
+            case let .newSingleCommand(url, _):
+                action(url)
+                
+            default:
+                break
+            }
+        }.store(in: &bag)
+    }
 }
 
 enum MetalGlyphError: String, Error {
@@ -68,22 +100,44 @@ enum MetalGlyphError: String, Error {
     case noAtlasTexture
 }
 
-extension TwoETimeRoot {
-    func setupBackgroundTest() throws {
-        class BackgroundQuad: MetalLinkObject, ContentSizing {
-            let quad: MetalLinkQuadMesh
-            
-            var contentWidth: Float { quad.width }
-            var contentHeight: Float { quad.height }
-            var contentDepth: Float { 1 }
-            var offset: LFloat3 { LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0) }
+class BackgroundQuad: MetalLinkObject, ContentSizing {
+    let quad: MetalLinkQuadMesh
+    
+    var contentWidth: Float { quad.width }
+    var contentHeight: Float { quad.height }
+    var contentDepth: Float { 1 }
+    var offset: LFloat3 {
+        LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0)
+    }
+    
+    init(_ link: MetalLink) {
+        self.quad = MetalLinkQuadMesh(link)
+        super.init(link, mesh: quad)
+    }
+}
 
-            init(_ link: MetalLink) {
-                self.quad = MetalLinkQuadMesh(link)
-                super.init(link, mesh: quad)
-            }
+extension TwoETimeRoot {
+    func setupNodeBackgroundTest() throws {
+        func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
+            let background = BackgroundQuad(link)
+            background.quad.height = consumer.targetGrid.boundsHeight
+            background.quad.width = consumer.targetGrid.boundsWidth
+            
+            root.add(child: background)
+            root.add(child: consumer.targetCollection)
+            background.position.z -= 0.5
+            
+            background
+                .setTop(consumer.targetGrid.top)
+                .setLeading(consumer.targetGrid.leading)
         }
         
+        basicAddPipeline { filePath in
+            doAdd(self.basicGridPipeline(filePath))
+        }
+    }
+    
+    func setupBackgroundTest() throws {
         let background = BackgroundQuad(link)
         background.position = LFloat3(0.0, 0.0, -50.0)
         background.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))

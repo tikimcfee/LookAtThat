@@ -19,9 +19,3 @@ extension ContentSizing {
     var size: LFloat3 { LFloat3(contentWidth, contentHeight, contentDepth) }
     var offset: LFloat3 { LFloat3(0, 0, 0) }
 }
-
-extension MetalLinkGlyphNode: ContentSizing {
-    var contentWidth: Float { quad.width }
-    var contentHeight: Float { quad.height }
-    var contentDepth: Float { 1.0 }
-}
