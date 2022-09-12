@@ -9,43 +9,7 @@ import Foundation
 import Metal
 
 extension MetalLinkNode {
-    var boundsWidth: VectorFloat { abs(manualBoundingBox.max.x - manualBoundingBox.min.x) }
-    var boundsHeight: VectorFloat { abs(manualBoundingBox.max.y - manualBoundingBox.min.y) }
-    var boundsLength: VectorFloat { abs(manualBoundingBox.max.z - manualBoundingBox.min.z) }
-    
-    var boundsCenterWidth: VectorFloat { boundsWidth / 2.0 + manualBoundingBox.min.x }
-    var boundsCenterHeight: VectorFloat { boundsHeight / 2.0 + manualBoundingBox.min.y }
-    var boundsCenterLength: VectorFloat { boundsLength / 2.0 + manualBoundingBox.min.z }
-    
-    var boundsCenterPosition: LFloat3 {
-        let vector = LFloat3(
-            x: boundsCenterWidth,
-            y: boundsCenterHeight,
-            z: boundsCenterLength
-        )
-        return vector
-    }
-    
-    var boundsInParent: Bounds {
-        let minVector = convertPositionToParent(manualBoundingBox.min)
-        let maxVector = convertPositionToParent(manualBoundingBox.max)
-        return (minVector, maxVector)
-    }
-    
-    var boundsInWorld: Bounds {
-        let minVector = convertPosition(manualBoundingBox.min, to: nil)
-        let maxVector = convertPosition(manualBoundingBox.max, to: nil)
-        return (minVector, maxVector)
-    }
-}
-
-extension MetalLinkNode {
-    func convertPositionToParent(_ convertTarget: LFloat3) -> LFloat3 {
-        return (parent?.position ?? position) + convertTarget
-    }
-    
     func convertPosition(_ convertTarget: LFloat3, to final: MetalLinkNode?) -> LFloat3 {
-//        var position = position
         var position: LFloat3 = convertTarget
         var nodeParent = parent
         while !(nodeParent == final || nodeParent == nil) {
@@ -80,22 +44,22 @@ extension MetalLinkNode {
     }
     
     var worldLeading: VectorFloat {
-        get { worldPosition.x - abs(manualBoundingBox.min.x) }
+        get { worldPosition.x - abs(bounds.min.x) }
     }
     var worldTrailing: VectorFloat {
-        get { worldPosition.x + abs(manualBoundingBox.max.x) }
+        get { worldPosition.x + abs(bounds.max.x) }
     }
     var worldTop: VectorFloat {
-        get { worldPosition.y + abs(manualBoundingBox.max.y) }
+        get { worldPosition.y + abs(bounds.max.y) }
     }
     var worldBottom: VectorFloat {
-        get { worldPosition.y - abs(manualBoundingBox.min.y) }
+        get { worldPosition.y - abs(bounds.min.y) }
     }
     var worldFront: VectorFloat {
-        get { worldPosition.z + abs(manualBoundingBox.max.z) }
+        get { worldPosition.z + abs(bounds.max.z) }
     }
     var worldBack: VectorFloat {
-        get { worldPosition.z - abs(manualBoundingBox.min.z) }
+        get { worldPosition.z - abs(bounds.min.z) }
     }
     
     var worldBoundsMin: LFloat3 {

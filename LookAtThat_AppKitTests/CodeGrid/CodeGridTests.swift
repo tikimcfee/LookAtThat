@@ -48,7 +48,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
-    func testLinkNodeStatsForMultiCollection() throws {
+    func testLinkNodeSetters() throws {
         let link = GlobalInstances.defaultLink
         let builder = CodeGridGlyphCollectionBuilder(
             link: link,
@@ -57,6 +57,35 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedGridCache: bundle.gridCache
         )
         builder.mode = .multiCollection
+        
+        func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
+            let consumer = builder.createConsumerForNewGrid()
+            consumer.consume(url: url)
+            return consumer
+        }
+        
+        let testGrid1 = consumed(bundle.testFile).targetGrid
+        let testGrid2 = consumed(bundle.testFile).targetGrid
+        
+        // call multiple times to make sure it isn't additive.
+        // these are centered at the origin. Setting leading
+        // of the second grid moves leading to oigin, which
+        // is the original center.
+        testGrid2.setLeading(testGrid1.leading)
+        testGrid2.setLeading(testGrid1.leading)
+        testGrid2.setLeading(testGrid1.leading)
+        XCTAssertEqual(testGrid2.leading, testGrid1.centerPosition.x)
+    }
+    
+    func testLinkNodeStatsForMultiCollection() throws {
+        let link = GlobalInstances.defaultLink
+        let builder = CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
+        )
+        builder.mode = .monoCollection
         let consumer = builder.createConsumerForNewGrid()
         consumer.consume(url: bundle.testFile)
         let testGrid = consumer.targetGrid
@@ -68,38 +97,32 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
-            testGrid.virtualParent?.update(deltaTime: 0.0167)
+//            testGrid.virtualParent?.update(deltaTime: 0.0167)
             let testBounds = BoundsComputing()
             testGrid.tokenCache.doOnEach { id, nodeSet in
-                //            printSeparator()
-                //            print("token", id)
                 for node in nodeSet {
-                    XCTAssertTrue(node.width > 0, "Glyph nodes usually have some width")
-                    XCTAssertTrue(node.height > 0, "Glyph nodes usually have some height")
-                    XCTAssertTrue(node.depth > 0, "Glyph nodes usually have some depth")
-                    testBounds.consumeBounds(node.boundsInWorld)
-                    //                print("\t", node.id)
-                    //                print("\tpos ", node.position)
-                    //                print("\tsize", node.size)
-                    //                print("\tbox ", node.manualBoundingBox)
+                    XCTAssertTrue(node.contentWidth > 0, "Glyph nodes usually have some width")
+                    XCTAssertTrue(node.contentHeight > 0, "Glyph nodes usually have some height")
+                    XCTAssertTrue(node.contentDepth > 0, "Glyph nodes usually have some depth")
+                    testBounds.consumeBounds(node.bounds)
                 }
             }
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
             // The above bounds are computed with all nodes.
-            print("grid size: ", BoundsSize(testGrid.measures.boundsInWorld))
-            print("test size: ", BoundsSize(testBounds.bounds))
+            print("computed grid size: ", BoundsSize(testGrid.bounds))
+            print("computed test size: ", BoundsSize(testBounds.bounds))
             
-            print("grid bounds: ", testGrid.measures.boundsInWorld)
-            print("test bounds: ", testBounds.bounds)
+            print("grid world bounds: ", testGrid.bounds)
+            print("test world bounds: ", testBounds.bounds)
             XCTAssertEqual(
                 testBounds.bounds.min,
-                testGrid.measures.boundsInWorld.min,
+                testGrid.bounds.min,
                 "Bounds min must match from node calculation and grid measures"
             )
             
             XCTAssertEqual(
                 testBounds.bounds.max,
-                testGrid.measures.boundsInWorld.max,
+                testGrid.bounds.max,
                 "Bounds max must match from node calculation and grid measures"
             )
         }
@@ -127,15 +150,15 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             .withFileName(bundle.testFile.lastPathComponent)
             .consume(rootSyntaxNode: parsed.root)
         
-//        let testClass = try XCTUnwrap(
-//            testGrid.semanticInfoMap.classes.first,
-//            "Must have id to test"
-//        )
+        //        let testClass = try XCTUnwrap(
+        //            testGrid.semanticInfoMap.classes.first,
+        //            "Must have id to test"
+        //        )
         
         let (x, y, z) = (
-            testGrid.measures.lengthX,
-            testGrid.measures.lengthY,
-            testGrid.measures.lengthZ
+            testGrid.lengthX,
+            testGrid.lengthY,
+            testGrid.lengthZ
         )
         
         XCTAssertGreaterThan(x, 0, "Must have some width")
@@ -156,7 +179,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         let testGrid = newGrid()
         let testClass = try XCTUnwrap(testGrid.semanticInfoMap.classes.first, "Must have id to test")
-
+        
         let computing = BoundsComputing()
         testGrid
             .semanticInfoMap
@@ -188,30 +211,30 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         XCTAssertEqual(depth, 3, "Calls to parent and depth count must match")
     }
     
-//    func testRewriting() throws {
-//        let rewriter = TraceCapturingRewriter()
-//        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
-//        let rewritten = rewriter.visit(parsed)
-//        let rewrittenAgain = rewriter.visit(rewritten)
-//        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
-//
-//        let fileRewriter = TraceFileWriter()
-//        fileRewriter.addTracesToFile(bundle.testFileRaw)
-//    }
-//
-//    func test__RewritingAll() throws {
-//        let fileRewriter = TraceFileWriter()
-//
-//        printStart()
-//        let root = TestBundle.rewriteDirectories.first!
-//        let finder = TracingFileFinder()
-//
-//        finder.findFiles(root).forEach { path in
-//            fileRewriter.addTracesToFile(path)
-//        }
-//
-//        printEnd()
-//    }
+    //    func testRewriting() throws {
+    //        let rewriter = TraceCapturingRewriter()
+    //        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
+    //        let rewritten = rewriter.visit(parsed)
+    //        let rewrittenAgain = rewriter.visit(rewritten)
+    //        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
+    //
+    //        let fileRewriter = TraceFileWriter()
+    //        fileRewriter.addTracesToFile(bundle.testFileRaw)
+    //    }
+    //
+    //    func test__RewritingAll() throws {
+    //        let fileRewriter = TraceFileWriter()
+    //
+    //        printStart()
+    //        let root = TestBundle.rewriteDirectories.first!
+    //        let finder = TracingFileFinder()
+    //
+    //        finder.findFiles(root).forEach { path in
+    //            fileRewriter.addTracesToFile(path)
+    //        }
+    //
+    //        printEnd()
+    //    }
     
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
@@ -250,11 +273,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func stats(_ testGrid: CodeGrid) {
-        let testGridWidth = testGrid.measures.lengthX
-        let testGridHeight = testGrid.measures.lengthY
-        let testGridLength = testGrid.measures.lengthZ
-        let testGridCenter = testGrid.measures.centerPosition
-
+        let testGridWidth = testGrid.lengthX
+        let testGridHeight = testGrid.lengthY
+        let testGridLength = testGrid.lengthZ
+        let testGridCenter = testGrid.centerPosition
+        
         let gridInfo = """
         ---
         Reported from grid: \(testGrid.fileName)
@@ -263,10 +286,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         """
         print(gridInfo)
         
-        let manualWidth = BoundsWidth(testGrid.measures.bounds)
-        let manualHeight = BoundsHeight(testGrid.measures.bounds)
-        let manualLength = BoundsLength(testGrid.measures.bounds)
-        let manualCenter = testGrid.measures.centerPosition
+        let manualWidth = BoundsWidth(testGrid.bounds)
+        let manualHeight = BoundsHeight(testGrid.bounds)
+        let manualLength = BoundsLength(testGrid.bounds)
+        let manualCenter = testGrid.centerPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
         let manualInfo = """
         'Manual' Calculation
@@ -288,36 +311,36 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         printStart()
         print("start: ----")
-        print(testGrid.measures.dumpstats)
-
-        XCTAssertEqual(testGrid.measures.position, .zero, "Must start at 0,0,0")
+        print(testGrid.dumpstats)
         
-        testGrid.measures.setLeading(0)
-        testGrid.measures.setTop(0)
-        testGrid.measures.setBack(0)
+        XCTAssertEqual(testGrid.position, .zero, "Must start at 0,0,0")
+        
+        testGrid.setLeading(0)
+        testGrid.setTop(0)
+        testGrid.setBack(0)
         print("after translate: ----")
-        print(testGrid.measures.dumpstats)
+        print(testGrid.dumpstats)
         
-        deltaX = abs(testGrid.measures.leadingOffset - testGrid.measures.xpos)
-        deltaY = abs(testGrid.measures.topOffset + testGrid.measures.ypos)
-        deltaZ = abs(testGrid.measures.backOffset - testGrid.measures.zpos)
+        deltaX = abs(testGrid.leadingOffset - testGrid.xpos)
+        deltaY = abs(testGrid.topOffset + testGrid.ypos)
+        deltaZ = abs(testGrid.backOffset - testGrid.zpos)
         XCTAssertLessThanOrEqual(abs(deltaX), 0.001, "Float difference must be very small")
         XCTAssertLessThanOrEqual(abs(deltaY), 0.001, "Float difference must be very small")
         XCTAssertLessThanOrEqual(abs(deltaZ), 0.001, "Float difference must be very small")
-
+        
         let alignedGrid = newGrid()
         print("new grid: ----")
-        print(alignedGrid.measures.dumpstats)
-        alignedGrid.measures.setLeading(testGrid.measures.trailing)
+        print(alignedGrid.dumpstats)
+        alignedGrid.setLeading(testGrid.trailing)
         
         print("after align: ----")
-        print(alignedGrid.measures.dumpstats)
-    
+        print(alignedGrid.dumpstats)
+        
         printEnd()
     }
     
     func testMeasuresAndSizes() throws {
-//        let parsed = try SyntaxParser.parse(bundle.testFile)
+        //        let parsed = try SyntaxParser.parse(bundle.testFile)
         let parsed = try SyntaxParser.parse(source: TestBundle.RawCode.threeLine)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
@@ -326,26 +349,26 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         let testGrid = newGrid()
         stats(testGrid)
-        XCTAssert(testGrid.measures.lengthX > 0, "Should have some size")
+        XCTAssert(testGrid.lengthX > 0, "Should have some size")
         XCTAssertEqual(testGrid.rootNode.position, .zero, "Must start at zero position for test")
         
         // Test initial sizing works
-        let testGridWidth = testGrid.measures.lengthX
-        let testGridHeight = testGrid.measures.lengthY
-        let testGridLength = testGrid.measures.lengthZ
+        let testGridWidth = testGrid.lengthX
+        let testGridHeight = testGrid.lengthY
+        let testGridLength = testGrid.lengthZ
         
-        let centerPosition = testGrid.measures.centerPosition
+        let centerPosition = testGrid.centerPosition
         var centerX = centerPosition.x
         var centerY = centerPosition.y
         var centerZ = centerPosition.z
         
-        let expectedCenterX = testGrid.measures.leading + testGridWidth / 2.0
-        let expectedCenterY = testGrid.measures.top - testGridHeight / 2.0
-        let expectedCenterZ = testGrid.measures.front - testGridLength / 2.0
+        let expectedCenterX = testGrid.leading + testGridWidth / 2.0
+        let expectedCenterY = testGrid.top - testGridHeight / 2.0
+        let expectedCenterZ = testGrid.front - testGridLength / 2.0
         
         XCTAssertGreaterThanOrEqual(expectedCenterX, 0, "Grids at (0,0,0) expected to draw left to right; its center should ahead of that point")
         XCTAssertLessThanOrEqual(expectedCenterY, 0, "Grids at (0,0,0) expected to draw top to bottom; its center should be below that point")
-//        XCTAssertGreaterThanOrEqual(expectedCenterZ, 0, "Grids at (0,0,0) expected to draw front to back; its center should behind that point")
+        //        XCTAssertGreaterThanOrEqual(expectedCenterZ, 0, "Grids at (0,0,0) expected to draw front to back; its center should behind that point")
         
         let deltaX = abs(centerX - expectedCenterX)
         let deltaY = abs(centerY - expectedCenterY)
@@ -379,7 +402,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             
             stats(testGrid)
             
-            let newCenterPosition = testGrid.measures.centerPosition
+            let newCenterPosition = testGrid.centerPosition
             let newCenterX = newCenterPosition.x
             let newCenterY = newCenterPosition.y
             let newCenterZ = newCenterPosition.z
@@ -397,7 +420,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             centerY = newExpectedCenterY
             centerZ = newExpectedCenterZ
             
-            let newBounds = testGrid.rootNode.manualBoundingBox
+            let newBounds = testGrid.rootNode.bounds
             let newBoundsWidth = BoundsWidth(newBounds) * DeviceScale
             let newBoundsHeight = BoundsHeight(newBounds) * DeviceScale
             let newBoundsLength = BoundsLength(newBounds) * DeviceScale
@@ -448,11 +471,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let linkCount = expectation(description: "Traversal must occur exactly \(expectedRightCommands)")
         linkCount.expectedFulfillmentCount = expectedRightCommands
         
-        var totalLengthX: VectorFloat = firstGrid.measures.lengthX
+        var totalLengthX: VectorFloat = firstGrid.lengthX
         func sumLength(grid: CodeGrid, _ direction: SelfRelativeDirection, _ op: @escaping () -> Void ) {
             snapping.iterateOver(grid, direction: direction) { _, grid, stop in
                 print(grid.id, totalLengthX)
-                totalLengthX += grid.measures.lengthX
+                totalLengthX += grid.lengthX
                 op()
             }
         }
@@ -462,17 +485,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printEnd()
         
         let expectedLengthX = allGrids.reduce(into: VectorFloat(0)) { length, grid in
-            length += grid.measures.lengthX
+            length += grid.lengthX
         }
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         
-        totalLengthX = firstGrid.measures.lengthX
+        totalLengthX = firstGrid.lengthX
         printStart()
         sumLength(grid: allGrids.last!, .backward, { })
         XCTAssertEqual(totalLengthX, expectedLengthX, "Measured lengths must match")
         printEnd()
         
-        let oneGridLength = allGrids[2].measures.lengthX
+        let oneGridLength = allGrids[2].lengthX
         totalLengthX = oneGridLength
         printStart()
         snapping.detachRetaining(allGrids[2])
@@ -481,7 +504,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         printEnd()
         
         printStart()
-        let second = allGrids[7].measures.lengthX
+        let second = allGrids[7].lengthX
         totalLengthX = second
         snapping.detachRetaining(allGrids[7])
         sumLength(grid: allGrids.last!, .backward, { })

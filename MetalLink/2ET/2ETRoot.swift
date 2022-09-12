@@ -34,8 +34,8 @@ class TwoETimeRoot: MetalLinkReader {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
-        try setupBackgroundTest()
-//        try setupSnapTestMulti()
+//        try setupBackgroundTest()
+        try setupSnapTestMulti()
         
         func handleDirectory(_ file: FileOperation) {
             switch file {
@@ -72,34 +72,32 @@ extension TwoETimeRoot {
     func setupBackgroundTest() throws {
         class BackgroundQuad: MetalLinkObject, ContentSizing {
             let quad: MetalLinkQuadMesh
-            var width: Float { quad.width }
-            var height: Float { quad.height }
-            var depth: Float { 0 }
             
+            var contentWidth: Float { quad.width }
+            var contentHeight: Float { quad.height }
+            var contentDepth: Float { 1 }
+            var offset: LFloat3 { LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0) }
+
             init(_ link: MetalLink) {
-                self.quad = link.meshLibrary[.Quad] as! MetalLinkQuadMesh
+                self.quad = MetalLinkQuadMesh(link)
                 super.init(link, mesh: quad)
-            }
-            
-            func set(dimensions: LFloat3) {
-                // This should technically work the first time it's called.
-                // I could try tracking the scale value, inverting, and reapplying...
-                self.constants.modelMatrix.scale(amount: dimensions)
             }
         }
         
         let background = BackgroundQuad(link)
         background.position = LFloat3(0.0, 0.0, -50.0)
         background.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
+        background.quad.height = 3.0
         
         let background2 = BackgroundQuad(link)
         background2.position = LFloat3(4.0, 0.0, -50.0)
         background2.setColor(LFloat4(0.0, 1.0, 0.0, 1.0))
+        background2.quad.height = 7.0
         
         let background3 = BackgroundQuad(link)
         background3.position = LFloat3(8.0, 0.0, -50.0)
         background3.setColor(LFloat4(0.0, 0.0, 1.0, 1.0))
-       
+        
         print(background.centerPosition)
         print(background2.centerPosition)
         print(background3.centerPosition)
@@ -107,6 +105,15 @@ extension TwoETimeRoot {
         root.add(child: background)
         root.add(child: background2)
         root.add(child: background3)
+        
+        background2.setLeading(background.trailing)
+        background2.setTop(background.top)
+        background3.setLeading(background2.trailing)
+        background3.setTop(background2.top)
+        
+        print(background.centerPosition)
+        print(background2.centerPosition)
+        print(background3.centerPosition)
     }
     
     func setupSnapTestMulti() throws {
@@ -200,7 +207,7 @@ extension TwoETimeRoot {
             func testAnimation() {
                 DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(30)) {
                     time += 30
-                    consumer.targetGrid.measures.position += LFloat3(cos(time / 1000), 0, 0)
+                    consumer.targetGrid.position += LFloat3(cos(time / 1000), 0, 0)
                     testAnimation()
                 }
             }

@@ -40,7 +40,7 @@ class WorldGridEditor {
         }
         
         switch (style, layoutStrategy) {
-        // Grid Relative
+            // Grid Relative
         case let (.trailingFromLastGrid(codeGrid), .gridRelative):
             addTrailing(codeGrid, from: lastGrid)
             
@@ -50,7 +50,7 @@ class WorldGridEditor {
         case let (.inNextPlane(codeGrid), .gridRelative):
             addInNextPlane(codeGrid, from: lastGrid)
             
-        // Collection
+            // Collection
         case let (.trailingFromLastGrid(codeGrid), .collection(targetCollection)):
             addTrailing(codeGrid, from: lastGrid, inCollection: targetCollection)
             
@@ -67,13 +67,13 @@ class WorldGridEditor {
 
 // MARK: - Collection relative
 import simd
-extension WorldGridEditor {    
+extension WorldGridEditor {
     func addTrailing(
         _ grid: CodeGrid,
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        let xOffset = otherGrid.measures.trailing + 4.0
+        let xOffset = otherGrid.trailing + 4.0
         grid.updateAllNodeConstants { node, nodeConstants, _ in
             node.position.x += xOffset
             return nodeConstants
@@ -105,8 +105,8 @@ extension WorldGridEditor {
         from other: CodeGrid
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
-        codeGrid.measures.position = other.measures.position.translated(
-            dX: other.measures.lengthX + default__HorizontalSpacing
+        codeGrid.position = other.position.translated(
+            dX: other.lengthX + default__HorizontalSpacing
         )
         lastFocusedGrid = codeGrid
     }
@@ -117,22 +117,22 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .down(codeGrid))
         lastFocusedGrid = codeGrid
-        var maxHeight: VectorFloat = other.measures.lengthY
+        var maxHeight: VectorFloat = other.lengthY
         var leftMostGrid: CodeGrid?
         snapping.iterateOver(other, direction: .left) { _, grid, _ in
             /* do this to have everything connected? */
-//            snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
-            maxHeight = max(maxHeight, grid.measures.lengthY)
+            //            snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
+            maxHeight = max(maxHeight, grid.lengthY)
             leftMostGrid = grid
         }
         
         if let leftMostGrid = leftMostGrid {
-            codeGrid.measures.position = leftMostGrid.measures.position.translated(
+            codeGrid.position = leftMostGrid.position.translated(
                 dY: -maxHeight - default__VerticalSpacing
             )
         } else {
-            codeGrid.measures.position = other.measures.position.translated(
-                dY: -other.measures.lengthY - default__VerticalSpacing
+            codeGrid.position = other.position.translated(
+                dY: -other.lengthY - default__VerticalSpacing
             )
         }
     }
@@ -143,10 +143,10 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .forward(codeGrid))
         lastFocusedGrid = codeGrid
-        codeGrid.measures.position = LFloat3(
+        codeGrid.position = LFloat3(
             x: 0,
             y: 0,
-            z: other.measures.position.z - default__PlaneSpacing
+            z: other.position.z - default__PlaneSpacing
         )
     }
 }

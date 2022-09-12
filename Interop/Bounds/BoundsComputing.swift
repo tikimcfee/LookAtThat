@@ -39,7 +39,7 @@ class BoundsComputing {
     ) {
         for node in nodes {
             consumeBounds(
-                node.boundsInParent
+                node.bounds
             )
         }
     }

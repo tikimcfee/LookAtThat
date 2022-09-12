@@ -52,7 +52,6 @@ class CodeGridGlyphCollectionBuilder {
         case .monoCollection:
             let node = makeVirtualParent()
             grid.virtualParent = node
-            grid.resetMeasures()
             break
         case .multiCollection:
             break

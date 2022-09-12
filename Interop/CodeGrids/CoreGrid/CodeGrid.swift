@@ -47,13 +47,10 @@ public class CodeGrid: Identifiable, Equatable {
     var semanticInfoMap: SemanticInfoMap = SemanticInfoMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
-    lazy var measures: Measures = makeMeasures()
-    func makeMeasures() -> Measures { Measures(target: virtualParent ?? rootNode) }
-    func resetMeasures() { measures = makeMeasures() }
-    
     private(set) var rootNode: GlyphCollection
     var virtualParent: MetalLinkNode?
     let tokenCache: CodeGridTokenCache
+    var targetNode: MetalLinkNode { virtualParent ?? rootNode }
 
     init(rootNode: GlyphCollection,
          tokenCache: CodeGridTokenCache,
@@ -84,11 +81,76 @@ extension CodeGrid: Hashable {
 // from how the clearinghouse went, Grids owned a reference
 // to a collection now, and assume they are the representing object.
 // TODO: Add another `GroupMode` to switch between rootNode and collection node updates
+extension CodeGrid: Measures {
+    var bounds: Bounds {
+        targetNode.bounds
+    }
+    
+    var nodeId: BoundsKey {
+        targetNode.nodeId
+    }
+    
+    var position: LFloat3 {
+        get {
+            targetNode.position
+        }
+        set {
+            targetNode.position = newValue
+        }
+    }
+    
+    var worldPosition: LFloat3 {
+        get {
+            targetNode.worldPosition
+        }
+        set {
+            targetNode.worldPosition = newValue
+        }
+    }
+    
+    var lengthX: Float {
+        targetNode.lengthX
+    }
+    
+    var lengthY: Float {
+        targetNode.lengthY
+    }
+    
+    var lengthZ: Float {
+        targetNode.lengthZ
+    }
+    
+    var worldLeading: Float {
+        targetNode.worldLeading
+    }
+    
+    var parent: MetalLinkNode? {
+        get {
+            targetNode.parent
+        }
+        set {
+            targetNode.parent = newValue
+        }
+    }
+    
+    func convertPosition(_ position: LFloat3, to: MetalLinkNode?) -> LFloat3 {
+        targetNode.convertPosition(position, to: to)
+    }
+    
+    func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+        targetNode.enumerateChildren(action)
+    }
+    
+    var centerPosition: LFloat3 {
+        return LFloat3(x: targetNode.centerX, y: targetNode.centerY, z: targetNode.centerZ)
+    }
+}
+
 extension CodeGrid {
     
     @discardableResult
     func zeroedPosition() -> CodeGrid {
-        measures.position = .zero
+        position = .zero
         return self
     }
     
@@ -99,7 +161,7 @@ extension CodeGrid {
         dZ: Float = 0
     ) -> CodeGrid {
         laztrace(#fileID,#function,dX,dY,dZ)
-        measures.position = measures.position.translated(dX: dX, dY: dY, dZ: dZ)
+        position = position.translated(dX: dX, dY: dY, dZ: dZ)
         return self
     }
     

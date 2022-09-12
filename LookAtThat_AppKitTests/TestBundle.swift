@@ -16,6 +16,7 @@ class TestBundle {
     
     lazy var rootDirectory = "/Users/lugos/udev/manicmind/LookAtThat/"
     lazy var testFile = URL(fileURLWithPath: Self.testFilesRawPath[0])
+    lazy var testFile2 = URL(fileURLWithPath: Self.testFilesRawPath[1])
     lazy var testFileRaw = Self.testFilesAbsolute[0]
     lazy var testFileAbsolute = Self.testFilesRawPath[0]
     lazy var testTraceFile = Self.testTraceFile

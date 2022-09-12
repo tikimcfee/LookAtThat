@@ -7,12 +7,14 @@
 
 import MetalKit
 
-class MetalLinkNode {
+class MetalLinkNode: Measures {
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     lazy var nodeId = UUID().uuidString
     
     var parent: MetalLinkNode?
     var children: [MetalLinkNode] = []
+    
+    // MARK: - Model params
     
     var position: LFloat3 = .zero
         { didSet { currentModel.dirty() } }
@@ -22,6 +24,48 @@ class MetalLinkNode {
     
     var rotation: LFloat3 = .zero
         { didSet { currentModel.dirty() } }
+    
+    // MARK: Bounds / Position
+    
+    var bounds: Bounds {
+        return computeBoundingBox()
+    }
+    
+    var lengthX: VectorFloat {
+        let box = bounds
+        return abs(box.max.x - box.min.x)
+    }
+    
+    var lengthY: VectorFloat {
+        let box = bounds
+        return abs(box.max.y - box.min.y)
+    }
+    
+    var lengthZ: VectorFloat {
+        let box = bounds
+        return abs(box.max.z - box.min.z)
+    }
+    
+    var centerX: VectorFloat {
+        let box = bounds
+        return lengthX / 2.0 + box.min.x
+    }
+    
+    var centerY: VectorFloat {
+        let box = bounds
+        return lengthY / 2.0 + box.min.y
+    }
+    
+    var centerZ: VectorFloat {
+        let box = bounds
+        return lengthZ / 2.0 + box.min.z
+    }
+    
+    var centerPosition: LFloat3 {
+        return LFloat3(x: centerX, y: centerY, z: centerZ)
+    }
+    
+    // MARK: Rendering
     
     func render(in sdp: inout SafeDrawPass) {
         for child in children {
@@ -33,6 +77,8 @@ class MetalLinkNode {
     func update(deltaTime: Float) {
         children.forEach { $0.update(deltaTime: deltaTime) }
     }
+    
+    // MARK: Children
     
     func add(child: MetalLinkNode) {
         children.append(child)
