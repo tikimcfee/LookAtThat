@@ -11,10 +11,12 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var linkAtlas: MetalLinkAtlas
     lazy var renderer = Renderer(collection: self)
     
-    init(link: MetalLink,
-         linkAtlas: MetalLinkAtlas) {
+    init(
+        link: MetalLink,
+        linkAtlas: MetalLinkAtlas
+    ) throws {
         self.linkAtlas = linkAtlas
-        super.init(link, mesh: link.meshLibrary[.Quad])
+        try super.init(link, mesh: link.meshLibrary[.Quad])
     }
         
     private var _time: Float = 0
@@ -56,38 +58,44 @@ extension GlyphCollection {
     // but that's a fragile guarantee.
     func addGlyph(
         _ key: GlyphCacheKey
-    ) -> (GlyphNode, InstancedConstants)? {
+    ) -> GlyphNode? {
         guard let newGlyph = linkAtlas.newGlyph(key) else {
             print("No glyph for", key)
             return nil
         }
 
-        var constants = instanceCache.createNew()
-        if let cachedPair = linkAtlas.uvPairCache[key] {
-            constants.textureDescriptorU = cachedPair.u
-            constants.textureDescriptorV = cachedPair.v
-        } else {
-            print("--------------")
-            print("MISSING UV PAIR")
-            print("\(key.glyph)")
-            print("--------------")
+        instanceState.appendToState(
+            node: newGlyph
+        )
+        newGlyph.parent = self
+        
+        do {
+            try instanceState.makeAndUpdateConstants { constants in
+                if let cachedPair = linkAtlas.uvPairCache[key] {
+                    constants.textureDescriptorU = cachedPair.u
+                    constants.textureDescriptorV = cachedPair.v
+                } else {
+                    print("--------------")
+                    print("MISSING UV PAIR")
+                    print("\(key.glyph)")
+                    print("--------------")
+                }
+            
+                instanceState.instanceIdNodeLookup[constants.instanceID] = newGlyph
+                newGlyph.meta.instanceBufferIndex = constants.arrayIndex
+                newGlyph.meta.instanceID = constants.instanceID
+                renderer.insert(newGlyph, &constants)
+            }
+        } catch {
+            print(error)
+            return nil
         }
         
-        let appendIndex = instanceState.appendToState(
-            node: newGlyph,
-            constants: constants
-        )
-        
-        newGlyph.parent = self
-        newGlyph.meta.instanceBufferIndex = appendIndex
-        newGlyph.meta.instanceID = constants.instanceID
-   
-        renderer.insert(newGlyph, constants)
-        return (newGlyph, constants)
+        return newGlyph
     }
     
     subscript(glyphID: InstanceIDType) -> MetalLinkGlyphNode? {
-        instanceCache.findNode(for: glyphID)
+        instanceState.instanceIdNodeLookup[glyphID]
     }
 }
 
@@ -96,14 +104,8 @@ where InstancedNodeType == MetalLinkGlyphNode {
     func updatePointer(
         _ operation: (inout UnsafeMutablePointer<InstancedConstants>) throws -> Void
     ) {
-        guard var pointer = instanceState.getConstantsPointer()
-        else {
-            print("Unavailable pointer to update in \(self.nodeId)")
-            return
-        }
-
         do {
-            try operation(&pointer)
+            try operation(&instanceState.rawPointer)
         } catch {
             print("pointer operation update failed")
             print(error)
@@ -120,21 +122,16 @@ where InstancedNodeType == MetalLinkGlyphNode {
             return
         }
         
-        guard instanceState.constants.indices.contains(bufferIndex)
+        guard instanceState.indexValid(bufferIndex)
         else {
             print("Invalid buffer index for \(node.nodeId)")
-            return
-        }
-        
-        guard let pointer = instanceState.getConstantsPointer()
-        else {
-            print("Unavailable pointer to update node: \(node.nodeId)")
             return
         }
         
         // This may be unsafe... not sure what happens here with multithreading.
         // Probably very bad things. If there's a crash here, just create a copy
         // and don't be too fancy.
+        let pointer = instanceState.rawPointer
         pointer[bufferIndex] = try operation(&pointer[bufferIndex])
     }
 }

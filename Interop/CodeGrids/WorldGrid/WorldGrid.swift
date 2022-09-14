@@ -40,7 +40,7 @@ class WorldGridEditor {
         }
         
         switch (style, layoutStrategy) {
-            // Grid Relative
+        // Grid Relative
         case let (.trailingFromLastGrid(codeGrid), .gridRelative):
             addTrailing(codeGrid, from: lastGrid)
             
@@ -50,15 +50,18 @@ class WorldGridEditor {
         case let (.inNextPlane(codeGrid), .gridRelative):
             addInNextPlane(codeGrid, from: lastGrid)
             
-            // Collection
-        case let (.trailingFromLastGrid(codeGrid), .collection(targetCollection)):
-            addTrailing(codeGrid, from: lastGrid, inCollection: targetCollection)
-            
-        case let (.inNextRow(codeGrid), .collection(targetCollection)):
-            addInNextRow(codeGrid, from: lastGrid, inCollection: targetCollection)
-            
-        case let (.inNextPlane(codeGrid), .collection(targetCollection)):
-            addInNextPlane(codeGrid, from: lastGrid, inCollection: targetCollection)
+        // Collection
+//        case let (.trailingFromLastGrid(codeGrid), .collection(targetCollection)):
+//            addTrailing(codeGrid, from: lastGrid, inCollection: targetCollection)
+//
+//        case let (.inNextRow(codeGrid), .collection(targetCollection)):
+//            addInNextRow(codeGrid, from: lastGrid, inCollection: targetCollection)
+//
+//        case let (.inNextPlane(codeGrid), .collection(targetCollection)):
+//            addInNextPlane(codeGrid, from: lastGrid, inCollection: targetCollection)
+        
+        default:
+            print("\n\nNot implemented! : \(layoutStrategy)")
         }
         
         return self
@@ -73,11 +76,11 @@ extension WorldGridEditor {
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        let xOffset = otherGrid.trailing + 4.0
-        grid.updateAllNodeConstants { node, nodeConstants, _ in
-            node.position.x += xOffset
-            return nodeConstants
-        }
+//        let xOffset = otherGrid.trailing + 4.0
+//        grid.updateAllNodeConstants { node, nodeConstants, _ in
+//            node.position.x += xOffset
+//            return nodeConstants
+//        }
     }
     
     func addInNextRow(

@@ -6,6 +6,7 @@
 //
 
 import simd
+import Metal
 
 struct Vertex {
     var position: LFloat3
@@ -19,29 +20,34 @@ struct SceneConstants: MemoryLayoutSizable {
     var pointerMatrix = matrix_identity_float4x4
 }
 
-extension MetalLinkInstancedObject {
-    struct InstancedConstants: MemoryLayoutSizable {
-        var modelMatrix = matrix_identity_float4x4
-        var textureDescriptorU = LFloat4.zero
-        var textureDescriptorV = LFloat4.zero
-        
-        var instanceID: InstanceIDType
-        var addedColor: LFloat4 = .zero
-//        var parentIndex: UInt = .zero
-    }
+struct InstancedConstants: MemoryLayoutSizable, BackingIndexed {
+    var modelMatrix = matrix_identity_float4x4
+    var textureDescriptorU = LFloat4.zero
+    var textureDescriptorV = LFloat4.zero
     
+    var instanceID: InstanceIDType = .zero
+    var addedColor: LFloat4 = .zero
+    var parentIndex: UInt = .zero
+    var bufferIndex: UInt = .zero
+    
+    mutating func reset() {
+        self = InstancedConstants()
+    }
+}
+
+extension MetalLinkInstancedObject {
     class State {
         var time: Float = 0
     }
 }
 
+struct Constants: MemoryLayoutSizable {
+    var modelMatrix = matrix_identity_float4x4
+    var color = LFloat4.zero;
+    var textureIndex = TextureIndex.zero;
+}
+
 extension MetalLinkObject {
-    struct Constants: MemoryLayoutSizable {
-        var modelMatrix = matrix_identity_float4x4
-        var color = LFloat4.zero;
-        var textureIndex = TextureIndex.zero;
-    }
-    
     class State {
         var time: Float = 0
     }

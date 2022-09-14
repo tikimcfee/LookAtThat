@@ -6,6 +6,7 @@
 //
 
 import MetalKit
+import System
 
 extension MTLTexture {
     var simdSize: LFloat2 {
@@ -34,13 +35,37 @@ extension MTLBuffer {
 
 extension MetalLink {
     func makeBuffer<T: MemoryLayoutSizable>(
-        of type: T.Type, count: Int
+        of type: T.Type,
+        count: Int
     ) throws -> MTLBuffer {
         guard let buffer = device.makeBuffer(
             length: type.memStride(of: count),
-            options: []
+            options: .storageModeManaged
         ) else { throw CoreError.noBufferAvailable }
         buffer.label = String(describing: type)
         return buffer
+    }
+    
+    func copyBuffer<T: MemoryLayoutSizable>(
+        from source: UnsafeMutablePointer<T>,
+        oldCount: Int,
+        newCount: Int
+    ) throws -> MTLBuffer {
+        let newBuffer = try makeBuffer(of: T.self, count: newCount)
+        let pointer = newBuffer.boundPointer(as: T.self, count: newCount)
+        
+        for index in 0..<oldCount {
+            pointer[index] = source[index]
+        }
+        
+        // TODO: this throws a mem move exception. doing a manual march seems to work
+//        guard let buffer = device.makeBuffer(
+//            bytes: source,
+//            length: T.memStride(of: count),
+//            options: .storageModeManaged
+//        ) else { throw CoreError.noBufferAvailable }
+        
+        newBuffer.label = String(describing: T.self)
+        return newBuffer
     }
 }

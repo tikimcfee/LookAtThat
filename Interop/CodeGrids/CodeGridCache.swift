@@ -10,8 +10,8 @@ import SwiftSyntax
 import SwiftUI
 
 private extension GlyphCollection {
-    static func makeFromGlobalDefaults() -> GlyphCollection {
-        GlyphCollection(
+    static func makeFromGlobalDefaults() throws -> GlyphCollection {
+        try GlyphCollection(
             link: GlobalInstances.defaultLink,
             linkAtlas: GlobalInstances.defaultAtlas
         )
@@ -59,7 +59,7 @@ class GridCache {
     
     func createNewGrid() -> CodeGrid {
         return CodeGrid(
-            rootNode: GlyphCollection.makeFromGlobalDefaults(),
+            rootNode: try! GlyphCollection.makeFromGlobalDefaults(),
             tokenCache: tokenCache
         )
     }

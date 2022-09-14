@@ -23,7 +23,7 @@ class TwoETimeRoot: MetalLinkReader {
     var lastGrid: CodeGrid?
     var lastSyntaxID: SyntaxIdentifier? = nil
     
-    lazy var builder = CodeGridGlyphCollectionBuilder(
+    lazy var builder = try! CodeGridGlyphCollectionBuilder(
         link: link,
         sharedSemanticMap: GlobalInstances.gridStore.semanticMap,
         sharedTokenCache: GlobalInstances.gridStore.tokenCache,
@@ -118,6 +118,9 @@ class BackgroundQuad: MetalLinkObject, ContentSizing {
 
 extension TwoETimeRoot {
     func setupNodeBackgroundTest() throws {
+        builder.mode = .multiCollection // TODO: DO NOT switch to mono without render breakpoints. crazy memory leak / performance issue with many grids
+        let editor = WorldGridEditor()
+        
         func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
             let background = BackgroundQuad(link)
             background.quad.height = consumer.targetGrid.boundsHeight
@@ -125,11 +128,15 @@ extension TwoETimeRoot {
             
             root.add(child: background)
             root.add(child: consumer.targetCollection)
-            background.position.z -= 0.5
+            editor.transformedByAdding(.inNextRow(consumer.targetGrid))
             
             background
                 .setTop(consumer.targetGrid.top)
                 .setLeading(consumer.targetGrid.leading)
+            background.position.z -= 0.5
+            
+            GlobalInstances.gridStore.semanticsController
+                .attachPickingStream(to: consumer.targetGrid)
         }
         
         basicAddPipeline { filePath in
@@ -252,7 +259,7 @@ extension TwoETimeRoot {
         func doEditorAdd(_ childPath: URL) {
             let consumer = builder.createConsumerForNewGrid()
             consumer.consume(url: childPath)
-            rootCollection.updateModelConstants()
+            
             editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
             guard isFirst else { return }
             isFirst = false

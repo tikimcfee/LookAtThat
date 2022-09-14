@@ -10,17 +10,14 @@ import Foundation
 // MARK: - Collection Updates
 
 extension CodeGrid {
-    typealias GlyphConstants = MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants
-    typealias Update = (GlyphNode, inout GlyphConstants, inout Bool) throws -> GlyphConstants
-    
-    func updateAllNodeConstants(_ update: Update) rethrows {
-        guard !rootNode.willRebuildState else {
-            // To avoid initial update errors, call update() manually
-            // if creating nodes, then using their instance positions
-            // to do additional work.
-            print("Waiting for model build...")
-            return
-        }
+    func updateAllNodeConstants(_ update: UpdateConstants) rethrows {
+//        guard !rootNode.willRebuildState else {
+//            // To avoid initial update errors, call update() manually
+//            // if creating nodes, then using their instance positions
+//            // to do additional work.
+//            print("Waiting for model build...")
+//            return
+//        }
         
         var stopFlag = false
         try forAllNodesInCollection { _, nodeSet in

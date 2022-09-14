@@ -9,8 +9,9 @@ import Combine
 import SwiftSyntax
 import SwiftUI
 
-typealias GlyphConstants = MetalLinkInstancedObject<MetalLinkGlyphNode>.InstancedConstants
+typealias GlyphConstants = InstancedConstants
 typealias ConstantsPointer = UnsafeMutablePointer<GlyphConstants>
+typealias UpdateConstants = (GlyphNode, inout GlyphConstants, inout Bool) throws -> GlyphConstants
 
 struct PickingState {
     let targetGrid: CodeGrid
@@ -21,8 +22,8 @@ struct PickingState {
     var nodeBufferIndex: Int? { node.meta.instanceBufferIndex }
     var nodeSyntaxID: NodeSyntaxID? { node.meta.syntaxID }
     
-    var constantsPointer: ConstantsPointer? {
-        return targetGrid.rootNode.instanceState.getConstantsPointer()
+    var constantsPointer: ConstantsPointer {
+        return targetGrid.rootNode.instanceState.rawPointer
     }
     
     var parserSyntaxID: SyntaxIdentifier? {
@@ -89,13 +90,11 @@ class MetalLinkHoverController: ObservableObject {
     }
     
     func updateState(_ pickingState: PickingState, _ action: (inout GlyphConstants) -> Void) {
-        guard let updatePointer = pickingState.constantsPointer else {
-            return
-        }
         guard let pickedNodeSyntaxID = pickingState.parserSyntaxID else {
             return
         }
         
+        let updatePointer = pickingState.constantsPointer
         pickingState.targetGrid.semanticInfoMap.doOnAssociatedNodes(
             pickedNodeSyntaxID, pickingState.targetGrid.tokenCache
         ) { info, nodes in

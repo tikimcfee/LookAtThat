@@ -31,6 +31,8 @@ struct ModelConstants {
     
     uint modelInstanceID;
     float4 addedColor;
+    uint parentIndex;
+    uint bufferIndex;
 };
 
 // MARK: - GPU Constants

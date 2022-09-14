@@ -21,22 +21,19 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     private var material = MetalLinkMaterial()
     
     // TODO: Use regular constants for root, not instanced
-    var rootConstants = InstancedConstants(instanceID: .zero) {
+    var rootConstants = Constants() {
         didSet { rebuildSelf = true }
     }
     
     var rebuildSelf: Bool = true
+    var rebuildInstances: Bool = false
     var rootState = State()
-    let instanceState: InstanceState
-    let instanceCache: InstancedConstantsCache
-    
-    var willRebuildState: Bool { instanceState.bufferCache.willRebuild }
-    
-    init(_ link: MetalLink, mesh: MetalLinkMesh) {
+    let instanceState: InstanceState<InstancedNodeType>
+
+    init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
         self.link = link
         self.mesh = mesh
-        self.instanceState = InstanceState(link: link)
-        self.instanceCache = InstancedConstantsCache()
+        self.instanceState = try InstanceState(link: link)
         super.init()
     }
     
@@ -69,36 +66,33 @@ extension MetalLinkInstancedObject {
             rebuildSelf = false
         }
         
-        iterativePush()
+        if rebuildInstances {
+            iterativePush()
+        }
     }
     
     private func iterativePush() {
-        var constantsBufferIndex = 0
-        instanceState.zipUpdate { node, constants, pointer in
-            self.performJITInstanceBufferUpdate(node)
-            
-            pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
-            pointer.pointee.textureDescriptorU = constants.textureDescriptorU
-            pointer.pointee.textureDescriptorV = constants.textureDescriptorV
-            pointer.pointee.instanceID = constants.instanceID
-            pointer.pointee.addedColor = constants.addedColor
-            
-            // I am ashamed I am doing this. Nodes really should just point back to buffer.
-            // This solves the issue of things being out of order and rebuilt, but it creates
-            // rendering timing issues. E.g., right after everything is manually built, you
-            // should call an update() to get a push for the initial model constants.
-            self.instanceCache.track(node: node, constants: constants, at: constantsBufferIndex)
-            constantsBufferIndex += 1
-        }
+        print("\n\n\t\t Nothing is being pushed (\(instanceState.instanceBufferCount) items) -- did you expect this?\n\n")
+        
+//        instanceState.zipUpdate { node, constants, pointer in
+//            self.performJITInstanceBufferUpdate(node)
+//
+//            pointer.pointee.modelMatrix = matrix_multiply(self.modelMatrix, node.modelMatrix)
+//            pointer.pointee.textureDescriptorU = constants.textureDescriptorU
+//            pointer.pointee.textureDescriptorV = constants.textureDescriptorV
+//            pointer.pointee.instanceID = constants.instanceID
+//            pointer.pointee.addedColor = constants.addedColor
+//        }
     }
 }
 
 extension MetalLinkInstancedObject: MetalLinkRenderable {
     func doRender(in sdp: inout SafeDrawPass) {
         guard !instanceState.nodes.isEmpty,
-              let meshVertexBuffer = mesh.getVertexBuffer(),
-              let constantsBuffer = instanceState.bufferCache.get()
+              let meshVertexBuffer = mesh.getVertexBuffer()
         else { return }
+        
+        let constantsBuffer = instanceState.instanceBuffer
         
         // Setup rendering states for next draw pass
         sdp.renderCommandEncoder.setRenderPipelineState(pipelineState)
@@ -108,9 +102,9 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
         sdp.renderCommandEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
         sdp.renderCommandEncoder.setVertexBuffer(constantsBuffer, offset: 0, index: 2)
         
-        // Update fragment shader
-        // TODO: Think of something to do with fragment buffer
-        sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
+//        // Update fragment shader
+//        // TODO: Think of something to do with fragment buffer
+//        sdp.renderCommandEncoder.setFragmentBytes(&material, length: MetalLinkMaterial.memStride, index: 1)
         
         // Draw the single instanced glyph mesh (see DIRTY FILTHY HACK for details).
         // Constants need to capture vertex transforms for emoji/nonstandard.
@@ -119,7 +113,7 @@ extension MetalLinkInstancedObject: MetalLinkRenderable {
             type: .triangle,
             vertexStart: 0,
             vertexCount: mesh.vertexCount,
-            instanceCount: instanceState.nodes.count
+            instanceCount: instanceState.instanceBufferCount
         )
     }
 }

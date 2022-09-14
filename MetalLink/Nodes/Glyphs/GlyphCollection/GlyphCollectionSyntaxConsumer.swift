@@ -70,12 +70,13 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             // in the node itself automatically. Might want to create a new
             // pathway for this...
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
-            guard let (glyph, constants) = targetCollection.addGlyph(glyphKey) else {
+            guard let glyph = targetCollection.addGlyph(glyphKey) else {
                 print("Failed to render glyph for: \(newCharacter)")
                 return
             }
             glyph.meta.syntaxID = nodeID
             writtenNodeSet.insert(glyph)
+            
             if let parent = parent {
                 // Parent is set by collection; reset before
                 // adding to acknowledge multiparent warning

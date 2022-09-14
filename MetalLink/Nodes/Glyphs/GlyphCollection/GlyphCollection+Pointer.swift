@@ -5,8 +5,8 @@
 //  Created by Ivan Lugo on 8/21/22.
 //
 
-import Foundation
 import Metal
+import simd
 
 extension GlyphCollection {
     class Pointer {
@@ -38,7 +38,7 @@ extension GlyphCollection {
         
         func insert(
             _ letterNode: MetalLinkGlyphNode,
-            _ constants: InstancedConstants
+            _ constants: inout InstancedConstants
         ) {
             let checks = letterNode.key.source.checks
             let size = LFloat2(
@@ -47,6 +47,7 @@ extension GlyphCollection {
             )
             
             letterNode.position = currentPosition
+            constants.modelMatrix = matrix_multiply(targetCollection.modelMatrix, letterNode.modelMatrix)
             pointer.right(size.x)
             
             if checks.isNewline {

@@ -23,14 +23,14 @@ class CodeGridGlyphCollectionBuilder {
     let gridCache: GridCache
     
     var mode: Mode = .monoCollection
-    private lazy var monoCollection = GlyphCollection(link: link, linkAtlas: atlas)
+    private lazy var monoCollection = makeMonoCollection()
     
     init(
         link: MetalLink,
         sharedSemanticMap semanticMap: SemanticInfoMap,
         sharedTokenCache tokenCache: CodeGridTokenCache,
         sharedGridCache gridCache: GridCache
-    ) {
+    ) throws {
         self.link = link
         self.atlas = GlobalInstances.defaultAtlas
         self.semanticMap = semanticMap
@@ -38,10 +38,16 @@ class CodeGridGlyphCollectionBuilder {
         self.gridCache = gridCache
     }
     
+    private func makeMonoCollection() -> GlyphCollection {
+        try! GlyphCollection(link: link, linkAtlas: atlas)
+    }
+    
     func getCollection() -> GlyphCollection {
         switch mode {
-        case .monoCollection:   return monoCollection
-        case .multiCollection:  return GlyphCollection(link: link, linkAtlas: atlas)
+        case .monoCollection:
+            return monoCollection
+        case .multiCollection:
+            return try! GlyphCollection(link: link, linkAtlas: atlas)
         }
     }
     
@@ -90,10 +96,10 @@ class VirtualGlyphParent: MetalLinkNode {
     }
    
     override func update(deltaTime: Float) {
-        defer { super.update(deltaTime: deltaTime) }
-        
-        guard willUpdate else { return }
-        updateRepresentedConstants()
+//        defer { super.update(deltaTime: deltaTime) }
+//
+//        guard willUpdate else { return }
+//        updateRepresentedConstants()
     }
     
     func updateRepresentedConstants() {
