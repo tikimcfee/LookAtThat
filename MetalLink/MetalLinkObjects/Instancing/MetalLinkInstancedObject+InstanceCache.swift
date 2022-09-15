@@ -24,7 +24,6 @@ class InstanceCounter {
     
     static var idMap = [Kind: InstanceIDType]()
     
-//    private var currentGeneratedID: InstanceIDType = InstanceCounter.startingGeneratedID
     private init() { }
     
     func nextId(_ kind: Kind) -> InstanceIDType {

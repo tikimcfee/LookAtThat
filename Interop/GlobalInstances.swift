@@ -80,7 +80,7 @@ class GridStore {
     private(set) lazy var concurrentRenderer: ConcurrentGridRenderer = ConcurrentGridRenderer(cache: gridCache)
     private(set) lazy var globalSemantics: CodeGridGlobalSemantics = CodeGridGlobalSemantics(source: gridCache)
     
-    private(set) lazy var semanticsController: MetalLinkHoverController = MetalLinkHoverController(link: link)
-    private(set) lazy var searchContainer: SearchContainer = SearchContainer(gridCache: gridCache)
+    private(set) lazy var searchContainer: SearchContainer = SearchContainer(gridCache: gridCache)    
+    private(set) lazy var nodeHoverController: MetalLinkHoverController = MetalLinkHoverController(link: link)
     
 }

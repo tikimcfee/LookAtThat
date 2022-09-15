@@ -14,7 +14,7 @@ struct SyntaxHierarchyView: View {
     var body: some View {
         hoveredNodeInfoView(hoveredId)
             .onReceive(
-                GlobalInstances.gridStore.semanticsController
+                GlobalInstances.gridStore.nodeHoverController
                     .$lastState
                     .subscribe(on: RunLoop.main)
                     .receive(on: RunLoop.main),

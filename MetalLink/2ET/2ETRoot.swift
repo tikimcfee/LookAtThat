@@ -73,7 +73,7 @@ class TwoETimeRoot: MetalLinkReader {
         consumer.consume(url: childPath)
         consumer.targetGrid.fileName = childPath.fileName
         
-        GlobalInstances.gridStore.semanticsController
+        GlobalInstances.gridStore.nodeHoverController
             .attachPickingStream(to: consumer.targetGrid)
         
         return consumer
@@ -96,29 +96,6 @@ class TwoETimeRoot: MetalLinkReader {
                 break
             }
         }.store(in: &bag)
-    }
-}
-
-enum MetalGlyphError: String, Error {
-    case noBitmaps
-    case noTextures
-    case noMesh
-    case noAtlasTexture
-}
-
-class BackgroundQuad: MetalLinkObject, ContentSizing {
-    let quad: MetalLinkQuadMesh
-    
-    var contentWidth: Float { quad.width }
-    var contentHeight: Float { quad.height }
-    var contentDepth: Float { 1 }
-    var offset: LFloat3 {
-        LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0)
-    }
-    
-    init(_ link: MetalLink) {
-        self.quad = MetalLinkQuadMesh(link)
-        super.init(link, mesh: quad)
     }
 }
 
@@ -179,12 +156,15 @@ extension TwoETimeRoot {
 //                consumer.targetCollection.rotation.y += 0.1
 //            }.runUntil { false }
             
-            GlobalInstances.gridStore.semanticsController
+            GlobalInstances.gridStore.nodeHoverController
                 .attachPickingStream(to: consumer.targetGrid)
         }
         
         basicAddPipeline { filePath in
-            doAdd(self.basicGridPipeline(filePath))
+//            WorkerPool.shared.nextWorker().async {
+                doAdd(self.basicGridPipeline(filePath))
+//            }
+            
         }
     }
     
@@ -255,7 +235,7 @@ extension TwoETimeRoot {
             }
             
             files += 1
-            GlobalInstances.gridStore.semanticsController
+            GlobalInstances.gridStore.nodeHoverController
                 .attachPickingStream(to: consumer.targetGrid)
         }
         

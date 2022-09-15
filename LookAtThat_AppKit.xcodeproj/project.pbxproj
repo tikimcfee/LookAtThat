@@ -148,6 +148,14 @@
 		B7229D7B28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
 		B7229D7C28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
 		B7229D7D28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
+		B7229D7F28D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
+		B7229D8028D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
+		B7229D8128D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
+		B7229D8228D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
+		B7229D8428D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
+		B7229D8528D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
+		B7229D8628D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
+		B7229D8728D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
 		B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
@@ -812,6 +820,8 @@
 		B720FF842824C6DC00C23E6B /* GlyphNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphNode.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
 		B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollectionWriter.swift; sourceTree = "<group>"; };
+		B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundQuad.swift; sourceTree = "<group>"; };
+		B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGlyphError.swift; sourceTree = "<group>"; };
 		B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
@@ -1354,6 +1364,7 @@
 			isa = PBXGroup;
 			children = (
 				B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */,
+				B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */,
 				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
 				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
 				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
@@ -1485,6 +1496,7 @@
 				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
 				B7189F2B28AEEE2D00E16B0E /* Atlas */,
 				B785521228B34C3D00F57954 /* GlyphCollection */,
+				B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */,
 			);
 			path = Glyphs;
 			sourceTree = "<group>";
@@ -2143,9 +2155,11 @@
 				B70FDCDB283EAE9900170D5F /* PersisentThreadTracer.swift in Sources */,
 				B7AC33B928A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
 				B70FDCDE283EAE9900170D5F /* MatchedTraceValue.swift in Sources */,
+				B7229D8528D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				B70FDCDF283EAE9900170D5F /* ConnectionBundle+Streams.swift in Sources */,
 				B70FDCE0283EAE9900170D5F /* MultipeerStreamController.swift in Sources */,
 				B701DDBA28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
+				B7229D8028D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B70FDCE1283EAE9900170D5F /* FileBackedArray.swift in Sources */,
 				B70FDCE2283EAE9900170D5F /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B70FDCE3283EAE9900170D5F /* SwiftSyntax+Extensions.swift in Sources */,
@@ -2313,9 +2327,11 @@
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
 				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
+				B7229D8728D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B701DDBD28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
+				B7229D8228D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
 				B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
@@ -2483,9 +2499,11 @@
 				B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7AC33B828A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
 				B798102F281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
+				B7229D8428D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
+				B7229D7F28D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
@@ -2559,6 +2577,7 @@
 				B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7AC339028A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7B46ADA28BC81750004CA2D /* GlobalInstances.swift in Sources */,
+				B7229D8628D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				B7AC336828A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
@@ -2589,6 +2608,7 @@
 				B7AC335C28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B7B46AE928BD76620004CA2D /* Structures.swift in Sources */,
+				B7229D8128D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
