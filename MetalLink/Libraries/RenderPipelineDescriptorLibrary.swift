@@ -53,6 +53,7 @@ extension RenderPipelineDescriptorLibrary {
             renderPipelineDescriptor.fragmentFunction = fragmentFunction
             renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
             renderPipelineDescriptor.colorAttachments[1].pixelFormat = MetalLinkPickingTexture.Config.pixelFormat // add pixel format to allow both picking and instancing
+            renderPipelineDescriptor.colorAttachments[2].pixelFormat = MetalLinkPickingTexture.Config.pixelFormat // add pixel format to
             renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
             renderPipelineDescriptor.label = name
         }
@@ -75,6 +76,7 @@ extension RenderPipelineDescriptorLibrary {
             renderPipelineDescriptor.fragmentFunction = fragmentFunction
             renderPipelineDescriptor.colorAttachments[0].pixelFormat = link.view.colorPixelFormat
             renderPipelineDescriptor.colorAttachments[1].pixelFormat = MetalLinkPickingTexture.Config.pixelFormat
+            renderPipelineDescriptor.colorAttachments[2].pixelFormat = MetalLinkPickingTexture.Config.pixelFormat
             renderPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
             renderPipelineDescriptor.label = name
         }

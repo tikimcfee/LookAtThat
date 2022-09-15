@@ -66,7 +66,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         _ writtenNodeSet: inout CodeGridNodes
     ) {
         // Fetch parent buffer index to set for all new written nodes
-        var parentBufferIndex: UInt = .zero
+        var parentBufferIndex: IndexedBufferType = .zero
         targetGrid.virtualParentConstants? {
             parentBufferIndex = $0.bufferIndex
         }

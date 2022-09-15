@@ -15,7 +15,7 @@ import Combine
 extension MetalLinkPickingTexture {
     struct Config {
         private init() { }
-        static let colorIndex: Int = 1
+
         static let pixelFormat: MTLPixelFormat = .r32Uint
         static let clearColor: MTLClearColor = MTLClearColor(
             red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0
@@ -28,17 +28,19 @@ class MetalLinkPickingTexture: MetalLinkReader {
     var pickingTexture: MTLTexture?
     var generateNewTexture: Bool = false
     
-    var currentHover: UInt = .zero {
+    var currentHover: InstanceIDType = .zero {
         didSet { pickingHover.send(currentHover) }
     }
-    private let pickingHover = PassthroughSubject<UInt, Never>()
+    private let pickingHover = PassthroughSubject<InstanceIDType, Never>()
     lazy var sharedPickingHover = pickingHover.share()
     
     private var bag = Set<AnyCancellable>()
+    var colorIndex: Int
 
-    init(link: MetalLink) {
+    init(link: MetalLink, colorIndex: Int) {
         self.link = link
         self.pickingTexture = MetalLinkPickingTexture.generatePickingTexture(for: link)
+        self.colorIndex = colorIndex
         
         link.sizeSharedUpdates.sink { newSize in
             self.onSizeChanged(newSize)
@@ -59,10 +61,10 @@ class MetalLinkPickingTexture: MetalLinkReader {
         // .clear load action to sure *everything* is reset on the draw.
         // If not (.dontCare), the hover itself will work when directly over a node,
         // but outside values give spurious values - likely because of choice of clear color.
-        target.colorAttachments[Config.colorIndex].texture = pickingTexture
-        target.colorAttachments[Config.colorIndex].loadAction = .clear
-        target.colorAttachments[Config.colorIndex].storeAction = .store
-        target.colorAttachments[Config.colorIndex].clearColor = Config.clearColor
+        target.colorAttachments[colorIndex].texture = pickingTexture
+        target.colorAttachments[colorIndex].loadAction = .clear
+        target.colorAttachments[colorIndex].storeAction = .store
+        target.colorAttachments[colorIndex].clearColor = Config.clearColor
     }
 }
 
@@ -117,7 +119,7 @@ private extension MetalLinkPickingTexture {
     }
     
     func onPickBlitComplete(_ pickBuffer: MTLBuffer) {
-        let pointer = pickBuffer.boundPointer(as: UInt.self, count: 1)
+        let pointer = pickBuffer.boundPointer(as: InstanceIDType.self, count: 1)
 //        print("--------------------------------------\n")
 //        print("\nPick complete, found: \(pointer.pointee)")
 //        print("--------------------------------------\n")

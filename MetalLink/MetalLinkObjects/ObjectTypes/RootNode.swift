@@ -23,7 +23,7 @@ class RootNode: MetalLinkNode, MetalLinkReader {
     override func update(deltaTime: Float) {
         constants.viewMatrix = camera.viewMatrix
         constants.projectionMatrix = camera.projectionMatrix
-        constants.totalTotalGameTime += deltaTime
+        constants.totalGameTime += deltaTime
         super.update(deltaTime: deltaTime)
     }
     

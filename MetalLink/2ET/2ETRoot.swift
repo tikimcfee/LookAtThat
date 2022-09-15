@@ -19,7 +19,7 @@ class TwoETimeRoot: MetalLinkReader {
     lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
-    var lastID: InstanceIDType = UInt.zero
+    var lastID: InstanceIDType = .zero
     var lastGrid: CodeGrid?
     var lastSyntaxID: SyntaxIdentifier? = nil
     
@@ -139,6 +139,7 @@ extension TwoETimeRoot {
             let background = BackgroundQuad(link)
             background.quad.height = consumer.targetGrid.boundsHeight
             background.quad.width = consumer.targetGrid.boundsWidth
+            background.constants.pickingId = InstanceCounter.shared.nextId(.grid)
             
             root.add(child: consumer.targetCollection)
             consumer.targetCollection.add(child: background)

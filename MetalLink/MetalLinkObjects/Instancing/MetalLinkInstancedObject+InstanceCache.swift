@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias InstanceIDType = UInt
-
 // TODO: Make a smarter / safer glyph instance counter
 class InstanceCounter {
     enum Kind {

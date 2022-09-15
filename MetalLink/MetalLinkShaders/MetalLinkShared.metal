@@ -8,38 +8,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-// MARK: - CPU Constants
-
-struct SceneConstants {
-    float totalGameTime;
-    float4x4 viewMatrix;
-    float4x4 projectionMatrix;
-    float4x4 pointerMatrix;
-};
-
-struct BasicModelConstants {
-    float4x4 modelMatrix;
-    float4 color;
-    uint textureIndex;
-};
-
-struct ModelConstants {
-    float4x4 modelMatrix;
-    
-    float4 textureDescriptorU;
-    float4 textureDescriptorV;
-    
-    uint modelInstanceID;
-    float4 addedColor;
-    uint parentIndex; // index of virtualparentconstants from cpu mtlbuffer
-    uint bufferIndex; // index of self in cpu mtlbuffer
-};
-
-struct VirtualParentConstants {
-    float4x4 modelMatrix;
-    uint bufferIndex; // index of self in cpu mtlbuffer
-};
-
 // MARK: - GPU Constants
 
 struct VertexIn {
@@ -66,4 +34,9 @@ struct Material {
 struct PickingTextureFragmentOut {
     float4 mainColor     [[ color(0) ]];
     uint pickingID       [[ color(1) ]];
+};
+
+struct BasicPickingTextureFragmentOut {
+    float4 mainColor     [[ color(0) ]];
+    uint pickingID       [[ color(2) ]];
 };

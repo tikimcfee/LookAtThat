@@ -38,6 +38,7 @@ extension SafeDrawPass {
         // look at other implementations of engines.
         // or... use one... ...  .
         link.pickingTexture.updateDescriptor(renderPassDescriptor)
+        link.gridPickingTexture.updateDescriptor(renderPassDescriptor)
         
         guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
               let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)

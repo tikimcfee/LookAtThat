@@ -565,6 +565,10 @@
 		B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
 		B7B866AD28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
+		B7BF44E028D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
+		B7BF44E128D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
+		B7BF44E228D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
+		B7BF44E328D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C404D9283497DC0079F00B /* lib_InternalSwiftSyntaxParser.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -939,6 +943,7 @@
 		B7B46AF628BE692E0004CA2D /* MetalLinkHoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkHoverController.swift; sourceTree = "<group>"; };
 		B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlasBuilder.swift; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
+		B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalLinkBridgingType.h; sourceTree = "<group>"; };
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
 		B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditorState.swift; sourceTree = "<group>"; };
 		B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputReceiver.swift; sourceTree = "<group>"; };
@@ -1085,6 +1090,7 @@
 			children = (
 				B7AC333A28A0CA70001172BB /* 2ET */,
 				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
+				B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */,
 				B7AC332528A0CA70001172BB /* CoreError.swift */,
 				B7AC333328A0CA70001172BB /* MetalLink.swift */,
 				B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */,
@@ -1739,6 +1745,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7BF44E128D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
 				B7044C1828A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1747,6 +1754,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7BF44E328D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
 				B7044C1A28A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1755,6 +1763,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7BF44E028D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
 				B7044C1728A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1763,6 +1772,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7BF44E228D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
 				B7044C1928A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

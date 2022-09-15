@@ -46,11 +46,11 @@ float4x4 rotateAboutZ(float angleRadians) {
 // recall buffer(x) is the Swift-defined buffer position for these vertices
 vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage_in ]],
                                                 constant SceneConstants &sceneConstants [[ buffer(1) ]],
-                                                constant ModelConstants *modelConstants [[ buffer(2) ]],
+                                                constant InstancedConstants *modelConstants [[ buffer(2) ]],
                                                 constant VirtualParentConstants *parentConstants [[ buffer(3) ]],
                                                 uint instanceId [[ instance_id ]] ) {
     RasterizerData rasterizerData;
-    ModelConstants constants = modelConstants[instanceId];
+    InstancedConstants constants = modelConstants[instanceId];
     VirtualParentConstants parent = parentConstants[constants.parentIndex];
     
     // Static matrix
@@ -78,7 +78,7 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     rasterizerData.vertexPosition = vertexIn.position;
-    rasterizerData.modelInstanceID = constants.modelInstanceID;
+    rasterizerData.modelInstanceID = constants.instanceID;
     rasterizerData.addedColor = constants.addedColor;
     
     return rasterizerData;

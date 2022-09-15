@@ -21,7 +21,7 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     private var material = MetalLinkMaterial()
     
     // TODO: Use regular constants for root, not instanced
-    var rootConstants = Constants() {
+    var rootConstants = BasicModelConstants() {
         didSet { rebuildSelf = true }
     }
     

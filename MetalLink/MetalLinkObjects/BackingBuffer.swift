@@ -8,7 +8,7 @@
 import Metal
 
 protocol BackingIndexed {
-    var bufferIndex: UInt { get set }
+    var bufferIndex: IndexedBufferType { get set }
     mutating func reset()
 }
 
@@ -45,7 +45,7 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
         var next = pointer[currentEndIndex]
         next.reset() // Memory is unitialized; call reset to clean up
         
-        next.bufferIndex = UInt(currentEndIndex)
+        next.bufferIndex = IndexedBufferType(currentEndIndex)
         withUpdates?(&next)
         
         pointer[currentEndIndex] = next

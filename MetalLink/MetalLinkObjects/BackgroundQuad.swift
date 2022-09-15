@@ -21,4 +21,9 @@ class BackgroundQuad: MetalLinkObject, ContentSizing {
         self.quad = MetalLinkQuadMesh(link)
         super.init(link, mesh: quad)
     }
+    
+    override func doRender(in sdp: inout SafeDrawPass) {
+        super.doRender(in: &sdp)
+//        print(constants)
+    }
 }

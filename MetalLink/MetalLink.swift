@@ -28,7 +28,10 @@ class MetalLink {
     lazy var pipelineStateLibrary = RenderPipelineStateLibrary(link: self)
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
-    lazy var pickingTexture = MetalLinkPickingTexture(link: self)
+    // TODO: Make these color indices named to match their descriptor usages
+    lazy var pickingTexture = MetalLinkPickingTexture(link: self, colorIndex: 1)
+    lazy var gridPickingTexture = MetalLinkPickingTexture(link: self, colorIndex: 2)
+    
     private lazy var sizeSubject = PassthroughSubject<CGSize, Never>()
     private(set) lazy var sizeSharedUpdates = sizeSubject.share()
     

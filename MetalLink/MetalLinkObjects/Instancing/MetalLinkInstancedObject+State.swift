@@ -10,14 +10,11 @@ import Metal
 
 class InstanceState<InstancedNodeType> {
     let link: MetalLink
-    
-    private(set) var parentCache = Cached<MTLBuffer?>(current: nil, update: { nil })
-    
-    var virtualParents: [MetalLinkNode] = [] { didSet { parentCache.dirty() }}
+        
     var nodes: [InstancedNodeType] = []
     
     private let constants: BackingBuffer<InstancedConstants>
-    private(set) var instanceIdNodeLookup = ConcurrentDictionary<UInt, InstancedNodeType>()
+    private(set) var instanceIdNodeLookup = ConcurrentDictionary<InstanceIDType, InstancedNodeType>()
     
     var instanceBufferCount: Int { constants.currentEndIndex }
     var instanceBuffer: MTLBuffer { constants.buffer }
@@ -29,7 +26,6 @@ class InstanceState<InstancedNodeType> {
     init(link: MetalLink) throws {
         self.link = link
         self.constants = try BackingBuffer(link: link)
-        self.parentCache.update = makeParentsBuffer
     }
     
     func indexValid(_ index: Int) -> Bool {
@@ -53,20 +49,6 @@ class InstanceState<InstancedNodeType> {
     // Appends info and returns last index
     func appendToState(node newNode: InstancedNodeType) {
         nodes.append(newNode)
-    }
-    
-    private func makeParentsBuffer() -> MTLBuffer? {
-        print("Creating buffer for parent constants: \(self.virtualParents.count)")
-        do {
-            if self.virtualParents.count == 0 {
-                print("\n\n\tAttempting to create empty buffer!")
-            }
-            let safeCount = max(1, self.virtualParents.count)
-            return try link.makeBuffer(of: ParentConstants.self, count: safeCount)
-        } catch {
-            print(error)
-            return nil
-        }
     }
     
     typealias BufferOperator = (

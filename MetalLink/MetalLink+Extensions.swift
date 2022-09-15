@@ -41,7 +41,7 @@ extension MetalLink {
         #if os(iOS)
         let mode = MTLResourceOptions.storageModeShared
         #else
-        let mode = MTLResourceOptions.storageModeManaged
+        let mode = MTLResourceOptions.storageModeShared
         #endif
         
         guard let buffer = device.makeBuffer(

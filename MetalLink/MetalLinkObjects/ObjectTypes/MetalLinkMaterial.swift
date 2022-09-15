@@ -7,6 +7,7 @@
 
 import simd
 
+// TODO: Move this to bridging header
 struct MetalLinkMaterial: MemoryLayoutSizable {
     var color = LFloat4(0.03, 0.33, 0.22, 1.0)
     
