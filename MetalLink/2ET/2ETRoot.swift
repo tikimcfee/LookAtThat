@@ -36,6 +36,7 @@ class TwoETimeRoot: MetalLinkReader {
         
         camera.interceptor.onNewFileOperation = handleDirectory
         
+//        try setupNodeChildTest()
         try setupNodeBackgroundTest()
 //        try setupBackgroundTest()
 //        try setupSnapTestMulti()
@@ -46,6 +47,11 @@ class TwoETimeRoot: MetalLinkReader {
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
         let dT =  1.0 / Float(link.view.preferredFramesPerSecond)
+        
+        // TODO: Create a proper container for all this glyph parent stuff.
+        // Collection, builder, consumer, writer, grid... lol.
+        // One more can't hurt.
+        sdp.renderCommandEncoder.setVertexBuffer(builder.parentBuffer.buffer, offset: 0, index: 3)
         
         // TODO: Make update and render a single pass to avoid repeated child loops
         root.update(deltaTime: dT)
@@ -117,6 +123,37 @@ class BackgroundQuad: MetalLinkObject, ContentSizing {
 }
 
 extension TwoETimeRoot {
+    func setupNodeChildTest() throws {
+        let origin = BackgroundQuad(link)
+        origin.quad.height = 1
+        origin.quad.width = 1
+        origin.setColor(LFloat4(1, 0, 0, 1))
+        
+        let firstparent = BackgroundQuad(link)
+        firstparent.quad.height = 1
+        firstparent.quad.width = 1
+        firstparent.setColor(LFloat4(0, 1, 0, 1))
+        
+        let firstChild = BackgroundQuad(link)
+        firstChild.quad.height = 1
+        firstChild.quad.width = 1
+        firstChild.setColor(LFloat4(0, 0, 1, 1))
+        
+        root.add(child: origin)
+        origin.add(child: firstparent)
+        firstparent.add(child: firstChild)
+        
+        firstparent.position = LFloat3(2, 0, -1)
+        firstChild.position = LFloat3(2, 0, 0)
+        
+        var counter = 0.1
+        QuickLooper(interval: .milliseconds(30)) {
+            firstparent.position.x = cos(counter).float
+            firstparent.scale = LFloat3(cos(counter).float, 1, 1)
+            counter += 0.1
+        }.runUntil { false }
+    }
+    
     func setupNodeBackgroundTest() throws {
         builder.mode = .multiCollection // TODO: DO NOT switch to mono without render breakpoints. crazy memory leak / performance issue with many grids
         let editor = WorldGridEditor()
@@ -126,14 +163,21 @@ extension TwoETimeRoot {
             background.quad.height = consumer.targetGrid.boundsHeight
             background.quad.width = consumer.targetGrid.boundsWidth
             
-            root.add(child: background)
             root.add(child: consumer.targetCollection)
-            editor.transformedByAdding(.inNextRow(consumer.targetGrid))
+            consumer.targetCollection.add(child: background)
             
-            background
-                .setTop(consumer.targetGrid.top)
-                .setLeading(consumer.targetGrid.leading)
-            background.position.z -= 0.5
+            editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
+            
+            background.position = background.position.translated(
+                dX: background.lengthX / 2.0,
+                dY: -background.lengthY / 2.0,
+                dZ: -1.0
+            )
+            
+//            // TODO: < 30ms updates gives us flickering because of.. rendering order maybe?
+//            QuickLooper(interval: .milliseconds(30)) {
+//                consumer.targetCollection.rotation.y += 0.1
+//            }.runUntil { false }
             
             GlobalInstances.gridStore.semanticsController
                 .attachPickingStream(to: consumer.targetGrid)
@@ -201,10 +245,6 @@ extension TwoETimeRoot {
             let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
             let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
-            
-//            let random = Bool.random() ? nextRow : Bool.random() ? nextPlane : trailing
-//            editor.transformedByAdding(random)
-//            editor.transformedByAdding(trailing)
             
             if files % 11 == 0 {
                 editor.transformedByAdding(nextRow)

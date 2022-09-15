@@ -8,10 +8,6 @@
 import Foundation
 import Metal
 
-extension MetalLinkInstancedObject {
-    
-}
-
 class InstanceState<InstancedNodeType> {
     let link: MetalLink
     

@@ -47,12 +47,15 @@ float4x4 rotateAboutZ(float angleRadians) {
 vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage_in ]],
                                                 constant SceneConstants &sceneConstants [[ buffer(1) ]],
                                                 constant ModelConstants *modelConstants [[ buffer(2) ]],
+                                                constant VirtualParentConstants *parentConstants [[ buffer(3) ]],
                                                 uint instanceId [[ instance_id ]] ) {
     RasterizerData rasterizerData;
     ModelConstants constants = modelConstants[instanceId];
+    VirtualParentConstants parent = parentConstants[constants.parentIndex];
     
     // Static matrix
     float4x4 instanceModel = constants.modelMatrix;
+    float4x4 parentMatrix = parent.modelMatrix;
     
     // Do test rotation
 //    float4x4 instanceModel = constants.modelMatrix
@@ -62,8 +65,10 @@ vertex RasterizerData instanced_vertex_function(const VertexIn vertexIn [[ stage
     rasterizerData.position =
     sceneConstants.projectionMatrix // camera
     * sceneConstants.viewMatrix     // viewport
+    * parentMatrix                  // parent!?
     * instanceModel                 // transforms
-    * float4(vertexIn.position, 1); // current position
+    * float4(vertexIn.position, 1)  // current position
+    ;
     
     // Lol indexing into float4
     uint uvIndex = vertexIn.uvTextureIndex;

@@ -108,8 +108,9 @@ extension WorldGridEditor {
         from other: CodeGrid
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
+//        codeGrid.setLeading(other.trailing)
         codeGrid.position = other.position.translated(
-            dX: other.lengthX + default__HorizontalSpacing
+            dX: other.lengthX / 2.0 + codeGrid.lengthX / 2.0 + default__HorizontalSpacing
         )
         lastFocusedGrid = codeGrid
     }

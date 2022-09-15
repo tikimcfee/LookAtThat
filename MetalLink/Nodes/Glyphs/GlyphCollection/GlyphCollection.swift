@@ -8,6 +8,7 @@
 import MetalKit
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
+
     var linkAtlas: MetalLinkAtlas
     lazy var renderer = Renderer(collection: self)
     
@@ -52,48 +53,6 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
 }
 
 extension GlyphCollection {
-    // TODO: Add a 'render all of this' function to avoid
-    // potentially recreating the buffer hundreds of times.
-    // Buffer *should* only reset when the texture is called,
-    // but that's a fragile guarantee.
-    func addGlyph(
-        _ key: GlyphCacheKey
-    ) -> GlyphNode? {
-        guard let newGlyph = linkAtlas.newGlyph(key) else {
-            print("No glyph for", key)
-            return nil
-        }
-
-        instanceState.appendToState(
-            node: newGlyph
-        )
-        newGlyph.parent = self
-        
-        do {
-            try instanceState.makeAndUpdateConstants { constants in
-                if let cachedPair = linkAtlas.uvPairCache[key] {
-                    constants.textureDescriptorU = cachedPair.u
-                    constants.textureDescriptorV = cachedPair.v
-                } else {
-                    print("--------------")
-                    print("MISSING UV PAIR")
-                    print("\(key.glyph)")
-                    print("--------------")
-                }
-            
-                instanceState.instanceIdNodeLookup[constants.instanceID] = newGlyph
-                newGlyph.meta.instanceBufferIndex = constants.arrayIndex
-                newGlyph.meta.instanceID = constants.instanceID
-                renderer.insert(newGlyph, &constants)
-            }
-        } catch {
-            print(error)
-            return nil
-        }
-        
-        return newGlyph
-    }
-    
     subscript(glyphID: InstanceIDType) -> MetalLinkGlyphNode? {
         instanceState.instanceIdNodeLookup[glyphID]
     }

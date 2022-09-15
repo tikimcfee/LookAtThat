@@ -20,6 +20,16 @@ struct SceneConstants: MemoryLayoutSizable {
     var pointerMatrix = matrix_identity_float4x4
 }
 
+struct VirtualParentConstants: MemoryLayoutSizable, BackingIndexed {
+    var modelMatrix = matrix_identity_float4x4
+    var bufferIndex: UInt = .zero
+    
+    mutating func reset() {
+        modelMatrix = matrix_identity_float4x4
+        bufferIndex = .zero
+    }
+}
+
 struct InstancedConstants: MemoryLayoutSizable, BackingIndexed {
     var modelMatrix = matrix_identity_float4x4
     var textureDescriptorU = LFloat4.zero
@@ -31,7 +41,13 @@ struct InstancedConstants: MemoryLayoutSizable, BackingIndexed {
     var bufferIndex: UInt = .zero
     
     mutating func reset() {
-        self = InstancedConstants()
+        modelMatrix = matrix_identity_float4x4
+        textureDescriptorU = .zero
+        textureDescriptorV = .zero
+        instanceID = .zero
+        addedColor = .zero
+        parentIndex = .zero
+        bufferIndex = .zero
     }
 }
 

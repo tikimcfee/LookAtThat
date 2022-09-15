@@ -46,8 +46,16 @@ extension GlyphCollection {
                 letterNode.quad.height
             )
             
+            // *Must set initial model matrix on constants*.
+            // Nothing directly updates this in the normal render flow.
+            // Give them an initial based on the faux-node's position.
+            // TODO: Is this obsoleted with BackingBuffer and node updates?
             letterNode.position = currentPosition
-            constants.modelMatrix = matrix_multiply(targetCollection.modelMatrix, letterNode.modelMatrix)
+            constants.modelMatrix = matrix_multiply(
+                targetCollection.modelMatrix,
+                letterNode.modelMatrix
+            )
+            
             pointer.right(size.x)
             
             if checks.isNewline {

@@ -38,9 +38,15 @@ extension MetalLink {
         of type: T.Type,
         count: Int
     ) throws -> MTLBuffer {
+        #if os(iOS)
+        let mode = MTLResourceOptions.storageModeShared
+        #else
+        let mode = MTLResourceOptions.storageModeManaged
+        #endif
+        
         guard let buffer = device.makeBuffer(
             length: type.memStride(of: count),
-            options: .storageModeManaged
+            options: [mode]
         ) else { throw CoreError.noBufferAvailable }
         buffer.label = String(describing: type)
         return buffer

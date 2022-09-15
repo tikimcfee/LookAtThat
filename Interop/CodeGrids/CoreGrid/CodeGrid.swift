@@ -48,16 +48,21 @@ public class CodeGrid: Identifiable, Equatable {
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     private(set) var rootNode: GlyphCollection
-    var virtualParent: MetalLinkNode?
     let tokenCache: CodeGridTokenCache
-    var targetNode: MetalLinkNode { virtualParent ?? rootNode }
-
+    var targetNode: MetalLinkNode { rootNode }
+    
+    var virtualParentConstants: ParentUpdater?
+    
     init(rootNode: GlyphCollection,
-         tokenCache: CodeGridTokenCache,
-         _ virtualParent: MetalLinkNode? = nil) {
+         tokenCache: CodeGridTokenCache) {
         self.rootNode = rootNode
         self.tokenCache = tokenCache
-        self.virtualParent = virtualParent
+        
+        rootNode.attachBufferChanges { updatedBufferMatrix in
+            self.virtualParentConstants? {
+                $0.modelMatrix = updatedBufferMatrix
+            }
+        }
     }
     
     public static func == (_ left: CodeGrid, _ right: CodeGrid) -> Bool {
@@ -105,6 +110,15 @@ extension CodeGrid: Measures {
         }
         set {
             targetNode.worldPosition = newValue
+        }
+    }
+    
+    var rotation: LFloat3 {
+        get {
+            targetNode.rotation
+        }
+        set {
+            targetNode.rotation = newValue
         }
     }
     

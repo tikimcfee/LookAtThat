@@ -11,10 +11,12 @@ import SwiftSyntax
 struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     let targetGrid: CodeGrid
     let targetCollection: GlyphCollection
+    var writer: GlyphCollectionWriter
     
     init(targetGrid: CodeGrid) {
         self.targetGrid = targetGrid
         self.targetCollection = targetGrid.rootNode
+        self.writer = GlyphCollectionWriter(target: targetCollection)
     }
     
     func consume(url: URL) {
@@ -63,25 +65,18 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         _ color: NSUIColor,
         _ writtenNodeSet: inout CodeGridNodes
     ) {
-        let parent = targetGrid.virtualParent
+        // Fetch parent buffer index to set for all new written nodes
+        var parentBufferIndex: UInt = .zero
+        targetGrid.virtualParentConstants? {
+            parentBufferIndex = $0.bufferIndex
+        }
+        
         for newCharacter in string {
-            // NOTE: This is awkard, but we immediately update the node's ID
-            // to the given name. This is unsafe, as the ID is set deep down
-            // in the node itself automatically. Might want to create a new
-            // pathway for this...
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
-            guard let glyph = targetCollection.addGlyph(glyphKey) else {
-                print("Failed to render glyph for: \(newCharacter)")
-                return
-            }
-            glyph.meta.syntaxID = nodeID
-            writtenNodeSet.insert(glyph)
-            
-            if let parent = parent {
-                // Parent is set by collection; reset before
-                // adding to acknowledge multiparent warning
-                glyph.parent = nil
-                parent.add(child: glyph)
+            writer.addGlyph(glyphKey) { glyph, constants in
+                glyph.meta.syntaxID = nodeID
+                writtenNodeSet.insert(glyph)
+                constants.parentIndex = parentBufferIndex
             }
         }
     }

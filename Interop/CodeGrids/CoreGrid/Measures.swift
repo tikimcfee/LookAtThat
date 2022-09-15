@@ -27,13 +27,6 @@ protocol Measures: AnyObject {
 }
 
 extension Measures {
-    var leadingOffset: VectorFloat { abs(localLeading) }
-    var trailingOffset: VectorFloat { abs(localTrailing) }
-    var topOffset: VectorFloat { abs(localTop) }
-    var bottomOffset: VectorFloat { abs(localBottom) }
-    var frontOffset: VectorFloat { abs(localFront) }
-    var backOffset: VectorFloat { abs(localBack) }
-    
     var xpos: VectorFloat {
         get { position.x }
         set { position.x = newValue }
@@ -53,14 +46,14 @@ extension Measures {
 // MARK: - Bounds
 
 extension Measures {    
-    var boundsMin: LFloat3 {
+    var parentSpaceBoundsMin: LFloat3 {
         convertPosition(
             LFloat3(localLeading, localBottom, localBack),
             to: parent
         )
     }
     
-    var boundsMax: LFloat3 {
+    var parentSpaceBoundsMax: LFloat3 {
         convertPosition(
             LFloat3(localTrailing, localTop, localFront),
             to: parent
@@ -71,12 +64,19 @@ extension Measures {
     var boundsHeight: Float { BoundsHeight(bounds) }
     var boundsLength: Float { BoundsLength(bounds) }
     
-    var leading: VectorFloat { boundsMin.x }
-    var trailing: VectorFloat { boundsMax.x }
-    var top: VectorFloat { boundsMax.y }
-    var bottom: VectorFloat { boundsMin.y }
-    var front: VectorFloat { boundsMax.z }
-    var back: VectorFloat { boundsMin.z }
+    var leading: VectorFloat { bounds.min.x }
+    var trailing: VectorFloat { bounds.max.x }
+    var top: VectorFloat { parentSpaceBoundsMax.y }
+    var bottom: VectorFloat { parentSpaceBoundsMin.y }
+    var front: VectorFloat { parentSpaceBoundsMax.z }
+    var back: VectorFloat { parentSpaceBoundsMin.z }
+    
+    var leadingOffset: VectorFloat { abs(boundsCenterPosition.x - boundsWidth / 2.0) }
+    var trailingOffset: VectorFloat { abs(boundsCenterPosition.x + boundsWidth / 2.0) }
+    var topOffset: VectorFloat { abs(boundsCenterPosition.y - boundsHeight / 2.0) }
+    var bottomOffset: VectorFloat { abs(boundsCenterPosition.y + boundsHeight / 2.0) }
+    var frontOffset: VectorFloat { abs(localFront) }
+    var backOffset: VectorFloat { abs(localBack) }
     
     var boundsCenterWidth: VectorFloat { boundsWidth / 2.0 + bounds.min.x }
     var boundsCenterHeight: VectorFloat { boundsHeight / 2.0 + bounds.min.y }
@@ -110,36 +110,37 @@ extension Measures {
     @discardableResult
     func setLeading(_ newValue: VectorFloat) -> Self {
         xpos = newValue + lengthX / 2.0
+//        xpos = newValue
         return self
     }
     
     @discardableResult
     func setTrailing(_ newValue: VectorFloat) -> Self{
-        xpos = newValue - (lengthX / 2.0)
+        xpos = newValue - leadingOffset
         return self
     }
     
     @discardableResult
     func setTop(_ newValue: VectorFloat) -> Self {
-        ypos = newValue - (lengthY / 2.0)
+        ypos = newValue - topOffset
         return self
     }
     
     @discardableResult
     func setBottom(_ newValue: VectorFloat) -> Self {
-        ypos = newValue + (lengthY / 2.0)
+        ypos = newValue + bottomOffset
         return self
     }
     
     @discardableResult
     func setFront(_ newValue: VectorFloat) -> Self {
-        zpos = newValue - (lengthZ / 2.0)
+        zpos = newValue - frontOffset
         return self
     }
     
     @discardableResult
     func setBack(_ newValue: VectorFloat) -> Self {
-        zpos = newValue + (lengthZ / 2.0)
+        zpos = newValue + frontOffset
         return self
     }
 }
@@ -188,8 +189,8 @@ extension Measures {
         ComputedBoundsLength:            \(boundsLength)
         nodePosition:                    \(position)
 
-        boundsMin:                       \(boundsMin)
-        boundsMax:                       \(boundsMax)
+        boundsMin:                       \(parentSpaceBoundsMin)
+        boundsMax:                       \(parentSpaceBoundsMax)
 
         ComputedBoundsCenter:            \(boundsCenterPosition)
         (leading, top, back):            \(SCNVector3(leading, top, back))

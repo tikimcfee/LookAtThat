@@ -21,23 +21,26 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
     private(set) var buffer: MTLBuffer
     var pointer: UnsafeMutablePointer<Stored>
     
-    let enlargeMultiplier = 2
-    private(set) var currentBufferSize = 5000
+    let enlargeMultiplier = 2.001
+    private(set) var currentBufferSize: Int
     private(set) var currentEndIndex = 0
     private var shouldRebuild: Bool {
         currentEndIndex == currentBufferSize
     }
     private var enlargeSemaphore = DispatchSemaphore(value: 1)
     
-    init(link: MetalLink) throws {
+    init(link: MetalLink, initialSize: Int = 5000) throws {
         self.link = link
+        self.currentBufferSize = initialSize
         let buffer = try link.makeBuffer(of: Stored.self, count: currentBufferSize)
         self.buffer = buffer
         self.pointer = buffer.boundPointer(as: Stored.self, count: currentBufferSize)
     }
     
-    func createNext(_ withUpdates: ((inout Stored) -> Void)? = nil) throws -> Stored {
-        if shouldRebuild { try enlargeBuffer() }
+    func createNext(
+        _ withUpdates: ((inout Stored) -> Void)? = nil
+    ) throws -> Stored {
+        if shouldRebuild { try expandBuffer() }
         
         var next = pointer[currentEndIndex]
         next.reset() // Memory is unitialized; call reset to clean up
@@ -51,7 +54,7 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
         return next
     }
     
-    func enlargeBuffer() throws {
+    private func expandBuffer() throws {
         enlargeSemaphore.wait()
         defer { enlargeSemaphore.signal() }
         guard shouldRebuild else {
@@ -60,7 +63,7 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
         }
         
         let oldSize = currentBufferSize
-        let nextSize = currentBufferSize * enlargeMultiplier
+        let nextSize = Int(ceil(currentBufferSize.cg * enlargeMultiplier.cg))
         print("Enlarging buffer for '\(Stored.self)': \(currentBufferSize) -> \(nextSize)")
         currentBufferSize = nextSize
         

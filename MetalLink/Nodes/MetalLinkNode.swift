@@ -17,13 +17,13 @@ class MetalLinkNode: Measures {
     // MARK: - Model params
     
     var position: LFloat3 = .zero
-        { didSet { currentModel.dirty() } }
+        { didSet { setDirty(includeChildren: true) } }
     
     var scale: LFloat3 = LFloat3(1.0, 1.0, 1.0)
-        { didSet { currentModel.dirty() } }
+        { didSet { setDirty(includeChildren: true) } }
     
     var rotation: LFloat3 = .zero
-        { didSet { currentModel.dirty() } }
+        { didSet { setDirty(includeChildren: true) } }
     
     // MARK: Bounds / Position
     
@@ -94,6 +94,15 @@ class MetalLinkNode: Measures {
             child.enumerateChildren(action)
         }
     }
+    
+    func attachBufferChanges(_ onChange: @escaping (matrix_float4x4) -> Void) {
+        let existing = currentModel.update
+        currentModel.update = {
+            let result = existing()
+            onChange(result)
+            return result
+        }
+    }
 }
 
 extension MetalLinkNode: Hashable, Equatable {
@@ -115,8 +124,10 @@ extension MetalLinkNode: Hashable, Equatable {
 extension MetalLinkNode {
     var willUpdate: Bool { currentModel.rebuildModel }
     
-    func setDirty() {
+    func setDirty(includeChildren: Bool = false) {
         currentModel.dirty()
+        guard includeChildren else { return }
+        children.forEach { $0.setDirty() }
     }
     
     var modelMatrix: matrix_float4x4 {
@@ -131,6 +142,7 @@ extension MetalLinkNode {
         matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
         matrix.rotateAbout(axis: Z_AXIS, by: rotation.z)
         matrix.scale(amount: scale)
+        matrix = matrix_multiply(parent?.modelMatrix ?? matrix_identity_float4x4, matrix)
         return matrix
     }
 }
@@ -145,7 +157,7 @@ struct matrix_cached_float4x4 {
     private(set) var rebuildModel = true // implicit rebuild on first call
     private(set) var currentModel = matrix_identity_float4x4
     
-    let update: () -> matrix_float4x4
+    var update: () -> matrix_float4x4
     
     mutating func dirty() { rebuildModel = true }
     

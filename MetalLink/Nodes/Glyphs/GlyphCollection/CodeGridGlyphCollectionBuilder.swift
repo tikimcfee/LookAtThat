@@ -15,14 +15,18 @@ extension CodeGridGlyphCollectionBuilder {
     }
 }
 
+typealias ParentSource = (inout VirtualParentConstants) -> Void
+typealias ParentUpdater = (ParentSource) -> Void
+
 class CodeGridGlyphCollectionBuilder {
     let link: MetalLink
     let atlas: MetalLinkAtlas
     let semanticMap: SemanticInfoMap
     let tokenCache: CodeGridTokenCache
     let gridCache: GridCache
+    let parentBuffer: BackingBuffer<VirtualParentConstants>
     
-    var mode: Mode = .monoCollection
+    var mode: Mode = .multiCollection
     private lazy var monoCollection = makeMonoCollection()
     
     init(
@@ -36,6 +40,12 @@ class CodeGridGlyphCollectionBuilder {
         self.semanticMap = semanticMap
         self.tokenCache = tokenCache
         self.gridCache = gridCache
+        self.parentBuffer = try BackingBuffer<VirtualParentConstants>(link: link, initialSize: 256)
+        // create the first buffer item and set it as identity.
+        // this might let 0-parents have an identity to multiply
+        _ = try parentBuffer.createNext {
+            $0.modelMatrix = matrix_identity_float4x4
+        }
     }
     
     private func makeMonoCollection() -> GlyphCollection {
@@ -56,12 +66,21 @@ class CodeGridGlyphCollectionBuilder {
         gridCache.cachedGrids[grid.id] = grid
         switch mode {
         case .monoCollection:
-            let node = makeVirtualParent()
-            grid.virtualParent = node
+            print("\n\n\t\t MonoCollection has no virtual parent yet")
+//            let node = makeVirtualParent()
+//            grid.virtualParent = node
             break
+            
         case .multiCollection:
             break
         }
+        
+        let parent = try! parentBuffer.createNext()
+        func updateParent(_ operation: (inout VirtualParentConstants) -> Void) {
+            operation(&parentBuffer.pointer[parent.arrayIndex])
+        }
+        grid.virtualParentConstants = updateParent(_:)
+        
         return grid
     }
     

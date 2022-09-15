@@ -24,6 +24,10 @@ extension Double {
     var cg: CGFloat {
         return self
     }
+    
+    var float: Float {
+        return Float(self)
+    }
 }
 
 extension CGFloat {

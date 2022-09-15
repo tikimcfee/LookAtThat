@@ -31,8 +31,13 @@ struct ModelConstants {
     
     uint modelInstanceID;
     float4 addedColor;
-    uint parentIndex;
-    uint bufferIndex;
+    uint parentIndex; // index of virtualparentconstants from cpu mtlbuffer
+    uint bufferIndex; // index of self in cpu mtlbuffer
+};
+
+struct VirtualParentConstants {
+    float4x4 modelMatrix;
+    uint bufferIndex; // index of self in cpu mtlbuffer
 };
 
 // MARK: - GPU Constants
