@@ -136,22 +136,10 @@ extension TwoETimeRoot {
         let editor = WorldGridEditor()
         
         func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
-            let background = BackgroundQuad(link)
-            background.quad.height = consumer.targetGrid.boundsHeight
-            background.quad.width = consumer.targetGrid.boundsWidth
-            background.constants.pickingId = InstanceCounter.shared.nextId(.grid)
-            
             root.add(child: consumer.targetCollection)
-            consumer.targetCollection.add(child: background)
-            
             editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
-            
-            background.position = background.position.translated(
-                dX: background.lengthX / 2.0,
-                dY: -background.lengthY / 2.0,
-                dZ: -1.0
-            )
-            
+            consumer.targetGrid.updateBackground()
+
 //            // TODO: < 30ms updates gives us flickering because of.. rendering order maybe?
 //            QuickLooper(interval: .milliseconds(30)) {
 //                consumer.targetCollection.rotation.y += 0.1

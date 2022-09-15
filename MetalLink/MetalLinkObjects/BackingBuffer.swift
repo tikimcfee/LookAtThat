@@ -16,6 +16,9 @@ extension BackingIndexed {
     var arrayIndex: Int { Int(bufferIndex) }
 }
 
+// More memory, less rebuilding. 10K fits nicely for reducing rebuilds in LAT.
+let BackingBufferDefaultSize = 10_000
+
 class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
     let link: MetalLink
     private(set) var buffer: MTLBuffer
@@ -29,7 +32,10 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
     }
     private var enlargeSemaphore = DispatchSemaphore(value: 1)
     
-    init(link: MetalLink, initialSize: Int = 5000) throws {
+    init(
+        link: MetalLink,
+        initialSize: Int = BackingBufferDefaultSize
+    ) throws {
         self.link = link
         self.currentBufferSize = initialSize
         let buffer = try link.makeBuffer(of: Stored.self, count: currentBufferSize)

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SyntaxHierarchyView: View {
-    @State var lastState: PickingState?
+    @State var lastState: NodePickingState?
     var hoveredId: String { lastState?.nodeSyntaxID ?? "" }
     
     var body: some View {
         hoveredNodeInfoView(hoveredId)
             .onReceive(
                 GlobalInstances.gridStore.nodeHoverController
-                    .$lastState
+                    .$lastGlyphState
                     .subscribe(on: RunLoop.main)
                     .receive(on: RunLoop.main),
                 perform: {

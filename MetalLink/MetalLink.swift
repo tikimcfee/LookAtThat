@@ -29,7 +29,7 @@ class MetalLink {
     lazy var depthStencilStateLibrary = DepthStencilStateLibrary(link: self)
     
     // TODO: Make these color indices named to match their descriptor usages
-    lazy var pickingTexture = MetalLinkPickingTexture(link: self, colorIndex: 1)
+    lazy var glyphPickingTexture = MetalLinkPickingTexture(link: self, colorIndex: 1)
     lazy var gridPickingTexture = MetalLinkPickingTexture(link: self, colorIndex: 2)
     
     private lazy var sizeSubject = PassthroughSubject<CGSize, Never>()
@@ -57,8 +57,6 @@ extension MetalLink {
 extension MetalLink: MetalLinkReader {
     var link: MetalLink { self }
 }
-
-
 
 #if os(iOS)
 extension OSEvent {

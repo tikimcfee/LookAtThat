@@ -75,6 +75,7 @@ class CodeGridGlyphCollectionBuilder {
             break
         }
         
+        // TODO: This is whacky and gross. I love it and hate it. Make parent buffers better.
         let parent = try! parentBuffer.createNext()
         func updateParent(_ operation: (inout VirtualParentConstants) -> Void) {
             operation(&parentBuffer.pointer[parent.arrayIndex])

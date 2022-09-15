@@ -43,26 +43,48 @@ public class CodeGrid: Identifiable, Equatable {
     var fileName: String = ""
     var sourcePath: URL?
     
+    
     var consumedRootSyntaxNodes: [Syntax] = []
     var semanticInfoMap: SemanticInfoMap = SemanticInfoMap()
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     private(set) var rootNode: GlyphCollection
     let tokenCache: CodeGridTokenCache
-    var targetNode: MetalLinkNode { rootNode }
-    
+    let gridBackground: BackgroundQuad
     var virtualParentConstants: ParentUpdater?
+    
+    var targetNode: MetalLinkNode { rootNode }
+    var backgroundID: InstanceIDType { gridBackground.constants.pickingId }
     
     init(rootNode: GlyphCollection,
          tokenCache: CodeGridTokenCache) {
         self.rootNode = rootNode
         self.tokenCache = tokenCache
+        self.gridBackground = BackgroundQuad(rootNode.link) // TODO: Link dependency feels lame
         
+        setupOnInit()
+    }
+    
+    func updateBackground() {
+        gridBackground.quad.height = boundsHeight
+        gridBackground.quad.width = boundsWidth
+        
+        gridBackground.position = LFloat3(
+            x: gridBackground.lengthX / 2.0,
+            y: -gridBackground.lengthY / 2.0,
+            z: -1.0
+        )
+    }
+    
+    private func setupOnInit() {
         rootNode.attachBufferChanges { updatedBufferMatrix in
             self.virtualParentConstants? {
                 $0.modelMatrix = updatedBufferMatrix
             }
         }
+        
+        rootNode.add(child: gridBackground)
+        gridBackground.constants.pickingId = InstanceCounter.shared.nextId(.grid)
     }
     
     public static func == (_ left: CodeGrid, _ right: CodeGrid) -> Bool {

@@ -37,7 +37,7 @@ extension SafeDrawPass {
         // setup a start/stop for descriptor updates.
         // look at other implementations of engines.
         // or... use one... ...  .
-        link.pickingTexture.updateDescriptor(renderPassDescriptor)
+        link.glyphPickingTexture.updateDescriptor(renderPassDescriptor)
         link.gridPickingTexture.updateDescriptor(renderPassDescriptor)
         
         guard let commandBuffer = link.commandQueue.makeCommandBuffer(),
