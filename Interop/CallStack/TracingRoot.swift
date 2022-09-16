@@ -117,6 +117,10 @@ extension TracingRoot {
         WorkerPool.self,
         WorldGridEditor.self,
         WorldGridSnapping.self,
+        MetalLinkHoverController.self,
+        MetalLink.self,
+        MetalLinkGlyphNode.self,
+        GlyphCollection.self,
     ]
     
     func setupTracing() {

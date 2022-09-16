@@ -67,22 +67,29 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid1 = consumed(bundle.testFile).targetGrid
         let testGrid2 = consumed(bundle.testFile).targetGrid
         
-//        // call multiple times to make sure it isn't additive.
-//        // these are centered at the origin. Setting leading
-//        // of the second grid moves leading to oigin, which
-//        // is the original center.
-//        testGrid2.setLeading(testGrid1.leading)
-//        testGrid2.setLeading(testGrid1.leading)
-//        testGrid2.setLeading(testGrid1.leading)
-//        
-//        // Account for leading value on grid.
-//        let expectedLeading = testGrid1.centerPosition.x + testGrid1.leading
-//        XCTAssertEqual(testGrid2.leading, expectedLeading)
+        // call multiple times to make sure it isn't additive.
+        testGrid2.setLeading(testGrid1.localLeading)
+        testGrid2.setLeading(testGrid1.localLeading)
+        testGrid2.setLeading(testGrid1.localLeading)
+        XCTAssertEqual(testGrid2.localLeading, testGrid1.localLeading, "There should be no offset after setting")
         
-        testGrid2.setLeading(testGrid1.trailing)
-//        testGrid2.setLeading(testGrid1.trailing)
+        testGrid2.setLeading(testGrid1.localTrailing)
+        XCTAssertEqual(testGrid2.localLeading, testGrid1.localTrailing, "There should be no offset after setting")
         
-        XCTAssertEqual(testGrid2.leading, testGrid1.trailing)
+        testGrid2.setTrailing(testGrid1.localTrailing)
+        XCTAssertEqual(testGrid2.localTrailing, testGrid1.localTrailing, "There should be no offset after setting")
+        
+        testGrid2.setTop(testGrid1.localTop)
+        XCTAssertEqual(testGrid2.localTop, testGrid1.localTop, "There should be no offset after setting")
+        
+        testGrid2.setBottom(testGrid1.localBottom)
+        XCTAssertEqual(testGrid2.localBottom, testGrid1.localBottom, "There should be no offset after setting")
+        
+        testGrid2.setFront(testGrid1.localFront)
+        XCTAssertEqual(testGrid2.localFront, testGrid1.localFront, "There should be no offset after setting")
+        
+        testGrid2.setBack(testGrid1.localBack)
+        XCTAssertEqual(testGrid2.localBack, testGrid1.localBack, "There should be no offset after setting")
     }
     
     func testLinkNodeStatsForMultiCollection() throws {
@@ -109,9 +116,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let testBounds = BoundsComputing()
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 for node in nodeSet {
-                    XCTAssertTrue(node.contentWidth > 0, "Glyph nodes usually have some width")
-                    XCTAssertTrue(node.contentHeight > 0, "Glyph nodes usually have some height")
-                    XCTAssertTrue(node.contentDepth > 0, "Glyph nodes usually have some depth")
+                    XCTAssertTrue(node.contentSize.x > 0, "Glyph nodes usually have some width")
+                    XCTAssertTrue(node.contentSize.y > 0, "Glyph nodes usually have some height")
+                    XCTAssertTrue(node.contentSize.z > 0, "Glyph nodes usually have some depth")
                     testBounds.consumeBounds(node.bounds)
                 }
             }
@@ -329,17 +336,18 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print("after translate: ----")
         print(testGrid.dumpstats)
         
-        deltaX = abs(testGrid.leadingOffset - testGrid.xpos)
-        deltaY = abs(testGrid.topOffset + testGrid.ypos)
-        deltaZ = abs(testGrid.backOffset - testGrid.zpos)
-        XCTAssertLessThanOrEqual(abs(deltaX), 0.001, "Float difference must be very small")
-        XCTAssertLessThanOrEqual(abs(deltaY), 0.001, "Float difference must be very small")
-        XCTAssertLessThanOrEqual(abs(deltaZ), 0.001, "Float difference must be very small")
+        // Values should be equal after setting
+        deltaX = testGrid.localLeading
+        deltaY = testGrid.localTop
+        deltaZ = testGrid.localBack
+        XCTAssertEqual(deltaX, 0.0, "Error should be within Metal Float accuracy")
+        XCTAssertEqual(deltaY, 0.0, "Error should be within Metal Float accuracy")
+        XCTAssertEqual(deltaZ, 0.0, "Error should be within Metal Float accuracy")
         
         let alignedGrid = newGrid()
         print("new grid: ----")
         print(alignedGrid.dumpstats)
-        alignedGrid.setLeading(testGrid.trailing)
+        alignedGrid.setLeading(testGrid.localTrailing)
         
         print("after align: ----")
         print(alignedGrid.dumpstats)
@@ -370,9 +378,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         var centerY = centerPosition.y
         var centerZ = centerPosition.z
         
-        let expectedCenterX = testGrid.leading + testGridWidth / 2.0
-        let expectedCenterY = testGrid.top - testGridHeight / 2.0
-        let expectedCenterZ = testGrid.front - testGridLength / 2.0
+        let expectedCenterX = testGrid.localLeading + testGridWidth / 2.0
+        let expectedCenterY = testGrid.localTop - testGridHeight / 2.0
+        let expectedCenterZ = testGrid.localFront - testGridLength / 2.0
         
         XCTAssertGreaterThanOrEqual(expectedCenterX, 0, "Grids at (0,0,0) expected to draw left to right; its center should ahead of that point")
         XCTAssertLessThanOrEqual(expectedCenterY, 0, "Grids at (0,0,0) expected to draw top to bottom; its center should be below that point")
@@ -420,9 +428,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterZ = centerZ + delta
             
             // Current measurements and position have a precision of about 3-4 places
-            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.000, "Error should be within 1 point")
-            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.000, "Error should be within 1 point")
-            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.000, "Error should be within 1 point")
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.0001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.0001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.0001, "Error should be within Metal Float accuracy")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY

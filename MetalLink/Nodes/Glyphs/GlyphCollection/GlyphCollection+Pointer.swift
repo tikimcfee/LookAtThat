@@ -42,8 +42,8 @@ extension GlyphCollection {
         ) {
             let checks = letterNode.key.source.checks
             let size = LFloat2(
-                letterNode.quad.width,
-                letterNode.quad.height
+                letterNode.quadWidth,
+                letterNode.quadHeight
             )
             
             // *Must set initial model matrix on constants*.

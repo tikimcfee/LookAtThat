@@ -7,11 +7,23 @@
 
 import MetalKit
 
-class MetalLinkGlyphNode: MetalLinkObject {
+class MetalLinkGlyphNode: MetalLinkObject, QuadSizable {
     let key: GlyphCacheKey
     let texture: MTLTexture
-    var quad: MetalLinkQuadMesh
     var meta: Meta
+    
+    var quad: MetalLinkQuadMesh
+    var node: MetalLinkNode { self }
+    
+    override var hasIntrinsicSize: Bool { true }
+    
+    override var contentSize: LFloat3 {
+        LFloat3(quad.width, quad.height, 1)
+    }
+    
+    override var contentOffset: LFloat3 {
+        LFloat3(-quad.width / 2.0, quad.height / 2.0, 0)
+    }
     
     init(_ link: MetalLink,
          key: GlyphCacheKey,
@@ -26,6 +38,7 @@ class MetalLinkGlyphNode: MetalLinkObject {
     }
     
     func setQuadSize() {
+        BoundsCaching.ClearRoot(self)
         let size = UnitSize.from(texture.simdSize)
         (quad.width, quad.height) = (size.x, size.y)
     }
@@ -52,14 +65,5 @@ extension MetalLinkGlyphNode {
     enum GroupType {
         case glyphCollection(instanceID: InstanceIDType)
         case standardGroup
-    }
-}
-
-extension MetalLinkGlyphNode: ContentSizing {
-    var contentWidth: Float { quad.width }
-    var contentHeight: Float { quad.height }
-    var contentDepth: Float { 1.0 }
-    var offset: LFloat3 {
-        LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0)
     }
 }

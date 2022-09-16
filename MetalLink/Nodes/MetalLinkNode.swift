@@ -12,7 +12,10 @@ class MetalLinkNode: Measures {
     lazy var nodeId = UUID().uuidString
     
     var parent: MetalLinkNode?
+        { didSet { setDirty(includeChildren: true) } }
+    
     var children: [MetalLinkNode] = []
+        { didSet { setDirty(includeChildren: true) } }
     
     // MARK: - Model params
     
@@ -25,10 +28,17 @@ class MetalLinkNode: Measures {
     var rotation: LFloat3 = .zero
         { didSet { setDirty(includeChildren: true) } }
     
+    // MARK: - Overridable Measures
+    
+    var hasIntrinsicSize: Bool { false }
+    var contentSize: LFloat3 { .zero }
+    var contentOffset: LFloat3 { .zero }
+    
     // MARK: Bounds / Position
     
     var bounds: Bounds {
-        return computeBoundingBox()
+        let bounds = BoundsCaching.getOrUpdate(self)
+        return bounds
     }
     
     var lengthX: VectorFloat {
@@ -125,6 +135,7 @@ extension MetalLinkNode {
     var willUpdate: Bool { currentModel.rebuildModel }
     
     func setDirty(includeChildren: Bool = false) {
+        BoundsCaching.ClearRoot(self)
         currentModel.dirty()
         guard includeChildren else { return }
         children.forEach { $0.setDirty() }

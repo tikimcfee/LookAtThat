@@ -9,7 +9,6 @@ import Foundation
 import SceneKit
 
 typealias BoundsKey = String
-let uuidLength = UUID().uuidString.count
 
 // MARK: Bounds caching
 class BoundsCaching {
@@ -40,6 +39,7 @@ class BoundsCaching {
     }
     
     internal static func ClearRoot(_ root: MetalLinkNode) {
+        boundsCache[root.boundsCacheKey] = nil
         root.enumerateChildren { node in
             boundsCache[node.boundsCacheKey] = nil
         }

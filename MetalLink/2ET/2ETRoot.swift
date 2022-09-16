@@ -102,18 +102,18 @@ class TwoETimeRoot: MetalLinkReader {
 extension TwoETimeRoot {
     func setupNodeChildTest() throws {
         let origin = BackgroundQuad(link)
-        origin.quad.height = 1
-        origin.quad.width = 1
+        origin.quadHeight = 1
+        origin.quadWidth = 1
         origin.setColor(LFloat4(1, 0, 0, 1))
         
         let firstparent = BackgroundQuad(link)
-        firstparent.quad.height = 1
-        firstparent.quad.width = 1
+        firstparent.quadHeight = 1
+        firstparent.quadWidth = 1
         firstparent.setColor(LFloat4(0, 1, 0, 1))
         
         let firstChild = BackgroundQuad(link)
-        firstChild.quad.height = 1
-        firstChild.quad.width = 1
+        firstChild.quadHeight = 1
+        firstChild.quadWidth = 1
         firstChild.setColor(LFloat4(0, 0, 1, 1))
         
         root.add(child: origin)
@@ -161,12 +161,12 @@ extension TwoETimeRoot {
         let background = BackgroundQuad(link)
         background.position = LFloat3(0.0, 0.0, -50.0)
         background.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
-        background.quad.height = 3.0
+        background.quadHeight = 3.0
         
         let background2 = BackgroundQuad(link)
         background2.position = LFloat3(4.0, 0.0, -50.0)
         background2.setColor(LFloat4(0.0, 1.0, 0.0, 1.0))
-        background2.quad.height = 7.0
+        background2.quadHeight = 7.0
         
         let background3 = BackgroundQuad(link)
         background3.position = LFloat3(8.0, 0.0, -50.0)
@@ -180,10 +180,10 @@ extension TwoETimeRoot {
         root.add(child: background2)
         root.add(child: background3)
         
-        background2.setLeading(background.trailing)
-        background2.setTop(background.top)
-        background3.setLeading(background2.trailing)
-        background3.setTop(background2.top)
+        background2.setLeading(background.localTrailing)
+        background2.setTop(background.localTop)
+        background3.setLeading(background2.localTrailing)
+        background3.setTop(background2.localTop)
         
         print(background.centerPosition)
         print(background2.centerPosition)

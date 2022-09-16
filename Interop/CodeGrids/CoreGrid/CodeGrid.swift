@@ -66,14 +66,13 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     func updateBackground() {
-        gridBackground.quad.height = boundsHeight
-        gridBackground.quad.width = boundsWidth
+        gridBackground.quadWidth = lengthX
+        gridBackground.quadHeight = lengthY
         
-        gridBackground.position = LFloat3(
-            x: gridBackground.lengthX / 2.0,
-            y: -gridBackground.lengthY / 2.0,
-            z: -1.0
-        )
+        gridBackground
+            .setLeading(localLeading)
+            .setTop(localTop)
+            .setFront(localBack)
     }
     
     private func setupOnInit() {
@@ -111,6 +110,18 @@ extension CodeGrid: Hashable {
 extension CodeGrid: Measures {
     var bounds: Bounds {
         targetNode.bounds
+    }
+    
+    var hasIntrinsicSize: Bool {
+        targetNode.hasIntrinsicSize
+    }
+    
+    var contentSize: LFloat3 {
+        targetNode.contentSize
+    }
+    
+    var contentOffset: LFloat3 {
+        targetNode.contentOffset
     }
     
     var nodeId: BoundsKey {

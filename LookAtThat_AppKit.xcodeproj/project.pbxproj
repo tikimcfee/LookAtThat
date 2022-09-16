@@ -434,10 +434,6 @@
 		B7A60F9528B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9628B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9728B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
-		B7A60F9A28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
-		B7A60F9B28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
-		B7A60F9C28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
-		B7A60F9D28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */; };
 		B7A60FA428B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
 		B7A60FA528B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
 		B7A60FA628B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
@@ -906,7 +902,6 @@
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
 		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
-		B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizing.swift; sourceTree = "<group>"; };
 		B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsComputing.swift; sourceTree = "<group>"; };
 		B7A6F2A9275ED95E004CAA66 /* Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measures.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
@@ -1344,7 +1339,6 @@
 			children = (
 				B74E7A7E26770E5F0021299F /* BoundsCaching.swift */,
 				B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */,
-				B7A60F9928B9EB3300ACA4E6 /* ContentSizing.swift */,
 			);
 			path = Bounds;
 			sourceTree = "<group>";
@@ -2130,7 +2124,6 @@
 				B7A60F9028B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B70FDCB5283EAE9900170D5F /* RWLock.swift in Sources */,
 				B70FDCB7283EAE9900170D5F /* MultipeerManager.swift in Sources */,
-				B7A60F9B28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B7AC336F28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B768E2B028BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B70FDCB9283EAE9900170D5F /* SemanticTracingOutView.swift in Sources */,
@@ -2304,7 +2297,6 @@
 				B7AC335528A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
-				B7A60F9D28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B768E2B228BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
@@ -2474,7 +2466,6 @@
 				B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
 				B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
-				B7A60F9A28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B7AC336E28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B768E2AF28BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
@@ -2650,7 +2641,6 @@
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
-				B7A60F9C28B9EB3300ACA4E6 /* ContentSizing.swift in Sources */,
 				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B768E2B128BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,

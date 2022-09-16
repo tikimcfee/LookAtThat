@@ -12,6 +12,11 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     var linkAtlas: MetalLinkAtlas
     lazy var renderer = Renderer(collection: self)
     
+    override var contentSize: LFloat3 {
+        let bounds = BoundsCaching.getOrUpdate(self)
+        return BoundsSize(bounds)
+    }
+    
     init(
         link: MetalLink,
         linkAtlas: MetalLinkAtlas

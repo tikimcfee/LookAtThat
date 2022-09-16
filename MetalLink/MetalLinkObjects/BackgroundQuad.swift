@@ -7,14 +7,18 @@
 
 import Foundation
 
-class BackgroundQuad: MetalLinkObject, ContentSizing {
-    let quad: MetalLinkQuadMesh
+class BackgroundQuad: MetalLinkObject, QuadSizable {
+    var quad: MetalLinkQuadMesh
+    var node: MetalLinkNode { self }
     
-    var contentWidth: Float { quad.width }
-    var contentHeight: Float { quad.height }
-    var contentDepth: Float { 1 }
-    var offset: LFloat3 {
-        LFloat3(-contentWidth / 2.0, contentHeight / 2.0, 0)
+    override var hasIntrinsicSize: Bool { true }
+    
+    override var contentSize: LFloat3 {
+        LFloat3(quad.width, quad.height, 1)
+    }
+    
+    override var contentOffset: LFloat3 {
+        LFloat3(-quad.width / 2.0, quad.height / 2.0, 0)
     }
     
     init(_ link: MetalLink) {
