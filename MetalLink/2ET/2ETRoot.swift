@@ -37,9 +37,9 @@ class TwoETimeRoot: MetalLinkReader {
         camera.interceptor.onNewFileOperation = handleDirectory
         
 //        try setupNodeChildTest()
-        try setupNodeBackgroundTest()
+//        try setupNodeBackgroundTest()
 //        try setupBackgroundTest()
-//        try setupSnapTestMulti()
+        try setupSnapTestMulti()
         
          // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
@@ -138,7 +138,6 @@ extension TwoETimeRoot {
         func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
             root.add(child: consumer.targetCollection)
             editor.transformedByAdding(.trailingFromLastGrid(consumer.targetGrid))
-            consumer.targetGrid.updateBackground()
 
 //            // TODO: < 30ms updates gives us flickering because of.. rendering order maybe?
 //            QuickLooper(interval: .milliseconds(30)) {
@@ -194,19 +193,24 @@ extension TwoETimeRoot {
         // TODO: make switching between multi/mono better
         // multi needs to add each collection; mono needs to add root
         builder.mode = .multiCollection
-        
-        let rootCollection = builder.getCollection()
-        root.add(child: rootCollection)
-        root.scale = LFloat3(0.25, 0.25, 0.25)
-        root.position.z -= 30
+         
+        // TODO: scaling backgrounds doesn't work because I'm not using normalized sizes
+        // TODO: neither does position.. wtf
+        // TODO: (2) ... uh.. animating root doesn't do anything.. seeting a position does. Wut!?
+//        root.scale = LFloat3(0.25, 0.25, 0.25)
+//        root.position.z -= 30
         
         let editor = WorldGridEditor()
         
-        var files = 1
+        let targetParent = MetalLinkNode()
+//        targetParent.scale = LFloat3(x: 0.25, y: 0.25, z: 0.25)
+        root.add(child: targetParent)
+        
+        var files = 0
         func doEditorAdd(_ childPath: URL) {
             let consumer = builder.createConsumerForNewGrid()
-            consumer.targetCollection.position.z -= 30
-            root.add(child: consumer.targetCollection)
+//            consumer.targetCollection.position.z -= 30
+            targetParent.add(child: consumer.targetCollection)
             
             consumer.consume(url: childPath)
             consumer.targetGrid.fileName = childPath.fileName
@@ -215,10 +219,10 @@ extension TwoETimeRoot {
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
             let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
             
-            if files % 11 == 0 {
-                editor.transformedByAdding(nextRow)
-            } else if files % (75) == 0 {
+            if files > 0 && files % (25) == 0 {
                 editor.transformedByAdding(nextPlane)
+            } else if files > 0 && files % 5 == 0 {
+                editor.transformedByAdding(nextRow)
             } else {
                 editor.transformedByAdding(trailing)
             }
@@ -226,6 +230,18 @@ extension TwoETimeRoot {
             files += 1
             GlobalInstances.gridStore.nodeHoverController
                 .attachPickingStream(to: consumer.targetGrid)
+            
+//            var counter = 0.0
+//            QuickLooper(
+//                interval: .milliseconds(30),
+//                loop: {
+//                    consumer.targetGrid.position.x += cos(counter).float * 10
+//                    //                consumer.targetGrid.position.z += cos(counter).float * 10
+//                    //                self.root.position.z = cos(counter).float * 10
+//                    counter += 0.1
+//                },
+//                queue: WorkerPool.shared.nextWorker()
+//            ).runUntil { false }
         }
         
         GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in

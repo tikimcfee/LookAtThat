@@ -528,6 +528,10 @@
 		B7AC33B928A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
 		B7AC33BA28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
 		B7AC33BB28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
+		B7B1097B28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
+		B7B1097C28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
+		B7B1097D28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
+		B7B1097E28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
 		B7B38A4128D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
 		B7B38A4228D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
 		B7B38A4328D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
@@ -929,6 +933,7 @@
 		B7AC33AC28A0D479001172BB /* MeshLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshLibrary.swift; sourceTree = "<group>"; };
 		B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNode.swift; sourceTree = "<group>"; };
 		B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkRenderable.swift; sourceTree = "<group>"; };
+		B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadSizable.swift; sourceTree = "<group>"; };
 		B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackingBuffer.swift; sourceTree = "<group>"; };
 		B7B46AD728BC81750004CA2D /* GlobalInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInstances.swift; sourceTree = "<group>"; };
 		B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
@@ -1368,6 +1373,7 @@
 				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
 				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
 				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
+				B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */,
 				B785520C28B3081300F57954 /* Instancing */,
 				B7C69FCD28A3569200A84860 /* ObjectTypes */,
 			);
@@ -2170,6 +2176,7 @@
 				B7F876D028A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961D2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B70FDCE4283EAE9900170D5F /* KeyboardInterceptor.swift in Sources */,
+				B7B1097C28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
 				B7AC337328A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B70FDCE5283EAE9900170D5F /* CodeGrid+Consume.swift in Sources */,
 				B7C69FF328A4053500A84860 /* MetalRandoms.swift in Sources */,
@@ -2341,6 +2348,7 @@
 				B7981031281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */,
 				B74A23162814FFF300F6F727 /* MultipeerStreamController.swift in Sources */,
+				B7B1097E28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
 				B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B74A23172814FFF300F6F727 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B74A23182814FFF300F6F727 /* SwiftSyntax+Extensions.swift in Sources */,
@@ -2512,6 +2520,7 @@
 				B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
+				B7B1097B28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
 				B7AC337228A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
 				B7C69FF228A4053500A84860 /* MetalRandoms.swift in Sources */,
@@ -2597,6 +2606,7 @@
 				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
 				B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
+				B7B1097D28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
 				B725167628C086060094F29B /* NumberConversions.swift in Sources */,
 				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC337428A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,

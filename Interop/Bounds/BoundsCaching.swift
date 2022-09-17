@@ -8,7 +8,8 @@
 import Foundation
 import SceneKit
 
-typealias BoundsKey = String
+//typealias BoundsKey = String
+typealias BoundsKey = MetalLinkNode
 
 // MARK: Bounds caching
 class BoundsCaching {
@@ -21,7 +22,7 @@ class BoundsCaching {
     
     internal static func getOrUpdate(_ node: MetalLinkNode) -> Bounds {
         var bounds: Bounds?
-        bounds = boundsCache[node.boundsCacheKey]
+        bounds = boundsCache[node]
         guard let cached = bounds else {
             return Update(node)
         }
@@ -30,18 +31,18 @@ class BoundsCaching {
     
     internal static func Update(_ node: MetalLinkNode) -> Bounds {
         let box = node.computeBoundingBox()
-        boundsCache[node.boundsCacheKey] = box
+        boundsCache[node] = box
         return box
     }
     
     internal static func Set(_ node: MetalLinkNode, _ bounds: Bounds) {
-        boundsCache[node.boundsCacheKey] = bounds
+        boundsCache[node] = bounds
     }
     
     internal static func ClearRoot(_ root: MetalLinkNode) {
-        boundsCache[root.boundsCacheKey] = nil
+        boundsCache[root] = nil
         root.enumerateChildren { node in
-            boundsCache[node.boundsCacheKey] = nil
+            boundsCache[node] = nil
         }
     }
 }

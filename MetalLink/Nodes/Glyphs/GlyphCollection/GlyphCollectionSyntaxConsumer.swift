@@ -35,6 +35,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         }
         
         targetGrid.consumedRootSyntaxNodes.append(rootSyntaxNode)
+        targetGrid.updateBackground()
         targetCollection.setRootMesh()
     }
     
@@ -67,7 +68,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     ) {
         // Fetch parent buffer index to set for all new written nodes
         var parentBufferIndex: IndexedBufferType = .zero
-        targetGrid.virtualParentConstants? {
+        targetGrid.updateVirtualParentConstants? {
             parentBufferIndex = $0.bufferIndex
         }
         

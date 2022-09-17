@@ -48,6 +48,40 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
+    func testLinkParenting() throws {
+        let link = GlobalInstances.defaultLink
+        let builder = try CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
+        )
+        builder.mode = .multiCollection
+        
+        func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
+            let consumer = builder.createConsumerForNewGrid()
+            consumer.consume(url: url)
+            return consumer
+        }
+        
+        let testGrid1 = consumed(bundle.testFile).targetGrid
+        print(testGrid1.position)
+        
+        let root = RootNode(DebugCamera(link: link))
+        root.add(child: testGrid1.targetNode)
+        print(testGrid1.position)
+        
+        root.position.x += 10
+        root.position.z -= 30
+        print("parent: ", root.position)
+        print("grid:   ", testGrid1.position)
+        print("gridW:  ", testGrid1.worldPosition)
+        print("bg:     ", testGrid1.gridBackground.position)
+        print("bgW:    ", testGrid1.gridBackground.worldPosition)
+        print("bgB:    ", testGrid1.gridBackground.bounds)
+        print("bgWB:   ", testGrid1.gridBackground.worldBounds)
+    }
+    
     func testLinkNodeSetters() throws {
         let link = GlobalInstances.defaultLink
         let builder = try CodeGridGlyphCollectionBuilder(

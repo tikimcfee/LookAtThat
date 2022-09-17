@@ -51,7 +51,7 @@ public class CodeGrid: Identifiable, Equatable {
     private(set) var rootNode: GlyphCollection
     let tokenCache: CodeGridTokenCache
     let gridBackground: BackgroundQuad
-    var virtualParentConstants: ParentUpdater?
+    var updateVirtualParentConstants: ParentUpdater?
     
     var targetNode: MetalLinkNode { rootNode }
     var backgroundID: InstanceIDType { gridBackground.constants.pickingId }
@@ -66,8 +66,15 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     func updateBackground() {
-        gridBackground.quadWidth = lengthX
-        gridBackground.quadHeight = lengthY
+        let size = targetNode.contentSize
+        gridBackground.scale.x = size.x / 2
+        gridBackground.scale.y = size.y / 2
+        
+//        let rect = rectPos
+//        gridBackground
+//            .setLeading(rect.min.x)
+//            .setTop(rect.max.y)
+//            .setFront(rect.min.z)
         
         gridBackground
             .setLeading(localLeading)
@@ -77,7 +84,7 @@ public class CodeGrid: Identifiable, Equatable {
     
     private func setupOnInit() {
         rootNode.attachBufferChanges { updatedBufferMatrix in
-            self.virtualParentConstants? {
+            self.updateVirtualParentConstants? {
                 $0.modelMatrix = updatedBufferMatrix
             }
         }
@@ -112,6 +119,14 @@ extension CodeGrid: Measures {
         targetNode.bounds
     }
     
+    var boundsCacheKey: BoundsKey {
+        targetNode
+    }
+    
+//    var rectPos: Bounds {
+//        targetNode.rectPos
+//    }
+//
     var hasIntrinsicSize: Bool {
         targetNode.hasIntrinsicSize
     }
@@ -124,7 +139,7 @@ extension CodeGrid: Measures {
         targetNode.contentOffset
     }
     
-    var nodeId: BoundsKey {
+    var nodeId: String {
         targetNode.nodeId
     }
     
@@ -165,10 +180,6 @@ extension CodeGrid: Measures {
     
     var lengthZ: Float {
         targetNode.lengthZ
-    }
-    
-    var worldLeading: Float {
-        targetNode.worldLeading
     }
     
     var parent: MetalLinkNode? {

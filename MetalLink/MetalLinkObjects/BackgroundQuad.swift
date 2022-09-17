@@ -14,11 +14,11 @@ class BackgroundQuad: MetalLinkObject, QuadSizable {
     override var hasIntrinsicSize: Bool { true }
     
     override var contentSize: LFloat3 {
-        LFloat3(quad.width, quad.height, 1)
+        LFloat3(scale.x * 2, scale.y * 2, 1)
     }
     
     override var contentOffset: LFloat3 {
-        LFloat3(-quad.width / 2.0, quad.height / 2.0, 0)
+        LFloat3(-scale.x, scale.y, 0)
     }
     
     init(_ link: MetalLink) {

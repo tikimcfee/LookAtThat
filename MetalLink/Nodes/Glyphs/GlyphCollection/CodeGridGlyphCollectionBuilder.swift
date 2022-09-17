@@ -80,7 +80,7 @@ class CodeGridGlyphCollectionBuilder {
         func updateParent(_ operation: (inout VirtualParentConstants) -> Void) {
             operation(&parentBuffer.pointer[parent.arrayIndex])
         }
-        grid.virtualParentConstants = updateParent(_:)
+        grid.updateVirtualParentConstants = updateParent(_:)
         
         return grid
     }

@@ -108,10 +108,12 @@ extension WorldGridEditor {
         from other: CodeGrid
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .right(codeGrid))
-//        codeGrid.setLeading(other.trailing)
-        codeGrid.position = other.position.translated(
-            dX: other.lengthX / 2.0 + codeGrid.lengthX / 2.0 + default__HorizontalSpacing
-        )
+        
+        codeGrid
+            .setLeading(other.trailing + default__HorizontalSpacing)
+            .setTop(other.top)
+            .setFront(other.front)
+        
         lastFocusedGrid = codeGrid
     }
     
@@ -121,23 +123,25 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .down(codeGrid))
         lastFocusedGrid = codeGrid
-        var maxHeight: VectorFloat = other.lengthY
+        var lowestBottomPosition: VectorFloat = other.bottom
         var leftMostGrid: CodeGrid?
         snapping.iterateOver(other, direction: .left) { _, grid, _ in
             /* do this to have everything connected? */
-            //            snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
-            maxHeight = max(maxHeight, grid.lengthY)
+//            snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
+            lowestBottomPosition = min(lowestBottomPosition, grid.bottom)
             leftMostGrid = grid
         }
         
         if let leftMostGrid = leftMostGrid {
-            codeGrid.position = leftMostGrid.position.translated(
-                dY: -maxHeight - default__VerticalSpacing
-            )
+            codeGrid
+                .setLeading(leftMostGrid.leading)
+                .setFront(leftMostGrid.front)
+                .setTop(lowestBottomPosition - default__VerticalSpacing)
         } else {
-            codeGrid.position = other.position.translated(
-                dY: -other.lengthY - default__VerticalSpacing
-            )
+            codeGrid
+                .setLeading(other.leading)
+                .setFront(other.front)
+                .setTop(lowestBottomPosition - default__VerticalSpacing)
         }
     }
     
@@ -147,11 +151,10 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .forward(codeGrid))
         lastFocusedGrid = codeGrid
-        codeGrid.position = LFloat3(
-            x: 0,
-            y: 0,
-            z: other.position.z - default__PlaneSpacing
-        )
+        codeGrid
+            .setLeading(0)
+            .setTop(0)
+            .setFront(other.back - default__PlaneSpacing)
     }
 }
 

@@ -11,8 +11,9 @@ import SceneKit
 // MARK: -- Measuring and layout
 
 protocol Measures: AnyObject {
-    var nodeId: BoundsKey { get }
+    var nodeId: String { get }
     
+//    var rectPos: Bounds { get }
     var bounds: Bounds { get }
     var position: LFloat3 { get set }
     var worldPosition: LFloat3 { get set }
@@ -78,79 +79,93 @@ extension Measures {
     var localBottom: VectorFloat { bounds.min.y }
     var localFront: VectorFloat { bounds.max.z }
     var localBack: VectorFloat { bounds.min.z }
+    
+//    var leading: VectorFloat { rectPos.min.x }
+//    var trailing: VectorFloat { rectPos.max.x }
+//    var top: VectorFloat { rectPos.max.y }
+//    var bottom: VectorFloat { rectPos.min.y }
+//    var front: VectorFloat { rectPos.max.z }
+//    var back: VectorFloat { rectPos.min.z }
+    
+    var leading: VectorFloat { localLeading }
+    var trailing: VectorFloat { localTrailing }
+    var top: VectorFloat { localTop }
+    var bottom: VectorFloat { localBottom }
+    var front: VectorFloat { localFront }
+    var back: VectorFloat { localBack }
 }
 
 extension Measures {
     @discardableResult
     func setLeading(_ newValue: VectorFloat) -> Self {
-        let delta = abs(localLeading - newValue)
+        let delta = abs(leading - newValue)
         xpos += delta
         return self
     }
     
     @discardableResult
     func setTrailing(_ newValue: VectorFloat) -> Self{
-        let delta = abs(localTrailing - newValue)
+        let delta = abs(trailing - newValue)
         xpos -= delta
         return self
     }
     
     @discardableResult
     func setTop(_ newValue: VectorFloat) -> Self {
-        let delta = abs(localTop - newValue)
+        let delta = abs(top - newValue)
         ypos -= delta
         return self
     }
     
     @discardableResult
     func setBottom(_ newValue: VectorFloat) -> Self {
-        let delta = abs(localBottom - newValue)
+        let delta = abs(bottom - newValue)
         ypos += delta
         return self
     }
     
     @discardableResult
     func setFront(_ newValue: VectorFloat) -> Self {
-        let delta = abs(localFront - newValue)
+        let delta = abs(front - newValue)
         zpos -= delta
         return self
     }
     
     @discardableResult
     func setBack(_ newValue: VectorFloat) -> Self {
-        let delta = abs(localBack - newValue)
+        let delta = abs(back - newValue)
         zpos += delta
         return self
     }
 }
 
 extension Measures {
-    var boundsCacheKey: BoundsKey { nodeId }
     
-    func computeBoundingBox() -> Bounds {
+    
+    func computeBoundingBox(convertParent: Bool = true) -> Bounds {
         let computing = BoundsComputing()
         
         enumerateChildren { childNode in
             var safeBox = childNode.bounds
-            safeBox.min = convertPosition(safeBox.min, to: parent)
-            safeBox.max = convertPosition(safeBox.max, to: parent)
+            if convertParent {
+                safeBox.min = convertPosition(safeBox.min, to: parent)
+                safeBox.max = convertPosition(safeBox.max, to: parent)
+            }
             computing.consumeBounds(safeBox)
         }
         
         if hasIntrinsicSize {
             let size = contentSize
             let offset = contentOffset
-            let min = LFloat3(position.x + offset.x,
+            var min = LFloat3(position.x + offset.x,
                               position.y + offset.y - size.y,
                               position.z + offset.z)
-            let max = LFloat3(position.x + offset.x + size.x,
+            var max = LFloat3(position.x + offset.x + size.x,
                               position.y + offset.y,
                               position.z + offset.z + size.z)
-            
-            computing.consumeBounds((
-                min: convertPosition(min, to: parent),
-                max: convertPosition(max, to: parent)
-            ))
+            min = convertParent ? convertPosition(min, to: parent) : min
+            max = convertParent ? convertPosition(max, to: parent) : max
+            computing.consumeBounds((min, max))
         }
         
         return computing.bounds

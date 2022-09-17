@@ -8,6 +8,7 @@
 import MetalKit
 
 class MetalLinkNode: Measures {
+    
     private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
     lazy var nodeId = UUID().uuidString
     
@@ -37,9 +38,14 @@ class MetalLinkNode: Measures {
     // MARK: Bounds / Position
     
     var bounds: Bounds {
-        let bounds = BoundsCaching.getOrUpdate(self)
-        return bounds
+//        let bounds = BoundsCaching.getOrUpdate(self)
+//        return bounds
+        return computeBoundingBox()
     }
+
+//    var rectPos: Bounds {
+//        return computeBoundingBox(convertParent: false)
+//    }
     
     var lengthX: VectorFloat {
         let box = bounds
@@ -135,7 +141,7 @@ extension MetalLinkNode {
     var willUpdate: Bool { currentModel.rebuildModel }
     
     func setDirty(includeChildren: Bool = false) {
-        BoundsCaching.ClearRoot(self)
+//        BoundsCaching.ClearRoot(self)
         currentModel.dirty()
         guard includeChildren else { return }
         children.forEach { $0.setDirty() }
@@ -153,7 +159,9 @@ extension MetalLinkNode {
         matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
         matrix.rotateAbout(axis: Z_AXIS, by: rotation.z)
         matrix.scale(amount: scale)
-        matrix = matrix_multiply(parent?.modelMatrix ?? matrix_identity_float4x4, matrix)
+        if let parentMatrix = parent?.modelMatrix {
+            matrix = matrix_multiply(parentMatrix, matrix)
+        }
         return matrix
     }
 }
