@@ -148,7 +148,11 @@ extension MetalLinkNode {
     }
     
     var modelMatrix: matrix_float4x4 {
-        currentModel.get()
+        var matrix = currentModel.get()
+        if let parentMatrix = parent?.modelMatrix {
+            matrix = matrix_multiply(parentMatrix, matrix)
+        }
+        return matrix
     }
     
     private func buildModelMatrix() -> matrix_float4x4 {
@@ -159,9 +163,6 @@ extension MetalLinkNode {
         matrix.rotateAbout(axis: Y_AXIS, by: rotation.y)
         matrix.rotateAbout(axis: Z_AXIS, by: rotation.z)
         matrix.scale(amount: scale)
-        if let parentMatrix = parent?.modelMatrix {
-            matrix = matrix_multiply(parentMatrix, matrix)
-        }
         return matrix
     }
 }
