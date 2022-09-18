@@ -98,8 +98,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     func bindToInterceptor() {
         interceptor.positionSource = self
         
-        interceptor.positions.$totalOffset.sink { total in
-            self.position = (total / 100)
+        interceptor.positions.$travelOffset.sink { total in
+            self.position += (total / 100)
         }.store(in: &cancellables)
         
         interceptor.positions.$rotationOffset.removeDuplicates().sink { total in

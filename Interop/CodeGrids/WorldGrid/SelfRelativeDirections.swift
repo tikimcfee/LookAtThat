@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SelfRelativeDirection: Hashable, CaseIterable {
+enum SelfRelativeDirection: String, Hashable, CaseIterable {
     case forward
     case backward
     case left
@@ -17,4 +17,10 @@ enum SelfRelativeDirection: Hashable, CaseIterable {
     
     case yawLeft
     case yawRight
+}
+
+extension SelfRelativeDirection: Comparable {
+    static func < (lhs: SelfRelativeDirection, rhs: SelfRelativeDirection) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }

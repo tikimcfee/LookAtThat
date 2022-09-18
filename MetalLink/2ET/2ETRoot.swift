@@ -15,13 +15,9 @@ import SwiftSyntax
 class TwoETimeRoot: MetalLinkReader {
     let link: MetalLink
     
-    lazy var camera = DebugCamera(link: link)
-    lazy var root = RootNode(camera)
     var bag = Set<AnyCancellable>()
     
-    var lastID: InstanceIDType = .zero
-    var lastGrid: CodeGrid?
-    var lastSyntaxID: SyntaxIdentifier? = nil
+    lazy var root = RootNode(camera)
     
     lazy var builder = try! CodeGridGlyphCollectionBuilder(
         link: link,
@@ -30,11 +26,26 @@ class TwoETimeRoot: MetalLinkReader {
         sharedGridCache: GlobalInstances.gridStore.gridCache
     )
     
+    var camera: DebugCamera {
+        GlobalInstances.debugCamera
+    }
+    
+    var editor: WorldGridEditor {
+        GlobalInstances.gridStore.editor
+    }
+    
+    var focus: WorldGridFocusController {
+        GlobalInstances.gridStore.focusController
+    }
+    
+    var selectedGrid: CodeGrid?
+    
     init(link: MetalLink) throws {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
         
         camera.interceptor.onNewFileOperation = handleDirectory
+        camera.interceptor.onNewFocusChange = handleFocus
         
 //        try setupNodeChildTest()
 //        try setupNodeBackgroundTest()
@@ -56,6 +67,15 @@ class TwoETimeRoot: MetalLinkReader {
         // TODO: Make update and render a single pass to avoid repeated child loops
         root.update(deltaTime: dT)
         root.render(in: &sdp)
+    }
+    
+    func handleFocus(_ direction: SelfRelativeDirection) {
+        let focused = selectedGrid ?? editor.lastFocusedGrid
+        guard let current = focused else { return }
+        if let first = editor.snapping.gridsRelativeTo(current, direction).first {
+            selectedGrid = first.targetGrid
+            focus.state = .set(first.targetGrid)
+        }
     }
     
     func handleDirectory(_ file: FileOperation) {
@@ -99,6 +119,47 @@ class TwoETimeRoot: MetalLinkReader {
     }
 }
 
+// MARK: - Current Test
+
+extension TwoETimeRoot {
+    func setupSnapTestMulti() throws {
+        // TODO: make switching between multi/mono better
+        // multi needs to add each collection; mono needs to add root
+        builder.mode = .multiCollection
+        
+        let targetParent = MetalLinkNode()
+        root.add(child: targetParent)
+        
+        var files = 0
+        func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
+            targetParent.add(child: consumer.targetCollection)
+            
+            let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
+            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
+            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
+            
+            if files > 0 && files % (25) == 0 {
+                editor.transformedByAdding(nextPlane)
+            } else if files > 0 && files % 5 == 0 {
+                editor.transformedByAdding(nextRow)
+            } else {
+                editor.transformedByAdding(trailing)
+            }
+            
+            files += 1
+            GlobalInstances.gridStore.nodeHoverController
+                .attachPickingStream(to: consumer.targetGrid)
+        }
+        
+        basicAddPipeline { filePath in
+            doAdd(self.basicGridPipeline(filePath))
+        }
+    }
+}
+
+
+// MARK: - Not Current Tests
+
 extension TwoETimeRoot {
     func setupNodeChildTest() throws {
         let origin = BackgroundQuad(link)
@@ -133,7 +194,6 @@ extension TwoETimeRoot {
     
     func setupNodeBackgroundTest() throws {
         builder.mode = .multiCollection // TODO: DO NOT switch to mono without render breakpoints. crazy memory leak / performance issue with many grids
-        let editor = WorldGridEditor()
         
         func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
             root.add(child: consumer.targetCollection)
@@ -189,79 +249,6 @@ extension TwoETimeRoot {
         print(background3.centerPosition)
     }
     
-    func setupSnapTestMulti() throws {
-        // TODO: make switching between multi/mono better
-        // multi needs to add each collection; mono needs to add root
-        builder.mode = .multiCollection
-         
-        // TODO: scaling backgrounds doesn't work because I'm not using normalized sizes
-        // TODO: neither does position.. wtf
-        // TODO: (2) ... uh.. animating root doesn't do anything.. seeting a position does. Wut!?
-//        root.scale = LFloat3(0.25, 0.25, 0.25)
-//        root.position.z -= 30
-        
-        let editor = WorldGridEditor()
-        
-        let targetParent = MetalLinkNode()
-//        targetParent.scale = LFloat3(x: 0.25, y: 0.25, z: 0.25)
-        root.add(child: targetParent)
-        
-        var files = 0
-        func doEditorAdd(_ childPath: URL) {
-            let consumer = builder.createConsumerForNewGrid()
-//            consumer.targetCollection.position.z -= 30
-            targetParent.add(child: consumer.targetCollection)
-            
-            consumer.consume(url: childPath)
-            consumer.targetGrid.fileName = childPath.fileName
-        
-            let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
-            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
-            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
-            
-            if files > 0 && files % (25) == 0 {
-                editor.transformedByAdding(nextPlane)
-            } else if files > 0 && files % 5 == 0 {
-                editor.transformedByAdding(nextRow)
-            } else {
-                editor.transformedByAdding(trailing)
-            }
-            
-            files += 1
-            GlobalInstances.gridStore.nodeHoverController
-                .attachPickingStream(to: consumer.targetGrid)
-            
-//            var counter = 0.0
-//            QuickLooper(
-//                interval: .milliseconds(30),
-//                loop: {
-//                    consumer.targetGrid.position.x += cos(counter).float * 10
-//                    //                consumer.targetGrid.position.z += cos(counter).float * 10
-//                    //                self.root.position.z = cos(counter).float * 10
-//                    counter += 0.1
-//                },
-//                queue: WorkerPool.shared.nextWorker()
-//            ).runUntil { false }
-        }
-        
-        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
-            switch event {
-            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
-                FileBrowser.recursivePaths(rootPath)
-                    .filter { !$0.isDirectory }
-                    .forEach { childPath in
-                        doEditorAdd(childPath)
-                    }
-                
-            case let .newSingleCommand(url, _):
-                doEditorAdd(url)
-                
-            default:
-                break
-            }
-        }.store(in: &bag)
-    }
-    
     // TODO: This is going to be complicated.
     // I will try to update the SyntaxConsumer and GlyphCollection
     // to have some kind of child grid relationship.
@@ -277,7 +264,6 @@ extension TwoETimeRoot {
         rootCollection.position.z -= 30
         root.add(child: rootCollection)
         
-        let editor = WorldGridEditor()
         editor.layoutStrategy = .collection(target: rootCollection)
         
         var isFirst = true

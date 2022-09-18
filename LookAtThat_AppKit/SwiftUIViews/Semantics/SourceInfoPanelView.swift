@@ -80,7 +80,16 @@ extension SourceInfoPanelView {
             windowControlsView
         case .githubTools:
             gitHubTools
+        case .focusState:
+            focusState
         }
+    }
+    
+    @ViewBuilder
+    var focusState: some View {
+        WorldFocusView(
+            focus: GlobalInstances.gridStore.focusController
+        )
     }
     
     @ViewBuilder

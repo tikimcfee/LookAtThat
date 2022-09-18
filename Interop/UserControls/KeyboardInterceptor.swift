@@ -246,49 +246,25 @@ private extension KeyboardInterceptor {
     }
     
     private func onKeyDown(_ characters: String, _ event: OSEvent) {
-        switch characters {
-        case "a", "A": startMovement(.left)
-        case "d", "D": startMovement(.right)
-        case "w", "W": startMovement(.forward)
-        case "s", "S": startMovement(.backward)
-        case "z", "Z": startMovement(.down)
-        case "x", "X": startMovement(.up)
-        case "q", "Q": startMovement(.yawLeft)
-        case "e", "E": startMovement(.yawRight)
-            
-        case _ where event.specialKey == .leftArrow: changeFocus(.left)
-        case _ where event.specialKey == .rightArrow: changeFocus(.right)
-        case _ where event.specialKey == .upArrow: changeFocus(.forward)
-        case _ where event.specialKey == .downArrow: changeFocus(.backward)
-            
-        case "h", "H": changeFocus(.left)
-        case "l", "L": changeFocus(.right)
-        case "j", "J": changeFocus(.forward)
-        case "k", "K": changeFocus(.backward)
-        case "n", "N": changeFocus(.up)
-        case "m", "M": changeFocus(.down)
-            
-        case "o" where event.modifierFlags.contains(.command):
-            onNewFileOperation?(.openDirectory)
-            
-        default:
-            break
+        if let moveDirection = directionForKey(characters) {
+            startMovement(moveDirection)
+        } else if let focusDirection = focusDirectionForKey(characters, event) {
+            changeFocus(focusDirection)
+        } else {
+            switch characters {
+                
+            case "o" where event.modifierFlags.contains(.command):
+                onNewFileOperation?(.openDirectory)
+                
+            default:
+                break
+            }
         }
     }
     
     private func onKeyUp(_ characters: String, _ event: OSEvent) {
-        switch characters {
-        case "a", "A": stopMovement(.left)
-        case "d", "D": stopMovement(.right)
-        case "w", "W": stopMovement(.forward)
-        case "s", "S": stopMovement(.backward)
-        case "z", "Z": stopMovement(.down)
-        case "x", "X": stopMovement(.up)
-        case "q", "Q": stopMovement(.yawLeft)
-        case "e", "E": stopMovement(.yawRight)
-        default:
-            break
-        }
+        guard let direction = directionForKey(characters) else { return }
+        stopMovement(direction)
     }
     
     private func onFlagsChanged(_ flags: OSEvent.ModifierFlags, _ event: OSEvent) {
@@ -302,3 +278,35 @@ private extension KeyboardInterceptor {
     }
 }
 #endif
+
+func directionForKey(_ key: String) -> SelfRelativeDirection? {
+    switch key {
+    case "a", "A": return .left
+    case "d", "D": return .right
+    case "w", "W": return .forward
+    case "s", "S": return .backward
+    case "z", "Z": return .down
+    case "x", "X": return .up
+    case "q", "Q": return .yawLeft
+    case "e", "E": return .yawRight
+    default: return nil
+    }
+}
+
+func focusDirectionForKey(_ key: String, _ event: OSEvent) -> SelfRelativeDirection? {
+    switch key {
+    case "h", "H": return .left
+    case "l", "L": return .right
+    case "j", "J": return .up
+    case "k", "K": return .down
+    case "n", "N": return .forward
+    case "m", "M": return .backward
+    case _ where event.specialKey == .leftArrow: return .left
+    case _ where event.specialKey == .rightArrow: return .right
+    case _ where event.specialKey == .upArrow && event.modifierFlags.contains(.shift): return .forward
+    case _ where event.specialKey == .downArrow && event.modifierFlags.contains(.shift): return .backward
+    case _ where event.specialKey == .upArrow: return .up
+    case _ where event.specialKey == .downArrow: return .down
+    default: return nil
+    }
+}

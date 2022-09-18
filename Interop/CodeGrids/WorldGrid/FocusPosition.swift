@@ -1,5 +1,5 @@
 //
-//  WorldGrid+FocusPosition.swift
+//  FocusPosition.swift
 //  LookAtThat_AppKit
 //
 //  Created by Ivan Lugo on 8/27/22.

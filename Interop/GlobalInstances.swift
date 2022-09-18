@@ -68,6 +68,10 @@ extension GlobalInstances {
     static let gridStore = GridStore()
 }
 
+// MARK: - Debug
+extension GlobalInstances {
+    static let debugCamera = DebugCamera(link: defaultLink)
+}
 
 // MARK: - Shared Workers and caches
 // ______________________________________________________________
@@ -82,5 +86,10 @@ class GridStore {
     
     private(set) lazy var searchContainer: SearchContainer = SearchContainer(gridCache: gridCache)    
     private(set) lazy var nodeHoverController: MetalLinkHoverController = MetalLinkHoverController(link: link)
+    private(set) lazy var editor: WorldGridEditor = WorldGridEditor()
+    
+    private(set) lazy var focusController: WorldGridFocusController = WorldGridFocusController(
+        link: link, camera: GlobalInstances.debugCamera, editor: editor
+    )
     
 }

@@ -20,6 +20,7 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
     case appStatusInfo = "App Status Info"
     case gridStateInfo = "Grid State Info"
     case githubTools = "GitHub Tools"
+    case focusState = "Focus State"
     static func < (lhs: PanelSections, rhs: PanelSections) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
