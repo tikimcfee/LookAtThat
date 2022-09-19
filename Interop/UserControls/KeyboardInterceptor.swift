@@ -301,12 +301,14 @@ func focusDirectionForKey(_ key: String, _ event: OSEvent) -> SelfRelativeDirect
     case "k", "K": return .down
     case "n", "N": return .forward
     case "m", "M": return .backward
+    #if os(macOS)
     case _ where event.specialKey == .leftArrow: return .left
     case _ where event.specialKey == .rightArrow: return .right
     case _ where event.specialKey == .upArrow && event.modifierFlags.contains(.shift): return .forward
     case _ where event.specialKey == .downArrow && event.modifierFlags.contains(.shift): return .backward
     case _ where event.specialKey == .upArrow: return .up
     case _ where event.specialKey == .downArrow: return .down
+    #endif
     default: return nil
     }
 }

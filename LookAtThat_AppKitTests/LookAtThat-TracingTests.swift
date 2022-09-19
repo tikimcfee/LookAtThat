@@ -12,6 +12,9 @@ import SceneKit
 import Foundation
 @testable import LookAtThat_AppKit
 
+import SwiftTreeSitter
+import TreeSitterSwift
+
 class LookAtThat_TracingTests: XCTestCase {
     var bundle: TestBundle!
     
@@ -27,6 +30,40 @@ class LookAtThat_TracingTests: XCTestCase {
     override func tearDownWithError() throws {
         try bundle.tearDownWithError()
         printEnd()
+    }
+    
+    func testTreeSitter() throws {
+        let language = Language(language: tree_sitter_swift())
+        
+        let parser = Parser()
+        try parser.setLanguage(language)
+        
+        let testFile = try String(contentsOf: bundle.testFile)
+        let tree = parser.parse(testFile)!
+        
+        // find the SPM-packaged queries
+        let queryURL = Bundle.main
+            .resourceURL!
+            .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
+            .appendingPathComponent("Contents/Resources/queries/locals.scm")
+        
+        let query = try language.query(contentsOf: queryURL)
+        
+        let cursor = query.execute(node: tree.rootNode!)
+        
+        // the performance of nextMatch is highly dependent on the nature of the queries,
+        // language grammar, and size of input
+        while let match = cursor.next() {
+            match.captures.map {
+                print(">> match:")
+                let message = """
+                >> \($0.name ?? "!! name-missing")
+                \(testFile[Range($0.node.range, in: testFile)!])
+                
+                """
+                print(message)
+            }
+        }
     }
     
     func testDeepRecursion() throws {

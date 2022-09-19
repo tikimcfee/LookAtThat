@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Combine
-import SCNLine
 
 class SemanticTracingOutState: ObservableObject {
     enum Sections: CaseIterable {

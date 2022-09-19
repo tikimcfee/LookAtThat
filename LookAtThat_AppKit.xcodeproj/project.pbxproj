@@ -126,7 +126,6 @@
 		B7189F2E28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
 		B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
 		B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
-		B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7195137284C7EA3007FBD3B /* SCNLine */; };
 		B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */; };
 		B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */; };
 		B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
@@ -397,7 +396,6 @@
 		B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
 		B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
-		B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = B796DEF8280D2AD8006AC749 /* Brotli */; };
 		B7981027281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
 		B7981028281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
 		B7981029281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
@@ -544,6 +542,8 @@
 		B7B1099028D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */; };
 		B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */; };
 		B7B1099228D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */; };
+		B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099828D817B400AA4E37 /* SwiftTreeSitter */; };
+		B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099B28D8189800AA4E37 /* TreeSitterSwift */; };
 		B7B38A4128D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
 		B7B38A4228D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
 		B7B38A4328D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
@@ -621,7 +621,6 @@
 		B7C69FF828A4526500A84860 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7C69FF728A4526500A84860 /* Algorithms */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
-		B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7C9AFB1284352D60077BCA7 /* SCNLine */; };
 		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
 		B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1872028C57AFA00BACAA1 /* Zip */; };
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
@@ -650,7 +649,6 @@
 		B7EB7141284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
-		B7EB714528487C1800313633 /* SCNLine in Frameworks */ = {isa = PBXBuildFile; productRef = B7EB714428487C1800313633 /* SCNLine */; };
 		B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F010AE28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
@@ -726,8 +724,6 @@
 		F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
 		F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
-		F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0D8D42526897E00EC8E75 /* Brotli */; };
-		F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */ = {isa = PBXBuildFile; productRef = F0F0DAA42527BE1600EC8E75 /* Brotli */; };
 		F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 		F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 /* End PBXBuildFile section */
@@ -1049,7 +1045,6 @@
 				B7EB710E28444D9200313633 /* SwiftSyntaxParser in Frameworks */,
 				B74A23242814FFF300F6F727 /* Brotli in Frameworks */,
 				B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */,
-				B7EB714528487C1800313633 /* SCNLine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,14 +1052,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7C9AFB2284352D60077BCA7 /* SCNLine in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
+				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
 				B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B7EB71082844119800313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
-				F0F0D8D52526897E00EC8E75 /* Brotli in Frameworks */,
+				B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,7 +1068,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B713405828170F92005E0E31 /* SwiftTrace in Frameworks */,
-				B796DEF9280D2AD8006AC749 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1085,8 +1079,6 @@
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7EB710C28444D2A00313633 /* SwiftSyntaxParser in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
-				B7195138284C7EA3007FBD3B /* SCNLine in Frameworks */,
-				F0F0DAA52527BE1600EC8E75 /* Brotli in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1841,7 +1833,6 @@
 			packageProductDependencies = (
 				B74A229A2814FFF300F6F727 /* Brotli */,
 				B7EB710D28444D9200313633 /* SwiftSyntaxParser */,
-				B7EB714428487C1800313633 /* SCNLine */,
 				B792C88628AB630100AE8CC0 /* Algorithms */,
 				B792C88928AB64A600AE8CC0 /* ArgumentParser */,
 			);
@@ -1866,14 +1857,14 @@
 			);
 			name = LookAtThat_AppKit;
 			packageProductDependencies = (
-				F0F0D8D42526897E00EC8E75 /* Brotli */,
 				B75250F32814CEF500820412 /* SwiftTrace */,
 				B7661B572829DF0C001F185B /* CodeEditorView */,
-				B7C9AFB1284352D60077BCA7 /* SCNLine */,
 				B7EB71072844119800313633 /* SwiftSyntaxParser */,
 				B72A8774287BE93900A78B19 /* ArgumentParser */,
 				B7C69FF728A4526500A84860 /* Algorithms */,
 				B7D1871E28C44A0900BACAA1 /* Zip */,
+				B7B1099828D817B400AA4E37 /* SwiftTreeSitter */,
+				B7B1099B28D8189800AA4E37 /* TreeSitterSwift */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1897,7 +1888,6 @@
 			);
 			name = LookAtThat_AppKitTests;
 			packageProductDependencies = (
-				B796DEF8280D2AD8006AC749 /* Brotli */,
 				B713405728170F92005E0E31 /* SwiftTrace */,
 			);
 			productName = LookAtThat_AppKitTests;
@@ -1920,10 +1910,8 @@
 			);
 			name = LookAtThatMobile;
 			packageProductDependencies = (
-				F0F0DAA42527BE1600EC8E75 /* Brotli */,
 				B7D79AB9282B2DF5000F99EB /* CodeEditorView */,
 				B7EB710B28444D2A00313633 /* SwiftSyntaxParser */,
-				B7195137284C7EA3007FBD3B /* SCNLine */,
 				B79592E728A7615B00F16746 /* Algorithms */,
 				B7D1872028C57AFA00BACAA1 /* Zip */,
 			);
@@ -1963,14 +1951,14 @@
 			);
 			mainGroup = F00FC723250C53460092AFF9;
 			packageReferences = (
-				F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */,
 				B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */,
 				B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */,
-				B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */,
 				B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
+				B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */,
+				B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -3340,20 +3328,28 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChimeHQ/SwiftTreeSitter.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alex-pinkus/tree-sitter-swift.git";
+			requirement = {
+				branch = "with-generated-files";
+				kind = branch;
+			};
+		};
 		B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
-			};
-		};
-		B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SceneKit-SCNLine.git";
-			requirement = {
-				branch = "feature/point-removal";
-				kind = branch;
 			};
 		};
 		B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */ = {
@@ -3369,14 +3365,6 @@
 			repositoryURL = "https://github.com/tikimcfee/swift-syntax";
 			requirement = {
 				branch = main;
-				kind = branch;
-			};
-		};
-		F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/karlvr/Brotli";
-			requirement = {
-				branch = master;
 				kind = branch;
 			};
 		};
@@ -3413,11 +3401,6 @@
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
 			productName = SwiftTrace;
 		};
-		B7195137284C7EA3007FBD3B /* SCNLine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
-			productName = SCNLine;
-		};
 		B72A8774287BE93900A78B19 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
@@ -3453,20 +3436,20 @@
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
 		};
-		B796DEF8280D2AD8006AC749 /* Brotli */ = {
+		B7B1099828D817B400AA4E37 /* SwiftTreeSitter */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
-			productName = Brotli;
+			package = B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */;
+			productName = SwiftTreeSitter;
+		};
+		B7B1099B28D8189800AA4E37 /* TreeSitterSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */;
+			productName = TreeSitterSwift;
 		};
 		B7C69FF728A4526500A84860 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
-		};
-		B7C9AFB1284352D60077BCA7 /* SCNLine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
-			productName = SCNLine;
 		};
 		B7D1871E28C44A0900BACAA1 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -3497,21 +3480,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7EB71062844119800313633 /* XCRemoteSwiftPackageReference "swift-syntax" */;
 			productName = SwiftSyntaxParser;
-		};
-		B7EB714428487C1800313633 /* SCNLine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7C9AFB0284352D60077BCA7 /* XCRemoteSwiftPackageReference "SceneKit-SCNLine" */;
-			productName = SCNLine;
-		};
-		F0F0D8D42526897E00EC8E75 /* Brotli */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
-			productName = Brotli;
-		};
-		F0F0DAA42527BE1600EC8E75 /* Brotli */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F0F0D8D32526897E00EC8E75 /* XCRemoteSwiftPackageReference "Brotli" */;
-			productName = Brotli;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

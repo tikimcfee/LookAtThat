@@ -6,7 +6,6 @@
 //
 
 import SwiftSyntax
-import SCNLine
 import Foundation
 
 struct RenderPlan {

@@ -1,30 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "brotli",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/karlvr/Brotli",
-      "state" : {
-        "branch" : "master",
-        "revision" : "0d59ff8edef57eb7b1d167bf950e42826cf1f54a"
-      }
-    },
-    {
       "identity" : "codeeditorview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mchakravarty/CodeEditorView.git",
       "state" : {
         "revision" : "325759c1cc2873fd5eba0f8d4eedd0233ac9eca7",
         "version" : "0.10.0"
-      }
-    },
-    {
-      "identity" : "scenekit-scnline",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikimcfee/SceneKit-SCNLine.git",
-      "state" : {
-        "branch" : "feature/point-removal",
-        "revision" : "e25ff3e7ac684a91620bbba0359ab79ef46a9ba9"
       }
     },
     {
@@ -70,6 +52,24 @@
       "state" : {
         "branch" : "logging-output",
         "revision" : "5c924cc464e49d4f534a2915ada4b3ba555267b5"
+      }
+    },
+    {
+      "identity" : "swifttreesitter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/SwiftTreeSitter.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3478391f92e5ac186c06faf221103bb75ee2a484"
+      }
+    },
+    {
+      "identity" : "tree-sitter-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alex-pinkus/tree-sitter-swift.git",
+      "state" : {
+        "branch" : "with-generated-files",
+        "revision" : "f04b305a7f18009c47091247d662707a8b629669"
       }
     },
     {
