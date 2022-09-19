@@ -84,7 +84,7 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
             let dZ = inOutModifier ? -event.scrollingDeltaY.float * multiplier : 0
             let delta = LFloat3(dX, dY, dZ)
             
-            self.interceptor.positions.totalOffset += delta
+            self.interceptor.positions.travelOffset = delta
         }.store(in: &cancellables)
         #endif
         

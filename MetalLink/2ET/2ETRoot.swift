@@ -75,6 +75,8 @@ class TwoETimeRoot: MetalLinkReader {
         if let first = editor.snapping.gridsRelativeTo(current, direction).first {
             selectedGrid = first.targetGrid
             focus.state = .set(first.targetGrid)
+        } else {
+            focus.state = .set(current)
         }
     }
     
