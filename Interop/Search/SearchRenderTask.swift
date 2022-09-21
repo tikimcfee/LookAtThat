@@ -62,18 +62,26 @@ private extension RenderTask {
     }
     
     func resetAllGridFocusLevels() {
-        for grid in gridCache.cachedGrids.values {
-            if task.isCancelled { return }
-            
-            grid.updateAllNodeConstants { node, constants, stopFlag in
-                constants.addedColor = .zero
-                stopFlag = task.isCancelled
-                return constants
+        var gridWork = gridCache.cachedGrids.values.makeIterator()
+        let workGroup = DispatchGroup()
+        while !task.isCancelled, let next = gridWork.next() {
+            workGroup.enter()
+            WorkerPool.shared.nextWorker().async {
+                defer { workGroup.leave() }
+                next.gridBackground.setColor(LFloat4(0.03, 0.33, 0.22, 1.0))
+                next.updateAllNodeConstants { node, constants, stopFlag in
+                    constants.addedColor = .zero
+                    stopFlag = self.task.isCancelled
+                    return constants
+                }
             }
         }
+        workGroup.wait()
     }
     
     func kickoffGridWalks() {
+        guard !newInput.isEmpty else { return }
+        
         var gridWork = gridCache.cachedGrids.values.makeIterator()
         let workGroup = DispatchGroup()
         let searchText = newInput
@@ -133,6 +141,7 @@ private extension RenderTask {
             ) { info, targetNodes in
                 for node in targetNodes {
                     try self.throwIfCancelled()
+                    source.gridBackground.setColor(LFloat4(0.2, 0.2, 0.2, 1))
                     source.rootNode.updateConstants(for: node) {
                         if clearFocus {
                             $0.addedColor = .zero

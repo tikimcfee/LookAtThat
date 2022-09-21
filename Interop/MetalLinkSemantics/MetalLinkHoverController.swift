@@ -47,7 +47,7 @@ class MetalLinkHoverController: ObservableObject {
     @Published var lastGlyphState: NodePickingState?
     @Published var lastGridState: GridPickingState?
     
-    private var trackedGrids: [CodeGrid.ID: CodeGrid] = [:]
+    private var trackedGrids = ConcurrentDictionary<CodeGrid.ID, CodeGrid>()
     
     init(link: MetalLink) {
         self.link = link

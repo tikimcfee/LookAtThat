@@ -70,12 +70,6 @@ public class CodeGrid: Identifiable, Equatable {
         gridBackground.scale.x = size.x / 2
         gridBackground.scale.y = size.y / 2
         
-//        let rect = rectPos
-//        gridBackground
-//            .setLeading(rect.min.x)
-//            .setTop(rect.max.y)
-//            .setFront(rect.min.z)
-        
         gridBackground
             .setLeading(localLeading)
             .setTop(localTop)
@@ -90,7 +84,7 @@ public class CodeGrid: Identifiable, Equatable {
         }
         
         rootNode.add(child: gridBackground)
-        gridBackground.constants.pickingId = InstanceCounter.shared.nextId(.grid)
+        gridBackground.constants.pickingId = InstanceCounter.shared.nextGridId()
     }
     
     public static func == (_ left: CodeGrid, _ right: CodeGrid) -> Bool {
@@ -123,10 +117,10 @@ extension CodeGrid: Measures {
         targetNode
     }
     
-//    var rectPos: Bounds {
-//        targetNode.rectPos
-//    }
-//
+    var rectPos: Bounds {
+        targetNode.rectPos
+    }
+
     var hasIntrinsicSize: Bool {
         targetNode.hasIntrinsicSize
     }

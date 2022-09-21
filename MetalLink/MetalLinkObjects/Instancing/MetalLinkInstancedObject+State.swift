@@ -35,7 +35,7 @@ class InstanceState<InstancedNodeType> {
     
     private func makeConstants() throws -> InstancedConstants {
         let newConstants = try constants.createNext {
-            $0.instanceID = InstanceCounter.shared.nextId(.generic) // TODO: generic is bad, be specific or change enum thing
+            $0.instanceID = InstanceCounter.shared.nextGlyphId() // TODO: generic is bad, be specific or change enum thing
         }
         return newConstants
     }

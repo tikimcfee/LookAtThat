@@ -13,9 +13,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     lazy var renderer = Renderer(collection: self)
     
     override var contentSize: LFloat3 {
-//        let bounds = BoundsCaching.getOrUpdate(self)
-//        return BoundsSize(bounds)
-        return BoundsSize(computeBoundingBox())
+        return BoundsSize(rectPos)
     }
     
     init(

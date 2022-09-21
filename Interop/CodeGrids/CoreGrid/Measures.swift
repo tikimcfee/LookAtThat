@@ -13,7 +13,7 @@ import SceneKit
 protocol Measures: AnyObject {
     var nodeId: String { get }
     
-//    var rectPos: Bounds { get }
+    var rectPos: Bounds { get }
     var bounds: Bounds { get }
     var position: LFloat3 { get set }
     var worldPosition: LFloat3 { get set }
@@ -146,7 +146,7 @@ extension Measures {
         let computing = BoundsComputing()
         
         enumerateChildren { childNode in
-            var safeBox = childNode.bounds
+            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
             if convertParent {
                 safeBox.min = convertPosition(safeBox.min, to: parent)
                 safeBox.max = convertPosition(safeBox.max, to: parent)

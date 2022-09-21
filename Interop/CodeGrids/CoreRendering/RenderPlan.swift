@@ -57,9 +57,9 @@ private extension RenderPlan {
             let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(grid)
             let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(grid)
             
-            if files > 0 && files % (25) == 0 {
+            if files > 0 && files % (50) == 0 {
                 editor.transformedByAdding(nextPlane)
-            } else if files > 0 && files % 5 == 0 {
+            } else if files > 0 && files % 10 == 0 {
                 editor.transformedByAdding(nextRow)
             } else {
                 editor.transformedByAdding(trailing)

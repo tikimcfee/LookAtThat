@@ -151,10 +151,15 @@ extension TwoETimeRoot {
                 focus: self.focus,
                 hoverController: GlobalInstances.gridStore.nodeHoverController
             )
+            
+            var counter = 0.1
             plan.startRender {
                 self.root.add(child: plan.targetParent)
+//                QuickLooper(interval: .milliseconds(30)) {
+//                    plan.targetParent.rotation.x += 0.1
+//                    counter += 0.1
+//                }.runUntil { false }
             }
-
         }
     }
 }

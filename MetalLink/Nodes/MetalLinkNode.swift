@@ -21,13 +21,20 @@ class MetalLinkNode: Measures {
     // MARK: - Model params
     
     var position: LFloat3 = .zero
-        { didSet { setDirty(includeChildren: true) } }
+        { didSet {
+            setDirty(includeChildren: true)
+        } }
     
     var scale: LFloat3 = LFloat3(1.0, 1.0, 1.0)
-        { didSet { setDirty(includeChildren: true) } }
+        { didSet {
+            setDirty(includeChildren: true)
+            BoundsCaching.Set(self, nil)
+        } }
     
     var rotation: LFloat3 = .zero
-        { didSet { setDirty(includeChildren: true) } }
+        { didSet {
+            setDirty(includeChildren: true)
+        } }
     
     // MARK: - Overridable Measures
     
@@ -38,14 +45,19 @@ class MetalLinkNode: Measures {
     // MARK: Bounds / Position
     
     var bounds: Bounds {
-//        let bounds = BoundsCaching.getOrUpdate(self)
-//        return bounds
-        return computeBoundingBox()
+        let rectPos = rectPos
+        return (
+            min: rectPos.min + position,
+            max: rectPos.max + position
+        )
     }
 
-//    var rectPos: Bounds {
-//        return computeBoundingBox(convertParent: false)
-//    }
+    var rectPos: Bounds {
+        if let cached = BoundsCaching.get(self) { return cached }
+        let box = computeBoundingBox(convertParent: false)
+        BoundsCaching.Set(self, box)
+        return box
+    }
     
     var lengthX: VectorFloat {
         let box = bounds
@@ -141,10 +153,9 @@ extension MetalLinkNode {
     var willUpdate: Bool { currentModel.rebuildModel }
     
     func setDirty(includeChildren: Bool = false) {
-//        BoundsCaching.ClearRoot(self)
         currentModel.dirty()
-        guard includeChildren else { return }
-        children.forEach { $0.setDirty() }
+//        guard includeChildren else { return }
+//        children.forEach { $0.setDirty() }
     }
     
     var modelMatrix: matrix_float4x4 {

@@ -20,16 +20,27 @@ class InstanceCounter {
     static let startingGeneratedID: InstanceIDType = 10
     static let shared = InstanceCounter()
     
-    var idMap = ConcurrentDictionary<Kind, InstanceIDType>()
-    private let lock = DispatchSemaphore(value: 1)
+    private let gridLock = DispatchSemaphore(value: 1)
+    private lazy var gridId = Self.startingGeneratedID
+    
+    private let glyphLock = DispatchSemaphore(value: 1)
+    private lazy var glyphId = Self.startingGeneratedID
     
     private init() { }
     
-    func nextId(_ kind: Kind) -> InstanceIDType {
-        lock.wait()
-        let id = idMap[kind] ?? Self.startingGeneratedID
-        idMap[kind] = id + 1
-        lock.signal()
+    func nextGridId() -> InstanceIDType {
+        gridLock.wait()
+        let id = gridId
+        gridId += 1
+        gridLock.signal()
+        return id
+    }
+    
+    func nextGlyphId() -> InstanceIDType {
+        glyphLock.wait()
+        let id = glyphId
+        glyphId += 1
+        glyphLock.signal()
         return id
     }
 }

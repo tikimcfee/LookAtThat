@@ -19,23 +19,12 @@ class BoundsCaching {
     public static func Clear() {
         boundsCache.removeAll()
     }
-    
-    internal static func getOrUpdate(_ node: MetalLinkNode) -> Bounds {
-        var bounds: Bounds?
-        bounds = boundsCache[node]
-        guard let cached = bounds else {
-            return Update(node)
-        }
-        return cached
+
+    internal static func get(_ node: MetalLinkNode) -> Bounds? {
+        return boundsCache[node]
     }
     
-    internal static func Update(_ node: MetalLinkNode) -> Bounds {
-        let box = node.computeBoundingBox()
-        boundsCache[node] = box
-        return box
-    }
-    
-    internal static func Set(_ node: MetalLinkNode, _ bounds: Bounds) {
+    internal static func Set(_ node: MetalLinkNode, _ bounds: Bounds?) {
         boundsCache[node] = bounds
     }
     
