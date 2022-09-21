@@ -13,7 +13,7 @@ class TextureUVCache {
         let v: LFloat4
     }
 
-    var map = [GlyphCacheKey: Pair]()
+    var map = ConcurrentDictionary<GlyphCacheKey, Pair>()
     
     subscript(_ key: GlyphCacheKey) -> Pair? {
         get { map[key] }

@@ -18,10 +18,14 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         self.targetCollection = targetGrid.rootNode
         self.writer = GlyphCollectionWriter(target: targetCollection)
     }
-    
-    func consume(url: URL) {
-        guard let fileSource = loadSourceUrl(url) else { return }
+  
+    @discardableResult
+    func consume(url: URL) -> CodeGrid {
+        guard let fileSource = loadSourceUrl(url) else {
+            return targetGrid
+        }
         consume(rootSyntaxNode: Syntax(fileSource))
+        return targetGrid
     }
     
     func consume(rootSyntaxNode: Syntax) {

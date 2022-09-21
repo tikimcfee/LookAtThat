@@ -87,6 +87,12 @@ public final class ConcurrentArray<Element> {
         container[index] = mutation(value)
         rwlock.unlock()
     }
+    
+    public func directWriteAccess(_ action: (inout [Element]) -> Void) {
+        rwlock.writeLock()
+        action(&container)
+        rwlock.unlock()
+    }
 
     // MARK: Subscript
     public subscript(index: Int) -> Element {

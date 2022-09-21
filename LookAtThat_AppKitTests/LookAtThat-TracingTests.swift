@@ -54,7 +54,7 @@ class LookAtThat_TracingTests: XCTestCase {
         // the performance of nextMatch is highly dependent on the nature of the queries,
         // language grammar, and size of input
         while let match = cursor.next() {
-            match.captures.map {
+            match.captures.forEach {
                 print(">> match:")
                 let message = """
                 >> \($0.name ?? "!! name-missing")

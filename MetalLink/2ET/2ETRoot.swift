@@ -119,42 +119,42 @@ class TwoETimeRoot: MetalLinkReader {
             }
         }.store(in: &bag)
     }
+    
+    func directoryAddPipeline(_ action: @escaping (URL) -> Void) {
+        GlobalInstances.fileBrowser.$fileSelectionEvents.sink { event in
+            switch event {
+            case let .newMultiCommandRecursiveAllLayout(rootPath, _):
+                action(rootPath)
+                
+            case let .newSingleCommand(url, _):
+                action(url)
+                
+            default:
+                break
+            }
+        }.store(in: &bag)
+    }
 }
 
 // MARK: - Current Test
 
 extension TwoETimeRoot {
     func setupSnapTestMulti() throws {
-        // TODO: make switching between multi/mono better
-        // multi needs to add each collection; mono needs to add root
         builder.mode = .multiCollection
         
-        let targetParent = MetalLinkNode()
-        root.add(child: targetParent)
-        
-        var files = 0
-        func doAdd(_ consumer: GlyphCollectionSyntaxConsumer) {
-            targetParent.add(child: consumer.targetCollection)
-            
-            let nextRow: WorldGridEditor.AddStyle = .inNextRow(consumer.targetGrid)
-            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(consumer.targetGrid)
-            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(consumer.targetGrid)
-            
-            if files > 0 && files % (25) == 0 {
-                editor.transformedByAdding(nextPlane)
-            } else if files > 0 && files % 5 == 0 {
-                editor.transformedByAdding(nextRow)
-            } else {
-                editor.transformedByAdding(trailing)
+        directoryAddPipeline { filePath in
+           let plan = RenderPlan(
+                rootPath: filePath,
+                queue: DispatchQueue.global(),
+                builder: self.builder,
+                editor: self.editor,
+                focus: self.focus,
+                hoverController: GlobalInstances.gridStore.nodeHoverController
+            )
+            plan.startRender {
+                self.root.add(child: plan.targetParent)
             }
-            
-            files += 1
-            GlobalInstances.gridStore.nodeHoverController
-                .attachPickingStream(to: consumer.targetGrid)
-        }
-        
-        basicAddPipeline { filePath in
-            doAdd(self.basicGridPipeline(filePath))
+
         }
     }
 }
@@ -165,18 +165,15 @@ extension TwoETimeRoot {
 extension TwoETimeRoot {
     func setupNodeChildTest() throws {
         let origin = BackgroundQuad(link)
-        origin.quadHeight = 1
-        origin.quadWidth = 1
+        origin.quadSize = .init(1, 1)
         origin.setColor(LFloat4(1, 0, 0, 1))
         
         let firstparent = BackgroundQuad(link)
-        firstparent.quadHeight = 1
-        firstparent.quadWidth = 1
+        firstparent.quadSize = .init(1, 1)
         firstparent.setColor(LFloat4(0, 1, 0, 1))
         
         let firstChild = BackgroundQuad(link)
-        firstChild.quadHeight = 1
-        firstChild.quadWidth = 1
+        firstChild.quadSize = .init(1, 1)
         firstChild.setColor(LFloat4(0, 0, 1, 1))
         
         root.add(child: origin)
@@ -222,12 +219,12 @@ extension TwoETimeRoot {
         let background = BackgroundQuad(link)
         background.position = LFloat3(0.0, 0.0, -50.0)
         background.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
-        background.quadHeight = 3.0
+        background.quadSize = .init(1.0, 3.0)
         
         let background2 = BackgroundQuad(link)
         background2.position = LFloat3(4.0, 0.0, -50.0)
         background2.setColor(LFloat4(0.0, 1.0, 0.0, 1.0))
-        background2.quadHeight = 7.0
+        background2.quadSize = .init(1.0, 7.0)
         
         let background3 = BackgroundQuad(link)
         background3.position = LFloat3(8.0, 0.0, -50.0)

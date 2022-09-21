@@ -18,6 +18,7 @@ class MetalLinkAtlas {
     let nodeCache: MetalLinkGlyphNodeCache
     var uvPairCache: TextureUVCache
     var currentAtlas: MTLTexture { builder.atlasTexture }
+    private var insertionLock = DispatchSemaphore(value: 1)
     
     init(_ link: MetalLink) throws {
         self.link = link
@@ -42,6 +43,7 @@ extension MetalLinkAtlas {
     private func addGlyphToAtlasIfMissing(_ key: GlyphCacheKey) {
         guard uvPairCache[key] == nil else { return }
 //        print("Adding glyph to Atlas: [\(key.glyph)]")
+        insertionLock.wait(); defer { insertionLock.signal() }
         do {
             let block = try builder.startAtlasUpdate()
             builder.addGlyph(key, block)

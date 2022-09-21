@@ -84,8 +84,8 @@ extension FileBrowser {
         return scopes.first
     }
     
-    func distanceToRoot(_ start: Scope) -> Int {
-        guard let rootPath = rootScope?.path else { return 0 }
+    static func distanceTo(parent: Scope, from start: Scope) -> Int {
+        let rootPath = parent.path
         
         var depth = 0
         var pointer: URL? = start.path
@@ -95,6 +95,11 @@ extension FileBrowser {
         }
         
         return depth
+    }
+    
+    func distanceToRoot(_ start: Scope) -> Int {
+        guard let rootPath = rootScope else { return 0 }
+        return Self.distanceTo(parent: rootPath, from: start)
     }
     
     func saveScope(_ scope: Scope) {

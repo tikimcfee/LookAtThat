@@ -13,19 +13,16 @@ protocol QuadSizable: AnyObject {
 }
 
 extension QuadSizable {
+    var quadSize: LFloat2 {
+        get { LFloat2(x: quad.width, y: quad.height) }
+        set { quad.setSize(newValue) }
+    }
+    
     var quadWidth: Float {
         get { quad.width }
-        set {
-            quad.width = newValue
-//            BoundsCaching.ClearRoot(node)
-        }
     }
     
     var quadHeight: Float {
         get { quad.height }
-        set {
-            quad.height = newValue
-//            BoundsCaching.ClearRoot(node)
-        }
     }
 }

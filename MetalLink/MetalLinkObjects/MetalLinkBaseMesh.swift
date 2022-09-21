@@ -19,19 +19,34 @@ class MetalLinkBaseMesh: MetalLinkMesh {
     private let link: MetalLink
     private var vertexBuffer: MTLBuffer?
     
-    var vertexCount: Int { vertices.count }
-    var vertices: [Vertex] = []
+    // Making this concurrent is sorta throwing up hands
+    // to a lock on meshes, but I'm still testing.. is what
+    // I'm telling myself.
+    
+    var vertices: [Vertex] {
+        get { concurrenctVertices.values }
+        set {
+            concurrenctVertices.removeAll(keepingCapacity: true)
+            newValue.forEach { concurrenctVertices.append($0) }
+        }
+    }
+    var concurrenctVertices = ConcurrentArray<Vertex>()
+    var vertexCount: Int { concurrenctVertices.count }
     var name: String { "BaseMesh" }
 
     init(_ link: MetalLink) {
         self.link = link
-        self.vertices = createVertices()
+        createVertices().forEach {
+            concurrenctVertices.append($0)
+        }
     }
     
     func getVertexBuffer() -> MTLBuffer? {
         if let buffer = vertexBuffer { return buffer }
-        vertexBuffer = try? Self.createVertexBuffer(with: link, for: vertices)
-        vertexBuffer?.label = name
+        concurrenctVertices.directWriteAccess {
+            vertexBuffer = try? Self.createVertexBuffer(with: link, for: $0)
+            vertexBuffer?.label = name
+        }
         return vertexBuffer
     }
     

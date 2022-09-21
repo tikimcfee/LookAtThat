@@ -12,9 +12,14 @@ struct RenderPlan {
     let rootPath: URL
     let queue: DispatchQueue
     
-    let renderer: ConcurrentGridRenderer
-    
+    let builder: CodeGridGlyphCollectionBuilder
     var statusObject: AppStatus { GlobalInstances.appStatus }
+    
+    let editor: WorldGridEditor
+    let focus: WorldGridFocusController
+    let hoverController: MetalLinkHoverController
+    
+    let targetParent = MetalLinkNode()
     
     func startRender(_ onComplete: @escaping () -> Void = { }) {
         queue.async {
@@ -22,7 +27,7 @@ struct RenderPlan {
             
             WatchWrap.startTimer("\(rootPath.fileName)")
             cacheGrids()
-            
+            doGridLayout()
             WatchWrap.stopTimer("\(rootPath.fileName)")
             
             statusObject.update {
@@ -38,28 +43,42 @@ struct RenderPlan {
 // MARK: - Focus Style
 
 private extension RenderPlan {
-    
-}
-
-// MARK: - Focus Style
-
-private extension RenderPlan {
-    
-    
-    func doPathRender(
-        _ childPath: URL
-    ) {
+    func doGridLayout() {
         statusObject.update {
             $0.totalValue += 1
-            $0.detail = "Layout: \(childPath.lastPathComponent)"
+            $0.detail = "Layout: \(self.rootPath.lastPathComponent)"
         }
         
-        let parentPath = childPath.deletingLastPathComponent()
-        // TODO: Do layout
+        var files = 0
+        func doAdd(_ grid: CodeGrid) {
+            targetParent.add(child: grid.rootNode)
+            
+            let nextRow: WorldGridEditor.AddStyle = .inNextRow(grid)
+            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(grid)
+            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(grid)
+            
+            if files > 0 && files % (25) == 0 {
+                editor.transformedByAdding(nextPlane)
+            } else if files > 0 && files % 5 == 0 {
+                editor.transformedByAdding(nextRow)
+            } else {
+                editor.transformedByAdding(trailing)
+            }
+            
+            files += 1
+        }
+        
+        FileBrowser.recursivePaths(rootPath)
+            .filter { !$0.isDirectory }
+            .forEach { childPath in
+            if let grid = self.builder.gridCache.get(childPath) {
+                doAdd(grid)
+            }
+        }
         
         statusObject.update {
             $0.currentValue += 1
-            $0.detail = "Layout complete: \(childPath.lastPathComponent)"
+            $0.detail = "Layout complete: \(self.rootPath.lastPathComponent)"
         }
     }
 }
@@ -76,32 +95,31 @@ private extension RenderPlan {
             .filter { !$0.isDirectory }
             .forEach { childPath in
                 dispatchGroup.enter()
+                
                 statusObject.update {
                     $0.totalValue += 1
                     $0.detail = "File: \(childPath.lastPathComponent)"
                 }
                 
-                renderer.asyncAccess(childPath) { _ in
+                WorkerPool.shared.nextWorker().async {
+                    let grid = builder
+                        .createConsumerForNewGrid()
+                        .consume(url: childPath)
+                    
+                    builder.gridCache.cachedFiles[childPath] = grid.id
+                    
                     statusObject.update {
                         $0.currentValue += 1
                         $0.detail = "File Complete: \(childPath.lastPathComponent)"
                     }
+                   
+                    hoverController.attachPickingStream(to: grid)
                     
                     dispatchGroup.leave()
                 }
             }
         
         dispatchGroup.wait()
-    }
-    
-    func iterateRoot(
-        _ recursive: Bool = true,
-        _ receiver: (URL) -> Void
-    ) {
-        FileBrowser.recursivePaths(rootPath)
-            .forEach { childPath in
-                receiver(childPath)
-            }
     }
 }
 

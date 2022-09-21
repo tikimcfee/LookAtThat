@@ -32,7 +32,7 @@ class GridCache {
         cachedGrids[key.id] = key
     }
     
-    func setCache(_ key: URL, _ setOriginalAsClone: Bool = true) -> CodeGrid {
+    func setCache(_ key: URL) -> CodeGrid {
         let newGrid = renderGrid(key) ?? {
             print("Could not render path \(key)")
             return createNewGrid()

@@ -38,9 +38,10 @@ class MetalLinkGlyphNode: MetalLinkObject, QuadSizable {
     }
     
     func setQuadSize() {
+        guard !quad.initialSizeSet else { return }
 //        BoundsCaching.ClearRoot(self)
         let size = UnitSize.from(texture.simdSize)
-        (quad.width, quad.height) = (size.x, size.y)
+        quad.setSize(size)
     }
     
     override func applyTextures(_ sdp: inout SafeDrawPass) {

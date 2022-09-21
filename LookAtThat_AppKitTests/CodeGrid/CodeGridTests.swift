@@ -26,6 +26,26 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         try bundle.tearDownWithError()
         printEnd()
     }
+   
+    func testPathParentCounting() throws {
+        let root = URL(string: "file:///Users/lugos/udev/manicmind/LookAtThat/")!
+        
+        let allDirectories = FileBrowser
+            .recursivePaths(root)
+            .filter { $0.isDirectory }
+        
+        let parentCount = allDirectories.reduce(into: [URL: Int]()) { result, url in
+            result[url] = FileBrowser.distanceTo(parent: .directory(root), from: .directory(url))
+        }
+        
+        parentCount
+            .sorted(by: {
+                $0.key.pathComponents.count < $1.key.pathComponents.count
+            })
+            .forEach { key, value in
+                print(key, value)
+            }
+    }
     
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
