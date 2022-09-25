@@ -54,7 +54,7 @@ class MetalLinkNode: Measures {
 
     var rectPos: Bounds {
         if let cached = BoundsCaching.get(self) { return cached }
-        let box = computeBoundingBox(convertParent: false)
+        let box = computeBoundingBox(convertParent: true)
         BoundsCaching.Set(self, box)
         return box
     }

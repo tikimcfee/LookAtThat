@@ -17,10 +17,10 @@
 		B7044C1828A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B7044C1928A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B7044C1A28A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
-		B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
-		B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
-		B70808D5287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
-		B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchRenderTask.swift */; };
+		B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
+		B70808D3287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
+		B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
+		B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B70FDC54283EAE9900170D5F /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B70FDC56283EAE9900170D5F /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
@@ -818,7 +818,7 @@
 		45A5E5562729071700A94FCE /* SemanticInfoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoMap.swift; sourceTree = "<group>"; };
 		B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSizeConversionExtensions.swift; sourceTree = "<group>"; };
 		B7044C1628A07EAF00D1433C /* ShaderBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderBridge.h; sourceTree = "<group>"; };
-		B70808D1287E45EB00827CBB /* SearchRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRenderTask.swift; sourceTree = "<group>"; };
+		B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFocusRenderTask.swift; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B70FDCFF283EAE9900170D5F /* LookAtThat_AppKit - x86.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - x86.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70FDD00283EAE9900170D5F /* LookAtThat_AppKit_x86-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LookAtThat_AppKit_x86-Info.plist"; path = "/Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_x86-Info.plist"; sourceTree = "<absolute>"; };
@@ -1123,7 +1123,7 @@
 			isa = PBXGroup;
 			children = (
 				B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */,
-				B70808D1287E45EB00827CBB /* SearchRenderTask.swift */,
+				B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -2062,7 +2062,7 @@
 				B725168428C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B70FDC71283EAE9900170D5F /* MultipeerData.swift in Sources */,
 				B70FDC72283EAE9900170D5F /* TokenSyntax+Coloring.swift in Sources */,
-				B70808D3287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
+				B70808D3287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B70FDC73283EAE9900170D5F /* GlyphLayerCache.swift in Sources */,
 				B7B866AB28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
 				B7AC335F28A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
@@ -2238,7 +2238,7 @@
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* Measures.swift in Sources */,
-				B70808D6287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
+				B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
 				B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */,
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
@@ -2412,7 +2412,7 @@
 				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
-				B70808D2287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
+				B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
 				B7B866AA28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
 				B7AC335E28A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
@@ -2583,7 +2583,7 @@
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
-				B70808D5287E45EB00827CBB /* SearchRenderTask.swift in Sources */,
+				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7C69FEA28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,

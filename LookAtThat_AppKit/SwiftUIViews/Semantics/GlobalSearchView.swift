@@ -15,11 +15,22 @@ class GlobalSearchViewState: ObservableObject {
     init() {
         $filterText.removeDuplicates()
             .receive(on: DispatchQueue.global())
-            .sink { newText in
-                GlobalInstances.gridStore.searchContainer.search(newText) {
-                    print("Filter completion reported: \(newText)")
-                }
+            .sink { streamInput in
+                self.startSearch(for: streamInput)
             }.store(in: &bag)
+    }
+}
+
+extension GlobalSearchViewState {
+    func startSearch(for input: String) {
+        GlobalInstances.gridStore.searchContainer.search(input) { task in
+            print("Filter completion reported: \(input)")
+            
+            GlobalInstances.gridStore.editor.applyAllUpdates(
+                sizeSortedAdditions: task.searchLayout.values,
+                sizeSortedMissing: task.missedGrids.values
+            )
+        }
     }
 }
 

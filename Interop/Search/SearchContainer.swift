@@ -13,7 +13,7 @@ class SearchContainer {
     }
     
     private let searchQueue = DispatchQueue(label: "GridTextSearch", qos: .userInitiated)
-    private var currentRenderTask: RenderTask?
+    private var currentRenderTask: SearchFocusRenderTask?
     
     private let gridCache: GridCache
     var mode: Mode = .inPlace
@@ -24,10 +24,10 @@ class SearchContainer {
         
     func search(
         _ newInput: String,
-        _ completion: @escaping () -> Void
+        _ completion: @escaping (SearchFocusRenderTask) -> Void
     ) {
         currentRenderTask?.task.cancel()
-        let renderTask = RenderTask(
+        let renderTask = SearchFocusRenderTask(
             newInput: newInput,
             gridCache: gridCache,
             mode: mode,

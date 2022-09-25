@@ -98,42 +98,51 @@ extension Measures {
 extension Measures {
     @discardableResult
     func setLeading(_ newValue: VectorFloat) -> Self {
-        let delta = abs(leading - newValue)
+//        let delta = abs(leading - newValue)
+        let delta = newValue - leading
         xpos += delta
         return self
     }
     
     @discardableResult
     func setTrailing(_ newValue: VectorFloat) -> Self{
-        let delta = abs(trailing - newValue)
-        xpos -= delta
+//        let delta = abs(trailing - newValue)
+//        xpos -= delta
+        let delta = newValue - trailing
+        xpos += delta
         return self
     }
     
     @discardableResult
     func setTop(_ newValue: VectorFloat) -> Self {
-        let delta = abs(top - newValue)
-        ypos -= delta
+//        let delta = abs(top - newValue)
+        let delta = newValue - top
+//        ypos -= delta
+        ypos += delta
         return self
     }
     
     @discardableResult
     func setBottom(_ newValue: VectorFloat) -> Self {
-        let delta = abs(bottom - newValue)
+//        let delta = abs(bottom - newValue)
+        let delta = newValue - bottom
         ypos += delta
         return self
     }
     
     @discardableResult
     func setFront(_ newValue: VectorFloat) -> Self {
-        let delta = abs(front - newValue)
-        zpos -= delta
+//        let delta = abs(front - newValue)
+        let delta = newValue - front
+//        zpos -= delta
+        zpos += delta
         return self
     }
     
     @discardableResult
     func setBack(_ newValue: VectorFloat) -> Self {
-        let delta = abs(back - newValue)
+//        let delta = abs(back - newValue)
+        let delta = newValue - back
         zpos += delta
         return self
     }

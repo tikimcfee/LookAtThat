@@ -21,13 +21,19 @@ struct RenderPlan {
     
     let targetParent = MetalLinkNode()
     
+    let mode: Mode
+    enum Mode {
+        case cacheOnly
+        case layoutOnly
+        case cacheAndLayout
+    }
+    
     func startRender(_ onComplete: @escaping () -> Void = { }) {
         queue.async {
             statusObject.resetProgress()
             
             WatchWrap.startTimer("\(rootPath.fileName)")
-            cacheGrids()
-            doGridLayout()
+            renderTaskForMode()
             WatchWrap.stopTimer("\(rootPath.fileName)")
             
             statusObject.update {
@@ -36,6 +42,24 @@ struct RenderPlan {
             }
             
             onComplete()
+        }
+    }
+    
+    private var renderTaskForMode: () -> Void {
+        switch mode {
+        case .cacheAndLayout:
+            return {
+                cacheGrids()
+                doGridLayout()
+            }
+        case .cacheOnly:
+            return {
+                cacheGrids()
+            }
+        case .layoutOnly:
+            return {
+                doGridLayout()
+            }
         }
     }
 }
@@ -105,6 +129,7 @@ private extension RenderPlan {
                     let grid = builder
                         .createConsumerForNewGrid()
                         .consume(url: childPath)
+                        .withFileName(childPath.lastPathComponent)
                     
                     builder.gridCache.cachedFiles[childPath] = grid.id
                     

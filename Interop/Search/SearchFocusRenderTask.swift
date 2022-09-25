@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RenderTask {
+class SearchFocusRenderTask {
     typealias SearchReceiver = (
         _ source: CodeGrid,
         _ semantics: Set<SemanticInfo>
@@ -20,17 +20,20 @@ class RenderTask {
     private let newInput: String
     private let gridCache: GridCache
     private let mode: SearchContainer.Mode
-    private let onComplete: () -> Void
+    private let onComplete: (SearchFocusRenderTask) -> Void
     lazy var task = DispatchWorkItem(block: sharedDispatchBlock)
     
     private static let _stopwatch = Stopwatch()
     private var stopwatch: Stopwatch { Self._stopwatch }
     
+    var searchLayout = ConcurrentArray<CodeGrid>()
+    var missedGrids = ConcurrentArray<CodeGrid>()
+    
     init(
         newInput: String,
         gridCache: GridCache,
         mode: SearchContainer.Mode,
-        onComplete: @escaping () -> Void
+        onComplete: @escaping (SearchFocusRenderTask) -> Void
     ) {
         self.newInput = newInput
         self.gridCache = gridCache
@@ -39,7 +42,7 @@ class RenderTask {
     }
 }
 
-private extension RenderTask {
+private extension SearchFocusRenderTask {
     func sharedDispatchBlock() -> Void {
         stopwatch.start()
         do {
@@ -51,13 +54,14 @@ private extension RenderTask {
         print("-- Search finished, \(stopwatch.elapsedTimeString())")
         stopwatch.reset()
         
-        onComplete()
+        onComplete(self)
     }
     
     func doSearch() throws {
         printStart(newInput)
         resetAllGridFocusLevels()
         kickoffGridWalks()
+        sortFocusResults()
         printStop(newInput + " ++ end of call")
     }
     
@@ -79,8 +83,27 @@ private extension RenderTask {
         workGroup.wait()
     }
     
+    func sortFocusResults() {
+        func sizeSort(_ left: CodeGrid, _ right: CodeGrid) -> Bool {
+            if left.lengthY < right.lengthY { return true }
+            if left.lengthX < right.lengthX { return true }
+            return false
+        }
+        searchLayout.directWriteAccess {
+            $0 = $0.sorted(by: sizeSort(_:_:))
+        }
+        missedGrids.directWriteAccess {
+            $0 = $0.sorted(by: sizeSort(_:_:))
+        }
+    }
+    
     func kickoffGridWalks() {
-        guard !newInput.isEmpty else { return }
+        guard !newInput.isEmpty else {
+            gridCache.cachedGrids.values.forEach {
+                missedGrids.append($0)
+            }
+            return
+        }
         
         var gridWork = gridCache.cachedGrids.values.makeIterator()
         let workGroup = DispatchGroup()
@@ -108,13 +131,16 @@ private extension RenderTask {
         }
         if !foundMatch {
             try self.defocusNodesForSemanticInfo(source: grid)
+            missedGrids.append(grid)
+        } else {
+            searchLayout.append(grid)
         }
     }
 }
 
 // MARK: - Default Highlighting
 
-private extension RenderTask {
+private extension SearchFocusRenderTask {
     var focusAddition: LFloat4 { LFloat4(0.1, 0.2, 0.3, 0.0) }
     
     func focusNodesForSemanticInfo(source: CodeGrid, _ matchingSemanticInfo: SemanticInfo) throws {
@@ -156,7 +182,7 @@ private extension RenderTask {
     }
 }
 
-private extension RenderTask {
+private extension SearchFocusRenderTask {
     func throwIfCancelled() throws {
         if task.isCancelled { throw Condition.cancelled(input: newInput) }
     }

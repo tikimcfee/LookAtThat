@@ -121,6 +121,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid1 = consumed(bundle.testFile).targetGrid
         let testGrid2 = consumed(bundle.testFile).targetGrid
         
+        testGrid2.position = LFloat3(123_456, 654_321, 987_654)
+        
         // call multiple times to make sure it isn't additive.
         testGrid2.setLeading(testGrid1.localLeading)
         testGrid2.setLeading(testGrid1.localLeading)
@@ -173,7 +175,15 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     XCTAssertTrue(node.contentSize.x > 0, "Glyph nodes usually have some width")
                     XCTAssertTrue(node.contentSize.y > 0, "Glyph nodes usually have some height")
                     XCTAssertTrue(node.contentSize.z > 0, "Glyph nodes usually have some depth")
-                    testBounds.consumeBounds(node.bounds)
+                    
+                    // TODO: WARNING! CAREFUL! OH NO! `.bounds` is still rocky!
+                    // node.bounds gave local bounds. Without calling convert directly,
+                    // the glyphs aren't properly positioned. This is a weird test,
+                    // as it's checking that nodes and grids align after blitting,
+                    // but it's caught a bunch of stuff so far so I'm keeping it.
+                    // For now, this behavior is mostly OK, but be warned when
+                    // when interacting the glyph node positioning directly.
+                    testBounds.consumeBounds(node.computeBoundingBox(convertParent: true))
                 }
             }
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.

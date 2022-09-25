@@ -28,6 +28,44 @@ class WorldGridEditor {
         
     }
     
+    
+    func applyAllUpdates(
+        sizeSortedAdditions: [CodeGrid],
+        sizeSortedMissing: [CodeGrid]
+    ) {
+        print(Array(repeating: "-", count: 64).joined(), "\n")
+        
+        snapping.clearAll()
+        lastFocusedGrid = nil
+        
+        sizeSortedAdditions.first?.position = .zero
+        sizeSortedMissing.first?.position = .zero
+        
+        guard !sizeSortedAdditions.isEmpty else {
+            sizeSortedMissing.forEach {
+                transformedByAdding(.trailingFromLastGrid($0))
+            }
+            return
+        }
+        
+        // Layout additions first
+        sizeSortedAdditions.forEach {
+            transformedByAdding(.trailingFromLastGrid($0))
+        }
+        
+        // Get last grid (should be tallest if sorted) and offset.
+        // Following grids will trail.
+        if let firstMissing = sizeSortedMissing.first {
+//            firstMissing.setTop(lastAddition.bottom)
+            transformedByAdding(.inNextRow(firstMissing))
+        }
+        
+        sizeSortedMissing.dropFirst().forEach {
+            transformedByAdding(.trailingFromLastGrid($0))
+        }
+        
+    }
+    
     @discardableResult
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
         guard let lastGrid = lastFocusedGrid else {

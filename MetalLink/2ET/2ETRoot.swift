@@ -38,8 +38,6 @@ class TwoETimeRoot: MetalLinkReader {
         GlobalInstances.gridStore.focusController
     }
     
-    var selectedGrid: CodeGrid?
-    
     init(link: MetalLink) throws {
         self.link = link
         view.clearColor = MTLClearColorMake(0.03, 0.1, 0.2, 1.0)
@@ -70,10 +68,12 @@ class TwoETimeRoot: MetalLinkReader {
     }
     
     func handleFocus(_ direction: SelfRelativeDirection) {
-        let focused = selectedGrid ?? editor.lastFocusedGrid
+        let focused = editor.lastFocusedGrid
         guard let current = focused else { return }
-        if let first = editor.snapping.gridsRelativeTo(current, direction).first {
-            selectedGrid = first.targetGrid
+        
+        let grids = editor.snapping.gridsRelativeTo(current, direction)
+        
+        if let first = grids.first {
             focus.state = .set(first.targetGrid)
         } else {
             focus.state = .set(current)
@@ -149,12 +149,16 @@ extension TwoETimeRoot {
                 builder: self.builder,
                 editor: self.editor,
                 focus: self.focus,
-                hoverController: GlobalInstances.gridStore.nodeHoverController
+                hoverController: GlobalInstances.gridStore.nodeHoverController,
+                mode: .cacheAndLayout
             )
             
-            var counter = 0.1
+//            var counter = 0.1
             plan.startRender {
                 self.root.add(child: plan.targetParent)
+                let edge = plan.targetParent.trailing
+                let bottom = plan.targetParent.bottom
+                self.camera.position = LFloat3(edge / 2.0, 0.0, edge)
 //                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.x += 0.1
 //                    counter += 0.1

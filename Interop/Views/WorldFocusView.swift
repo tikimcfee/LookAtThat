@@ -17,16 +17,18 @@ struct WorldFocusView: View {
     @ViewBuilder
     var focusList: some View {
         ScrollView {
-            VStack {
+            VStack(alignment: .leading) {
                 ForEach(focus.focusableGrids, id: \.targetGrid.id) { relationship in
                     HStack {
                         Text(relationship.direction.rawValue)
                         Spacer().frame(width: 32)
                         Text(relationship.targetGrid.fileName)
-                    }.padding()
+                    }
+                    .padding()
                 }
             }
         }
+//        .frame(minWidth: 640, minHeight: 320)
         .padding()
         .border(.gray, width: 1.0)
     }
