@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftSyntax
 
 class SearchFocusRenderTask {
     typealias SearchReceiver = (
@@ -121,14 +122,27 @@ private extension SearchFocusRenderTask {
     
     func test(grid: CodeGrid, searchText: String) throws {
         var foundMatch: Bool = false
+        
         for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
             try self.throwIfCancelled()
             
-            if info.referenceName.containsMatch(searchText) {
-                try self.focusNodesForSemanticInfo(source: grid, info)
+            var matchesReference: Bool {
+                info.referenceName
+                    .containsMatch(searchText, caseSensitive: false)
+            }
+            
+            var matchesTrivia: Bool {
+                info.node.leadingTrivia?
+                    .stringified
+                    .containsMatch(searchText, caseSensitive: false) == true
+            }
+            
+            if matchesReference || matchesTrivia {
                 foundMatch = true
+                try self.focusNodesForSemanticInfo(source: grid, info)
             }
         }
+        
         if !foundMatch {
             try self.defocusNodesForSemanticInfo(source: grid)
             missedGrids.append(grid)
@@ -141,11 +155,21 @@ private extension SearchFocusRenderTask {
 // MARK: - Default Highlighting
 
 private extension SearchFocusRenderTask {
-    var focusAddition: LFloat4 { LFloat4(0.1, 0.2, 0.3, 0.0) }
+    var focusAddition: LFloat4 { LFloat4(0.05, 0.10, 0.15, 0.0) }
     
-    func focusNodesForSemanticInfo(source: CodeGrid, _ matchingSemanticInfo: SemanticInfo) throws {
+    func focusNodesForSemanticInfo(
+        source: CodeGrid,
+        _ matchingSemanticInfo: SemanticInfo
+    ) throws {
+        try focusNodesForSemanticInfo(source: source, matchingSemanticInfo.syntaxId)
+    }
+    
+    func focusNodesForSemanticInfo(
+        source: CodeGrid,
+        _ matchingSemanticInfo: SyntaxIdentifier
+    ) throws {
         try source.semanticInfoMap.walkFlattened(
-            from: matchingSemanticInfo.syntaxId,
+            from: matchingSemanticInfo,
             in: source.tokenCache
         ) { info, targetNodes in
             for node in targetNodes {
