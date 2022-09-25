@@ -41,27 +41,48 @@ class WorldGridEditor {
         sizeSortedAdditions.first?.position = .zero
         sizeSortedMissing.first?.position = .zero
         
+        let breakPoint = 12
+        var gridCounter = 0
+        var trailingBreakGrid: CodeGrid? {
+            get { snapping.gridReg1 }
+            set {
+                snapping.gridReg1 = (
+                    gridCounter > 0
+                    && gridCounter % breakPoint == 0
+                ) ? newValue : nil
+                gridCounter += 1
+            }
+        }
+        
+        func layout(_ grid: CodeGrid) {
+            if let _ = trailingBreakGrid {
+                transformedByAdding(.inNextRow(grid))
+            } else {
+                transformedByAdding(.trailingFromLastGrid(grid))
+            }
+            trailingBreakGrid = grid
+        }
+        
         guard !sizeSortedAdditions.isEmpty else {
             sizeSortedMissing.forEach {
-                transformedByAdding(.trailingFromLastGrid($0))
+                layout($0)
             }
             return
         }
         
         // Layout additions first
         sizeSortedAdditions.forEach {
-            transformedByAdding(.trailingFromLastGrid($0))
+            layout($0)
         }
         
         // Get last grid (should be tallest if sorted) and offset.
         // Following grids will trail.
         if let firstMissing = sizeSortedMissing.first {
-//            firstMissing.setTop(lastAddition.bottom)
-            transformedByAdding(.inNextRow(firstMissing))
+            transformedByAdding(.inNextPlane(firstMissing))
         }
         
         sizeSortedMissing.dropFirst().forEach {
-            transformedByAdding(.trailingFromLastGrid($0))
+            layout($0)
         }
         
     }
