@@ -1,9 +1,12 @@
 //
-//  TriangleShape.swift
+//  2ETRoot.swift
 //  MetalSimpleInstancing
 //
 //  Created by Ivan Lugo on 8/6/22.
 //  Copyright © 2022 Metal by Example. All rights reserved.
+//
+//  - With thanks to Rick Twohy
+//  https://discord.gg/hKPBTbC
 //
 
 import Combine
