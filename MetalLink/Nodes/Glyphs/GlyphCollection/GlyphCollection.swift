@@ -108,8 +108,20 @@ extension GlyphCollection {
         // The moment there's something that's NOT, we'll get stretching / skewing / breaking.
         // Solving that.. is for next time.
         // Collections of collections per glyph size? Factored down (scaled) / rotated to deduplicate?
+        // -- Added a tiny guard to find a mesh that's at least some visible width. This helps
+        //    skip newlines or other weird shapes.
         // ***********************************************************************************
-        guard !instanceState.nodes.isEmpty else { return }
-        mesh = instanceState.nodes[0].mesh
+        guard !instanceState.nodes.isEmpty else {
+            return
+        }
+        
+        // TODO: Use safe
+        guard let safeMesh = instanceState.nodes.first(where: {
+            ($0.mesh as? MetalLinkQuadMesh)?.width ?? 0.0 > 0.1 }
+        ) else {
+            return
+        }
+        
+        mesh = safeMesh.mesh
     }
 }
