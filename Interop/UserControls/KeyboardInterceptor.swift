@@ -36,6 +36,7 @@ extension KeyboardInterceptor {
         @Published var totalOffset: LFloat3 = .zero
         @Published var travelOffset: LFloat3 = .zero
         @Published var rotationOffset: LFloat3 = .zero
+        @Published var rotationDelta: LFloat3 = .zero
     }
 }
 
@@ -160,6 +161,7 @@ private extension KeyboardInterceptor {
             positions.totalOffset += positionOffset
             positions.travelOffset = positionOffset
             positions.rotationOffset += rotationOffset
+            positions.rotationDelta = rotationOffset
         }
     }
 }

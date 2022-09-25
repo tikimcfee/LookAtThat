@@ -160,8 +160,9 @@ extension TwoETimeRoot {
             plan.startRender {
                 self.root.add(child: plan.targetParent)
                 let edge = plan.targetParent.trailing
-                let bottom = plan.targetParent.bottom
-                self.camera.position = LFloat3(edge / 2.0, 0.0, edge)
+                let top = plan.targetParent.top
+                self.camera.position = LFloat3(edge / 2.0, top + 128.0, edge)
+                self.camera.rotation = LFloat3(Float.pi / 4.0, 0, 0)
 //                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.x += 0.1
 //                    counter += 0.1

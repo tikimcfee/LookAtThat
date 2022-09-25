@@ -179,7 +179,7 @@ private extension AtlasBuilder {
 }
 
 extension AtlasBuilder {
-    static var canvasSize = LInt2(1024, 1024)
+    static var canvasSize = LInt2(4096, 4096)
     static var canvasDescriptor: MTLTextureDescriptor = {
         let glyphDescriptor = MTLTextureDescriptor()
         glyphDescriptor.storageMode = .private

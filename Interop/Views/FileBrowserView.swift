@@ -101,6 +101,12 @@ struct FileBrowserView: View {
         Text(text)
             .font(.title)
             .onTapGesture { genericSelection(event) }
+        #if os(macOS)
+            .onLongPressGesture(perform: {
+                NSPasteboard.general.declareTypes([.string], owner: nil)
+                NSPasteboard.general.setString(path.path, forType: .string)
+            })
+        #endif
             .padding(8.0)
             .background(Color(red: 0.1, green: 0.1, blue: 0.1, opacity: 0.2))
             .padding(2.0)

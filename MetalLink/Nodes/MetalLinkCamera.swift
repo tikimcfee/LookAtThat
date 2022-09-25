@@ -90,8 +90,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         
         link.input.sharedMouse.sink { event in
             guard self.startRotate else { return }
-            self.interceptor.positions.rotationOffset.y += event.deltaX.float / 5
-            self.interceptor.positions.rotationOffset.x += event.deltaY.float / 5
+            self.interceptor.positions.rotationDelta.y = event.deltaX.float / 5
+            self.interceptor.positions.rotationDelta.x = event.deltaY.float / 5
         }.store(in: &cancellables)
     }
     
@@ -102,8 +102,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
             self.position += (total / 100)
         }.store(in: &cancellables)
         
-        interceptor.positions.$rotationOffset.removeDuplicates().sink { total in
-            self.rotation = (total / 100)
+        interceptor.positions.$rotationDelta.sink { total in
+            self.rotation += (total / 100)
         }.store(in: &cancellables)
     }
 }

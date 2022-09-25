@@ -22,7 +22,8 @@ extension FileBrowser {
         "py",
         "java", "kt",
         "html", "css", "js",
-        "json", "xml"
+        "json", "xml",
+        "rs"
     ]
     
     static let unsupportedExtensions: Set<String> = [
