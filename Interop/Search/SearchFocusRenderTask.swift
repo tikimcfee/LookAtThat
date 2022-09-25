@@ -143,11 +143,11 @@ private extension SearchFocusRenderTask {
             }
         }
         
-        if !foundMatch {
+        if foundMatch {
+            searchLayout.append(grid)
+        } else {
             try self.defocusNodesForSemanticInfo(source: grid)
             missedGrids.append(grid)
-        } else {
-            searchLayout.append(grid)
         }
     }
 }
