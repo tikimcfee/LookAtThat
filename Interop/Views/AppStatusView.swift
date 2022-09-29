@@ -74,10 +74,10 @@ class AppStatus: ObservableObject {
     
     @Published private(set) var progress = AppProgress()
     
-    func update(_ receiver: (inout AppProgress) -> Void) {
-        var current = progress
-        receiver(&current)
+    func update(_ receiver: @escaping (inout AppProgress) -> Void) {
         DispatchQueue.main.async {
+            var current = self.progress
+            receiver(&current)
             self.progress = current
         }
     }

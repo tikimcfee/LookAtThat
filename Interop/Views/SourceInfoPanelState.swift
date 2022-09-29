@@ -32,18 +32,10 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
 class SourceInfoPanelState: ObservableObject {
     // Category pannel state
     struct Categories {
-        var showGlobalMap: Bool = false
+        var expandedGrids = Set<CodeGrid.ID>()
     }
     @Published var categories: Categories = Categories()
 
-    // Individual hovering stuff
-    @Published var sourceInfo: SemanticInfoMap = SemanticInfoMap()
-    @Published var sourceGrid: CodeGrid?
-    @Published var hoveredToken: String = ""
-    
-    // Current 'focus box' search input
-    @Published var searchText: String = ""
-    
     // Visible subsections
     @Published private(set) var visiblePanelStates = CodableAutoCache<PanelSections, FloatableViewMode>() {
         didSet {

@@ -282,8 +282,6 @@ func helloWorld() {
     
     static var sourceState: SourceInfoPanelState = {
         let state = SourceInfoPanelState()
-        state.sourceInfo = Self.sourceInfo.binding.wrappedValue
-        state.hoveredToken = Self.randomId
         return state
     }()
     

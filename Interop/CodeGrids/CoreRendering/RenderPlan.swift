@@ -130,6 +130,7 @@ private extension RenderPlan {
                         .createConsumerForNewGrid()
                         .consume(url: childPath)
                         .withFileName(childPath.lastPathComponent)
+                        .withSourcePath(childPath)
                     
                     builder.gridCache.cachedFiles[childPath] = grid.id
                     

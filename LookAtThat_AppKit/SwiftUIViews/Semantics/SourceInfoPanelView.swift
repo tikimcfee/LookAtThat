@@ -13,9 +13,6 @@ struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
-    var sourceInfo: SemanticInfoMap { state.sourceInfo }
-    var sourceGrid: CodeGrid? { state.sourceGrid }
-    
     var body: some View {
         HStack(alignment: .top) {
             allPanelsGroup
@@ -186,9 +183,6 @@ func helloWorld() {
     
     static var sourceState: SourceInfoPanelState = {
         let state = SourceInfoPanelState()
-        state.sourceInfo = Self.sourceInfo.binding.wrappedValue
-        state.hoveredToken = Self.randomId
-        state.categories.showGlobalMap = true
         return state
     }()
     

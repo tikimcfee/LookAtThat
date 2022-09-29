@@ -9,85 +9,116 @@ import SwiftUI
 import SwiftSyntax
 import Combine
 
+extension SourceInfoCategoryView {
+    struct Interactions {
+        var expandedGrids: Set<CodeGrid.ID> = []
+        
+        func isExpanded(grid: CodeGrid.ID) -> Bool {
+            expandedGrids.contains(grid)
+        }
+        
+        mutating func toggle(grid: CodeGrid.ID) {
+            if expandedGrids.contains(grid) {
+                expandedGrids.remove(grid)
+            } else {
+                expandedGrids.insert(grid)
+            }
+        }
+        
+        init() {
+            
+        }
+    }
+    
+    enum Mode {
+        case idle
+        case snapshot(CodeGridGlobalSemantics.Snapshot)
+    }
+}
+
 struct SourceInfoCategoryView: View {
-    @EnvironmentObject var sourceState: SourceInfoPanelState
+    @State var interactions = Interactions()
+    @State var mode: Mode = .idle
     
-    @State var targetedInfo: SemanticInfoMap = .init()
-    @State var targetedGrid: CodeGrid?
-    
-    private var global: CodeGridGlobalSemantics {
-        GlobalInstances.gridStore.globalSemantics
+    private func reset() {
+        GlobalInstances.gridStore.globalSemantics.snapshotDefault()
     }
     
     var body: some View {
         VStack {
-            HStack {
-                Toggle("Show global semantics", isOn: $sourceState.categories.showGlobalMap)
-                Button("Reset snapshot", action: {
-                    global.snapshotDefault()
-                })
-            }.padding(4)
-            
-            if sourceState.categories.showGlobalMap {
-                globalInfoRows
-            } else {
-                targetInfoRows
-            }
+            topControls
+            viewForMode
         }
         .background(Color(red: 0.2, green: 0.2, blue: 0.25, opacity: 0.8))
-        .onReceive(sourceState.$sourceGrid, perform: { grid in
-            targetedGrid = grid
-        })
-        .onReceive(sourceState.$sourceInfo, perform: { info in
-            targetedInfo = info
-        })
+        .onReceive(GlobalInstances.gridStore.globalSemantics.$categorySnapshot,
+            perform: { newSnapshot in
+                mode = .snapshot(newSnapshot)
+            }
+        )
         .onAppear {
-            global.snapshotDefault()
+            reset()
         }
-        .frame(width: 384.0)
+    }
+    
+    var topControls: some View {
+        HStack {
+            Button("Reset snapshot", action: { reset() })
+        }.padding(4)
     }
     
     @ViewBuilder
-    var targetInfoRows: some View {
-        if let targetedGrid = targetedGrid  {
-            ScrollView {
-                makeInfoRowGroup(
-                    for: global.defaultCategories,
-                    in: targetedGrid
-                )
-            }.padding(4.0)
-        } else {
+    var viewForMode: some View {
+        switch mode {
+        case .idle:
             EmptyView()
+        case .snapshot(let snapshot):
+            globalInfoRows(snapshot)
         }
     }
 
-    var globalInfoRows: some View {
+    func globalInfoRows(_ snapshot: CodeGridGlobalSemantics.Snapshot) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                ForEach(
-                    global.categorySnapshot,
-                    id: \.self
-                ) { snapshotParticipant in
-                    VStack {
-                        Text(snapshotParticipant.sourceGrid.fileName)
-                            .underline()
-                            .padding(.top, 8)
-                        
-                        // TODO: Use a tab view for categories, they're enumerable.
-                        List {
-                            makeInfoRowGroup(
-                                for: snapshotParticipant.queryCategories,
-                                in: snapshotParticipant.sourceGrid
-                            )
-                        }
-                        .frame(height: 256.0)
-                    }
-                    .padding(4.0)
+                ForEach(snapshot, id: \.self) {
+                    participantView($0)
                 }
             }
         }
         .padding(4.0)
     }
+    
+    @ViewBuilder
+    func participantView(_ snapshotParticipant: GlobalSemanticParticipant) -> some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(snapshotParticipant.sourceGrid.fileName)
+                    .font(.headline)
+                    
+                if let path = snapshotParticipant.sourceGrid.sourcePath?.path {
+                    Text(path)
+                        .font(.subheadline)
+                        .padding([.top], 4)
+                }
+            }
+            .padding([.top, .bottom], 8)
+            .padding([.trailing], 8)
+            
+            // TODO: Use a tab view for categories, they're enumerable.
+            if interactions.isExpanded(grid: snapshotParticipant.sourceGrid.id) {
+                VStack(alignment: .leading) {
+                    makeInfoRowGroup(
+                        for: snapshotParticipant.queryCategories,
+                        in: snapshotParticipant.sourceGrid
+                    )
+                }
+            }
+        }
+        .background(.gray.opacity(0.5))
+        .padding(4.0)
+        .onTapGesture {
+            interactions.toggle(grid: snapshotParticipant.sourceGrid.id)
+        }
+   }
     
     func makeInfoRowGroup(
         for categories: [SemanticInfoMap.Category],
@@ -102,7 +133,7 @@ struct SourceInfoCategoryView: View {
     }
     
     func infoRows(from grid: CodeGrid, _ map: AssociatedSyntaxMap) -> some View {
-        List {
+        VStack(alignment: .leading) {
             ForEach(Array(map.keys), id:\.self) { (id: SyntaxIdentifier) in
                 if let info = grid.semanticInfoMap.semanticsLookupBySyntaxId[id] {
                     semanticInfoRow(info, grid)
@@ -111,7 +142,6 @@ struct SourceInfoCategoryView: View {
                 }
             }
         }
-        .frame(minHeight: max(96.0, CGFloat((Float(map.count) / 3.0) * 64.0)))
         .padding(4.0)
     }
     

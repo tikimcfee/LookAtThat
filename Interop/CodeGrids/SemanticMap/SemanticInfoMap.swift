@@ -45,7 +45,8 @@ public class SemanticInfoMap {
 }
 
 extension SemanticInfoMap {
-    enum Category: String, CaseIterable {
+    enum Category: String, CaseIterable, Identifiable {
+        var id: String { rawValue }
         case structs = "Structs"
         case classes = "Classes"
         case enumerations = "Enumerations"
