@@ -118,38 +118,68 @@ class SemanticTracingOutState: ObservableObject {
     func increment() {
         currentIndex += 1
         currentMatch = self[currentIndex]
-        highlightTrace()
+        highlightCurrentTrace()
     }
     
     func decrement() {
         currentIndex -= 1
         currentMatch = self[currentIndex]
-        highlightTrace()
+        highlightCurrentTrace()
     }
 }
 
 // MARK: - Scene interactions
 
 extension SemanticTracingOutState {
-    func toggleTrace(_ trace: TraceValue) {
-        print("Not implemented: \(#function)")
-    }
-    
     func zoomTrace(_ trace: TraceValue?) {
         print("Not implemented: \(#function)")
     }
     
-    func highlightTrace() {
-        print("Not implemented: \(#function)")
+    func highlightCurrentTrace() {
+        guard let trace = currentMatch.maybeTrace else {
+            return
+        }
+        let setFocused = currentMatch.out.isEntry
+        let colorToAdd = setFocused
+        ? LFloat4(0.2, 0.2, 0.2, 1.0)
+        : -LFloat4(0.2, 0.2, 0.2, 1.0)
+        
+        let positionToAdd = setFocused
+        ? LFloat3(0.0, 0.0, 2.0)
+        : -LFloat3(0.0, 0.0, 2.0)
+        
+        trace.grid.semanticInfoMap.doOnAssociatedNodes(
+            trace.info.syntaxId,
+            trace.grid.tokenCache
+        ) { (info, nodes) in
+            for node in nodes {
+                UpdateNode(node, in: trace.grid) {
+                    $0.addedColor += colorToAdd
+                    $0.modelMatrix.translate(vector: positionToAdd)
+                }
+            }
+        }
     }
 }
 
 //MARK: - Setup State Changes
 
 extension SemanticTracingOutState {
+    func stopAndCommitFileIO() {
+        tracer.state.traceWritesEnabled = false
+        TracingRoot.shared.commitMappingState()
+    }
+    
+    func stopTracing() {
+        print("\n\n\t\t!!!! Your trace cycles may relax. \n\n")
+        tracer.stopTracingAll()
+        tracer.state.didEnableTracing = false
+    }
+    
     func setupTracing() {
         print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
         tracer.state.traceWritesEnabled = true
+        tracer.state.didEnableTracing = true
         tracer.removeAllTraces()
         tracer.removeMapping()
         tracer.setupTracing()

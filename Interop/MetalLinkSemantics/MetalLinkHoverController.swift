@@ -11,25 +11,7 @@ import SwiftUI
 
 typealias GlyphConstants = InstancedConstants
 typealias ConstantsPointer = UnsafeMutablePointer<GlyphConstants>
-typealias UpdateConstants = (GlyphNode, inout GlyphConstants, inout Bool) throws -> GlyphConstants
-
-struct NodePickingState {
-    let targetGrid: CodeGrid
-    let nodeID: InstanceIDType
-    let node: GlyphNode
-    
-    var nodeBufferIndex: Int? { node.meta.instanceBufferIndex }
-    var nodeSyntaxID: NodeSyntaxID? { node.meta.syntaxID }
-    
-    var constantsPointer: ConstantsPointer {
-        return targetGrid.rootNode.instanceState.rawPointer
-    }
-    
-    var parserSyntaxID: SyntaxIdentifier? {
-        guard let id = nodeSyntaxID else { return nil }
-        return targetGrid.semanticInfoMap.syntaxIDLookupByNodeId[id]
-    }
-}
+typealias UpdateConstants = (GlyphNode, inout GlyphConstants, inout Bool) throws -> Void
 
 struct GridPickingState {
     let targetGrid: CodeGrid
@@ -129,13 +111,13 @@ extension MetalLinkHoverController {
                 return
             }
             
-            let updatePointer = pickingState.constantsPointer
             pickingState.targetGrid.semanticInfoMap.doOnAssociatedNodes(
                 pickedNodeSyntaxID, pickingState.targetGrid.tokenCache
             ) { info, nodes in
                 for node in nodes {
-                    guard let index = node.meta.instanceBufferIndex else { continue }
-                    action(&updatePointer[index])
+                    UpdateNode(node, in: pickingState.targetGrid) { updateIntance in
+                        action(&updateIntance)
+                    }
                 }
             }
         }

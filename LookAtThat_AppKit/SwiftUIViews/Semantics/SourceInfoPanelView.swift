@@ -85,7 +85,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var focusState: some View {
         WorldFocusView(
-            focus: GlobalInstances.gridStore.focusController
+            focus: GlobalInstances.gridStore.worldFocusController
         )
     }
     

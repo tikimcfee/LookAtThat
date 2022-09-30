@@ -151,7 +151,9 @@ struct SourceInfoCategoryView: View {
             .padding(4)
             .overlay(Rectangle().stroke(Color.gray))
             .onTapGesture {
-                print("Not implemented: \(#file):\(#function), tap")
+                GlobalInstances.gridStore
+                    .nodeFocusController
+                    .selected(id: info.syntaxId, in: grid)
             }
     }
 }

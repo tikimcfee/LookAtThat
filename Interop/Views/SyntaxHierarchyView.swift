@@ -6,10 +6,28 @@
 //
 
 import SwiftUI
+import SwiftSyntax
+
+struct NodePickingState {
+    let targetGrid: CodeGrid
+    let nodeID: InstanceIDType
+    let node: GlyphNode
+    
+    var nodeBufferIndex: Int? { node.meta.instanceBufferIndex }
+    var nodeSyntaxID: NodeSyntaxID? { node.meta.syntaxID }
+    
+    var constantsPointer: ConstantsPointer {
+        return targetGrid.rootNode.instanceState.rawPointer
+    }
+    
+    var parserSyntaxID: SyntaxIdentifier? {
+        guard let id = nodeSyntaxID else { return nil }
+        return targetGrid.semanticInfoMap.syntaxIDLookupByNodeId[id]
+    }
+}
 
 struct SyntaxHierarchyView: View {
     @State var lastState: NodePickingState?
-    var hoveredId: String { lastState?.nodeSyntaxID ?? "" }
     
     var body: some View {
         hoveredNodeInfoView(hoveredId)
@@ -78,11 +96,15 @@ struct SyntaxHierarchyView: View {
 
 extension SyntaxHierarchyView {
     func didTapRow(semantics: SemanticInfo) {
-        print("Not implemented: \(#function)")
+        
     }
 }
 
 extension SyntaxHierarchyView {
+    var hoveredId: String {
+        lastState?.nodeSyntaxID ?? ""
+    }
+    
     var sourceGrid: CodeGrid? {
         lastState?.targetGrid
     }
@@ -106,7 +128,8 @@ extension SyntaxHierarchyView {
     }
     
     func isSelected(info: SemanticInfo) -> Bool {
-        print("Not implemented: \(#file):\(#function)")
-        return false
+        GlobalInstances.gridStore
+            .nodeFocusController
+            .isSelected(info.syntaxId)
     }
 }

@@ -8,8 +8,8 @@
 import SceneKit
 import Combine
 
-private var default_MovementSpeed: VectorFloat = 500
-private var default_ModifiedMovementSpeed: VectorFloat = 1000
+let default_MovementSpeed: VectorFloat = 500
+let default_ModifiedMovementSpeed: VectorFloat = 1000
 private let default_UpdateDeltaMillis = 16
 
 typealias FileOperationReceiver = (FileOperation) -> Void

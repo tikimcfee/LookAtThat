@@ -35,7 +35,7 @@ class TracingRootConsumer {
     func removeAllLogTraces() {
         AppFiles.allTraceFiles().forEach {
             print("Removing log file ", $0.lastPathComponent)
-            AppendingStore(targetFile: $0).cleanFile()
+            AppendingStore(targetFile: $0).removeFile()
         }
     }
     

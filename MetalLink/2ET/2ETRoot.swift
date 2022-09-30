@@ -38,7 +38,7 @@ class TwoETimeRoot: MetalLinkReader {
     }
     
     var focus: WorldGridFocusController {
-        GlobalInstances.gridStore.focusController
+        GlobalInstances.gridStore.worldFocusController
     }
     
     init(link: MetalLink) throws {

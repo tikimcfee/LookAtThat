@@ -106,16 +106,6 @@ class WorldGridEditor {
         case let (.inNextPlane(codeGrid), .gridRelative):
             addInNextPlane(codeGrid, from: lastGrid)
             
-            // Collection
-            //        case let (.trailingFromLastGrid(codeGrid), .collection(targetCollection)):
-            //            addTrailing(codeGrid, from: lastGrid, inCollection: targetCollection)
-            //
-            //        case let (.inNextRow(codeGrid), .collection(targetCollection)):
-            //            addInNextRow(codeGrid, from: lastGrid, inCollection: targetCollection)
-            //
-            //        case let (.inNextPlane(codeGrid), .collection(targetCollection)):
-            //            addInNextPlane(codeGrid, from: lastGrid, inCollection: targetCollection)
-            
         default:
             print("\n\nNot implemented! : \(layoutStrategy)")
         }
@@ -132,11 +122,7 @@ extension WorldGridEditor {
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        //        let xOffset = otherGrid.trailing + 4.0
-        //        grid.updateAllNodeConstants { node, nodeConstants, _ in
-        //            node.position.x += xOffset
-        //            return nodeConstants
-        //        }
+        print("Not implemented: \(#file):\(#function)")
     }
     
     func addInNextRow(
@@ -144,7 +130,7 @@ extension WorldGridEditor {
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        
+        print("Not implemented: \(#file):\(#function)")
     }
     
     func addInNextPlane(
@@ -152,7 +138,7 @@ extension WorldGridEditor {
         from otherGrid: CodeGrid,
         inCollection collection: GlyphCollection
     ) {
-        
+        print("Not implemented: \(#file):\(#function)")
     }
 }
 

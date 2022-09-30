@@ -88,8 +88,13 @@ class GridStore {
     private(set) lazy var nodeHoverController: MetalLinkHoverController = MetalLinkHoverController(link: link)
     private(set) lazy var editor: WorldGridEditor = WorldGridEditor()
     
-    private(set) lazy var focusController: WorldGridFocusController = WorldGridFocusController(
-        link: link, camera: GlobalInstances.debugCamera, editor: editor
+    private(set) lazy var worldFocusController: WorldGridFocusController = WorldGridFocusController(
+        link: link,
+        camera: GlobalInstances.debugCamera,
+        editor: editor
     )
     
+    private(set) lazy var nodeFocusController: CodeGridSelectionController = CodeGridSelectionController(
+        tokenCache: tokenCache
+    )
 }

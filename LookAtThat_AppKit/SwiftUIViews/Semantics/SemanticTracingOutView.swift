@@ -56,13 +56,10 @@ struct SemanticTracingOutView: View {
     func makeFileIOToggleButton() -> some View {
         if state.tracerState.traceWritesEnabled {
             Button("Stop writing & Save", action: {
-                state.tracerState.traceWritesEnabled = false
-                TracingRoot.shared.commitMappingState()
+                state.stopAndCommitFileIO()
             })
         } else {
-            Button("Start writing", action: {
-                state.tracerState.traceWritesEnabled = true
-            })
+            Text("Start tracing to write map state").italic()
         }
     }
 
@@ -70,8 +67,8 @@ struct SemanticTracingOutView: View {
         HStack(alignment: .center) {
             VStack(alignment: .trailing) {
                 makeFileIOToggleButton()
-                if state.tracerState.traceWritesEnabled {
-                    Button("Reset tracing", action: { state.setupTracing() })
+                if state.tracerState.didEnableTracing {
+                    Button("Stop tracing", action: { state.stopTracing() })
                 } else {
                     Button("Start Tracing", action: { state.setupTracing() })
                 }
@@ -276,7 +273,7 @@ func helloWorld() {
     
     static var randomId: String {
         let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
-        let offset = characterIndex.utf16Offset(in: sourceString)
+//        let offset = characterIndex.utf16Offset(in: sourceString)
         return sourceGrid.rootNode.nodeId
     }
     

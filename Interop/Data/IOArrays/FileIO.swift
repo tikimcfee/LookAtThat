@@ -19,6 +19,14 @@ public class AppendingStore {
             try FileManager.default.removeItem(at: targetFile)
             AppFiles.touch(in: targetFile)
         } catch {
+            print("Failed to clean file", error)
+        }
+    }
+    
+    func removeFile() {
+        do {
+            try FileManager.default.removeItem(at: targetFile)
+        } catch {
             print("Failed to remove file", error)
         }
     }

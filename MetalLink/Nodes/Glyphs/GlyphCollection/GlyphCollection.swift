@@ -77,7 +77,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
     
     func updateConstants(
         for node: InstancedNodeType,
-        _ operation: (inout InstancedConstants) throws -> InstancedConstants
+        _ operation: (inout InstancedConstants) throws -> Void
     ) rethrows {
         guard let bufferIndex = node.meta.instanceBufferIndex
         else {
@@ -95,7 +95,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
         // Probably very bad things. If there's a crash here, just create a copy
         // and don't be too fancy.
         let pointer = instanceState.rawPointer
-        pointer[bufferIndex] = try operation(&pointer[bufferIndex])
+        try operation(&pointer[bufferIndex])
     }
 }
 

@@ -10,29 +10,21 @@ import Foundation
 // MARK: - Collection Updates
 
 extension CodeGrid {
+    @inline(__always)
     func updateAllNodeConstants(_ update: UpdateConstants) rethrows {
-//        guard !rootNode.willRebuildState else {
-//            // To avoid initial update errors, call update() manually
-//            // if creating nodes, then using their instance positions
-//            // to do additional work.
-//            print("Waiting for model build...")
-//            return
-//        }
-        
         var stopFlag = false
         try forAllNodesInCollection { _, nodeSet in
             if stopFlag { return }
             for node in nodeSet {
                 if stopFlag { return }
                 try rootNode.updateConstants(for: node) { pointer in
-                    let newPointer = try update(node, &pointer, &stopFlag)
-                    pointer.modelMatrix = node.modelMatrix
-                    return newPointer
+                    try update(node, &pointer, &stopFlag)
                 }
             }
         }
     }
     
+    @inline(__always)
     private func forAllNodesInCollection(_ operation: ((SemanticInfo, CodeGridNodes)) throws -> Void) rethrows {
         for rootSyntaxNode in consumedRootSyntaxNodes {
             let rootSyntaxId = rootSyntaxNode.id

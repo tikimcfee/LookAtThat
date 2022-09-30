@@ -77,7 +77,6 @@ private extension SearchFocusRenderTask {
                 next.updateAllNodeConstants { node, constants, stopFlag in
                     constants.addedColor = .zero
                     stopFlag = self.task.isCancelled
-                    return constants
                 }
             }
         }
@@ -155,7 +154,8 @@ private extension SearchFocusRenderTask {
 // MARK: - Default Highlighting
 
 private extension SearchFocusRenderTask {
-    var focusAddition: LFloat4 { LFloat4(0.05, 0.10, 0.15, 0.0) }
+    var focusAddition: LFloat4 { LFloat4(0.04, 0.08, 0.12, 0.0) }
+    var focusPosition: LFloat3 { LFloat3(0.0, 0.0, 0.5) }
     
     func focusNodesForSemanticInfo(
         source: CodeGrid,
@@ -176,7 +176,7 @@ private extension SearchFocusRenderTask {
                 try self.throwIfCancelled()
                 source.rootNode.updateConstants(for: node) {
                     $0.addedColor += self.focusAddition
-                    return $0
+                    $0.modelMatrix.translate(vector: self.focusPosition)
                 }
             }
         }
@@ -198,7 +198,7 @@ private extension SearchFocusRenderTask {
                         } else {
                             $0.addedColor -= self.focusAddition
                         }
-                        return $0
+                        $0.modelMatrix.columns.3.z = 1
                     }
                 }
             }

@@ -13,6 +13,7 @@ import Combine
 extension TracingRoot {
     class State: ObservableObject {
         @Published var traceWritesEnabled = false
+        @Published var didEnableTracing = false
         private var bag = Set<AnyCancellable>()
         
         init() {
@@ -128,12 +129,16 @@ extension TracingRoot {
         SwiftTrace.swiftDecorateArgs.onEntry = false
         SwiftTrace.swiftDecorateArgs.onExit = false
         SwiftTrace.typeLookup = true
-        
         Self.trackedTypes.forEach {
             SwiftTrace.trace(aClass: $0)
             let parser = SwiftTrace.interpose(aType: $0)
             print("interposed '\($0)': \(parser)")
         }
+    }
+    
+    func stopTracingAll() {
+        SwiftTrace.revertInterposes()
+        SwiftTrace.removeAllTraces()
     }
 }
 #else

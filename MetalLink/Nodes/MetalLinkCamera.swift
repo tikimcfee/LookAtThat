@@ -73,8 +73,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         
         #if os(macOS)
         link.input.sharedScroll.sink { event in
-            let sensitivity = Float(5.0)
-            let sensitivityModified = Float(20.0)
+            let sensitivity: Float = default_MovementSpeed
+            let sensitivityModified = default_ModifiedMovementSpeed
             
             let speedModified = self.interceptor.state.currentModifiers.contains(.shift)
             let inOutModifier = self.interceptor.state.currentModifiers.contains(.option)
