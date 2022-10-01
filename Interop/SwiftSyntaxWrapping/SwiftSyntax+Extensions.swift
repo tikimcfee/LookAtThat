@@ -2,6 +2,8 @@ import SwiftSyntax
 //import Parser
 
 extension SyntaxIdentifier {
+    // TODO: I may be able to be stupid if I switch to tree sitter
+    // to compute the id as an instance map to UUIDs
     var stringIdentifier: String { "\(hashValue)" }
 }
 

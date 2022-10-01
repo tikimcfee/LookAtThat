@@ -25,6 +25,38 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         try bundle.tearDownWithError()
     }
     
+    func testClassCollections() throws {
+        let link = GlobalInstances.defaultLink
+        let builder = try CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
+        )
+        
+        let testDirectory = try XCTUnwrap(bundle.testSourceDirectory, "Must have valid root code directory")
+        FileBrowser.recursivePaths(testDirectory)
+            .filter { FileBrowser.isSwiftFile($0) }
+            .forEach {
+                builder
+                    .createConsumerForNewGrid()
+                    .consume(url: $0)
+            }
+        
+        var classNames = [String]()
+        for grid in bundle.gridCache.cachedGrids.values {
+            grid.semanticInfoMap.classes.lazy.compactMap { key, value in
+                grid.semanticInfoMap.semanticsLookupBySyntaxId[key]
+            }.forEach { semanticInfo in
+                classNames.append(semanticInfo.referenceName)
+            }
+        }
+        classNames.sort()
+        for name in classNames {
+            print(name)
+        }
+    }
+    
     func testGitStuff() throws {
         let repoGet = expectation(description: "Retrieve repo")
         let repoName = "SceneKit-SCNLine"

@@ -10,7 +10,7 @@ import Foundation
 
 extension CodeGridGlyphCollectionBuilder {
     enum Mode {
-        case monoCollection
+//        case monoCollection
         case multiCollection
     }
 }
@@ -54,8 +54,8 @@ class CodeGridGlyphCollectionBuilder {
     
     func getCollection() -> GlyphCollection {
         switch mode {
-        case .monoCollection:
-            return monoCollection
+//        case .monoCollection:
+//            return monoCollection
         case .multiCollection:
             return try! GlyphCollection(link: link, linkAtlas: atlas)
         }
@@ -65,11 +65,11 @@ class CodeGridGlyphCollectionBuilder {
         let grid = CodeGrid(rootNode: getCollection(), tokenCache: tokenCache)
         gridCache.cachedGrids[grid.id] = grid
         switch mode {
-        case .monoCollection:
-            print("\n\n\t\t MonoCollection has no virtual parent yet")
+//        case .monoCollection:
+//            print("\n\n\t\t MonoCollection has no virtual parent yet")
 //            let node = makeVirtualParent()
 //            grid.virtualParent = node
-            break
+//            break
             
         case .multiCollection:
             break

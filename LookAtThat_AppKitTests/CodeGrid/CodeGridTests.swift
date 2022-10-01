@@ -156,7 +156,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        builder.mode = .monoCollection
         let consumer = builder.createConsumerForNewGrid()
         consumer.consume(url: bundle.testFile)
         let testGrid = consumer.targetGrid
