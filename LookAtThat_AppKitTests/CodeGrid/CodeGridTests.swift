@@ -523,6 +523,63 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         }
     }
     
+    func testLayout_Force() throws {
+        let link = GlobalInstances.defaultLink
+        let builder = try CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
+        )
+        
+        var _next: Float = 0
+        var next: Float { let final = _next; _next += 100; return final }
+        let testDirectory = try XCTUnwrap(bundle.testSourceDirectory, "Must have valid root code directory")
+        FileBrowser.recursivePaths(testDirectory)
+            .filter { FileBrowser.isSwiftFile($0) }
+            .prefix(10)
+            .forEach {
+                builder
+                    .createConsumerForNewGrid()
+                    .consume(url: $0)
+                    .withFileName($0.fileName)
+                    .applying { $0.position = LFloat3(next, next,next) }
+            }
+        let testVertices = Array(bundle.gridCache.cachedGrids.values.prefix(10))
+        
+        
+        let idealLength: Float = 1000.0
+        let idealSquared: Float = idealLength * idealLength
+        let forceLayout = LForceLayout()
+        func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
+            let delta = v.position - u.position
+            let distance = distance(v.position, u.position)
+            let unitVector = delta / distance
+            return (unitVector, distance)
+        }
+        forceLayout.doLayout(
+            allVertices: testVertices,
+            repulsiveFunction: { repulseLeft, repulseRight in
+                // repul v -> u
+                let (unitVector, distance) = getUnitVectorPair(repulseLeft, repulseRight)
+                return (idealSquared / distance) * unitVector
+            },
+            attractiveFunction: { attractLeft, attractRight in
+                // attract u -> v
+                let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
+                return ((distance * distance) / idealLength) * unitVector
+            },
+            edgeLength: idealLength,
+            maxIterations: 200,
+            forceThreshold: LFloat3(100, 100, 100),
+            coolingFactor: 0.88
+        )
+        
+        for grid in testVertices {
+            print("\(grid.fileName) -> \(grid.position)")
+        }
+    }
+    
     func testSnapping_Complicated() throws {
         let parsed = try SyntaxParser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()

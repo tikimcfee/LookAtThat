@@ -68,6 +68,55 @@ struct RenderPlan {
 
 private extension RenderPlan {
     func doGridLayout() {
+//        layoutBox()
+        layoutForce()
+    }
+    
+    private func layoutForce() {
+        let idealLength: Float = 100.0
+        let idealSquared: Float = idealLength * idealLength
+        let forceLayout = LForceLayout()
+        
+        func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
+            let delta = v.position - u.position
+            let distance = distance(v.position, u.position)
+            let unitVector = delta / distance
+            return (unitVector, distance)
+        }
+        
+        let grids: [CodeGrid] = FileBrowser.recursivePaths(rootPath)
+            .filter { !$0.isDirectory }
+            .compactMap {
+                guard let grid = self.builder.gridCache.get($0) else { return nil }
+                targetParent.add(child: grid.rootNode)
+                grid.position = LFloat3.random(in: 0.0..<100.0)
+                return grid
+            }
+        
+        forceLayout.doLayout(
+            allVertices: grids,
+            repulsiveFunction: { repulseLeft, repulseRight in
+                // repul v -> u
+                let (unitVector, distance) = getUnitVectorPair(repulseLeft, repulseRight)
+                return (idealSquared / distance) * unitVector
+            },
+            attractiveFunction: { attractLeft, attractRight in
+                // attract u -> v
+                let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
+                return ((distance * distance) / idealLength) * unitVector
+            },
+            edgeLength: idealLength,
+            maxIterations: 100,
+            forceThreshold: LFloat3(10, 10, 10),
+            coolingFactor: 0.88
+        )
+        
+        for grid in grids {
+            print("Final: ", grid.fileName, grid.position)
+        }
+    }
+    
+    private func layoutBox() {
         statusObject.update {
             $0.totalValue += 1
             $0.detail = "Layout: \(self.rootPath.lastPathComponent)"

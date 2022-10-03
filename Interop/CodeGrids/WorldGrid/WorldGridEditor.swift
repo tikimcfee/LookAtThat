@@ -15,7 +15,7 @@ var default__CameraSpacingFromPlaneOnShift: VectorFloat = 64.0
 
 class WorldGridEditor {
     enum Strategy {
-        case collection(target: GlyphCollection)
+//        case collection(target: GlyphCollection)
         case gridRelative
     }
     
@@ -89,21 +89,18 @@ class WorldGridEditor {
     
     @discardableResult
     func transformedByAdding(_ style: AddStyle) -> WorldGridEditor {
-        guard let lastGrid = lastFocusedGrid else {
+        switch (style, layoutStrategy, lastFocusedGrid) {
+        case (_, _, .none):
             print("Setting first focused grid: \(style)")
             lastFocusedGrid = style.grid
-            return self
-        }
-        
-        switch (style, layoutStrategy) {
-            // Grid Relative
-        case let (.trailingFromLastGrid(codeGrid), .gridRelative):
+            
+        case let (.trailingFromLastGrid(codeGrid), .gridRelative, .some(lastGrid)):
             addTrailing(codeGrid, from: lastGrid)
             
-        case let (.inNextRow(codeGrid), .gridRelative):
+        case let (.inNextRow(codeGrid), .gridRelative, .some(lastGrid)):
             addInNextRow(codeGrid, from: lastGrid)
             
-        case let (.inNextPlane(codeGrid), .gridRelative):
+        case let (.inNextPlane(codeGrid), .gridRelative, .some(lastGrid)):
             addInNextPlane(codeGrid, from: lastGrid)
             
         default:
@@ -113,36 +110,6 @@ class WorldGridEditor {
         return self
     }
 }
-
-// MARK: - Collection relative
-
-extension WorldGridEditor {
-    func addTrailing(
-        _ grid: CodeGrid,
-        from otherGrid: CodeGrid,
-        inCollection collection: GlyphCollection
-    ) {
-        print("Not implemented: \(#file):\(#function)")
-    }
-    
-    func addInNextRow(
-        _ grid: CodeGrid,
-        from otherGrid: CodeGrid,
-        inCollection collection: GlyphCollection
-    ) {
-        print("Not implemented: \(#file):\(#function)")
-    }
-    
-    func addInNextPlane(
-        _ grid: CodeGrid,
-        from otherGrid: CodeGrid,
-        inCollection collection: GlyphCollection
-    ) {
-        print("Not implemented: \(#file):\(#function)")
-    }
-}
-
-// MARK: - Grid relative
 
 extension WorldGridEditor {
     func addTrailing(
@@ -225,14 +192,18 @@ extension WorldGridEditor {
         case trailingFromLastGrid(CodeGrid)
         case inNextRow(CodeGrid)
         case inNextPlane(CodeGrid)
+//        case topFromLastGrid(CodeGrid)
+        
         var grid: CodeGrid {
             switch self {
-            case .trailingFromLastGrid(let codeGrid):
+            case let .trailingFromLastGrid(codeGrid):
                 return codeGrid
-            case .inNextRow(let codeGrid):
+            case let .inNextRow(codeGrid):
                 return codeGrid
-            case .inNextPlane(let codeGrid):
+            case let .inNextPlane(codeGrid):
                 return codeGrid
+//            case let .topFromLastGrid(codeGrid):
+//                return codeGrid
             }
         }
     }
