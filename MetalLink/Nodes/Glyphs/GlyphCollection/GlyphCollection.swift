@@ -6,6 +6,7 @@
 //
 
 import MetalKit
+import Combine
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
 
@@ -14,6 +15,20 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     override var contentSize: LFloat3 {
         return BoundsSize(rectPos)
+    }
+
+    // TODO: See MetalLinkNode info about why this is here and not at the root node.
+    // It's basically too many updates.
+    private var internalParent: MetalLinkNode?
+    override var parent: MetalLinkNode? {
+        get { internalParent }
+        set { setNewParent(newValue) }
+    }
+    private func setNewParent(_ newParent: MetalLinkNode?) {
+        newParent?.bindToModelEvents { _ in
+            self.rebuildModelMatrix(includeChildren: true)
+        }
+        internalParent = newParent
     }
     
     init(
@@ -110,6 +125,10 @@ extension GlyphCollection {
         // Collections of collections per glyph size? Factored down (scaled) / rotated to deduplicate?
         // -- Added a tiny guard to find a mesh that's at least some visible width. This helps
         //    skip newlines or other weird shapes.
+        
+        // -- Long term idea: the instances can have their own transforms to fit their textures..
+        //    how hard would it be to include that in the instance? It already carries the model.
+        //    'meshAlignmentTransform' or something akin.
         // ***********************************************************************************
         guard !instanceState.nodes.isEmpty else {
             return

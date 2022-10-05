@@ -156,7 +156,13 @@ extension TwoETimeRoot {
                 mode: .cacheAndLayout
             )
             
-            self.root.add(child: plan.targetParent)
+            let testParent = MetalLinkNode()
+            testParent.add(child: plan.targetParent)
+            self.root.add(child: testParent)
+            
+            testParent.bindToModelEvents { _ in
+                plan.targetParent.rebuildModelMatrix()
+            }
             
             var counter = 0.1
             plan.startRender {
@@ -164,16 +170,23 @@ extension TwoETimeRoot {
 //                let top = plan.targetParent.top
 //                self.camera.position = LFloat3(edge / 2.0, top + 128.0, edge)
 //                self.camera.rotation = LFloat3(Float.pi / 4.0, 0, 0)
+                
 //                plan.targetParent.children.forEach { child in
 //                    QuickLooper(interval: .milliseconds(30)) {
 //                        child.rotation.y += 0.1
 //                        counter += 0.1
 //                    }.runUntil { false }
 //                }
+                
 //                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.y += 0.1
 //                    counter += 0.1
 //                }.runUntil { false }
+                
+                QuickLooper(interval: .milliseconds(30)) {
+                    testParent.rotation.y += 0.1
+                    counter += 0.1
+                }.runUntil { false }
             }
         }
     }
