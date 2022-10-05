@@ -26,6 +26,19 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         try bundle.tearDownWithError()
         printEnd()
     }
+    
+    func testDirectoriesFirst() throws {
+        let root = try XCTUnwrap(URL(string: "file:///Users/lugos/udev/manicmind/LookAtThat/"), "Must have valid root")
+        
+        let allChildren = root.enumeratedChildren()
+        
+        root.enumeratedChildren()
+            .filter { $0.isDirectory }
+            .forEach {
+                print($0)
+                
+            }
+    }
    
     func testPathParentCounting() throws {
         let root = URL(string: "file:///Users/lugos/udev/manicmind/LookAtThat/")!
@@ -550,12 +563,20 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         
         let idealLength: Float = 1000.0
         let idealSquared: Float = idealLength * idealLength
-        let forceLayout = LForceLayout()
+        let forceLayout = LForceLayout(snapping: GlobalInstances.gridStore.editor.snapping)
         func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
             let delta = v.position - u.position
             let distance = distance(v.position, u.position)
             let unitVector = delta / distance
             return (unitVector, distance)
+        }
+        func getIdealLength(_ u: CodeGrid, _ v: CodeGrid) -> Float {
+            if let uPath = u.sourcePath, let vPath = v.sourcePath {
+                let pathDistance = FileBrowser.distanceTo(parent: .file(uPath), from: .file(vPath))
+                let distanceMultiplier = min(1, pathDistance)
+                return 80.0 * distanceMultiplier.float
+            }
+            return 80
         }
         forceLayout.doLayout(
             allVertices: testVertices,
@@ -569,7 +590,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
                 return ((distance * distance) / idealLength) * unitVector
             },
-            edgeLength: idealLength,
             maxIterations: 200,
             forceThreshold: LFloat3(100, 100, 100),
             coolingFactor: 0.88

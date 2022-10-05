@@ -156,15 +156,22 @@ extension TwoETimeRoot {
                 mode: .cacheAndLayout
             )
             
-//            var counter = 0.1
+            self.root.add(child: plan.targetParent)
+            
+            var counter = 0.1
             plan.startRender {
-                self.root.add(child: plan.targetParent)
-                let edge = plan.targetParent.trailing
-                let top = plan.targetParent.top
-                self.camera.position = LFloat3(edge / 2.0, top + 128.0, edge)
-                self.camera.rotation = LFloat3(Float.pi / 4.0, 0, 0)
+//                let edge = plan.targetParent.trailing
+//                let top = plan.targetParent.top
+//                self.camera.position = LFloat3(edge / 2.0, top + 128.0, edge)
+//                self.camera.rotation = LFloat3(Float.pi / 4.0, 0, 0)
+//                plan.targetParent.children.forEach { child in
+//                    QuickLooper(interval: .milliseconds(30)) {
+//                        child.rotation.y += 0.1
+//                        counter += 0.1
+//                    }.runUntil { false }
+//                }
 //                QuickLooper(interval: .milliseconds(30)) {
-//                    plan.targetParent.rotation.x += 0.1
+//                    plan.targetParent.rotation.y += 0.1
 //                    counter += 0.1
 //                }.runUntil { false }
             }

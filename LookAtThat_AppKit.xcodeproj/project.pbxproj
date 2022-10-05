@@ -204,6 +204,9 @@
 		B72FBFE728A8263C0098762D /* MetalLink+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */; };
 		B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */; };
+		B730EEFE28EA8A1400FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
+		B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
+		B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
@@ -2195,6 +2198,7 @@
 				B70FDCD4283EAE9900170D5F /* LockingCache.swift in Sources */,
 				B70FDCD5283EAE9900170D5F /* WorkerPool.swift in Sources */,
 				B70FDCD6283EAE9900170D5F /* SemanticInfo.swift in Sources */,
+				B730EEFE28EA8A1400FE6E1D /* ForceLayout.swift in Sources */,
 				B70FDCD8283EAE9900170D5F /* SemanticInfoBuilder.swift in Sources */,
 				B70FDCDA283EAE9900170D5F /* GlobalAliases.swift in Sources */,
 				B70FDCDB283EAE9900170D5F /* PersisentThreadTracer.swift in Sources */,
@@ -2372,6 +2376,7 @@
 				B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */,
 				B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */,
 				B7AC335128A0CA71001172BB /* MetalLinkObject.swift in Sources */,
+				B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */,
 				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
@@ -2635,6 +2640,7 @@
 				B7AC338C28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
 				B7AC336028A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
+				B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */,
 				B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7AC339028A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7B46ADA28BC81750004CA2D /* GlobalInstances.swift in Sources */,

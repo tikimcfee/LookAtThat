@@ -85,16 +85,19 @@ extension FileBrowser {
     }
     
     static func distanceTo(parent: Scope, from start: Scope) -> Int {
-        let rootPath = parent.path
+        var matchesFromRoot = 0
+        let parentComponents = parent.path.pathComponents
+        let startComponents = start.path.pathComponents
+        var index = parent.path.pathComponents.startIndex
         
-        var depth = 0
-        var pointer: URL? = start.path
-        while pointer != nil && pointer != rootPath {
-            pointer = pointer?.deletingLastPathComponent()
-            depth += 1
+        while parentComponents.indices.contains(index) && startComponents.indices.contains(index) {
+            let matches = parentComponents[index] == startComponents[index]
+            if matches { matchesFromRoot += 1 } else { break }
+            index += 1
         }
         
-        return depth
+        let componentsDifference = startComponents.count - matchesFromRoot
+        return componentsDifference
     }
     
     func distanceToRoot(_ start: Scope) -> Int {

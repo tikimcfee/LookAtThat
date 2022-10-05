@@ -31,6 +31,7 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
         currentEndIndex == currentBufferSize
     }
     private var enlargeSemaphore = DispatchSemaphore(value: 1)
+    private var createSemaphore = DispatchSemaphore(value: 1)
     
     init(
         link: MetalLink,
@@ -46,6 +47,9 @@ class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
     func createNext(
         _ withUpdates: ((inout Stored) -> Void)? = nil
     ) throws -> Stored {
+        createSemaphore.wait()
+        defer { createSemaphore.signal() }
+        
         if shouldRebuild { try expandBuffer() }
         
         var next = pointer[currentEndIndex]

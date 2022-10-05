@@ -77,11 +77,11 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     private func setupOnInit() {
-        rootNode.attachBufferChanges { updatedBufferMatrix in
+        rootNode.modelEvents.sink { updatedBufferMatrix in
             self.updateVirtualParentConstants? {
                 $0.modelMatrix = updatedBufferMatrix
             }
-        }
+        }.store(in: &rootNode.eventBag)
         
         rootNode.add(child: gridBackground)
         gridBackground.constants.pickingId = InstanceCounter.shared.nextGridId()

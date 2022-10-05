@@ -66,22 +66,124 @@ struct RenderPlan {
 
 // MARK: - Focus Style
 
+extension LFloat3 {
+    var magnitude: Float {
+        sqrt(x * x + y * y + z * z)
+    }
+}
+
 private extension RenderPlan {
     func doGridLayout() {
-//        layoutBox()
-        layoutForce()
+        layoutBox()
+//        layoutForce()
+        layoutLazyBox()
+    }
+    
+    private func layoutLazyBox() {
+        var results = [URL: [URL]]()
+        FileBrowser.recursivePaths(rootPath)
+            .forEach { url in
+                if url.isFileURL {
+                    results[url.deletingLastPathComponent(), default: []]
+                        .append(url)
+                }
+            }
+        
+        var lastStack: CodeGrid?
+        var lastStart: LFloat3 = .zero
+        
+        var maxWidth: Float = .zero
+        var maxHeight: Float = .zero
+        
+        let xGap = 16.float
+        let yGap = -64.float
+        let zGap = -64.float
+        
+        let sorted = results.sorted(by: { leftPair, rightPair in
+            let leftDistance = FileBrowser.distanceTo(parent: .directory(rootPath), from: .directory(leftPair.key))
+            let rightDistance = FileBrowser.distanceTo(parent: .directory(rootPath), from: .directory(rightPair.key))
+            if leftDistance < rightDistance { return true }
+            if leftDistance > rightDistance { return false }
+            return leftPair.key.path < rightPair.key.path
+        })
+        
+        for (dir, files) in sorted {
+            let sortedGrids = files
+                .compactMap { builder.gridCache.get($0) }
+                .sorted(by: { $0.lengthY < $1.lengthY })
+                
+            for grid in sortedGrids {
+                if let last = lastStack {
+                    grid.setFront(last.back + zGap)
+                        .setLeading(last.leading)
+                        .setTop(last.top)
+                } else {
+                    grid.position = lastStart
+                }
+                lastStack = grid
+                maxWidth = max(grid.lengthX, maxWidth)
+                maxHeight = max(grid.lengthY, maxHeight)
+                
+                targetParent.add(child: grid.rootNode)
+            }
+            
+            let yOffset = yGap * FileBrowser.distanceTo(
+                parent: .directory(rootPath),
+                from: .directory(dir)
+            ).float
+            
+            lastStart = LFloat3(
+                maxWidth + lastStart.x + xGap,
+                yOffset,
+                0
+            )
+            
+            lastStack = nil
+            maxWidth = .zero
+            maxHeight = .zero
+        }
     }
     
     private func layoutForce() {
-        let idealLength: Float = 100.0
-        let idealSquared: Float = idealLength * idealLength
-        let forceLayout = LForceLayout()
+//        let rootMap = ConcurrentDictionary<URL, [CodeGrid]>()
+//        func appendTo(parent: URL, _ grid: CodeGrid) {
+//            rootMap.directWriteAccess { writable  in
+//                let array = writable[parent, default: [CodeGrid]()]
+//                if let last = array.last {
+//                    editor.snapping.connectWithInverses(sourceGrid: last, to: .backward(grid))
+//                }
+//                writable[parent, default: array].append(grid)
+//            }
+//        }
+//        appendTo(parent: childPath.deletingLastPathComponent(), grid)
         
-        func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
+        let forceLayout = LForceLayout(
+            snapping: editor.snapping
+        )
+        
+        func getUnitVector(_ u: CodeGrid, _ v: CodeGrid) -> LFloat3 {
             let delta = v.position - u.position
-            let distance = distance(v.position, u.position)
-            let unitVector = delta / distance
-            return (unitVector, distance)
+            let magnitude = delta.magnitude
+            return delta / magnitude
+        }
+        
+        func getIdealLength(_ u: CodeGrid, _ v: CodeGrid) -> Float {
+//            if let uPath = u.sourcePath, let vPath = v.sourcePath {
+//                let pathDistance = FileBrowser.distanceTo(parent: .file(uPath), from: .file(vPath)).float
+//                return pathDistance
+//            }
+//            return 1
+            return 2
+        }
+        
+        func clamp(_ minValue: LFloat3, _ value: LFloat3, _ maxValue: LFloat3) -> LFloat3 {
+            return max(minValue, min(value, maxValue))
+        }
+        
+        let MIN = LFloat3(repeating: -32)
+        let MAX = LFloat3(repeating: 32)
+        func clampForce(_ force: LFloat3) -> LFloat3 {
+            return clamp(MIN, force, MAX)
         }
         
         let grids: [CodeGrid] = FileBrowser.recursivePaths(rootPath)
@@ -89,26 +191,39 @@ private extension RenderPlan {
             .compactMap {
                 guard let grid = self.builder.gridCache.get($0) else { return nil }
                 targetParent.add(child: grid.rootNode)
-                grid.position = LFloat3.random(in: 0.0..<100.0)
+                grid.position = LFloat3.random(in: 0.0..<1.0)
                 return grid
             }
         
         forceLayout.doLayout(
             allVertices: grids,
-            repulsiveFunction: { repulseLeft, repulseRight in
-                // repul v -> u
-                let (unitVector, distance) = getUnitVectorPair(repulseLeft, repulseRight)
-                return (idealSquared / distance) * unitVector
+            repulsiveFunction: { u, v in
+                // repulse v -> u
+                let delta = v.position - u.position
+                let deltaMagnitude = delta.magnitude
+                
+                let ideal = getIdealLength(u, v)
+                let idealSquared = ideal * ideal
+                
+                let unitVector = getUnitVector(u, v)
+                let force = (idealSquared / deltaMagnitude) * unitVector
+                return clampForce(force)
             },
-            attractiveFunction: { attractLeft, attractRight in
+            attractiveFunction: { u, v in
                 // attract u -> v
-                let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
-                return ((distance * distance) / idealLength) * unitVector
+                let delta = u.position - v.position
+                let deltaMagnitude = delta.magnitude
+                let squareMagnitude = deltaMagnitude * deltaMagnitude
+                
+                let unitVector = getUnitVector(v, u)
+                let ideal = getIdealLength(u, v)
+                
+                let force = (squareMagnitude / ideal) * unitVector
+                return clampForce(force)
             },
-            edgeLength: idealLength,
-            maxIterations: 100,
-            forceThreshold: LFloat3(10, 10, 10),
-            coolingFactor: 0.88
+            maxIterations: 1_000,
+            forceThreshold: LFloat3(0.1, 0.1, 0.1),
+            coolingFactor: 0.997
         )
         
         for grid in grids {
@@ -195,6 +310,7 @@ private extension RenderPlan {
             }
         
         dispatchGroup.wait()
+//        print("-- Cache complete")
     }
 }
 

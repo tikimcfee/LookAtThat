@@ -6,10 +6,24 @@
 //
 
 import MetalKit
+import Combine
+
+class ObservableMatrix: ObservableObject {
+    typealias ModelMatrix = matrix_float4x4
+    
+    @Published var currentModel: matrix_float4x4 = matrix_identity_float4x4
+    lazy var sharedObservable = $currentModel.share().eraseToAnyPublisher()
+}
 
 class MetalLinkNode: Measures {
     
-    private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
+//    private lazy var currentModel = matrix_cached_float4x4(update: self.buildModelMatrix)
+    private let currentModel = ObservableMatrix()
+    lazy var eventBag = Set<AnyCancellable>()
+    var modelEvents: AnyPublisher<ObservableMatrix.ModelMatrix, Never> {
+        currentModel.sharedObservable
+    }
+    
     lazy var nodeId = UUID().uuidString
     
     var parent: MetalLinkNode?
@@ -123,14 +137,15 @@ class MetalLinkNode: Measures {
         }
     }
     
-    func attachBufferChanges(_ onChange: @escaping (matrix_float4x4) -> Void) {
-        let existing = currentModel.update
-        currentModel.update = {
-            let result = existing()
-            onChange(result)
-            return result
-        }
-    }
+//    func attachBufferChanges(_ onChange: @escaping (matrix_float4x4) -> Void) {
+//        currentModel.sharedObservable.
+//        let existing = currentModel.update
+//        currentModel.update = {
+//            let result = existing()
+//            onChange(result)
+//            return result
+//        }
+//    }
 }
 
 extension MetalLinkNode: Hashable, Equatable {
@@ -150,16 +165,20 @@ extension MetalLinkNode: Hashable, Equatable {
 }
 
 extension MetalLinkNode {
-    var willUpdate: Bool { currentModel.rebuildModel }
+//    var willUpdate: Bool { currentModel.rebuildModel }
     
     func setDirty(includeChildren: Bool = false) {
-        currentModel.dirty()
+        currentModel.currentModel = buildModelMatrix()
+//        currentModel.dirty()
 //        guard includeChildren else { return }
-//        children.forEach { $0.setDirty() }
+//        children.forEach {
+//            $0.setDirty()
+//            $0.currentModel.get()
+//        }
     }
     
     var modelMatrix: matrix_float4x4 {
-        var matrix = currentModel.get()
+        var matrix = currentModel.currentModel
         if let parentMatrix = parent?.modelMatrix {
             matrix = matrix_multiply(parentMatrix, matrix)
         }
