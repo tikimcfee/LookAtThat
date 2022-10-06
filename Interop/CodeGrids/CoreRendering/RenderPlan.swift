@@ -91,13 +91,14 @@ private extension RenderPlan {
         
         var lastStack: CodeGrid?
         var lastStart: LFloat3 = .zero
+        var lastDirectory: MetalLinkNode?
         
         var maxWidth: Float = .zero
         var maxHeight: Float = .zero
         
         let xGap = 16.float
         let yGap = -64.float
-        let zGap = -64.float
+        let zGap = -128.float
         
         let sorted = results.sorted(by: { leftPair, rightPair in
             let leftDistance = FileBrowser.distanceTo(parent: .directory(rootPath), from: .directory(leftPair.key))
@@ -108,39 +109,43 @@ private extension RenderPlan {
         })
         
         for (dir, files) in sorted {
+            if files.isEmpty { continue }
+            
             let sortedGrids = files
                 .compactMap { builder.gridCache.get($0) }
                 .sorted(by: { $0.lengthY < $1.lengthY })
                 
+            let directoryParent = MetalLinkNode()
+            targetParent.add(child: directoryParent)
+            targetParent.bindAsVirtualParentOf(directoryParent)
+            
             for grid in sortedGrids {
+                directoryParent.add(child: grid.rootNode)
+                
                 if let last = lastStack {
                     grid.setFront(last.back + zGap)
-                        .setLeading(last.leading)
-                        .setTop(last.top)
-                } else {
-                    grid.position = lastStart
                 }
                 lastStack = grid
-                maxWidth = max(grid.lengthX, maxWidth)
-                maxHeight = max(grid.lengthY, maxHeight)
-                
-                targetParent.add(child: grid.rootNode)
             }
             
-            let yOffset = yGap * FileBrowser.distanceTo(
-                parent: .directory(rootPath),
-                from: .directory(dir)
-            ).float
-            
-            lastStart = LFloat3(
-                maxWidth + lastStart.x + xGap,
-                yOffset,
-                0
-            )
+            if let lastDirectory = lastDirectory {
+                directoryParent
+                    .setLeading(lastDirectory.trailing + xGap)
+                    .setTop(lastDirectory.top)
+                    .setFront(lastDirectory.front)
+            }
+            lastDirectory = directoryParent
             
             lastStack = nil
-            maxWidth = .zero
-            maxHeight = .zero
+//            maxWidth = .zero
+//            maxHeight = .zero
+            
+            // Test that each directory is properly parented with this cockamamie scheme
+            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))
+            QuickLooper(interval: .milliseconds(16)) {
+                directoryParent.position.y += cos(counter) * 10
+                counter += 0.1
+            }.runUntil { false }
         }
     }
     

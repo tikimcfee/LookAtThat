@@ -159,6 +159,12 @@ class MetalLinkNode: Measures {
             .sink { action($0) }
             .store(in: &eventBag)
     }
+    
+    func bindAsVirtualParentOf(_ node: MetalLinkNode) {
+        modelEvents
+            .sink { _ in node.rebuildModelMatrix() }
+            .store(in: &eventBag)
+    }
 }
 
 extension MetalLinkNode: Hashable, Equatable {
