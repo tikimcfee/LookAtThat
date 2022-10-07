@@ -39,6 +39,12 @@ struct SceneConstants {
 };
 
 struct VirtualParentConstants {
+    // TODO: Use a flag and an index to do the parenting thing
+    // Not sure if this will work, but might be able to do
+    // parent multiplication on GPU with something like this
+//    uint parentBufferIndex;
+//    uint useParentBuffer;
+    
     simd_float4x4 modelMatrix;
     uint bufferIndex; // index of self in cpu mtlbuffer
 };

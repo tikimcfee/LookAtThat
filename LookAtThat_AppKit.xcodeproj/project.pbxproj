@@ -366,6 +366,10 @@
 		B768E2BB28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2B928BC2E900067858F /* SemanticInfoMap+Sorting.swift */; };
 		B768E2BC28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2B928BC2E900067858F /* SemanticInfoMap+Sorting.swift */; };
 		B768E2BD28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2B928BC2E900067858F /* SemanticInfoMap+Sorting.swift */; };
+		B7697AB428EF796F0085D92E /* CodeGridGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7697AB328EF796F0085D92E /* CodeGridGroup.swift */; };
+		B7697AB528EF796F0085D92E /* CodeGridGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7697AB328EF796F0085D92E /* CodeGridGroup.swift */; };
+		B7697AB628EF796F0085D92E /* CodeGridGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7697AB328EF796F0085D92E /* CodeGridGroup.swift */; };
+		B7697AB728EF796F0085D92E /* CodeGridGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7697AB328EF796F0085D92E /* CodeGridGroup.swift */; };
 		B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
@@ -909,6 +913,7 @@
 		B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+CollectionUpdates.swift"; sourceTree = "<group>"; };
 		B768E2B428BC2E600067858F /* SemanticInfoMap+Walking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SemanticInfoMap+Walking.swift"; sourceTree = "<group>"; };
 		B768E2B928BC2E900067858F /* SemanticInfoMap+Sorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SemanticInfoMap+Sorting.swift"; sourceTree = "<group>"; };
+		B7697AB328EF796F0085D92E /* CodeGridGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGroup.swift; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
 		B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+State.swift"; sourceTree = "<group>"; };
@@ -1301,6 +1306,14 @@
 			path = SemanticMap;
 			sourceTree = "<group>";
 		};
+		B7697AB228EF79570085D92E /* CodeGridGroups */ = {
+			isa = PBXGroup;
+			children = (
+				B7697AB328EF796F0085D92E /* CodeGridGroup.swift */,
+			);
+			path = CodeGridGroups;
+			sourceTree = "<group>";
+		};
 		B77DCAB226781E40002DF299 /* CallStack */ = {
 			isa = PBXGroup;
 			children = (
@@ -1500,6 +1513,7 @@
 				B74A234628161C9200F6F727 /* CodeGridColors.swift */,
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
+				B7697AB228EF79570085D92E /* CodeGridGroups */,
 				B720D58028246FDE00BF0602 /* CoreGlyphs */,
 				B796DEED280D1AB8006AC749 /* CoreGrid */,
 				B79F931227508F5600E46A96 /* CoreRendering */,
@@ -2181,6 +2195,7 @@
 				B70FDCBF283EAE9900170D5F /* CodeGridTokenCache.swift in Sources */,
 				B70FDCC0283EAE9900170D5F /* GlyphBuilder.swift in Sources */,
 				B70FDCC1283EAE9900170D5F /* MultipeerControls.swift in Sources */,
+				B7697AB528EF796F0085D92E /* CodeGridGroup.swift in Sources */,
 				B7AC335728A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B70FDCC3283EAE9900170D5F /* CodeGridConcurrentRenderer.swift in Sources */,
 				B7B46AF828BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
@@ -2359,6 +2374,7 @@
 				B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */,
 				B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7C69FEB28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
+				B7697AB728EF796F0085D92E /* CodeGridGroup.swift in Sources */,
 				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B7B46AFA28BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
@@ -2418,6 +2434,7 @@
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B72AA4A528E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
+				B7697AB428EF796F0085D92E /* CodeGridGroup.swift in Sources */,
 				B7AC335228A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B725167928C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B72FBFE428A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
@@ -2621,6 +2638,7 @@
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
+				B7697AB628EF796F0085D92E /* CodeGridGroup.swift in Sources */,
 				B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,

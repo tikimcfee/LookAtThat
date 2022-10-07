@@ -74,205 +74,63 @@ extension LFloat3 {
 
 private extension RenderPlan {
     func doGridLayout() {
-//        layoutBox()
-//        layoutForce()
         layoutLazyBox()
     }
     
     private func layoutLazyBox() {
-        var results = [URL: [URL]]()
-        FileBrowser.recursivePaths(rootPath)
-            .forEach { url in
-                if url.isFileURL {
-                    results[url.deletingLastPathComponent(), default: []]
-                        .append(url)
-                }
-            }
-        
-        var lastStack: CodeGrid?
-        var lastStart: LFloat3 = .zero
         var lastDirectory: MetalLinkNode?
-        
-        var maxWidth: Float = .zero
-        var maxHeight: Float = .zero
-        
         let xGap = 16.float
-        let yGap = -64.float
-        let zGap = -128.float
         
-        let sorted = results.sorted(by: { leftPair, rightPair in
-            let leftDistance = FileBrowser.distanceTo(parent: .directory(rootPath), from: .directory(leftPair.key))
-            let rightDistance = FileBrowser.distanceTo(parent: .directory(rootPath), from: .directory(rightPair.key))
-            if leftDistance < rightDistance { return true }
-            if leftDistance > rightDistance { return false }
-            return leftPair.key.path < rightPair.key.path
-        })
-        
-        for (dir, files) in sorted {
-            if files.isEmpty { continue }
+        FileBrowser.recursivePaths(rootPath).forEach { url in
+            guard url.isDirectory else { return }
+            let files = url.children()
             
-            let sortedGrids = files
-                .compactMap { builder.gridCache.get($0) }
-                .sorted(by: { $0.lengthY < $1.lengthY })
-                
+            guard !files.isEmpty else { return }
+            let directory = url
+            
+            let rootDistance = FileBrowser.distanceTo(
+                parent: .directory(rootPath),
+                from: .directory(directory)
+            )
+            
             let directoryParent = MetalLinkNode()
+            directoryParent.position.y = (-1 * rootDistance * 128).float
             targetParent.add(child: directoryParent)
             targetParent.bindAsVirtualParentOf(directoryParent)
             
-            for grid in sortedGrids {
-                directoryParent.add(child: grid.rootNode)
-                
-                if let last = lastStack {
-                    grid.setFront(last.back + zGap)
+            let sortedGrids = files
+                .compactMap { builder.gridCache.get($0) }
+                .map {
+                    directoryParent.add(child: $0.rootNode)
+                    return $0
                 }
-                lastStack = grid
-            }
+                .sorted(by: { $0.lengthY < $1.lengthY })
+            
+            // TODO: Doesn't quite work, not taking rotation into account for bounds.. I think
+//            RadialLayout().layoutGrids(sortedGrids)
+            
+            DepthLayout().layoutGrids(sortedGrids)
             
             if let lastDirectory = lastDirectory {
+                let pushBack = (-1 * rootDistance * 128).float
                 directoryParent
+                    .setFront(pushBack)
                     .setLeading(lastDirectory.trailing + xGap)
-                    .setTop(lastDirectory.top)
-                    .setFront(lastDirectory.front)
             }
             lastDirectory = directoryParent
-            
-            lastStack = nil
-//            maxWidth = .zero
-//            maxHeight = .zero
-            
-            // Test that each directory is properly parented with this cockamamie scheme
-            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))
-            QuickLooper(interval: .milliseconds(16)) {
-                directoryParent.position.y += cos(counter) * 10
-                counter += 0.1
-            }.runUntil { false }
         }
-    }
-    
-    private func layoutForce() {
-//        let rootMap = ConcurrentDictionary<URL, [CodeGrid]>()
-//        func appendTo(parent: URL, _ grid: CodeGrid) {
-//            rootMap.directWriteAccess { writable  in
-//                let array = writable[parent, default: [CodeGrid]()]
-//                if let last = array.last {
-//                    editor.snapping.connectWithInverses(sourceGrid: last, to: .backward(grid))
-//                }
-//                writable[parent, default: array].append(grid)
-//            }
+        
+        
+        // Test that each directory is properly parented with this cockamamie scheme
+//        for directoryParent in targetParent.children {
+//            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))
+//            QuickLooper(interval: .milliseconds(16)) {
+//                directoryParent.position.y += cos(counter) * 2
+////                directoryParent.scale = LFloat3(repeating: cos(counter) + 2.float)
+////                directoryParent.rotation.y = counter / 10
+//                counter += 0.1
+//            }.runUntil { false }
 //        }
-//        appendTo(parent: childPath.deletingLastPathComponent(), grid)
-        
-        let forceLayout = LForceLayout(
-            snapping: editor.snapping
-        )
-        
-        func getUnitVector(_ u: CodeGrid, _ v: CodeGrid) -> LFloat3 {
-            let delta = v.position - u.position
-            let magnitude = delta.magnitude
-            return delta / magnitude
-        }
-        
-        func getIdealLength(_ u: CodeGrid, _ v: CodeGrid) -> Float {
-//            if let uPath = u.sourcePath, let vPath = v.sourcePath {
-//                let pathDistance = FileBrowser.distanceTo(parent: .file(uPath), from: .file(vPath)).float
-//                return pathDistance
-//            }
-//            return 1
-            return 2
-        }
-        
-        func clamp(_ minValue: LFloat3, _ value: LFloat3, _ maxValue: LFloat3) -> LFloat3 {
-            return max(minValue, min(value, maxValue))
-        }
-        
-        let MIN = LFloat3(repeating: -32)
-        let MAX = LFloat3(repeating: 32)
-        func clampForce(_ force: LFloat3) -> LFloat3 {
-            return clamp(MIN, force, MAX)
-        }
-        
-        let grids: [CodeGrid] = FileBrowser.recursivePaths(rootPath)
-            .filter { !$0.isDirectory }
-            .compactMap {
-                guard let grid = self.builder.gridCache.get($0) else { return nil }
-                targetParent.add(child: grid.rootNode)
-                grid.position = LFloat3.random(in: 0.0..<1.0)
-                return grid
-            }
-        
-        forceLayout.doLayout(
-            allVertices: grids,
-            repulsiveFunction: { u, v in
-                // repulse v -> u
-                let delta = v.position - u.position
-                let deltaMagnitude = delta.magnitude
-                
-                let ideal = getIdealLength(u, v)
-                let idealSquared = ideal * ideal
-                
-                let unitVector = getUnitVector(u, v)
-                let force = (idealSquared / deltaMagnitude) * unitVector
-                return clampForce(force)
-            },
-            attractiveFunction: { u, v in
-                // attract u -> v
-                let delta = u.position - v.position
-                let deltaMagnitude = delta.magnitude
-                let squareMagnitude = deltaMagnitude * deltaMagnitude
-                
-                let unitVector = getUnitVector(v, u)
-                let ideal = getIdealLength(u, v)
-                
-                let force = (squareMagnitude / ideal) * unitVector
-                return clampForce(force)
-            },
-            maxIterations: 1_000,
-            forceThreshold: LFloat3(0.1, 0.1, 0.1),
-            coolingFactor: 0.997
-        )
-        
-        for grid in grids {
-            print("Final: ", grid.fileName, grid.position)
-        }
-    }
-    
-    private func layoutBox() {
-        statusObject.update {
-            $0.totalValue += 1
-            $0.detail = "Layout: \(self.rootPath.lastPathComponent)"
-        }
-        
-        var files = 0
-        func doAdd(_ grid: CodeGrid) {
-            targetParent.add(child: grid.rootNode)
-            
-            let nextRow: WorldGridEditor.AddStyle = .inNextRow(grid)
-            let nextPlane: WorldGridEditor.AddStyle = .inNextPlane(grid)
-            let trailing: WorldGridEditor.AddStyle = .trailingFromLastGrid(grid)
-            
-            if files > 0 && files % (50) == 0 {
-                editor.transformedByAdding(nextPlane)
-            } else if files > 0 && files % 10 == 0 {
-                editor.transformedByAdding(nextRow)
-            } else {
-                editor.transformedByAdding(trailing)
-            }
-            
-            files += 1
-        }
-        
-        FileBrowser.recursivePaths(rootPath)
-            .filter { !$0.isDirectory }
-            .forEach { childPath in
-            if let grid = self.builder.gridCache.get(childPath) {
-                doAdd(grid)
-            }
-        }
-        
-        statusObject.update {
-            $0.currentValue += 1
-            $0.detail = "Layout complete: \(self.rootPath.lastPathComponent)"
-        }
     }
 }
 
@@ -284,38 +142,52 @@ private extension RenderPlan {
         }
         
         let dispatchGroup = DispatchGroup()
-        FileBrowser.recursivePaths(rootPath)
-            .filter { !$0.isDirectory }
-            .forEach { childPath in
-                dispatchGroup.enter()
+        if rootPath.isDirectory {
+            recursiveCache()
+        } else {
+            rootCache()
+        }
+        dispatchGroup.wait()
+        
+        func rootCache() {
+            launchGridBuild(rootPath)
+        }
+        
+        func recursiveCache() {
+            FileBrowser.recursivePaths(rootPath)
+                .filter { !$0.isDirectory }
+                .forEach { childPath in
+                    launchGridBuild(childPath)
+                }
+        }
+        
+        func launchGridBuild(_ childPath: URL) {
+            dispatchGroup.enter()
+            
+            statusObject.update {
+                $0.totalValue += 1
+                $0.detail = "File: \(childPath.lastPathComponent)"
+            }
+            
+            WorkerPool.shared.nextWorker().async {
+                let grid = builder
+                    .createConsumerForNewGrid()
+                    .consume(url: childPath)
+                    .withFileName(childPath.lastPathComponent)
+                    .withSourcePath(childPath)
+                
+                builder.gridCache.cachedFiles[childPath] = grid.id
                 
                 statusObject.update {
-                    $0.totalValue += 1
-                    $0.detail = "File: \(childPath.lastPathComponent)"
+                    $0.currentValue += 1
+                    $0.detail = "File Complete: \(childPath.lastPathComponent)"
                 }
                 
-                WorkerPool.shared.nextWorker().async {
-                    let grid = builder
-                        .createConsumerForNewGrid()
-                        .consume(url: childPath)
-                        .withFileName(childPath.lastPathComponent)
-                        .withSourcePath(childPath)
-                    
-                    builder.gridCache.cachedFiles[childPath] = grid.id
-                    
-                    statusObject.update {
-                        $0.currentValue += 1
-                        $0.detail = "File Complete: \(childPath.lastPathComponent)"
-                    }
-                   
-                    hoverController.attachPickingStream(to: grid)
-                    
-                    dispatchGroup.leave()
-                }
+                hoverController.attachPickingStream(to: grid)
+                
+                dispatchGroup.leave()
             }
-        
-        dispatchGroup.wait()
-//        print("-- Cache complete")
+        }
     }
 }
 

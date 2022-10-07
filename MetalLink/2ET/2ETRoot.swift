@@ -155,38 +155,13 @@ extension TwoETimeRoot {
                 hoverController: GlobalInstances.gridStore.nodeHoverController,
                 mode: .cacheAndLayout
             )
-            
-            let testParent = MetalLinkNode()
-            testParent.add(child: plan.targetParent)
-            self.root.add(child: testParent)
-            
-            testParent.bindToModelEvents { _ in
-                plan.targetParent.rebuildModelMatrix()
-            }
-            
-            var counter = 0.1
+            self.root.add(child: plan.targetParent)
             plan.startRender {
-//                let edge = plan.targetParent.trailing
-//                let top = plan.targetParent.top
-//                self.camera.position = LFloat3(edge / 2.0, top + 128.0, edge)
-//                self.camera.rotation = LFloat3(Float.pi / 4.0, 0, 0)
-                
-//                plan.targetParent.children.forEach { child in
-//                    QuickLooper(interval: .milliseconds(30)) {
-//                        child.rotation.y += 0.1
-//                        counter += 0.1
-//                    }.runUntil { false }
-//                }
-                
-//                QuickLooper(interval: .milliseconds(30)) {
-//                    plan.targetParent.rotation.y += 0.1
+//                var counter = 0.1
+//                QuickLooper(interval: .milliseconds(16)) {
+//                    plan.targetParent.scale = LFloat3(repeating: cos(counter.float / 10.float))
 //                    counter += 0.1
 //                }.runUntil { false }
-                
-                QuickLooper(interval: .milliseconds(30)) {
-                    testParent.rotation.y += 0.1
-                    counter += 0.1
-                }.runUntil { false }
             }
         }
     }

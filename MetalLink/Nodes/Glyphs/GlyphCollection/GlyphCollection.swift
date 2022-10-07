@@ -24,6 +24,11 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
         get { internalParent }
         set { setNewParent(newValue) }
     }
+    
+    // Better explanation why this works:
+    // Rebuild calls parent's build, which walks up the chain (every time).
+    // There needs to be a complete chain from this parent to to whatever is being
+    // mutated, or you likely won't see all changes.
     private func setNewParent(_ newParent: MetalLinkNode?) {
         newParent?.bindToModelEvents { _ in
             self.rebuildModelMatrix(includeChildren: true)

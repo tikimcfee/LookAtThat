@@ -155,15 +155,17 @@ class MetalLinkNode: Measures {
     }
     
     func bindToModelEvents(_ action: @escaping (ObservableMatrix.ModelMatrix) -> Void) {
-        modelEvents
-            .sink { action($0) }
-            .store(in: &eventBag)
+        modelEvents.sink {
+            action($0)
+        }
+        .store(in: &eventBag)
     }
     
     func bindAsVirtualParentOf(_ node: MetalLinkNode) {
-        modelEvents
-            .sink { _ in node.rebuildModelMatrix() }
-            .store(in: &eventBag)
+        modelEvents.sink { _ in
+            node.rebuildModelMatrix()
+        }
+        .store(in: &eventBag)
     }
 }
 
