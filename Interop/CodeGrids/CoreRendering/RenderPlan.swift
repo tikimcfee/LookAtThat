@@ -126,8 +126,8 @@ private extension RenderPlan {
 //            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))
 //            QuickLooper(interval: .milliseconds(16)) {
 //                directoryParent.position.y += cos(counter) * 2
-////                directoryParent.scale = LFloat3(repeating: cos(counter) + 2.float)
-////                directoryParent.rotation.y = counter / 10
+//                directoryParent.scale = LFloat3(repeating: cos(counter / 10) + 2.float)
+//                directoryParent.rotation.y = counter / 10
 //                counter += 0.1
 //            }.runUntil { false }
 //        }
