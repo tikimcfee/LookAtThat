@@ -22,9 +22,20 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     @discardableResult
     func consume(url: URL) -> CodeGrid {
         guard let fileSource = loadSourceUrl(url) else {
-            return targetGrid
+            return consumeText(textPath: url)
         }
         consume(rootSyntaxNode: Syntax(fileSource))
+        return targetGrid
+    }
+    
+    func consumeText(textPath: URL) -> CodeGrid {
+        guard let fullString = try? String(contentsOf: textPath) else {
+            return targetGrid
+        }
+        var nodes = CodeGridNodes()
+        let id = "raw-text-\(UUID().uuidString)"
+        write(fullString, id, NSUIColor.white, &nodes)
+        targetGrid.tokenCache[id] = nodes
         return targetGrid
     }
     

@@ -15,7 +15,7 @@ class FileBrowser: ObservableObject {
 
 extension FileBrowser {
     static let supportedTextExtensions: Set<String> = [
-        "swift",
+        "swift", "metal",
         "m", "mm",
         "cpp", "c", "cs", "h",
         "md", "txt",

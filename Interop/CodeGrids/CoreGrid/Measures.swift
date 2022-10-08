@@ -176,11 +176,8 @@ extension Measures {
         let computing = BoundsComputing()
         
         enumerateChildren { childNode in
-            // TODO: Back to computing each time
-            // Bounds are just expensive and I need a better way to do this.
-            // I'm sure there are whole papers.
-            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
-//            var safeBox = childNode.rectPos
+//            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
+            var safeBox = childNode.rectPos
             if convertParent {
                 safeBox.min = convertPosition(safeBox.min, to: parent)
                 safeBox.max = convertPosition(safeBox.max, to: parent)

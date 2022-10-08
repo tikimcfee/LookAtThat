@@ -157,6 +157,17 @@ extension TwoETimeRoot {
             )
             self.root.add(child: plan.targetParent)
             plan.startRender {
+                // TODO: Bounds... WHY MORE BOUNDS
+                // IT'S ALWAYS BOUNDS! !@(#*!@)(#*)!
+                // Parent rects aren't invalidated when children change.
+                // Just.. just clear everything and move on. Figure out
+                // bounds.. AGAIN.. later.
+                BoundsCaching.ClearRoot(plan.targetParent)
+                plan.targetParent.position = LFloat3(
+                    -plan.targetParent.boundsCenterWidth,
+                     0,
+                     0
+                )
 //                var counter = 0.1
 //                QuickLooper(interval: .milliseconds(16)) {
 //                    plan.targetParent.scale = LFloat3(repeating: cos(counter.float / 10.float))

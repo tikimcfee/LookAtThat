@@ -80,14 +80,14 @@ private extension WorldGridFocusController {
     
     func setStartGrid(_ grid: CodeGrid) {
         camera.position = grid.position.translated(
-            dX: grid.halfWidth,
+            dX: grid.contentHalfWidth,
             dZ: 150.0
         )
     }
     
     func moveBetweenGrids(_ lastGrid: CodeGrid, _ newGrid: CodeGrid) {
         camera.position = newGrid.position.translated(
-            dX: newGrid.halfWidth,
+            dX: newGrid.contentHalfWidth,
             dZ: 150.0
         )
     }

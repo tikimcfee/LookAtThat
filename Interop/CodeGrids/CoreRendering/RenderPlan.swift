@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 import Foundation
+import OrderedCollections
 
 struct RenderPlan {
     let rootPath: URL
@@ -78,38 +79,51 @@ private extension RenderPlan {
     }
     
     private func layoutLazyBox() {
-        var lastDirectory: MetalLinkNode?
-        let xGap = 16.float
+        // MARK: - Do grid directory additions
+        // TODO: This can probablt happen at cache time
+        var orderedParents = OrderedDictionary<URL, MetalLinkNode>()
+        
+        func makeDefaultParent(for url: URL) -> MetalLinkNode {
+            let directoryParent = MetalLinkNode()
+            targetParent.add(child: directoryParent)
+            targetParent.bindAsVirtualParentOf(directoryParent)
+            orderedParents[url] = directoryParent
+            return directoryParent
+        }
+        
+        func getParentNode(for url: URL) -> MetalLinkNode {
+            let parentURL: URL
+            if !url.isDirectory {
+                parentURL = url.deletingLastPathComponent()
+            } else {
+                parentURL = url
+            }
+            let parent = orderedParents[parentURL] ?? makeDefaultParent(for: parentURL)
+            return parent
+        }
         
         FileBrowser.recursivePaths(rootPath).forEach { url in
-            guard url.isDirectory else { return }
-            let files = url.children()
+            guard !url.isDirectory else { return }
+            guard let grid = builder.gridCache.get(url) else { return }
             
-            guard !files.isEmpty else { return }
-            let directory = url
+            let directoryParent = getParentNode(for: url)
+            directoryParent.add(child: grid.rootNode)
+        }
+
+        // MARK: - Do final layout
+        let xGap = 16.float
+        var lastDirectory: MetalLinkNode?
+        
+        for (url, directoryParent) in orderedParents {
+            DepthLayout().layoutGrids(
+                directoryParent.children.sorted(by: { $0.lengthY < $1.lengthY })
+            )
             
             let rootDistance = FileBrowser.distanceTo(
                 parent: .directory(rootPath),
-                from: .directory(directory)
+                from: .directory(url)
             )
-            
-            let directoryParent = MetalLinkNode()
             directoryParent.position.y = (-1 * rootDistance * 128).float
-            targetParent.add(child: directoryParent)
-            targetParent.bindAsVirtualParentOf(directoryParent)
-            
-            let sortedGrids = files
-                .compactMap { builder.gridCache.get($0) }
-                .map {
-                    directoryParent.add(child: $0.rootNode)
-                    return $0
-                }
-                .sorted(by: { $0.lengthY < $1.lengthY })
-            
-            // TODO: Doesn't quite work, not taking rotation into account for bounds.. I think
-//            RadialLayout().layoutGrids(sortedGrids)
-            
-            DepthLayout().layoutGrids(sortedGrids)
             
             if let lastDirectory = lastDirectory {
                 let pushBack = (-1 * rootDistance * 128).float
@@ -117,10 +131,11 @@ private extension RenderPlan {
                     .setFront(pushBack)
                     .setLeading(lastDirectory.trailing + xGap)
             }
+            
             lastDirectory = directoryParent
         }
         
-        
+//        RadialLayout().layoutGrids(Array(orderedParents.values))
         // Test that each directory is properly parented with this cockamamie scheme
 //        for directoryParent in targetParent.children {
 //            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))

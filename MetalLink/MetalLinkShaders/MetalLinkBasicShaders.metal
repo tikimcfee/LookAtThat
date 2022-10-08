@@ -23,7 +23,8 @@ vertex RasterizerData basic_vertex_function(
     sceneConstants.projectionMatrix // camera
     * sceneConstants.viewMatrix     // viewport
     * modelConstants.modelMatrix    // transforms
-    * float4(vertexIn.position, 1); // current position
+    * float4(vertexIn.position, 1)  // current position
+    ;
     
     rasterizerData.totalGameTime = sceneConstants.totalGameTime;
     

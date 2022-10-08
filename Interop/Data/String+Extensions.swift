@@ -40,6 +40,11 @@ public extension String {
             match.store(in: &result)
         }
     }
+    var splitToWords: [String] {
+        return whitespaceMatches.reduce(into: [String]()) { result, match in
+            match.storeText(in: &result)
+        }
+    }
     
     var fullNSRange: NSRange {
         let computedRange = range(of: self)!
@@ -120,6 +125,11 @@ extension Substring {
             match.store(in: &result)
         }
     }
+    var splitToWords: [String] {
+        return whitespaceMatches.reduce(into: [String]()) { result, match in
+            match.storeText(in: &result)
+        }
+    }
 }
 
 class Match: CustomStringConvertible {
@@ -144,6 +154,10 @@ class Match: CustomStringConvertible {
         if leading.count > 0 { list.append(String(leading)) }
         if text.count > 0 { list.append(String(text)) }
         if trailing.count > 0 { list.append(String(trailing)) }
+    }
+    
+    func storeText(in list: inout [String]) {
+        if text.count > 0 { list.append(String(text)) }
     }
 
     var description: String {
