@@ -36,53 +36,57 @@ class CodeGridGroup {
 // No, I haven't made constraints yet. Ew.
 
 struct RadialLayout {
-    func layoutGrids(_ grids: [CodeGrid]) {
-        guard grids.count > 1 else { return }
-        let gridCount = grids.count
+    func layoutGrids(_ nodes: [LayoutTarget]) {
+        guard nodes.count > 1 else { return }
+        let nodeCount = nodes.count
         
         let twoPi = 2.0 * Float.pi
-        let childRadians = twoPi / gridCount.float
+        let childRadians = twoPi / nodeCount.float
         let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
-        let magnitude = 64.float
+        let magnitude = nodes.max(by: { $0.layoutNode.lengthZ < $1.layoutNode.lengthZ })?.layoutNode.lengthZ ?? 64
         
-        zip(grids, childRadianStride).enumerated().forEach { index, gridTuple in
-            let (grid, radians) = gridTuple
+        zip(nodes, childRadianStride).enumerated().forEach { index, gridTuple in
+            let (node, radians) = gridTuple
             
             let radialX = (cos(radians) * (magnitude))
             let radialY = 0.float
             let radialZ = -(sin(radians) * (magnitude))
 
-            grid.position = LFloat3.zero.translated(
+            node.layoutNode.position = LFloat3.zero.translated(
                 dX: radialX,
                 dY: radialY,
                 dZ: radialZ
             )
-            grid.rotation.y = radians
+            node.layoutNode.rotation.y = radians
         }
     }
 }
 
 protocol LayoutTarget {
-    var node: MetalLinkNode { get }
+    var layoutNode: MetalLinkNode { get }
 }
 
 extension CodeGrid: LayoutTarget {
-    var node: MetalLinkNode { rootNode }
+    var layoutNode: MetalLinkNode { rootNode }
+}
+
+extension MetalLinkNode: LayoutTarget {
+    var layoutNode: MetalLinkNode { self }
 }
 
 struct DepthLayout {
     let xGap = 16.float
     let yGap = -64.float
-    let zGap = -128.float
+    let zGap = -64.float
     
     func layoutGrids(_ targets: [LayoutTarget]) {
         var lastTarget: LayoutTarget?
         for currentTarget in targets {
             if let lastTarget = lastTarget {
-                currentTarget.node
-                    .setTop(lastTarget.node.top)
-                    .setLeading(lastTarget.node.leading)
-                    .setFront(lastTarget.node.back + zGap)
+                currentTarget.layoutNode
+                    .setTop(lastTarget.layoutNode.top)
+                    .setLeading(lastTarget.layoutNode.leading)
+                    .setFront(lastTarget.layoutNode.back + zGap)
             }
             lastTarget = currentTarget
         }
@@ -98,10 +102,10 @@ struct HorizontalLayout {
         var lastTarget: LayoutTarget?
         for currentTarget in targets {
             if let lastTarget = lastTarget {
-                currentTarget.node
-                    .setTop(lastTarget.node.top)
-                    .setLeading(lastTarget.node.trailing + xGap)
-                    .setFront(lastTarget.node.front)
+                currentTarget.layoutNode
+                    .setTop(lastTarget.layoutNode.top)
+                    .setLeading(lastTarget.layoutNode.trailing + xGap)
+                    .setFront(lastTarget.layoutNode.front)
             }
             lastTarget = currentTarget
         }
@@ -117,10 +121,10 @@ class VerticalLayout {
         var lastTarget: LayoutTarget?
         for currentTarget in targets {
             if let lastTarget = lastTarget {
-                currentTarget.node
-                    .setTop(lastTarget.node.bottom + yGap)
-                    .setLeading(lastTarget.node.leading)
-                    .setFront(lastTarget.node.front)
+                currentTarget.layoutNode
+                    .setTop(lastTarget.layoutNode.bottom + yGap)
+                    .setLeading(lastTarget.layoutNode.leading)
+                    .setFront(lastTarget.layoutNode.front)
             }
             lastTarget = currentTarget
         }

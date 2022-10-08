@@ -48,23 +48,46 @@ extension Measures {
 
 // MARK: - Size
 extension Measures {
-    var halfWidth: Float { contentSize.x / 2.0 }
-    var halfHeight: Float { contentSize.y / 2.0 }
-    var halfLength: Float { contentSize.z / 2.0 }
+    var contentHalfWidth: Float { contentSize.x / 2.0 }
+    var contentHalfHeight: Float { contentSize.y / 2.0 }
+    var contentHalfLength: Float { contentSize.z / 2.0 }
 }
 
 // MARK: - Bounds
 
-extension Measures {    
-    var boundsCenterWidth: VectorFloat { bounds.min.x + halfWidth }
-    var boundsCenterHeight: VectorFloat { bounds.min.y + halfHeight }
-    var boundsCenterLength: VectorFloat { bounds.min.z + halfLength }
+extension Measures {
+    var boundsWidth: VectorFloat {
+        let currentBounds = bounds
+        return BoundsWidth(currentBounds)
+    }
+    var boundsHeight: VectorFloat {
+        let currentBounds = bounds
+        return BoundsHeight(currentBounds)
+    }
+    var boundsLength: VectorFloat {
+        let currentBounds = bounds
+        return BoundsLength(currentBounds)
+    }
+    
+    var boundsCenterWidth: VectorFloat {
+        let currentBounds = bounds
+        return currentBounds.min.x + BoundsWidth(currentBounds) / 2.0
+    }
+    var boundsCenterHeight: VectorFloat {
+        let currentBounds = bounds
+        return currentBounds.min.x + BoundsHeight(currentBounds) / 2.0
+    }
+    var boundsCenterLength: VectorFloat {
+        let currentBounds = bounds
+        return currentBounds.min.x + BoundsLength(currentBounds) / 2.0
+    }
     
     var boundsCenterPosition: LFloat3 {
+        let currentBounds = bounds
         let vector = LFloat3(
-            x: boundsCenterWidth,
-            y: boundsCenterHeight,
-            z: boundsCenterLength
+            x: currentBounds.min.x + BoundsWidth(currentBounds) / 2.0,
+            y: currentBounds.min.y + BoundsHeight(currentBounds) / 2.0,
+            z: currentBounds.min.z + BoundsLength(currentBounds) / 2.0
         )
         return vector
     }
@@ -149,14 +172,15 @@ extension Measures {
 }
 
 extension Measures {
-    
-    
     func computeBoundingBox(convertParent: Bool = true) -> Bounds {
         let computing = BoundsComputing()
         
         enumerateChildren { childNode in
-//            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
-            var safeBox = childNode.rectPos
+            // TODO: Back to computing each time
+            // Bounds are just expensive and I need a better way to do this.
+            // I'm sure there are whole papers.
+            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
+//            var safeBox = childNode.rectPos
             if convertParent {
                 safeBox.min = convertPosition(safeBox.min, to: parent)
                 safeBox.max = convertPosition(safeBox.max, to: parent)
