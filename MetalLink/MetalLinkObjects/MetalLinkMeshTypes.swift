@@ -18,6 +18,8 @@ enum UVIndex: TextureIndex {
     case bottomMiddle = 5
     case leftMiddle = 6
     case rightMiddle = 7
+    
+    case noPositionFlat = 8
 }
 
 private func vertex(
@@ -33,7 +35,7 @@ private func vertex(
 }
 
 class MetalLinkTriangleMesh: MetalLinkBaseMesh {
-    override var name: String { "MLTriangle" }
+    override var name: String { "MetalLinkTriangle>" }
     override func createVertices() -> [Vertex] { [
         vertex( 0, 1, 0, .topMiddle),
         vertex(-1,-1, 0, .bottomLeft),
@@ -42,7 +44,7 @@ class MetalLinkTriangleMesh: MetalLinkBaseMesh {
 }
 
 class MetalLinkQuadMesh: MetalLinkBaseMesh {
-    override var name: String { "MLQuad" }
+    override var name: String { "MetalLinkQuad" }
     var initialSizeSet: Bool = false
     
     // Texture coordinate order:

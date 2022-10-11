@@ -33,10 +33,6 @@ class MetalLinkObject: MetalLinkNode, MetalLinkRenderable {
         updateModelConstants()
     }
     
-    func applyTextures(_ sdp: inout SafeDrawPass) {
-        
-    }
-    
     func doRender(in sdp: inout SafeDrawPass) {
         guard let meshVertexBuffer = mesh.getVertexBuffer() else { return }
         
@@ -53,6 +49,15 @@ class MetalLinkObject: MetalLinkNode, MetalLinkRenderable {
         applyTextures(&sdp)
         
         // Do the draw
+        drawPrimitives(&sdp)
+    }
+    
+    func applyTextures(_ sdp: inout SafeDrawPass) {
+        
+    }
+    
+    // Explicitly overridable
+    func drawPrimitives(_ sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)
     }
 }

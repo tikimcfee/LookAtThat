@@ -43,6 +43,8 @@ class MetalLinkGlyphNode: MetalLinkObject, QuadSizable {
         quad.setSize(size)
     }
     
+    // TODO: This isn't really used anymore, glyphs are done with instancing now.
+    // This allow glyphs to be drawing without said instancing though.
     override func applyTextures(_ sdp: inout SafeDrawPass) {
         sdp.renderCommandEncoder.setFragmentTexture(texture, index: 0)
     }

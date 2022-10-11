@@ -14,6 +14,12 @@ extension LFloat3 {
     func translated(dX: Float = 0, dY: Float = 0, dZ: Float = 0) -> LFloat3 {
         LFloat3(x + dX, y + dY, z + dZ)
     }
+    
+    @discardableResult
+    mutating func translateBy(dX: Float = 0, dY: Float = 0, dZ: Float = 0) -> LFloat3 {
+        self = LFloat3(x + dX, y + dY, z + dZ)
+        return self
+    }
 }
 
 extension matrix_float4x4 {

@@ -400,6 +400,10 @@
 		B785521F28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
 		B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
+		B790C69428F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
+		B790C69528F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
+		B790C69628F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
+		B790C69728F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
 		B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
 		B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
@@ -922,6 +926,7 @@
 		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
 		B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollectionSyntaxConsumer.swift; sourceTree = "<group>"; };
 		B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkPickingTexture.swift; sourceTree = "<group>"; };
+		B790C69328F4F25F00634058 /* MetalLinkLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkLine.swift; sourceTree = "<group>"; };
 		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
 		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
 		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
@@ -1420,9 +1425,10 @@
 		B7AC332928A0CA70001172BB /* MetalLinkObjects */ = {
 			isa = PBXGroup;
 			children = (
-				B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */,
 				B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */,
+				B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */,
 				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
+				B790C69328F4F25F00634058 /* MetalLinkLine.swift */,
 				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
 				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
 				B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */,
@@ -2140,6 +2146,7 @@
 				B72FBFE028A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE928A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B70FDC88283EAE9900170D5F /* TracingRootConsumer.swift in Sources */,
+				B790C69528F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B70FDC8A283EAE9900170D5F /* LaZTrace.swift in Sources */,
 				B70FDC8B283EAE9900170D5F /* FileBrowser+Event.swift in Sources */,
 				B79592EB28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
@@ -2319,6 +2326,7 @@
 				B74A22C52814FFF300F6F727 /* BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
+				B790C69728F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */,
 				B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
@@ -2501,6 +2509,7 @@
 				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
+				B790C69428F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC338E28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
@@ -2649,6 +2658,7 @@
 				B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
+				B790C69628F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7C69FEA28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,

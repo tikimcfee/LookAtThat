@@ -10,6 +10,7 @@ import MetalKit
 
 protocol MetalLinkMesh {
     func getVertexBuffer() -> MTLBuffer?
+    func deallocateVertexBuffer()  // TODO: Don't deallocate the entire buffer.. at least pool it... clear it?
     var vertexCount: Int { get }
     var vertices: [Vertex] { get set }
     var name: String { get }
@@ -48,6 +49,10 @@ class MetalLinkBaseMesh: MetalLinkMesh {
             vertexBuffer?.label = name
         }
         return vertexBuffer
+    }
+    
+    func deallocateVertexBuffer() {
+        vertexBuffer = nil
     }
     
     func createVertices() -> [Vertex] { [] }
