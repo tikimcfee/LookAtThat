@@ -5,7 +5,7 @@ import Foundation
 public final class ConcurrentArray<Element> {
 
     private var container: [Element] = []
-    private let rwlock = RWLock()
+    private let rwlock = LockWrapper()
     
     public func reserve(_ cap: Int) {
         rwlock.writeLock()

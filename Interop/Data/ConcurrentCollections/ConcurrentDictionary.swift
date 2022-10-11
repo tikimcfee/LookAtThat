@@ -5,7 +5,7 @@ import Foundation
 public final class ConcurrentDictionary<Key: Hashable, Value> {
 
     private var container: [Key: Value] = [:]
-    private let rwlock = RWLock()
+    private let rwlock = LockWrapper()
     
     public var count: Int {
         let result: Int

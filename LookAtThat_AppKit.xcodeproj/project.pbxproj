@@ -76,7 +76,7 @@
 		B70FDCAC283EAE9900170D5F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B70FDCB1283EAE9900170D5F /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
 		B70FDCB2283EAE9900170D5F /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
-		B70FDCB5283EAE9900170D5F /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
+		B70FDCB5283EAE9900170D5F /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
 		B70FDCB7283EAE9900170D5F /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		B70FDCB9283EAE9900170D5F /* SemanticTracingOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233F281532D400F6F727 /* SemanticTracingOutView.swift */; };
 		B70FDCBA283EAE9900170D5F /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
@@ -212,8 +212,8 @@
 		B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
 		B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
-		B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
-		B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
+		B73EF76628111E2C008BEE85 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
+		B73EF76728111E2C008BEE85 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
@@ -247,7 +247,7 @@
 		B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
-		B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* RWLock.swift */; };
+		B74A22F72814FFF300F6F727 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
 		B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1115251EEFE40052D993 /* MultipeerControls.swift */; };
@@ -882,7 +882,7 @@
 		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
 		B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionary.swift; sourceTree = "<group>"; };
-		B73EF75A28111E2C008BEE85 /* RWLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWLock.swift; sourceTree = "<group>"; };
+		B73EF75A28111E2C008BEE85 /* LockWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockWrapper.swift; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B74A23352815197000F6F727 /* SourceInfoPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelState.swift; sourceTree = "<group>"; };
@@ -1280,7 +1280,7 @@
 				F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */,
 				B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */,
 				B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */,
-				B73EF75A28111E2C008BEE85 /* RWLock.swift */,
+				B73EF75A28111E2C008BEE85 /* LockWrapper.swift */,
 			);
 			path = ConcurrentCollections;
 			sourceTree = "<group>";
@@ -2195,7 +2195,7 @@
 				B70FDCB2283EAE9900170D5F /* SourceInfoPanelToggles.swift in Sources */,
 				B7AC334B28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7A60F9028B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
-				B70FDCB5283EAE9900170D5F /* RWLock.swift in Sources */,
+				B70FDCB5283EAE9900170D5F /* LockWrapper.swift in Sources */,
 				B70FDCB7283EAE9900170D5F /* MultipeerManager.swift in Sources */,
 				B7AC336F28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B768E2B028BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
@@ -2390,7 +2390,7 @@
 				B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7C69FEB28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B7697AB728EF796F0085D92E /* CodeGridGroup.swift in Sources */,
-				B74A22F72814FFF300F6F727 /* RWLock.swift in Sources */,
+				B74A22F72814FFF300F6F727 /* LockWrapper.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B7B46AFA28BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
 				B7B46AEF28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
@@ -2557,7 +2557,7 @@
 				B75014B32831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B7AC334A28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
 				B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
-				B73EF76628111E2C008BEE85 /* RWLock.swift in Sources */,
+				B73EF76628111E2C008BEE85 /* LockWrapper.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
 				B7AC336E28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B768E2AF28BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
@@ -2723,7 +2723,7 @@
 				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,
 				B7229D7C28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */,
 				B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */,
-				B73EF76728111E2C008BEE85 /* RWLock.swift in Sources */,
+				B73EF76728111E2C008BEE85 /* LockWrapper.swift in Sources */,
 				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
