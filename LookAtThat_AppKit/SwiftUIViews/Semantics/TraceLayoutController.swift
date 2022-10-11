@@ -12,8 +12,11 @@ class TraceLayoutController {
     var editor: WorldGridEditor { worldFocus.editor }
     var snapping: WorldGridSnapping { worldFocus.snapping }
     
+    lazy var currentTraceLine = MetalLinkLine(worldFocus.link)
+    
     init(worldFocus: WorldGridFocusController) {
         self.worldFocus = worldFocus
+        currentTraceLine.setColor(LFloat4(1, 0, 0, 0))
     }
     
     // reg1 will be last entry grid
@@ -47,10 +50,12 @@ class TraceLayoutController {
     
     func onTraceEntry(_ traceOutput: MatchedTraceOutput, _ value: TraceValue) {
         lastEntryGrid = value.grid
+        currentTraceLine.appendSegment(about: value.grid.worldPosition)
     }
     
     func onTraceExit(_ traceOutput: MatchedTraceOutput, _ value: TraceValue) {
         lastExitGrid = value.grid
+        currentTraceLine.popSegment()
     }
     
     private let focusAddColor = LFloat4(0.2, 0.2, 0.2, 1.0)

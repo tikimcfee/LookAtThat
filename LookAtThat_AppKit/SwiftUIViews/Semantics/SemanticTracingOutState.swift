@@ -43,6 +43,10 @@ class SemanticTracingOutState: ObservableObject {
     var tracerState: TracingRoot.State { tracer.state }
     private lazy var bag = Set<AnyCancellable>()
     
+    private var layoutController: TraceLayoutController {
+        GlobalInstances.gridStore.traceLayoutController
+    }
+    
     init() {
         // Tracer isn't observable; sink from it manually
         tracerState.$traceWritesEnabled
@@ -136,29 +140,7 @@ extension SemanticTracingOutState {
     }
     
     func highlightCurrentTrace() {
-        guard let trace = currentMatch.maybeTrace else {
-            return
-        }
-        let setFocused = currentMatch.out.isEntry
-        let colorToAdd = setFocused
-        ? LFloat4(0.2, 0.2, 0.2, 1.0)
-        : -LFloat4(0.2, 0.2, 0.2, 1.0)
-        
-        let positionToAdd = setFocused
-        ? LFloat3(0.0, 0.0, 2.0)
-        : -LFloat3(0.0, 0.0, 2.0)
-        
-        trace.grid.semanticInfoMap.doOnAssociatedNodes(
-            trace.info.syntaxId,
-            trace.grid.tokenCache
-        ) { (info, nodes) in
-            for node in nodes {
-                UpdateNode(node, in: trace.grid) {
-                    $0.addedColor += colorToAdd
-                    $0.modelMatrix.translate(vector: positionToAdd)
-                }
-            }
-        }
+        layoutController.onNext(traceOutput: currentMatch)
     }
 }
 

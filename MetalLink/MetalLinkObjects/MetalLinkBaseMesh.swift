@@ -43,6 +43,7 @@ class MetalLinkBaseMesh: MetalLinkMesh {
     }
     
     func getVertexBuffer() -> MTLBuffer? {
+        guard !vertices.isEmpty else { return nil }
         if let buffer = vertexBuffer { return buffer }
         concurrenctVertices.directWriteAccess {
             vertexBuffer = try? Self.createVertexBuffer(with: link, for: $0)

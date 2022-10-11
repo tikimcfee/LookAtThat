@@ -97,4 +97,7 @@ class GridStore {
     private(set) lazy var nodeFocusController: CodeGridSelectionController = CodeGridSelectionController(
         tokenCache: tokenCache
     )
+    private(set) lazy var traceLayoutController: TraceLayoutController = TraceLayoutController(
+        worldFocus: worldFocusController
+    )
 }

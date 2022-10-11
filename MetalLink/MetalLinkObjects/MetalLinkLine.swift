@@ -22,6 +22,7 @@ class MetalLinkLineMesh: MetalLinkBaseMesh {
     }
     
     func popSegment() {
+        guard vertices.count > 1 else { return }
         vertices.removeLast(2)
     }
     
