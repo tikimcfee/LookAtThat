@@ -43,34 +43,38 @@ extension MetalLinkNode {
         }
     }
     
-    var worldLeading: VectorFloat {
-        get { worldPosition.x - abs(bounds.min.x) }
-    }
-    var worldTrailing: VectorFloat {
-        get { worldPosition.x + abs(bounds.max.x) }
-    }
-    var worldTop: VectorFloat {
-        get { worldPosition.y + abs(bounds.max.y) }
-    }
-    var worldBottom: VectorFloat {
-        get { worldPosition.y - abs(bounds.min.y) }
-    }
-    var worldFront: VectorFloat {
-        get { worldPosition.z + abs(bounds.max.z) }
-    }
-    var worldBack: VectorFloat {
-        get { worldPosition.z - abs(bounds.min.z) }
-    }
-    
-    var worldBoundsMin: LFloat3 {
-        LFloat3(worldLeading, worldBottom, worldBack)
-    }
-    
-    var worldBoundsMax: LFloat3 {
-        LFloat3(worldTrailing, worldTop, worldFront)
-    }
+//    var worldLeading: VectorFloat {
+//        get { worldPosition.x - abs(rectPos.min.x) }
+//    }
+//    var worldTrailing: VectorFloat {
+//        get { worldPosition.x + abs(rectPos.max.x) }
+//    }
+//    var worldTop: VectorFloat {
+//        get { worldPosition.y + abs(rectPos.max.y) }
+//    }
+//    var worldBottom: VectorFloat {
+//        get { worldPosition.y - abs(rectPos.min.y) }
+//    }
+//    var worldFront: VectorFloat {
+//        get { worldPosition.z + abs(rectPos.max.z) }
+//    }
+//    var worldBack: VectorFloat {
+//        get { worldPosition.z - abs(rectPos.min.z) }
+//    }
+//
+//    var worldBoundsMin: LFloat3 {
+//        LFloat3(worldLeading, worldBottom, worldBack)
+//    }
+//
+//    var worldBoundsMax: LFloat3 {
+//        LFloat3(worldTrailing, worldTop, worldFront)
+//    }
     
     var worldBounds: Bounds {
-        (min: worldBoundsMin, max: worldBoundsMax)
+        let rectPos = rectPos
+        return (
+            min: rectPos.min + worldPosition,
+            max: rectPos.max + worldPosition
+        )
     }
 }

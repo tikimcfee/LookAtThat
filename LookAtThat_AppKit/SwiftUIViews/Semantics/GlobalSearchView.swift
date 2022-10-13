@@ -26,10 +26,10 @@ extension GlobalSearchViewState {
         GlobalInstances.gridStore.searchContainer.search(input) { task in
             print("Filter completion reported: \(input)")
             
-            GlobalInstances.gridStore.editor.applyAllUpdates(
-                sizeSortedAdditions: task.searchLayout.values,
-                sizeSortedMissing: task.missedGrids.values
-            )
+//            GlobalInstances.gridStore.editor.applyAllUpdates(
+//                sizeSortedAdditions: task.searchLayout.values,
+//                sizeSortedMissing: task.missedGrids.values
+//            )
         }
     }
 }

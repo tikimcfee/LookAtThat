@@ -78,7 +78,7 @@ extension MetalLinkNode: LayoutTarget {
 struct DepthLayout {
     let xGap = 16.float
     let yGap = -64.float
-    let zGap = -64.float
+    let zGap = -128.float
     
     func layoutGrids(_ targets: [LayoutTarget]) {
         var lastTarget: LayoutTarget?

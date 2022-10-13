@@ -49,3 +49,18 @@ final class UnfairLock: NSLocking {
         os_unfair_lock_unlock(unfairLock)
     }
 }
+
+extension UnfairLock {
+    func withAcquiredLock(_ action: () -> Void) {
+        lock()
+        action()
+        unlock()
+    }
+    
+    func withAcquiredLock<T>(_ action: () -> T) -> T {
+        lock()
+        let result = action()
+        unlock()
+        return result
+    }
+}

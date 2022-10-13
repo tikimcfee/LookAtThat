@@ -136,7 +136,8 @@ class SemanticTracingOutState: ObservableObject {
 
 extension SemanticTracingOutState {
     func zoomTrace(_ trace: TraceValue?) {
-        print("Not implemented: \(#function)")
+        guard let trace = trace else { return }
+        layoutController.jumpCameraToTrace(trace)
     }
     
     func highlightCurrentTrace() {

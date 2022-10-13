@@ -76,6 +76,7 @@ private extension SearchFocusRenderTask {
                 next.gridBackground.setColor(LFloat4(0.03, 0.33, 0.22, 1.0))
                 next.updateAllNodeConstants { node, constants, stopFlag in
                     constants.addedColor = .zero
+                    constants.modelMatrix.columns.3.z = 1
                     stopFlag = self.task.isCancelled
                 }
             }
@@ -131,9 +132,11 @@ private extension SearchFocusRenderTask {
             }
             
             var matchesTrivia: Bool {
-                info.node.leadingTrivia?
-                    .stringified
-                    .containsMatch(searchText, caseSensitive: false) == true
+                [info.node.leadingTrivia, info.node.trailingTrivia]
+                    .compactMap { $0 }
+                    .contains {
+                        $0.stringified.containsMatch(searchText, caseSensitive: false)
+                    }
             }
             
             if matchesReference || matchesTrivia {
@@ -155,7 +158,8 @@ private extension SearchFocusRenderTask {
 
 private extension SearchFocusRenderTask {
     var focusAddition: LFloat4 { LFloat4(0.04, 0.08, 0.12, 0.0) }
-    var focusPosition: LFloat3 { LFloat3(0.0, 0.0, 0.5) }
+    var matchAddition: LFloat4 { LFloat4(0.20, 0.00, 0.00, 0.0) }
+    var focusPosition: LFloat3 { LFloat3(0.0, 0.0, 1.5) }
     
     func focusNodesForSemanticInfo(
         source: CodeGrid,
@@ -175,7 +179,11 @@ private extension SearchFocusRenderTask {
             for node in targetNodes {
                 try self.throwIfCancelled()
                 source.rootNode.updateConstants(for: node) {
-                    $0.addedColor += self.focusAddition
+                    if info.syntaxId == matchingSemanticInfo {
+                        $0.addedColor += self.matchAddition
+                    } else {
+                        $0.addedColor += self.focusAddition
+                    }
                     $0.modelMatrix.translate(vector: self.focusPosition)
                 }
             }

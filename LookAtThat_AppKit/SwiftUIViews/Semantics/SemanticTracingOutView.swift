@@ -129,8 +129,7 @@ struct SemanticTracingOutView: View {
                     LazyVStack {
                         ForEach(state, id: \.id) { match in
                             matchedLineFor(for: match)
-                        }
-                        .overlay(Rectangle().stroke(Color.gray))
+                        }.overlay(Rectangle().stroke(Color.gray))
                     }
                 }
             } else {
@@ -150,10 +149,10 @@ struct SemanticTracingOutView: View {
             
         case let .found(found):
             makeTextRow(match, found)
+                .background(matchColor(match))
                 .onTapGesture {
                     state.zoomTrace(found.trace)
                 }
-                .background(matchColor(match))
             
         case let .missing(missing):
             makeEmptyRow("""
@@ -166,7 +165,7 @@ struct SemanticTracingOutView: View {
     func matchColor(_ match: MatchedTraceOutput) -> Color {
         state.isCurrent(match)
             ? Color(red: 0.2, green: 0.8, blue: 0.2, opacity: 0.4)
-            : Color.clear
+            : Color.gray.opacity(0.1)
     }
     
     func threadColor(_ thread: Thread) -> Color {

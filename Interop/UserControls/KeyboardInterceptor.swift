@@ -37,6 +37,13 @@ extension KeyboardInterceptor {
         @Published var travelOffset: LFloat3 = .zero
         @Published var rotationOffset: LFloat3 = .zero
         @Published var rotationDelta: LFloat3 = .zero
+        
+        func reset() {
+            totalOffset = .zero
+            travelOffset = .zero
+            rotationOffset = .zero
+            rotationDelta = .zero
+        }
     }
 }
 
@@ -87,6 +94,10 @@ class KeyboardInterceptor {
     
     init(onNewFileOperation: FileOperationReceiver? = nil) {
         self.onNewFileOperation = onNewFileOperation
+    }
+    
+    func resetPositions() {
+        positions.reset()
     }
     
     func onNewKeyEvent(_ event: OSEvent) {

@@ -20,27 +20,27 @@ class InstanceCounter {
     static let startingGeneratedID: InstanceIDType = 10
     static let shared = InstanceCounter()
     
-    private let gridLock = DispatchSemaphore(value: 1)
+    private let gridLock = UnfairLock()
     private lazy var gridId = Self.startingGeneratedID
     
-    private let glyphLock = DispatchSemaphore(value: 1)
+    private let glyphLock = UnfairLock()
     private lazy var glyphId = Self.startingGeneratedID
     
     private init() { }
     
     func nextGridId() -> InstanceIDType {
-        gridLock.wait()
-        let id = gridId
-        gridId += 1
-        gridLock.signal()
-        return id
+        gridLock.withAcquiredLock {
+            let id = gridId
+            gridId += 1
+            return id
+        }
     }
     
     func nextGlyphId() -> InstanceIDType {
-        glyphLock.wait()
-        let id = glyphId
-        glyphId += 1
-        glyphLock.signal()
-        return id
+        glyphLock.withAcquiredLock {
+            let id = glyphId
+            glyphId += 1
+            return id
+        }        
     }
 }
