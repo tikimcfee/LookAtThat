@@ -1,6 +1,6 @@
 import XCTest
 import SwiftSyntax
-import SwiftSyntaxParser
+import SwiftParser
 import SceneKit
 @testable import LookAtThat_AppKit
 

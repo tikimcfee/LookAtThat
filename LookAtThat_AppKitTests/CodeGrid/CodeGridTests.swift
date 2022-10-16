@@ -7,10 +7,17 @@
 
 import XCTest
 import SwiftSyntax
-import SwiftSyntaxParser
+import SwiftParser
 import SceneKit
 import Foundation
 @testable import LookAtThat_AppKit
+
+extension Parser {
+    static func parse(_ url: URL) throws -> SourceFileSyntax {
+        let source = try String(contentsOf: url)
+        return Parser.parse(source: source)
+    }
+}
 
 class LookAtThat_AppKitCodeGridTests: XCTestCase {
     var bundle: TestBundle!
@@ -236,7 +243,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testGridSize() throws {
         printStart()
         
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try Parser.parse(bundle.testFile)
         let testGrid = bundle.newGrid()
             .withFileName(bundle.testFile.lastPathComponent)
             .consume(rootSyntaxNode: parsed.root)
@@ -260,7 +267,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testNodeBoundsFinding() throws {
         printStart()
         
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try Parser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
             bundle
                 .newGrid()
@@ -304,7 +311,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     //    func testRewriting() throws {
     //        let rewriter = TraceCapturingRewriter()
-    //        let parsed = try! SyntaxParser.parse(bundle.testFileRaw)
+    //        let parsed = try! Parser.parse(bundle.testFileRaw)
     //        let rewritten = rewriter.visit(parsed)
     //        let rewrittenAgain = rewriter.visit(rewritten)
     //        XCTAssertEqual(rewritten.description, rewrittenAgain.description, "Rewrites should always result in the save end string")
@@ -391,7 +398,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testPositions() throws {
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try Parser.parse(bundle.testFile)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
                 .withFileName(bundle.testFile.lastPathComponent)
@@ -432,8 +439,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testMeasuresAndSizes() throws {
-        //        let parsed = try SyntaxParser.parse(bundle.testFile)
-        let parsed = try SyntaxParser.parse(source: TestBundle.RawCode.threeLine)
+        //        let parsed = try Parser.parse(bundle.testFile)
+        let parsed = Parser.parse(source: TestBundle.RawCode.threeLine)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)
@@ -601,7 +608,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testSnapping_Complicated() throws {
-        let parsed = try SyntaxParser.parse(bundle.testFile)
+        let parsed = try Parser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()
         func newGrid() -> CodeGrid {
             let newGrid = bundle.newGrid()

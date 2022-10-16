@@ -7,7 +7,7 @@
 
 import XCTest
 import SwiftSyntax
-import SwiftSyntaxParser
+import SwiftParser
 import SceneKit
 import Foundation
 @testable import LookAtThat_AppKit

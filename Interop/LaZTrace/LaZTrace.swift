@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftSyntax
-import SwiftSyntaxParser
+import SwiftParser
 
 let traceBox = LaZTraceBox()
 
@@ -85,7 +85,8 @@ class TraceFileWriter {
     func addTracesToFile(_ path: URL) {
         guard !path.isDirectoryFile else { return }
         do {
-            let parsed = try SyntaxParser.parse(path)
+            let data = try String(contentsOf: path)
+            let parsed = Parser.parse(source: data)
             let rewritten = rewriter.visit(parsed)
             if let rewrittenData = rewritten.allText.data(using: .utf8) {
                 try rewrite(data: rewrittenData, toPath: path, name: path.fileName)
@@ -145,7 +146,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
         
         var callingElements = functionParams.map { param -> TupleExprElementSyntax in
             let maybeComma = (functionParams.last != param)
-                ? SyntaxFactory.makeCommaToken()
+                ? TokenSyntax.commaToken()
                 : nil
             return tupleExprFromFunctionParam(param).withTrailingComma(maybeComma)
         }
@@ -158,7 +159,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
         callingElements.insert(
             functionKeyword.withTrailingComma(
                 !functionParams.isEmpty
-                    ? SyntaxFactory.makeCommaToken()
+                    ? TokenSyntax.commaToken()
                     : nil
             ),
             at: 1
@@ -188,7 +189,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
         let laztraceNode = safeCopy.withBody(
             safeCopy.body?.withStatements(
                 safeCopy.body?.statements.inserting(
-                    SyntaxFactory.makeCodeBlockItem(
+                    CodeBlockItemSyntax(
                         item: Syntax(callExpr),
                         semicolon: nil,
                         errorTokens: nil
@@ -202,16 +203,16 @@ class TraceCapturingRewriter: SyntaxRewriter {
     }
     
     func laztraceExpression(_ arguments: [TupleExprElementSyntax]) -> FunctionCallExprSyntax {
-        SyntaxFactory.makeFunctionCallExpr(
+        FunctionCallExprSyntax(
             calledExpression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier(traceFunctionName),
+                IdentifierExprSyntax(
+                    identifier: TokenSyntax.identifier(traceFunctionName),
                     declNameArguments: nil
                 )
             ),
-            leftParen: SyntaxFactory.makeLeftParenToken(),
-            argumentList: SyntaxFactory.makeTupleExprElementList(arguments),
-            rightParen: SyntaxFactory.makeRightParenToken(),
+            leftParen: TokenSyntax.leftParenToken(),
+            argumentList: TupleExprElementListSyntax(arguments),
+            rightParen: TokenSyntax.rightParenToken(),
             trailingClosure: nil,
             additionalTrailingClosures: nil
         )
@@ -219,12 +220,12 @@ class TraceCapturingRewriter: SyntaxRewriter {
     
     func tupleExprFromFunctionParam(_ param: FunctionParameterListSyntax.Element) -> TupleExprElementSyntax {
         let callingName = param.secondName ?? param.firstName
-        let element = SyntaxFactory.makeTupleExprElement(
+        let element = TupleExprElementSyntax(
             label: nil,
             colon: nil,
             expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makeIdentifier(callingName?.text ?? "<param_error>"),
+                IdentifierExprSyntax(
+                    identifier: TokenSyntax.identifier(callingName?.text ?? "<param_error>"),
                     declNameArguments: nil
                 )
             ),
@@ -234,26 +235,26 @@ class TraceCapturingRewriter: SyntaxRewriter {
     }
     
     var fileIDKeyword: TupleExprElementSyntax {
-        SyntaxFactory.makeTupleExprElement(
+        TupleExprElementSyntax(
             label: nil,
             colon: nil,
             expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makePoundFileIDKeyword(),
+                IdentifierExprSyntax(
+                    identifier: TokenSyntax.poundFileIDKeyword(),
                     declNameArguments: nil
                 )
             ),
-            trailingComma: SyntaxFactory.makeCommaToken()
+            trailingComma: TokenSyntax.commaToken()
         )
     }
     
     var functionKeyword: TupleExprElementSyntax {
-        SyntaxFactory.makeTupleExprElement(
+        TupleExprElementSyntax(
             label: nil,
             colon: nil,
             expression: ExprSyntax(
-                SyntaxFactory.makeIdentifierExpr(
-                    identifier: SyntaxFactory.makePoundFunctionKeyword(),
+                IdentifierExprSyntax(
+                    identifier: TokenSyntax.poundFunctionKeyword(),
                     declNameArguments: nil
                 )
             ),

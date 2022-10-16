@@ -273,6 +273,8 @@ public extension TokenSyntax {
             return Self.rawRegexString
         case .poundUnavailableKeyword:
             return Self.actionableTokenColor
+        case .poundHasSymbolKeyword:
+            return Self.stringLiteral
         }
     }
 }

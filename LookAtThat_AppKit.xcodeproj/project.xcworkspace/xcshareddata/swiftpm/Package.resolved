@@ -48,10 +48,10 @@
     {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikimcfee/swift-syntax",
+      "location" : "https://github.com/apple/swift-syntax",
       "state" : {
         "branch" : "main",
-        "revision" : "43ccbb69b050a261bcf9c85a9498468fe116a3f5"
+        "revision" : "b7f9d2ee26b937ff88ea243bdcc4440762cedd99"
       }
     },
     {
@@ -69,7 +69,7 @@
       "location" : "https://github.com/ChimeHQ/SwiftTreeSitter.git",
       "state" : {
         "branch" : "main",
-        "revision" : "439674e4b92703eeb33cf410d061495f9b73c0c3"
+        "revision" : "8a6881a8ddc730d26e83fc99c7339b58b10249ce"
       }
     },
     {
@@ -78,7 +78,7 @@
       "location" : "https://github.com/alex-pinkus/tree-sitter-swift.git",
       "state" : {
         "branch" : "with-generated-files",
-        "revision" : "f04b305a7f18009c47091247d662707a8b629669"
+        "revision" : "50b8c5e61c29fa30e760c7a1cbf24b59970e6233"
       }
     },
     {

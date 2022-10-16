@@ -12,7 +12,7 @@
 import Combine
 import MetalKit
 import SwiftUI
-import SwiftSyntaxParser
+import SwiftParser
 import SwiftSyntax
 
 class TwoETimeRoot: MetalLinkReader {

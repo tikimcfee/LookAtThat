@@ -166,7 +166,7 @@ private extension SemanticInfoBuilder {
     }
     
     func makeTypeAliasInfo(for node: Syntax, fileName: String? = nil, _ typel: TypealiasDeclSyntax) -> SemanticInfo {
-        let aliasName = "\(typel.identifier) = \(typel.initializer?.value.description ?? "<No initializer>")"
+        let aliasName = "\(typel.identifier) = \(typel.initializer.value.description)"
         return SemanticInfo(
             node: node,
             referenceName: aliasName,

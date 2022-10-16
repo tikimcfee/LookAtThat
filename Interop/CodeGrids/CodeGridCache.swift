@@ -79,7 +79,7 @@ extension GridCache: SwiftSyntaxFileLoadable {
     }
     
     func renderGrid(_ source: String) -> CodeGrid? {
-        guard let sourceFile = parse(source) else { return nil }
+        let sourceFile = parse(source)
         let newGrid = createGridFromSyntax(sourceFile, nil)
         return newGrid
     }

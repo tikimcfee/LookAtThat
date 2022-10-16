@@ -7,27 +7,23 @@
 
 import Foundation
 import SwiftSyntax
-import SwiftSyntaxParser
+import SwiftParser
 
 // File loading
 public protocol SwiftSyntaxFileLoadable {
-    func parse(_ source: String) -> SourceFileSyntax?
+    func parse(_ source: String) -> SourceFileSyntax
     func loadSourceUrl(_ url: URL) -> SourceFileSyntax?
 }
 
 public extension SwiftSyntaxFileLoadable {
-    func parse(_ source: String) -> SourceFileSyntax? {
-        do {
-            return try SyntaxParser.parse(source: source)
-        } catch {
-            print("|InvalidRawSource| failed to load > \(error)")
-            return nil
-        }
+    func parse(_ source: String) -> SourceFileSyntax {
+        Parser.parse(source: source)
     }
     
     func loadSourceUrl(_ url: URL) -> SourceFileSyntax? {
         do {
-            return try SyntaxParser.parse(url)
+            let source = try String(contentsOf: url)
+            return Parser.parse(source: source)
         } catch {
             print("|\(url)| failed to load > \(error)")
             return nil
