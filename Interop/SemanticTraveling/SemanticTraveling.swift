@@ -7,3 +7,7 @@
 
 import Foundation
 import SwiftSyntax
+
+class SemanticTravelling {
+    
+}

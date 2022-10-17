@@ -24,8 +24,8 @@ class TwoETimeRoot: MetalLinkReader {
     
     lazy var builder = try! CodeGridGlyphCollectionBuilder(
         link: link,
-        sharedSemanticMap: GlobalInstances.gridStore.semanticMap,
-        sharedTokenCache: GlobalInstances.gridStore.tokenCache,
+        sharedSemanticMap: GlobalInstances.gridStore.globalSemanticMap,
+        sharedTokenCache: GlobalInstances.gridStore.globalTokenCache,
         sharedGridCache: GlobalInstances.gridStore.gridCache
     )
     

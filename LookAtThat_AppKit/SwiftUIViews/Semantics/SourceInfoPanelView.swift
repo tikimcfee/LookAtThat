@@ -14,7 +14,7 @@ struct SourceInfoPanelView: View {
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
     var body: some View {
-        HStack(alignment: .top) {
+        VStack {
             allPanelsGroup
         }
         .frame(alignment: .leading)

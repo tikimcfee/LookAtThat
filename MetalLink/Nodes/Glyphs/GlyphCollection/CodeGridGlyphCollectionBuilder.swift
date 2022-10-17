@@ -21,13 +21,12 @@ typealias ParentUpdater = (ParentSource) -> Void
 class CodeGridGlyphCollectionBuilder {
     let link: MetalLink
     let atlas: MetalLinkAtlas
-    let semanticMap: SemanticInfoMap
-    let tokenCache: CodeGridTokenCache
-    let gridCache: GridCache
+    let sharedSemanticMap: SemanticInfoMap
+    let sharedTokenCache: CodeGridTokenCache
+    let sharedGridCache: GridCache
     let parentBuffer: BackingBuffer<VirtualParentConstants>
     
     var mode: Mode = .multiCollection
-    private lazy var monoCollection = makeMonoCollection()
     
     init(
         link: MetalLink,
@@ -37,9 +36,9 @@ class CodeGridGlyphCollectionBuilder {
     ) throws {
         self.link = link
         self.atlas = GlobalInstances.defaultAtlas
-        self.semanticMap = semanticMap
-        self.tokenCache = tokenCache
-        self.gridCache = gridCache
+        self.sharedSemanticMap = semanticMap
+        self.sharedTokenCache = tokenCache
+        self.sharedGridCache = gridCache
         self.parentBuffer = try BackingBuffer<VirtualParentConstants>(link: link, initialSize: 256)
         
         // create the first buffer item and set it as identity.
@@ -50,25 +49,16 @@ class CodeGridGlyphCollectionBuilder {
         }
     }
     
-    private func makeMonoCollection() -> GlyphCollection {
-        try! GlyphCollection(link: link, linkAtlas: atlas)
-    }
-    
     func getCollection() -> GlyphCollection {
-        switch mode {
-        case .multiCollection:
-            return try! GlyphCollection(link: link, linkAtlas: atlas)
-        }
+        return try! GlyphCollection(link: link, linkAtlas: atlas)
     }
     
     func createGrid() -> CodeGrid {
-        let grid = CodeGrid(rootNode: getCollection(), tokenCache: tokenCache)
-        gridCache.cachedGrids[grid.id] = grid
-
-//        switch mode {
-//        case .multiCollection:
-//            break
-//        }
+        let grid = CodeGrid(
+            rootNode: getCollection(),
+            tokenCache: sharedTokenCache
+        )
+        sharedGridCache.cachedGrids[grid.id] = grid
         
         // TODO: This is whacky and gross. I love it and hate it. Make parent buffers better.
         let parent = try! parentBuffer.createNext()

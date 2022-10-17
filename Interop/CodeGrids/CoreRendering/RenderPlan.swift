@@ -104,7 +104,7 @@ private extension RenderPlan {
         
         FileBrowser.recursivePaths(rootPath).forEach { url in
             guard !url.isDirectory else { return }
-            guard let grid = builder.gridCache.get(url) else { return }
+            guard let grid = builder.sharedGridCache.get(url) else { return }
             
             let directoryParent = getParentNode(for: url)
             directoryParent.add(child: grid.rootNode)
@@ -191,7 +191,7 @@ private extension RenderPlan {
                     .withFileName(childPath.lastPathComponent)
                     .withSourcePath(childPath)
                 
-                builder.gridCache.cachedFiles[childPath] = grid.id
+                builder.sharedGridCache.cachedFiles[childPath] = grid.id
                 
                 statusObject.update {
                     $0.currentValue += 1

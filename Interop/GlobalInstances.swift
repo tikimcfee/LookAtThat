@@ -77,10 +77,10 @@ extension GlobalInstances {
 // ______________________________________________________________
 class GridStore {
     private var link: MetalLink { GlobalInstances.defaultLink }
-    private(set) lazy var tokenCache: CodeGridTokenCache = CodeGridTokenCache()
-    private(set) lazy var semanticMap: SemanticInfoMap = SemanticInfoMap()
+    private(set) lazy var globalTokenCache: CodeGridTokenCache = CodeGridTokenCache()
+    private(set) lazy var globalSemanticMap: SemanticInfoMap = SemanticInfoMap()
     
-    private(set) lazy var gridCache: GridCache = GridCache(tokenCache: tokenCache)
+    private(set) lazy var gridCache: GridCache = GridCache(tokenCache: globalTokenCache)
     private(set) lazy var concurrentRenderer: ConcurrentGridRenderer = ConcurrentGridRenderer(cache: gridCache)
     private(set) lazy var globalSemantics: CodeGridGlobalSemantics = CodeGridGlobalSemantics(source: gridCache)
     
@@ -95,7 +95,7 @@ class GridStore {
     )
     
     private(set) lazy var nodeFocusController: CodeGridSelectionController = CodeGridSelectionController(
-        tokenCache: tokenCache
+        tokenCache: globalTokenCache
     )
     private(set) lazy var traceLayoutController: TraceLayoutController = TraceLayoutController(
         worldFocus: worldFocusController

@@ -160,7 +160,7 @@ struct DragSizableModifer: ViewModifier {
     
     var dragBar: some View {
         Color.gray.opacity(0.8)
-            .frame(maxWidth: .infinity, maxHeight: buttonHeight)
+            .frame(maxHeight: buttonHeight)
             .highPriorityGesture(
                 DragGesture(
                     minimumDistance: 1,
