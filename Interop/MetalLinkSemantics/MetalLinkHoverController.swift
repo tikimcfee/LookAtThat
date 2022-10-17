@@ -65,12 +65,15 @@ extension MetalLinkHoverController {
 
 extension MetalLinkHoverController {
     func doGlyphPicking(glyphID: InstanceIDType) {
-        let allGrids = trackedGrids // this is going to cause threading issues.
-        
-        for grid in allGrids.values {
-            let flag = pickingTest(in: grid, glyphID: glyphID)
-            if flag == .stop { return }
-        }
+//        let allGrids = trackedGrids // this is going to cause threading issues.
+//
+//        for grid in allGrids.values {
+//            let flag = pickingTest(in: grid, glyphID: glyphID)
+//            if flag == .stop { return }
+//        }
+        // TODO: Use lastGridState? Seems to be fine for hovering
+        guard let grid = lastGridState?.targetGrid else { return }
+        _ = pickingTest(in: grid, glyphID: glyphID)
         
         func pickingTest(in targetGrid: CodeGrid, glyphID: InstanceIDType) -> Iteration {
             // Test we found a node in this grid before skipping
@@ -105,19 +108,21 @@ extension MetalLinkHoverController {
             lastGlyphState = newState
             return .stop
         }
+    }
+}
+
+private extension MetalLinkHoverController {
+    func updateGlyphState(_ pickingState: NodePickingState, _ action: (inout GlyphConstants) -> Void) {
+        guard let pickedNodeSyntaxID = pickingState.parserSyntaxID else {
+            return
+        }
         
-        func updateGlyphState(_ pickingState: NodePickingState, _ action: (inout GlyphConstants) -> Void) {
-            guard let pickedNodeSyntaxID = pickingState.parserSyntaxID else {
-                return
-            }
-            
-            pickingState.targetGrid.semanticInfoMap.doOnAssociatedNodes(
-                pickedNodeSyntaxID, pickingState.targetGrid.tokenCache
-            ) { info, nodes in
-                for node in nodes {
-                    UpdateNode(node, in: pickingState.targetGrid) { updateIntance in
-                        action(&updateIntance)
-                    }
+        pickingState.targetGrid.semanticInfoMap.doOnAssociatedNodes(
+            pickedNodeSyntaxID, pickingState.targetGrid.tokenCache
+        ) { info, nodes in
+            for node in nodes {
+                UpdateNode(node, in: pickingState.targetGrid) { updateIntance in
+                    action(&updateIntance)
                 }
             }
         }
