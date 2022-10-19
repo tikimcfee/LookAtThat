@@ -11,8 +11,7 @@ struct MacAppRootView: View {
                 extras()
                 HStack(alignment: .top) {
                     SourceInfoPanelView()
-                }.padding(.bottom, 4.0)
-                
+                }.padding(.bottom, 4.0)   
             }
         }
     }

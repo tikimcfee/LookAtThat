@@ -8,23 +8,6 @@
 import SwiftUI
 import SwiftSyntax
 
-struct NodePickingState {
-    let targetGrid: CodeGrid
-    let nodeID: InstanceIDType
-    let node: GlyphNode
-    
-    var nodeBufferIndex: Int? { node.meta.instanceBufferIndex }
-    var nodeSyntaxID: NodeSyntaxID? { node.meta.syntaxID }
-    
-    var constantsPointer: ConstantsPointer {
-        return targetGrid.rootNode.instanceState.rawPointer
-    }
-    
-    var parserSyntaxID: SyntaxIdentifier? {
-        guard let id = nodeSyntaxID else { return nil }
-        return targetGrid.semanticInfoMap.syntaxIDLookupByNodeId[id]
-    }
-}
 
 struct SyntaxHierarchyView: View {
     @State var lastState: NodePickingState?
@@ -32,12 +15,13 @@ struct SyntaxHierarchyView: View {
     var body: some View {
         hoveredNodeInfoView(hoveredId)
             .onReceive(
-                GlobalInstances.gridStore.nodeHoverController
-                    .$lastGlyphState
+                GlobalInstances.gridStore
+                    .nodeHoverController
+                    .sharedGlyphEvent
                     .subscribe(on: RunLoop.main)
                     .receive(on: RunLoop.main),
                 perform: {
-                    lastState = $0
+                    lastState = $0.latestState
                 }
             )
     }

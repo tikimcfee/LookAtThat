@@ -48,6 +48,11 @@ class TwoETimeRoot: MetalLinkReader {
         camera.interceptor.onNewFileOperation = handleDirectory
         camera.interceptor.onNewFocusChange = handleFocus
         
+        GlobalInstances
+            .gridStore
+            .gridInteractionState
+            .setupStreams()
+        
 //        try setupNodeChildTest()
 //        try setupNodeBackgroundTest()
 //        try setupBackgroundTest()

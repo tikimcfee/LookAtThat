@@ -31,17 +31,27 @@ struct MobileAppRootView : View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             MetalView()
+            VStack {
+                Button(action: {
+                    showGitFetch.toggle()
+                }, label: {
+                   Image(systemName: "square.and.arrow.down.fill")
+                })
+                FileBrowserView()
+                    .frame(maxHeight: 192.0)
+            }
             gestureControl
+        }
+        .sheet(isPresented: $showGitFetch) {
+            GitHubClientView()
         }
     }
     
     var gestureControl: some View {
         ZStack(alignment: .topLeading) {
-            #if os(macOS) // used for previews
             Spacer()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.gray)
-            #endif
             if let touch = touchStart {
                 Circle()
                     .foregroundColor(Color.red)
@@ -49,7 +59,8 @@ struct MobileAppRootView : View {
                     .offset(x: touch.x - 16, y: touch.y - 16)
                     .shadow(color: .red, radius: 3.0)
             }
-        }.gesture(
+        }
+        .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { change in
                     if touchStart == nil { touchStart = change.startLocation }

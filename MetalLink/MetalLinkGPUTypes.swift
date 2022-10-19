@@ -24,6 +24,8 @@ extension VirtualParentConstants: MemoryLayoutSizable, BackingIndexed {
     mutating func reset() {
         modelMatrix = matrix_identity_float4x4
         bufferIndex = .zero
+//        useParentBuffer = 0
+//        parentBufferIndex = 0
     }
 }
 

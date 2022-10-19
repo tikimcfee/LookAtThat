@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftSyntax
 
 // MARK: - Collection Updates
 
@@ -14,6 +15,23 @@ extension CodeGrid {
     func updateAllNodeConstants(_ update: UpdateConstants) rethrows {
         var stopFlag = false
         try forAllNodesInCollection { _, nodeSet in
+            if stopFlag { return }
+            for node in nodeSet {
+                if stopFlag { return }
+                try rootNode.updateConstants(for: node) { pointer in
+                    try update(node, &pointer, &stopFlag)
+                }
+            }
+        }
+    }
+    
+    @inline(__always)
+    func updateAssociatedNodes(
+        _ targetSyntaxID: SyntaxIdentifier,
+        _ update: UpdateConstants
+    ) rethrows {
+        var stopFlag = false
+        try semanticInfoMap.doOnAssociatedNodes(targetSyntaxID, tokenCache) { info, nodeSet in
             if stopFlag { return }
             for node in nodeSet {
                 if stopFlag { return }

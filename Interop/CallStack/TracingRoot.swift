@@ -91,7 +91,11 @@ extension TracingRoot {
 #else
 extension TracingRoot {
     func setupTracing() {
-        print("\n\n\t\t Tracing is disabled!")
+        print("\n\n\t\t Tracing not compiled in!")
+    }
+    
+    func stopTracingAll() {
+        print("\n\n\t\t Tracing not compiled in!")
     }
 }
 #endif

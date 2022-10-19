@@ -86,6 +86,10 @@ class GridStore {
     
     private(set) lazy var searchContainer: SearchContainer = SearchContainer(gridCache: gridCache)    
     private(set) lazy var nodeHoverController: MetalLinkHoverController = MetalLinkHoverController(link: link)
+    private(set) lazy var gridInteractionState: GridInteractionState = GridInteractionState(
+        hoverController: nodeHoverController,
+        input: DefaultInputReceiver.shared
+    )
     private(set) lazy var editor: WorldGridEditor = WorldGridEditor()
     
     private(set) lazy var worldFocusController: WorldGridFocusController = WorldGridFocusController(
@@ -97,6 +101,7 @@ class GridStore {
     private(set) lazy var nodeFocusController: CodeGridSelectionController = CodeGridSelectionController(
         tokenCache: globalTokenCache
     )
+    
     private(set) lazy var traceLayoutController: TraceLayoutController = TraceLayoutController(
         worldFocus: worldFocusController
     )
