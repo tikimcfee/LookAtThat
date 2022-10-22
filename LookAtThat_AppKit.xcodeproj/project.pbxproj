@@ -807,6 +807,7 @@
 		B7D9C0782894B884003FEDA6 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
 		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
+		B7E7FBEB2904B3F400EC304F /* find_git_files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = find_git_files.swift; sourceTree = "<group>"; };
 		B7E9004B28FCB28A00EC2018 /* GridInteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridInteractionState.swift; sourceTree = "<group>"; };
 		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
@@ -1382,6 +1383,7 @@
 		B7F74EEF28921CE8004C5F8F /* Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
+				B7E7FBEB2904B3F400EC304F /* find_git_files.swift */,
 				B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */,
 			);
 			path = Playgrounds;
