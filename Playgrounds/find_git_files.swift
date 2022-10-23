@@ -76,8 +76,13 @@ func copyFileAtHashCommand(file: String, target: String) -> String {
     """
 }
 
-func checkoutAndMoveCommand(file: String, at hash: String, target: String) -> String {
-    let hashDirectory = "\(target)/\(hash)"
+func checkoutAndMoveCommand(
+    file: String,
+    hash: String,
+    hashPrefix: String,
+    target: String
+) -> String {
+    let hashDirectory = "\(target)/\(hashPrefix)\(hash)"
     let hashFile = "\(hashDirectory)/\(file)"
     let copyFileAtHash = copyFileAtHashCommand(file: file, target: hashFile)
 
@@ -119,7 +124,8 @@ func findFiles(_ searchString: String, savingHashesTo searchResultTargetPath: St
 
             return checkoutAndMoveCommand(
                 file: $0,
-                at: "\(index)_\(hash)",
+                hash: hash,
+                hashPrefix: "\(index)_",
                 target: searchResultTargetPath
             )
         }
