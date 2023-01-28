@@ -108,14 +108,27 @@ class TwoETimeRoot: MetalLinkReader {
 // MARK: - Current Test
 class WordNode: MetalLinkNode {
     let glyphs: CodeGridNodes
+    let parentGrid: CodeGrid
     
-    init(glyphs: CodeGridNodes) {
+    init(
+        glyphs: CodeGridNodes,
+        parentGrid: CodeGrid
+    ) {
         self.glyphs = glyphs
+        self.parentGrid = parentGrid
         super.init()
         
-        for node in glyphs {
-            add(child: node)
+        for glyph in glyphs {
+            add(child: glyph)
         }
+        modelEvents.sink { _ in
+            parentGrid.pushNodes(glyphs)
+        }.store(in: &eventBag)
+    }
+    
+    func doOnAll(_ receiver: (CodeGridNodes) -> Void) {
+        receiver(glyphs)
+        parentGrid.pushNodes(glyphs)
     }
 }
 
@@ -125,24 +138,21 @@ extension TwoETimeRoot {
         wordContainerGrid.removeBackground()
         wordContainerGrid.translated(dZ: -50.0)
         
+        var counter = 0.0
         let (_, nodes) = wordContainerGrid.consume(text: "Hello")
-        let helloNode = WordNode(glyphs: nodes)
+        let helloNode = WordNode(glyphs: nodes, parentGrid: wordContainerGrid)
+//        root.add(child: helloNode)
         
-        let allNodes = Array(nodes)
-//        RadialLayout(magnitude: 4).layoutGrids(allNodes)
-        wordContainerGrid.pushNodes(nodes)
-        
-//        QuickLooper(interval: .milliseconds(16)) {
-//            for node in nodes {
-//                let vector = LFloat3(x: cos(counter.float / 5.float), y: 0, z: 0)
-//                node.translate(dX: vector.x)
-//                grid.updateNode(node) {
-//                    $0.modelMatrix.translate(vector: vector)
+        QuickLooper(interval: .milliseconds(16)) {
+//            let vector = LFloat3(x: cos(counter.float), y: 0, z: 0)
+//            helloNode.doOnAll { nodes in
+//                for node in nodes {
+//                    node.translate(dX: cos(counter.float))
 //                }
 //            }
-//            grid.pushNodes(nodes)
-//            counter += 0.1
-//        }.runUntil { false }
+            helloNode.translate(dX: cos(counter.float / 5.0.float))
+            counter += 1.0
+        }.runUntil { false }
         
 //        root.bindAsVirtualParentOf(grid.rootNode)
         root.add(child: wordContainerGrid.rootNode)
