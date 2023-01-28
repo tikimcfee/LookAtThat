@@ -10,9 +10,11 @@ public struct GlyphCacheKey: Hashable, Equatable {
     public let foreground: NSUIColor
     public let background: NSUIColor
     
-    public init(source: Character,
-                _ foreground: NSUIColor,
-                _ background: NSUIColor = NSUIColor.black) {
+    public init(
+        source: Character,
+        _ foreground: NSUIColor,
+        _ background: NSUIColor = NSUIColor.black
+    ) {
         self.source = source
         self.glyph = String(source)
         self.foreground = foreground

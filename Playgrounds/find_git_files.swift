@@ -1,5 +1,7 @@
 import Foundation
 
+// https://www.w3docs.com/snippets/git/how-to-find-a-deleted-file-in-the-project-commit-history.html
+
 // MARK: - ECHO
 
 let __DEBUG = true
@@ -13,7 +15,7 @@ func dprint(_ message: @autoclosure () -> Any) {
     print(message())
 }
 
-let __DRY_RUN = true
+let __DRY_RUN = false
 func dry_runnable(
     _ name: @autoclosure () -> String,
     _ action: () throws -> Void

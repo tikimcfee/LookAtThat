@@ -36,6 +36,12 @@ class CodeGridGroup {
 // No, I haven't made constraints yet. Ew.
 
 struct RadialLayout {
+    let magnitude: Float
+    
+    init(magnitude: Float) {
+        self.magnitude = magnitude
+    }
+    
     // TODO: Doesn't quite work, not taking rotation into account for bounds.. I think
     func layoutGrids(_ nodes: [LayoutTarget]) {
         guard nodes.count > 1 else { return }
@@ -44,7 +50,6 @@ struct RadialLayout {
         let twoPi = 2.0 * Float.pi
         let childRadians = twoPi / nodeCount.float
         let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
-        let magnitude = 64.float
         
         zip(nodes, childRadianStride).enumerated().forEach { index, gridTuple in
             let (node, radians) = gridTuple

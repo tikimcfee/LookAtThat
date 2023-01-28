@@ -96,4 +96,24 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             }
         }
     }
+    
+//    func writeWord(
+//        _ string: String,
+//        _ wordID: NodeSyntaxID,
+//        _ color: NSUIColor,
+//        _ writtenNodeSet: inout CodeGridNodes
+//    ) {
+//        // Fetch parent buffer index to set for all new written nodes
+//        var parentBufferIndex: IndexedBufferType = .zero
+//        targetGrid.updateVirtualParentConstants? {
+//            parentBufferIndex = $0.bufferIndex
+//        }
+//
+//        let glyphKey = GlyphCacheKey(source: string, color)
+//        writer.addGlyph(glyphKey) { glyph, constants in
+//            glyph.meta.syntaxID = wordID
+//            writtenNodeSet.insert(glyph)
+//            constants.parentIndex = parentBufferIndex
+//        }
+//    }
 }

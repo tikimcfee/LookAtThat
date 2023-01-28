@@ -67,9 +67,7 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
     ///   - value: The value to set for key
     ///   - key: The key to set value for
     public func set(value: Value, forKey key: Key) {
-        rwlock.writeLock()
-        _set(value: value, forKey: key)
-        rwlock.unlock()
+        _setSubscript(key, newValue: value)
     }
 
     @discardableResult
@@ -117,25 +115,23 @@ public final class ConcurrentDictionary<Key: Hashable, Value> {
 }
 
 extension ConcurrentDictionary {
-    @inline(__always)
     private func _setSubscript(_ key: Key, newValue: Value?) {
         rwlock.writeLock()
-        defer {
-            rwlock.unlock()
-        }
+        
         guard let newValue = newValue else {
             _remove(key)
+            rwlock.unlock()
             return
         }
+        
         _set(value: newValue, forKey: key)
+        rwlock.unlock()
     }
     
-    @inline(__always)
     private func _set(value: Value, forKey key: Key) {
         self.container[key] = value
     }
     
-    @inline(__always)
     @discardableResult
     private func _remove(_ key: Key) -> Value? {
         guard let index = container.index(forKey: key) else { return nil }

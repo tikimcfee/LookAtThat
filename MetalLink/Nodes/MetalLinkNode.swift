@@ -147,6 +147,11 @@ class MetalLinkNode: Measures {
         child.parent = self
     }
     
+    func remove(child: MetalLinkNode) {
+        children.removeAll(where: { $0.nodeId == child.nodeId })
+        child.parent = nil
+    }
+    
     func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
         for child in children {
             action(child)

@@ -313,6 +313,9 @@
 		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
+		B7A102EB29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
+		B7A102EC29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
+		B7A102ED29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
 		B7A60F8328B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8728B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
@@ -747,6 +750,7 @@
 		B79F930F2750741900E46A96 /* CodeGridCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridCache.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
+		B7A102EA29857B4C008DD767 /* 2ETTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2ETTests.swift; sourceTree = "<group>"; };
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
 		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
@@ -933,6 +937,7 @@
 			children = (
 				B7AC333A28A0CA70001172BB /* 2ET */,
 				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
+				B7A102EA29857B4C008DD767 /* 2ETTests.swift */,
 				B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */,
 				B7AC332528A0CA70001172BB /* CoreError.swift */,
 				B7AC333328A0CA70001172BB /* MetalLink.swift */,
@@ -2011,6 +2016,7 @@
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
 				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
+				B7A102ED29857B4C008DD767 /* 2ETTests.swift in Sources */,
 				B7229D8728D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
@@ -2099,6 +2105,7 @@
 				B768E2B528BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
 				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
+				B7A102EB29857B4C008DD767 /* 2ETTests.swift in Sources */,
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */,
@@ -2301,6 +2308,7 @@
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
 				B7B1097D28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
+				B7A102EC29857B4C008DD767 /* 2ETTests.swift in Sources */,
 				B725167628C086060094F29B /* NumberConversions.swift in Sources */,
 				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7AC337428A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,

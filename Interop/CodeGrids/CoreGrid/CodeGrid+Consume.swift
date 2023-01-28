@@ -14,17 +14,12 @@ extension CodeGrid {
     // If you call this, you basically draw text like a typewriter from wherevery you last were.
     // it adds caches layer glyphs motivated by display requirements inherited by those clients.
     @discardableResult
-    func consume(text: String) -> CodeGrid {
-        doTextConsume(text: text)
-        return self
-    }
-    
-    @discardableResult
-    private func doTextConsume(text: String) -> CodeGrid {
+    func consume(text: String) -> (CodeGrid, CodeGridNodes) {
         var nodes = CodeGridNodes()
         GlyphCollectionSyntaxConsumer(targetGrid: self)
             .write(text, "raw-text-\(UUID().uuidString)", NSUIColor.white, &nodes)
-        return self
+        rootNode.setRootMesh()
+        return (self, nodes)
     }
 }
 

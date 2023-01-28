@@ -65,6 +65,10 @@ public class CodeGrid: Identifiable, Equatable {
         setupOnInit()
     }
     
+    func removeBackground() {
+        rootNode.remove(child: gridBackground)
+    }
+    
     func updateBackground() {
         let size = targetNode.contentSize
         gridBackground.scale.x = size.x / 2
@@ -74,6 +78,42 @@ public class CodeGrid: Identifiable, Equatable {
             .setLeading(localLeading)
             .setTop(localTop)
             .setFront(localBack)
+    }
+    
+    func updateNode(
+        _ node: GlyphNode,
+        _ action: (inout GlyphConstants) -> Void
+    ) {
+        let pointer = rootNode.instanceState.rawPointer
+        guard let index = node.meta.instanceBufferIndex else {
+            return
+        }
+        action(&pointer[index])
+    }
+    
+    func pushNode(
+        _ node: GlyphNode
+    ) {
+        let pointer = rootNode.instanceState.rawPointer
+        guard let index = node.meta.instanceBufferIndex else {
+            return
+        }
+        pointer[index].modelMatrix = node.modelMatrix
+    }
+    
+    
+    // TODO: .... multithreaded?
+    func pushNodes<T: GlyphNode>(
+        _ nodes: Set<T>
+    ) {
+        let pointer = rootNode.instanceState.rawPointer
+
+        for node in nodes {
+            guard let index = node.meta.instanceBufferIndex else {
+                return
+            }
+            pointer[index].modelMatrix = node.modelMatrix
+        }
     }
     
     private func setupOnInit() {
