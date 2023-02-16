@@ -58,7 +58,9 @@ class TwoETimeRoot: MetalLinkReader {
 //        try setupBackgroundTest()
 //        try setupSnapTestMulti()
 //        try setupTriangleStripTest()
-        try setupWordWare()
+//        try setupWordWare()
+//        try setupWordWareSentence()
+        try setupWordWarePLA()
         
          // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
@@ -118,21 +120,125 @@ class WordNode: MetalLinkNode {
         self.parentGrid = parentGrid
         super.init()
         
+        let bounds = BoundsComputing()
+        bounds.consumeNodeSet(Set(glyphs), convertingTo: nil)
+        var xOffset: Float = -BoundsWidth(bounds.bounds) / 4.0
+        
         for glyph in glyphs {
-            add(child: glyph)
+            glyph.parent = self
+            glyph.position = LFloat3(x: xOffset, y: 0, z: 0)
+            xOffset += glyph.boundsWidth
         }
-        modelEvents.sink { _ in
-            parentGrid.pushNodes(glyphs)
-        }.store(in: &eventBag)
+        
+        push()
     }
     
     func doOnAll(_ receiver: (CodeGridNodes) -> Void) {
         receiver(glyphs)
         parentGrid.pushNodes(glyphs)
     }
+    
+    func push(_ receiver: (WordNode) -> Void) {
+        receiver(self)
+        parentGrid.pushNodes(glyphs)
+    }
+    
+    func push() {
+        parentGrid.pushNodes(glyphs)
+    }
+    
+    func update(_ action: @escaping (WordNode) -> Void) {
+        Task {
+            action(self)
+            push()
+        }
+    }
 }
 
 extension TwoETimeRoot {
+    func setupWordWarePLA() throws {
+        let wordContainerGrid = builder.createGrid()
+        wordContainerGrid.removeBackground()
+        wordContainerGrid.translated(dZ: -100.0)
+        
+        let testSentence = "Hello. My name is Ivan. My intent is understanding and peace. Hello. My name is Ivan. My intent is understanding and peace. Hello. My name is Ivan. My intent is understanding and peace."
+        let sentences = Array(repeating: testSentence, count: 100)
+        let layout = DepthLayout()
+        
+        var center = LFloat3.zero
+        var allNodes = [WordNode]()
+        for sentence in sentences {
+            var wordNodes = [WordNode]()
+            
+            let sentenceWords = sentence.splitToWords
+            for word in sentenceWords {
+                let (_, wordGlyphs) = wordContainerGrid.consume(text: word)
+                let wordNode = WordNode(glyphs: wordGlyphs, parentGrid: wordContainerGrid)
+                wordNodes.append(wordNode)
+                allNodes.append(wordNode)
+            }
+            
+            layout.layoutGrids2(center.x, center.y, center.z, wordNodes, wordContainerGrid)
+            center.translateBy(dX: 16.0)
+        }
+        
+        root.add(child: wordContainerGrid.rootNode)
+        
+        var counter: Float = 0.0
+        QuickLooper(
+            interval: .milliseconds(16),
+            loop: {
+                for node in allNodes {
+                    node.update {
+                        $0.position.x += -cos(counter / 100)
+                    }
+                }
+                counter += 1.0
+            }
+        ).runUntil { false }
+    }
+    
+    
+    func setupWordWareSentence() throws {
+        let wordContainerGrid = builder.createGrid()
+        wordContainerGrid.removeBackground()
+        wordContainerGrid.translated(dZ: -50.0)
+        
+        let testSentence = "Hello. My name is Ivan. My intent is understanding and peace.\n"
+        let sentences = Array(repeating: testSentence, count: 100)
+        
+        var wordNodes = [WordNode]()
+        
+        for sentence in sentences {
+            let sentenceWords = sentence.splitToWordsAndSpaces
+            for word in sentenceWords {
+                let (_, wordGlyphs) = wordContainerGrid.consume(text: word)
+                let wordNode = WordNode(glyphs: wordGlyphs, parentGrid: wordContainerGrid)
+                wordNodes.append(wordNode)
+            }
+        }
+        
+        root.add(child: wordContainerGrid.rootNode)
+        
+        WorkerPool.shared.nextWorker().async {
+            for wordNode in wordNodes {
+                var counter = Double.random(in: (0.0...1.0))
+                QuickLooper(
+                    interval: .milliseconds(16),
+                    loop: {
+                        wordNode.push {
+                            $0.translate(
+                                dX: cos(counter.float / 5.0.float),
+                                dY: sin(counter.float / 5.0.float)
+                            )
+                        }
+                        counter += 1.0
+                    }
+                ).runUntil { false }
+            }
+        }
+    }
+    
     func setupWordWare() throws {
         let wordContainerGrid = builder.createGrid()
         wordContainerGrid.removeBackground()
@@ -140,16 +246,11 @@ extension TwoETimeRoot {
         
         var counter = 0.0
         let (_, nodes) = wordContainerGrid.consume(text: "Hello")
+        
+        // Word nodes are virtual parents right now - you don't add them to the root.
         let helloNode = WordNode(glyphs: nodes, parentGrid: wordContainerGrid)
-//        root.add(child: helloNode)
         
         QuickLooper(interval: .milliseconds(16)) {
-//            let vector = LFloat3(x: cos(counter.float), y: 0, z: 0)
-//            helloNode.doOnAll { nodes in
-//                for node in nodes {
-//                    node.translate(dX: cos(counter.float))
-//                }
-//            }
             helloNode.translate(dX: cos(counter.float / 5.0.float))
             counter += 1.0
         }.runUntil { false }

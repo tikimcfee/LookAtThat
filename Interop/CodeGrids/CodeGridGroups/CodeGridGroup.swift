@@ -42,6 +42,39 @@ struct RadialLayout {
         self.magnitude = magnitude
     }
     
+    func layoutGrids2(
+        _ centerX: Float,
+        _ centerY: Float,
+        _ centerZ: Float,
+        _ radius: Float,
+        _ wordNodes: [WordNode],
+        _ parent: CodeGrid
+    ) {
+        let numberOfWords = wordNodes.count
+        let step = 360.0 / numberOfWords.float
+        
+        for i in 0..<numberOfWords {
+            let angleInDegrees = step * i.float
+            let angleInRadians = angleInDegrees * Float.pi / 180
+            let x = centerX + radius * cos(angleInRadians)
+//            let y = centerY + radius * -sin(angleInRadians)
+            let z = centerZ + radius * -sin(angleInRadians)
+            let final = LFloat3(x: x, y: centerY, z: z)
+//            wordNodes[i].layoutNode.position = LFloat3(x: x, y: y, z: centerZ)
+            let node = wordNodes[i]
+            var xOffset: Float = -node.boundsWidth / 2.0
+            for glyph in wordNodes[i].glyphs {
+                parent.updateNode(glyph) {
+                    $0.modelMatrix.columns.3.x = xOffset + final.x
+                    $0.modelMatrix.columns.3.y = final.y
+                    $0.modelMatrix.columns.3.z = final.z
+//                    $0.modelMatrix.translate(vector: vector)
+                }
+                xOffset += glyph.boundsWidth
+            }
+        }
+    }
+    
     // TODO: Doesn't quite work, not taking rotation into account for bounds.. I think
     func layoutGrids(_ nodes: [LayoutTarget]) {
         guard nodes.count > 1 else { return }
@@ -56,14 +89,14 @@ struct RadialLayout {
             
             let radialX = (cos(radians) * (magnitude))
             let radialY = 0.float
-            let radialZ = -(sin(radians) * (magnitude))
+            let radialZ = (sin(radians) * (magnitude))
 
             node.layoutNode.position = LFloat3.zero.translated(
                 dX: radialX,
                 dY: radialY,
                 dZ: radialZ
             )
-            node.layoutNode.rotation.y = radians
+//            node.layoutNode.rotation.y = radians
         }
     }
 }
@@ -83,7 +116,7 @@ extension MetalLinkNode: LayoutTarget {
 struct DepthLayout {
     let xGap = 16.float
     let yGap = -64.float
-    let zGap = -128.float
+    let zGap = -8.float
     
     func layoutGrids(_ targets: [LayoutTarget]) {
         var lastTarget: LayoutTarget?
@@ -94,6 +127,28 @@ struct DepthLayout {
                     .setLeading(lastTarget.layoutNode.leading)
                     .setFront(lastTarget.layoutNode.back + zGap)
             }
+            lastTarget = currentTarget
+        }
+    }
+    
+    func layoutGrids2(
+        _ centerX: Float,
+        _ centerY: Float,
+        _ centerZ: Float,
+        _ wordNodes: [WordNode],
+        _ parent: CodeGrid
+    ) {
+        var lastTarget: LayoutTarget?
+        
+        for currentTarget in wordNodes {
+            if let lastTarget = lastTarget {
+                let final = lastTarget.layoutNode.position.translated(dZ: zGap)
+                currentTarget.position = final
+            } else {
+                let final = LFloat3(x: centerX, y: centerY, z: centerZ)
+                currentTarget.position = final
+            }
+            currentTarget.push()
             lastTarget = currentTarget
         }
     }

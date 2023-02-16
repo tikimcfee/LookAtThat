@@ -30,7 +30,7 @@ extension GlyphCollection {
         let pointer = Pointer()
         let targetCollection: GlyphCollection
         var lineCount = 0
-        private var currentPosition: LFloat3 { LFloat3(pointer.position) }
+        private var currentPosition: LFloat3 { pointer.position }
         
         init(collection: GlyphCollection) {
             self.targetCollection = collection

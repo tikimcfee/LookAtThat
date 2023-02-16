@@ -116,6 +116,19 @@ public class CodeGrid: Identifiable, Equatable {
         }
     }
     
+    func pushNodes<T: GlyphNode>(
+        _ nodes: [T]
+    ) {
+        let pointer = rootNode.instanceState.rawPointer
+        
+        for node in nodes {
+            guard let index = node.meta.instanceBufferIndex else {
+                return
+            }
+            pointer[index].modelMatrix = node.modelMatrix
+        }
+    }
+    
     private func setupOnInit() {
         rootNode.modelEvents.sink { updatedBufferMatrix in
             self.updateVirtualParentConstants? {

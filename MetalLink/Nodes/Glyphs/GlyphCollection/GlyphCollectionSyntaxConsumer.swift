@@ -91,7 +91,8 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
             writer.addGlyph(glyphKey) { glyph, constants in
                 glyph.meta.syntaxID = nodeID
-                writtenNodeSet.insert(glyph)
+//                writtenNodeSet.insert(glyph)
+                writtenNodeSet.append(glyph)
                 constants.parentIndex = parentBufferIndex
             }
         }

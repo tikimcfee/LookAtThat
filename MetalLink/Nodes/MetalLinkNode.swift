@@ -25,23 +25,6 @@ class MetalLinkNode: Measures {
     }
     
     lazy var nodeId = UUID().uuidString
-    
-    // TODO: So... this totally works and is INCREDIBLY slow, because everything is being walked all the time
-    // because the very root parent is causing a massive storm to children. I could cache stuff again, but uh...
-    // ... maybe just be happy with current glyph parenting stuff, one parent works now at least.
-//    private var internalParent: MetalLinkNode?
-//    private var parentCancellable: AnyCancellable?
-//    var parent: MetalLinkNode? {
-//        get { internalParent }
-//        set { setNewParent(newValue) }
-//    }
-//    private func setNewParent(_ newParent: MetalLinkNode?) {
-//        parentCancellable = newParent?.modelEvents.sink { newModel in
-//            self.rebuildModelMatrix(includeChildren: true)
-//        }
-//        rebuildModelMatrix(includeChildren: true)
-//        internalParent = newParent
-//    }
 
     var parent: MetalLinkNode?
         { didSet { rebuildModelMatrix(includeChildren: true) } }
