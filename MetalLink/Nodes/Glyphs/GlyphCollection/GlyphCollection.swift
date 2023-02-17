@@ -38,10 +38,15 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     
     init(
         link: MetalLink,
-        linkAtlas: MetalLinkAtlas
+        linkAtlas: MetalLinkAtlas,
+        bufferSize: Int = BackingBufferDefaultSize
     ) throws {
         self.linkAtlas = linkAtlas
-        try super.init(link, mesh: link.meshLibrary[.Quad])
+        try super.init(
+            link,
+            mesh: link.meshLibrary[.Quad],
+            bufferSize: bufferSize
+        )
     }
         
     private var _time: Float = 0
@@ -101,7 +106,7 @@ where InstancedNodeType == MetalLinkGlyphNode {
     ) rethrows {
         guard let bufferIndex = node.meta.instanceBufferIndex
         else {
-            print("Missing buffer index for [\(node.key.source)]: \(node.nodeId)")
+            print("Missing buffer index for [\(node.key.glyph)]: \(node.nodeId)")
             return
         }
         

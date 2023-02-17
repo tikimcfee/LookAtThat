@@ -30,10 +30,17 @@ class MetalLinkInstancedObject<InstancedNodeType: MetalLinkNode>: MetalLinkNode 
     var rootState = State()
     let instanceState: InstanceState<InstancedNodeType>
 
-    init(_ link: MetalLink, mesh: MetalLinkMesh) throws {
+    init(
+        _ link: MetalLink,
+        mesh: MetalLinkMesh,
+        bufferSize: Int = BackingBufferDefaultSize
+    ) throws {
         self.link = link
         self.mesh = mesh
-        self.instanceState = try InstanceState(link: link)
+        self.instanceState = try InstanceState(
+            link: link,
+            bufferSize: bufferSize
+        )
         super.init()
     }
     

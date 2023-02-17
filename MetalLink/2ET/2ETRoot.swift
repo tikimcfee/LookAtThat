@@ -60,7 +60,8 @@ class TwoETimeRoot: MetalLinkReader {
 //        try setupTriangleStripTest()
 //        try setupWordWare()
 //        try setupWordWareSentence()
-        try setupWordWarePLA()
+//        try setupWordWarePLA()
+        try setupDictionaryTest()
         
          // TODO: ManyGrid need more abstractions
 //        try setupSnapTestMonoMuchDataManyGrid()
@@ -155,7 +156,179 @@ class WordNode: MetalLinkNode {
     }
 }
 
+struct WordDictionary: Codable {
+    let words: [String: String]
+    
+    init(file: URL) {
+        self.words = try! JSONDecoder().decode(
+            [String: String].self,
+            from: Data(contentsOf: file, options: .alwaysMapped)
+        )
+    }
+}
+
+actor WordPositioner {
+    private var column: Int = -1
+    private var row: Int = -1
+    let length: Int
+    
+    init(length: Int) {
+        self.length = length
+    }
+    
+    func nextRow() -> Int {
+        row += 1
+        
+        if row >= length {
+            column += 8
+            row = 0
+        }
+        
+        return row
+    }
+    
+    func nextColumn() -> Int {
+        column += 1
+        return column
+    }
+}
+
+actor WordBuilder {
+    let wordContainerGrid: CodeGrid
+    let positioner: WordPositioner
+    
+    init(
+        wordContainerGrid: CodeGrid,
+        positioner: WordPositioner
+    ) {
+        self.wordContainerGrid = wordContainerGrid
+        self.positioner = positioner
+    }
+    
+    func make(word: String) async -> WordNode {
+        let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+        let node = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+        
+        let column = await positioner.nextColumn().float
+        let row = await positioner.nextRow().float * -1
+        
+        node.update {
+            $0.position = LFloat3(
+                x: column * 2.0,
+                y: row * 2.0,
+                z: 0
+            )
+        }
+        
+        return node
+    }
+}
+
 extension TwoETimeRoot {
+    func setupDictionaryTest() throws {
+        openFile { file in
+            switch file {
+            case .success(let url):
+                kickoffJsonLoad(url)
+                
+            default:
+                break
+            }
+        }
+        
+//        /// JUST DON'T.
+//        /// ASYNC / AWAIT. NOT EVEN ONCE.
+//        func kickoffJsonLoadAsyncStyle(_ url: URL) {
+//            let wordContainerGrid = builder.createGrid(
+//                bufferSize: 15_500_000
+//            )
+//            wordContainerGrid.removeBackground()
+//            wordContainerGrid.translated(dZ: -100.0)
+//
+//            let dictionary = WordDictionary(file: url)
+//            print("Defined words: \(dictionary.words.count)")
+//
+//            let sideLength = Int(sqrt(dictionary.words.count.float)) * 2
+//            let positioner = WordPositioner(length: sideLength)
+//            let builder = WordBuilder(wordContainerGrid: wordContainerGrid, positioner: positioner)
+//
+//            Task { [builder] in
+//                var group = DispatchGroup()
+//                for (word, definition) in dictionary.words {
+//                    group.enter()
+//                    Task { [builder, group] in
+//                        let wordNode = await builder.make(word: word)
+//                        group.leave()
+//                    }
+//                }
+//                group.wait()
+//                root.add(child: wordContainerGrid.rootNode)
+//            }
+//
+////            root.add(child: wordContainerGrid.rootNode)
+//        }
+        
+        func kickoffJsonLoad(_ url: URL) {
+            let wordContainerGrid = builder.createGrid(
+                bufferSize: 15_500_000
+            )
+            wordContainerGrid.removeBackground()
+            wordContainerGrid.translated(dZ: -100.0)
+            
+            let dictionary = WordDictionary(file: url)
+            print("Defined words: \(dictionary.words.count)")
+            
+            let sideLength = Int(sqrt(dictionary.words.count.float)) * 2
+            
+            var rowCount = 0
+            var colCount = 0
+            
+//            let layout = DepthLayout()
+            
+//            var stop = 1_000_000
+            
+            for (word, definition) in dictionary.words {
+                let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+                let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+                
+                sourceNode.update {
+                    $0.position = LFloat3(
+                        x: colCount.float * 2.0,
+                        y: -rowCount.float * 2.0,
+                        z: 0
+                    )
+                }
+                
+//                var lastWord: WordNode = sourceNode
+//                let definitionWords = definition.splitToWords
+//                for definitionWord in definitionWords {
+//                    let (_, sourceGlyphs) = wordContainerGrid.consume(text: definitionWord)
+//                    let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+//                    
+//                    sourceNode.position = lastWord.position.translated(dZ: -8)
+//                    sourceNode.push()
+//                    
+//                    lastWord = sourceNode
+//                }
+                
+                rowCount += 1
+                if rowCount == sideLength {
+                    colCount += 8
+                    rowCount = 0
+                }
+                
+//                stop -= 1
+//
+//                if stop <= 0 {
+//                    print("\n\n -- Stopped Early -- \n\n")
+//                    break
+//                }
+            }
+            
+            root.add(child: wordContainerGrid.rootNode)
+        }
+    }
+    
     func setupWordWarePLA() throws {
         let wordContainerGrid = builder.createGrid()
         wordContainerGrid.removeBackground()

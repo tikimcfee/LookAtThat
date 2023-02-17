@@ -49,13 +49,19 @@ class CodeGridGlyphCollectionBuilder {
         }
     }
     
-    func getCollection() -> GlyphCollection {
-        return try! GlyphCollection(link: link, linkAtlas: atlas)
+    func getCollection(bufferSize: Int = BackingBufferDefaultSize) -> GlyphCollection {
+        return try! GlyphCollection(
+            link: link,
+            linkAtlas: atlas,
+            bufferSize: bufferSize
+        )
     }
     
-    func createGrid() -> CodeGrid {
+    func createGrid(
+        bufferSize: Int = BackingBufferDefaultSize
+    ) -> CodeGrid {
         let grid = CodeGrid(
-            rootNode: getCollection(),
+            rootNode: getCollection(bufferSize: bufferSize),
             tokenCache: sharedTokenCache
         )
         sharedGridCache.cachedGrids[grid.id] = grid

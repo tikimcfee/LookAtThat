@@ -23,9 +23,15 @@ class InstanceState<InstancedNodeType> {
         set { constants.pointer = newValue }
     }
     
-    init(link: MetalLink) throws {
+    init(
+        link: MetalLink,
+        bufferSize: Int = BackingBufferDefaultSize
+    ) throws {
         self.link = link
-        self.constants = try BackingBuffer(link: link)
+        self.constants = try BackingBuffer(
+            link: link,
+            initialSize: bufferSize
+        )
     }
     
     func indexValid(_ index: Int) -> Bool {
