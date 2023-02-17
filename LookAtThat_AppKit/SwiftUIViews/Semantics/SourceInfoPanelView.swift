@@ -119,12 +119,14 @@ extension SourceInfoPanelView {
         }
         
         func playInputAsSentence(_ dirtySentence: String) {
-            let cleanedSentence = dirtySentence.lowercased().splitToWords
+            let cleanedSentence = dirtySentence.lowercased().splitToWords.map {
+                $0.trimmingCharacters(in: .alphanumerics.inverted).lowercased()
+            }
             
             WorkerPool.shared.nextWorker().async {
                 for word in cleanedSentence {
                     updateFocusOnTextChange(word)
-                    Thread.sleep(forTimeInterval: 0.5)
+                    Thread.sleep(forTimeInterval: 0.125)
                 }
             }
         }

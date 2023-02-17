@@ -156,7 +156,7 @@ class WordNode: MetalLinkNode {
 }
 
 struct WordDictionary: Codable {
-    let words: [String: String]
+    var words: [String: [String]]
     
     init() {
         self.words = .init()
@@ -164,14 +164,23 @@ struct WordDictionary: Codable {
     
     init(file: URL) {
         self.words = try! JSONDecoder().decode(
-            [String: String].self,
+            [String: [String]].self,
             from: Data(contentsOf: file, options: .alwaysMapped)
-        )
+        ).reduce(into: [String: [String]]()) { result, element in
+            if let first = element.value.first {
+                let cleanedWords = first.splitToWords.map { word in
+                    word.trimmingCharacters(
+                        in: .alphanumerics.inverted
+                    ).lowercased()
+                }
+                result[element.key] = cleanedWords
+            }
+        }
     }
 }
 
 struct SortedDictionary {
-    let sorted: [(String, String)]
+    let sorted: [(String, [String])]
     
     init() {
         self.sorted = .init()
@@ -195,56 +204,84 @@ class DictionaryController: ObservableObject {
         didSet { nodeMap = .init() }
     }
     
-    lazy var scale: Float = 15.0
+    lazy var scale: Float = 30.0
     lazy var scaleVector = LFloat3(scale, scale, scale)
+    lazy var scaleVectorNested = LFloat3(scale / 2.0, scale / 2.0, scale / 2.0)
     
     lazy var inverseScale: Float = pow(scale, -1)
-//    lazy var inverseScaleVector = LFloat3(inverseScale, inverseScale, inverseScale)
     lazy var inverseScaleVector = LFloat3(1, 1, 1)
     
     lazy var positionVector = LFloat3(0, 0, 16)
     lazy var inversePositionVector = LFloat3(0, 0, -16)
     
-    lazy var colorVector = LFloat4(0.75, 0.75, 0.5, 0.0)
+    lazy var colorVector = LFloat4(0.65, 0.30, 0.0, 0.0)
+    lazy var colorVectorNested = LFloat4(-0.65, 0.55, 0.55, 0.0)
     
     var focusedWordNode: WordNode? {
         willSet {
             guard newValue != focusedWordNode else { return }
             
             if let focusedWordNode {
-                defocusWord(focusedWordNode)
+                defocusWord(focusedWordNode, true)
             }
             
             if let newValue {
-                focusWord(newValue)
+                focusWord(newValue, true)
             }
         }
     }
     
-    func focusWord(_ wordNode: WordNode) {
+    func focusWord(
+        _ wordNode: WordNode,
+        _ focusNested: Bool = false,
+        _ isNested: Bool = false
+    ) {
         wordNode.update { toUpdate in
             toUpdate.position.translateBy(dZ: self.positionVector.z)
-            toUpdate.scale = self.scaleVector
+            toUpdate.scale = isNested
+                ? self.scaleVectorNested
+                : self.scaleVector
+            
             for glyph in toUpdate.glyphs {
                 UpdateNode(glyph, in: toUpdate.parentGrid) {
                     $0.addedColor += self.colorVector
+                    if isNested {
+                        $0.addedColor += self.colorVectorNested
+                    }
                 }
             }
         }
         
-        let definition = dictionary.words[wordNode.sourceWord] ?? "<missing definition>"
-        print("will focus:")
-        print(definition)
+        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
+        if let definitionNodes, focusNested {
+            for definitionWord in definitionNodes {
+                focusWord(definitionWord, false, true)
+            }
+        }
     }
     
-    func defocusWord(_ wordNode: WordNode) {
+    func defocusWord(
+        _ wordNode: WordNode,
+        _ defocusNested: Bool = false,
+        _ isNested: Bool = false
+    ) {
         wordNode.update { toUpdate in
             toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
             toUpdate.scale = self.inverseScaleVector
             for glyph in toUpdate.glyphs {
                 UpdateNode(glyph, in: toUpdate.parentGrid) {
                     $0.addedColor -= self.colorVector
+                    if isNested {
+                        $0.addedColor -= self.colorVectorNested
+                    }
                 }
+            }
+        }
+        
+        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
+        if let definitionNodes, defocusNested {
+            for definitionWord in definitionNodes {
+                defocusWord(definitionWord, false, true)
             }
         }
     }
@@ -271,31 +308,40 @@ class DictionaryController: ObservableObject {
 actor Positioner {
     var column: Int = 0
     var row: Int = 0
+    var depth: Int = 0
+    
     var sideLength: Int
     
     init(sideLength: Int) {
         self.sideLength = sideLength
     }
     
+    private func nextDepth() -> Int {
+        let val = depth
+        return val
+    }
+    
     private func nextColumn() -> Int {
         let val = column
+//        if val >= sideLength / 4 {
+//            column = 0
+//            depth += 1
+//        }
         return val
     }
     
     private func nextRow() -> Int {
         let val = row
-        
         if val >= sideLength {
-            column += 8
-            row = -1
+            row = 0
+            column += 1
         }
         row += 1
-        
         return val
     }
     
-    func nextPos() -> (Int, Int) {
-        (nextRow(), nextColumn())
+    func nextPos() -> (Int, Int, Int) {
+        (nextRow(), nextColumn(), nextDepth())
     }
 }
 
@@ -315,7 +361,7 @@ extension TwoETimeRoot {
         let dictionary = controller.sortedDictionary
         print("Defined words: \(dictionary.sorted.count)")
         
-        let sideLength = Int(sqrt(dictionary.sorted.count.float)) * 2        
+        let sideLength = Int(sqrt(dictionary.sorted.count.float))
         let chunkGroup = DispatchGroup()
         let positions = Positioner(sideLength: sideLength)
         
@@ -333,11 +379,12 @@ extension TwoETimeRoot {
                         controller.nodeMap[word] = sourceNode
                         
                         sourceNode.update {
-                            let (row, column) = await positions.nextPos()
+                            let (row, column, depth) = await positions.nextPos()
+                            print(row, column, depth)
                             $0.position = LFloat3(
-                                x: column.float * 2.0,
-                                y: -row.float * 2.0,
-                                z: 0
+                                x: column.float * 24.0,
+                                y: -row.float * 4.0,
+                                z: -depth.float * 128.0
                             )
                         }
                     }
