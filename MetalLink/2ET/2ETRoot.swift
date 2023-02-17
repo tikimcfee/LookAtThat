@@ -110,13 +110,16 @@ class TwoETimeRoot: MetalLinkReader {
 
 // MARK: - Current Test
 class WordNode: MetalLinkNode {
+    let sourceWord: String
     let glyphs: CodeGridNodes
     let parentGrid: CodeGrid
     
     init(
+        sourceWord: String,
         glyphs: CodeGridNodes,
         parentGrid: CodeGrid
     ) {
+        self.sourceWord = sourceWord
         self.glyphs = glyphs
         self.parentGrid = parentGrid
         super.init()
@@ -209,26 +212,38 @@ class DictionaryController: ObservableObject {
             guard newValue != focusedWordNode else { return }
             
             if let focusedWordNode {
-                focusedWordNode.update { toUpdate in
-                    toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
-                    toUpdate.scale = self.inverseScaleVector
-                    for glyph in toUpdate.glyphs {
-                        UpdateNode(glyph, in: toUpdate.parentGrid) {
-                            $0.addedColor -= self.colorVector
-                        }
-                    }
-                }
+                defocusWord(focusedWordNode)
             }
             
             if let newValue {
-                newValue.update { toUpdate in
-                    toUpdate.position.translateBy(dZ: self.positionVector.z)
-                    toUpdate.scale = self.scaleVector
-                    for glyph in toUpdate.glyphs {
-                        UpdateNode(glyph, in: toUpdate.parentGrid) {
-                            $0.addedColor += self.colorVector
-                        }
-                    }
+                focusWord(newValue)
+            }
+        }
+    }
+    
+    func focusWord(_ wordNode: WordNode) {
+        wordNode.update { toUpdate in
+            toUpdate.position.translateBy(dZ: self.positionVector.z)
+            toUpdate.scale = self.scaleVector
+            for glyph in toUpdate.glyphs {
+                UpdateNode(glyph, in: toUpdate.parentGrid) {
+                    $0.addedColor += self.colorVector
+                }
+            }
+        }
+        
+        let definition = dictionary.words[wordNode.sourceWord] ?? "<missing definition>"
+        print("will focus:")
+        print(definition)
+    }
+    
+    func defocusWord(_ wordNode: WordNode) {
+        wordNode.update { toUpdate in
+            toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
+            toUpdate.scale = self.inverseScaleVector
+            for glyph in toUpdate.glyphs {
+                UpdateNode(glyph, in: toUpdate.parentGrid) {
+                    $0.addedColor -= self.colorVector
                 }
             }
         }
@@ -310,7 +325,11 @@ extension TwoETimeRoot {
                 WorkerPool.shared.nextWorker().async {
                     for (word, _) in chunk {
                         let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
-                        let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+                        let sourceNode = WordNode(
+                            sourceWord: word,
+                            glyphs: sourceGlyphs,
+                            parentGrid: wordContainerGrid
+                        )
                         controller.nodeMap[word] = sourceNode
                         
                         sourceNode.update {
@@ -370,7 +389,11 @@ extension TwoETimeRoot {
             let sentenceWords = sentence.splitToWords
             for word in sentenceWords {
                 let (_, wordGlyphs) = wordContainerGrid.consume(text: word)
-                let wordNode = WordNode(glyphs: wordGlyphs, parentGrid: wordContainerGrid)
+                let wordNode = WordNode(
+                    sourceWord: word,
+                    glyphs: wordGlyphs,
+                    parentGrid: wordContainerGrid
+                )
                 wordNodes.append(wordNode)
                 allNodes.append(wordNode)
             }
@@ -410,7 +433,11 @@ extension TwoETimeRoot {
             let sentenceWords = sentence.splitToWordsAndSpaces
             for word in sentenceWords {
                 let (_, wordGlyphs) = wordContainerGrid.consume(text: word)
-                let wordNode = WordNode(glyphs: wordGlyphs, parentGrid: wordContainerGrid)
+                let wordNode = WordNode(
+                    sourceWord: word,
+                    glyphs: wordGlyphs,
+                    parentGrid: wordContainerGrid
+                )
                 wordNodes.append(wordNode)
             }
         }
@@ -445,7 +472,11 @@ extension TwoETimeRoot {
         let (_, nodes) = wordContainerGrid.consume(text: "Hello")
         
         // Word nodes are virtual parents right now - you don't add them to the root.
-        let helloNode = WordNode(glyphs: nodes, parentGrid: wordContainerGrid)
+        let helloNode = WordNode(
+            sourceWord: "Hello",
+            glyphs: nodes,
+            parentGrid: wordContainerGrid
+        )
         
         QuickLooper(interval: .milliseconds(16)) {
             helloNode.translate(dX: cos(counter.float / 5.0.float))

@@ -106,15 +106,30 @@ extension SourceInfoPanelView {
                             .twoETutorial
                             .setupDictionaryTest(controller)
                     }
+                    
+                    Button("Play sentence") {
+                        playInputAsSentence(textInput)
+                    }
                 }
             }
             .padding()
             .onChange(of: textInput) { newValue in
-                doWordPlay(newValue)
+                updateFocusOnTextChange(newValue)
             }
         }
         
-        func doWordPlay(_ dirtyInput: String) {
+        func playInputAsSentence(_ dirtySentence: String) {
+            let cleanedSentence = dirtySentence.lowercased().splitToWords
+            
+            WorkerPool.shared.nextWorker().async {
+                for word in cleanedSentence {
+                    updateFocusOnTextChange(word)
+                    Thread.sleep(forTimeInterval: 0.5)
+                }
+            }
+        }
+        
+        func updateFocusOnTextChange(_ dirtyInput: String) {
             let cleanInput = dirtyInput.lowercased()
             
             guard let node = controller.nodeMap[cleanInput] else {
