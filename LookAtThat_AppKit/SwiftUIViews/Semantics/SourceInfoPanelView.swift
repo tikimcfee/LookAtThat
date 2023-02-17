@@ -79,7 +79,69 @@ extension SourceInfoPanelView {
             gitHubTools
         case .focusState:
             focusState
+        case .wordInput:
+            wordInputView
         }
+    }
+    
+    struct WordInputView: View {
+        
+        @State var textInput: String = ""
+        
+        @StateObject var controller = DictionaryController()
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                dictionaryView
+                TextField("Word goes here", text: $textInput)
+                
+                HStack {
+                    Button("Load Dictionary") {
+                        controller.start()
+                    }
+                    
+                    Button("Refresh Wall") {
+                        GlobalInstances
+                            .defaultRenderer
+                            .twoETutorial
+                            .setupDictionaryTest(controller)
+                    }
+                }
+            }
+            .padding()
+            .onChange(of: textInput) { newValue in
+                doWordPlay(newValue)
+            }
+        }
+        
+        func doWordPlay(_ dirtyInput: String) {
+            let cleanInput = dirtyInput.lowercased()
+            
+            guard let node = controller.nodeMap[cleanInput] else {
+                print("No word found for: \(cleanInput)")
+                return
+            }
+            
+            controller.focusedWordNode = node
+        }
+        
+        @ViewBuilder
+        var dictionaryView: some View {
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach(controller.sortedDictionary.sorted, id: \.0) { entry in
+                        Text(entry.0)
+                    }
+                }
+                .id(UUID()) // Use .id() to force rebuilding without diff computation
+            }
+            .frame(maxHeight: 380.0)
+        }
+    }
+    
+    @ViewBuilder
+    var wordInputView: some View {
+        WordInputView()
     }
     
     @ViewBuilder

@@ -46,6 +46,7 @@ extension GlobalInstances {
 extension GlobalInstances {
     static let rootCustomMTKView: CustomMTKView = makeRootCustomMTKView()
     static let defaultLink: MetalLink = makeDefaultLink()
+    static let defaultRenderer: MetalLinkRenderer = makeDefaultRenderer()
     static let defaultAtlas: MetalLinkAtlas = makeDefaultAtlas()
     
     private static func makeRootCustomMTKView() -> CustomMTKView {
@@ -58,6 +59,10 @@ extension GlobalInstances {
     
     private static func makeDefaultAtlas() -> MetalLinkAtlas {
         return try! MetalLinkAtlas(defaultLink)
+    }
+    
+    private static func makeDefaultRenderer() -> MetalLinkRenderer {
+        return try! MetalLinkRenderer(link: defaultLink)
     }
 }
 
