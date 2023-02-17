@@ -119,10 +119,14 @@ extension SourceInfoPanelView {
             
             guard let node = controller.nodeMap[cleanInput] else {
                 print("No word found for: \(cleanInput)")
+                controller.focusedWordNode = nil
                 return
             }
             
             controller.focusedWordNode = node
+//            GlobalInstances.debugCamera.interceptor.resetPositions()
+//            GlobalInstances.debugCamera.position = node.position.translated(dZ: -10)
+//            GlobalInstances.debugCamera.rotation = .zero
         }
         
         @ViewBuilder

@@ -121,16 +121,12 @@ class WordNode: MetalLinkNode {
         self.parentGrid = parentGrid
         super.init()
         
-        let bounds = BoundsComputing()
-        bounds.consumeNodeSet(Set(glyphs), convertingTo: nil)
-        var xOffset: Float = -BoundsWidth(bounds.bounds) / 4.0
-        
+        var xOffset: Float = 0
         for glyph in glyphs {
             glyph.parent = self
             glyph.position = LFloat3(x: xOffset, y: 0, z: 0)
             xOffset += glyph.boundsWidth
         }
-        
         push()
     }
     
@@ -148,9 +144,9 @@ class WordNode: MetalLinkNode {
         parentGrid.pushNodes(glyphs)
     }
     
-    func update(_ action: @escaping (WordNode) -> Void) {
+    func update(_ action: @escaping (WordNode) async -> Void) {
         Task {
-            action(self)
+            await action(self)
             push()
         }
     }
@@ -190,31 +186,48 @@ class DictionaryController: ObservableObject {
     @Published var sortedDictionary = SortedDictionary()
     var nodeController = GlobalNodeController()
     
-    var nodeMap = [String: WordNode]()
+//    var nodeMap = [String: WordNode]()
+    var nodeMap = ConcurrentDictionary<String, WordNode>()
     var lastRootNode: MetalLinkNode? {
-        didSet { nodeMap = [:] }
+        didSet { nodeMap = .init() }
     }
+    
+    lazy var scale: Float = 15.0
+    lazy var scaleVector = LFloat3(scale, scale, scale)
+    
+    lazy var inverseScale: Float = pow(scale, -1)
+//    lazy var inverseScaleVector = LFloat3(inverseScale, inverseScale, inverseScale)
+    lazy var inverseScaleVector = LFloat3(1, 1, 1)
+    
+    lazy var positionVector = LFloat3(0, 0, 16)
+    lazy var inversePositionVector = LFloat3(0, 0, -16)
+    
+    lazy var colorVector = LFloat4(0.75, 0.75, 0.5, 0.0)
     
     var focusedWordNode: WordNode? {
         willSet {
+            guard newValue != focusedWordNode else { return }
+            
             if let focusedWordNode {
-                for glyph in focusedWordNode.glyphs {
-                    UpdateNode(glyph, in: focusedWordNode.parentGrid) {
-                        $0.modelMatrix.translate(vector: LFloat3(0, 0, 8))
-                        $0.modelMatrix.scale(amount: LFloat3(2.0, 2.0, 2.0))
-                        $0.addedColor += LFloat4(0.35, 0.39, 0.39, 1)
+                focusedWordNode.update { toUpdate in
+                    toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
+                    toUpdate.scale = self.inverseScaleVector
+                    for glyph in toUpdate.glyphs {
+                        UpdateNode(glyph, in: toUpdate.parentGrid) {
+                            $0.addedColor -= self.colorVector
+                        }
                     }
                 }
             }
-        }
-        
-        didSet {
-            if let focusedWordNode {
-                for glyph in focusedWordNode.glyphs {
-                    UpdateNode(glyph, in: focusedWordNode.parentGrid) {
-                        $0.modelMatrix.translate(vector: LFloat3(0, 0, -8))
-                        $0.modelMatrix.scale(amount: LFloat3(0.5, 0.5, 0.5))
-                        $0.addedColor -= LFloat4(0.35, 0.39, 0.39, 1)
+            
+            if let newValue {
+                newValue.update { toUpdate in
+                    toUpdate.position.translateBy(dZ: self.positionVector.z)
+                    toUpdate.scale = self.scaleVector
+                    for glyph in toUpdate.glyphs {
+                        UpdateNode(glyph, in: toUpdate.parentGrid) {
+                            $0.addedColor += self.colorVector
+                        }
                     }
                 }
             }
@@ -240,6 +253,37 @@ class DictionaryController: ObservableObject {
     }
 }
 
+actor Positioner {
+    var column: Int = 0
+    var row: Int = 0
+    var sideLength: Int
+    
+    init(sideLength: Int) {
+        self.sideLength = sideLength
+    }
+    
+    private func nextColumn() -> Int {
+        let val = column
+        return val
+    }
+    
+    private func nextRow() -> Int {
+        let val = row
+        
+        if val >= sideLength {
+            column += 8
+            row = -1
+        }
+        row += 1
+        
+        return val
+    }
+    
+    func nextPos() -> (Int, Int) {
+        (nextRow(), nextColumn())
+    }
+}
+
 extension TwoETimeRoot {
     func setupDictionaryTest(_ controller: DictionaryController) {
         if let node = controller.lastRootNode {
@@ -256,46 +300,57 @@ extension TwoETimeRoot {
         let dictionary = controller.sortedDictionary
         print("Defined words: \(dictionary.sorted.count)")
         
-        let sideLength = Int(sqrt(dictionary.sorted.count.float)) * 2
+        let sideLength = Int(sqrt(dictionary.sorted.count.float)) * 2        
+        let chunkGroup = DispatchGroup()
+        let positions = Positioner(sideLength: sideLength)
         
-        var rowCount = 0
-        var colCount = 0
-        
-//        let layout = DepthLayout()
-        
-        for (word, _) in dictionary.sorted {
-            let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
-            let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
-            controller.nodeMap[word] = sourceNode
-            
-            sourceNode.update {
-                $0.position = LFloat3(
-                    x: colCount.float * 2.0,
-                    y: -rowCount.float * 2.0,
-                    z: 0
-                )
+        DispatchQueue.global().async {
+            for chunk in dictionary.sorted.chunks(ofCount: 10_000) {
+                chunkGroup.enter()
+                WorkerPool.shared.nextWorker().async {
+                    for (word, _) in chunk {
+                        let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+                        let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+                        controller.nodeMap[word] = sourceNode
+                        
+                        sourceNode.update {
+                            let (row, column) = await positions.nextPos()
+                            $0.position = LFloat3(
+                                x: column.float * 2.0,
+                                y: -row.float * 2.0,
+                                z: 0
+                            )
+                        }
+                    }
+                    chunkGroup.leave()
+                }
             }
             
-//            var lastWord: WordNode = sourceNode
-//            let definitionWords = definition.splitToWords
-//            for definitionWord in definitionWords {
-//                let (_, sourceGlyphs) = wordContainerGrid.consume(text: definitionWord)
-//                let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+//            for (word, _) in dictionary.sorted {
+//                group.enter()
 //
-//                sourceNode.position = lastWord.position.translated(dZ: -8)
-//                sourceNode.push()
+//                WorkerPool.shared.nextWorker().async {
+//                    let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+//                    let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
+//                    controller.nodeMap[word] = sourceNode
 //
-//                lastWord = sourceNode
+//                    sourceNode.update {
+//                        let (row, column) = await positions.nextPos()
+//                        $0.position = LFloat3(
+//                            x: column.float * 2.0,
+//                            y: -row.float * 2.0,
+//                            z: 0
+//                        )
+//                        group.leave()
+//                    }
+//                }
 //            }
-            
-            rowCount += 1
-            if rowCount == sideLength {
-                colCount += 8
-                rowCount = 0
-            }
         }
         
-        root.add(child: wordContainerGrid.rootNode)
+        DispatchQueue.global().async {
+            chunkGroup.wait()
+            self.root.add(child: wordContainerGrid.rootNode)
+        }
     }
     
     func setupWordWarePLA() throws {

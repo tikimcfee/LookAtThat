@@ -8,6 +8,8 @@
 import Foundation
 
 struct GlyphCollectionWriter {
+    private static let locked_worker = DispatchQueue(label: "WriterWritingWritely", qos: .userInteractive)
+    
     let target: GlyphCollection
     var linkAtlas: MetalLinkAtlas { target.linkAtlas }
     
@@ -16,6 +18,15 @@ struct GlyphCollectionWriter {
     // Buffer *should* only reset when the texture is called,
     // but that's a fragile guarantee.
     func addGlyph(
+        _ key: GlyphCacheKey,
+        _ action: (GlyphNode, inout InstancedConstants) -> Void
+    ) {
+        Self.locked_worker.sync {
+            doAddGlyph(key, action)
+        }
+    }
+    
+    private func doAddGlyph(
         _ key: GlyphCacheKey,
         _ action: (GlyphNode, inout InstancedConstants) -> Void
     ) {

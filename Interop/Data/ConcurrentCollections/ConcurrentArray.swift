@@ -20,6 +20,10 @@ public final class ConcurrentArray<Element> {
         rwlock.unlock()
         return result
     }
+    
+    public var isEmpty: Bool {
+        count == 0
+    }
 
     public var count: Int {
         let result: Int

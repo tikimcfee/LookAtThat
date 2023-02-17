@@ -11,7 +11,9 @@ import Metal
 class InstanceState<InstancedNodeType> {
     let link: MetalLink
         
-    var nodes: [InstancedNodeType] = []
+//    var nodes: [InstancedNodeType] = []
+    var nodes = ConcurrentArray<InstancedNodeType>()
+    var didSetRoot = false
     
     private let constants: BackingBuffer<InstancedConstants>
     private(set) var instanceIdNodeLookup = ConcurrentDictionary<InstanceIDType, InstancedNodeType>()
@@ -69,7 +71,7 @@ class InstanceState<InstancedNodeType> {
 //        }
         
         var pointerCopy = rawPointer
-        zip(nodes, constants).forEach { node, constant in
+        zip(nodes.values, constants).forEach { node, constant in
             nodeUpdateFunction(node, constant, pointerCopy)
             pointerCopy = pointerCopy.advanced(by: 1)
         }

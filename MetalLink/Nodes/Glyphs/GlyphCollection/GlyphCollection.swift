@@ -69,7 +69,7 @@ class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
     }
     
     func enumerateInstanceChildren(_ action: (MetalLinkGlyphNode) -> Void) {
-        for instance in instanceState.nodes {
+        for instance in instanceState.nodes.values {
             action(instance)
         }
     }
@@ -140,17 +140,18 @@ extension GlyphCollection {
         //    how hard would it be to include that in the instance? It already carries the model.
         //    'meshAlignmentTransform' or something akin.
         // ***********************************************************************************
-        guard !instanceState.nodes.isEmpty else {
+        guard !instanceState.nodes.isEmpty, !instanceState.didSetRoot else {
             return
         }
         
         // TODO: Use safe
-        guard let safeMesh = instanceState.nodes.first(where: {
+        guard let safeMesh = instanceState.nodes.values.first(where: {
             ($0.mesh as? MetalLinkQuadMesh)?.width ?? 0.0 > 0.1 }
         ) else {
             return
         }
         
+        instanceState.didSetRoot = true
         mesh = safeMesh.mesh
     }
 }
