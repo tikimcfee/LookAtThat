@@ -200,6 +200,7 @@ class DictionaryController: ObservableObject {
     
 //    var nodeMap = [String: WordNode]()
     var nodeMap = ConcurrentDictionary<String, WordNode>()
+    var lastLinkLine: MetalLinkLine?
     var lastRootNode: MetalLinkNode? {
         didSet { nodeMap = .init() }
     }
@@ -222,19 +223,25 @@ class DictionaryController: ObservableObject {
             guard newValue != focusedWordNode else { return }
             
             if let focusedWordNode {
-                defocusWord(focusedWordNode, true)
+                defocusWord(focusedWordNode, defocusNested: true)
             }
             
             if let newValue {
-                focusWord(newValue, true)
+                focusWord(newValue, focusNested: true)
+            } else {
+                if let rootNode = lastRootNode {
+                    if let lastLinkLine {
+                        rootNode.remove(child: lastLinkLine)
+                    }
+                }
             }
         }
     }
     
     func focusWord(
         _ wordNode: WordNode,
-        _ focusNested: Bool = false,
-        _ isNested: Bool = false
+        focusNested: Bool = false,
+        isNested: Bool = false
     ) {
         wordNode.update { toUpdate in
             toUpdate.position.translateBy(dZ: self.positionVector.z)
@@ -252,18 +259,37 @@ class DictionaryController: ObservableObject {
             }
         }
         
+        if !isNested {
+            if let rootNode = lastRootNode {
+                if let lastLinkLine {
+                    rootNode.remove(child: lastLinkLine)
+                }
+                
+                let linkLine = MetalLinkLine(GlobalInstances.defaultLink)
+                linkLine.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
+                rootNode.add(child: linkLine)
+                lastLinkLine = linkLine
+            }
+        }
+        
+        
         let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
         if let definitionNodes, focusNested {
-            for definitionWord in definitionNodes {
-                focusWord(definitionWord, false, true)
+            lastLinkLine?.appendSegment(about: wordNode.position)
+            
+            if !isNested {
+                for definitionWord in definitionNodes {
+                    focusWord(definitionWord, focusNested: false, isNested: true)
+                    lastLinkLine?.appendSegment(about: definitionWord.position)
+                }
             }
         }
     }
     
     func defocusWord(
         _ wordNode: WordNode,
-        _ defocusNested: Bool = false,
-        _ isNested: Bool = false
+        defocusNested: Bool = false,
+        isNested: Bool = false
     ) {
         wordNode.update { toUpdate in
             toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
@@ -281,7 +307,7 @@ class DictionaryController: ObservableObject {
         let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
         if let definitionNodes, defocusNested {
             for definitionWord in definitionNodes {
-                defocusWord(definitionWord, false, true)
+                defocusWord(definitionWord, defocusNested: false, isNested: true)
             }
         }
     }
@@ -323,10 +349,10 @@ actor Positioner {
     
     private func nextColumn() -> Int {
         let val = column
-//        if val >= sideLength / 4 {
-//            column = 0
-//            depth += 1
-//        }
+        if val >= sideLength / 4 {
+            column = 0
+            depth += 1
+        }
         return val
     }
     

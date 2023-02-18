@@ -64,10 +64,9 @@ private extension MetalLinkBaseMesh {
         with link: MetalLink,
         for vertices: [Vertex]
     ) throws -> MTLBuffer {
-        
         let memoryLength = vertices.count * Vertex.memStride
         
-        guard let buffer = link.device.makeBuffer(
+        guard !vertices.isEmpty, let buffer = link.device.makeBuffer(
             bytes: vertices, length: memoryLength,
             options: []
         ) else {

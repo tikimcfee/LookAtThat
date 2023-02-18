@@ -8,8 +8,8 @@
 import MetalKit
 
 class MetalLinkLineMesh: MetalLinkBaseMesh {
-    var width = 1.0.float; var halfWidth: Float { width / 2.0 }
-    var height = 1.0.float; var halfHeight: Float { height / 2.0 }
+    var width = 2.0.float; var halfWidth: Float { width / 2.0 }
+    var height = 2.0.float; var halfHeight: Float { height / 2.0 }
     
     override var name: String { "MetalLinkLineMesh" }
     override func createVertices() -> [Vertex] { [] }
