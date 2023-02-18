@@ -126,7 +126,7 @@ extension SourceInfoPanelView {
             WorkerPool.shared.nextWorker().async {
                 for word in cleanedSentence {
                     updateFocusOnTextChange(word)
-                    Thread.sleep(forTimeInterval: 0.125)
+                    Thread.sleep(forTimeInterval: 0.033)
                 }
             }
         }

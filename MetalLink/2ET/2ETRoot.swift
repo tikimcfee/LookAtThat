@@ -358,7 +358,7 @@ actor Positioner {
     
     private func nextRow() -> Int {
         let val = row
-        if val >= sideLength {
+        if val >= sideLength / 2 {
             row = 0
             column += 1
         }
@@ -409,7 +409,7 @@ extension TwoETimeRoot {
                             print(row, column, depth)
                             $0.position = LFloat3(
                                 x: column.float * 24.0,
-                                y: -row.float * 4.0,
+                                y: -row.float * 8.0,
                                 z: -depth.float * 128.0
                             )
                         }
