@@ -126,21 +126,51 @@ extension TwoETimeRoot {
         let dictionary = controller.sortedDictionary
         print("Defined words: \(dictionary.sorted.count)")
         
-        let sideLength = Int(sqrt(dictionary.sorted.count.float))
+//        let sideLength = Int(sqrt(dictionary.sorted.count.float))
+        let sideLength = 512
         let chunkGroup = DispatchGroup()
         let positions = Positioner(sideLength: sideLength)
+        let cachingGenerator = ColorGenerator(maxColorCount: dictionary.sorted.count)
+        let colorInts = ConcurrentDictionary<String, Int>()
+        
+        func doWordColoring() {
+            chunkGroup.enter()
+            WorkerPool.shared.nextWorker().async {
+                for (word, _) in dictionary.sorted {
+                    let hexColor = cachingGenerator.nextHexColor()
+                    colorInts[word] = hexColor
+                }
+                chunkGroup.leave()
+            }
+            chunkGroup.wait()
+        }
         
         func doWordChunking() {
             for chunk in dictionary.sorted.chunks(ofCount: 10_000) {
                 chunkGroup.enter()
                 WorkerPool.shared.nextWorker().async {
                     for (word, _) in chunk {
+                        
                         let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+                        
+//                        https://github.com/codeface-io/SwiftNodes.git
+
+//                        let color = cachingGenerator.fromInt(
+//                            colorInt: colorInts[word] ?? 0xFF_FF_FF
+//                        )
+//
+//                        for glyph in sourceGlyphs {
+//                            UpdateNode(glyph, in: wordContainerGrid) {
+//                                $0.addedColor = color
+//                            }
+//                        }
+                        
                         let sourceNode = WordNode(
                             sourceWord: word,
                             glyphs: sourceGlyphs,
                             parentGrid: wordContainerGrid
                         )
+                        
                         controller.nodeMap[word] = sourceNode
                     }
                     chunkGroup.leave()
@@ -164,6 +194,8 @@ extension TwoETimeRoot {
                             y: -row.float * 8.0,
                             z: -depth.float * 128.0
                         )
+                        
+                        
                     }
                 }
                 chunkGroup.leave()
@@ -173,6 +205,9 @@ extension TwoETimeRoot {
         
         DispatchQueue.global().async {
             let watch = Stopwatch(running: true)
+//            doWordColoring()
+//            print("Coloring done in: \(watch.elapsedTimeString())")
+//            watch.restart()
             doWordChunking()
             print("Chunking done in: \(watch.elapsedTimeString())")
             watch.restart()

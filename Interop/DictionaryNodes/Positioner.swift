@@ -25,16 +25,16 @@ actor Positioner {
     
     private func nextColumn() -> Int {
         let val = column
-        if val >= sideLength / 4 {
-            column = 0
-            depth += 1
-        }
+//        if val >= sideLength / 4 {
+//            column = 0
+//            depth += 1
+//        }
         return val
     }
     
     private func nextRow() -> Int {
         let val = row
-        if val >= sideLength / 2 {
+        if val >= sideLength {
             row = 0
             column += 1
         }

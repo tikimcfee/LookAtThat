@@ -73,18 +73,18 @@ class DictionaryController: ObservableObject {
             }
         }
         
-        if !isNested {
-            if let rootNode = lastRootNode {
-                if let lastLinkLine {
-                    rootNode.remove(child: lastLinkLine)
-                }
-                
-                let linkLine = MetalLinkLine(GlobalInstances.defaultLink)
-                linkLine.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
-                rootNode.add(child: linkLine)
-                lastLinkLine = linkLine
-            }
-        }
+//        if !isNested {
+//            if let rootNode = lastRootNode {
+//                if let lastLinkLine {
+//                    rootNode.remove(child: lastLinkLine)
+//                }
+//                
+//                let linkLine = MetalLinkLine(GlobalInstances.defaultLink)
+//                linkLine.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
+//                rootNode.add(child: linkLine)
+//                lastLinkLine = linkLine
+//            }
+//        }
         
         
         let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
