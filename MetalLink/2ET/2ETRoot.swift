@@ -109,267 +109,6 @@ class TwoETimeRoot: MetalLinkReader {
 }
 
 // MARK: - Current Test
-class WordNode: MetalLinkNode {
-    let sourceWord: String
-    let glyphs: CodeGridNodes
-    let parentGrid: CodeGrid
-    
-    init(
-        sourceWord: String,
-        glyphs: CodeGridNodes,
-        parentGrid: CodeGrid
-    ) {
-        self.sourceWord = sourceWord
-        self.glyphs = glyphs
-        self.parentGrid = parentGrid
-        super.init()
-        
-        var xOffset: Float = 0
-        for glyph in glyphs {
-            glyph.parent = self
-            glyph.position = LFloat3(x: xOffset, y: 0, z: 0)
-            xOffset += glyph.boundsWidth
-        }
-        push()
-    }
-    
-    func doOnAll(_ receiver: (CodeGridNodes) -> Void) {
-        receiver(glyphs)
-        parentGrid.pushNodes(glyphs)
-    }
-    
-    func push(_ receiver: (WordNode) -> Void) {
-        receiver(self)
-        parentGrid.pushNodes(glyphs)
-    }
-    
-    func push() {
-        parentGrid.pushNodes(glyphs)
-    }
-    
-    func update(_ action: @escaping (WordNode) async -> Void) {
-        Task {
-            await action(self)
-            push()
-        }
-    }
-}
-
-struct WordDictionary: Codable {
-    var words: [String: [String]]
-    
-    init() {
-        self.words = .init()
-    }
-    
-    init(file: URL) {
-        self.words = try! JSONDecoder().decode(
-            [String: [String]].self,
-            from: Data(contentsOf: file, options: .alwaysMapped)
-        ).reduce(into: [String: [String]]()) { result, element in
-            if let first = element.value.first {
-                let cleanedWords = first.splitToWords.map { word in
-                    word.trimmingCharacters(
-                        in: .alphanumerics.inverted
-                    ).lowercased()
-                }
-                result[element.key] = cleanedWords
-            }
-        }
-    }
-}
-
-struct SortedDictionary {
-    let sorted: [(String, [String])]
-    
-    init() {
-        self.sorted = .init()
-    }
-    
-    init(dictionary: WordDictionary) {
-        self.sorted = dictionary.words.sorted(by: { left, right in
-            left.key < right.key
-        })
-    }
-}
-
-class DictionaryController: ObservableObject {
-    @Published var dictionary = WordDictionary()
-    @Published var sortedDictionary = SortedDictionary()
-    var nodeController = GlobalNodeController()
-    
-//    var nodeMap = [String: WordNode]()
-    var nodeMap = ConcurrentDictionary<String, WordNode>()
-    var lastLinkLine: MetalLinkLine?
-    var lastRootNode: MetalLinkNode? {
-        didSet { nodeMap = .init() }
-    }
-    
-    lazy var scale: Float = 30.0
-    lazy var scaleVector = LFloat3(scale, scale, scale)
-    lazy var scaleVectorNested = LFloat3(scale / 2.0, scale / 2.0, scale / 2.0)
-    
-    lazy var inverseScale: Float = pow(scale, -1)
-    lazy var inverseScaleVector = LFloat3(1, 1, 1)
-    
-    lazy var positionVector = LFloat3(0, 0, 16)
-    lazy var inversePositionVector = LFloat3(0, 0, -16)
-    
-    lazy var colorVector = LFloat4(0.65, 0.30, 0.0, 0.0)
-    lazy var colorVectorNested = LFloat4(-0.65, 0.55, 0.55, 0.0)
-    
-    var focusedWordNode: WordNode? {
-        willSet {
-            guard newValue != focusedWordNode else { return }
-            
-            if let focusedWordNode {
-                defocusWord(focusedWordNode, defocusNested: true)
-            }
-            
-            if let newValue {
-                focusWord(newValue, focusNested: true)
-            } else {
-                if let rootNode = lastRootNode {
-                    if let lastLinkLine {
-                        rootNode.remove(child: lastLinkLine)
-                    }
-                }
-            }
-        }
-    }
-    
-    func focusWord(
-        _ wordNode: WordNode,
-        focusNested: Bool = false,
-        isNested: Bool = false
-    ) {
-        wordNode.update { toUpdate in
-            toUpdate.position.translateBy(dZ: self.positionVector.z)
-            toUpdate.scale = isNested
-                ? self.scaleVectorNested
-                : self.scaleVector
-            
-            for glyph in toUpdate.glyphs {
-                UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor += self.colorVector
-                    if isNested {
-                        $0.addedColor += self.colorVectorNested
-                    }
-                }
-            }
-        }
-        
-        if !isNested {
-            if let rootNode = lastRootNode {
-                if let lastLinkLine {
-                    rootNode.remove(child: lastLinkLine)
-                }
-                
-                let linkLine = MetalLinkLine(GlobalInstances.defaultLink)
-                linkLine.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
-                rootNode.add(child: linkLine)
-                lastLinkLine = linkLine
-            }
-        }
-        
-        
-        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
-        if let definitionNodes, focusNested {
-            lastLinkLine?.appendSegment(about: wordNode.position)
-            
-            if !isNested {
-                for definitionWord in definitionNodes {
-                    focusWord(definitionWord, focusNested: false, isNested: true)
-                    lastLinkLine?.appendSegment(about: definitionWord.position)
-                }
-            }
-        }
-    }
-    
-    func defocusWord(
-        _ wordNode: WordNode,
-        defocusNested: Bool = false,
-        isNested: Bool = false
-    ) {
-        wordNode.update { toUpdate in
-            toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
-            toUpdate.scale = self.inverseScaleVector
-            for glyph in toUpdate.glyphs {
-                UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor -= self.colorVector
-                    if isNested {
-                        $0.addedColor -= self.colorVectorNested
-                    }
-                }
-            }
-        }
-        
-        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
-        if let definitionNodes, defocusNested {
-            for definitionWord in definitionNodes {
-                defocusWord(definitionWord, defocusNested: false, isNested: true)
-            }
-        }
-    }
-    
-    func start() {
-        openFile { file in
-            switch file {
-            case .success(let url):
-                self.kickoffJsonLoad(url)
-                
-            default:
-                break
-            }
-        }
-    }
-    
-    func kickoffJsonLoad(_ url: URL) {
-        let dictionary = WordDictionary(file: url)
-        self.dictionary = dictionary
-        self.sortedDictionary = SortedDictionary(dictionary: dictionary)
-    }
-}
-
-actor Positioner {
-    var column: Int = 0
-    var row: Int = 0
-    var depth: Int = 0
-    
-    var sideLength: Int
-    
-    init(sideLength: Int) {
-        self.sideLength = sideLength
-    }
-    
-    private func nextDepth() -> Int {
-        let val = depth
-        return val
-    }
-    
-    private func nextColumn() -> Int {
-        let val = column
-        if val >= sideLength / 4 {
-            column = 0
-            depth += 1
-        }
-        return val
-    }
-    
-    private func nextRow() -> Int {
-        let val = row
-        if val >= sideLength / 2 {
-            row = 0
-            column += 1
-        }
-        row += 1
-        return val
-    }
-    
-    func nextPos() -> (Int, Int, Int) {
-        (nextRow(), nextColumn(), nextDepth())
-    }
-}
 
 extension TwoETimeRoot {
     func setupDictionaryTest(_ controller: DictionaryController) {
@@ -391,7 +130,7 @@ extension TwoETimeRoot {
         let chunkGroup = DispatchGroup()
         let positions = Positioner(sideLength: sideLength)
         
-        DispatchQueue.global().async {
+        func doWordChunking() {
             for chunk in dictionary.sorted.chunks(ofCount: 10_000) {
                 chunkGroup.enter()
                 WorkerPool.shared.nextWorker().async {
@@ -403,44 +142,43 @@ extension TwoETimeRoot {
                             parentGrid: wordContainerGrid
                         )
                         controller.nodeMap[word] = sourceNode
-                        
-                        sourceNode.update {
-                            let (row, column, depth) = await positions.nextPos()
-                            print(row, column, depth)
-                            $0.position = LFloat3(
-                                x: column.float * 24.0,
-                                y: -row.float * 8.0,
-                                z: -depth.float * 128.0
-                            )
-                        }
                     }
                     chunkGroup.leave()
                 }
             }
-            
-//            for (word, _) in dictionary.sorted {
-//                group.enter()
-//
-//                WorkerPool.shared.nextWorker().async {
-//                    let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
-//                    let sourceNode = WordNode(glyphs: sourceGlyphs, parentGrid: wordContainerGrid)
-//                    controller.nodeMap[word] = sourceNode
-//
-//                    sourceNode.update {
-//                        let (row, column) = await positions.nextPos()
-//                        $0.position = LFloat3(
-//                            x: column.float * 2.0,
-//                            y: -row.float * 2.0,
-//                            z: 0
-//                        )
-//                        group.leave()
-//                    }
-//                }
-//            }
+            chunkGroup.wait()
+        }
+        
+        func doWordPositioning() {
+            chunkGroup.enter()
+            WorkerPool.shared.nextWorker().async {
+                for (word, _) in controller.sortedDictionary.sorted {
+                    guard let node = controller.nodeMap[word] else {
+                        continue
+                    }
+                    
+                    node.update {
+                        let (row, column, depth) = await positions.nextPos()
+                        $0.position = LFloat3(
+                            x: column.float * 24.0,
+                            y: -row.float * 8.0,
+                            z: -depth.float * 128.0
+                        )
+                    }
+                }
+                chunkGroup.leave()
+            }
+            chunkGroup.wait()
         }
         
         DispatchQueue.global().async {
-            chunkGroup.wait()
+            let watch = Stopwatch(running: true)
+            doWordChunking()
+            print("Chunking done in: \(watch.elapsedTimeString())")
+            watch.restart()
+            doWordPositioning()
+            print("Positioning done in: \(watch.elapsedTimeString())")
+            watch.stop()
             self.root.add(child: wordContainerGrid.rootNode)
         }
     }

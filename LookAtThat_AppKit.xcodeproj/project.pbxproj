@@ -60,6 +60,18 @@
 		B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
 		B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */; };
+		B7247A5C29A077C10073B98C /* WordNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5B29A077C10073B98C /* WordNode.swift */; };
+		B7247A5D29A077C10073B98C /* WordNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5B29A077C10073B98C /* WordNode.swift */; };
+		B7247A5E29A077C10073B98C /* WordNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5B29A077C10073B98C /* WordNode.swift */; };
+		B7247A6029A077F60073B98C /* WordDictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5F29A077F60073B98C /* WordDictionaries.swift */; };
+		B7247A6129A077F60073B98C /* WordDictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5F29A077F60073B98C /* WordDictionaries.swift */; };
+		B7247A6229A077F60073B98C /* WordDictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A5F29A077F60073B98C /* WordDictionaries.swift */; };
+		B7247A6429A0781A0073B98C /* DictionaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6329A0781A0073B98C /* DictionaryController.swift */; };
+		B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6329A0781A0073B98C /* DictionaryController.swift */; };
+		B7247A6629A0781A0073B98C /* DictionaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6329A0781A0073B98C /* DictionaryController.swift */; };
+		B7247A6829A0784D0073B98C /* Positioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6729A0784D0073B98C /* Positioner.swift */; };
+		B7247A6929A0784D0073B98C /* Positioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6729A0784D0073B98C /* Positioner.swift */; };
+		B7247A6A29A0784D0073B98C /* Positioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7247A6729A0784D0073B98C /* Positioner.swift */; };
 		B725167428C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
 		B725167628C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
 		B725167728C086060094F29B /* NumberConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725167328C086060094F29B /* NumberConversions.swift */; };
@@ -677,6 +689,10 @@
 		B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B7241AF928288C26006A6A3E /* InputStreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStreamReader.swift; sourceTree = "<group>"; };
 		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
+		B7247A5B29A077C10073B98C /* WordNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordNode.swift; sourceTree = "<group>"; };
+		B7247A5F29A077F60073B98C /* WordDictionaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDictionaries.swift; sourceTree = "<group>"; };
+		B7247A6329A0781A0073B98C /* DictionaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryController.swift; sourceTree = "<group>"; };
+		B7247A6729A0784D0073B98C /* Positioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Positioner.swift; sourceTree = "<group>"; };
 		B725167328C086060094F29B /* NumberConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberConversions.swift; sourceTree = "<group>"; };
 		B725167828C0871F0094F29B /* DeviceScaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScaling.swift; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
@@ -1074,6 +1090,17 @@
 				B79F93052750528B00E46A96 /* Syntax+Caching.swift */,
 			);
 			path = SwiftSyntaxWrapping;
+			sourceTree = "<group>";
+		};
+		B7247A5A29A077A00073B98C /* DictionaryNodes */ = {
+			isa = PBXGroup;
+			children = (
+				B7247A5B29A077C10073B98C /* WordNode.swift */,
+				B7247A5F29A077F60073B98C /* WordDictionaries.swift */,
+				B7247A6329A0781A0073B98C /* DictionaryController.swift */,
+				B7247A6729A0784D0073B98C /* Positioner.swift */,
+			);
+			path = DictionaryNodes;
 			sourceTree = "<group>";
 		};
 		B730EEF928EA637D00FE6E1D /* Layout */ = {
@@ -1556,7 +1583,7 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
-				B7E9004A28FCB26B00EC2018 /* GridInteraction */,
+				B7247A5A29A077A00073B98C /* DictionaryNodes */,
 				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
 				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
 				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
@@ -1578,6 +1605,7 @@
 				B77DCAB226781E40002DF299 /* CallStack */,
 				B7EA8835272394AB0098541C /* CodeGrids */,
 				F00FC742250C53820092AFF9 /* Data */,
+				B7E9004A28FCB26B00EC2018 /* GridInteraction */,
 				B730EEF928EA637D00FE6E1D /* Layout */,
 				B7A6F2B2275EE52B004CAA66 /* LaZTrace */,
 				B7B46AF528BE69090004CA2D /* MetalLinkSemantics */,
@@ -1872,6 +1900,7 @@
 				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B725167C28C0871F0094F29B /* DeviceScaling.swift in Sources */,
+				B7247A6229A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
@@ -1918,6 +1947,7 @@
 				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
 				B768E2B828BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
 				B7C69FD228A356A300A84860 /* RootNode.swift in Sources */,
+				B7247A5E29A077C10073B98C /* WordNode.swift in Sources */,
 				B785521728B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7AC339128A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
@@ -1934,6 +1964,7 @@
 				B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */,
 				B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
+				B7247A6A29A0784D0073B98C /* Positioner.swift in Sources */,
 				B7AC336128A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				B72FBFE228A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
@@ -2031,6 +2062,7 @@
 				B74A23162814FFF300F6F727 /* MultipeerStreamController.swift in Sources */,
 				B7B1097E28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
 				B72AA4AD28E7813000982928 /* Collections+Extensions.swift in Sources */,
+				B7247A6629A0781A0073B98C /* DictionaryController.swift in Sources */,
 				B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B74A23172814FFF300F6F727 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B74A23182814FFF300F6F727 /* SwiftSyntax+Extensions.swift in Sources */,
@@ -2061,6 +2093,7 @@
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B785521928B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
+				B7247A5C29A077C10073B98C /* WordNode.swift in Sources */,
 				B7229D7A28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */,
 				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */,
@@ -2109,10 +2142,12 @@
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */,
+				B7247A6029A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
 				B725167428C086060094F29B /* NumberConversions.swift in Sources */,
 				B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
+				B7247A6429A0781A0073B98C /* DictionaryController.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B790C69428F4F25F00634058 /* MetalLinkLine.swift in Sources */,
@@ -2124,6 +2159,7 @@
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
 				F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */,
 				B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
+				B7247A6829A0784D0073B98C /* Positioner.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7AC336628A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
@@ -2268,6 +2304,7 @@
 				B790C69628F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7C69FEA28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
+				B7247A6929A0784D0073B98C /* Positioner.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */,
 				B7D79AB8282B2DD3000F99EB /* CodePagesEditor.swift in Sources */,
@@ -2294,6 +2331,7 @@
 				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B7F010B428BAF46B00182FF5 /* FocusPosition.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
+				B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */,
 				B7AC336C28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				B7C69FD128A356A300A84860 /* RootNode.swift in Sources */,
 				B762DF1728A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
@@ -2322,6 +2360,7 @@
 				B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B7B46AE928BD76620004CA2D /* Structures.swift in Sources */,
 				B7229D8128D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
+				B7247A6129A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */,
 				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
@@ -2364,6 +2403,7 @@
 				B768E2BC28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B762DF1C28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */,
+				B7247A5D29A077C10073B98C /* WordNode.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B72FBFDC28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
