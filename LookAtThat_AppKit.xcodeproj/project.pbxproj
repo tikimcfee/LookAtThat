@@ -185,6 +185,9 @@
 		B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
 		B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */; };
 		B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74A233A2815265300F6F727 /* SemanticMapTracer.swift */; };
+		B74CF40B29A2827E00A30FD0 /* SwiftNodes in Frameworks */ = {isa = PBXBuildFile; productRef = B74CF40A29A2827E00A30FD0 /* SwiftNodes */; };
+		B74CF40D29A2829000A30FD0 /* SwiftNodes in Frameworks */ = {isa = PBXBuildFile; productRef = B74CF40C29A2829000A30FD0 /* SwiftNodes */; };
+		B74CF40F29A2829600A30FD0 /* SwiftNodes in Frameworks */ = {isa = PBXBuildFile; productRef = B74CF40E29A2829600A30FD0 /* SwiftNodes */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B74E7A7F26770E5F0021299F /* BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* BoundsCaching.swift */; };
 		B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
@@ -888,6 +891,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74CF40F29A2829600A30FD0 /* SwiftNodes in Frameworks */,
 				B7CBD78628FE243100A918C2 /* Collections in Frameworks */,
 				B7CBD78A28FE259500A918C2 /* SwiftParser in Frameworks */,
 				B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */,
@@ -902,6 +906,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74CF40B29A2827E00A30FD0 /* SwiftNodes in Frameworks */,
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
@@ -928,6 +933,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74CF40D29A2829000A30FD0 /* SwiftNodes in Frameworks */,
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
 				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
@@ -1704,6 +1710,7 @@
 				B7CBD78528FE243100A918C2 /* Collections */,
 				B7CBD78928FE259500A918C2 /* SwiftParser */,
 				B7CBD78B28FE259500A918C2 /* SwiftSyntax */,
+				B74CF40E29A2829600A30FD0 /* SwiftNodes */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
@@ -1737,6 +1744,7 @@
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
+				B74CF40A29A2827E00A30FD0 /* SwiftNodes */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1789,6 +1797,7 @@
 				B7CBD76F28FCD08400A918C2 /* SwiftParser */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
+				B74CF40C29A2829000A30FD0 /* SwiftNodes */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1835,6 +1844,7 @@
 				B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
 				B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */,
+				B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -2910,6 +2920,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/codeface-io/SwiftNodes.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.0;
+			};
+		};
 		B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
@@ -2991,6 +3009,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = ArgumentParser;
+		};
+		B74CF40A29A2827E00A30FD0 /* SwiftNodes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */;
+			productName = SwiftNodes;
+		};
+		B74CF40C29A2829000A30FD0 /* SwiftNodes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */;
+			productName = SwiftNodes;
+		};
+		B74CF40E29A2829600A30FD0 /* SwiftNodes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */;
+			productName = SwiftNodes;
 		};
 		B75250F32814CEF500820412 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;

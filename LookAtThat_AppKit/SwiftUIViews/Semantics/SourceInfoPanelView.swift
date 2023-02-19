@@ -87,6 +87,8 @@ extension SourceInfoPanelView {
     struct WordInputView: View {
         
         @State var textInput: String = ""
+        @State var playingList: Bool = false
+        @State var goSlow: Bool = true
         
         @StateObject var controller = DictionaryController()
         
@@ -107,14 +109,56 @@ extension SourceInfoPanelView {
                             .setupDictionaryTest(controller)
                     }
                     
+                    Button(
+                        action: { toggleListPlay() },
+                        label: {
+                            if playingList {
+                                HStack {
+                                    Text("Stop List Play")
+                                    ProgressView()
+                                }
+                            } else {
+                                Text("Play List")
+                            }
+                        }
+                    )
+                    
                     Button("Play sentence") {
                         playInputAsSentence(textInput)
                     }
+                    
+                    Toggle("Go Slow", isOn: $goSlow)
                 }
             }
             .padding()
             .onChange(of: textInput) { newValue in
                 updateFocusOnTextChange(newValue)
+            }
+        }
+        
+        func toggleListPlay() {
+            guard !playingList else {
+                playingList = false
+                return
+            }
+            
+            playingList = true
+            
+            WorkerPool.shared.nextConcurrentWorker().async {
+                startPlay()
+            }
+            
+            func startPlay() {
+                var iterator = controller.sortedDictionary.sorted.makeIterator()
+                func nextWord() -> String? { iterator.next()?.0 }
+                while let word = nextWord(), playingList {
+                    updateFocusOnTextChange(word)
+                    
+                    if goSlow {
+                        Thread.sleep(forTimeInterval: 0.033)
+                    }
+                }
+                Task { @MainActor in playingList = false }
             }
         }
         
@@ -126,7 +170,10 @@ extension SourceInfoPanelView {
             WorkerPool.shared.nextWorker().async {
                 for word in cleanedSentence {
                     updateFocusOnTextChange(word)
-                    Thread.sleep(forTimeInterval: 0.033)
+                    
+                    if goSlow {
+                        Thread.sleep(forTimeInterval: 0.033)
+                    }
                 }
             }
         }

@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "swiftnodes",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/codeface-io/SwiftNodes.git",
+      "state" : {
+        "revision" : "ebfc2a7e059fe37e9c4f0e4b11c58d418d32d90d",
+        "version" : "0.7.0"
+      }
+    },
+    {
       "identity" : "swifttrace",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tikimcfee/SwiftTrace",
@@ -70,6 +79,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "8a6881a8ddc730d26e83fc99c7339b58b10249ce"
+      }
+    },
+    {
+      "identity" : "swiftytoolz",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/flowtoolz/SwiftyToolz.git",
+      "state" : {
+        "revision" : "0dbea0c454d319351f88f43e058d59da0c748b97",
+        "version" : "0.3.1"
       }
     },
     {

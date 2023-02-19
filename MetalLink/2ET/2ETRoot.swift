@@ -127,7 +127,7 @@ extension TwoETimeRoot {
         print("Defined words: \(dictionary.sorted.count)")
         
 //        let sideLength = Int(sqrt(dictionary.sorted.count.float))
-        let sideLength = 512
+        let sideLength = 384
         let chunkGroup = DispatchGroup()
         let positions = Positioner(sideLength: sideLength)
         let cachingGenerator = ColorGenerator(maxColorCount: dictionary.sorted.count)
