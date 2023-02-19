@@ -157,6 +157,22 @@ class MetalLinkNode: Measures {
     }
 }
 
+extension MetalLinkNode {
+    func localFacingTranslate(_ dX: Float, _ dY: Float, _ dZ: Float) {
+        var initialDirection = LFloat3(dX, dY, dZ)
+        var rotationTransform = simd_mul(
+            simd_quatf(angle: rotation.x, axis: X_AXIS),
+            simd_quatf(angle: rotation.y, axis: Y_AXIS)
+        )
+        rotationTransform = simd_mul(
+            rotationTransform,
+            simd_quatf(angle: rotation.z, axis: Z_AXIS))
+        
+        initialDirection = simd_act(rotationTransform.inverse, initialDirection)
+        position += initialDirection
+    }
+}
+
 extension MetalLinkNode: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(nodeId)

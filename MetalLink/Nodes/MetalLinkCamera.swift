@@ -21,6 +21,14 @@ protocol MetalLinkCamera: AnyObject {
     var worldUp: LFloat3 { get }
     var worldRight: LFloat3 { get }
     var worldFront: LFloat3 { get }
+    
+    func moveCameraLocation(_ dX: Float, _ dY: Float, _ dZ: Float)
+}
+
+extension MetalLinkCamera {
+    func moveCameraLocation(_ delta: LFloat3) {
+        moveCameraLocation(delta.x, delta.y, delta.z)
+    }
 }
 
 class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
@@ -99,7 +107,7 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         interceptor.positionSource = self
         
         interceptor.positions.$travelOffset.sink { total in
-            self.position += (total / 100)
+            self.moveCameraLocation(total / 100)
         }.store(in: &cancellables)
         
         interceptor.positions.$rotationDelta.sink { total in
@@ -109,7 +117,19 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
 }
 
 extension DebugCamera {
-    
+    func moveCameraLocation(_ dX: Float, _ dY: Float, _ dZ: Float) {
+        var initialDirection = LFloat3(dX, dY, dZ)
+        var rotationTransform = simd_mul(
+            simd_quatf(angle: rotation.x, axis: X_AXIS),
+            simd_quatf(angle: rotation.y, axis: Y_AXIS)
+        )
+        rotationTransform = simd_mul(
+            rotationTransform,
+            simd_quatf(angle: rotation.z, axis: Z_AXIS))
+        
+        initialDirection = simd_act(rotationTransform.inverse, initialDirection)
+        position += initialDirection
+    }
 }
 
 extension DebugCamera {
@@ -122,7 +142,7 @@ extension DebugCamera {
     }
     
     private func buildProjectionMatrix() -> matrix_float4x4 {
-        var matrix = matrix_float4x4.init(
+        let matrix = matrix_float4x4.init(
             perspectiveProjectionFov: Float.pi / 2.0,
             aspectRatio: viewAspectRatio,
             nearZ: 0.1,

@@ -71,6 +71,18 @@ extension LFloat3 {
     var magnitude: Float {
         sqrt(x * x + y * y + z * z)
     }
+    
+    var normalized: LFloat3 {
+        let magnitude = magnitude
+        return magnitude == 0
+            ? .zero
+            : self / magnitude
+    }
+    
+    mutating func normalize() -> LFloat3 {
+        self = self / magnitude
+        return self
+    }
 }
 
 private extension RenderPlan {

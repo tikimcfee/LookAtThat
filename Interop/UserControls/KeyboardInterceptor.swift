@@ -51,6 +51,7 @@ protocol KeyboardPositionSource {
     var worldUp: LFloat3 { get }
     var worldRight: LFloat3 { get }
     var worldFront: LFloat3 { get }
+    var rotation: LFloat3 { get }
 }
 
 extension KeyboardInterceptor {
@@ -62,6 +63,7 @@ extension KeyboardInterceptor {
         var worldRight: LFloat3 { targetCamera.worldRight }
         var worldFront: LFloat3 { targetCamera.worldFront }
         var current: LFloat3 { targetCamera.position }
+        var rotation: LFloat3 { targetCamera.rotation }
         
         init(targetCamera: MetalLinkCamera,
              interceptor: KeyboardInterceptor
@@ -150,25 +152,41 @@ private extension KeyboardInterceptor {
         _ direction: SelfRelativeDirection,
         _ finalDelta: VectorFloat
     ) {
-        guard let source = positionSource else { return }
-        var positionOffset: LFloat3 = .zero
-        var rotationOffset: LFloat3 = .zero
+        weak var weakSelf = self
         
-        switch direction {
-        case .forward:  positionOffset = source.worldFront * Float(finalDelta)
-        case .backward: positionOffset = source.worldFront * -Float(finalDelta)
-            
-        case .right:    positionOffset = source.worldRight * Float(finalDelta)
-        case .left:     positionOffset = source.worldRight * -Float(finalDelta)
-            
-        case .up:       positionOffset = source.worldUp * Float(finalDelta)
-        case .down:     positionOffset = source.worldUp * -Float(finalDelta)
-            
-        case .yawLeft:  rotationOffset = LFloat3(0, -5, 0)
-        case .yawRight:  rotationOffset = LFloat3(0, 5, 0)
+        DispatchQueue.main.async {
+            doDelta()
         }
         
-        DispatchQueue.main.async { [positions] in
+        func doDelta() {
+            guard let self = weakSelf else { return }
+            guard let source = self.positionSource else { return }
+            
+            var positionOffset: LFloat3 = .zero
+            var rotationOffset: LFloat3 = .zero
+            
+            switch direction {
+            case .forward:
+                positionOffset = source.worldFront * Float(finalDelta)
+            case .backward:
+                positionOffset = source.worldFront * -Float(finalDelta)
+                
+            case .right:
+                positionOffset = source.worldRight * Float(finalDelta)
+            case .left:
+                positionOffset = source.worldRight * -Float(finalDelta)
+                
+            case .up:
+                positionOffset = source.worldUp * Float(finalDelta)
+            case .down:
+                positionOffset = source.worldUp * -Float(finalDelta)
+                
+            case .yawLeft:
+                rotationOffset = LFloat3(0, -5, 0)
+            case .yawRight:
+                rotationOffset = LFloat3(0, 5, 0)
+            }
+            
             positions.totalOffset += positionOffset
             positions.travelOffset = positionOffset
             positions.rotationOffset += rotationOffset
