@@ -194,8 +194,6 @@ extension TwoETimeRoot {
                             y: -row.float * 8.0,
                             z: -depth.float * 128.0
                         )
-                        
-                        
                     }
                 }
                 chunkGroup.leave()

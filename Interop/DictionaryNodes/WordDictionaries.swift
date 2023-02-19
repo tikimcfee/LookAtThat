@@ -19,13 +19,13 @@ struct WordDictionary: Codable {
             [String: [String]].self,
             from: Data(contentsOf: file, options: .alwaysMapped)
         ).reduce(into: [String: [String]]()) { result, element in
-            if let first = element.value.first {
-                let cleanedWords = first.splitToWords.map { word in
+            if let firstDefinition = element.value.first {
+                let cleanedWords = firstDefinition.splitToWords.map { word in
                     word.trimmingCharacters(
                         in: .alphanumerics.inverted
                     ).lowercased()
                 }
-                result[element.key] = cleanedWords
+                result[element.key.lowercased()] = cleanedWords
             }
         }
     }
@@ -40,7 +40,8 @@ struct SortedDictionary {
     
     init(dictionary: WordDictionary) {
         self.sorted = dictionary.words.sorted(by: { left, right in
-            left.key < right.key
+            left.key.caseInsensitiveCompare(right.key) == .orderedAscending
+//            left.key < right.key
         })
     }
 }

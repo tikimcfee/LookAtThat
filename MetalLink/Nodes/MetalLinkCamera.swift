@@ -143,7 +143,7 @@ extension DebugCamera {
     
     private func buildProjectionMatrix() -> matrix_float4x4 {
         let matrix = matrix_float4x4.init(
-            perspectiveProjectionFov: Float.pi / 2.0,
+            perspectiveProjectionFov: Float.pi / 3.0,
             aspectRatio: viewAspectRatio,
             nearZ: 0.1,
             farZ: 5000
