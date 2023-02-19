@@ -74,11 +74,11 @@ private extension String {
 typealias WordGraph = Graph<String, String, Double>
 struct WordDictionary {
     var words: [String: [String]]
-//    var graph: WordGraph
+    var graph: WordGraph
     
     init() {
         self.words = .init()
-//        self.graph = .init()
+        self.graph = .init()
     }
     
     init(
@@ -86,29 +86,29 @@ struct WordDictionary {
         graph: WordGraph = WordGraph()
     ) {
         self.words = words
-//        self.graph = graph
+        self.graph = graph
     }
     
     init(file: URL) {
-//        var wordGraph = WordGraph()
+        var wordGraph = WordGraph()
         self.words = try! JSONDecoder().decode(
             [String: [String]].self,
             from: Data(contentsOf: file, options: .alwaysMapped)
         ).reduce(into: [String: [String]]()) { result, element in
             if let firstDefinition = element.value.first {
                 let sourceWord = element.key.lowercased()
-//                wordGraph.insert(sourceWord)
+                wordGraph.insert(sourceWord)
                 
                 let cleanedWords = firstDefinition.splitToWords.map { definitionWord in
                     let trimmed = definitionWord.trimmingCharacters(
                         in: .alphanumerics.inverted
                     ).lowercased()
                     
-//                    wordGraph.insert(trimmed)
-//                    wordGraph.add(
-//                        weight: 1.0,
-//                        toEdgeWith: WordGraph.Edge(from: sourceWord, to: trimmed).id
-//                    )
+                    wordGraph.insert(trimmed)
+                    wordGraph.add(
+                        weight: 1.0,
+                        toEdgeWith: WordGraph.Edge(from: sourceWord, to: trimmed).id
+                    )
                     
                     return trimmed
                 }
@@ -116,10 +116,7 @@ struct WordDictionary {
                 result[sourceWord] = cleanedWords
             }
         }
-//        self.graph = wordGraph
-        
-//        let condensation = graph.makeCondensationGraph()
-//        print(condensation)
+        self.graph = wordGraph
     }
 }
 

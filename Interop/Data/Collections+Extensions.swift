@@ -11,6 +11,7 @@ extension Set {
     enum Selection {
         case addedToSet, removedFromSet
     }
+    
     mutating func toggle(_ toggled: Element) -> Selection {
         if contains(toggled) {
             remove(toggled)

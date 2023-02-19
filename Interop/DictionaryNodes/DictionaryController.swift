@@ -139,12 +139,15 @@ class DictionaryController: ObservableObject {
     }
     
     func kickoffJsonLoad(_ url: URL) {
-//        let parsedDictionary = WordnikGameDictionary(from: url)
-//        let dictionary = WordDictionary(words: parsedDictionary.map)
-        
-        let dictionary = WordDictionary(file: url)
-        
-        self.dictionary = dictionary
+        if url.pathExtension == "wordnik" {
+            let parsedDictionary = WordnikGameDictionary(from: url)
+            let dictionary = WordDictionary(words: parsedDictionary.map)
+            self.dictionary = dictionary
+        } else {
+            let dictionary = WordDictionary(file: url)
+            self.dictionary = dictionary
+        }
+
         self.sortedDictionary = SortedDictionary(dictionary: dictionary)
     }
 }

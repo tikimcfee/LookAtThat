@@ -87,8 +87,17 @@ extension SourceInfoPanelView {
     struct WordInputView: View {
         
         @State var textInput: String = ""
-        @State var playingList: Bool = false
+        @State var toggledRows: Set<String> = []
+        
+        @State var playingList: Bool = false {
+            didSet {
+                if !playingList {
+                    autoscrollWord = nil
+                }
+            }
+        }
         @State var goSlow: Bool = true
+        @State var autoscrollWord: String?
         
         @StateObject var controller = DictionaryController()
         
@@ -152,6 +161,7 @@ extension SourceInfoPanelView {
                 var iterator = controller.sortedDictionary.sorted.makeIterator()
                 func nextWord() -> String? { iterator.next()?.0 }
                 while let word = nextWord(), playingList {
+                    autoscrollWord = word
                     updateFocusOnTextChange(word)
                     
                     if goSlow {
@@ -195,15 +205,52 @@ extension SourceInfoPanelView {
         
         @ViewBuilder
         var dictionaryView: some View {
-            ScrollView {
-                LazyVStack(alignment: .leading) {
-                    ForEach(controller.sortedDictionary.sorted, id: \.0) { entry in
-                        Text(entry.0)
+            ScrollViewReader { reader in
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
+                        ForEach(controller.sortedDictionary.sorted, id: \.0) { entry in
+                            dictionaryViewCell(for: entry)
+                                .padding(.bottom, 8)
+                                .tag(entry.0)
+                        }
                     }
+                    .id(UUID()) // Use .id() to force rebuilding without diff computation
                 }
-                .id(UUID()) // Use .id() to force rebuilding without diff computation
+                .onChange(of: autoscrollWord) { word in
+                    guard goSlow, let word else { return }
+                    reader.scrollTo(word)
+                }
             }
             .frame(maxHeight: 380.0)
+        }
+        
+        @ViewBuilder
+        func dictionaryViewCell(for entry: (String, [String])) -> some View {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(entry.0)
+                if toggledRows.contains(entry.0) {
+                    Text(entry.1.joined(separator: ", "))
+                }
+            }
+            .padding(EdgeInsets(top: 2, leading: 6, bottom: 4, trailing: 6))
+            .background(cellBackground(for: entry))
+            .onTapGesture {
+                let toggled = toggledRows.toggle(entry.0)
+                print("'\(entry.0)' toggled: \(toggled)")
+            }
+        }
+        
+        func cellBackground(for entry: (String, [String])) -> some View {
+            ZStack {
+                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                    .fill(
+                        autoscrollWord == entry.0
+                        ? .gray.opacity(0.6)
+                        : .gray.opacity(0.2)
+                    )
+                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                    .stroke(.gray)
+            }.drawingGroup(opaque: true)
         }
     }
     
