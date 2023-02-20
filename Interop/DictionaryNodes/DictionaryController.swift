@@ -32,6 +32,10 @@ class DictionaryController: ObservableObject {
     lazy var colorVector = LFloat4(0.65, 0.30, 0.0, 0.0)
     lazy var colorVectorNested = LFloat4(-0.65, 0.55, 0.55, 0.0)
     
+    lazy var focusedColor =    LFloat4(1.0, 0.0, 0.0, 0.0)
+    lazy var ancestorColor =   LFloat4(0.0, 1.0, 0.0, 0.0)
+    lazy var descendantColor = LFloat4(0.0, 0.0, 1.0, 0.0)
+    
     var focusedWordNode: WordNode? {
         willSet {
             guard newValue != focusedWordNode else { return }
@@ -58,43 +62,46 @@ class DictionaryController: ObservableObject {
         isNested: Bool = false
     ) {
         wordNode.update { toUpdate in
-            toUpdate.position.translateBy(dZ: self.positionVector.z)
+            toUpdate.position
+                .translateBy(dZ: self.positionVector.z)
+            
             toUpdate.scale = isNested
-            ? self.scaleVectorNested
-            : self.scaleVector
+                ? self.scaleVectorNested
+                : self.scaleVector
             
             for glyph in toUpdate.glyphs {
                 UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor += self.colorVector
-                    if isNested {
-                        $0.addedColor += self.colorVectorNested
-                    }
+                    $0.addedColor = self.focusedColor
                 }
             }
         }
         
-//        if !isNested {
-//            if let rootNode = lastRootNode {
-//                if let lastLinkLine {
-//                    rootNode.remove(child: lastLinkLine)
+        if let graphNode = dictionary.graph.node(with: wordNode.sourceWord) {
+//            for ancestor in graphNode.ancestorIDs {
+//                if let ancestorNode = nodeMap[ancestor] {
+//                    ancestorNode.update {
+//                        $0.scale = self.scaleVectorNested
+//                        for glyph in ancestorNode.glyphs {
+//                            UpdateNode(glyph, in: ancestorNode.parentGrid) {
+//                                $0.addedColor = self.ancestorColor
+//                            }
+//                        }
+//                    }
 //                }
-//                
-//                let linkLine = MetalLinkLine(GlobalInstances.defaultLink)
-//                linkLine.setColor(LFloat4(1.0, 0.0, 0.0, 1.0))
-//                rootNode.add(child: linkLine)
-//                lastLinkLine = linkLine
 //            }
-//        }
-        
-        
-        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
-        if let definitionNodes, focusNested {
-            lastLinkLine?.appendSegment(about: wordNode.position)
             
-            if !isNested {
-                for definitionWord in definitionNodes {
-                    focusWord(definitionWord, focusNested: false, isNested: true)
-                    lastLinkLine?.appendSegment(about: definitionWord.position)
+            for descendant in graphNode.descendantIDs {
+                if descendant == wordNode.sourceWord { continue }
+                
+                if let descendantNode = nodeMap[descendant] {
+                    descendantNode.update {
+                        $0.scale = self.scaleVectorNested
+                        for glyph in descendantNode.glyphs {
+                            UpdateNode(glyph, in: descendantNode.parentGrid) {
+                                $0.addedColor = self.descendantColor
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -110,18 +117,38 @@ class DictionaryController: ObservableObject {
             toUpdate.scale = self.inverseScaleVector
             for glyph in toUpdate.glyphs {
                 UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor -= self.colorVector
-                    if isNested {
-                        $0.addedColor -= self.colorVectorNested
-                    }
+                    $0.addedColor = .zero
                 }
             }
         }
         
-        let definitionNodes = dictionary.words[wordNode.sourceWord]?.compactMap { nodeMap[$0] }
-        if let definitionNodes, defocusNested {
-            for definitionWord in definitionNodes {
-                defocusWord(definitionWord, defocusNested: false, isNested: true)
+        if let graphNode = dictionary.graph.node(with: wordNode.sourceWord) {
+//            for ancestor in graphNode.ancestorIDs {
+//                if let ancestorNode = nodeMap[ancestor] {
+//                    ancestorNode.update {
+//                        $0.scale = .one
+//                        for glyph in ancestorNode.glyphs {
+//                            UpdateNode(glyph, in: ancestorNode.parentGrid) {
+//                                $0.addedColor = .zero
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+            
+            for descendant in graphNode.descendantIDs {
+                if descendant == wordNode.sourceWord { continue }
+                
+                if let descendantNode = nodeMap[descendant] {
+                    descendantNode.update {
+                        $0.scale = .one
+                        for glyph in descendantNode.glyphs {
+                            UpdateNode(glyph, in: descendantNode.parentGrid) {
+                                $0.addedColor = .zero
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -141,13 +168,14 @@ class DictionaryController: ObservableObject {
     func kickoffJsonLoad(_ url: URL) {
         if url.pathExtension == "wordnik" {
             let parsedDictionary = WordnikGameDictionary(from: url)
-            let dictionary = WordDictionary(words: parsedDictionary.map)
+            let dictionary = WordDictionary(
+                words: parsedDictionary.map
+            )
             self.dictionary = dictionary
         } else {
             let dictionary = WordDictionary(file: url)
             self.dictionary = dictionary
         }
-
         self.sortedDictionary = SortedDictionary(dictionary: dictionary)
     }
 }

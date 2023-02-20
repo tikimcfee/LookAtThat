@@ -89,15 +89,17 @@ extension SourceInfoPanelView {
         @State var textInput: String = ""
         @State var toggledRows: Set<String> = []
         
-        @State var playingList: Bool = false {
-            didSet {
-                if !playingList {
-                    autoscrollWord = nil
-                }
-            }
-        }
+        @State var playingList: Bool = false
+//        {
+//            didSet {
+//                if !playingList {
+//                    autoscrollWord = nil
+//                }
+//            }
+//        }
+        
         @State var goSlow: Bool = true
-        @State var autoscrollWord: String?
+//        @State var autoscrollWord: String?
         
         @StateObject var controller = DictionaryController()
         
@@ -161,7 +163,7 @@ extension SourceInfoPanelView {
                 var iterator = controller.sortedDictionary.sorted.makeIterator()
                 func nextWord() -> String? { iterator.next()?.0 }
                 while let word = nextWord(), playingList {
-                    autoscrollWord = word
+//                    autoscrollWord = word
                     updateFocusOnTextChange(word)
                     
                     if goSlow {
@@ -216,10 +218,10 @@ extension SourceInfoPanelView {
                     }
                     .id(UUID()) // Use .id() to force rebuilding without diff computation
                 }
-                .onChange(of: autoscrollWord) { word in
-                    guard goSlow, let word else { return }
-                    reader.scrollTo(word)
-                }
+//                .onChange(of: autoscrollWord) { word in
+//                    guard goSlow, let word else { return }
+////                    reader.scrollTo(word)
+//                }
             }
             .frame(maxHeight: 380.0)
         }
@@ -235,19 +237,29 @@ extension SourceInfoPanelView {
             .padding(EdgeInsets(top: 2, leading: 6, bottom: 4, trailing: 6))
             .background(cellBackground(for: entry))
             .onTapGesture {
-                let toggled = toggledRows.toggle(entry.0)
-                print("'\(entry.0)' toggled: \(toggled)")
+                toggledRows.removeAll()
+                toggledRows.insert(entry.0)
+                
+//                let toggled = toggledRows.toggle(entry.0)
+//                print("'\(entry.0)' toggled: \(toggled)")
+                
+                if let node = controller.nodeMap[entry.0] {
+                    controller.focusedWordNode = node
+                } else {
+                    controller.focusedWordNode = nil
+                }
             }
         }
         
         func cellBackground(for entry: (String, [String])) -> some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 4.0, style: .continuous)
-                    .fill(
-                        autoscrollWord == entry.0
-                        ? .gray.opacity(0.6)
-                        : .gray.opacity(0.2)
-                    )
+//                    .fill(
+//                        autoscrollWord == entry.0
+//                            ? .gray.opacity(0.6)
+//                            : .gray.opacity(0.2)
+//                    )
+                    .fill(.gray.opacity(0.2))
                 RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                     .stroke(.gray)
             }.drawingGroup(opaque: true)

@@ -8,8 +8,21 @@
 import Foundation
 import SwiftNodes
 
+enum PartOfSpeech: String, Codable, Equatable, Hashable {
+    case noun
+    case transitiveVerb = "transitiveVerb"
+    case interjection
+    case idiom
+    case intransitiveVerb = "intransitiveVerb"
+    case verb
+    case adverb
+    case definiteArticle = "definite article."
+    case adjective
+}
+
 struct WordnikPartOfSpeech: Codable, Hashable, Equatable {
-    let name: String
+//    let name: String
+    let name: PartOfSpeech
 }
 
 struct WordnikDefinition: Codable, Hashable, Equatable {
@@ -40,13 +53,24 @@ struct WordnikGameDictionary: Codable, Hashable, Equatable {
             .reduce(into: WordnikMap()) {
                 Self.reduceOnInit(word: $1, map: &$0)
             }
+        
+//        let filtered = words
+//            .lazy
+//            .reduce(into: [PartOfSpeech: Set<WordnikWord>]()) { result, word in
+//                for definition in word.df {
+//                    if let name = definition.pos?.name {
+//                        result[name, default: []].insert(word)
+//                    }
+//                }
+//            }
+//
+//        print(filtered)
     }
     
     private static func reduceOnInit(
         word: WordnikWord,
         map: inout WordnikMap
     ) {
-        
         let definitionWords = word.df.lazy.compactMap {
             $0.txt.splitToWords.map {
                 $0.dewordnikked
@@ -83,9 +107,24 @@ struct WordDictionary {
     
     init(
         words: [String: [String]],
-        graph: WordGraph = WordGraph()
+        graph: WordGraph? = nil
     ) {
         self.words = words
+        
+        var graph = graph ?? WordGraph()
+        words.forEach { (sourceWord, definitionWords) in
+            graph.insert(sourceWord)
+            for definitionWord in definitionWords {
+                graph.insert(definitionWord)
+                graph.add(
+                    weight: 1.0,
+                    toEdgeWith: WordGraph.Edge(
+                        from: sourceWord,
+                        to: definitionWord
+                    ).id
+                )
+            }
+        }
         self.graph = graph
     }
     
