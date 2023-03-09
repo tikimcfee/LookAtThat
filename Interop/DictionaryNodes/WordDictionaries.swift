@@ -86,7 +86,7 @@ struct WordnikGameDictionary: Codable, Hashable, Equatable {
     }
 }
 
-private extension String {
+extension String {
     var dewordnikked: String {
         trimmingCharacters(
             in: .alphanumerics.inverted
@@ -95,7 +95,20 @@ private extension String {
     }
 }
 
-typealias WordGraph = Graph<String, String, Double>
+extension WordGraph {
+    mutating func addWeightBetween(source: String, target: String) {
+        insert(target)
+        add(
+            weight: 0.01,
+            toEdgeWith: WordGraph.Edge(
+                from: source,
+                to: target
+            ).id
+        )
+    }
+}
+
+typealias WordGraph = Graph<String, String, Float>
 struct WordDictionary {
     var words: [String: [String]]
     var graph: WordGraph
@@ -114,47 +127,83 @@ struct WordDictionary {
         var graph = graph ?? WordGraph()
         words.forEach { (sourceWord, definitionWords) in
             graph.insert(sourceWord)
+            
             for definitionWord in definitionWords {
-                graph.insert(definitionWord)
-                graph.add(
-                    weight: 1.0,
-                    toEdgeWith: WordGraph.Edge(
-                        from: sourceWord,
-                        to: definitionWord
-                    ).id
-                )
+                graph.addWeightBetween(source: sourceWord, target: definitionWord)
             }
         }
         self.graph = graph
     }
     
     init(file: URL) {
-        var wordGraph = WordGraph()
-        self.words = try! JSONDecoder().decode(
+        let decodedWords = try! JSONDecoder().decode(
             [String: [String]].self,
             from: Data(contentsOf: file, options: .alwaysMapped)
-        ).reduce(into: [String: [String]]()) { result, element in
-            if let firstDefinition = element.value.first {
-                let sourceWord = element.key.lowercased()
-                wordGraph.insert(sourceWord)
-                
-                let cleanedWords = firstDefinition.splitToWords.map { definitionWord in
-                    let trimmed = definitionWord.trimmingCharacters(
-                        in: .alphanumerics.inverted
-                    ).lowercased()
-                    
-                    wordGraph.insert(trimmed)
-                    wordGraph.add(
-                        weight: 1.0,
-                        toEdgeWith: WordGraph.Edge(from: sourceWord, to: trimmed).id
-                    )
-                    
-                    return trimmed
-                }
-                
-                result[sourceWord] = cleanedWords
+        )
+        
+        actor WorkIterator<Element> {
+            let sourceSequence: any IteratorProtocol
+            
+            init(_ sourceSequence: AnyIterator<Element>) {
+                self.sourceSequence = sourceSequence
+            }
+            
+            func next() -> Element? {
+                sourceSequence.next()
             }
         }
+        
+        func splitTask(
+            source: String
+        ) async -> [String] {
+            await Task {
+                source.splitToWords.map { $0.dewordnikked }
+            }.value
+        }
+        
+        func definitionListToWordLists(
+            dictionary: [String: [String]]
+        ) async -> [String: [[String]]] {
+            var iterator = WorkIterator(dictionary.makeIterator())
+            
+            var wordListMap = [String: [[String]]]()
+            
+            for (word, definitionList) in dictionary {
+                
+            }
+        }
+        
+        var wordGraph = WordGraph()
+        let mappedWords = decodedWords.reduce(
+            into: [String: Set<String>]()
+        ) { result, entry in
+            let sourceWord = entry.key.dewordnikked
+            let uniqueDefinitionWords = entry.value.prefix(1).reduce(
+                into: Set<String>()
+            ) { result, definition in
+                result = result.union(
+                    definition.splitToWords.map {
+                        $0.dewordnikked
+                    }
+                )
+            }
+            
+            result[sourceWord, default: []].formUnion(uniqueDefinitionWords)
+            
+            wordGraph.insert(sourceWord)
+            for definitionWord in uniqueDefinitionWords {
+                wordGraph.addWeightBetween(
+                    source: sourceWord,
+                    target: definitionWord
+                )
+            }
+        }.reduce(
+            into: [String: [String]]()
+        ) { result, entry in
+            result[entry.key] = Array(entry.value)
+        }
+        
+        self.words = mappedWords
         self.graph = wordGraph
     }
 }

@@ -40,9 +40,9 @@ private extension FontRenderer {
     static let SCALE_FACTOR: Float = 1.0
     static let DESCALE_FACTOR: Float = 16.0
 #else
-    static let FONT_SIZE: Float = 24.0
+    static let FONT_SIZE: Float = 32.0
     static let SCALE_FACTOR: Float = 1.0
-    static let DESCALE_FACTOR: Float = 24.0
+    static let DESCALE_FACTOR: Float = 32.0
 #endif
     
     // A font size warning:

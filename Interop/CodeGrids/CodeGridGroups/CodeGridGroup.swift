@@ -35,6 +35,81 @@ class CodeGridGroup {
 // Assumes first grid is initial layout target.
 // No, I haven't made constraints yet. Ew.
 
+struct WordGraphLayout {
+    func doIt(
+        controller: DictionaryController
+    ) {
+        controller.dictionary.graph.edges.lazy
+            .compactMap { edge -> (WordNode, WordNode, WordGraph.Edge)? in
+                guard let origin = controller.nodeMap[edge.originID],
+                      let destination = controller.nodeMap[edge.destinationID]
+                else {
+                    return nil
+                }
+                return (origin, destination, edge)
+            }
+            .forEach { source, destination, edge in
+//                print(edge.weight)
+            }
+    }
+}
+
+struct ChatLayout {
+    func fruchtermanReingold(
+        nodes: [WordNode],
+        graph: WordGraph,
+        width: Float,
+        height: Float,
+        depth: Float,
+        k: Float,
+        maxIterations: Int
+    ) {
+        
+        let repulsiveForce: (Float) -> Float = { distance in
+            k * k / distance
+        }
+        
+        let attractiveForce: (Float) -> Float = { distance in
+            distance * distance / k
+        }
+        
+        print("--- Starting FR iterations")
+        for iteration in 0..<maxIterations {
+            print("---> Iteration \(iteration)")
+            
+            for node in nodes {
+                var displacement = LFloat3.zero
+                
+                for otherNode in nodes {
+                    if node === otherNode {
+                        continue
+                    }
+                    
+                    let direction = otherNode.position - node.position
+                    let distance = direction.magnitude
+                    
+                    // Compute repulsive force
+                    let repulsiveMagnitude = repulsiveForce(distance)
+                    displacement -= direction.normalized * repulsiveMagnitude
+                    
+                    // Compute attractive force
+                    if let edge = graph.edge(from: otherNode.sourceWord, to: node.sourceWord) {
+                        let attractiveMagnitude = attractiveForce(distance) * edge.weight
+                        displacement += direction.normalized * attractiveMagnitude
+                    }
+                }
+                
+                let newPosition = node.position + displacement
+                node.position = LFloat3(
+                    x: max(0, min(width, newPosition.x)),
+                    y: max(0, min(height, newPosition.y)),
+                    z: max(0, min(depth, newPosition.z))
+                )
+            }
+        }
+    }
+}
+
 struct RadialLayout {
     let magnitude: Float
     
@@ -141,14 +216,16 @@ struct DepthLayout {
         var lastTarget: LayoutTarget?
         
         for currentTarget in wordNodes {
-            if let lastTarget = lastTarget {
-                let final = lastTarget.layoutNode.position.translated(dZ: zGap)
-                currentTarget.position = final
-            } else {
-                let final = LFloat3(x: centerX, y: centerY, z: centerZ)
-                currentTarget.position = final
+            currentTarget.update {
+                if let lastTarget {
+                    let final = lastTarget.layoutNode.position.translated(dZ: zGap)
+                    $0.position = final
+                } else {
+                    let final = LFloat3(x: centerX, y: centerY, z: centerZ)
+                    $0.position = final
+                }
             }
-            currentTarget.push()
+            
             lastTarget = currentTarget
         }
     }

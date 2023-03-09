@@ -9,60 +9,66 @@ import Foundation
 import SceneKit
 import SwiftSyntax
 
-class ColorGenerator{
+class ColorGenerator {
+    /// With eternal thanks as always to the language model entity that listened and assisted.
+    struct ColorIterator_ai: Sequence, IteratorProtocol {
+        let numColors: Int
+        let saturation: Float
+        let brightness: Float
+        var currentIndex: Int = 0
+        
+        init(numColors: Int, saturation: Float = 1.0, brightness: Float = 0.9) {
+            self.numColors = numColors
+            self.saturation = saturation
+            self.brightness = brightness
+        }
+        
+        mutating func next() -> LFloat4? {
+            guard currentIndex < numColors,
+                  let colorVector = currentSystemColorVector
+            else { return nil }
+            currentIndex += 1
+            return colorVector
+        }
+        
+        private var currentSystemColorVector: LFloat4? {
+            guard let systemColor = currentSystemColor,
+                  let systemRGBA = systemColor.rgba
+            else { return nil }
+            return LFloat4(
+                systemRGBA.red.float,
+                systemRGBA.green.float,
+                systemRGBA.blue.float,
+                1.0
+            )
+        }
+        
+        private var currentSystemColor: NSUIColor? {
+            let hue = currentIndex.cg / numColors.cg
+//            let hue = CGFloat(currentIndex) / CGFloat(numColors)
+//            let hueRange = hue < 1.0 ? 0.0..<1.0 : 0.0..<hue.truncatingRemainder(dividingBy: 1.0)
+//            let hueValue = hueRange.lowerBound + (hueRange.upperBound - hueRange.lowerBound) * hue
+            return NSUIColor(
+                hue: hue,
+                saturation: saturation.cg,
+                brightness: brightness.cg,
+                alpha: 1.0
+            )
+        }
+    }
+    
     private let maxColorCount: Int
     
-    private let startHexcolor: Int = 0xFF_FF_FF
-    private let redMask: Int       = 0xFF
-    private let greenMask: Int     = 0xFF
-    private let blueMask: Int      = 0xFF
-    
-    private lazy var currentHexColor: Int = startHexcolor
-    private lazy var hexDeltaStep: Int = 0xFF_FF_FF / maxColorCount
+    private lazy var colorIterator = ColorIterator_ai(numColors: maxColorCount)
+    private lazy var sortedColors = Array(colorIterator)
     
     init(maxColorCount: Int) {
         self.maxColorCount = max(1, maxColorCount)
     }
     
-//    func fromInt(colorInt: Int) -> NSUIColor {
-//        NSUIColor(
-//            displayP3Red: (colorInt >> 16 & redMask).cg   / 255.0,
-//            green:        (colorInt >>  8 & greenMask).cg / 255.0,
-//            blue:         (colorInt >>  0 & blueMask).cg  / 255.0,
-//            alpha:        1.0
-//        )
-//    }
-    
-    func fromInt(colorInt: Int) -> LFloat4 {
-        LFloat4(
-            (colorInt >> 16 & redMask).float   / 255.0,
-            (colorInt >>  8 & greenMask).float / 255.0,
-            (colorInt >>  0 & blueMask).float  / 255.0,
-            1.0
-        )
+    var nextColor: LFloat4 {
+        sortedColors.popLast() ?? LFloat4(repeating: 1.0)
     }
-    
-    func nextHexColor() -> Int {
-        let next = currentHexColor
-        currentHexColor -= hexDeltaStep
-//        print(currentHexColor)
-        if currentHexColor <= 0 {
-            currentHexColor = startHexcolor
-//            print("-----reset!!")
-        }
-        return next
-    }
-    
-//    func nextColor() -> NSUIColor {
-//        let nextColor = nextHexColor()
-//        let mappedColor = NSUIColor(
-//            displayP3Red: (nextColor >> 24 & redMask).cg   / 255.0,
-//            green:        (nextColor >> 16 & greenMask).cg / 255.0,
-//            blue:         (nextColor >> 8  & blueMask).cg  / 255.0,
-//            alpha:        1.0
-//        )
-//        return mappedColor
-//    }
 }
 
 // MARK: -- Consume Text

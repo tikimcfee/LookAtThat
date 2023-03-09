@@ -26,7 +26,7 @@ class DictionaryController: ObservableObject {
     lazy var inverseScale: Float = pow(scale, -1)
     lazy var inverseScaleVector = LFloat3(1, 1, 1)
     
-    lazy var positionVector = LFloat3(0, 0, 16)
+    lazy var rootNodePositionTranslation = LFloat3(0, 0, 16)
     lazy var inversePositionVector = LFloat3(0, 0, -16)
     
     lazy var colorVector = LFloat4(0.65, 0.30, 0.0, 0.0)
@@ -56,6 +56,52 @@ class DictionaryController: ObservableObject {
         }
     }
     
+    class Styler {
+        enum Style {
+            case rootWord
+            case definitionDescendant(depth: Double)
+        }
+        
+        lazy var rootNodeColor = LFloat4(1.0, 0.0, 0.0, 0.0)
+        lazy var rootNodeScale = LFloat3(30.0, 30.0, 30.0)
+        lazy var rootNodeTranslation = LFloat3(0, 0, 16)
+        
+        lazy var colors = ColorGenerator(maxColorCount: 500)
+        lazy var depths: [WordNode: LFloat3] = [:]
+        
+        func focusWord(
+            _ wordNode: WordNode,
+            _ style: Style
+        ) {
+            switch style {
+            case .rootWord:
+                rootWord = wordNode
+                
+            case .definitionDescendant(let depth):
+                break
+            }
+        }
+        
+        var rootWord: WordNode? {
+            willSet {
+                guard rootWord != newValue else { return }
+                
+                rootWord?.position -= rootNodeTranslation
+                rootWord?.scale = .one
+                newValue?.position += rootNodeTranslation
+                newValue?.scale = .one
+            }
+        }
+        
+        func updateDepth(of word: WordNode, to depth: Float) {
+            let lastUpdate = depths[word, default: .zero]
+            guard lastUpdate.z != depth else { return }
+            
+            word.position -= lastUpdate
+            word.position += LFloat3(0.0, 0.0, depth)
+        }
+    }
+    
     func focusWord(
         _ wordNode: WordNode,
         focusNested: Bool = false,
@@ -63,16 +109,14 @@ class DictionaryController: ObservableObject {
     ) {
         wordNode.update { toUpdate in
             toUpdate.position
-                .translateBy(dZ: self.positionVector.z)
+                .translateBy(dZ: self.rootNodePositionTranslation.z)
             
             toUpdate.scale = isNested
                 ? self.scaleVectorNested
                 : self.scaleVector
             
-            for glyph in toUpdate.glyphs {
-                UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor = self.focusedColor
-                }
+            toUpdate.applyGlyphChanges { glyph, constants in
+                constants.addedColor = self.focusedColor
             }
         }
         

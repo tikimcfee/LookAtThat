@@ -77,10 +77,10 @@ extension LList {
                 lastNodeOnEmpty = pointer
             }
             
-            let currentNode = pointer
+            let currentElement = pointer?.element
             pointer = pointer?.next
             
-            return currentNode?.element
+            return currentElement
         }
     }
 }

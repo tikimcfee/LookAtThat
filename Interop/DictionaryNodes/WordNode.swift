@@ -31,24 +31,45 @@ class WordNode: MetalLinkNode {
         push()
     }
     
-    func doOnAll(_ receiver: (CodeGridNodes) -> Void) {
-        receiver(glyphs)
-        parentGrid.pushNodes(glyphs)
-    }
-    
-    func push(_ receiver: (WordNode) -> Void) {
-        receiver(self)
-        parentGrid.pushNodes(glyphs)
-    }
-    
-    func push() {
-        parentGrid.pushNodes(glyphs)
-    }
-    
     func update(_ action: @escaping (WordNode) async -> Void) {
         Task {
             await action(self)
             push()
         }
+    }
+    
+    func updateSync(_ action: (WordNode) -> Void) {
+        action(self)
+        push()
+    }
+    
+    func  applyGlyphChanges(
+        _ receiver: @escaping (GlyphNode, inout GlyphConstants) -> Void
+    ) {
+        for glyph in glyphs {
+            UpdateNode(glyph, in: parentGrid) { constants in
+                receiver(glyph, &constants)
+            }
+        }
+    }
+    
+    private var asyncApplyTask: Task<(), Never>?
+    
+    func  applyGlyphChangesAsync(
+        _ receiver: @escaping (GlyphNode, inout GlyphConstants) -> Void
+    ) {
+        asyncApplyTask?.cancel()
+        asyncApplyTask = Task {
+            for glyph in glyphs where !Task.isCancelled {
+                UpdateNode(glyph, in: parentGrid) { constants in
+                    receiver(glyph, &constants)
+                }
+            }
+        }
+        
+    }
+    
+    private func push() {
+        parentGrid.pushNodes(glyphs)
     }
 }
