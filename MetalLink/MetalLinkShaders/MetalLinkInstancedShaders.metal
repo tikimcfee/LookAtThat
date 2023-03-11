@@ -130,8 +130,9 @@ fragment PickingTextureFragmentOut instanced_fragment_function(
                               filter::bicubic);
     
     float4 color = atlas.sample(sampler, rasterizerData.textureCoordinate);
+    color = colorBlend_Add(color, rasterizerData.addedColor);
 //    color = colorBlend_Overlay(color, rasterizerData.addedColor);
-    color = colorBlend_Multiply(color, rasterizerData.addedColor);
+//    color = colorBlend_Multiply(color, rasterizerData.addedColor);
         
     PickingTextureFragmentOut out;
     out.mainColor = float4(color.r, color.g, color.b, color.a);

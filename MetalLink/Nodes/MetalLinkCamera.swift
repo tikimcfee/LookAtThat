@@ -55,8 +55,17 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
     let interceptor = KeyboardInterceptor()
     private var cancellables = Set<AnyCancellable>()
     
+    enum ScrollLock: String, CaseIterable, Identifiable, Hashable {
+        var id: Self { self }
+        case horizontal
+        case vertical
+        case transverse
+    }
     var holdingOption: Bool = false
     var startRotate: Bool = false
+    
+    var scrollLock: Set<ScrollLock> = []
+    var notBlockingFromScroll: Bool { scrollLock.isEmpty }
     
     init(link: MetalLink) {
         self.link = link
@@ -70,12 +79,17 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         }.store(in: &cancellables)
         
         link.input.sharedMouseDown.sink { event in
+            guard self.notBlockingFromScroll else { return }
+            
             print("mouse down")
             self.startRotate = true
         }.store(in: &cancellables)
         
         link.input.sharedMouseUp.sink { event in
+            guard self.notBlockingFromScroll else { return }
+            
             print("mouse up")
+            
             self.startRotate = false
         }.store(in: &cancellables)
         
@@ -87,10 +101,16 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
             let speedModified = self.interceptor.state.currentModifiers.contains(.shift)
             let inOutModifier = self.interceptor.state.currentModifiers.contains(.option)
             let multiplier = speedModified ? sensitivityModified : sensitivity
-            let dX = -event.scrollingDeltaX.float * multiplier
-            let dY = inOutModifier ? 0 : event.scrollingDeltaY.float * multiplier
-            let dZ = inOutModifier ? -event.scrollingDeltaY.float * multiplier : 0
-            let delta = LFloat3(dX, dY, dZ)
+            
+            var dX: Float { -event.scrollingDeltaX.float * multiplier }
+            var dY: Float { inOutModifier ? 0 : event.scrollingDeltaY.float * multiplier }
+            var dZ: Float { inOutModifier ? -event.scrollingDeltaY.float * multiplier : 0 }
+            
+            let delta = LFloat3(
+                self.scrollLock.contains(.horizontal) ? 0.0 : dX,
+                self.scrollLock.contains(.vertical) ? 0.0 : dY,
+                self.scrollLock.contains(.transverse) ? 0.0 : dZ
+            )
             
             self.interceptor.positions.travelOffset = delta
         }.store(in: &cancellables)
@@ -98,6 +118,8 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         
         link.input.sharedMouse.sink { event in
             guard self.startRotate else { return }
+            
+            
             self.interceptor.positions.rotationDelta.y = event.deltaX.float / 5
             self.interceptor.positions.rotationDelta.x = event.deltaY.float / 5
         }.store(in: &cancellables)
@@ -107,10 +129,17 @@ class DebugCamera: MetalLinkCamera, KeyboardPositionSource, MetalLinkReader {
         interceptor.positionSource = self
         
         interceptor.positions.$travelOffset.sink { total in
+            var total = total
+            if self.scrollLock.contains(.horizontal) { total.x = 0 }
+            if self.scrollLock.contains(.vertical)   { total.y = 0 }
+            if self.scrollLock.contains(.transverse) { total.z = 0 }
+            
             self.moveCameraLocation(total / 100)
         }.store(in: &cancellables)
         
         interceptor.positions.$rotationDelta.sink { total in
+            guard self.notBlockingFromScroll else { return }
+            
             self.rotation += (total / 100)
         }.store(in: &cancellables)
     }

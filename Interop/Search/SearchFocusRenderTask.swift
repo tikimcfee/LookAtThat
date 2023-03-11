@@ -112,16 +112,22 @@ private extension SearchFocusRenderTask {
         while !task.isCancelled, let next = gridWork.next() {
             workGroup.enter()
             WorkerPool.shared.nextWorker().async {
-                defer { workGroup.leave() }
-                do { try self.test(grid: next, searchText: searchText) }
-                catch { return }
+                defer {
+                    workGroup.leave()
+                }
+                do {
+                    try self.test(grid: next, searchText: searchText)
+                }
+                catch {
+                    return
+                }
             }
         }
         workGroup.wait()
     }
     
     func test(grid: CodeGrid, searchText: String) throws {
-        var foundMatch: Bool = false
+        var matched: [SemanticInfo: Int] = [:]
         
         for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {
             try self.throwIfCancelled()
@@ -132,7 +138,9 @@ private extension SearchFocusRenderTask {
             }
             
             var matchesTrivia: Bool {
+                // TODO: include comment searchd
                 [info.node.leadingTrivia, info.node.trailingTrivia]
+                    .lazy
                     .compactMap { $0 }
                     .contains {
                         $0.stringified.containsMatch(searchText, caseSensitive: false)
@@ -140,15 +148,17 @@ private extension SearchFocusRenderTask {
             }
             
             if matchesReference || matchesTrivia {
-                foundMatch = true
-                try self.focusNodesForSemanticInfo(source: grid, info)
+                matched[info, default: 0] += 1
             }
         }
         
-        if foundMatch {
+        if matched.count > 0 {
+            for (info, _) in matched {
+                try focusNodesForSemanticInfo(source: grid, info.syntaxId)
+            }
             searchLayout.append(grid)
         } else {
-            try self.defocusNodesForSemanticInfo(source: grid)
+            try defocusNodesForSemanticInfo(source: grid)
             missedGrids.append(grid)
         }
     }
@@ -160,13 +170,6 @@ private extension SearchFocusRenderTask {
     var focusAddition: LFloat4 { LFloat4(0.04, 0.08, 0.12, 0.0) }
     var matchAddition: LFloat4 { LFloat4(0.20, 0.00, 0.00, 0.0) }
     var focusPosition: LFloat3 { LFloat3(0.0, 0.0, 1.5) }
-    
-    func focusNodesForSemanticInfo(
-        source: CodeGrid,
-        _ matchingSemanticInfo: SemanticInfo
-    ) throws {
-        try focusNodesForSemanticInfo(source: source, matchingSemanticInfo.syntaxId)
-    }
     
     func focusNodesForSemanticInfo(
         source: CodeGrid,

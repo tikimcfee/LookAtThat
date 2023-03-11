@@ -56,7 +56,7 @@ class TwoETimeRoot: MetalLinkReader {
 //        try setupNodeChildTest()
 //        try setupNodeBackgroundTest()
 //        try setupBackgroundTest()
-//        try setupSnapTestMulti()
+        try setupSnapTestMulti()
 //        try setupTriangleStripTest()
 //        try setupWordWare()
 //        try setupWordWareSentence()

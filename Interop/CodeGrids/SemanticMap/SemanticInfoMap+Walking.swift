@@ -65,11 +65,18 @@ extension SemanticInfoMap {
             return
         }
         
-        IterativeRecursiveVisitor.walkRecursiveFromSyntax(toWalk) { [semanticsLookupBySyntaxId] syntax in
+        let iterator = ChildIterator(toWalk)
+        
+        while let syntax = iterator.next() {
             let syntaxId = syntax.id
-            guard let info = semanticsLookupBySyntaxId[syntaxId] else { return }
+            let nodes = cache[syntaxId.stringIdentifier]
+            let info = semanticsLookupBySyntaxId[syntaxId]
             
-            try walker(info, cache[syntaxId.stringIdentifier])
+            guard let info else {
+                return
+            }
+            
+            try walker(info, nodes)
         }
     }
     

@@ -45,7 +45,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             builder: targetGrid.semanticInfoBuilder
         ).walkRecursiveFromSyntax(rootSyntaxNode)
         
-        for token in rootSyntaxNode.tokens {
+        for token in rootSyntaxNode.tokens(viewMode: .sourceAccurate) {
             consumeSyntaxToken(token)
         }
         

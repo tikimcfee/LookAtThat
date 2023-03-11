@@ -124,21 +124,25 @@ private extension RenderPlan {
 
         // MARK: - Do final layout
         let xGap = 16.float
+        let yGap = 128
+        let zGap = 128
         var lastDirectory: MetalLinkNode?
+        let layout = DepthLayout()
         
         for (url, directoryParent) in orderedParents {
-            DepthLayout().layoutGrids(
-                directoryParent.children.sorted(by: { $0.lengthY < $1.lengthY })
+            let sortedLayoutChildren = directoryParent.children.sorted(
+                by: { $0.lengthY < $1.lengthY }
             )
+            layout.layoutGrids(sortedLayoutChildren)
             
             let rootDistance = FileBrowser.distanceTo(
                 parent: .directory(rootPath),
                 from: .directory(url)
             )
-            directoryParent.position.y = (-1 * rootDistance * 128).float
+            directoryParent.position.y = (-1 * rootDistance * yGap).float
             
             if let lastDirectory = lastDirectory {
-                let pushBack = (-1 * rootDistance * 128).float
+                let pushBack = (-1 * rootDistance * zGap).float
                 directoryParent
                     .setFront(pushBack)
                     .setLeading(lastDirectory.trailing + xGap)

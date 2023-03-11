@@ -141,14 +141,14 @@ struct WordDictionary {
             from: Data(contentsOf: file, options: .alwaysMapped)
         )
         
-        actor WorkIterator<Element> {
-            let sourceSequence: any IteratorProtocol
+        actor WorkIterator {
+            var sourceSequence: Dictionary<String, [String]>.Iterator
             
-            init(_ sourceSequence: AnyIterator<Element>) {
+            init(_ sourceSequence: Dictionary<String, [String]>.Iterator) {
                 self.sourceSequence = sourceSequence
             }
             
-            func next() -> Element? {
+            func next() -> Dictionary<String, [String]>.Element? {
                 sourceSequence.next()
             }
         }
@@ -168,9 +168,11 @@ struct WordDictionary {
             
             var wordListMap = [String: [[String]]]()
             
-            for (word, definitionList) in dictionary {
+            while let (word, definitionList) = await iterator.next() {
                 
             }
+            
+            return wordListMap
         }
         
         var wordGraph = WordGraph()

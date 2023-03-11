@@ -75,7 +75,7 @@ extension TwoETimeRoot {
                 hoverController: GlobalInstances.gridStore.nodeHoverController,
                 mode: .cacheAndLayout
             )
-            self.root.add(child: plan.targetParent)
+            
             plan.startRender {
                 // TODO: Bounds... WHY MORE BOUNDS
                 // IT'S ALWAYS BOUNDS! !@(#*!@)(#*)!
@@ -88,6 +88,8 @@ extension TwoETimeRoot {
                      0,
                      0
                 )
+                
+                self.root.add(child: plan.targetParent)
                 //                var counter = 0.1
                 //                QuickLooper(interval: .milliseconds(16)) {
                 //                    plan.targetParent.scale = LFloat3(repeating: cos(counter.float / 10.float))

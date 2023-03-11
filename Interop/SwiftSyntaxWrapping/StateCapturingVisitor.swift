@@ -12,39 +12,40 @@ import SwiftSyntax
 /// Pretty much just don't use this. I have no idea what I could be doing incorrectly but just calling
 /// child nodes works. Using the walker doesn't. I'm assuming the 'walk' path makes assumptions about
 /// the state of nodes, and since I retain nodes all over the place, I'm likely breaking those assumptions.
-//class StateCapturingVisitor: SyntaxAnyVisitor {
-//    let onVisit: (Syntax) throws -> SyntaxVisitorContinueKind
-//    let onVisitAnyPost: (Syntax) throws -> Void
-//    private var vistAnyPostDidThrow: Bool = false
-//
-//    init(
-//        onVisitAny: @escaping (Syntax) throws -> SyntaxVisitorContinueKind = { _ in .visitChildren },
-//        onVisitAnyPost: @escaping (Syntax) throws -> Void = { _ in }
-//    ) {
-//        self.onVisit = onVisitAny
-//        self.onVisitAnyPost = onVisitAnyPost
-//    }
-//
-//    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-//        if vistAnyPostDidThrow {
-//            return .skipChildren
-//        }
-//
-//        do {
-//            return try onVisit(node)
-//        } catch {
-//            return .skipChildren
-//        }
-//    }
-//
-//    public override func visitAnyPost(_ node: Syntax) {
-//        do {
-//            try onVisitAnyPost(node)
-//        } catch {
-//            vistAnyPostDidThrow = true
-//        }
-//    }
-//}
+class ChildIterator: IteratorProtocol {
+    typealias Element = Syntax
+    
+    private class OneShotVisitor: SyntaxAnyVisitor {
+        var enumeratedChildren = [Syntax]()
+        
+        init(_ syntax: Syntax) {
+            super.init(viewMode: .sourceAccurate)
+            super.walk(syntax)
+        }
+        
+        override func visitAnyPost(_ node: Syntax) {
+            enumeratedChildren.append(node)
+        }
+    }
+    
+    let count: Int
+    private let root: Syntax
+    private var iterator: Array<Syntax>.Iterator
+
+    init(
+        _ syntax: Syntax
+    ) {
+        self.root = syntax
+        
+        let visitor = OneShotVisitor(root)
+        self.count = visitor.enumeratedChildren.count
+        self.iterator = visitor.enumeratedChildren.makeIterator()
+    }
+    
+    func next() -> SwiftSyntax.Syntax? {
+        iterator.next()
+    }
+}
 
 // For whatever reason, it's safer to iterate through children than walking and doing things that way.
 // Luckily the recursion is super simple, and barring super crazy nesting, the stack should be fine.
@@ -55,7 +56,7 @@ class IterativeRecursiveVisitor {
     ) {
         do {
             try receiver(root)
-            try consumeRecursiveStart(root.children, receiver)
+            try consumeRecursiveStart(root.children(viewMode: .sourceAccurate), receiver)
         } catch {
             print("Error while recursing: ", error)
         }
@@ -67,7 +68,7 @@ class IterativeRecursiveVisitor {
     ) throws {
         for childNode in allChildNodes {
             try receiver(childNode)
-            try consumeRecursiveStart(childNode.children, receiver)
+            try consumeRecursiveStart(childNode.children(viewMode: .sourceAccurate), receiver)
         }
     }
 }
@@ -83,12 +84,12 @@ class FlatteningVisitor {
     
     func walkRecursiveFromSyntax(_ root: Syntax) {
         tryMap(root)
-        consumeRecursiveStart(root.children)
+        consumeRecursiveStart(root.children(viewMode: .sourceAccurate))
     }
     
     private func consumeRecursiveStart(_ allChildNodes: SyntaxChildren) {
         for childNode in allChildNodes {
-            consumeRecursiveStart(childNode.children)
+            consumeRecursiveStart(childNode.children(viewMode: .sourceAccurate))
             tryMap(childNode)
         }
     }
