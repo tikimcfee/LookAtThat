@@ -45,7 +45,6 @@ extension GlobalSearchViewState {
 
 struct GlobalSearchView: View {
     @StateObject var searchState = GlobalSearchViewState()
-    
     @State var searchScrollLock = Set<DebugCamera.ScrollLock>()
     
     var body: some View {

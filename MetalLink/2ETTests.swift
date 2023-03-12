@@ -90,11 +90,6 @@ extension TwoETimeRoot {
                 )
                 
                 self.root.add(child: plan.targetParent)
-                //                var counter = 0.1
-                //                QuickLooper(interval: .milliseconds(16)) {
-                //                    plan.targetParent.scale = LFloat3(repeating: cos(counter.float / 10.float))
-                //                    counter += 0.1
-                //                }.runUntil { false }
             }
         }
     }

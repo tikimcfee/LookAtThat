@@ -17,14 +17,14 @@ extension BackingIndexed {
 }
 
 // More memory, less rebuilding. 10K fits nicely for reducing rebuilds in LAT.
-let BackingBufferDefaultSize = 10_000
+let BackingBufferDefaultSize = 31_415
 
 class BackingBuffer<Stored: MemoryLayoutSizable & BackingIndexed> {
     let link: MetalLink
     private(set) var buffer: MTLBuffer
     var pointer: UnsafeMutablePointer<Stored>
     
-    let enlargeMultiplier = 2.001
+    let enlargeMultiplier = 2.01
     private(set) var currentBufferSize: Int
     private(set) var currentEndIndex = 0
     private var shouldRebuild: Bool {

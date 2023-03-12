@@ -151,17 +151,74 @@ private extension RenderPlan {
             lastDirectory = directoryParent
         }
         
-//        RadialLayout().layoutGrids(Array(orderedParents.values))
-        // Test that each directory is properly parented with this cockamamie scheme
-//        for directoryParent in targetParent.children {
-//            var counter = 0.float + Float.random(in: 0..<(Float.pi * 2))
-//            QuickLooper(interval: .milliseconds(16)) {
-//                directoryParent.position.y += cos(counter) * 2
-//                directoryParent.scale = LFloat3(repeating: cos(counter / 10) + 2.float)
-//                directoryParent.rotation.y = counter / 10
-//                counter += 0.1
-//            }.runUntil { false }
-//        }
+        for (url, thisParent) in orderedParents {
+            let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
+            let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
+            let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
+            gridBackground.setColor(LFloat4(0.4, 0.2, 0.2, 0.5))
+            gridTopWall.setColor(LFloat4(0.3, 0.2, 0.2, 0.5))
+            gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
+            
+            let computing = BoundsComputing()
+            thisParent.children.forEach { computing.consumeBounds($0.bounds) }
+            let bounds = computing.bounds
+            let size = BoundsSize(bounds)
+
+            gridBackground.scale.x = size.x / 2.0
+            gridBackground.scale.y = size.y / 2.0
+            
+            gridTopWall.quad.topLeftPos = bounds.min.translated(dY: size.y, dZ: -16.0)
+            gridTopWall.quad.topRightPos = bounds.min.translated(dX: size.x, dY: size.y, dZ: -16.0)
+            gridTopWall.quad.botLeftPos = bounds.min.translated(dY:size.y, dZ: size.z)
+            gridTopWall.quad.botRightPos = bounds.max
+            
+            gridRightWall.quad.topLeftPos = bounds.max.translated(dZ: -size.z - 16.0)
+            gridRightWall.quad.topRightPos = bounds.max
+            gridRightWall.quad.botLeftPos = bounds.min.translated(dX: size.x, dZ: -16.0)
+            gridRightWall.quad.botRightPos = bounds.max.translated(dY: -size.y)
+            
+            gridBackground
+                .setLeading(bounds.min.x)
+                .setTop(bounds.max.y)
+                .setFront(bounds.min.z - 16.0)
+            
+            thisParent.add(child: gridBackground)
+            thisParent.add(child: gridTopWall)
+            thisParent.add(child: gridRightWall)
+            
+            var lineParent = url.deletingLastPathComponent()
+            var thisParentParent: MetalLinkNode?
+            while lineParent.pathComponents.count > 1, thisParentParent == nil {
+                thisParentParent = orderedParents[lineParent]
+                lineParent.deleteLastPathComponent()
+            }
+            
+            if let thisParentParent {
+                let line = MetalLinkLine(GlobalInstances.defaultLink)
+                line.setColor(LFloat4(1.0, 0.0, 0.1, 1.0))
+                line.appendSegment(
+                    about: thisParentParent.position
+                )
+                line.appendSegment(
+                    about: LFloat3(
+                        x: thisParent.position.x,
+                        y: thisParentParent.position.y,
+                        z: thisParentParent.position.z
+                    )
+                )
+                line.appendSegment(
+                    about: LFloat3(
+                        x: thisParent.position.x - 10.0,
+                        y: thisParent.position.y + 10.0,
+                        z: thisParentParent.position.z - 10.0
+                    )
+                )
+                line.appendSegment(
+                    about: thisParent.position
+                )
+                thisParent.parent?.add(child: line)
+            }
+        }
     }
 }
 
@@ -172,12 +229,15 @@ private extension RenderPlan {
             $0.message = "Starting grid cache..."
         }
         
+        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
         let dispatchGroup = DispatchGroup()
+        
         if rootPath.isDirectory {
             recursiveCache()
         } else {
             rootCache()
         }
+        
         dispatchGroup.wait()
         
         func rootCache() {
@@ -186,11 +246,12 @@ private extension RenderPlan {
         
         func recursiveCache() {
             FileBrowser.recursivePaths(rootPath)
-                .filter { !$0.isDirectory }
+                .filter { !$0.isDirectory && FileBrowser.isSupportedFileType($0) }
                 .forEach { childPath in
                     launchGridBuild(childPath)
                 }
         }
+        
         
         func launchGridBuild(_ childPath: URL) {
             dispatchGroup.enter()
@@ -200,7 +261,7 @@ private extension RenderPlan {
                 $0.detail = "File: \(childPath.lastPathComponent)"
             }
             
-            WorkerPool.shared.nextWorker().async {
+            worker.async {
                 let grid = builder
                     .createConsumerForNewGrid()
                     .consume(url: childPath)

@@ -59,6 +59,49 @@ class MetalLinkQuadMesh: MetalLinkBaseMesh {
 }
 
 extension MetalLinkQuadMesh {
+    static let TopRight = (0, 3)
+    static let TopLeft = 1
+    static let BotLeft = (2, 4)
+    static let BotRight = 5
+    
+    var topLeftPos: LFloat3 {
+        get {
+            vertices[Self.TopLeft].position
+        }
+        set {
+            vertices[Self.TopLeft].position = newValue
+        }
+    }
+    
+    var topRightPos: LFloat3 {
+        get {
+            vertices[Self.TopRight.0].position
+        }
+        set {
+            vertices[Self.TopRight.0].position = newValue
+            vertices[Self.TopRight.1].position = newValue
+        }
+    }
+    
+    var botLeftPos: LFloat3 {
+        get {
+            vertices[Self.BotLeft.0].position
+        }
+        set {
+            vertices[Self.BotLeft.0].position = newValue
+            vertices[Self.BotLeft.1].position = newValue
+        }
+    }
+    
+    var botRightPos: LFloat3 {
+        get {
+            vertices[Self.BotRight].position
+        }
+        set {
+            vertices[Self.BotRight].position = newValue
+        }
+    }
+    
     var topLeft: Vertex {
         get { vertices[1] }
         set { vertices[1] = newValue }
