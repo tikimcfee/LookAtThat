@@ -110,7 +110,8 @@ private extension RenderPlan {
             } else {
                 parentURL = url
             }
-            let parent = orderedParents[parentURL] ?? makeDefaultParent(for: parentURL)
+            let parent = orderedParents[parentURL]
+                ?? makeDefaultParent(for: parentURL)
             return parent
         }
         

@@ -1259,6 +1259,7 @@
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
 			isa = PBXGroup;
 			children = (
+				B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */,
 				B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */,
 				B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */,
 			);
@@ -1557,7 +1558,6 @@
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
-				B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */,
 				B7AB37132745696000CEC7DD /* TestBundle.swift */,
 				F07C49C9251C095200F28173 /* Info.plist */,
 			);
