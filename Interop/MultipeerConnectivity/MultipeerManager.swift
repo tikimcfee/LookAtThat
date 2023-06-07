@@ -2,6 +2,7 @@ import Foundation
 import MultipeerConnectivity
 import Combine
 import SwiftUI
+import BitHandling
 
 typealias MessageHistory = ConcurrentDictionary<MCPeerID, [String]>
 

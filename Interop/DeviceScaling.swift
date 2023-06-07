@@ -11,6 +11,7 @@ import AppKit
 import UIKit
 #endif
 import Foundation
+import MetalLink
 
 // MARK: -- Global Scaling Defaults --
 

@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftSyntax
+import MetalLink
+import BitHandling
 
 @inline(__always)
 func UpdateNode(

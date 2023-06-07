@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import MetalLink
+import BitHandling
 
 class DictionaryController: ObservableObject {
     @Published var dictionary = WordDictionary()

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import MetalLink
+import MetalLinkHeaders
 
 struct GlyphCollectionWriter {
     private static let locked_worker = DispatchQueue(label: "WriterWritingWritely", qos: .userInteractive)

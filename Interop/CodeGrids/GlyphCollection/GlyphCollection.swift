@@ -7,6 +7,8 @@
 
 import MetalKit
 import Combine
+import MetalLink
+import MetalLinkHeaders
 
 class GlyphCollection: MetalLinkInstancedObject<MetalLinkGlyphNode> {
 

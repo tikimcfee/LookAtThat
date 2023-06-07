@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import BitHandling
 
 class GitHubClientViewState: ObservableObject {
     @Published var repoUrls: [URL] = []

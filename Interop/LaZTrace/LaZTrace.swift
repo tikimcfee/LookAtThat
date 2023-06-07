@@ -88,7 +88,7 @@ class TraceFileWriter {
             let data = try String(contentsOf: path)
             let parsed = Parser.parse(source: data)
             let rewritten = rewriter.visit(parsed)
-            if let rewrittenData = rewritten.allText.data(using: .utf8) {
+            if let rewrittenData = rewritten.root.allText.data(using: .utf8) {
                 try rewrite(data: rewrittenData, toPath: path, name: path.fileName)
             }
         } catch {
@@ -137,70 +137,69 @@ class TraceCapturingRewriter: SyntaxRewriter {
             .allText.contains(traceFunctionName) == true
     }
 
-    override func visit(_ nodeToVisit: FunctionDeclSyntax) -> DeclSyntax {
-        let safeCopy = requiresRewrite(nodeToVisit)
-            ? nodeToVisit.withBody(nodeToVisit.body?.withStatements(nodeToVisit.body?.statements.removingFirst()))
-            : nodeToVisit
-        
-        let functionParams = safeCopy.signature.input.parameterList
-        
-        var callingElements = functionParams.map { param -> TupleExprElementSyntax in
-            let maybeComma = (functionParams.last != param)
-                ? TokenSyntax.commaToken()
-                : nil
-            return tupleExprFromFunctionParam(param).withTrailingComma(maybeComma)
-        }
-        
-        callingElements.insert(
-            fileIDKeyword,
-            at: 0
-        )
-        
-        callingElements.insert(
-            functionKeyword.withTrailingComma(
-                !functionParams.isEmpty
-                    ? TokenSyntax.commaToken()
-                    : nil
-            ),
-            at: 1
-        )
-        
-        var callExpr = laztraceExpression(callingElements)
-        
-        let firstStatementTrivia = safeCopy.body?.statements.first?.leadingTrivia
-        let firstSpacingTrivia = firstStatementTrivia?.first(where: { piece in
-            if case TriviaPiece.spaces = piece {
-                return true
-            } else if case TriviaPiece.tabs = piece {
-                return true
-            }
-            return false
-        })
-        
-        switch firstSpacingTrivia {
-        case let .spaces(count):
-            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .spaces(count))
-        case let .tabs(count):
-            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .tabs(count))
-        default:
-            break
-        }
-        
-        let laztraceNode = safeCopy.withBody(
-            safeCopy.body?.withStatements(
-                safeCopy.body?.statements.inserting(
-                    CodeBlockItemSyntax(
-                        item: Syntax(callExpr),
-                        semicolon: nil,
-                        errorTokens: nil
-                    ),
-                    at: 0
-                )
-            )
-        )
-        
-        return DeclSyntax(laztraceNode)
-    }
+//    override func visit(_ nodeToVisit: FunctionDeclSyntax) -> DeclSyntax {
+//        let safeCopy = requiresRewrite(nodeToVisit)
+//            ? nodeToVisit.withBody(nodeToVisit.body?.withStatements(nodeToVisit.body?.statements.removingFirst()))
+//            : nodeToVisit
+//
+//        let functionParams = safeCopy.signature.input.parameterList
+//
+//        var callingElements = functionParams.map { param -> TupleExprElementSyntax in
+//            let maybeComma = (functionParams.last != param)
+//                ? TokenSyntax.commaToken()
+//                : nil
+//            return tupleExprFromFunctionParam(param).withTrailingComma(maybeComma)
+//        }
+//
+//        callingElements.insert(
+//            fileIDKeyword,
+//            at: 0
+//        )
+//
+//        callingElements.insert(
+//            functionKeyword.withTrailingComma(
+//                !functionParams.isEmpty
+//                    ? TokenSyntax.commaToken()
+//                    : nil
+//            ),
+//            at: 1
+//        )
+//
+//        var callExpr = laztraceExpression(callingElements)
+//
+//        let firstStatementTrivia = safeCopy.body?.statements.first?.leadingTrivia
+//        let firstSpacingTrivia = firstStatementTrivia?.first(where: { piece in
+//            if case TriviaPiece.spaces = piece {
+//                return true
+//            } else if case TriviaPiece.tabs = piece {
+//                return true
+//            }
+//            return false
+//        })
+//
+//        switch firstSpacingTrivia {
+//        case let .spaces(count):
+//            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .spaces(count))
+//        case let .tabs(count):
+//            callExpr = callExpr.withLeadingTrivia(.newlines(1) + .tabs(count))
+//        default:
+//            break
+//        }
+//
+//        let laztraceNode = safeCopy.withBody(
+//            safeCopy.body?.withStatements(
+//                safeCopy.body?.statements.inserting(
+//                    CodeBlockItemSyntax(
+//                        item: Syntax(callExpr),
+//                        semicolon: nil,
+//                        errorTokens: nil
+//                    ),
+//                    at: 0
+//                )
+//            )
+//        )
+//        return DeclSyntax(laztraceNode)
+//    }
     
     func laztraceExpression(_ arguments: [TupleExprElementSyntax]) -> FunctionCallExprSyntax {
         FunctionCallExprSyntax(
@@ -218,21 +217,21 @@ class TraceCapturingRewriter: SyntaxRewriter {
         )
     }
     
-    func tupleExprFromFunctionParam(_ param: FunctionParameterListSyntax.Element) -> TupleExprElementSyntax {
-        let callingName = param.secondName ?? param.firstName
-        let element = TupleExprElementSyntax(
-            label: nil,
-            colon: nil,
-            expression: ExprSyntax(
-                IdentifierExprSyntax(
-                    identifier: TokenSyntax.identifier(callingName?.text ?? "<param_error>"),
-                    declNameArguments: nil
-                )
-            ),
-            trailingComma: nil
-        )
-        return element
-    }
+//    func tupleExprFromFunctionParam(_ param: FunctionParameterListSyntax.Element) -> TupleExprElementSyntax {
+//        let callingName = param.secondName ?? param.firstName
+//        let element = TupleExprElementSyntax(
+//            label: nil,
+//            colon: nil,
+//            expression: ExprSyntax(
+//                IdentifierExprSyntax(
+//                    identifier: TokenSyntax.identifier(callingName?.text ?? "<param_error>"),
+//                    declNameArguments: nil
+//                )
+//            ),
+//            trailingComma: nil
+//        )
+//        return element
+//    }
     
     var fileIDKeyword: TupleExprElementSyntax {
         TupleExprElementSyntax(
@@ -240,7 +239,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
             colon: nil,
             expression: ExprSyntax(
                 IdentifierExprSyntax(
-                    identifier: TokenSyntax.poundFileIDKeyword(),
+                    identifier: TokenSyntax.keyword(.file),
                     declNameArguments: nil
                 )
             ),
@@ -254,7 +253,7 @@ class TraceCapturingRewriter: SyntaxRewriter {
             colon: nil,
             expression: ExprSyntax(
                 IdentifierExprSyntax(
-                    identifier: TokenSyntax.poundFunctionKeyword(),
+                    identifier: TokenSyntax.keyword(.func),
                     declNameArguments: nil
                 )
             ),

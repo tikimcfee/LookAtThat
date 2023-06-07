@@ -8,6 +8,7 @@
 import Combine
 import SwiftUI
 import Foundation
+import BitHandling
 
 let FileIcon = "📄"
 let FocusIcon = "👁️‍🗨️"

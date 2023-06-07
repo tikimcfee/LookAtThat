@@ -8,6 +8,7 @@
 import Foundation
 import SwiftSyntax
 import SceneKit
+import MetalLink
 
 typealias NodeSyntaxID = String
 typealias NodeSet = Set<GlyphNode>
@@ -136,7 +137,7 @@ extension SemanticInfoMap {
             action(&functions)
         case is StructDeclSyntax.Type:
             action(&structs)
-        case is SwitchStmtSyntax.Type:
+        case is SwitchExprSyntax.Type:
             action(&switches)
         default:
             break
@@ -164,7 +165,7 @@ extension SemanticInfoMap {
             action(&functions)
         case .structDecl:
             action(&structs)
-        case .switchStmt:
+        case .switchExpr:
             action(&switches)
         default:
             break

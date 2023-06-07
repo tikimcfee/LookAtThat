@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import BitHandling
 
 class SemanticTracingOutState: ObservableObject {
     enum Sections: CaseIterable {

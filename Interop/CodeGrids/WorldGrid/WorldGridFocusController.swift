@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MetalLink
 
 class WorldGridFocusController: ObservableObject {
     let link: MetalLink

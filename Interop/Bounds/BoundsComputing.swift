@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MetalLink
 
 public typealias Bounds = (
     min: LFloat3,

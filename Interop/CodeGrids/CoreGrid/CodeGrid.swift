@@ -8,6 +8,8 @@
 import Foundation
 import SceneKit
 import SwiftSyntax
+import MetalLink
+import MetalLinkHeaders
 
 let kCodeGridContainerName = "CodeGrid"
 let kWhitespaceNodeName = "XxX420blazeitspaceXxX"
@@ -162,35 +164,35 @@ extension CodeGrid: Hashable {
 // to a collection now, and assume they are the representing object.
 // TODO: Add another `GroupMode` to switch between rootNode and collection node updates
 extension CodeGrid: Measures {
-    var bounds: Bounds {
+    public var bounds: Bounds {
         targetNode.bounds
     }
     
-    var boundsCacheKey: BoundsKey {
+    public var boundsCacheKey: BoundsKey {
         targetNode
     }
     
-    var rectPos: Bounds {
+    public var rectPos: Bounds {
         targetNode.rectPos
     }
 
-    var hasIntrinsicSize: Bool {
+    public var hasIntrinsicSize: Bool {
         targetNode.hasIntrinsicSize
     }
     
-    var contentSize: LFloat3 {
+    public var contentSize: LFloat3 {
         targetNode.contentSize
     }
     
-    var contentOffset: LFloat3 {
+    public var contentOffset: LFloat3 {
         targetNode.contentOffset
     }
     
-    var nodeId: String {
+    public var nodeId: String {
         targetNode.nodeId
     }
     
-    var position: LFloat3 {
+    public var position: LFloat3 {
         get {
             targetNode.position
         }
@@ -199,7 +201,7 @@ extension CodeGrid: Measures {
         }
     }
     
-    var worldPosition: LFloat3 {
+    public var worldPosition: LFloat3 {
         get {
             targetNode.worldPosition
         }
@@ -208,7 +210,7 @@ extension CodeGrid: Measures {
         }
     }
     
-    var rotation: LFloat3 {
+    public var rotation: LFloat3 {
         get {
             targetNode.rotation
         }
@@ -217,19 +219,19 @@ extension CodeGrid: Measures {
         }
     }
     
-    var lengthX: Float {
+    public var lengthX: Float {
         targetNode.lengthX
     }
     
-    var lengthY: Float {
+    public var lengthY: Float {
         targetNode.lengthY
     }
     
-    var lengthZ: Float {
+    public var lengthZ: Float {
         targetNode.lengthZ
     }
     
-    var parent: MetalLinkNode? {
+    public var parent: MetalLinkNode? {
         get {
             targetNode.parent
         }
@@ -238,15 +240,15 @@ extension CodeGrid: Measures {
         }
     }
     
-    func convertPosition(_ position: LFloat3, to: MetalLinkNode?) -> LFloat3 {
+    public func convertPosition(_ position: LFloat3, to: MetalLinkNode?) -> LFloat3 {
         targetNode.convertPosition(position, to: to)
     }
     
-    func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+    public func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
         targetNode.enumerateChildren(action)
     }
     
-    var centerPosition: LFloat3 {
+    public var centerPosition: LFloat3 {
         return LFloat3(x: targetNode.centerX, y: targetNode.centerY, z: targetNode.centerZ)
     }
 }

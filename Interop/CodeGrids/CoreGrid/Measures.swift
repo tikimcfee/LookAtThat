@@ -7,10 +7,11 @@
 
 import Foundation
 import SceneKit
+import MetalLink
 
 // MARK: -- Measuring and layout
 
-protocol Measures: AnyObject {
+public protocol Measures: AnyObject {
     var nodeId: String { get }
     
     var rectPos: Bounds { get }
@@ -29,7 +30,7 @@ protocol Measures: AnyObject {
 
 // MARK: - Position
 
-extension Measures {
+public extension Measures {
     var xpos: VectorFloat {
         get { position.x }
         set { position.x = newValue }
@@ -47,7 +48,7 @@ extension Measures {
 }
 
 // MARK: - Size
-extension Measures {
+public extension Measures {
     var contentHalfWidth: Float { contentSize.x / 2.0 }
     var contentHalfHeight: Float { contentSize.y / 2.0 }
     var contentHalfLength: Float { contentSize.z / 2.0 }
@@ -55,7 +56,7 @@ extension Measures {
 
 // MARK: - Bounds
 
-extension Measures {
+public extension Measures {
     var boundsWidth: VectorFloat {
         let currentBounds = bounds
         return BoundsWidth(currentBounds)

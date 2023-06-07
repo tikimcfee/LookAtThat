@@ -8,6 +8,7 @@
 import Foundation
 import SceneKit
 import SwiftSyntax
+import MetalLink
 
 class ColorGenerator {
     /// With eternal thanks as always to the language model entity that listened and assisted.

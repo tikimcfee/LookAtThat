@@ -12,6 +12,7 @@ import UIKit
 #endif
 import Foundation
 import CoreGraphics
+import MetalLink
 
 
 extension VectorFloat {

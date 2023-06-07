@@ -192,7 +192,7 @@ private extension SemanticInfoBuilder {
             let typeName = firstBinding.typeAnnotation?.description ?? ""
             let pattern = firstBinding.pattern.description
             stackName = pattern.trimmingCharacters(in: .whitespaces)
-            name = "\(varl.letOrVarKeyword.text) \(pattern)\(typeName)"
+            name = "\(varl.bindingKeyword.text) \(pattern)\(typeName)"
         } else {
             name = "(unsupported syntax: \(varl.id)"
         }

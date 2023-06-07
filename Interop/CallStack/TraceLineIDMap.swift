@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BitHandling
 
 class TraceLineIDMap {
     private(set) var persistedBiMap = ConcurrentBiMap<UUID, String>()

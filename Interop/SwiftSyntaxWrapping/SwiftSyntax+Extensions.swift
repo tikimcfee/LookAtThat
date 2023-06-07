@@ -24,13 +24,13 @@ extension Trivia {
 
 extension Syntax {
     var allText: String {
-        return tokens.reduce(into: "") { result, token in
+        return tokens(viewMode: .all).reduce(into: "") { result, token in
             result.append(token.triviaAndText)
         }
     }
     
     var strippedText: String {
-        return tokens.reduce(into: "") { result, token in
+        return tokens(viewMode: .all).reduce(into: "") { result, token in
             result.append(token.text)
         }
     }
@@ -58,8 +58,6 @@ extension TokenSyntax {
         switch tokenKind {
         case let .stringSegment(literal):
             return literal.stringLines
-        case let .stringLiteral(literal):
-            return literal.stringLines
         default:
             return [text]
         }
@@ -69,7 +67,10 @@ extension TokenSyntax {
 extension SyntaxChildren {
     func listOfChildren() -> String {
         reduce(into: "") { result, element in
-            let elementList = element.children.listOfChildren()
+            let elementList = element
+                .children(viewMode: .all)
+                .listOfChildren()
+            
             result.append(
                 String(describing: element.syntaxNodeType)
             )

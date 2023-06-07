@@ -125,7 +125,8 @@ struct SourceInfoCategoryView: View {
         in targetGrid: CodeGrid
     ) -> some View {
         ForEach(categories, id: \.self) { category in
-            if let categoryMap = targetGrid.semanticInfoMap.map(for: category), !categoryMap.isEmpty {
+            let categoryMap = targetGrid.semanticInfoMap.map(for: category)
+            if !categoryMap.isEmpty {
                 Text(category.rawValue).underline().padding(.top, 8)
                 infoRows(from: targetGrid, categoryMap)
             }

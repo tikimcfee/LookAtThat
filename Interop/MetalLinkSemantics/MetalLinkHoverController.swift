@@ -8,6 +8,9 @@
 import Combine
 import SwiftSyntax
 import SwiftUI
+import MetalLink
+import MetalLinkHeaders
+import BitHandling
 
 typealias GlyphConstants = InstancedConstants
 typealias ConstantsPointer = UnsafeMutablePointer<GlyphConstants>

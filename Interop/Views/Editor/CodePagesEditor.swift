@@ -6,13 +6,11 @@
 //
 
 import SwiftUI
-import CodeEditorView
 import Combine
+import BitHandling
 
 struct CodePagesPopupEditor: View {
     @State var state: CodePagesPopupEditorState
-    @State var position: CodeEditor.Position = CodeEditor.Position()
-    @State var messages: Set<Located<Message>> = Set()
     
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
@@ -22,17 +20,7 @@ struct CodePagesPopupEditor: View {
     }
     
     var coreEditorView: some View {
-        CodeEditor(
-            text: $state.text,
-            position: $position,
-            messages: $messages,
-            language: .swift,
-            layout: .init(showMinimap: false)
-        )
-        .frame(minWidth: 128.0, minHeight: 64.0)
-        .environment(
-            \.codeEditorTheme, colorScheme == .dark ? Theme.defaultDark : Theme.defaultLight
-        )
+        Text("Sorry, no editing for now.")
     }
     
     @ViewBuilder

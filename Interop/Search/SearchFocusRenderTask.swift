@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftSyntax
+import MetalLink
+import BitHandling
 
 class SearchFocusRenderTask {
     typealias SearchReceiver = (

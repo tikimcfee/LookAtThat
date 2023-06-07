@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BitHandling
 
 extension Thread {
     private static let threadNameStorage = ConcurrentDictionary<Thread, String>()

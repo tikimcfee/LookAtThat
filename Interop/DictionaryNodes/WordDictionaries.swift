@@ -99,7 +99,7 @@ extension WordGraph {
     mutating func addWeightBetween(source: String, target: String) {
         insert(target)
         add(
-            weight: 0.01,
+            0.01,
             toEdgeWith: WordGraph.Edge(
                 from: source,
                 to: target

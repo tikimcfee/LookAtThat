@@ -19,6 +19,9 @@
 import Foundation
 import Combine
 import Metal
+import MetalLink
+import MetalLinkHeaders
+import BitHandling
 
 class GlobalInstances {
     private init () { }
@@ -63,6 +66,14 @@ extension GlobalInstances {
     
     private static func makeDefaultRenderer() -> MetalLinkRenderer {
         return try! MetalLinkRenderer(link: defaultLink)
+    }
+    
+    public static func createDefaultMetalView() -> MetalView {
+        MetalView(
+            mtkView: rootCustomMTKView,
+            link: defaultLink,
+            renderer: defaultRenderer
+        )
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BitHandling
 
 // MARK: Thread->Tracer group
 

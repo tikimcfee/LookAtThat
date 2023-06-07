@@ -7,6 +7,7 @@
 
 import Foundation
 import SceneKit
+import MetalLink
 
 class WorldGridSnapping {
 //    // map the relative directions you can go from a grid

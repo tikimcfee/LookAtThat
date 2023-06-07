@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import BitHandling
+import MetalLink
 
 // associate tokens to sets of nodes.
 // { let nodesToUpdate = tracker[someToken] }
@@ -13,9 +15,9 @@ import Foundation
 // - use that set to highlight, move, do stuff to
 
 //typealias CodeGridNodes = Set<GlyphNode>
-typealias CodeGridNodes = [GlyphNode]
-class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
-    override func make(
+public typealias CodeGridNodes = [GlyphNode]
+public class CodeGridTokenCache: LockingCache<String, CodeGridNodes> {
+    public override func make(
         _ key: String,
         _ store: inout [String : CodeGridNodes]
     ) -> CodeGridNodes {

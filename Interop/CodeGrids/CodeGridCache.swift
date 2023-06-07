@@ -8,6 +8,8 @@
 import Foundation
 import SwiftSyntax
 import SwiftUI
+import BitHandling
+import MetalLink
 
 private extension GlyphCollection {
     static func makeFromGlobalDefaults() throws -> GlyphCollection {
@@ -18,21 +20,21 @@ private extension GlyphCollection {
     }
 }
 
-class GridCache {
-    typealias CacheValue = CodeGrid
-    let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
-    var cachedFiles = ConcurrentDictionary<URL, CodeGrid.ID>()
-    var tokenCache: CodeGridTokenCache
+public class GridCache {
+    public typealias CacheValue = CodeGrid
+    public let cachedGrids = ConcurrentDictionary<CodeGrid.ID, CacheValue>()
+    public var cachedFiles = ConcurrentDictionary<URL, CodeGrid.ID>()
+    public var tokenCache: CodeGridTokenCache
     
-    init(tokenCache: CodeGridTokenCache = CodeGridTokenCache()) {
+    public init(tokenCache: CodeGridTokenCache = CodeGridTokenCache()) {
         self.tokenCache = tokenCache
     }
     
-    func insertGrid(_ key: CodeGrid) {
+    public func insertGrid(_ key: CodeGrid) {
         cachedGrids[key.id] = key
     }
     
-    func setCache(_ key: URL) -> CodeGrid {
+    public func setCache(_ key: URL) -> CodeGrid {
         let newGrid = renderGrid(key) ?? {
             print("Could not render path \(key)")
             return createNewGrid()
@@ -43,7 +45,7 @@ class GridCache {
         return newGrid
     }
     
-    func getOrCache(_ key: URL) -> CodeGrid {
+    public func getOrCache(_ key: URL) -> CodeGrid {
         if let gridId = cachedFiles[key],
            let grid = cachedGrids[gridId] {
             return grid
@@ -52,20 +54,18 @@ class GridCache {
         return setCache(key)
     }
     
-    func get(_ key: URL) -> CacheValue? {
+    public func get(_ key: URL) -> CacheValue? {
         guard let cachedId = cachedFiles[key] else { return nil }
         return cachedGrids[cachedId]
     }
     
-    func createNewGrid() -> CodeGrid {
+    public func createNewGrid() -> CodeGrid {
         return CodeGrid(
             rootNode: try! GlyphCollection.makeFromGlobalDefaults(),
             tokenCache: tokenCache
         )
     }
-
 }
-
 
 extension GridCache: SwiftSyntaxFileLoadable {
     func renderGrid(_ url: URL) -> CodeGrid? {

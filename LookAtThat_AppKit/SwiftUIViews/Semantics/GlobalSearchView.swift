@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import MetalLink
 
 class GlobalSearchViewState: ObservableObject {
     @Published var filterText = ""

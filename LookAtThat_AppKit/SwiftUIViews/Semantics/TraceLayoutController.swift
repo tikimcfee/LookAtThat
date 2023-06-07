@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MetalLink
 
 class TraceLayoutController {
     let worldFocus: WorldGridFocusController

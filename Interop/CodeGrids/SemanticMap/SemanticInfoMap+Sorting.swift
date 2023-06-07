@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MetalLink
 
 extension SemanticInfoMap {
     func sortTopLeft(_ left: MetalLinkNode, _ right: MetalLinkNode) -> Bool {

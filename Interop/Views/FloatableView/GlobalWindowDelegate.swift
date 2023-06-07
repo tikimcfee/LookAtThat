@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BitHandling
 
 // TODO: just use the WindowGroup API..
 class GlobablWindowDelegate: NSObject, NSWindowDelegate {

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftSyntax
+import MetalLink
 
 struct NodePickingState {
     let targetGrid: CodeGrid

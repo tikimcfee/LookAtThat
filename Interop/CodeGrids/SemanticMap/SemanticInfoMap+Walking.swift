@@ -47,7 +47,7 @@ extension SemanticInfoMap {
             return
         }
         
-        try originalSynax.tokens.forEach { token in
+        try originalSynax.tokens(viewMode: .all).forEach { token in
             let tokenId = token.id
             guard let info = semanticsLookupBySyntaxId[tokenId] else { return }
             

@@ -7,6 +7,8 @@
 
 import simd
 import Foundation
+import MetalLink
+import MetalLinkHeaders
 
 extension CodeGridGlyphCollectionBuilder {
     enum Mode {

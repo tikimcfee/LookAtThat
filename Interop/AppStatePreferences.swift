@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BitHandling
 
 class AppStatePreferences {
     private let store = UserDefaults(suiteName: "AppStatePreferences")

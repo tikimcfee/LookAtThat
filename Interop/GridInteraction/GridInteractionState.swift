@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import MetalLink
 
 class GridInteractionState {
     var bag = Set<AnyCancellable>()

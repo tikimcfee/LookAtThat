@@ -7,6 +7,8 @@
 
 import Metal
 import simd
+import MetalLink
+import MetalLinkHeaders
 
 extension GlyphCollection {
     class Pointer {

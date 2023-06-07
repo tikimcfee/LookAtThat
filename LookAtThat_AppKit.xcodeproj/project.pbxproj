@@ -12,9 +12,6 @@
 		B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBD28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
-		B7044C1728A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
-		B7044C1928A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
-		B7044C1A28A07EAF00D1433C /* ShaderBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7044C1628A07EAF00D1433C /* ShaderBridge.h */; };
 		B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
 		B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
 		B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */; };
@@ -25,35 +22,11 @@
 		B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B713405828170F92005E0E31 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; };
 		B713405928170F92005E0E31 /* SwiftTrace in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B713405728170F92005E0E31 /* SwiftTrace */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		B7189F2D28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
-		B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
-		B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */; };
 		B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */; };
 		B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */; };
 		B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
-		B720D58228246FF400BF0602 /* GlyphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58128246FF400BF0602 /* GlyphBuilder.swift */; };
-		B720D58328246FF400BF0602 /* GlyphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58128246FF400BF0602 /* GlyphBuilder.swift */; };
-		B720D58428246FF400BF0602 /* GlyphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58128246FF400BF0602 /* GlyphBuilder.swift */; };
-		B720D586282470CA00BF0602 /* FontRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D585282470CA00BF0602 /* FontRenderer.swift */; };
-		B720D587282470CA00BF0602 /* FontRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D585282470CA00BF0602 /* FontRenderer.swift */; };
-		B720D588282470CA00BF0602 /* FontRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D585282470CA00BF0602 /* FontRenderer.swift */; };
-		B720D58A2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
-		B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */; };
-		B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */; };
-		B720FF852824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
-		B720FF862824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
-		B720FF872824C6DC00C23E6B /* GlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B720FF842824C6DC00C23E6B /* GlyphNode.swift */; };
 		B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
-		B7229D7A28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
-		B7229D7C28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
-		B7229D7D28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */; };
-		B7229D7F28D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
-		B7229D8128D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
-		B7229D8228D2D1D4005F8890 /* BackgroundQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */; };
-		B7229D8428D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
-		B7229D8628D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
-		B7229D8728D2D1EF005F8890 /* MetalGlyphError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */; };
 		B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
 		B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7241AF928288C26006A6A3E /* InputStreamReader.swift */; };
@@ -85,57 +58,24 @@
 		B72AA4A528E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A828E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
-		B72AA4AA28E7813000982928 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A928E7813000982928 /* Collections+Extensions.swift */; };
-		B72AA4AC28E7813000982928 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A928E7813000982928 /* Collections+Extensions.swift */; };
-		B72AA4AD28E7813000982928 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A928E7813000982928 /* Collections+Extensions.swift */; };
-		B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
-		B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
-		B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */; };
-		B72FBFD528A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
-		B72FBFD728A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
-		B72FBFD828A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */; };
-		B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
-		B72FBFDC28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
-		B72FBFDD28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */; };
-		B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
-		B72FBFE128A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
-		B72FBFE228A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */; };
-		B72FBFE428A8263C0098762D /* MetalLink+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */; };
-		B72FBFE628A8263C0098762D /* MetalLink+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */; };
-		B72FBFE728A8263C0098762D /* MetalLink+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */; };
 		B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */; };
 		B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
-		B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
-		B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
-		B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
-		B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
-		B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
-		B73EF76628111E2C008BEE85 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
-		B73EF76728111E2C008BEE85 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */; };
-		B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
 		B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
-		B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
-		B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B74A22B82814FFF300F6F727 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1110251EEF240052D993 /* MultipeerData.swift */; };
-		B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
-		B74A22C52814FFF300F6F727 /* BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* BoundsCaching.swift */; };
 		B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
-		B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
-		B74A22D42814FFF300F6F727 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
 		B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		B74A22D72814FFF300F6F727 /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 		B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
@@ -143,27 +83,20 @@
 		B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B74A22E12814FFF300F6F727 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74A22E72814FFF300F6F727 /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
-		B74A22E92814FFF300F6F727 /* MetalLinkNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */; };
 		B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E110B251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift */; };
 		B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
-		B74A22F72814FFF300F6F727 /* LockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75A28111E2C008BEE85 /* LockWrapper.swift */; };
 		B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */; };
 		B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1115251EEFE40052D993 /* MultipeerControls.swift */; };
 		B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
-		B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */; };
-		B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */; };
 		B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
-		B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */; };
 		B74A23162814FFF300F6F727 /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
-		B74A23172814FFF300F6F727 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		B74A23182814FFF300F6F727 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
-		B74A23192814FFF300F6F727 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B74A231A2814FFF300F6F727 /* CodeGrid+Consume.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */; };
 		B74A23272814FFF300F6F727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		B74A23282814FFF300F6F727 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
@@ -189,7 +122,6 @@
 		B74CF40D29A2829000A30FD0 /* SwiftNodes in Frameworks */ = {isa = PBXBuildFile; productRef = B74CF40C29A2829000A30FD0 /* SwiftNodes */; };
 		B74CF40F29A2829600A30FD0 /* SwiftNodes in Frameworks */ = {isa = PBXBuildFile; productRef = B74CF40E29A2829600A30FD0 /* SwiftNodes */; };
 		B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
-		B74E7A7F26770E5F0021299F /* BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* BoundsCaching.swift */; };
 		B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
 		B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
 		B7501499282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */; };
@@ -210,30 +142,14 @@
 		B75014B32831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
 		B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */; };
-		B750771428A21FFD0097278A /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
-		B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
-		B750771828A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
-		B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */; };
 		B75250F42814CEF500820412 /* SwiftTrace in Frameworks */ = {isa = PBXBuildFile; productRef = B75250F32814CEF500820412 /* SwiftTrace */; };
 		B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
 		B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75D961B2840385A00912EB0 /* AppStatePreferences.swift */; };
-		B762DF1528A48F7700BAE5EC /* MetalLinkShared.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */; };
-		B762DF1728A48F7700BAE5EC /* MetalLinkShared.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */; };
-		B762DF1828A48F7700BAE5EC /* MetalLinkShared.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */; };
-		B762DF1A28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */; };
-		B762DF1C28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */; };
-		B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */; };
 		B76576D028F0DDF5003617FC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576CF28F0DDF5003617FC /* Collections */; };
 		B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576D128F0DDF5003617FC /* OrderedCollections */; };
 		B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7661B582829DF0C001F185B /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7661B572829DF0C001F185B /* CodeEditorView */; };
-		B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
-		B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
-		B768B650281F16260098F8D0 /* SplittingFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B64D281F16260098F8D0 /* SplittingFileReader.swift */; };
-		B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
-		B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
-		B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B651281F1E300098F8D0 /* FileBackedArray.swift */; };
 		B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */; };
 		B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */; };
@@ -248,9 +164,6 @@
 		B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
-		B768E2AA28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
-		B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
-		B768E2AD28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */; };
 		B768E2AF28BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */; };
 		B768E2B128BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */; };
 		B768E2B228BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */; };
@@ -267,46 +180,31 @@
 		B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77DCAB326781E4F002DF299 /* TracingRoot.swift */; };
 		B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
-		B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
-		B78159ED273E057B00212176 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
-		B78159EE273E059500212176 /* BoundsCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A7E26770E5F0021299F /* BoundsCaching.swift */; };
 		B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B78159F7273E05EA00212176 /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
-		B78159F8273E05F300212176 /* FileBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73286A62733833C00C9C82A /* FileBrowser.swift */; };
 		B78159FD273E07E800212176 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
-		B785520E28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */; };
-		B785521028B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */; };
-		B785521128B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */; };
-		B785521428B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
-		B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
-		B785521728B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */; };
-		B785521928B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
-		B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
-		B785521C28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */; };
-		B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
-		B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
-		B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */; };
-		B790C69428F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
-		B790C69628F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
-		B790C69728F4F25F00634058 /* MetalLinkLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790C69328F4F25F00634058 /* MetalLinkLine.swift */; };
-		B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
-		B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
-		B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */; };
-		B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
-		B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
-		B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B790E696283DF078002F6512 /* FileBrowser+Event.swift */; };
-		B792C88428AB538400AE8CC0 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
+		B78C19992A301C9B005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C19982A301C9B005A3A46 /* MetalLink */; };
+		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
+		B78C19AB2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
+		B78C19AC2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
+		B78C19AD2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
+		B78C19AE2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B78C19B02A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
+		B78C19B12A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
+		B78C19B22A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
+		B78C19B32A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
+		B78C19B42A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
+		B78C19B52A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
+		B78C19B62A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
+		B78C19B72A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
+		B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
+		B78C19B92A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
 		B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88628AB630100AE8CC0 /* Algorithms */; };
 		B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88928AB64A600AE8CC0 /* ArgumentParser */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
-		B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
-		B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
-		B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */; };
-		B7981027281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
-		B7981028281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
-		B7981029281C3050009A82BD /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7981026281C3050009A82BD /* FileIO.swift */; };
 		B798102B281CBA39009A82BD /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
 		B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
 		B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798102A281CBA39009A82BD /* CallStackParsing.swift */; };
@@ -323,26 +221,16 @@
 		B798103E281CE32A009A82BD /* ThreadExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B798103A281CC6BC009A82BD /* ThreadExtensions.swift */; };
 		B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
-		B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
-		B7A102EB29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
-		B7A102EC29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
-		B7A102ED29857B4C008DD767 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A102EA29857B4C008DD767 /* 2ETTests.swift */; };
 		B7A60F8328B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8728B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
-		B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
-		B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
-		B7A60F9228B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */; };
 		B7A60F9428B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9628B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9728B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
-		B7A60FA428B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
-		B7A60FA628B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
-		B7A60FA728B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */; };
 		B7A6F2AA275ED95E004CAA66 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
@@ -351,70 +239,6 @@
 		B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
-		B7AC333E28A0CA71001172BB /* MTKView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */; };
-		B7AC334028A0CA71001172BB /* MTKView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */; };
-		B7AC334128A0CA71001172BB /* MTKView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */; };
-		B7AC334228A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
-		B7AC334428A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
-		B7AC334528A0CA71001172BB /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332528A0CA70001172BB /* CoreError.swift */; };
-		B7AC334A28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
-		B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
-		B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332828A0CA70001172BB /* SafeDrawPass.swift */; };
-		B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */; };
-		B7AC335028A0CA71001172BB /* MetalLinkObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */; };
-		B7AC335128A0CA71001172BB /* MetalLinkObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */; };
-		B7AC335228A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */; };
-		B7AC335428A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */; };
-		B7AC335528A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */; };
-		B7AC335628A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
-		B7AC335828A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
-		B7AC335928A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */; };
-		B7AC335A28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
-		B7AC335C28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
-		B7AC335D28A0CA71001172BB /* MetalLinkAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */; };
-		B7AC335E28A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */; };
-		B7AC336028A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */; };
-		B7AC336128A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */; };
-		B7AC336228A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */; };
-		B7AC336428A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */; };
-		B7AC336528A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */; };
-		B7AC336628A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333128A0CA70001172BB /* MetalLinkShaderCache.swift */; };
-		B7AC336828A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333128A0CA70001172BB /* MetalLinkShaderCache.swift */; };
-		B7AC336928A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333128A0CA70001172BB /* MetalLinkShaderCache.swift */; };
-		B7AC336A28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */; };
-		B7AC336C28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */; };
-		B7AC336D28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */; };
-		B7AC336E28A0CA71001172BB /* MetalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333328A0CA70001172BB /* MetalLink.swift */; };
-		B7AC337028A0CA71001172BB /* MetalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333328A0CA70001172BB /* MetalLink.swift */; };
-		B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333328A0CA70001172BB /* MetalLink.swift */; };
-		B7AC337228A0CA71001172BB /* MetalLinkShaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333528A0CA70001172BB /* MetalLinkShaderType.swift */; };
-		B7AC337428A0CA71001172BB /* MetalLinkShaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333528A0CA70001172BB /* MetalLinkShaderType.swift */; };
-		B7AC337528A0CA71001172BB /* MetalLinkShaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333528A0CA70001172BB /* MetalLinkShaderType.swift */; };
-		B7AC337A28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */; };
-		B7AC337C28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */; };
-		B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */; };
-		B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333B28A0CA70001172BB /* 2ETRoot.swift */; };
-		B7AC338828A0CA71001172BB /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333B28A0CA70001172BB /* 2ETRoot.swift */; };
-		B7AC338928A0CA71001172BB /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333B28A0CA70001172BB /* 2ETRoot.swift */; };
-		B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */; };
-		B7AC338C28A0CA71001172BB /* MetalLinkMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */; };
-		B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */; };
-		B7AC338E28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */; };
-		B7AC339028A0CA71001172BB /* MetalLinkRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */; };
-		B7AC339128A0CA71001172BB /* MetalLinkRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */; };
-		B7AC33A428A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
-		B7AC33A728A0D11E001172BB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC339A28A0D11E001172BB /* MetalView.swift */; };
-		B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
-		B7AC33AF28A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
-		B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33AC28A0D479001172BB /* MeshLibrary.swift */; };
-		B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
-		B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
-		B7AC33B828A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
-		B7AC33BA28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
-		B7AC33BB28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */; };
-		B7B1097B28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
-		B7B1097D28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
-		B7B1097E28D50C4A00AA4E37 /* QuadSizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */; };
 		B7B1098028D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */; };
 		B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */; };
 		B7B1098328D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */; };
@@ -426,9 +250,6 @@
 		B7B1099228D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */; };
 		B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099828D817B400AA4E37 /* SwiftTreeSitter */; };
 		B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099B28D8189800AA4E37 /* TreeSitterSwift */; };
-		B7B38A4128D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
-		B7B38A4328D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
-		B7B38A4428D14E4100F8A03B /* BackingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */; };
 		B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
 		B7B46ADA28BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
 		B7B46ADB28BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
@@ -438,50 +259,15 @@
 		B7B46AE728BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
 		B7B46AE928BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
 		B7B46AEA28BD76620004CA2D /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AE628BD76620004CA2D /* Structures.swift */; };
-		B7B46AEC28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
-		B7B46AEE28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
-		B7B46AEF28BD78440004CA2D /* MetalLinkReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */; };
-		B7B46AF128BD7DF90004CA2D /* CustomMTKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF028BD7DF90004CA2D /* CustomMTKView.swift */; };
-		B7B46AF328BD7DF90004CA2D /* CustomMTKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF028BD7DF90004CA2D /* CustomMTKView.swift */; };
-		B7B46AF428BD7DF90004CA2D /* CustomMTKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF028BD7DF90004CA2D /* CustomMTKView.swift */; };
 		B7B46AF728BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF628BE692E0004CA2D /* MetalLinkHoverController.swift */; };
 		B7B46AF928BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF628BE692E0004CA2D /* MetalLinkHoverController.swift */; };
 		B7B46AFA28BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AF628BE692E0004CA2D /* MetalLinkHoverController.swift */; };
-		B7B866AA28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
-		B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
-		B7B866AD28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */; };
 		B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
-		B7BF44E028D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
-		B7BF44E228D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
-		B7BF44E328D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */; };
 		B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2319827645F14003B1C3D /* FileBrowserView.swift */; };
 		B7C404DB2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
 		B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */; };
-		B7C69FBD28A2403F00A84860 /* MetalLinkNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */; };
-		B7C69FC028A2404D00A84860 /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
-		B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B750771328A21FFD0097278A /* MetalMath.swift */; };
-		B7C69FC328A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
-		B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
-		B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */; };
-		B7C69FC928A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
-		B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
-		B7C69FCF28A356A300A84860 /* RootNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FCE28A356A300A84860 /* RootNode.swift */; };
-		B7C69FD128A356A300A84860 /* RootNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FCE28A356A300A84860 /* RootNode.swift */; };
-		B7C69FD228A356A300A84860 /* RootNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FCE28A356A300A84860 /* RootNode.swift */; };
-		B7C69FDE28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
-		B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
-		B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */; };
-		B7C69FE328A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
-		B7C69FE528A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
-		B7C69FE628A3618600A84860 /* MetalLinkMaterial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */; };
-		B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */; };
-		B7C69FEA28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */; };
-		B7C69FEB28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */; };
-		B7C69FF228A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
-		B7C69FF428A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
-		B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FF128A4053500A84860 /* MetalRandoms.swift */; };
 		B7C69FF828A4526500A84860 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7C69FF728A4526500A84860 /* Algorithms */; };
 		B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
 		B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C7565E280B82E80005A233 /* WorkerPool.swift */; };
@@ -506,29 +292,16 @@
 		B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */; };
 		B7D79AB8282B2DD3000F99EB /* CodePagesEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7661B542829D623001F185B /* CodePagesEditor.swift */; };
 		B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */ = {isa = PBXBuildFile; productRef = B7D79AB9282B2DF5000F99EB /* CodeEditorView */; };
-		B7DA860228AAAEE800EC70D2 /* MetalLinkCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */; };
-		B7DA860328AAAEF100EC70D2 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
 		B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */; };
-		B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */; };
 		B7E9004C28FCB28A00EC2018 /* GridInteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E9004B28FCB28A00EC2018 /* GridInteractionState.swift */; };
-		B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA883127238C1E0098541C /* GlyphLayerCache.swift */; };
 		B7EA88342723938C0098541C /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B7EB713B284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
-		B7EB713D284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
-		B7EB713E284874A800313633 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713A284874A800313633 /* GitHubClient.swift */; };
 		B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
 		B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EB713F284878B100313633 /* GitHubClientView.swift */; };
-		B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
-		B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
-		B7F010B028BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B7F010B228BAF46B00182FF5 /* FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* FocusPosition.swift */; };
 		B7F010B428BAF46B00182FF5 /* FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* FocusPosition.swift */; };
 		B7F010B528BAF46B00182FF5 /* FocusPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B128BAF46B00182FF5 /* FocusPosition.swift */; };
-		B7F010B728BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
-		B7F010B928BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
-		B7F010BA28BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */; };
 		B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
 		B7F344D02839C89400629932 /* RenderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F344CD2839C89400629932 /* RenderPlan.swift */; };
@@ -536,12 +309,6 @@
 		B7F3AAA22853903E00273ED1 /* AppStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */; };
 		B7F3AAA32853903E00273ED1 /* AppStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */; };
 		B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */; };
-		B7F67F1528A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyphNode.swift */; };
-		B7F67F1728A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyphNode.swift */; };
-		B7F67F1828A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F67F1428A4E57A0056E540 /* MetalLinkGlyphNode.swift */; };
-		B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
-		B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
-		B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
 		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
 		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
@@ -559,36 +326,22 @@
 		F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */; };
 		F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
 		F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */; };
-		F041F120251027E7000C2F87 /* MetalLinkNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */; };
-		F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043BB0D2515315600FB1EF6 /* LockingCache.swift */; };
 		F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */; };
 		F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F057D2092520328C0094BD83 /* LaunchScreen.storyboard */; };
 		F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
-		F057D234252044D60094BD83 /* MetalLinkNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */; };
-		F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
 		F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
-		F057D27C252046B90094BD83 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
-		F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
-		F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
-		F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
 		F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* AppDelegate.swift */; };
 		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
 		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
 		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
-		F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09A52A32515906600F5082A /* FileUrlProvider.swift */; };
-		F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2199825115F2E00D71C98 /* String+Extensions.swift */; };
 		F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
 		F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */; };
-		F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
-		F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */; };
-		F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FC2517BF2900937279 /* GestureShim.swift */; };
-		F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */; };
 		F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 		F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */; };
 /* End PBXBuildFile section */
@@ -666,22 +419,12 @@
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* SemanticInfoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoMap.swift; sourceTree = "<group>"; };
 		B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSizeConversionExtensions.swift; sourceTree = "<group>"; };
-		B7044C1628A07EAF00D1433C /* ShaderBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderBridge.h; sourceTree = "<group>"; };
 		B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFocusRenderTask.swift; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B709F4C828FFA0B9002058BE /* PickingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickingState.swift; sourceTree = "<group>"; };
-		B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasPacking.swift; sourceTree = "<group>"; };
 		B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Consume.swift"; sourceTree = "<group>"; };
 		B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTokenCache.swift; sourceTree = "<group>"; };
-		B720D58128246FF400BF0602 /* GlyphBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphBuilder.swift; sourceTree = "<group>"; };
-		B720D585282470CA00BF0602 /* FontRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRenderer.swift; sourceTree = "<group>"; };
-		B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphLayer+macOS.swift"; sourceTree = "<group>"; };
-		B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphLayer+iOS.swift"; sourceTree = "<group>"; };
-		B720FF842824C6DC00C23E6B /* GlyphNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphNode.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
-		B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollectionWriter.swift; sourceTree = "<group>"; };
-		B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundQuad.swift; sourceTree = "<group>"; };
-		B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGlyphError.swift; sourceTree = "<group>"; };
 		B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
 		B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
@@ -700,18 +443,8 @@
 		B725167828C0871F0094F29B /* DeviceScaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScaling.swift; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSelectionController.swift; sourceTree = "<group>"; };
-		B72AA4A928E7813000982928 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
-		B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeMeshCache.swift; sourceTree = "<group>"; };
-		B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeBitmapCache.swift; sourceTree = "<group>"; };
-		B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeTextureCache.swift; sourceTree = "<group>"; };
-		B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNodeCache.swift; sourceTree = "<group>"; };
-		B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLink+Extensions.swift"; sourceTree = "<group>"; };
 		B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLayout.swift; sourceTree = "<group>"; };
 		B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutController.swift; sourceTree = "<group>"; };
-		B73286A62733833C00C9C82A /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
-		B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
-		B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionary.swift; sourceTree = "<group>"; };
-		B73EF75A28111E2C008BEE85 /* LockWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockWrapper.swift; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B74A23352815197000F6F727 /* SourceInfoPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelState.swift; sourceTree = "<group>"; };
@@ -723,7 +456,6 @@
 		B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticTracingOutState.swift; sourceTree = "<group>"; };
 		B74B575B287BA1300078EB2D /* LookAtThat_AppKit_CV.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = LookAtThat_AppKit_CV.plist; path = /Users/lugos/udev/manicmind/LookAtThat/LookAtThat_AppKit_CV.plist; sourceTree = "<absolute>"; };
 		B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCapturingVisitor.swift; sourceTree = "<group>"; };
-		B74E7A7E26770E5F0021299F /* BoundsCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsCaching.swift; sourceTree = "<group>"; };
 		B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoCategoryView.swift; sourceTree = "<group>"; };
 		B750149A282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlobalSemantics.swift; sourceTree = "<group>"; };
 		B75014A02830505C0024B7C0 /* DragSizableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragSizableView.swift; sourceTree = "<group>"; };
@@ -731,35 +463,25 @@
 		B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalWindowDelegate.swift; sourceTree = "<group>"; };
 		B75014AD283071D50024B7C0 /* FloatableView+WindowOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatableView+WindowOpen.swift"; sourceTree = "<group>"; };
 		B75014B22831B2DE0024B7C0 /* SourceInfoPanelToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelToggles.swift; sourceTree = "<group>"; };
-		B750771328A21FFD0097278A /* MetalMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalMath.swift; sourceTree = "<group>"; };
-		B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGPUTypes.swift; sourceTree = "<group>"; };
 		B75D961B2840385A00912EB0 /* AppStatePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatePreferences.swift; sourceTree = "<group>"; };
-		B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalLinkShared.metal; sourceTree = "<group>"; };
-		B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalLinkBasicShaders.metal; sourceTree = "<group>"; };
 		B7661B542829D623001F185B /* CodePagesEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditor.swift; sourceTree = "<group>"; };
-		B768B64D281F16260098F8D0 /* SplittingFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittingFileReader.swift; sourceTree = "<group>"; };
-		B768B651281F1E300098F8D0 /* FileBackedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBackedArray.swift; sourceTree = "<group>"; };
 		B768B655281F4F8D0098F8D0 /* TraceLineIDMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLineIDMap.swift; sourceTree = "<group>"; };
 		B768B659281F57BA0098F8D0 /* PersisentThreadTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersisentThreadTracer.swift; sourceTree = "<group>"; };
 		B768B660281F9AE90098F8D0 /* PersistentThreadGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentThreadGroup.swift; sourceTree = "<group>"; };
 		B768B664282194DC0098F8D0 /* TracingRootConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRootConsumer.swift; sourceTree = "<group>"; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
-		B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+InstanceCache.swift"; sourceTree = "<group>"; };
 		B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+CollectionUpdates.swift"; sourceTree = "<group>"; };
 		B768E2B428BC2E600067858F /* SemanticInfoMap+Walking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SemanticInfoMap+Walking.swift"; sourceTree = "<group>"; };
 		B768E2B928BC2E900067858F /* SemanticInfoMap+Sorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SemanticInfoMap+Sorting.swift"; sourceTree = "<group>"; };
 		B7697AB328EF796F0085D92E /* CodeGridGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGroup.swift; sourceTree = "<group>"; };
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
-		B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkInstancedObject+State.swift"; sourceTree = "<group>"; };
-		B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
-		B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollectionSyntaxConsumer.swift; sourceTree = "<group>"; };
-		B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkPickingTexture.swift; sourceTree = "<group>"; };
-		B790C69328F4F25F00634058 /* MetalLinkLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkLine.swift; sourceTree = "<group>"; };
-		B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Scope.swift"; sourceTree = "<group>"; };
-		B790E696283DF078002F6512 /* FileBrowser+Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileBrowser+Event.swift"; sourceTree = "<group>"; };
-		B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlas.swift; sourceTree = "<group>"; };
-		B7981026281C3050009A82BD /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
+		B78C19A02A302073005A3A46 /* BitHandling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BitHandling; path = ../latcomponents/BitHandling; sourceTree = "<group>"; };
+		B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollectionWriter.swift; sourceTree = "<group>"; };
+		B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGridGlyphCollectionBuilder.swift; sourceTree = "<group>"; };
+		B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
+		B78C19A92A302176005A3A46 /* GlyphCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollection.swift; sourceTree = "<group>"; };
+		B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollectionSyntaxConsumer.swift; sourceTree = "<group>"; };
 		B798102A281CBA39009A82BD /* CallStackParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackParsing.swift; sourceTree = "<group>"; };
 		B798102E281CBA70009A82BD /* MatchedTraceValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedTraceValue.swift; sourceTree = "<group>"; };
 		B7981032281CBAF5009A82BD /* TraceLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLine.swift; sourceTree = "<group>"; };
@@ -769,81 +491,38 @@
 		B79F930F2750741900E46A96 /* CodeGridCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridCache.swift; sourceTree = "<group>"; };
 		B79F931727509D3400E46A96 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
-		B7A102EA29857B4C008DD767 /* 2ETTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2ETTests.swift; sourceTree = "<group>"; };
+		B7A3923B2A301BE600FAA9E4 /* MetalLink */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MetalLink; path = ../latcomponents/MetalLink; sourceTree = "<group>"; };
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
-		B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Measures.swift"; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
-		B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsComputing.swift; sourceTree = "<group>"; };
 		B7A6F2A9275ED95E004CAA66 /* Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measures.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
 		B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePaths.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
-		B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MTKView+Extensions.swift"; sourceTree = "<group>"; };
-		B7AC332528A0CA70001172BB /* CoreError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreError.swift; sourceTree = "<group>"; };
-		B7AC332828A0CA70001172BB /* SafeDrawPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeDrawPass.swift; sourceTree = "<group>"; };
-		B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkObject.swift; sourceTree = "<group>"; };
-		B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkMeshTypes.swift; sourceTree = "<group>"; };
-		B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkBaseMesh.swift; sourceTree = "<group>"; };
-		B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkAliases.swift; sourceTree = "<group>"; };
-		B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderPipelineDescriptorLibrary.swift; sourceTree = "<group>"; };
-		B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
-		B7AC333128A0CA70001172BB /* MetalLinkShaderCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkShaderCache.swift; sourceTree = "<group>"; };
-		B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VertexDescriptorLibrary.swift; sourceTree = "<group>"; };
-		B7AC333328A0CA70001172BB /* MetalLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLink.swift; sourceTree = "<group>"; };
-		B7AC333528A0CA70001172BB /* MetalLinkShaderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkShaderType.swift; sourceTree = "<group>"; };
-		B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = MetalLinkInstancedShaders.metal; sourceTree = "<group>"; };
-		B7AC333B28A0CA70001172BB /* 2ETRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 2ETRoot.swift; sourceTree = "<group>"; };
-		B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkMemory.swift; sourceTree = "<group>"; };
-		B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalLinkRenderer.swift; sourceTree = "<group>"; };
-		B7AC339A28A0D11E001172BB /* MetalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
-		B7AC33AC28A0D479001172BB /* MeshLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshLibrary.swift; sourceTree = "<group>"; };
-		B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkNode.swift; sourceTree = "<group>"; };
-		B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkRenderable.swift; sourceTree = "<group>"; };
-		B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadSizable.swift; sourceTree = "<group>"; };
 		B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridEditor.swift; sourceTree = "<group>"; };
 		B7B1098428D6AED300AA4E37 /* WorldGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridFocusController.swift; sourceTree = "<group>"; };
 		B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldFocusView.swift; sourceTree = "<group>"; };
-		B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackingBuffer.swift; sourceTree = "<group>"; };
 		B7B46AD728BC81750004CA2D /* GlobalInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInstances.swift; sourceTree = "<group>"; };
 		B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		B7B46AE628BD76620004CA2D /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
-		B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkReader.swift; sourceTree = "<group>"; };
-		B7B46AF028BD7DF90004CA2D /* CustomMTKView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMTKView.swift; sourceTree = "<group>"; };
 		B7B46AF628BE692E0004CA2D /* MetalLinkHoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkHoverController.swift; sourceTree = "<group>"; };
-		B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkAtlasBuilder.swift; sourceTree = "<group>"; };
 		B7BB9B76275D5CAD0082EBAC /* SearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContainer.swift; sourceTree = "<group>"; };
-		B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalLinkBridgingType.h; sourceTree = "<group>"; };
 		B7C2319827645F14003B1C3D /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
 		B7C404DA2834A3D30079F00B /* CodePagesEditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesEditorState.swift; sourceTree = "<group>"; };
-		B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputReceiver.swift; sourceTree = "<group>"; };
-		B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkCamera.swift; sourceTree = "<group>"; };
-		B7C69FCE28A356A300A84860 /* RootNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNode.swift; sourceTree = "<group>"; };
-		B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthStencilStateLibrary.swift; sourceTree = "<group>"; };
-		B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkMaterial.swift; sourceTree = "<group>"; };
-		B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkInstancedObject.swift; sourceTree = "<group>"; };
-		B7C69FF128A4053500A84860 /* MetalRandoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRandoms.swift; sourceTree = "<group>"; };
 		B7C7565E280B82E80005A233 /* WorkerPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerPool.swift; sourceTree = "<group>"; };
 		B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TokenSyntax+Coloring.swift"; sourceTree = "<group>"; };
 		B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesTests.swift; sourceTree = "<group>"; };
 		B7D9C0762894B884003FEDA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B7D9C0782894B884003FEDA6 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 		B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridConcurrentRenderer.swift; sourceTree = "<group>"; };
-		B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInterceptor.swift; sourceTree = "<group>"; };
 		B7E7FBEB2904B3F400EC304F /* find_git_files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = find_git_files.swift; sourceTree = "<group>"; };
 		B7E9004B28FCB28A00EC2018 /* GridInteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridInteractionState.swift; sourceTree = "<group>"; };
-		B7EA883127238C1E0098541C /* GlyphLayerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphLayerCache.swift; sourceTree = "<group>"; };
 		B7EA88332723938C0098541C /* CodeGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGrid.swift; sourceTree = "<group>"; };
-		B7EB713A284874A800313633 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
 		B7EB713F284878B100313633 /* GitHubClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientView.swift; sourceTree = "<group>"; };
-		B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridGlyphCollectionBuilder.swift; sourceTree = "<group>"; };
 		B7F010B128BAF46B00182FF5 /* FocusPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusPosition.swift; sourceTree = "<group>"; };
-		B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfRelativeDirections.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusView.swift; sourceTree = "<group>"; };
-		B7F67F1428A4E57A0056E540 /* MetalLinkGlyphNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLinkGlyphNode.swift; sourceTree = "<group>"; };
 		B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeptopodCertified.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphCollection.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -859,14 +538,11 @@
 		F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundWorker.swift; sourceTree = "<group>"; };
 		F038D920252EB91D00A9E6BC /* ConnectionBundle+Streams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConnectionBundle+Streams.swift"; sourceTree = "<group>"; };
 		F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerStreamController.swift; sourceTree = "<group>"; };
-		F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetalLinkNode+Extensions.swift"; sourceTree = "<group>"; };
-		F043BB0D2515315600FB1EF6 /* LockingCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockingCache.swift; sourceTree = "<group>"; };
 		F057D1FA2520150F0094BD83 /* ConnectionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBundle.swift; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityGlobalsAndExtensions.swift; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
 		F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+Extensions.swift"; sourceTree = "<group>"; };
-		F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidirectionalMap.swift; sourceTree = "<group>"; };
 		F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAliases.swift; sourceTree = "<group>"; };
 		F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LookAtThat_AppKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
@@ -877,12 +553,7 @@
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F07C49F4251C5AE900F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F09A52A32515906600F5082A /* FileUrlProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUrlProvider.swift; sourceTree = "<group>"; };
-		F0A2199825115F2E00D71C98 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		F0C91E02251EB7D30082E3B2 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
-		F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEventTypes.swift; sourceTree = "<group>"; };
-		F0CCB0FC2517BF2900937279 /* GestureShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureShim.swift; sourceTree = "<group>"; };
-		F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		F0F205702522D6D3009B6D2C /* ReceiverAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverAliases.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -908,6 +579,7 @@
 			files = (
 				B74CF40B29A2827E00A30FD0 /* SwiftNodes in Frameworks */,
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
+				B78C19992A301C9B005A3A46 /* MetalLink in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
@@ -940,6 +612,7 @@
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7D79ABA282B2DF5000F99EB /* CodeEditorView in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
+				B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */,
 				B7CBD76C28FCD01500A918C2 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -952,34 +625,6 @@
 			children = (
 			);
 			path = Libraries;
-			sourceTree = "<group>";
-		};
-		B7044C1028A07DE100D1433C /* MetalLink */ = {
-			isa = PBXGroup;
-			children = (
-				B7AC333A28A0CA70001172BB /* 2ET */,
-				B7044C1628A07EAF00D1433C /* ShaderBridge.h */,
-				B7A102EA29857B4C008DD767 /* 2ETTests.swift */,
-				B7BF44DF28D3AEA900E4F17F /* MetalLinkBridgingType.h */,
-				B7AC332528A0CA70001172BB /* CoreError.swift */,
-				B7AC333328A0CA70001172BB /* MetalLink.swift */,
-				B72FBFE328A8263C0098762D /* MetalLink+Extensions.swift */,
-				B7AC332D28A0CA70001172BB /* MetalLinkAliases.swift */,
-				B750771528A2217D0097278A /* MetalLinkGPUTypes.swift */,
-				B7AC333C28A0CA70001172BB /* MetalLinkMemory.swift */,
-				B785521D28B59A7E00F57954 /* MetalLinkPickingTexture.swift */,
-				B7B46AEB28BD78440004CA2D /* MetalLinkReader.swift */,
-				B7AC333D28A0CA71001172BB /* MetalLinkRenderer.swift */,
-				B7AC332828A0CA70001172BB /* SafeDrawPass.swift */,
-				B7AC332E28A0CA70001172BB /* Libraries */,
-				B750771228A21FE20097278A /* Maths */,
-				B7AC339728A0D11E001172BB /* MetalViewInterop */,
-				B7AC33B128A0DC7E001172BB /* Nodes */,
-				B7AC332928A0CA70001172BB /* MetalLinkObjects */,
-				B7F67F1228A4909C0056E540 /* MetalLinkShaders */,
-				B7AC333428A0CA70001172BB /* Shaders */,
-			);
-			path = MetalLink;
 			sourceTree = "<group>";
 		};
 		B70808D0287E45DA00827CBB /* Search */ = {
@@ -1002,29 +647,6 @@
 			path = ExternalFrameworks;
 			sourceTree = "<group>";
 		};
-		B7189F2B28AEEE2D00E16B0E /* Atlas */ = {
-			isa = PBXGroup;
-			children = (
-				B79592E928A773ED00F16746 /* MetalLinkAtlas.swift */,
-				B7B866A928A886E900352F4E /* MetalLinkAtlasBuilder.swift */,
-				B7189F2C28AEEE4900E16B0E /* AtlasPacking.swift */,
-			);
-			path = Atlas;
-			sourceTree = "<group>";
-		};
-		B720D58028246FDE00BF0602 /* CoreGlyphs */ = {
-			isa = PBXGroup;
-			children = (
-				B720D585282470CA00BF0602 /* FontRenderer.swift */,
-				B720D58128246FF400BF0602 /* GlyphBuilder.swift */,
-				B720D58D282475C000BF0602 /* GlyphLayer+iOS.swift */,
-				B720D5892824756200BF0602 /* GlyphLayer+macOS.swift */,
-				B7EA883127238C1E0098541C /* GlyphLayerCache.swift */,
-				B720FF842824C6DC00C23E6B /* GlyphNode.swift */,
-			);
-			path = CoreGlyphs;
-			sourceTree = "<group>";
-		};
 		B72197242737428B00E1CB60 /* WorldGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,7 +655,6 @@
 				B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */,
 				B7B1098428D6AED300AA4E37 /* WorldGridFocusController.swift */,
 				B7F010B128BAF46B00182FF5 /* FocusPosition.swift */,
-				B7F010B628BAF4A000182FF5 /* SelfRelativeDirections.swift */,
 			);
 			path = WorldGrid;
 			sourceTree = "<group>";
@@ -1074,16 +695,6 @@
 			path = "macosx-arm";
 			sourceTree = "<group>";
 		};
-		B7241AF7282887E0006A6A3E /* IOArrays */ = {
-			isa = PBXGroup;
-			children = (
-				B768B651281F1E300098F8D0 /* FileBackedArray.swift */,
-				B7981026281C3050009A82BD /* FileIO.swift */,
-				B768B64D281F16260098F8D0 /* SplittingFileReader.swift */,
-			);
-			path = IOArrays;
-			sourceTree = "<group>";
-		};
 		B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */ = {
 			isa = PBXGroup;
 			children = (
@@ -1117,17 +728,6 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		B73EF75628111E2C008BEE85 /* ConcurrentCollections */ = {
-			isa = PBXGroup;
-			children = (
-				F074F6FD252ECDF0006CE65A /* BidirectionalMap.swift */,
-				B73EF75828111E2C008BEE85 /* ConcurrentArray.swift */,
-				B73EF75928111E2C008BEE85 /* ConcurrentDictionary.swift */,
-				B73EF75A28111E2C008BEE85 /* LockWrapper.swift */,
-			);
-			path = ConcurrentCollections;
-			sourceTree = "<group>";
-		};
 		B75014B1283072ED0024B7C0 /* FloatableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1136,15 +736,6 @@
 				B75014A8283070190024B7C0 /* GlobalWindowDelegate.swift */,
 			);
 			path = FloatableView;
-			sourceTree = "<group>";
-		};
-		B750771228A21FE20097278A /* Maths */ = {
-			isa = PBXGroup;
-			children = (
-				B750771328A21FFD0097278A /* MetalMath.swift */,
-				B7C69FF128A4053500A84860 /* MetalRandoms.swift */,
-			);
-			path = Maths;
 			sourceTree = "<group>";
 		};
 		B768E2B328BC2D940067858F /* SemanticMap */ = {
@@ -1185,24 +776,14 @@
 			path = CallStack;
 			sourceTree = "<group>";
 		};
-		B785520C28B3081300F57954 /* Instancing */ = {
+		B78C19A52A302176005A3A46 /* GlyphCollection */ = {
 			isa = PBXGroup;
 			children = (
-				B7C69FE728A379E300A84860 /* MetalLinkInstancedObject.swift */,
-				B768E2A928BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift */,
-				B785520D28B3082900F57954 /* MetalLinkInstancedObject+State.swift */,
-			);
-			path = Instancing;
-			sourceTree = "<group>";
-		};
-		B785521228B34C3D00F57954 /* GlyphCollection */ = {
-			isa = PBXGroup;
-			children = (
-				B7F876CE28A5E2EC0021B92D /* GlyphCollection.swift */,
-				B7229D7928D2ACC7005F8890 /* GlyphCollectionWriter.swift */,
-				B785521828B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift */,
-				B785521328B34C4F00F57954 /* GlyphCollection+Pointer.swift */,
-				B7F010AC28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift */,
+				B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */,
+				B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */,
+				B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */,
+				B78C19A92A302176005A3A46 /* GlyphCollection.swift */,
+				B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */,
 			);
 			path = GlyphCollection;
 			sourceTree = "<group>";
@@ -1210,10 +791,10 @@
 		B796DEED280D1AB8006AC749 /* CoreGrid */ = {
 			isa = PBXGroup;
 			children = (
-				B7A6F2A9275ED95E004CAA66 /* Measures.swift */,
 				B7EA88332723938C0098541C /* CodeGrid.swift */,
-				B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */,
 				B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */,
+				B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */,
+				B7A6F2A9275ED95E004CAA66 /* Measures.swift */,
 			);
 			path = CoreGrid;
 			sourceTree = "<group>";
@@ -1239,13 +820,13 @@
 			path = Semantics;
 			sourceTree = "<group>";
 		};
-		B7A60F9828B9EB2100ACA4E6 /* Bounds */ = {
+		B7A392382A301B8B00FAA9E4 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				B74E7A7E26770E5F0021299F /* BoundsCaching.swift */,
-				B7A60FA328B9EBD400ACA4E6 /* BoundsComputing.swift */,
+				B78C19A02A302073005A3A46 /* BitHandling */,
+				B7A3923B2A301BE600FAA9E4 /* MetalLink */,
 			);
-			path = Bounds;
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		B7A6F2B2275EE52B004CAA66 /* LaZTrace */ = {
@@ -1266,74 +847,6 @@
 			path = CodeGrid;
 			sourceTree = "<group>";
 		};
-		B7AC332928A0CA70001172BB /* MetalLinkObjects */ = {
-			isa = PBXGroup;
-			children = (
-				B7229D7E28D2D1D4005F8890 /* BackgroundQuad.swift */,
-				B7B38A4028D14E4100F8A03B /* BackingBuffer.swift */,
-				B7AC332C28A0CA70001172BB /* MetalLinkBaseMesh.swift */,
-				B790C69328F4F25F00634058 /* MetalLinkLine.swift */,
-				B7AC332B28A0CA70001172BB /* MetalLinkMeshTypes.swift */,
-				B7AC332A28A0CA70001172BB /* MetalLinkObject.swift */,
-				B7B1097A28D50C4A00AA4E37 /* QuadSizable.swift */,
-				B785520C28B3081300F57954 /* Instancing */,
-				B7C69FCD28A3569200A84860 /* ObjectTypes */,
-			);
-			path = MetalLinkObjects;
-			sourceTree = "<group>";
-		};
-		B7AC332E28A0CA70001172BB /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				B7C69FDD28A3580800A84860 /* DepthStencilStateLibrary.swift */,
-				B7AC33AC28A0D479001172BB /* MeshLibrary.swift */,
-				B7AC332F28A0CA70001172BB /* RenderPipelineDescriptorLibrary.swift */,
-				B7AC333028A0CA70001172BB /* RenderPipelineStateLibrary.swift */,
-				B7AC333228A0CA70001172BB /* VertexDescriptorLibrary.swift */,
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
-		B7AC333428A0CA70001172BB /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				B7AC333528A0CA70001172BB /* MetalLinkShaderType.swift */,
-				B7AC333128A0CA70001172BB /* MetalLinkShaderCache.swift */,
-			);
-			path = Shaders;
-			sourceTree = "<group>";
-		};
-		B7AC333A28A0CA70001172BB /* 2ET */ = {
-			isa = PBXGroup;
-			children = (
-				B7AC333B28A0CA70001172BB /* 2ETRoot.swift */,
-			);
-			path = 2ET;
-			sourceTree = "<group>";
-		};
-		B7AC339728A0D11E001172BB /* MetalViewInterop */ = {
-			isa = PBXGroup;
-			children = (
-				B7AC339A28A0D11E001172BB /* MetalView.swift */,
-				B7B46AF028BD7DF90004CA2D /* CustomMTKView.swift */,
-				B7AC332428A0CA70001172BB /* MTKView+Extensions.swift */,
-			);
-			path = MetalViewInterop;
-			sourceTree = "<group>";
-		};
-		B7AC33B128A0DC7E001172BB /* Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				B7C69FC828A2C61600A84860 /* MetalLinkCamera.swift */,
-				B7AC33B228A0DC8D001172BB /* MetalLinkNode.swift */,
-				B7A60F8E28B994B300ACA4E6 /* MetalLinkNode+Measures.swift */,
-				F041F11F251027E7000C2F87 /* MetalLinkNode+Extensions.swift */,
-				B7AC33B728A0DD3A001172BB /* MetalLinkRenderable.swift */,
-				B7F67F1328A4E5630056E540 /* Glyphs */,
-			);
-			path = Nodes;
-			sourceTree = "<group>";
-		};
 		B7B46AF528BE69090004CA2D /* MetalLinkSemantics */ = {
 			isa = PBXGroup;
 			children = (
@@ -1352,15 +865,6 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
-		B7C69FCD28A3569200A84860 /* ObjectTypes */ = {
-			isa = PBXGroup;
-			children = (
-				B7C69FCE28A356A300A84860 /* RootNode.swift */,
-				B7C69FE228A3618600A84860 /* MetalLinkMaterial.swift */,
-			);
-			path = ObjectTypes;
-			sourceTree = "<group>";
-		};
 		B7E9004A28FCB26B00EC2018 /* GridInteraction */ = {
 			isa = PBXGroup;
 			children = (
@@ -1377,46 +881,13 @@
 				B7DF9A50280B6D7200187BDC /* CodeGridConcurrentRenderer.swift */,
 				B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */,
 				B7697AB228EF79570085D92E /* CodeGridGroups */,
-				B720D58028246FDE00BF0602 /* CoreGlyphs */,
+				B78C19A52A302176005A3A46 /* GlyphCollection */,
 				B796DEED280D1AB8006AC749 /* CoreGrid */,
 				B79F931227508F5600E46A96 /* CoreRendering */,
 				B768E2B328BC2D940067858F /* SemanticMap */,
 				B72197242737428B00E1CB60 /* WorldGrid */,
 			);
 			path = CodeGrids;
-			sourceTree = "<group>";
-		};
-		B7EB71392848748E00313633 /* GitHubIO */ = {
-			isa = PBXGroup;
-			children = (
-				B7EB713A284874A800313633 /* GitHubClient.swift */,
-			);
-			path = GitHubIO;
-			sourceTree = "<group>";
-		};
-		B7F67F1228A4909C0056E540 /* MetalLinkShaders */ = {
-			isa = PBXGroup;
-			children = (
-				B762DF1428A48F7700BAE5EC /* MetalLinkShared.metal */,
-				B7AC333728A0CA70001172BB /* MetalLinkInstancedShaders.metal */,
-				B762DF1928A48FB500BAE5EC /* MetalLinkBasicShaders.metal */,
-			);
-			path = MetalLinkShaders;
-			sourceTree = "<group>";
-		};
-		B7F67F1328A4E5630056E540 /* Glyphs */ = {
-			isa = PBXGroup;
-			children = (
-				B7F67F1428A4E57A0056E540 /* MetalLinkGlyphNode.swift */,
-				B72FBFD428A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift */,
-				B72FBFDE28A825E60098762D /* MetalLinkGlyphNodeCache.swift */,
-				B72FBFCF28A825930098762D /* MetalLinkGlyphNodeMeshCache.swift */,
-				B72FBFD928A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift */,
-				B7189F2B28AEEE2D00E16B0E /* Atlas */,
-				B785521228B34C3D00F57954 /* GlyphCollection */,
-				B7229D8328D2D1EF005F8890 /* MetalGlyphError.swift */,
-			);
-			path = Glyphs;
 			sourceTree = "<group>";
 		};
 		B7F74EEF28921CE8004C5F8F /* Playgrounds */ = {
@@ -1431,8 +902,8 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				B7A392382A301B8B00FAA9E4 /* Packages */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
-				B7044C1028A07DE100D1433C /* MetalLink */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
@@ -1479,22 +950,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		F00FC742250C53820092AFF9 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				B73286A62733833C00C9C82A /* FileBrowser.swift */,
-				B790E696283DF078002F6512 /* FileBrowser+Event.swift */,
-				B790E692283DEFF9002F6512 /* FileBrowser+Scope.swift */,
-				F09A52A32515906600F5082A /* FileUrlProvider.swift */,
-				F0A2199825115F2E00D71C98 /* String+Extensions.swift */,
-				B72AA4A928E7813000982928 /* Collections+Extensions.swift */,
-				B73EF75628111E2C008BEE85 /* ConcurrentCollections */,
-				B7EB71392848748E00313633 /* GitHubIO */,
-				B7241AF7282887E0006A6A3E /* IOArrays */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1520,14 +975,6 @@
 				F038D925252EB9EB00A9E6BC /* MultipeerStreamController.swift */,
 			);
 			path = Streams;
-			sourceTree = "<group>";
-		};
-		F043BB0F2515369000FB1EF6 /* Caches */ = {
-			isa = PBXGroup;
-			children = (
-				F043BB0D2515315600FB1EF6 /* LockingCache.swift */,
-			);
-			path = Caches;
 			sourceTree = "<group>";
 		};
 		F057D2132520428B0094BD83 /* MultipeerConnectivity */ = {
@@ -1589,7 +1036,6 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
-				B7247A5A29A077A00073B98C /* DictionaryNodes */,
 				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
 				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
 				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
@@ -1606,11 +1052,9 @@
 				B7C7565E280B82E80005A233 /* WorkerPool.swift */,
 				B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */,
 				F057D22B2520444B0094BD83 /* Aliases */,
-				B7A60F9828B9EB2100ACA4E6 /* Bounds */,
-				F043BB0F2515369000FB1EF6 /* Caches */,
 				B77DCAB226781E40002DF299 /* CallStack */,
 				B7EA8835272394AB0098541C /* CodeGrids */,
-				F00FC742250C53820092AFF9 /* Data */,
+				B7247A5A29A077A00073B98C /* DictionaryNodes */,
 				B7E9004A28FCB26B00EC2018 /* GridInteraction */,
 				B730EEF928EA637D00FE6E1D /* Layout */,
 				B7A6F2B2275EE52B004CAA66 /* LaZTrace */,
@@ -1618,22 +1062,9 @@
 				F057D2132520428B0094BD83 /* MultipeerConnectivity */,
 				B70808D0287E45DA00827CBB /* Search */,
 				B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */,
-				F0CCB0FE2517BF6100937279 /* UserControls */,
 				F0E685B8251EF6BC000E4B9F /* Views */,
 			);
 			path = Interop;
-			sourceTree = "<group>";
-		};
-		F0CCB0FE2517BF6100937279 /* UserControls */ = {
-			isa = PBXGroup;
-			children = (
-				B7C69FC228A241EC00A84860 /* DefaultInputReceiver.swift */,
-				F0CCB0FC2517BF2900937279 /* GestureShim.swift */,
-				B7E0E2A82734F556007B95D5 /* KeyboardInterceptor.swift */,
-				F0CCB0FF2517BF7F00937279 /* ModifiersPanGestureRecognizer.swift */,
-				F0CAB4E62522CECC00E6D7BC /* SharedEventTypes.swift */,
-			);
-			path = UserControls;
 			sourceTree = "<group>";
 		};
 		F0E685B8251EF6BC000E4B9F /* Views */ = {
@@ -1661,8 +1092,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7BF44E328D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
-				B7044C1A28A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1670,8 +1099,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7BF44E028D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
-				B7044C1728A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,8 +1106,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7BF44E228D3AEA900E4F17F /* MetalLinkBridgingType.h in Headers */,
-				B7044C1928A07EAF00D1433C /* ShaderBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1745,6 +1170,7 @@
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
 				B74CF40A29A2827E00A30FD0 /* SwiftNodes */,
+				B78C19982A301C9B005A3A46 /* MetalLink */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1798,6 +1224,7 @@
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
 				B74CF40C29A2829000A30FD0 /* SwiftNodes */,
+				B78C199A2A301CA9005A3A46 /* MetalLink */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1904,185 +1331,104 @@
 			buildActionMask = 2147483647;
 			files = (
 				B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
-				B7AC335928A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
 				B72AA4A828E780D300982928 /* CodeGridSelectionController.swift in Sources */,
+				B78C19AD2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
+				B78C19B62A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B725167C28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B7247A6229A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B768B658281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
-				B7C69FF528A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B7C404DD2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7241B042828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
-				B785521C28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
-				B7229D7D28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */,
 				B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */,
-				B790E699283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
-				B7AC336D28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				B7A60F9728B99C5800ACA4E6 /* WrappedBinding.swift in Sources */,
-				B74A22AF2814FFF300F6F727 /* SharedEventTypes.swift in Sources */,
-				B72FBFD828A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				B7981035281CBAF5009A82BD /* TraceLine.swift in Sources */,
 				B7F3AAA32853903E00273ED1 /* AppStatusView.swift in Sources */,
-				B720FF872824C6DC00C23E6B /* GlyphNode.swift in Sources */,
-				B72FBFE728A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
-				B768B650281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */,
 				B7B46AE528BD72BE0004CA2D /* ColorExtensions.swift in Sources */,
-				B7AC335D28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
-				B790E695283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
-				B74A22B42814FFF300F6F727 /* FileUrlProvider.swift in Sources */,
-				B7AC33A728A0D11E001172BB /* MetalView.swift in Sources */,
-				B7B46AF428BD7DF90004CA2D /* CustomMTKView.swift in Sources */,
-				B7AC33BB28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
 				B725168628C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
-				B74A22B72814FFF300F6F727 /* FileBrowser.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* Measures.swift in Sources */,
 				B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
+				B78C19B92A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B7EB7143284878B100313633 /* GitHubClientView.swift in Sources */,
 				B74A23372815197700F6F727 /* SourceInfoPanelState.swift in Sources */,
-				B79592ED28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
 				B7B1098828D6AED300AA4E37 /* WorldGridFocusController.swift in Sources */,
-				B74A22BB2814FFF300F6F727 /* GlyphLayerCache.swift in Sources */,
 				B7B46AEA28BD76620004CA2D /* Structures.swift in Sources */,
-				B7AC334128A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
-				B7F010B028BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
-				B7AC334528A0CA71001172BB /* CoreError.swift in Sources */,
 				B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */,
-				B7A60FA728B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
-				B7F876D228A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
-				B74A22C32814FFF300F6F727 /* BidirectionalMap.swift in Sources */,
 				B768E2B828BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
-				B7C69FD228A356A300A84860 /* RootNode.swift in Sources */,
 				B7247A5E29A077C10073B98C /* WordNode.swift in Sources */,
-				B785521728B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
-				B7AC339128A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */,
 				B7B46ADB28BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B725167728C086060094F29B /* NumberConversions.swift in Sources */,
-				B74A22C52814FFF300F6F727 /* BoundsCaching.swift in Sources */,
 				B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */,
-				B74A22C72814FFF300F6F727 /* String+Extensions.swift in Sources */,
-				B790C69728F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B74A234E2816507A00F6F727 /* SemanticMapTracer.swift in Sources */,
 				B709F4CB28FFA0B9002058BE /* PickingState.swift in Sources */,
-				B7AC33B628A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
-				B7AC337D28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
 				B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */,
-				B72FBFD328A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B7247A6A29A0784D0073B98C /* Positioner.swift in Sources */,
-				B7AC336128A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
-				B72FBFE228A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B768B667282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
-				B7AC336528A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
-				B7AC338928A0CA71001172BB /* 2ETRoot.swift in Sources */,
 				B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */,
 				B74A233E281526A700F6F727 /* TracingInfoBridging.swift in Sources */,
 				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
-				B7B38A4428D14E4100F8A03B /* BackingBuffer.swift in Sources */,
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
-				B7C69FCC28A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 				B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */,
-				B74A22D42814FFF300F6F727 /* GestureShim.swift in Sources */,
 				B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
-				B7C69FE128A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B74A22D62814FFF300F6F727 /* ConnectionBundle.swift in Sources */,
-				B7F010BA28BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B74A22D72814FFF300F6F727 /* ReceiverAliases.swift in Sources */,
 				B7B1098328D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
-				B7F67F1828A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */,
 				B74A22DA2814FFF300F6F727 /* WorldGrid.swift in Sources */,
-				B7AC338D28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
-				B7C69FC728A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
-				B762DF1828A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
 				B7B1099228D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
-				B768E2AD28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7F010B528BAF46B00182FF5 /* FocusPosition.swift in Sources */,
 				B7CBD77728FCD0B600A918C2 /* TraceLayoutController.swift in Sources */,
 				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */,
-				B72FBFDD28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B74A22E12814FFF300F6F727 /* WorldGridSnapping.swift in Sources */,
-				B7B866AD28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
-				B7AC337528A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
-				B7C69FE628A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
 				B74A22E72814FFF300F6F727 /* SemanticInfoMap.swift in Sources */,
 				B7A60F8728B983F500ACA4E6 /* CharacterExtensions.swift in Sources */,
-				B74A22E92814FFF300F6F727 /* MetalLinkNode+Extensions.swift in Sources */,
 				B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */,
-				B720D58C2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
 				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
 				B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */,
 				B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */,
-				B7A60F9228B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
-				B7AC335528A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
-				B762DF1D28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B768E2B228BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
-				B7C69FC128A2404E00A84860 /* MetalMath.swift in Sources */,
-				B750771928A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
-				B7AC334D28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
-				B7AC33B028A0D479001172BB /* MeshLibrary.swift in Sources */,
-				B785522128B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
-				B7AC337128A0CA71001172BB /* MetalLink.swift in Sources */,
 				B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
-				B7C69FEB28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B7697AB728EF796F0085D92E /* CodeGridGroup.swift in Sources */,
-				B74A22F72814FFF300F6F727 /* LockWrapper.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B7B46AFA28BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
-				B7B46AEF28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
-				B7EB713E284874A800313633 /* GitHubClient.swift in Sources */,
 				B7241AFC28288C26006A6A3E /* InputStreamReader.swift in Sources */,
 				B798103E281CE32A009A82BD /* ThreadExtensions.swift in Sources */,
-				B785521128B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
-				B720D588282470CA00BF0602 /* FontRenderer.swift in Sources */,
 				B74A22F92814FFF300F6F727 /* MultipeerManager.swift in Sources */,
-				B720D58428246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				B74A22FC2814FFF300F6F727 /* CodeGridTokenCache.swift in Sources */,
 				B74A22FD2814FFF300F6F727 /* MultipeerControls.swift in Sources */,
 				B74A234528161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */,
-				B74A23002814FFF300F6F727 /* ConcurrentDictionary.swift in Sources */,
-				B7AC335128A0CA71001172BB /* MetalLinkObject.swift in Sources */,
 				B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */,
-				B74A23012814FFF300F6F727 /* ConcurrentArray.swift in Sources */,
+				B78C19B02A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
-				B74A230D2814FFF300F6F727 /* LockingCache.swift in Sources */,
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
-				B7A102ED29857B4C008DD767 /* 2ETTests.swift in Sources */,
-				B7229D8728D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
+				B78C19B32A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				B701DDBD28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
-				B7229D8228D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
 				B768B65C281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
-				B7189F3028AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
 				B7981031281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B74A23152814FFF300F6F727 /* ConnectionBundle+Streams.swift in Sources */,
 				B74A23162814FFF300F6F727 /* MultipeerStreamController.swift in Sources */,
-				B7B1097E28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
-				B72AA4AD28E7813000982928 /* Collections+Extensions.swift in Sources */,
 				B7247A6629A0781A0073B98C /* DictionaryController.swift in Sources */,
-				B768B654281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
-				B74A23172814FFF300F6F727 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				B74A23182814FFF300F6F727 /* SwiftSyntax+Extensions.swift in Sources */,
-				B74A23192814FFF300F6F727 /* KeyboardInterceptor.swift in Sources */,
 				B768E2BD28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
-				B7AC336928A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B74A231A2814FFF300F6F727 /* CodeGrid+Consume.swift in Sources */,
 				B7501499282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B768B663281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
-				B7981029281C3050009A82BD /* FileIO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2091,186 +1437,105 @@
 			buildActionMask = 2147483647;
 			files = (
 				B79F93102750741900E46A96 /* CodeGridCache.swift in Sources */,
-				B750771428A21FFD0097278A /* MetalMath.swift in Sources */,
 				F057D2652520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B72AA4A528E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B656281F4F8D0098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7697AB428EF796F0085D92E /* CodeGridGroup.swift in Sources */,
-				B7AC335228A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
 				B725167928C0871F0094F29B /* DeviceScaling.swift in Sources */,
-				B72FBFE428A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
-				B750771628A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7241B022828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
-				B785521928B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				F038D91C252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B7247A5C29A077C10073B98C /* WordNode.swift in Sources */,
-				B7229D7A28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */,
 				B75014A9283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
 				B7EB7140284878B100313633 /* GitHubClientView.swift in Sources */,
-				B7AC33A428A0D11E001172BB /* MetalView.swift in Sources */,
 				B7A60F9428B99C5800ACA4E6 /* WrappedBinding.swift in Sources */,
-				F0CAB4E72522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
-				B7AC333E28A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
 				B7981033281CBAF5009A82BD /* TraceLine.swift in Sources */,
-				B720FF852824C6DC00C23E6B /* GlyphNode.swift in Sources */,
-				B768B64E281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
-				B7AC335A28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
 				B75014AE283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7B46AE228BD72BE0004CA2D /* ColorExtensions.swift in Sources */,
-				F09A52A42515906600F5082A /* FileUrlProvider.swift in Sources */,
-				B73286A72733833C00C9C82A /* FileBrowser.swift in Sources */,
-				B7AC334228A0CA71001172BB /* CoreError.swift in Sources */,
 				B75014A528305B160024B7C0 /* FloatableView.swift in Sources */,
-				B7B46AF128BD7DF90004CA2D /* CustomMTKView.swift in Sources */,
 				B7A6F2AA275ED95E004CAA66 /* Measures.swift in Sources */,
 				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B709F4C928FFA0B9002058BE /* PickingState.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
+				B78C19B12A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */,
 				B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
-				B7EA883227238C1E0098541C /* GlyphLayerCache.swift in Sources */,
-				B7B866AA28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
-				B7AC335E28A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				B7B1098528D6AED300AA4E37 /* WorldGridFocusController.swift in Sources */,
-				B7F010AD28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B7B46AE728BD76620004CA2D /* Structures.swift in Sources */,
-				F074F6FE252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
 				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */,
-				B74E7A7F26770E5F0021299F /* BoundsCaching.swift in Sources */,
-				B7A60FA428B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
 				B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */,
-				B785521428B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B768E2B528BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
-				F0A2199925115F2E00D71C98 /* String+Extensions.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
-				B7A102EB29857B4C008DD767 /* 2ETTests.swift in Sources */,
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
-				B7AC338A28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B7247A6029A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
 				B725167428C086060094F29B /* NumberConversions.swift in Sources */,
-				B72FBFDF28A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
-				B7C69FE828A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
+				B78C19B72A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B7247A6429A0781A0073B98C /* DictionaryController.swift in Sources */,
 				B768B665282194DC0098F8D0 /* TracingRootConsumer.swift in Sources */,
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
-				B790C69428F4F25F00634058 /* MetalLinkLine.swift in Sources */,
-				B790E697283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
-				B79592EA28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
-				B7AC338E28A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
-				B7AC337A28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
-				B7AC336228A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
-				F0CCB0FD2517BF2900937279 /* GestureShim.swift in Sources */,
-				B7AC33B328A0DC8D001172BB /* MetalLinkNode.swift in Sources */,
 				B7247A6829A0784D0073B98C /* Positioner.swift in Sources */,
+				B78C19AB2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
-				B7AC336628A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
-				B7B38A4128D14E4100F8A03B /* BackingBuffer.swift in Sources */,
 				B7219726273742B400E1CB60 /* WorldGrid.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */,
 				B74A234B2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
-				B72FBFDA28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
-				B7F010B728BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
 				B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
-				B7AC334E28A0CA71001172BB /* MetalLinkObject.swift in Sources */,
-				B7C69FDE28A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
 				B7B1098028D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
-				B7F67F1528A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */,
-				B768E2AA28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
 				B7F010B228BAF46B00182FF5 /* FocusPosition.swift in Sources */,
-				B7AC338628A0CA71001172BB /* 2ETRoot.swift in Sources */,
-				B7AC336A28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
 				B7B1098F28D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7F344CE2839C89400629932 /* RenderPlan.swift in Sources */,
 				45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */,
-				F041F120251027E7000C2F87 /* MetalLinkNode+Extensions.swift in Sources */,
-				B762DF1528A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
-				B790E693283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7E9004C28FCB28A00EC2018 /* GridInteractionState.swift in Sources */,
-				B7C69FE328A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
-				B720D58A2824756200BF0602 /* GlyphLayer+macOS.swift in Sources */,
 				B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */,
-				B72FBFD528A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 				B7A60F8328B983F500ACA4E6 /* CharacterExtensions.swift in Sources */,
 				B74E7A772676F61E0021299F /* StateCapturingVisitor.swift in Sources */,
+				B78C19AE2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B798102B281CBA39009A82BD /* CallStackParsing.swift in Sources */,
-				B7C69FC328A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B75014B32831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
-				B7AC334A28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
-				B7A60F8F28B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
-				B73EF76628111E2C008BEE85 /* LockWrapper.swift in Sources */,
 				F0C91E03251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
-				B7AC336E28A0CA71001172BB /* MetalLink.swift in Sources */,
 				B768E2AF28BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */,
-				B785521E28B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */,
-				B720D586282470CA00BF0602 /* FontRenderer.swift in Sources */,
-				B72FBFD028A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B74A233D2815267E00F6F727 /* TracingInfoBridging.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
-				B720D58228246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				F02E1116251EEFE40052D993 /* MultipeerControls.swift in Sources */,
-				B7AC335628A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
 				B7DF9A51280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B7B46AF728BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
-				B7B46AEC28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
-				B73EF76428111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
-				B73EF76228111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
-				B785520E28B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
 				B74A234728161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				B7C404DB2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7BB9B77275D5CAD0082EBAC /* SearchContainer.swift in Sources */,
 				B75014A12830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7F3AAA02853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */,
-				B762DF1A28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
-				F043BB0E2515315600FB1EF6 /* LockingCache.swift in Sources */,
 				B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
+				B78C19B42A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
-				B7AC33B828A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
 				B798102F281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
-				B7229D8428D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
 				F038D921252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				F038D926252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
 				B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
-				B7229D7F28D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
-				B768B652281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
-				F0CCB1002517BF7F00937279 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
-				B7189F2D28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
-				B7F876CF28A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
 				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
-				B7E0E2A92734F556007B95D5 /* KeyboardInterceptor.swift in Sources */,
-				B7B1097B28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
-				B72AA4AA28E7813000982928 /* Collections+Extensions.swift in Sources */,
-				B7AC337228A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
-				B7C69FF228A4053500A84860 /* MetalRandoms.swift in Sources */,
 				B768E2BA28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
-				B7EB713B284874A800313633 /* GitHubClient.swift in Sources */,
-				B7AC33AD28A0D479001172BB /* MeshLibrary.swift in Sources */,
-				B7C69FCF28A356A300A84860 /* RootNode.swift in Sources */,
-				B7981027281C3050009A82BD /* FileIO.swift in Sources */,
-				B7C69FC928A2C61600A84860 /* MetalLinkCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2291,19 +1556,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B73EF76528111E2C008BEE85 /* ConcurrentDictionary.swift in Sources */,
 				B74A234428161C4600F6F727 /* SemanticInfo.swift in Sources */,
-				F074F6FF252ECDF0006CE65A /* BidirectionalMap.swift in Sources */,
-				B7DA860328AAAEF100EC70D2 /* KeyboardInterceptor.swift in Sources */,
-				B7F67F1728A4E57A0056E540 /* MetalLinkGlyphNode.swift in Sources */,
 				F038D927252EB9EB00A9E6BC /* MultipeerStreamController.swift in Sources */,
-				B7AC336428A0CA71001172BB /* RenderPipelineStateLibrary.swift in Sources */,
 				F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */,
-				B720D58328246FF400BF0602 /* GlyphBuilder.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
-				B72FBFD728A825A80098762D /* MetalLinkGlyphNodeBitmapCache.swift in Sources */,
-				B72FBFD228A825930098762D /* MetalLinkGlyphNodeMeshCache.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
@@ -2311,157 +1568,84 @@
 				B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
-				B790C69628F4F25F00634058 /* MetalLinkLine.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
-				B7C69FEA28A379E300A84860 /* MetalLinkInstancedObject.swift in Sources */,
 				B7247A6929A0784D0073B98C /* Positioner.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */,
 				B7D79AB8282B2DD3000F99EB /* CodePagesEditor.swift in Sources */,
+				B78C19AC2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
-				B720FF862824C6DC00C23E6B /* GlyphNode.swift in Sources */,
-				B785521028B3082900F57954 /* MetalLinkInstancedObject+State.swift in Sources */,
-				B792C88428AB538400AE8CC0 /* MetalView.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
 				B78159DF273E049100212176 /* SemanticInfoBuilder.swift in Sources */,
-				B7AC335828A0CA71001172BB /* MetalLinkBaseMesh.swift in Sources */,
-				B7AC338C28A0CA71001172BB /* MetalLinkMemory.swift in Sources */,
 				B750149E282E0E800024B7C0 /* Stopwatch.swift in Sources */,
-				B7AC336028A0CA71001172BB /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */,
-				B768E2AC28BB306A0067858F /* MetalLinkInstancedObject+InstanceCache.swift in Sources */,
-				B7AC339028A0CA71001172BB /* MetalLinkRenderer.swift in Sources */,
 				B7B46ADA28BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B7CBD77628FCD0B500A918C2 /* TraceLayoutController.swift in Sources */,
-				B7229D8628D2D1EF005F8890 /* MetalGlyphError.swift in Sources */,
-				B7AC336828A0CA71001172BB /* MetalLinkShaderCache.swift in Sources */,
 				B7981038281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				B74A23382815197800F6F727 /* SourceInfoPanelState.swift in Sources */,
-				B785521628B34C4F00F57954 /* GlyphCollection+Pointer.swift in Sources */,
 				B7F010B428BAF46B00182FF5 /* FocusPosition.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */,
-				B7AC336C28A0CA71001172BB /* VertexDescriptorLibrary.swift in Sources */,
-				B7C69FD128A356A300A84860 /* RootNode.swift in Sources */,
-				B762DF1728A48F7700BAE5EC /* MetalLinkShared.metal in Sources */,
-				B7AC33BA28A0DD3A001172BB /* MetalLinkRenderable.swift in Sources */,
-				F0CAB4E82522CECC00E6D7BC /* SharedEventTypes.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
-				B7AC334428A0CA71001172BB /* CoreError.swift in Sources */,
-				B7A60F9128B994B300ACA4E6 /* MetalLinkNode+Measures.swift in Sources */,
-				B7AC338828A0CA71001172BB /* 2ETRoot.swift in Sources */,
-				B720D58E282475C000BF0602 /* GlyphLayer+iOS.swift in Sources */,
-				B785521B28B3503E00F57954 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
+				B78C19B22A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
-				B7B1097D28D50C4A00AA4E37 /* QuadSizable.swift in Sources */,
-				B7A102EC29857B4C008DD767 /* 2ETTests.swift in Sources */,
 				B725167628C086060094F29B /* NumberConversions.swift in Sources */,
-				B79592EC28A773ED00F16746 /* MetalLinkAtlas.swift in Sources */,
-				B7AC337428A0CA71001172BB /* MetalLinkShaderType.swift in Sources */,
 				B798102C281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B75D961E2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				F057D1FC2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7B46AE428BD72BE0004CA2D /* ColorExtensions.swift in Sources */,
 				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
-				F057D256252045BF0094BD83 /* FileUrlProvider.swift in Sources */,
-				B7AC335C28A0CA71001172BB /* MetalLinkAliases.swift in Sources */,
-				B768B653281F1E300098F8D0 /* FileBackedArray.swift in Sources */,
 				B7B46AE928BD76620004CA2D /* Structures.swift in Sources */,
-				B7229D8128D2D1D4005F8890 /* BackgroundQuad.swift in Sources */,
 				B7247A6129A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */,
-				B78159F8273E05F300212176 /* FileBrowser.swift in Sources */,
+				B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
 				B709F4CA28FFA0B9002058BE /* PickingState.swift in Sources */,
-				B750771828A2217D0097278A /* MetalLinkGPUTypes.swift in Sources */,
 				B7F3AAA22853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B768E2B728BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
-				B78159EC273E057B00212176 /* GlyphLayerCache.swift in Sources */,
-				B7229D7C28D2ACC7005F8890 /* GlyphCollectionWriter.swift in Sources */,
-				B79F930B2750691300E46A96 /* String+Extensions.swift in Sources */,
-				B73EF76728111E2C008BEE85 /* LockWrapper.swift in Sources */,
-				F057D27D252046B90094BD83 /* ModifiersPanGestureRecognizer.swift in Sources */,
 				F038D922252EB91D00A9E6BC /* ConnectionBundle+Streams.swift in Sources */,
 				B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
-				B7AC335028A0CA71001172BB /* MetalLinkObject.swift in Sources */,
-				B7B46AF328BD7DF90004CA2D /* CustomMTKView.swift in Sources */,
-				B72FBFE628A8263C0098762D /* MetalLink+Extensions.swift in Sources */,
 				B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */,
-				B7C69FBD28A2403F00A84860 /* MetalLinkNode.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
+				B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
 				B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
-				B7F876D128A5E2EC0021B92D /* GlyphCollection.swift in Sources */,
-				B7DA860228AAAEE800EC70D2 /* MetalLinkCamera.swift in Sources */,
-				B73EF76328111E2C008BEE85 /* ConcurrentArray.swift in Sources */,
 				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
-				B7189F2F28AEEE4900E16B0E /* AtlasPacking.swift in Sources */,
-				B790E694283DEFF9002F6512 /* FileBrowser+Scope.swift in Sources */,
-				B78159ED273E057B00212176 /* LockingCache.swift in Sources */,
 				B768E2B128BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
 				B725167B28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
-				B7AC337028A0CA71001172BB /* MetalLink.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
 				B768E2BC28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
-				B762DF1C28A48FB500BAE5EC /* MetalLinkBasicShaders.metal in Sources */,
 				B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */,
 				B7247A5D29A077C10073B98C /* WordNode.swift in Sources */,
 				F02E1112251EEF240052D993 /* MultipeerData.swift in Sources */,
-				B72FBFDC28A825C50098762D /* MetalLinkGlyphNodeTextureCache.swift in Sources */,
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
-				B7C69FC028A2404D00A84860 /* MetalMath.swift in Sources */,
 				B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7B1098728D6AED300AA4E37 /* WorldGridFocusController.swift in Sources */,
 				B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
-				B7AC334028A0CA71001172BB /* MTKView+Extensions.swift in Sources */,
-				B7981028281C3050009A82BD /* FileIO.swift in Sources */,
 				B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */,
-				B7A60FA628B9EBD400ACA4E6 /* BoundsComputing.swift in Sources */,
-				B7C69FE528A3618600A84860 /* MetalLinkMaterial.swift in Sources */,
-				B7C69FF428A4053500A84860 /* MetalRandoms.swift in Sources */,
-				B7B866AC28A886E900352F4E /* MetalLinkAtlasBuilder.swift in Sources */,
-				F057D234252044D60094BD83 /* MetalLinkNode+Extensions.swift in Sources */,
-				B7C69FE028A3580800A84860 /* DepthStencilStateLibrary.swift in Sources */,
-				B7F010B928BAF4A000182FF5 /* SelfRelativeDirections.swift in Sources */,
-				B78159EE273E059500212176 /* BoundsCaching.swift in Sources */,
-				B72FBFE128A825E60098762D /* MetalLinkGlyphNodeCache.swift in Sources */,
 				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7B46AF928BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
-				B72AA4AC28E7813000982928 /* Collections+Extensions.swift in Sources */,
-				B7AC334C28A0CA71001172BB /* SafeDrawPass.swift in Sources */,
-				F057D27C252046B90094BD83 /* GestureShim.swift in Sources */,
-				B7AC337C28A0CA71001172BB /* MetalLinkInstancedShaders.metal in Sources */,
-				B7EB713D284874A800313633 /* GitHubClient.swift in Sources */,
-				B7AC33AF28A0D479001172BB /* MeshLibrary.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
+				B78C19B52A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
-				B720D587282470CA00BF0602 /* FontRenderer.swift in Sources */,
-				B7AC335428A0CA71001172BB /* MetalLinkMeshTypes.swift in Sources */,
-				B785522028B59A7E00F57954 /* MetalLinkPickingTexture.swift in Sources */,
 				B7A60F9628B99C5800ACA4E6 /* WrappedBinding.swift in Sources */,
-				B7F010AF28BAF0F100182FF5 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B78159F7273E05EA00212176 /* SemanticInfoMap.swift in Sources */,
-				B790E698283DF078002F6512 /* FileBrowser+Event.swift in Sources */,
 				B75014A22830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B7241B032828BA41006A6A3E /* SyntaxHierarchyView.swift in Sources */,
 				B7981034281CBAF5009A82BD /* TraceLine.swift in Sources */,
-				B7B38A4328D14E4100F8A03B /* BackingBuffer.swift in Sources */,
-				B7B46AEE28BD78440004CA2D /* MetalLinkReader.swift in Sources */,
 				B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
-				B7C69FC628A241EC00A84860 /* DefaultInputReceiver.swift in Sources */,
 				B7241AFB28288C26006A6A3E /* InputStreamReader.swift in Sources */,
-				B768B64F281F16260098F8D0 /* SplittingFileReader.swift in Sources */,
 				B768B662281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2711,7 +1895,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -2738,7 +1921,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -3044,6 +2226,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
+		};
+		B78C19982A301C9B005A3A46 /* MetalLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetalLink;
+		};
+		B78C199A2A301CA9005A3A46 /* MetalLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetalLink;
 		};
 		B792C88628AB630100AE8CC0 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

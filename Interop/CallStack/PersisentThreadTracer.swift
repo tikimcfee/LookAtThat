@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import BitHandling
 
 class PersistentThreadTracer {
     private let idFileTarget: URL

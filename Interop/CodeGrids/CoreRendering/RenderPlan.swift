@@ -8,6 +8,8 @@
 import SwiftSyntax
 import Foundation
 import OrderedCollections
+import MetalLink
+import BitHandling
 
 struct RenderPlan {
     let rootPath: URL

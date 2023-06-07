@@ -7,6 +7,7 @@
 
 import Foundation
 import simd
+import MetalLink
 
 var default__VerticalSpacing: VectorFloat = 4.0
 var default__HorizontalSpacing: VectorFloat = 4.0

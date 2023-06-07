@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BitHandling
 
 #if !(TARGETING_SUI || StripSwiftTrace)
 import SwiftTrace
