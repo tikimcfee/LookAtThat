@@ -114,10 +114,9 @@ extension SourceInfoPanelView {
                     }
                     
                     Button("Refresh Wall") {
-//                        GlobalInstances
-//                            .defaultRenderer
-//                            .twoETutorial
-//                            .setupDictionaryTest(controller)
+                        GlobalInstances
+                            ._2ETRoot
+                            .setupDictionaryTest(controller)
                     }
                     
                     Button(
