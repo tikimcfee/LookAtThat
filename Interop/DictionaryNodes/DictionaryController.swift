@@ -79,7 +79,7 @@ class DictionaryController: ObservableObject {
             case .rootWord:
                 rootWord = wordNode
                 
-            case .definitionDescendant(let depth):
+            case .definitionDescendant(_):
                 break
             }
         }

@@ -10,7 +10,7 @@ import Foundation
 import MetalLink
 import MetalLinkHeaders
 
-extension CodeGridGlyphCollectionBuilder {
+public extension CodeGridGlyphCollectionBuilder {
     enum Mode {
 //        case monoCollection
         case multiCollection
@@ -20,7 +20,7 @@ extension CodeGridGlyphCollectionBuilder {
 typealias ParentSource = (inout VirtualParentConstants) -> Void
 typealias ParentUpdater = (ParentSource) -> Void
 
-class CodeGridGlyphCollectionBuilder {
+public class CodeGridGlyphCollectionBuilder {
     let link: MetalLink
     let atlas: MetalLinkAtlas
     let sharedSemanticMap: SemanticInfoMap

@@ -164,15 +164,13 @@ struct WordDictionary {
         func definitionListToWordLists(
             dictionary: [String: [String]]
         ) async -> [String: [[String]]] {
-            var iterator = WorkIterator(dictionary.makeIterator())
+//            var iterator = WorkIterator(dictionary.makeIterator())
+//            var wordListMap = [String: [[String]]]()
+//            while let (word, definitionList) = await iterator.next() {
+//
+//            }
             
-            var wordListMap = [String: [[String]]]()
-            
-            while let (word, definitionList) = await iterator.next() {
-                
-            }
-            
-            return wordListMap
+            return [:]
         }
         
         var wordGraph = WordGraph()

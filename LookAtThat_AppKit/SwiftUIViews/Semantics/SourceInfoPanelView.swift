@@ -366,7 +366,7 @@ func helloWorld() {
     
     static var randomId: String {
         let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
-        let offset = characterIndex.utf16Offset(in: sourceString)
+//        let offset = characterIndex.utf16Offset(in: sourceString)
         return "no-id" // TODO: Expose node ids somehow
     }
     

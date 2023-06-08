@@ -103,9 +103,6 @@ class WorldGridEditor {
             
         case let (.inNextPlane(codeGrid), .gridRelative, .some(lastGrid)):
             addInNextPlane(codeGrid, from: lastGrid)
-            
-        default:
-            print("\n\nNot implemented! : \(layoutStrategy)")
         }
         
         return self

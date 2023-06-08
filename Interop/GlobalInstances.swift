@@ -32,6 +32,7 @@ class GlobalInstances {
 extension GlobalInstances {
     static let appStatus = AppStatus()
     static let editorState = CodePagesPopupEditorState()
+    static let _2ETRoot = try! TwoETimeRoot(link: defaultLink)
 }
 
 

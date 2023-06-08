@@ -253,6 +253,12 @@
 		B7B1099228D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */; };
 		B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099828D817B400AA4E37 /* SwiftTreeSitter */; };
 		B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099B28D8189800AA4E37 /* TreeSitterSwift */; };
+		B7B168492A315230003E7A76 /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B168482A315230003E7A76 /* 2ETRoot.swift */; };
+		B7B1684A2A315230003E7A76 /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B168482A315230003E7A76 /* 2ETRoot.swift */; };
+		B7B1684B2A315230003E7A76 /* 2ETRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B168482A315230003E7A76 /* 2ETRoot.swift */; };
+		B7B1684D2A31524F003E7A76 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1684C2A31524F003E7A76 /* 2ETTests.swift */; };
+		B7B1684E2A31524F003E7A76 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1684C2A31524F003E7A76 /* 2ETTests.swift */; };
+		B7B1684F2A31524F003E7A76 /* 2ETTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1684C2A31524F003E7A76 /* 2ETTests.swift */; };
 		B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
 		B7B46ADA28BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
 		B7B46ADB28BC81750004CA2D /* GlobalInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B46AD728BC81750004CA2D /* GlobalInstances.swift */; };
@@ -506,6 +512,8 @@
 		B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridEditor.swift; sourceTree = "<group>"; };
 		B7B1098428D6AED300AA4E37 /* WorldGridFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridFocusController.swift; sourceTree = "<group>"; };
 		B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldFocusView.swift; sourceTree = "<group>"; };
+		B7B168482A315230003E7A76 /* 2ETRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2ETRoot.swift; sourceTree = "<group>"; };
+		B7B1684C2A31524F003E7A76 /* 2ETTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2ETTests.swift; sourceTree = "<group>"; };
 		B7B46AD728BC81750004CA2D /* GlobalInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInstances.swift; sourceTree = "<group>"; };
 		B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		B7B46AE628BD76620004CA2D /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
@@ -526,7 +534,6 @@
 		B7F010B128BAF46B00182FF5 /* FocusPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusPosition.swift; sourceTree = "<group>"; };
 		B7F344CD2839C89400629932 /* RenderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPlan.swift; sourceTree = "<group>"; };
 		B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusView.swift; sourceTree = "<group>"; };
-		B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HeptopodCertified.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
@@ -851,6 +858,15 @@
 			path = CodeGrid;
 			sourceTree = "<group>";
 		};
+		B7B168472A3151F7003E7A76 /* _2ETimeRoot */ = {
+			isa = PBXGroup;
+			children = (
+				B7B168482A315230003E7A76 /* 2ETRoot.swift */,
+				B7B1684C2A31524F003E7A76 /* 2ETTests.swift */,
+			);
+			path = _2ETimeRoot;
+			sourceTree = "<group>";
+		};
 		B7B46AF528BE69090004CA2D /* MetalLinkSemantics */ = {
 			isa = PBXGroup;
 			children = (
@@ -898,7 +914,6 @@
 			isa = PBXGroup;
 			children = (
 				B7E7FBEB2904B3F400EC304F /* find_git_files.swift */,
-				B7F74EF028921D43004C5F8F /* HeptopodCertified.playground */,
 			);
 			path = Playgrounds;
 			sourceTree = "<group>";
@@ -1040,6 +1055,8 @@
 		F0C91E01251EB7B80082E3B2 /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				B7B168472A3151F7003E7A76 /* _2ETimeRoot */,
+				B78C19BA2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal */,
 				B75D961B2840385A00912EB0 /* AppStatePreferences.swift */,
 				F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */,
 				B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */,
@@ -1049,7 +1066,6 @@
 				B725167828C0871F0094F29B /* DeviceScaling.swift */,
 				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
 				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
-				B78C19BA2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal */,
 				B7241AF928288C26006A6A3E /* InputStreamReader.swift */,
 				B725167328C086060094F29B /* NumberConversions.swift */,
 				B7B46AE628BD76620004CA2D /* Structures.swift */,
@@ -1355,6 +1371,7 @@
 				B7B46AE528BD72BE0004CA2D /* ColorExtensions.swift in Sources */,
 				B725168628C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
+				B7B1684B2A315230003E7A76 /* 2ETRoot.swift in Sources */,
 				B74A22B82814FFF300F6F727 /* Measures.swift in Sources */,
 				B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
@@ -1391,6 +1408,7 @@
 				B7F010B528BAF46B00182FF5 /* FocusPosition.swift in Sources */,
 				B7CBD77728FCD0B600A918C2 /* TraceLayoutController.swift in Sources */,
 				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
+				B7B1684F2A31524F003E7A76 /* 2ETTests.swift in Sources */,
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */,
 				B74A22E12814FFF300F6F727 /* WorldGridSnapping.swift in Sources */,
@@ -1503,6 +1521,7 @@
 				45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */,
 				F02E110C251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7E9004C28FCB28A00EC2018 /* GridInteractionState.swift in Sources */,
+				B7B1684D2A31524F003E7A76 /* 2ETTests.swift in Sources */,
 				B7661B552829D623001F185B /* CodePagesEditor.swift in Sources */,
 				B78C19BB2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
@@ -1531,6 +1550,7 @@
 				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B78C19B42A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */,
+				B7B168492A315230003E7A76 /* 2ETRoot.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
 				F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */,
 				B768B65A281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
@@ -1637,6 +1657,7 @@
 				B7981030281CBA70009A82BD /* MatchedTraceValue.swift in Sources */,
 				B7C404DC2834A3D30079F00B /* CodePagesEditorState.swift in Sources */,
 				B7B1098728D6AED300AA4E37 /* WorldGridFocusController.swift in Sources */,
+				B7B1684A2A315230003E7A76 /* 2ETRoot.swift in Sources */,
 				B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B7F44C37276D990F00522B45 /* SearchContainer.swift in Sources */,
 				B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */,
@@ -1645,6 +1666,7 @@
 				F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B78C19B52A302176005A3A46 /* GlyphCollection.swift in Sources */,
+				B7B1684E2A31524F003E7A76 /* 2ETTests.swift in Sources */,
 				B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
 				B7A60F9628B99C5800ACA4E6 /* WrappedBinding.swift in Sources */,
