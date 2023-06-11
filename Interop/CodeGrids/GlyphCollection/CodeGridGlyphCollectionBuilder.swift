@@ -30,7 +30,7 @@ public class CodeGridGlyphCollectionBuilder {
     
     var mode: Mode = .multiCollection
     
-    init(
+    public init(
         link: MetalLink,
         sharedSemanticMap semanticMap: SemanticInfoMap,
         sharedTokenCache tokenCache: CodeGridTokenCache,

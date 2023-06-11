@@ -59,11 +59,8 @@ extension TwoETimeRoot {
     }
 }
 
-
-// MARK: - Not Current Tests
-
 extension TwoETimeRoot {
-    func setupSnapTestMulti() throws {
+    func setupRenderPlanTest() throws {
         builder.mode = .multiCollection
         root.add(child: GlobalInstances.gridStore.traceLayoutController.currentTraceLine)
         
@@ -95,7 +92,9 @@ extension TwoETimeRoot {
             }
         }
     }
-    
+}
+
+extension TwoETimeRoot {
     func setupNodeChildTest() throws {
         let origin = BackgroundQuad(link)
         origin.quadSize = LFloat2(1, 1)
@@ -109,17 +108,25 @@ extension TwoETimeRoot {
         firstChild.quadSize = LFloat2(1, 1)
         firstChild.setColor(LFloat4(0, 0, 1, 1))
         
+        let secondChild = BackgroundQuad(link)
+        secondChild.quadSize = LFloat2(1, 1)
+        secondChild.setColor(LFloat4(0.5, 0.5, 0.5, 1))
+        
         root.add(child: origin)
         origin.add(child: firstparent)
         firstparent.add(child: firstChild)
+        firstChild.add(child: secondChild)
         
         firstparent.position = LFloat3(2, 0, -1)
         firstChild.position = LFloat3(2, 0, 0)
+        secondChild.position = LFloat3(0, 0, -2)
         
         var counter = 0.1
         QuickLooper(interval: .milliseconds(30)) {
-            firstparent.position.x = cos(counter).float
-            firstparent.scale = LFloat3(cos(counter).float, 1, 1)
+//            origin.scale = LFloat3(cos(counter).float, 1, 1)
+//            origin.position.x = cos(counter).float
+            origin.rotation = LFloat3(0, cos(counter).float, 0)
+//            firstparent.scale = LFloat3(cos(counter).float, 1, 1)
             counter += 0.1
         }.runUntil { false }
     }

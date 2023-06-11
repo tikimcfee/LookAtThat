@@ -245,8 +245,6 @@ struct SemanticTracingOutView: View {
 //#endif
 
 #if DEBUG
-import SwiftSyntax
-
 struct SemanticTracing_Previews: PreviewProvider {
     static let sourceString = """
 func helloWorld() {

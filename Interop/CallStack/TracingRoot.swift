@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftSyntax
 import AppKit
 import Combine
 import BitHandling

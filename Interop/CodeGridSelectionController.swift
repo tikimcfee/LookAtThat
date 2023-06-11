@@ -6,9 +6,10 @@
 //
 
 import Foundation
-import SwiftSyntax
 import MetalLink
 import BitHandling
+
+import SwiftSyntax // Needed: tracks selection
 
 @inline(__always)
 func UpdateNode(

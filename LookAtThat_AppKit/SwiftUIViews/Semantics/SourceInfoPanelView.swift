@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftSyntax
 import Combine
 
 struct SourceInfoPanelView: View {
@@ -339,7 +338,6 @@ extension SourceInfoPanelView {
 // MARK: - -- Previews --
 
 #if DEBUG
-import SwiftSyntax
 struct SourceInfo_Previews: PreviewProvider {
     static let sourceString = """
 func helloWorld() {
@@ -364,7 +362,7 @@ func helloWorld() {
     }())
     
     static var randomId: String {
-        let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
+//        let characterIndex = sourceString.firstIndex(of: "X") ?? sourceString.startIndex
 //        let offset = characterIndex.utf16Offset(in: sourceString)
         return "no-id" // TODO: Expose node ids somehow
     }

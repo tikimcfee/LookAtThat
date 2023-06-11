@@ -11,7 +11,10 @@ import SwiftUI
 import BitHandling
 import MetalLink
 
-private extension GlyphCollection {
+// See MetalLink for reasons
+typealias GlyphCollection = MetalLinkGlyphCollection
+
+extension GlyphCollection {
     static func makeFromGlobalDefaults() throws -> GlyphCollection {
         try GlyphCollection(
             link: GlobalInstances.defaultLink,

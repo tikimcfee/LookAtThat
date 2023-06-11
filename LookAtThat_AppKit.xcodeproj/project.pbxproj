@@ -62,6 +62,9 @@
 		B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */; };
 		B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
+		B74080592A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */; };
+		B740805A2A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */; };
+		B740805B2A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */; };
 		B7440EB32748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */; };
 		B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
@@ -186,18 +189,9 @@
 		B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
 		B78C19992A301C9B005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C19982A301C9B005A3A46 /* MetalLink */; };
 		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
-		B78C19AB2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
-		B78C19AC2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
-		B78C19AD2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */; };
 		B78C19AE2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B78C19B02A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
-		B78C19B12A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
-		B78C19B22A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
-		B78C19B32A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */; };
-		B78C19B42A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
-		B78C19B52A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
-		B78C19B62A302176005A3A46 /* GlyphCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A92A302176005A3A46 /* GlyphCollection.swift */; };
 		B78C19B72A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B78C19B92A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
@@ -454,6 +448,7 @@
 		B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSelectionController.swift; sourceTree = "<group>"; };
 		B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLayout.swift; sourceTree = "<group>"; };
 		B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutController.swift; sourceTree = "<group>"; };
+		B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "2ETTests+Dictionaries.swift"; sourceTree = "<group>"; };
 		B7440EB22748D1D600A7C931 /* WorldGridSnapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridSnapping.swift; sourceTree = "<group>"; };
 		B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B74A23352815197000F6F727 /* SourceInfoPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelState.swift; sourceTree = "<group>"; };
@@ -486,10 +481,7 @@
 		B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftSyntax+FileLoading.swift"; sourceTree = "<group>"; };
 		B77DCAB326781E4F002DF299 /* TracingRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingRoot.swift; sourceTree = "<group>"; };
 		B78C19A02A302073005A3A46 /* BitHandling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BitHandling; path = ../latcomponents/BitHandling; sourceTree = "<group>"; };
-		B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollectionWriter.swift; sourceTree = "<group>"; };
 		B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGridGlyphCollectionBuilder.swift; sourceTree = "<group>"; };
-		B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GlyphCollection+Pointer.swift"; sourceTree = "<group>"; };
-		B78C19A92A302176005A3A46 /* GlyphCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollection.swift; sourceTree = "<group>"; };
 		B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlyphCollectionSyntaxConsumer.swift; sourceTree = "<group>"; };
 		B78C19BA2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = EmptyMetalDefaultLibraryFile.metal; sourceTree = "<group>"; };
 		B798102A281CBA39009A82BD /* CallStackParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackParsing.swift; sourceTree = "<group>"; };
@@ -790,10 +782,7 @@
 		B78C19A52A302176005A3A46 /* GlyphCollection */ = {
 			isa = PBXGroup;
 			children = (
-				B78C19A62A302176005A3A46 /* GlyphCollectionWriter.swift */,
 				B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */,
-				B78C19A82A302176005A3A46 /* GlyphCollection+Pointer.swift */,
-				B78C19A92A302176005A3A46 /* GlyphCollection.swift */,
 				B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */,
 			);
 			path = GlyphCollection;
@@ -863,6 +852,7 @@
 			children = (
 				B7B168482A315230003E7A76 /* 2ETRoot.swift */,
 				B7B1684C2A31524F003E7A76 /* 2ETTests.swift */,
+				B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */,
 			);
 			path = _2ETimeRoot;
 			sourceTree = "<group>";
@@ -1354,9 +1344,7 @@
 				B75014B52831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B74A22A52814FFF300F6F727 /* CodeGridCache.swift in Sources */,
 				B72AA4A828E780D300982928 /* CodeGridSelectionController.swift in Sources */,
-				B78C19AD2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				B7F344D02839C89400629932 /* RenderPlan.swift in Sources */,
-				B78C19B62A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B725167C28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B7247A6229A077F60073B98C /* WordDictionaries.swift in Sources */,
@@ -1433,13 +1421,12 @@
 				B74A234528161C4600F6F727 /* SemanticInfo.swift in Sources */,
 				B74A22FF2814FFF300F6F727 /* CodeGridConcurrentRenderer.swift in Sources */,
 				B730EF0028EA8A1700FE6E1D /* ForceLayout.swift in Sources */,
-				B78C19B02A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
+				B740805B2A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */,
 				B74A23052814FFF300F6F727 /* SearchContainer.swift in Sources */,
 				B75014A728305B160024B7C0 /* FloatableView.swift in Sources */,
 				B74A234D2816258C00F6F727 /* SemanticTracingOutState.swift in Sources */,
 				B74A230E2814FFF300F6F727 /* WorkerPool.swift in Sources */,
 				B75D961F2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
-				B78C19B32A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				B701DDBD28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */,
 				B74A23102814FFF300F6F727 /* SemanticInfoBuilder.swift in Sources */,
 				B74A23132814FFF300F6F727 /* GlobalAliases.swift in Sources */,
@@ -1482,7 +1469,6 @@
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B709F4C928FFA0B9002058BE /* PickingState.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
-				B78C19B12A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */,
 				B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B7501497282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
@@ -1505,7 +1491,6 @@
 				B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B7C2319A27646044003B1C3D /* FileBrowserView.swift in Sources */,
 				B7247A6829A0784D0073B98C /* Positioner.swift in Sources */,
-				B78C19AB2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				F057D1FB2520150F0094BD83 /* ConnectionBundle.swift in Sources */,
 				B7981037281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
 				F0F205712522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
@@ -1548,7 +1533,6 @@
 				B77DCAB426781E4F002DF299 /* TracingRoot.swift in Sources */,
 				B7C7565F280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B74A234328161C4600F6F727 /* SemanticInfo.swift in Sources */,
-				B78C19B42A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */,
 				B7B168492A315230003E7A76 /* 2ETRoot.swift in Sources */,
 				453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */,
@@ -1561,6 +1545,7 @@
 				F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */,
 				B75D961C2840385A00912EB0 /* AppStatePreferences.swift in Sources */,
 				B71C595A2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
+				B74080592A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */,
 				B768E2BA28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B768B661281F9AE90098F8D0 /* PersistentThreadGroup.swift in Sources */,
 			);
@@ -1600,7 +1585,6 @@
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
 				B7C2319927645F14003B1C3D /* FileBrowserView.swift in Sources */,
 				B7D79AB8282B2DD3000F99EB /* CodePagesEditor.swift in Sources */,
-				B78C19AC2A302176005A3A46 /* GlyphCollectionWriter.swift in Sources */,
 				B75014B42831B2DE0024B7C0 /* SourceInfoPanelToggles.swift in Sources */,
 				B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */,
 				B768B65E281F7AD30098F8D0 /* TracingInfoBridging.swift in Sources */,
@@ -1615,7 +1599,6 @@
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
-				B78C19B22A302176005A3A46 /* GlyphCollection+Pointer.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
 				B78C19BC2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal in Sources */,
@@ -1631,6 +1614,7 @@
 				B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
+				B740805A2A3632DF00D0F217 /* 2ETTests+Dictionaries.swift in Sources */,
 				B709F4CA28FFA0B9002058BE /* PickingState.swift in Sources */,
 				B7F3AAA22853903E00273ED1 /* AppStatusView.swift in Sources */,
 				B768E2B728BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
@@ -1665,7 +1649,6 @@
 				B7B46AF928BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
-				B78C19B52A302176005A3A46 /* GlyphCollection.swift in Sources */,
 				B7B1684E2A31524F003E7A76 /* 2ETTests.swift in Sources */,
 				B750149C282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B78159F4273E05EA00212176 /* CodeGrid.swift in Sources */,
