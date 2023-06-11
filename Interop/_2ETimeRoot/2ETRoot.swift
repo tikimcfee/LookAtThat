@@ -74,10 +74,10 @@ class TwoETimeRoot: MetalLinkReader {
         // TODO: Create a proper container for all this glyph parent stuff.
         // Collection, builder, consumer, writer, grid... lol.
         // One more can't hurt.
-        sdp.renderCommandEncoder.setVertexBuffer(
+        sdp.setCurrentVertexBuffer(
             builder.parentBuffer.buffer,
-            offset: 0,
-            index: 3
+            0,
+            3
         )
         
         // TODO: Make update and render a single pass to avoid repeated child loops

@@ -191,7 +191,6 @@
 		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
 		B78C19AE2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
-		B78C19B02A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B78C19B72A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
 		B78C19B92A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19AA2A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift */; };
@@ -1905,7 +1904,7 @@
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1931,7 +1930,7 @@
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
