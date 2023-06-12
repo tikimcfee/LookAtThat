@@ -84,7 +84,7 @@ extension TwoETimeRoot {
                 BoundsCaching.ClearRoot(self.root)
                 plan.targetParent.position = LFloat3(
                     -plan.targetParent.boundsCenterWidth,
-                     0,
+                     plan.targetParent.boundsCenterHeight,
                      0
                 )
                 

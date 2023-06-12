@@ -15,8 +15,8 @@ struct RenderPlan {
     let rootPath: URL
     let queue: DispatchQueue
     
-    let builder: CodeGridGlyphCollectionBuilder
     var statusObject: AppStatus { GlobalInstances.appStatus }
+    let builder: CodeGridGlyphCollectionBuilder
     
     let editor: WorldGridEditor
     let focus: WorldGridFocusController
@@ -24,6 +24,11 @@ struct RenderPlan {
     
     let targetParent = MetalLinkNode()
     
+    class State {
+        var orderedParents = OrderedDictionary<URL, MetalLinkNode>()
+    }
+    var state = State()
+
     let mode: Mode
     enum Mode {
         case cacheOnly
@@ -88,8 +93,34 @@ extension LFloat3 {
 }
 
 private extension RenderPlan {
+    func makeDefaultParent(for url: URL) -> MetalLinkNode {
+        let directoryParent = MetalLinkNode()
+        targetParent.add(child: directoryParent)
+        targetParent.bindAsVirtualParentOf(directoryParent)
+        state.orderedParents[url] = directoryParent
+        return directoryParent
+    }
+    
+    func getParentNode(for url: URL) -> MetalLinkNode {
+        let parentURL: URL
+        if !url.isDirectory {
+            parentURL = url.deletingLastPathComponent()
+        } else {
+            parentURL = url
+        }
+        let parent = state.orderedParents[parentURL]
+            ?? makeDefaultParent(for: parentURL)
+        return parent
+    }
+}
+
+private extension RenderPlan {
     func doGridLayout() {
         layoutLazyBox()
+    }
+    
+    private func layoutWide() {
+        
     }
     
     private func layoutLazyBox() {
@@ -117,13 +148,7 @@ private extension RenderPlan {
             return parent
         }
         
-        FileBrowser.recursivePaths(rootPath).forEach { url in
-            guard !url.isDirectory else { return }
-            guard let grid = builder.sharedGridCache.get(url) else { return }
-            
-            let directoryParent = getParentNode(for: url)
-            directoryParent.add(child: grid.rootNode)
-        }
+        
 
         // MARK: - Do final layout
         let xGap = 16.float
@@ -132,7 +157,7 @@ private extension RenderPlan {
         var lastDirectory: MetalLinkNode?
         let layout = DepthLayout()
         
-        for (url, directoryParent) in orderedParents {
+        for (url, directoryParent) in state.orderedParents {
             let sortedLayoutChildren = directoryParent.children.sorted(
                 by: { $0.lengthY < $1.lengthY }
             )
@@ -154,7 +179,7 @@ private extension RenderPlan {
             lastDirectory = directoryParent
         }
         
-        for (url, thisParent) in orderedParents {
+        for (url, thisParent) in state.orderedParents {
             let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
             let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
             let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
@@ -192,7 +217,7 @@ private extension RenderPlan {
             var lineParent = url.deletingLastPathComponent()
             var thisParentParent: MetalLinkNode?
             while lineParent.pathComponents.count > 1, thisParentParent == nil {
-                thisParentParent = orderedParents[lineParent]
+                thisParentParent = state.orderedParents[lineParent]
                 lineParent.deleteLastPathComponent()
             }
             
@@ -236,25 +261,25 @@ private extension RenderPlan {
         let dispatchGroup = DispatchGroup()
         
         if rootPath.isDirectory {
-            recursiveCache()
+            FileBrowser.recursivePaths(rootPath).forEach { childPath in
+                guard !childPath.isDirectory,
+                      FileBrowser.isSupportedFileType(childPath)
+                else { return }
+                launchGridBuild(childPath)
+            }
         } else {
-            rootCache()
+            launchGridBuild(rootPath)
         }
         
         dispatchGroup.wait()
         
-        func rootCache() {
-            launchGridBuild(rootPath)
+        FileBrowser.recursivePaths(rootPath).forEach { url in
+            guard !url.isDirectory else { return }
+            guard let grid = builder.sharedGridCache.get(url) else { return }
+            
+            let directoryParent = getParentNode(for: url)
+            directoryParent.add(child: grid.rootNode)
         }
-        
-        func recursiveCache() {
-            FileBrowser.recursivePaths(rootPath)
-                .filter { !$0.isDirectory && FileBrowser.isSupportedFileType($0) }
-                .forEach { childPath in
-                    launchGridBuild(childPath)
-                }
-        }
-        
         
         func launchGridBuild(_ childPath: URL) {
             dispatchGroup.enter()
