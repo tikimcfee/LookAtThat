@@ -124,38 +124,12 @@ private extension RenderPlan {
     }
     
     private func layoutLazyBox() {
-        // MARK: - Do grid directory additions
-        // TODO: This can probablt happen at cache time
-        var orderedParents = OrderedDictionary<URL, MetalLinkNode>()
-        
-        func makeDefaultParent(for url: URL) -> MetalLinkNode {
-            let directoryParent = MetalLinkNode()
-            targetParent.add(child: directoryParent)
-            targetParent.bindAsVirtualParentOf(directoryParent)
-            orderedParents[url] = directoryParent
-            return directoryParent
-        }
-        
-        func getParentNode(for url: URL) -> MetalLinkNode {
-            let parentURL: URL
-            if !url.isDirectory {
-                parentURL = url.deletingLastPathComponent()
-            } else {
-                parentURL = url
-            }
-            let parent = orderedParents[parentURL]
-                ?? makeDefaultParent(for: parentURL)
-            return parent
-        }
-        
-        
-
         // MARK: - Do final layout
         let xGap = 16.float
-        let yGap = 128
-        let zGap = 128
+        let yGap = 32
+        let zGap = 24
         var lastDirectory: MetalLinkNode?
-        let layout = DepthLayout()
+        let layout = HorizontalLayout()
         
         for (url, directoryParent) in state.orderedParents {
             let sortedLayoutChildren = directoryParent.children.sorted(
