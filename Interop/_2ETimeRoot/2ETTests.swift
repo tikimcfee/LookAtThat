@@ -81,13 +81,12 @@ extension TwoETimeRoot {
                 // Parent rects aren't invalidated when children change.
                 // Just.. just clear everything and move on. Figure out
                 // bounds.. AGAIN.. later.
-                BoundsCaching.ClearRoot(self.root)
+                BoundsCaching.Clear()
                 plan.targetParent.position = LFloat3(
                     -plan.targetParent.boundsCenterWidth,
-                     plan.targetParent.boundsCenterHeight,
-                     0
+                     0.0,
+                     -256.0
                 )
-                
                 self.root.add(child: plan.targetParent)
             }
         }

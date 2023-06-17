@@ -26,7 +26,7 @@ class TestBundle {
     var concurrent: ConcurrentGridRenderer!
     
     var testSourceDirectory: URL? {
-        let absolutePath = Self.testDirectoriesAbsolute[0]
+        let absolutePath = Self.testDirectoriesAbsolute[2]
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
         guard exists, isDirectory.boolValue else {

@@ -58,6 +58,8 @@ public class CodeGrid: Identifiable, Equatable {
     var targetNode: MetalLinkNode { rootNode }
     var backgroundID: InstanceIDType { gridBackground.constants.pickingId }
     
+    var childGrids: [CodeGrid] = []
+    
     init(rootNode: GlyphCollection,
          tokenCache: CodeGridTokenCache) {
         self.rootNode = rootNode
@@ -80,6 +82,24 @@ public class CodeGrid: Identifiable, Equatable {
             .setLeading(localLeading)
             .setTop(localTop)
             .setFront(localBack)
+    }
+    
+    func addChildGrid(_ other: CodeGrid) {
+//        rootNode.add(child: other.rootNode)
+//        rootNode.bindAsVirtualParentOf(other.rootNode)
+        childGrids.append(other)
+        
+//        rootNode.enumerateNonInstancedChildren = true
+    }
+    
+    func removeChildGrid(_ other: CodeGrid) {
+//        rootNode.remove(child: other.rootNode)
+//        rootNode.unbindAsVirtualParentOf(other.rootNode)
+        childGrids.removeAll(where: { $0.id == other.id })
+        
+//        if childGrids.isEmpty {
+//            rootNode.enumerateNonInstancedChildren = false
+//        }
     }
     
     func updateNode(
@@ -273,7 +293,7 @@ extension CodeGrid {
     }
     
     @discardableResult
-    func applying(_ action: (Self) -> Void) -> Self {
+    func applying(_ action: (CodeGrid) -> Void) -> CodeGrid {
         laztrace(#fileID,#function)
         action(self)
         return self

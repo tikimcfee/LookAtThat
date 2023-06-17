@@ -117,6 +117,8 @@ struct GlobalSearchView: View {
         GlobalInstances.debugCamera.interceptor.resetPositions()
         GlobalInstances.debugCamera.position = position
         GlobalInstances.debugCamera.rotation = .zero
+        GlobalInstances.debugCamera.scrollBounds = grid.bounds
+        GlobalInstances.gridStore.editor.snapping.searchTargetGrid = grid
         
         searchScrollLock.insert(.horizontal)
     }

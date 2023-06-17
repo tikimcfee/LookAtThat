@@ -25,10 +25,10 @@ struct RenderPlan {
     let targetParent = MetalLinkNode()
     
     class State {
-        var orderedParents = OrderedDictionary<URL, MetalLinkNode>()
+        var orderedParents = OrderedDictionary<URL, CodeGrid>()
     }
     var state = State()
-
+    
     let mode: Mode
     enum Mode {
         case cacheOnly
@@ -92,35 +92,49 @@ extension LFloat3 {
     }
 }
 
-private extension RenderPlan {
-    func makeDefaultParent(for url: URL) -> MetalLinkNode {
-        let directoryParent = MetalLinkNode()
-        targetParent.add(child: directoryParent)
-        targetParent.bindAsVirtualParentOf(directoryParent)
-        state.orderedParents[url] = directoryParent
-        return directoryParent
-    }
-    
-    func getParentNode(for url: URL) -> MetalLinkNode {
-        let parentURL: URL
-        if !url.isDirectory {
-            parentURL = url.deletingLastPathComponent()
-        } else {
-            parentURL = url
-        }
-        let parent = state.orderedParents[parentURL]
-            ?? makeDefaultParent(for: parentURL)
-        return parent
-    }
-}
+//private extension RenderPlan {
+//    func getOrCreateParentNode(for url: URL) -> CodeGrid {
+//        let parentURL: URL
+//        if !url.isDirectory {
+//            parentURL = url.deletingLastPathComponent()
+//        } else {
+//            parentURL = url
+//        }
+//        let parent = state.orderedParents[parentURL, default: makeParent(for: parentURL)]
+//        return parent
+//    }
+//
+//    func makeParent(for url: URL) -> CodeGrid {
+//        print("-- make parent: \(url)")
+//        let directoryParent = builder.createGrid()
+////        let myParent = url == rootPath
+////            ? builder.createGrid().applying {
+////                targetParent.add(child: $0.rootNode)
+////                targetParent.bindAsVirtualParentOf($0.rootNode)
+////            }
+////            : getOrCreateParentNode(for: url.deletingLastPathComponent())
+////        myParent.addChildGrid(directoryParent)
+//        targetParent.add(child: directoryParent.rootNode)
+//        state.orderedParents[url] = directoryParent
+//        return directoryParent
+//    }
+//}
 
 private extension RenderPlan {
     func doGridLayout() {
-        layoutLazyBox()
+        layoutWide()
     }
     
     private func layoutWide() {
-        
+        let calculator = DirectoryCalculator()
+        let totalSize = calculator.computeTotalSizeOfDirectory(at: rootPath)
+        calculator.traverseTreeSecondPass_Y(root: rootPath)
+        for (url, position) in calculator.positionDict {
+            if let grid = self.builder.sharedGridCache.get(url) {
+                grid.position = LFloat3(position.0, position.1, position.2)
+                targetParent.add(child: grid.rootNode)
+            }
+        }
     }
     
     private func layoutLazyBox() {
@@ -128,11 +142,11 @@ private extension RenderPlan {
         let xGap = 16.float
         let yGap = 32
         let zGap = 24
-        var lastDirectory: MetalLinkNode?
-        let layout = HorizontalLayout()
+        var lastDirectory: CodeGrid?
+        let layout = DepthLayout()
         
         for (url, directoryParent) in state.orderedParents {
-            let sortedLayoutChildren = directoryParent.children.sorted(
+            let sortedLayoutChildren = directoryParent.rootNode.children.sorted(
                 by: { $0.lengthY < $1.lengthY }
             )
             layout.layoutGrids(sortedLayoutChildren)
@@ -141,7 +155,7 @@ private extension RenderPlan {
                 parent: .directory(rootPath),
                 from: .directory(url)
             )
-            directoryParent.position.y = (-1 * rootDistance * yGap).float
+            directoryParent.rootNode.position.y = (-1 * rootDistance * yGap).float
             
             if let lastDirectory = lastDirectory {
                 let pushBack = (-1 * rootDistance * zGap).float
@@ -153,6 +167,10 @@ private extension RenderPlan {
             lastDirectory = directoryParent
         }
         
+        addParentWalls()
+    }
+    
+    func addParentWalls() {
         for (url, thisParent) in state.orderedParents {
             let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
             let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
@@ -162,10 +180,12 @@ private extension RenderPlan {
             gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
             
             let computing = BoundsComputing()
-            thisParent.children.forEach { computing.consumeBounds($0.bounds) }
+            thisParent.childGrids.forEach {
+                computing.consumeBounds($0.bounds)
+            }
             let bounds = computing.bounds
             let size = BoundsSize(bounds)
-
+            
             gridBackground.scale.x = size.x / 2.0
             gridBackground.scale.y = size.y / 2.0
             
@@ -184,12 +204,12 @@ private extension RenderPlan {
                 .setTop(bounds.max.y)
                 .setFront(bounds.min.z - 16.0)
             
-            thisParent.add(child: gridBackground)
-            thisParent.add(child: gridTopWall)
-            thisParent.add(child: gridRightWall)
+            thisParent.rootNode.add(child: gridBackground)
+            thisParent.rootNode.add(child: gridTopWall)
+            thisParent.rootNode.add(child: gridRightWall)
             
             var lineParent = url.deletingLastPathComponent()
-            var thisParentParent: MetalLinkNode?
+            var thisParentParent: CodeGrid?
             while lineParent.pathComponents.count > 1, thisParentParent == nil {
                 thisParentParent = state.orderedParents[lineParent]
                 lineParent.deleteLastPathComponent()
@@ -226,34 +246,25 @@ private extension RenderPlan {
 
 private extension RenderPlan {
     func cacheGrids() {
+        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
         statusObject.update {
             $0.totalValue += 1 // pretend there's at least one unfinished task
             $0.message = "Starting grid cache..."
         }
         
-        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
         let dispatchGroup = DispatchGroup()
         
         if rootPath.isDirectory {
             FileBrowser.recursivePaths(rootPath).forEach { childPath in
-                guard !childPath.isDirectory,
-                      FileBrowser.isSupportedFileType(childPath)
-                else { return }
-                launchGridBuild(childPath)
+                if FileBrowser.isSupportedFileType(childPath) {
+                    launchGridBuild(childPath)
+                }
             }
         } else {
             launchGridBuild(rootPath)
         }
-        
         dispatchGroup.wait()
-        
-        FileBrowser.recursivePaths(rootPath).forEach { url in
-            guard !url.isDirectory else { return }
-            guard let grid = builder.sharedGridCache.get(url) else { return }
-            
-            let directoryParent = getParentNode(for: url)
-            directoryParent.add(child: grid.rootNode)
-        }
+
         
         func launchGridBuild(_ childPath: URL) {
             dispatchGroup.enter()
@@ -269,16 +280,15 @@ private extension RenderPlan {
                     .consume(url: childPath)
                     .withFileName(childPath.lastPathComponent)
                     .withSourcePath(childPath)
+                    .translated(dZ: 8.0)
                 
                 builder.sharedGridCache.cachedFiles[childPath] = grid.id
-                
+                hoverController.attachPickingStream(to: grid)
+
                 statusObject.update {
                     $0.currentValue += 1
                     $0.detail = "File Complete: \(childPath.lastPathComponent)"
                 }
-                
-                hoverController.attachPickingStream(to: grid)
-                
                 dispatchGroup.leave()
             }
         }

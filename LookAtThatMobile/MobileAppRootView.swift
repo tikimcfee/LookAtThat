@@ -10,6 +10,8 @@ import SwiftUI
 #if os(iOS)
 import ARKit
 #endif
+import MetalLink
+import MetalLinkResources
 
 private extension MobileAppRootView {
     static var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
@@ -30,7 +32,7 @@ struct MobileAppRootView : View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            MetalView()
+            
             VStack {
                 Button(action: {
                     showGitFetch.toggle()

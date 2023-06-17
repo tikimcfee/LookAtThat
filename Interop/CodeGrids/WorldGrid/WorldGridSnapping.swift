@@ -20,10 +20,13 @@ class WorldGridSnapping {
     var gridReg2: CodeGrid?
     var gridReg3: CodeGrid?
     var gridReg4: CodeGrid?
+
     var nodeReg1: MetalLinkNode?
     var nodeReg2: MetalLinkNode?
     var nodeReg3: MetalLinkNode?
     var nodeReg4: MetalLinkNode?
+    
+    var searchTargetGrid: CodeGrid?
 }
 
 extension WorldGridSnapping {

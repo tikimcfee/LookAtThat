@@ -58,6 +58,7 @@
 		B72AA4A528E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A828E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
+		B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */; };
 		B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */; };
 		B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
@@ -74,7 +75,6 @@
 		B74A22B82814FFF300F6F727 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1110251EEF240052D993 /* MultipeerData.swift */; };
 		B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
-		B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
 		B74A22CB2814FFF300F6F727 /* Syntax+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F93052750528B00E46A96 /* Syntax+Caching.swift */; };
 		B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
@@ -231,8 +231,6 @@
 		B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
-		B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
-		B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
 		B7B1098028D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */; };
@@ -286,6 +284,8 @@
 		B7CBD78628FE243100A918C2 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78528FE243100A918C2 /* Collections */; };
 		B7CBD78A28FE259500A918C2 /* SwiftParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78928FE259500A918C2 /* SwiftParser */; };
 		B7CBD78C28FE259500A918C2 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78B28FE259500A918C2 /* SwiftSyntax */; };
+		B7CCE7422A3BF185005457DE /* GridInteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E9004B28FCB28A00EC2018 /* GridInteractionState.swift */; };
+		B7CCE7432A3BF186005457DE /* GridInteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E9004B28FCB28A00EC2018 /* GridInteractionState.swift */; };
 		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
 		B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1872028C57AFA00BACAA1 /* Zip */; };
 		B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AA7282A0E87000F99EB /* TokenSyntax+Coloring.swift */; };
@@ -445,6 +445,7 @@
 		B725167828C0871F0094F29B /* DeviceScaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScaling.swift; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSelectionController.swift; sourceTree = "<group>"; };
+		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
 		B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLayout.swift; sourceTree = "<group>"; };
 		B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutController.swift; sourceTree = "<group>"; };
 		B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "2ETTests+Dictionaries.swift"; sourceTree = "<group>"; };
@@ -497,7 +498,6 @@
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
 		B7A6F2A9275ED95E004CAA66 /* Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measures.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
-		B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePaths.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7B1097F28D6AD2F00AA4E37 /* WorldGridEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGridEditor.swift; sourceTree = "<group>"; };
@@ -874,6 +874,13 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
+		B7CCE7412A3BF005005457DE /* Realities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Realities;
+			sourceTree = "<group>";
+		};
 		B7E9004A28FCB26B00EC2018 /* GridInteraction */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +917,7 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				B7CCE7412A3BF005005457DE /* Realities */,
 				B7A392382A301B8B00FAA9E4 /* Packages */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
@@ -1024,6 +1032,7 @@
 			children = (
 				F07C49F1251C5AE900F28173 /* Preview Content */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
+				B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */,
 				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
@@ -1053,7 +1062,6 @@
 				B7B46AE128BD72BE0004CA2D /* ColorExtensions.swift */,
 				B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */,
 				B725167828C0871F0094F29B /* DeviceScaling.swift */,
-				B7A6F2B6275EF9C7004CAA66 /* FilePaths.swift */,
 				B7B46AD728BC81750004CA2D /* GlobalInstances.swift */,
 				B7241AF928288C26006A6A3E /* InputStreamReader.swift */,
 				B725167328C086060094F29B /* NumberConversions.swift */,
@@ -1371,7 +1379,6 @@
 				B768E2B828BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
 				B7247A5E29A077C10073B98C /* WordNode.swift in Sources */,
 				B75014AB283070190024B7C0 /* GlobalWindowDelegate.swift in Sources */,
-				B74A22C42814FFF300F6F727 /* FilePaths.swift in Sources */,
 				B7B46ADB28BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B725167728C086060094F29B /* NumberConversions.swift in Sources */,
 				B78C19BD2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal in Sources */,
@@ -1384,6 +1391,7 @@
 				B74A22CF2814FFF300F6F727 /* LaZTrace.swift in Sources */,
 				B74A233E281526A700F6F727 /* TracingInfoBridging.swift in Sources */,
 				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
+				B7CCE7432A3BF186005457DE /* GridInteractionState.swift in Sources */,
 				B75014A32830505C0024B7C0 /* DragSizableView.swift in Sources */,
 				B74A22D22814FFF300F6F727 /* FileBrowserView.swift in Sources */,
 				B7981039281CC279009A82BD /* ThreadInfoExtract.swift in Sources */,
@@ -1474,7 +1482,6 @@
 				B7EA88342723938C0098541C /* CodeGrid.swift in Sources */,
 				B7B1098528D6AED300AA4E37 /* WorldGridFocusController.swift in Sources */,
 				B7B46AE728BD76620004CA2D /* Structures.swift in Sources */,
-				B7A6F2B7275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B74A23362815197000F6F727 /* SourceInfoPanelState.swift in Sources */,
 				B775C7932671A5A200414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				B768E2B528BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
@@ -1572,6 +1579,7 @@
 				F038D91D252EB80000A9E6BC /* BackgroundWorker.swift in Sources */,
 				B775C7962671A78700414972 /* SwiftSyntax+FileLoading.swift in Sources */,
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
+				B7CCE7422A3BF185005457DE /* GridInteractionState.swift in Sources */,
 				B768B65B281F57BA0098F8D0 /* PersisentThreadTracer.swift in Sources */,
 				B7EB7142284878B100313633 /* GitHubClientView.swift in Sources */,
 				F0C91E04251EB7D30082E3B2 /* MultipeerManager.swift in Sources */,
@@ -1579,6 +1587,7 @@
 				B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
+				B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7247A6929A0784D0073B98C /* Positioner.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
@@ -1627,7 +1636,6 @@
 				B7501498282CA6600024B7C0 /* SourceInfoCategoryView.swift in Sources */,
 				B78159FD273E07E800212176 /* WorldGrid.swift in Sources */,
 				B71C595B2766AC2500E406AE /* CodeGrid+Consume.swift in Sources */,
-				B7A6F2B8275EF9C7004CAA66 /* FilePaths.swift in Sources */,
 				B768E2B128BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B75014A628305B160024B7C0 /* FloatableView.swift in Sources */,
 				B725167B28C0871F0094F29B /* DeviceScaling.swift in Sources */,
@@ -1950,7 +1958,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-Xlinker",
@@ -1976,7 +1984,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2013,7 +2021,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2048,7 +2055,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

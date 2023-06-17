@@ -7,13 +7,15 @@
 
 import UIKit
 import SwiftUI
+// import RealityKit
 
 @main
 struct AppDelegate: App {
 
     var body: some Scene {
          WindowGroup {
-            MobileAppRootView()
+//            MobileAppRootView()
+             CubeARView()
          }
      }
 }

@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftParser
 import SceneKit
 import Foundation
+import BitHandling
 @testable import LookAtThat_AppKit
 
 import SwiftTreeSitter

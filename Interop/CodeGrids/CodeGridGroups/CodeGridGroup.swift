@@ -8,28 +8,163 @@
 import Foundation
 import MetalLink
 import MetalLinkHeaders
+import BitHandling
 
 // TODO: Make a simple directory container
 // Like the old FocusBox but simpler. Keep some of the fancy
 // ideas like moving grids around and different layouts. Don't
 // need the "shim" anymore.. that was a bit too much anyway.
+
+class DirectoryCalculator {
+    let cache = GlobalInstances.gridStore.gridCache
+    let snapping = GlobalInstances.gridStore.editor.snapping
+    
+    var positionDict: [URL: (Float, Float, Float)] = [:]
+    let spacingFactor = 4.0.float
+    let paddingBetweenLayers = 16.0.float
+    let paddingBetweenNodes = 16.0.float
+    
+    func calculateMaxHeightInLayer(for child: URL) -> Float {
+        return 4.0
+    }
+    
+    func traverseTreeSecondPass_Y(root: URL) {
+        // Get all children of the root directory
+        let children = childrenOfDirectory(at: root)
+        
+        // Initialize X and Z coordinates
+        var x: Float = positionDict[root]?.0 ?? 0.0.float // Start from parent's x-coordinate
+        var z: Float = depthOfDirectory(at: root).float * spacingFactor
+        
+        // Calculate Y coordinate based on the height of its parent directory
+        let parentY = positionDict[root]?.1 ?? 0.0.float
+        var y: Float = parentY - paddingBetweenLayers
+
+        for child in children {
+            // Determine size of the child node (file or directory)
+            let (width, height) = sizeOfFile(at: child)
+
+            // Store this node's position
+            positionDict[child] = (x, y, z)
+            
+            // Move X coordinate for next sibling by width + some padding if required.
+            x += width + paddingBetweenNodes
+            
+            if child.isDirectory {
+                // If it's a directory, recursively process its children.
+                traverseTreeSecondPass(root: child)
+                
+                // Adjust Z coordinate based on maximum height in this layer before moving on to next sibling at same level.
+                z += calculateMaxHeightInLayer(for: child) + paddingBetweenLayers
+                
+                // Reset Y coordinate after finishing with one directory.
+                y = parentY - paddingBetweenLayers
+            } else {
+                // For files, decrease Y coordinate by file's height + some padding.
+                y -= height + paddingBetweenLayers
+            }
+        }
+    }
+
+    func traverseTreeSecondPass(root: URL) {
+        // Get all children of the root directory
+        let children = childrenOfDirectory(at: root)
+        
+        // Initialize X and Z coordinates
+        var x: Float = 0.0
+        var z: Float = depthOfDirectory(at: root).float * spacingFactor
+        var y: Float = z
+        
+        for child in children {
+            // Determine size of the child node (file or directory)
+            let (width, _) = sizeOfFile(at: child)
+            
+            // Set Y-coordinate to 0 as we're laying out nodes horizontally.
+            let y : Float = 0.0
+            
+            // Store this node's position
+            positionDict[child] = (x, y, z)
+            
+            // Move X coordinate for next sibling by width of current node + some padding if required
+            x += width + paddingBetweenNodes
+            
+            if child.isDirectory {
+                // If it's a directory, recursively process its children
+                traverseTreeSecondPass(root: child)
+                
+                // Adjust Z coordinate based on maximum height in this layer before moving on to next sibling at same level
+                z += calculateMaxHeightInLayer(for: child) + paddingBetweenLayers
+            }
+        }
+    }
+    
+    func depthOfDirectory(at url: URL) -> Int {
+        let pathComponents = url.pathComponents
+        return pathComponents.count - 1 // subtracting 1 because the root directory itself should not be counted
+    }
+    
+    func sizeOfFile(at child: URL) -> (width: Float, height: Float) {
+        let grid = cache.getOrCache(child)
+        return (width: grid.boundsWidth ,height: grid.boundsHeight)
+    }
+    
+    func childrenOfDirectory(at url: URL) -> [URL] {
+        FileBrowser.recursivePaths(url)
+    }
+    
+    func computeTotalSizeOfDirectory(at url: URL) -> (width: Float, height: Float) {
+        var totalHeight: Float = 0.0
+        var totalWidth: Float = 0.0
+
+        for child in childrenOfDirectory(at: url) {
+            if child.isDirectory {
+                let (childWidth, childHeight) = computeTotalSizeOfDirectory(at: child)
+                totalHeight += childHeight
+                totalWidth += childWidth
+            } else { // it's a file
+                let fileSize = sizeOfFile(at: child)
+                totalHeight += fileSize.height
+                totalWidth += fileSize.width
+            }
+        }
+
+        return (totalHeight, totalWidth)
+    }
+}
+
 class CodeGridGroup {
+    
+    let globalRootNode: MetalLinkNode
+    let childGroups: [CodeGridGroup] = []
+    
+    let editor = WorldGridEditor()
     var grids = [CodeGrid]()
     
+    init(globalRootNode: MetalLinkNode) {
+        self.globalRootNode = globalRootNode
+    }
+    
     func appendGrid(_ grid: CodeGrid) {
+        globalRootNode.add(child: grid.rootNode)
+        editor.transformedByAdding(.trailingFromLastGrid(grid))
         
+        horizontalUpdate(from: grid)
     }
     
-    func prependGrid(_ grid: CodeGrid) {
+    func removeGrid(_ grid: CodeGrid) {
+        editor.snapping.detachRetaining(grid)
         
-    }
-    
-    func insertGrid(_ grid: CodeGrid, at position: Int) {
-        if grids.indices.contains(position) {
-            
-        } else {
-            
+        if let grid = editor.lastFocusedGrid {
+            horizontalUpdate(from: grid)
         }
+    }
+    
+    func horizontalUpdate(from grid: CodeGrid) {
+        var grids = [CodeGrid]()
+        editor.snapping.iterateOver(grid, direction: .left) { lastGrid, grid, _ in
+            grids.append(grid)
+        }
+        HorizontalLayout().layoutGrids(grids)
     }
 }
 
@@ -236,16 +371,18 @@ struct DepthLayout {
 struct HorizontalLayout {
     let xGap = 16.float
     let yGap = -64.float
-    let zGap = -128.float
+    let zGap = 0.float
     
-    func layoutGrids(_ targets: [LayoutTarget]) {
+    func layoutGrids(
+        _ targets: [LayoutTarget]
+    ) {
         var lastTarget: LayoutTarget?
         for currentTarget in targets {
             if let lastTarget = lastTarget {
                 currentTarget.layoutNode
                     .setTop(lastTarget.layoutNode.top)
                     .setLeading(lastTarget.layoutNode.trailing + xGap)
-                    .setFront(lastTarget.layoutNode.front)
+                    .setFront(lastTarget.layoutNode.front + zGap)
             }
             lastTarget = currentTarget
         }

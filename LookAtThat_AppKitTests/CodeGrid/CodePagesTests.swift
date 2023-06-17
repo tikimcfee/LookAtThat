@@ -10,6 +10,10 @@ import SwiftSyntax
 import SwiftParser
 import SceneKit
 import Foundation
+import BitHandling
+import MetalLink
+import MetalLinkHeaders
+import MetalLinkResources
 @testable import LookAtThat_AppKit
 
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {

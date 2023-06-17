@@ -8,6 +8,7 @@
 import Foundation
 import SwiftSyntax
 import SwiftParser
+import BitHandling
 
 let traceBox = LaZTraceBox()
 
