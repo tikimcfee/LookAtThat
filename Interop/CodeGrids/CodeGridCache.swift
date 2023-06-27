@@ -37,11 +37,17 @@ public class GridCache {
         cachedGrids[key.id] = key
     }
     
-    public func setCache(_ key: URL) -> CodeGrid {
-        let newGrid = renderGrid(key) ?? {
-            print("Could not render path \(key)")
-            return createNewGrid()
-        }()
+    public func setCache(_ key: URL, _ requester: String = #function) -> CodeGrid {
+        let newGrid: CodeGrid
+        if key.isDirectory {
+            print("[\(requester)] Creating directory: \(key)")
+            newGrid = createNewGrid()
+        } else {
+            newGrid = renderGrid(key) ?? {
+                print("[\(requester)] Could not render path \(key)")
+                return createNewGrid()
+            }()
+        }
         
         cachedGrids[newGrid.id] = newGrid
         cachedFiles[key] = newGrid.id

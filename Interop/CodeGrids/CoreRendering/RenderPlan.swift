@@ -127,14 +127,16 @@ private extension RenderPlan {
     
     private func layoutWide() {
         let calculator = DirectoryCalculator()
-        let totalSize = calculator.computeTotalSizeOfDirectory(at: rootPath)
+        let _ = calculator.computeTotalSizeOfDirectory(at: rootPath)
         calculator.traverseTreeSecondPass_Y(root: rootPath)
         for (url, position) in calculator.positionDict {
             if let grid = self.builder.sharedGridCache.get(url) {
                 grid.position = LFloat3(position.0, position.1, position.2)
                 targetParent.add(child: grid.rootNode)
+//                targetParent.bindAsVirtualParentOf(grid.rootNode)
             }
         }
+//        addParentWalls()
     }
     
     private func layoutLazyBox() {
@@ -167,7 +169,7 @@ private extension RenderPlan {
             lastDirectory = directoryParent
         }
         
-        addParentWalls()
+//        addParentWalls()
     }
     
     func addParentWalls() {
@@ -180,9 +182,15 @@ private extension RenderPlan {
             gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
             
             let computing = BoundsComputing()
-            thisParent.childGrids.forEach {
-                computing.consumeBounds($0.bounds)
+            for child in FileBrowser.recursivePaths(url) {
+                guard !child.isDirectory else { continue }
+                if let grid = builder.sharedGridCache.get(child) {
+                    computing.consumeBounds(grid.bounds)
+                }
             }
+//            thisParent.childGrids.forEach {
+//                computing.consumeBounds($0.bounds)
+//            }
             let bounds = computing.bounds
             let size = BoundsSize(bounds)
             
@@ -217,7 +225,7 @@ private extension RenderPlan {
             
             if let thisParentParent {
                 let line = MetalLinkLine(GlobalInstances.defaultLink)
-                line.setColor(LFloat4(1.0, 0.0, 0.1, 1.0))
+                line.setColor(LFloat4(1.0, 0.8, 0.1, 1.0))
                 line.appendSegment(
                     about: thisParentParent.position
                 )
@@ -238,7 +246,8 @@ private extension RenderPlan {
                 line.appendSegment(
                     about: thisParent.position
                 )
-                thisParent.parent?.add(child: line)
+                targetParent.add(child: line)
+//                thisParent.parent?.add(child: line)
             }
         }
     }
@@ -258,6 +267,10 @@ private extension RenderPlan {
             FileBrowser.recursivePaths(rootPath).forEach { childPath in
                 if FileBrowser.isSupportedFileType(childPath) {
                     launchGridBuild(childPath)
+                } else if childPath.isDirectory {
+                    let childDirectoryGrid = builder.sharedGridCache.setCache(childPath)
+                    state.orderedParents[childPath] = childDirectoryGrid
+                    targetParent.add(child: childDirectoryGrid.rootNode)
                 }
             }
         } else {

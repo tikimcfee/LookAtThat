@@ -20,12 +20,12 @@ class DirectoryCalculator {
     let snapping = GlobalInstances.gridStore.editor.snapping
     
     var positionDict: [URL: (Float, Float, Float)] = [:]
-    let spacingFactor = 4.0.float
-    let paddingBetweenLayers = 16.0.float
-    let paddingBetweenNodes = 16.0.float
+    let depthSpacingFactor = 4.0.float
+    let paddingBetweenLayers = 32.0.float
+    let paddingBetweenNodes = 32.0.float
     
     func calculateMaxHeightInLayer(for child: URL) -> Float {
-        return 4.0
+        return 8.0
     }
     
     func traverseTreeSecondPass_Y(root: URL) {
@@ -34,7 +34,7 @@ class DirectoryCalculator {
         
         // Initialize X and Z coordinates
         var x: Float = positionDict[root]?.0 ?? 0.0.float // Start from parent's x-coordinate
-        var z: Float = depthOfDirectory(at: root).float * spacingFactor
+        var z: Float = depthOfDirectory(at: root).float * depthSpacingFactor
         
         // Calculate Y coordinate based on the height of its parent directory
         let parentY = positionDict[root]?.1 ?? 0.0.float
@@ -44,24 +44,21 @@ class DirectoryCalculator {
             // Determine size of the child node (file or directory)
             let (width, height) = sizeOfFile(at: child)
 
-            // Store this node's position
-            positionDict[child] = (x, y, z)
-            
-            // Move X coordinate for next sibling by width + some padding if required.
-            x += width + paddingBetweenNodes
-            
             if child.isDirectory {
                 // If it's a directory, recursively process its children.
+                x = positionDict[root]?.0 ?? 0.0.float // Reset x-coordinate back to initial value for each new row (subdirectory)
+                positionDict[child] = (x, y - paddingBetweenLayers, z)
                 traverseTreeSecondPass(root: child)
                 
                 // Adjust Z coordinate based on maximum height in this layer before moving on to next sibling at same level.
                 z += calculateMaxHeightInLayer(for: child) + paddingBetweenLayers
                 
                 // Reset Y coordinate after finishing with one directory.
-                y = parentY - paddingBetweenLayers
+                y -= height + paddingBetweenLayers * 3
             } else {
-                // For files, decrease Y coordinate by file's height + some padding.
-                y -= height + paddingBetweenLayers
+                // For files, store this node's position and increase X coordinate by file's width + some padding.
+                positionDict[child] = (x, y, z)
+                x += width + paddingBetweenNodes
             }
         }
     }
@@ -72,7 +69,7 @@ class DirectoryCalculator {
         
         // Initialize X and Z coordinates
         var x: Float = 0.0
-        var z: Float = depthOfDirectory(at: root).float * spacingFactor
+        var z: Float = depthOfDirectory(at: root).float * depthSpacingFactor
         var y: Float = z
         
         for child in children {
@@ -103,9 +100,17 @@ class DirectoryCalculator {
         return pathComponents.count - 1 // subtracting 1 because the root directory itself should not be counted
     }
     
+    func getGrid(for child: URL) -> CodeGrid {
+        let gridName  = child.lastPathComponent
+        return cache.getOrCache(child)
+            .withFileName(gridName)
+            .withSourcePath(child)
+            .applyName()
+    }
+    
     func sizeOfFile(at child: URL) -> (width: Float, height: Float) {
-        let grid = cache.getOrCache(child)
-        return (width: grid.boundsWidth ,height: grid.boundsHeight)
+        let grid = getGrid(for: child)
+        return (width: grid.boundsWidth, height: grid.boundsHeight)
     }
     
     func childrenOfDirectory(at url: URL) -> [URL] {

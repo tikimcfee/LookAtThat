@@ -60,6 +60,33 @@ extension TwoETimeRoot {
 }
 
 extension TwoETimeRoot {
+    func setupFastGraphTest() throws {
+        let controller = DictionaryController()
+        
+        print("Starting file load")
+        controller.start(then: {
+            print("Starting word chunking")
+            controller.doWordChunking(using: self.builder)
+            
+            print("Starting edge creation... oof")
+            let (nodes, edges) = controller.makeBufferables()
+            
+            print("Have \(controller.nodeMap.keys.count) words, \(edges.count) edges")
+            
+            let force = LForceLayout2()
+            
+            print("Starting first force pass...")
+            try! force.doItBetter(
+                device: self.link.device,
+                library: self.library,
+                nodes: nodes,
+                edges: edges
+            )
+            
+            print("What happen?")
+        })
+    }
+    
     func setupRenderPlanTest() throws {
         builder.mode = .multiCollection
         root.add(child: GlobalInstances.gridStore.traceLayoutController.currentTraceLine)
@@ -81,10 +108,11 @@ extension TwoETimeRoot {
                 // Parent rects aren't invalidated when children change.
                 // Just.. just clear everything and move on. Figure out
                 // bounds.. AGAIN.. later.
-                BoundsCaching.Clear()
+                
+//                BoundsCaching.Clear()
                 plan.targetParent.position = LFloat3(
                     -plan.targetParent.boundsCenterWidth,
-                     0.0,
+                     plan.targetParent.boundsCenterHeight,
                      -256.0
                 )
                 self.root.add(child: plan.targetParent)

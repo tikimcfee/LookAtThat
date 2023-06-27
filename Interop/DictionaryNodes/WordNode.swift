@@ -7,11 +7,21 @@
 
 import Foundation
 import MetalLink
+import SwiftNodes
 
 class WordNode: MetalLinkNode {
     let sourceWord: String
     let glyphs: CodeGridNodes
     let parentGrid: CodeGrid
+    private var isHidden: Bool = false
+    private lazy var visibleScale: LFloat3 = scale
+    
+    // ForceLayoutNode implementation
+    var velocity: LFloat3 = .zero
+    var force: LFloat3 = .zero
+    var mass: Float = .zero
+    var targetGraph: Graph<String, String, Float>?
+    lazy var forceNode = ForceLayoutNode.newZero()
     
     init(
         sourceWord: String,
@@ -44,7 +54,7 @@ class WordNode: MetalLinkNode {
         push()
     }
     
-    func  applyGlyphChanges(
+    func applyGlyphChanges(
         _ receiver: @escaping (GlyphNode, inout GlyphConstants) -> Void
     ) {
         for glyph in glyphs {
@@ -72,5 +82,19 @@ class WordNode: MetalLinkNode {
     
     private func push() {
         parentGrid.pushNodes(glyphs)
+    }
+}
+
+
+extension WordNode {
+    func hideNode() {
+        guard !isHidden else { return }
+        isHidden = true
+        
+    }
+    
+    func showNode() {
+        guard isHidden else { return }
+        isHidden = false
     }
 }

@@ -32,7 +32,6 @@ struct MobileAppRootView : View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            
             VStack {
                 Button(action: {
                     showGitFetch.toggle()

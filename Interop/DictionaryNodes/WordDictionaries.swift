@@ -39,6 +39,7 @@ struct WordnikWord: Codable, Hashable, Equatable {
 }
 
 typealias WordnikMap = [String: [String]]
+
 struct WordnikGameDictionary: Codable, Hashable, Equatable {
     var words: [WordnikWord]
     var map: WordnikMap
@@ -71,17 +72,18 @@ struct WordnikGameDictionary: Codable, Hashable, Equatable {
         word: WordnikWord,
         map: inout WordnikMap
     ) {
-        let definitionWords = word.df.lazy.compactMap {
-            $0.txt.splitToWords.map {
-                $0.dewordnikked
+        let definitionWords = word.df.lazy.reduce(into: Set<String>()) { result, value in
+            value.txt.splitToWords.lazy.forEach { word in
+                result.insert(word.dewordnikked)
             }
-        }.flatMap { $0 }
-        let finalWords = Array(Set(definitionWords))
+        }
+        
+        let finalWords = Array(definitionWords)
         map[word.word.dewordnikked, default: []].append(contentsOf: finalWords)
-        finalWords.lazy.forEach { definitionWord in
-            if !map.keys.contains(where: { $0 == definitionWord }) {
-                map[definitionWord] = []
-            }
+        
+        finalWords.forEach { definitionWord in
+            guard map[definitionWord] == nil else { return }
+            map[definitionWord] = []
         }
     }
 }
@@ -99,7 +101,7 @@ extension WordGraph {
     mutating func addWeightBetween(source: String, target: String) {
         insert(target)
         add(
-            0.01,
+            0.1,
             toEdgeWith: WordGraph.Edge(
                 from: source,
                 to: target
@@ -109,6 +111,7 @@ extension WordGraph {
 }
 
 typealias WordGraph = Graph<String, String, Float>
+
 struct WordDictionary {
     var words: [String: [String]]
     var graph: WordGraph

@@ -31,6 +31,16 @@ class GridInteractionState {
         let gridStream = hoverController.sharedGridEvent
         let mouseStream = input.sharedMouseDown
         
+        gridStream
+            .removeDuplicates(by: {
+                $0.latestState?.targetGrid.id == $1.latestState?.targetGrid.id
+            })
+            .sink {
+                $0.latestState?.targetGrid.showName()
+                $0.maybeLasteState?.targetGrid.hideName()
+            }
+            .store(in: &bag)
+        
         mouseStream
             .combineLatest(
                 glyphStream,

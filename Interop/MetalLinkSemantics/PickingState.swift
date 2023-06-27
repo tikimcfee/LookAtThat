@@ -54,6 +54,17 @@ struct GridPickingState {
         case matchesLast(last: GridPickingState, new: GridPickingState)
         case foundNew(last: GridPickingState?, new: GridPickingState)
         
+        var maybeLasteState: GridPickingState? {
+            switch self {
+            case let .useLast(.some(last)),
+                let .matchesLast(last, _),
+                let .foundNew(.some(last), _):
+                return last
+            default:
+                return nil
+            }
+        }
+        
         var latestState: GridPickingState? {
             switch self {
             case let .useLast(.some(state)),

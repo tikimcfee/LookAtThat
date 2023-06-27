@@ -51,6 +51,7 @@ public class CodeGrid: Identifiable, Equatable {
     let semanticInfoBuilder: SemanticInfoBuilder = SemanticInfoBuilder()
     
     private(set) var rootNode: GlyphCollection
+    private var nameNode: WordNode?
     let tokenCache: CodeGridTokenCache
     let gridBackground: BackgroundQuad
     var updateVirtualParentConstants: ParentUpdater?
@@ -67,6 +68,52 @@ public class CodeGrid: Identifiable, Equatable {
         self.gridBackground = BackgroundQuad(rootNode.link) // TODO: Link dependency feels lame
         
         setupOnInit()
+    }
+    
+    func applyName() -> CodeGrid {
+        guard nameNode == nil else { return self }
+        guard let sourcePath else { return self }
+        let isDirectory = sourcePath.isDirectory
+        
+        let (_, nodes) = consume(text: fileName)
+        let nameNode = WordNode(
+            sourceWord: fileName,
+            glyphs: nodes,
+            parentGrid: self
+        )
+        
+        let nameColor = isDirectory
+            ? LFloat4(0.33, 0.75, 0.45, 1.0)
+            : LFloat4(1.00, 0.00, 0.00, 1.0)
+        
+        nameNode.update { nameNode in
+            nameNode.position = LFloat3(0.0, 4.0, 0.0)
+            nameNode.scale = LFloat3(repeating: 4.0)
+            nameNode.applyGlyphChanges { node, constants in
+                constants.addedColor = nameColor
+            }
+        }
+        
+        setNameNode(nameNode)
+        return self
+    }
+    
+    func setNameNode(_ node: WordNode) {
+        if let nameNode {
+            targetNode.remove(child: nameNode)
+            targetNode.unbindAsVirtualParentOf(nameNode)
+        }
+        targetNode.add(child: node)
+        targetNode.bindAsVirtualParentOf(node)
+        self.nameNode = node
+    }
+    
+    func hideName() {
+        nameNode?.hideNode()
+    }
+    
+    func showName() {
+        nameNode?.showNode()
     }
     
     func removeBackground() {
@@ -89,7 +136,7 @@ public class CodeGrid: Identifiable, Equatable {
 //        rootNode.bindAsVirtualParentOf(other.rootNode)
         childGrids.append(other)
         
-//        rootNode.enumerateNonInstancedChildren = true
+        rootNode.enumerateNonInstancedChildren = true
     }
     
     func removeChildGrid(_ other: CodeGrid) {
@@ -97,9 +144,9 @@ public class CodeGrid: Identifiable, Equatable {
 //        rootNode.unbindAsVirtualParentOf(other.rootNode)
         childGrids.removeAll(where: { $0.id == other.id })
         
-//        if childGrids.isEmpty {
-//            rootNode.enumerateNonInstancedChildren = false
-//        }
+        if childGrids.isEmpty {
+            rootNode.enumerateNonInstancedChildren = false
+        }
     }
     
     func updateNode(

@@ -76,6 +76,8 @@ extension TestBundle {
 }
 
 extension TestBundle {
+    static let dictionaryFile = "file:///Users/lugos/udev/manicmind/LookAtThat/Resources/dictionary_simple.json"
+        
     static let rewriteDirectories = [
         "/Users/lugos/udev/manicmind/LookAtThat"
     ]

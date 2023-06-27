@@ -8,7 +8,171 @@
 import Foundation
 import MetalLink
 import MetalLinkHeaders
+import MetalLinkResources
+import Metal
 
+struct LForceLayout2 {
+    func doItBetter (
+        device: MTLDevice,
+        library: MTLLibrary,
+        nodes: [ForceLayoutNode],
+        edges: [ForceLayoutEdge]
+    ) throws {
+        guard let commandQueue = device.makeCommandQueue()
+        else {
+            print("[\(#fileID)] - No queue, no fun")
+            return
+        }
+        commandQueue.label = "ForceQueue"
+        
+        guard let function = library.makeFunction(name: "calculate_forces")
+        else {
+            print("[\(#fileID)] - No function, no fun")
+            return
+        }
+        function.label = "ForceFunction"
+        
+        guard let pipelineState = try? device.makeComputePipelineState(function: function)
+        else {
+            print("[\(#fileID)] - No pipe, no fun")
+            return
+        }
+        
+        // TODO: Map to C++ header type
+        var nodes = nodes
+        var edges = edges
+        
+        // Create buffers for nodes and edges
+        var edgeCount = edges.count
+        guard
+            let nodeBuffer = device.makeBuffer(bytes: &nodes, length: MemoryLayout<ForceLayoutNode>.stride * nodes.count, options: []),
+            let edgeBuffer = device.makeBuffer(bytes: &edges, length: MemoryLayout<ForceLayoutEdge>.stride * edges.count, options: []),
+            let edgeCountBuffer = device.makeBuffer(bytes: &edgeCount, length: MemoryLayout<Int>.stride, options: [])
+        else {
+            print("[\(#fileID)] - No Buffers")
+            return
+        }
+        nodeBuffer.label = "WordNodeBuffer"
+        edgeBuffer.label = "EdgeBuffer"
+        edgeCountBuffer.label = "EdgeCountBuffer"
+
+        // Create a command buffer
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+        commandBuffer.label = "ForceCommandBuffer"
+
+        // Create a compute command encoder
+        let computeEncoder = commandBuffer.makeComputeCommandEncoder()!
+        computeEncoder.label = "ForceComputeEncoder"
+
+        // Set the compute pipeline state
+        computeEncoder.setComputePipelineState(pipelineState)
+
+        // Set the buffers
+        computeEncoder.setBuffer(nodeBuffer, offset: 0, index: 0)
+        computeEncoder.setBuffer(edgeBuffer, offset: 0, index: 1)
+        computeEncoder.setBuffer(edgeCountBuffer, offset: 0, index: 2)
+
+        // Calculate the thread groups
+//        let w = pipelineState.threadExecutionWidth
+//        let h = pipelineState.maxTotalThreadsPerThreadgroup / w
+        
+        // Dispatch the threads
+        let threadsPerThreadgroup = MTLSize(width: pipelineState.threadExecutionWidth, height: 1, depth: 1)
+        let threadgroupsPerGrid = MTLSize(width: (nodes.count + threadsPerThreadgroup.width - 1) / threadsPerThreadgroup.width, height: 1, depth: 1)
+        computeEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+
+        // End encoding
+        computeEncoder.endEncoding()
+
+        // Commit the command buffer
+        commandBuffer.commit()
+
+        // Wait for the command buffer to complete execution
+        commandBuffer.waitUntilCompleted()
+
+        // Read the data back from the buffer
+        let data = Data(
+            bytesNoCopy: nodeBuffer.contents(),
+            count: MemoryLayout<ForceLayoutNode>.stride * nodes.count,
+            deallocator: .none
+        )
+        
+        nodes = data.withUnsafeBytes {
+            Array($0.bindMemory(to: ForceLayoutNode.self))
+        }
+    }
+    
+    func calculateForces(
+        nodes: inout [ForceLayoutNode],
+        edges: inout [ForceLayoutEdge]
+    ) {
+        for (index, node) in nodes.enumerated() {
+            // Reset forces
+            var node = node
+            node.force = .zero
+
+            // Calculate repulsive forces
+            for (otherIndex, otherNode) in nodes.enumerated() where otherIndex != index {
+                let dx = node.fposition.x - otherNode.fposition.x
+                let dy = node.fposition.y - otherNode.fposition.y
+                let dz = node.fposition.z - otherNode.fposition.z
+                let distance = sqrt(dx*dx + dy*dy + dz*dz)
+                
+                let force = (node.mass * otherNode.mass) / pow(distance, 2)
+                let forceDirection = (dx: dx/distance, dy: dy/distance, dz: dz/distance)
+                
+                node.force.x -= force * forceDirection.dx
+                node.force.y -= force * forceDirection.dy
+                node.force.z -= force * forceDirection.dz
+            }
+            nodes[index] = node
+        }
+
+        // Calculate attractive forces
+        for edge in edges {
+            var node1 = nodes[Int(edge.node1)]
+            var node2 = nodes[Int(edge.node2)]
+            
+            let dx = node1.fposition.x - node2.fposition.x
+            let dy = node1.fposition.y - node2.fposition.y
+            let dz = node1.fposition.z - node2.fposition.z
+            let distance = sqrt(dx*dx + dy*dy + dz*dz)
+            
+            let force = edge.strength * distance
+            let forceDirection = (dx: dx/distance, dy: dy/distance, dz: dz/distance)
+            
+            node1.force.x += force * forceDirection.dx
+            node1.force.y += force * forceDirection.dy
+            node1.force.z += force * forceDirection.dz
+            
+            node2.force.x -= force * forceDirection.dx
+            node2.force.y -= force * forceDirection.dy
+            node2.force.z -= force * forceDirection.dz
+            
+            nodes[Int(edge.node1)] = node1
+            nodes[Int(edge.node2)] = node2
+        }
+    }
+    
+    func updateNodes(nodes: inout [ForceLayoutNode], deltaTime: Float) {
+        for (index, node) in nodes.enumerated() {
+            // Update velocity
+            var node = node
+            node.velocity.x += node.force.x / node.mass * deltaTime
+            node.velocity.y += node.force.y / node.mass * deltaTime
+            node.velocity.z += node.force.z / node.mass * deltaTime
+
+            // Update position
+            node.fposition.x += node.velocity.x * deltaTime
+            node.fposition.y += node.velocity.y * deltaTime
+            node.fposition.z += node.velocity.z * deltaTime
+            nodes[index] = node
+        }
+    }
+    
+}
+    
+    
 struct LForceLayout {
     // Just being formal
     typealias Vertex = CodeGrid

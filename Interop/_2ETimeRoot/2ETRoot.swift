@@ -66,6 +66,7 @@ class TwoETimeRoot: MetalLinkReader {
 //        try setupWordWareSentence()
 //        try setupWordWarePLA()
 //        try setupDictionaryTest()
+        try setupFastGraphTest()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {

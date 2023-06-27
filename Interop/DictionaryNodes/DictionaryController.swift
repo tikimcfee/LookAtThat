@@ -9,7 +9,30 @@ import Foundation
 import MetalLink
 import BitHandling
 
+extension DictionaryController {
+    func makeBufferables() -> ([ForceLayoutNode], [ForceLayoutEdge]) {
+        var forceNodes = [ForceLayoutNode]()
+        let indexMappedNodes = nodeMap.values.enumerated().reduce(
+            into: [String: UInt32]()
+        ) { result, index in
+            result[index.element.sourceWord] = UInt32(index.offset)
+            forceNodes.append(index.element.forceNode)
+        }
+        
+        let edges = dictionary.graph.edges.map { edge in
+            ForceLayoutEdge(
+                node1: indexMappedNodes[edge.originID]!,
+                node2: indexMappedNodes[edge.destinationID]!,
+                strength: edge.weight
+            )
+        }
+        
+        return (forceNodes, edges)
+    }
+}
+
 class DictionaryController: ObservableObject {
+
     @Published var dictionary = WordDictionary()
     @Published var sortedDictionary = SortedDictionary()
     var nodeController = GlobalNodeController()
@@ -40,24 +63,94 @@ class DictionaryController: ObservableObject {
     
     var focusedWordNode: WordNode? {
         willSet {
-            guard newValue != focusedWordNode else { return }
-            
-            if let focusedWordNode {
-                defocusWord(focusedWordNode, defocusNested: true)
-            }
-            
-            if let newValue {
-                focusWord(newValue, focusNested: true)
-            } else {
-                if let rootNode = lastRootNode {
-                    if let lastLinkLine {
-                        rootNode.remove(child: lastLinkLine)
-                    }
-                }
+            onWillSetFocusedWordNode(newValue)
+        }
+    }
+    
+    func start() {
+        openFile { file in
+            switch file {
+            case .success(let url):
+                self.kickoffJsonLoad(url)
+                
+            case .failure(let error):
+                print(error)
+                break
             }
         }
     }
     
+    func start(with url: URL) {
+        kickoffJsonLoad(url)
+    }
+    
+    func start(then action: @escaping () -> Void) {
+        openFile { file in
+            switch file {
+            case .success(let url):
+                self.kickoffJsonLoad(url)
+                action()
+                
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    func kickoffJsonLoad(_ url: URL) {
+        if url.pathExtension == "wordnik" {
+            let parsedDictionary = WordnikGameDictionary(from: url)
+            let dictionary = WordDictionary(
+                words: parsedDictionary.map
+            )
+            self.dictionary = dictionary
+        } else {
+            let dictionary = WordDictionary(file: url)
+            self.dictionary = dictionary
+        }
+        self.sortedDictionary = SortedDictionary(dictionary: dictionary)
+    }
+    
+    func doWordChunking(using builder: CodeGridGlyphCollectionBuilder) {
+        let wordContainerGrid = builder.createGrid(
+            bufferSize: 15_500_000
+        )
+        wordContainerGrid.removeBackground()
+        
+        func consume(word: String) {
+            guard nodeMap[word] == nil else { return }
+            
+            let (_, sourceGlyphs) = wordContainerGrid.consume(text: word)
+            let sourceNode = WordNode(
+                sourceWord: word,
+                glyphs: sourceGlyphs,
+                parentGrid: wordContainerGrid
+            )
+            self.nodeMap[word] = sourceNode
+        }
+        
+        let chunkGroup = DispatchGroup()
+        for chunk in sortedDictionary.sorted.chunks(ofCount: 10_000) {
+            chunkGroup.enter()
+            WorkerPool.shared.nextWorker().async {
+                for (word, definitionPieces) in chunk {
+                    consume(word: word)
+                    
+                    for piece in definitionPieces {
+                        consume(word: piece)
+                    }
+                }
+                chunkGroup.leave()
+            }
+        }
+        chunkGroup.wait()
+        
+        print("[\(#fileID)] Chunked \(nodeMap.count) words")
+    }
+}
+
+extension DictionaryController {
     class Styler {
         enum Style {
             case rootWord
@@ -101,6 +194,28 @@ class DictionaryController: ObservableObject {
             
             word.position -= lastUpdate
             word.position += LFloat3(0.0, 0.0, depth)
+        }
+    }
+}
+
+// MARK: - Focusing
+extension DictionaryController {
+    
+    func onWillSetFocusedWordNode(_ newValue: WordNode?) {
+        guard newValue != focusedWordNode else { return }
+        
+        if let focusedWordNode {
+            defocusWord(focusedWordNode, defocusNested: true)
+        }
+        
+        if let newValue {
+            focusWord(newValue, focusNested: true)
+        } else {
+            if let rootNode = lastRootNode {
+                if let lastLinkLine {
+                    rootNode.remove(child: lastLinkLine)
+                }
+            }
         }
     }
     
@@ -197,31 +312,5 @@ class DictionaryController: ObservableObject {
                 }
             }
         }
-    }
-    
-    func start() {
-        openFile { file in
-            switch file {
-            case .success(let url):
-                self.kickoffJsonLoad(url)
-                
-            default:
-                break
-            }
-        }
-    }
-    
-    func kickoffJsonLoad(_ url: URL) {
-        if url.pathExtension == "wordnik" {
-            let parsedDictionary = WordnikGameDictionary(from: url)
-            let dictionary = WordDictionary(
-                words: parsedDictionary.map
-            )
-            self.dictionary = dictionary
-        } else {
-            let dictionary = WordDictionary(file: url)
-            self.dictionary = dictionary
-        }
-        self.sortedDictionary = SortedDictionary(dictionary: dictionary)
     }
 }

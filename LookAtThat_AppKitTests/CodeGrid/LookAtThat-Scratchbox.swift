@@ -13,6 +13,7 @@ import Foundation
 import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
+import BitHandling
 @testable import LookAtThat_AppKit
 
 class LookAtThat_ScratchboxTests: XCTestCase {
@@ -42,6 +43,44 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         try bundle.tearDownWithError()
         
         printEnd()
+    }
+    
+    func testSplittingFileReader() async throws {
+        let rawString = try String(contentsOf: bundle.testFile)
+        let reader = SplittingFileReader(targetURL: bundle.testFile)
+        let stream = reader.asyncLineStream()
+        
+        for await (line, start, stop, _) in stream {
+            let startIndex = rawString.startIndex
+            let offsetStartIndex = rawString.index(startIndex, offsetBy: start)
+            let offsetStopIndex = rawString.index(startIndex, offsetBy: stop)
+            XCTAssertEqual(line, String(rawString[offsetStartIndex..<offsetStopIndex]))
+        }
+        
+        let copyTarget = bundle.testFile.appendingPathExtension("__text")
+        if FileManager.default.isDeletableFile(atPath: copyTarget.path()) {
+            try FileManager.default.removeItem(at: copyTarget)
+        }
+        
+        try FileManager.default.copyItem(
+            at: bundle.testFile,
+            to: copyTarget
+        )
+        
+        let slowEditor = await TextFileEditor(targetURL: copyTarget)
+//        let indices = [0, 1, 2, 3, 4, 5, 10, 100, 1000, 5000, rawString.count - 1]
+        let indices = 0..<1000
+        for index in indices {
+            print(slowEditor.characterMetadata(at: index) as Any)
+        }
+    }
+    
+    func testFileBackedRope() async throws {
+        _ = try String(contentsOf: bundle.testFile)
+        let fileBackedRope = try FileBackedRope.from(fileURL: bundle.testFile)
+        let memoryRope = fileBackedRope.constructRope()
+        print(memoryRope?.weight as Any)
+
     }
     
     func testBufferReadWrite() throws {

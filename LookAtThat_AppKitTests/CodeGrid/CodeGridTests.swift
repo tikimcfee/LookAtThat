@@ -40,14 +40,11 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testDirectoriesFirst() throws {
         let root = try XCTUnwrap(URL(string: "file:///Users/lugos/udev/manicmind/LookAtThat/"), "Must have valid root")
-        
-        let allChildren = root.enumeratedChildren()
-        
+                
         root.enumeratedChildren()
             .filter { $0.isDirectory }
             .forEach {
                 print($0)
-                
             }
     }
    
