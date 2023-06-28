@@ -9,13 +9,12 @@ import UIKit
 import SwiftUI
 
 @main
-struct AppDelegate: App {
+struct MobileAppDelegate: App {
     
     var body: some Scene {
         WindowGroup(id: "glyphee") {
              
 //            MobileAppRootView()
-             CubeARView()
         }
      }
 }

@@ -337,7 +337,7 @@
 		F06CD5F9251479C400C94B84 /* SwiftSyntax+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CD5F8251479C400C94B84 /* SwiftSyntax+Extensions.swift */; };
 		F07C12AC250F1ABD00B08C7D /* GlobalAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C12AB250F1ABD00B08C7D /* GlobalAliases.swift */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
-		F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* AppDelegate.swift */; };
+		F07C49EA251C5AE800F28173 /* MobileAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* MobileAppDelegate.swift */; };
 		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
 		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
 		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
@@ -550,7 +550,7 @@
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThatMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F07C49E9251C5AE800F28173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F07C49E9251C5AE800F28173 /* MobileAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppDelegate.swift; sourceTree = "<group>"; };
 		F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppRootView.swift; sourceTree = "<group>"; };
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -1031,7 +1031,7 @@
 			isa = PBXGroup;
 			children = (
 				F07C49F1251C5AE900F28173 /* Preview Content */,
-				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
+				F07C49E9251C5AE800F28173 /* MobileAppDelegate.swift */,
 				B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */,
 				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
@@ -1607,7 +1607,7 @@
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
-				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
+				F07C49EA251C5AE800F28173 /* MobileAppDelegate.swift in Sources */,
 				B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
 				B78C19BC2A312DCD005A3A46 /* EmptyMetalDefaultLibraryFile.metal in Sources */,
 				B725167628C086060094F29B /* NumberConversions.swift in Sources */,
@@ -2021,6 +2021,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2055,6 +2059,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

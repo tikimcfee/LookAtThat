@@ -32,7 +32,11 @@ public typealias NSUIFont = UIFont
 public typealias NSUIBezierPath = UIBezierPath
 public typealias OSEvent = UIEvent
 public typealias VectorFloat = Float
-public typealias OSScreen = UIScreen
+
+    #if !os(xrOS)
+    public typealias OSScreen = UIScreen
+    #endif
+
 public typealias NSUIImage = UIImage
 public typealias NSUIViewRepresentable = UIViewRepresentable
 #endif
