@@ -58,7 +58,7 @@
 		B72AA4A528E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
 		B72AA4A828E780D300982928 /* CodeGridSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */; };
-		B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */; };
+		B72C67712A3D073900D987E4 /* XRRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* XRRoot.swift */; };
 		B730EEFB28EA638C00FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
 		B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */; };
 		B730EEFF28EA8A1600FE6E1D /* ForceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */; };
@@ -221,6 +221,7 @@
 		B79F93112750741900E46A96 /* CodeGridCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F930F2750741900E46A96 /* CodeGridCache.swift */; };
 		B79F931827509D3400E46A96 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931727509D3400E46A96 /* Stopwatch.swift */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
+		B7A0BBC82A4C81E00028D269 /* RealityGeometries in Frameworks */ = {isa = PBXBuildFile; productRef = B7A0BBC72A4C81E00028D269 /* RealityGeometries */; };
 		B7A60F8328B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
 		B7A60F8728B983F500ACA4E6 /* CharacterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */; };
@@ -445,7 +446,7 @@
 		B725167828C0871F0094F29B /* DeviceScaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScaling.swift; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72AA4A428E780D300982928 /* CodeGridSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridSelectionController.swift; sourceTree = "<group>"; };
-		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
+		B72C67702A3D073900D987E4 /* XRRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XRRoot.swift; sourceTree = "<group>"; };
 		B730EEFA28EA638C00FE6E1D /* ForceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLayout.swift; sourceTree = "<group>"; };
 		B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayoutController.swift; sourceTree = "<group>"; };
 		B74080582A3632DF00D0F217 /* 2ETTests+Dictionaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "2ETTests+Dictionaries.swift"; sourceTree = "<group>"; };
@@ -608,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B74CF40D29A2829000A30FD0 /* SwiftNodes in Frameworks */,
+				B7A0BBC82A4C81E00028D269 /* RealityGeometries in Frameworks */,
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
 				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
@@ -1032,7 +1034,7 @@
 			children = (
 				F07C49F1251C5AE900F28173 /* Preview Content */,
 				F07C49E9251C5AE800F28173 /* MobileAppDelegate.swift */,
-				B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */,
+				B72C67702A3D073900D987E4 /* XRRoot.swift */,
 				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
@@ -1243,6 +1245,7 @@
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
 				B74CF40C29A2829000A30FD0 /* SwiftNodes */,
 				B78C199A2A301CA9005A3A46 /* MetalLink */,
+				B7A0BBC72A4C81E00028D269 /* RealityGeometries */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -1290,6 +1293,7 @@
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
 				B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */,
 				B74CF40929A2827E00A30FD0 /* XCRemoteSwiftPackageReference "SwiftNodes" */,
+				B7A0BBC62A4C81E00028D269 /* XCRemoteSwiftPackageReference "RealityGeometries" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -1587,7 +1591,7 @@
 				B72AA4A728E780D300982928 /* CodeGridSelectionController.swift in Sources */,
 				B768B65F281F7B3B0098F8D0 /* ThreadExtensions.swift in Sources */,
 				B70808D5287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
-				B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */,
+				B72C67712A3D073900D987E4 /* XRRoot.swift in Sources */,
 				B7B1099128D6BBCC00AA4E37 /* WorldFocusView.swift in Sources */,
 				B7247A6929A0784D0073B98C /* Positioner.swift in Sources */,
 				F057D2662520464B0094BD83 /* UtilityGlobalsAndExtensions.swift in Sources */,
@@ -2160,6 +2164,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		B7A0BBC62A4C81E00028D269 /* XCRemoteSwiftPackageReference "RealityGeometries" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maxxfrazer/RealityGeometries.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
 		B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ChimeHQ/SwiftTreeSitter.git";
@@ -2275,6 +2287,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
+		};
+		B7A0BBC72A4C81E00028D269 /* RealityGeometries */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7A0BBC62A4C81E00028D269 /* XCRemoteSwiftPackageReference "RealityGeometries" */;
+			productName = RealityGeometries;
 		};
 		B7B1099828D817B400AA4E37 /* SwiftTreeSitter */ = {
 			isa = XCSwiftPackageProductDependency;

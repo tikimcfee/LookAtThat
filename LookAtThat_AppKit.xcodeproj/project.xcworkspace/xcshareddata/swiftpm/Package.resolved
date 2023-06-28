@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "realitygeometries",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maxxfrazer/RealityGeometries.git",
+      "state" : {
+        "revision" : "1469a67c00dafff7ecd20da02d8ee9375f2d84d3",
+        "version" : "1.0.3"
+      }
+    },
+    {
       "identity" : "rearrange",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ChimeHQ/Rearrange",
