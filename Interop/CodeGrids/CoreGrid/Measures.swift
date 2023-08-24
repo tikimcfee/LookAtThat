@@ -16,6 +16,7 @@ public protocol Measures: AnyObject {
     
     var rectPos: Bounds { get }
     var bounds: Bounds { get }
+    var liveBounds: Bounds { get }
     var position: LFloat3 { get set }
     var worldPosition: LFloat3 { get set }
     
@@ -97,6 +98,13 @@ public extension Measures {
 // MARK: - Named positions
 
 extension Measures {
+    var leading: VectorFloat { localLeading }
+    var trailing: VectorFloat { localTrailing }
+    var top: VectorFloat { localTop }
+    var bottom: VectorFloat { localBottom }
+    var front: VectorFloat { localFront }
+    var back: VectorFloat { localBack }
+    
     var localLeading: VectorFloat { bounds.min.x }
     var localTrailing: VectorFloat { bounds.max.x }
     var localTop: VectorFloat { bounds.max.y }
@@ -104,19 +112,12 @@ extension Measures {
     var localFront: VectorFloat { bounds.max.z }
     var localBack: VectorFloat { bounds.min.z }
     
-//    var leading: VectorFloat { rectPos.min.x }
-//    var trailing: VectorFloat { rectPos.max.x }
-//    var top: VectorFloat { rectPos.max.y }
-//    var bottom: VectorFloat { rectPos.min.y }
-//    var front: VectorFloat { rectPos.max.z }
-//    var back: VectorFloat { rectPos.min.z }
-    
-    var leading: VectorFloat { localLeading }
-    var trailing: VectorFloat { localTrailing }
-    var top: VectorFloat { localTop }
-    var bottom: VectorFloat { localBottom }
-    var front: VectorFloat { localFront }
-    var back: VectorFloat { localBack }
+    var liveLeading: VectorFloat { liveBounds.min.x }
+    var liveTrailing: VectorFloat { liveBounds.max.x }
+    var liveTop: VectorFloat { liveBounds.max.y }
+    var liveBottom: VectorFloat { liveBounds.min.y }
+    var liveFront: VectorFloat { liveBounds.max.z }
+    var liveBack: VectorFloat { liveBounds.min.z }
 }
 
 extension Measures {
@@ -173,12 +174,13 @@ extension Measures {
 }
 
 extension Measures {
-    func computeBoundingBox(convertParent: Bool = true) -> Bounds {
+    func computeBoundingBox(convertParent: Bool = true, useLive: Bool = false) -> Bounds {
         let computing = BoundsComputing()
         
         enumerateChildren { childNode in
-//            var safeBox = childNode.computeBoundingBox(convertParent: convertParent)
-            var safeBox = childNode.rectPos
+            var safeBox = useLive
+                ? childNode.computeBoundingBox(convertParent: convertParent)
+                : childNode.rectPos
             if convertParent {
                 safeBox.min = convertPosition(safeBox.min, to: parent)
                 safeBox.max = convertPosition(safeBox.max, to: parent)

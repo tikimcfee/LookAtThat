@@ -26,6 +26,7 @@ struct RenderPlan {
     
     class State {
         var orderedParents = OrderedDictionary<URL, CodeGrid>()
+        var directoryGroups = [CodeGrid: CodeGridGroup]()
     }
     var state = State()
     
@@ -100,71 +101,44 @@ private extension RenderPlan {
     }
     
     private func layoutFullGood() {
-        var positionZ: Float = 0.0
-        for (url, thisDirectoryParent) in state.orderedParents {
-//            print("url: ", url, "\ndir: ", directoryParent)
-            
-            
-            func attachDirectories() {
-                var directoryParentsParentURL = url.deletingLastPathComponent()
-                var directoryParentsParentGrid: CodeGrid?
-                while directoryParentsParentURL.pathComponents.count > 1, directoryParentsParentGrid == nil {
-                    directoryParentsParentGrid = state.orderedParents[directoryParentsParentURL]
-                    directoryParentsParentURL.deleteLastPathComponent()
-                }
-                
-                if let directoryParentsParentGrid {
-                    let position = getDirectoryBasedPosition(of: url)
-                    
-                    
-                    directoryParentsParentGrid.addChildGrid(thisDirectoryParent.translated(deltaPosition: position))
-                } else {
-                    targetParent.add(
-                        child: thisDirectoryParent.rootNode.translated(
-                            dY: 0.0,
-                            dZ: positionZ
-                        )
-                    )
+        let rootGrid = builder.sharedGridCache.setCache(rootPath)
+        let globalGroup = CodeGridGroup(globalRootGrid: rootGrid)
+        targetParent.add(child: rootGrid.rootNode)
+        
+        FileBrowser.recursivePaths(rootPath).forEach { childPath in
+            guard let grid = builder.sharedGridCache.get(childPath) else { return }
+            if FileBrowser.isSupportedFileType(childPath) {
+                if let parent = firstParentGroupOf(target: childPath) {
+                    parent.updateGroup(.inNextRow(grid))
                 }
             }
-            attachDirectories()
-            
-            var childPositionX: Float = 0.0
-            for url in url.children(recursive: false) {
-                if url.isDirectory {
-//                    let parentOfDirectory = url.parent
-                } else {
-                    if let grid = self.builder.sharedGridCache.get(url) {
-                        thisDirectoryParent.addChildGrid(
-                            grid.translated(
-                                dX: childPositionX,
-                                dY: getDirectoryBasedPosition(of: url).y
-                            )
-                        )
-                        childPositionX += grid.boundsWidth + 32
-                    }
-                }
-                
-            }
-            
-            positionZ += 100
         }
+        
+        FileBrowser.recursivePaths(rootPath).reversed().forEach { childPath in
+            guard let grid = builder.sharedGridCache.get(childPath) else { return }
+            if childPath.isDirectory {
+                if let parent = firstParentGroupOf(target: childPath) {
+                    parent.updateGroup(.trailingFromLastGrid(grid))
+                } else {
+                    globalGroup.updateGroup(.inNextRow(grid))
+                }
+            }
+        }
+
         addParentWalls()
     }
     
-//    private func layoutWide() {
-//        let calculator = DirectoryCalculator()
-//        let _ = calculator.computeTotalSizeOfDirectory(at: rootPath)
-//        calculator.traverseTreeSecondPass_Y(root: rootPath)
-//
-//        for (url, position) in calculator.positionDict {
-//            if let grid = self.builder.sharedGridCache.get(url) {
-//                grid.position = LFloat3(position.0, position.1, position.2)
-//                targetParent.add(child: grid.rootNode)
-//            }
-//        }
-//        addParentWalls()
-//    }
+    func firstParentGroupOf(target: URL) -> CodeGridGroup? {
+        var parentURL = target.deletingLastPathComponent()
+        var parentGrid: CodeGrid?
+        var parentGroup: CodeGridGroup?
+        while parentURL.pathComponents.count > 1, parentGroup == nil {
+            parentGrid = state.orderedParents[parentURL]
+            parentGroup = parentGrid.map { state.directoryGroups[$0] } ?? nil
+            parentURL.deleteLastPathComponent()
+        }
+        return parentGroup
+    }
     
     func getDirectoryBasedPosition(
         of url: URL,
@@ -183,34 +157,6 @@ private extension RenderPlan {
         )
     }
     
-//    private func layoutLazyBox() {
-//        // MARK: - Do final layout
-//        let xGap = 16.float
-//        var lastDirectory: CodeGrid?
-//        let layout = DepthLayout()
-//
-//        for (url, directoryParent) in state.orderedParents {
-//            let sortedLayoutChildren = directoryParent.rootNode.children.sorted(
-//                by: { $0.lengthY < $1.lengthY }
-//            )
-//            layout.layoutGrids(sortedLayoutChildren)
-//
-//            let directoryPlanePosition = getDirectoryBasedPosition(of: url)
-//            directoryParent.translated(dY: directoryPlanePosition.y)
-//
-//            if let lastDirectory = lastDirectory {
-//                directoryParent
-//                    .setFront(directoryPlanePosition.z)
-//                    .setLeading(lastDirectory.trailing + xGap)
-//                    .setTop(lastDirectory.bottom + 32)
-//            }
-//
-//            lastDirectory = directoryParent
-//        }
-//
-//        addParentWalls()
-//    }
-    
     func addParentWalls() {
         for (url, thisParent) in state.orderedParents {
             let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
@@ -227,9 +173,6 @@ private extension RenderPlan {
                     computing.consumeBounds(grid.bounds)
                 }
             }
-//            thisParent.childGrids.forEach {
-//                computing.consumeBounds($0.bounds)
-//            }
             let bounds = computing.bounds
             let size = BoundsSize(bounds)
             
@@ -255,13 +198,15 @@ private extension RenderPlan {
             thisParent.rootNode.add(child: gridTopWall)
             thisParent.rootNode.add(child: gridRightWall)
             
-            var lineParent = url.deletingLastPathComponent()
-            var thisParentParent: CodeGrid?
-            while lineParent.pathComponents.count > 1, thisParentParent == nil {
-                thisParentParent = state.orderedParents[lineParent]
-                lineParent.deleteLastPathComponent()
-            }
             
+            // TODO: Lines maybe; generalize this (LineDrawer.addChildLineToOtherWorldNode())
+//            var lineParent = url.deletingLastPathComponent()
+//            var thisParentParent: CodeGrid?
+//            while lineParent.pathComponents.count > 1, thisParentParent == nil {
+//                thisParentParent = state.orderedParents[lineParent]
+//                lineParent.deleteLastPathComponent()
+//            }
+//
 //            if let thisParentParent {
 //                let line = MetalLinkLine(GlobalInstances.defaultLink)
 //                line.setColor(LFloat4(1.0, 0.8, 0.1, 1.0))
@@ -311,6 +256,7 @@ private extension RenderPlan {
                 } else if childPath.isDirectory {
                     let childDirectoryGrid = builder.sharedGridCache.setCache(childPath)
                     state.orderedParents[childPath] = childDirectoryGrid
+                    state.directoryGroups[childDirectoryGrid] = CodeGridGroup(globalRootGrid: childDirectoryGrid)
 //                    targetParent.add(child: childDirectoryGrid.rootNode)
                 }
             }

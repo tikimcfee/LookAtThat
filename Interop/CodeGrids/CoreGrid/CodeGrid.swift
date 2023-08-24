@@ -222,6 +222,10 @@ extension CodeGrid: Measures {
         targetNode.bounds
     }
     
+    public var liveBounds: Bounds {
+        targetNode.liveBounds
+    }
+    
     public var boundsCacheKey: BoundsKey {
         targetNode
     }

@@ -9,9 +9,9 @@ import Foundation
 import simd
 import MetalLink
 
-var default__VerticalSpacing: VectorFloat = 4.0
-var default__HorizontalSpacing: VectorFloat = 4.0
-var default__PlaneSpacing: VectorFloat = 32.0
+var default__VerticalSpacing: VectorFloat = 32.0
+var default__HorizontalSpacing: VectorFloat = 32.0
+var default__PlaneSpacing: VectorFloat = 128.0
 var default__CameraSpacingFromPlaneOnShift: VectorFloat = 64.0
 
 class WorldGridEditor {

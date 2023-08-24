@@ -139,37 +139,51 @@ class DirectoryCalculator {
 
 class CodeGridGroup {
     
-    let globalRootNode: MetalLinkNode
-    let childGroups: [CodeGridGroup] = []
+    let globalRootGrid: CodeGrid
+    public var childGroups: [CodeGridGroup] = []
     
     let editor = WorldGridEditor()
     var grids = [CodeGrid]()
     
-    init(globalRootNode: MetalLinkNode) {
-        self.globalRootNode = globalRootNode
+    var groupStyleHistory: [WorldGridEditor.AddStyle] = []
+    
+    init(globalRootGrid: CodeGrid) {
+        self.globalRootGrid = globalRootGrid
     }
     
-    func appendGrid(_ grid: CodeGrid) {
-        globalRootNode.add(child: grid.rootNode)
-        editor.transformedByAdding(.trailingFromLastGrid(grid))
-        
-        horizontalUpdate(from: grid)
+    func updateGroup(_ style: WorldGridEditor.AddStyle) {
+        let grid = style.grid
+        globalRootGrid.addChildGrid(grid)
+        editor.transformedByAdding(style)
+        groupStyleHistory.append(style)
     }
     
     func removeGrid(_ grid: CodeGrid) {
+        globalRootGrid.removeChildGrid(grid)
         editor.snapping.detachRetaining(grid)
-        
-        if let grid = editor.lastFocusedGrid {
-            horizontalUpdate(from: grid)
-        }
+        groupStyleHistory.removeAll(where: { $0.grid.id == grid.id })
     }
     
-    func horizontalUpdate(from grid: CodeGrid) {
-        var grids = [CodeGrid]()
+    func alignAllSiblingsOfGrid(grid: CodeGrid) {
+        var grids = [grid]
         editor.snapping.iterateOver(grid, direction: .left) { lastGrid, grid, _ in
+            grids.insert(grid, at: 0)
+        }
+        editor.snapping.iterateOver(grid, direction: .right) { lastGrid, grid, _ in
             grids.append(grid)
         }
         HorizontalLayout().layoutGrids(grids)
+    }
+    
+    func stackLayout(from grid: CodeGrid) {
+        var grids = [grid]
+        editor.snapping.iterateOver(grid, direction: .backward) { lastGrid, grid, _ in
+            grids.insert(grid, at: 0)
+        }
+        editor.snapping.iterateOver(grid, direction: .forward) { lastGrid, grid, _ in
+            grids.append(grid)
+        }
+        DepthLayout().layoutGrids(grids)
     }
 }
 
