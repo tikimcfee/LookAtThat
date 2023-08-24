@@ -116,7 +116,7 @@ private extension RenderPlan {
                 if let directoryParentsParentGrid {
                     let position = getDirectoryBasedPosition(of: url)
                     
-                    directoryParentsParentGrid.childGrids.last?.bounds.max.x + 32
+                    
                     directoryParentsParentGrid.addChildGrid(thisDirectoryParent.translated(deltaPosition: position))
                 } else {
                     targetParent.add(
