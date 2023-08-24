@@ -50,7 +50,7 @@ class SemanticInfoBuilder {
         case .protocolDecl(let protol):
             newInfo = makeProtocolInfo(for: node, fileName: fileName, protol)
             
-        case .typealiasDecl(let typel):
+        case .typeAliasDecl(let typel):
             newInfo = makeTypeAliasInfo(for: node, fileName: fileName, typel)
             
         case .enumDecl(let enuml):

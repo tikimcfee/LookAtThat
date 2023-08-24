@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
+		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
+		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
 		B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
@@ -187,7 +189,6 @@
 		B78159F7273E05EA00212176 /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
 		B78159FD273E07E800212176 /* WorldGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7219725273742B400E1CB60 /* WorldGrid.swift */; };
 		B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74E7A762676F61E0021299F /* StateCapturingVisitor.swift */; };
-		B78C19992A301C9B005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C19982A301C9B005A3A46 /* MetalLink */; };
 		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
 		B78C19AE2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
 		B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78C19A72A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift */; };
@@ -579,9 +580,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				456E5FD92A97B050001E0166 /* MetalLink in Frameworks */,
 				B74CF40B29A2827E00A30FD0 /* SwiftNodes in Frameworks */,
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
-				B78C19992A301C9B005A3A46 /* MetalLink in Frameworks */,
 				B75250F42814CEF500820412 /* SwiftTrace in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
@@ -590,6 +591,7 @@
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
 				B7CBD76628FCCC8400A918C2 /* SwiftParser in Frameworks */,
+				456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
 				B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */,
 			);
@@ -874,13 +876,6 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
-		B7CCE7412A3BF005005457DE /* Realities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Realities;
-			sourceTree = "<group>";
-		};
 		B7E9004A28FCB26B00EC2018 /* GridInteraction */ = {
 			isa = PBXGroup;
 			children = (
@@ -917,7 +912,6 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
-				B7CCE7412A3BF005005457DE /* Realities */,
 				B7A392382A301B8B00FAA9E4 /* Packages */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
 				F0C91E01251EB7B80082E3B2 /* Interop */,
@@ -1188,7 +1182,8 @@
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
 				B74CF40A29A2827E00A30FD0 /* SwiftNodes */,
-				B78C19982A301C9B005A3A46 /* MetalLink */,
+				456E5FD82A97B050001E0166 /* MetalLink */,
+				456E5FDA2A97B05D001E0166 /* BitHandling */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -1906,10 +1901,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				DEVELOPMENT_TEAM = 5F5H835QPF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -1932,10 +1928,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				DEVELOPMENT_TEAM = 5F5H835QPF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -2195,6 +2192,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		456E5FD82A97B050001E0166 /* MetalLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetalLink;
+		};
+		456E5FDA2A97B05D001E0166 /* BitHandling */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BitHandling;
+		};
 		B713405528170F88005E0E31 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
@@ -2244,10 +2249,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B7661B562829DF0C001F185B /* XCRemoteSwiftPackageReference "CodeEditorView" */;
 			productName = CodeEditorView;
-		};
-		B78C19982A301C9B005A3A46 /* MetalLink */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MetalLink;
 		};
 		B78C199A2A301CA9005A3A46 /* MetalLink */ = {
 			isa = XCSwiftPackageProductDependency;

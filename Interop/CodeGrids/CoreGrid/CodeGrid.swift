@@ -54,7 +54,6 @@ public class CodeGrid: Identifiable, Equatable {
     private var nameNode: WordNode?
     let tokenCache: CodeGridTokenCache
     let gridBackground: BackgroundQuad
-    var updateVirtualParentConstants: ParentUpdater?
     
     var targetNode: MetalLinkNode { rootNode }
     var backgroundID: InstanceIDType { gridBackground.constants.pickingId }
@@ -101,10 +100,8 @@ public class CodeGrid: Identifiable, Equatable {
     func setNameNode(_ node: WordNode) {
         if let nameNode {
             targetNode.remove(child: nameNode)
-            targetNode.unbindAsVirtualParentOf(nameNode)
         }
         targetNode.add(child: node)
-        targetNode.bindAsVirtualParentOf(node)
         self.nameNode = node
     }
     
@@ -132,18 +129,14 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     func addChildGrid(_ other: CodeGrid) {
-//        rootNode.add(child: other.rootNode)
-//        rootNode.bindAsVirtualParentOf(other.rootNode)
         childGrids.append(other)
-        
+        rootNode.add(child: other.rootNode)
         rootNode.enumerateNonInstancedChildren = true
     }
     
     func removeChildGrid(_ other: CodeGrid) {
-//        rootNode.remove(child: other.rootNode)
-//        rootNode.unbindAsVirtualParentOf(other.rootNode)
         childGrids.removeAll(where: { $0.id == other.id })
-        
+        rootNode.remove(child: other.rootNode)
         if childGrids.isEmpty {
             rootNode.enumerateNonInstancedChildren = false
         }
@@ -199,12 +192,6 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     private func setupOnInit() {
-        rootNode.modelEvents.sink { updatedBufferMatrix in
-            self.updateVirtualParentConstants? {
-                $0.modelMatrix = updatedBufferMatrix
-            }
-        }.store(in: &rootNode.eventBag)
-        
         rootNode.add(child: gridBackground)
         gridBackground.constants.pickingId = InstanceCounter.shared.nextGridId()
     }
@@ -336,6 +323,15 @@ extension CodeGrid {
     ) -> CodeGrid {
         laztrace(#fileID,#function,dX,dY,dZ)
         position = position.translated(dX: dX, dY: dY, dZ: dZ)
+        return self
+    }
+    
+    @discardableResult
+    func translated(
+        deltaPosition: LFloat3 = .zero
+    ) -> CodeGrid {
+        laztrace(#fileID,#function,deltaPosition)
+        position += deltaPosition
         return self
     }
     

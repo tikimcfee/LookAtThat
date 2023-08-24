@@ -210,7 +210,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
-//            testGrid.virtualParent?.update(deltaTime: 0.0167)
             let testBounds = BoundsComputing()
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 for node in nodeSet {

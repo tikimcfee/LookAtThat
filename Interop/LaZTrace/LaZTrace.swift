@@ -201,23 +201,23 @@ class TraceCapturingRewriter: SyntaxRewriter {
 //        )
 //        return DeclSyntax(laztraceNode)
 //    }
-    
-    func laztraceExpression(_ arguments: [TupleExprElementSyntax]) -> FunctionCallExprSyntax {
-        FunctionCallExprSyntax(
-            calledExpression: ExprSyntax(
-                IdentifierExprSyntax(
-                    identifier: TokenSyntax.identifier(traceFunctionName),
-                    declNameArguments: nil
-                )
-            ),
-            leftParen: TokenSyntax.leftParenToken(),
-            argumentList: TupleExprElementListSyntax(arguments),
-            rightParen: TokenSyntax.rightParenToken(),
-            trailingClosure: nil,
-            additionalTrailingClosures: nil
-        )
-    }
-    
+//
+//    func laztraceExpression(_ arguments: [TupleExprElementSyntax]) -> FunctionCallExprSyntax {
+//        FunctionCallExprSyntax(
+//            calledExpression: ExprSyntax(
+//                IdentifierExprSyntax(
+//                    identifier: TokenSyntax.identifier(traceFunctionName),
+//                    declNameArguments: nil
+//                )
+//            ),
+//            leftParen: TokenSyntax.leftParenToken(),
+//            argumentList: TupleExprElementListSyntax(arguments),
+//            rightParen: TokenSyntax.rightParenToken(),
+//            trailingClosure: nil,
+//            additionalTrailingClosures: nil
+//        )
+//    }
+//    
 //    func tupleExprFromFunctionParam(_ param: FunctionParameterListSyntax.Element) -> TupleExprElementSyntax {
 //        let callingName = param.secondName ?? param.firstName
 //        let element = TupleExprElementSyntax(

@@ -83,19 +83,12 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         _ color: NSUIColor,
         _ writtenNodeSet: inout CodeGridNodes
     ) {
-        // Fetch parent buffer index to set for all new written nodes
-        var parentBufferIndex: IndexedBufferType = .zero
-        targetGrid.updateVirtualParentConstants? {
-            parentBufferIndex = $0.bufferIndex
-        }
-        
         for newCharacter in string {
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
 
             writer.addGlyph(glyphKey) { glyph, constants in
                 glyph.meta.syntaxID = nodeID
                 writtenNodeSet.append(glyph)
-                constants.parentIndex = parentBufferIndex
             }
         }
     }

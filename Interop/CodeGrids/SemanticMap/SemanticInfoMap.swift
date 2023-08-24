@@ -151,7 +151,7 @@ extension SemanticInfoMap {
         switch syntaxEnum {
         case .protocolDecl:
             action(&protocols)
-        case .typealiasDecl:
+        case .typeAliasDecl:
             action(&typeAliases)
         case .variableDecl:
             action(&variables)

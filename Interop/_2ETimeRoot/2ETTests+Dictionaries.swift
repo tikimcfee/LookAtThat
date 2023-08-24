@@ -233,7 +233,6 @@ extension TwoETimeRoot {
             counter += 1.0
         }.runUntil { false }
         
-//        root.bindAsVirtualParentOf(grid.rootNode)
         root.add(child: wordContainerGrid.rootNode)
     }
 }

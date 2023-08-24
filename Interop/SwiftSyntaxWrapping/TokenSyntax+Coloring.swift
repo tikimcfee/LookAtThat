@@ -19,6 +19,7 @@ public extension TokenSyntax {
     static let rawRegexString = NSUIColor(displayP3Red: 0.4, green: 0.4, blue: 0.9, alpha: 1.0)
     static let rawRegexStringSlash = NSUIColor(displayP3Red: 0.8, green: 0.7, blue: 0.9, alpha: 1.0)
     static let stringLiteral = NSUIColor(displayP3Red: 0.8, green: 0.3, blue: 0.2, alpha: 1.0)
+    static let numericLiteral = NSUIColor(displayP3Red: 0.123, green: 0.34, blue: 0.45, alpha: 1.0)
     static let valueToken = NSUIColor(displayP3Red: 0.5, green: 0.5, blue: 0.0, alpha: 1.0)
     static let operatorToken = NSUIColor(displayP3Red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
     static let wildcard = NSUIColor(displayP3Red: 0.3, green: 0.4, blue: 0.1234007, alpha: 1.0)
@@ -26,7 +27,8 @@ public extension TokenSyntax {
     
     var defaultColor: NSUIColor {
         switch tokenKind {
-        case .eof:
+        
+        case .endOfFile:
             return NSUIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         case .keyword(_):
             return Self.languageKeywords
@@ -38,9 +40,9 @@ public extension TokenSyntax {
             return Self.standardScopeColor
         case .rightBrace:
             return Self.standardScopeColor
-        case .leftSquareBracket:
+        case .leftSquare:
             return Self.standardScopeColor
-        case .rightSquareBracket:
+        case .rightSquare:
             return Self.standardScopeColor
         case .leftAngle:
             return Self.standardScopeColor
@@ -84,21 +86,19 @@ public extension TokenSyntax {
             return Self.standardScopeColor
         case .multilineStringQuote:
             return Self.standardScopeColor
-        case .poundSourceLocationKeyword:
+        case .poundSourceLocation:
             return Self.actionableTokenColor
-        case .poundIfKeyword:
+        case .poundIf:
             return Self.actionableTokenColor
-        case .poundElseKeyword:
+        case .poundElse:
             return Self.actionableTokenColor
-        case .poundElseifKeyword:
+        case .poundElseif:
             return Self.actionableTokenColor
-        case .poundEndifKeyword:
+        case .poundEndif:
             return Self.actionableTokenColor
-        case .poundAvailableKeyword:
+        case .poundAvailable:
             return Self.actionableTokenColor
         case .integerLiteral(_):
-            return Self.valueToken
-        case .floatingLiteral(_):
             return Self.valueToken
         case .unknown(_):
             return Self.unknownToken
@@ -108,22 +108,26 @@ public extension TokenSyntax {
             return Self.standardScopeColor
         case .dollarIdentifier(_):
             return Self.actionableTokenColor
-        case .rawStringDelimiter(_):
-            return Self.valueToken
         case .stringSegment(_):
             return Self.valueToken
         case .regexLiteralPattern(_):
             return Self.rawRegexString
         case .binaryOperator(_):
             return Self.operatorToken
-        case .extendedRegexDelimiter(_):
-            return Self.rawRegexString
-        case .poundUnavailableKeyword:
+        case .poundUnavailable:
             return Self.languageKeywords
         case .regexSlash:
             return Self.rawRegexStringSlash
         case .wildcard:
             return Self.wildcard
+        case .floatLiteral(_):
+            return Self.numericLiteral
+        case .rawStringPoundDelimiter(_):
+            return Self.languageKeywords
+        case .regexPoundDelimiter(_):
+            return Self.languageKeywords
+        case .shebang(_):
+            return Self.languageKeywords
         }
     }
 }

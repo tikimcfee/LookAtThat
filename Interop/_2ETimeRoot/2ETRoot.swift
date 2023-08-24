@@ -66,20 +66,11 @@ class TwoETimeRoot: MetalLinkReader {
 //        try setupWordWareSentence()
 //        try setupWordWarePLA()
 //        try setupDictionaryTest()
-        try setupFastGraphTest()
+//        try setupFastGraphTest()
     }
     
     func delegatedEncode(in sdp: inout SafeDrawPass) {
         let dT =  1.0 / Float(link.view.preferredFramesPerSecond)
-        
-        // TODO: Create a proper container for all this glyph parent stuff.
-        // Collection, builder, consumer, writer, grid... lol.
-        // One more can't hurt.
-        sdp.setCurrentVertexBuffer(
-            builder.parentBuffer.buffer,
-            0,
-            3
-        )
         
         // TODO: Make update and render a single pass to avoid repeated child loops
         root.update(deltaTime: dT)

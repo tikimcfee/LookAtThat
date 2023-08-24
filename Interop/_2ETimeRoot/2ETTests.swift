@@ -103,17 +103,8 @@ extension TwoETimeRoot {
             )
             
             plan.startRender {
-                // TODO: Bounds... WHY MORE BOUNDS
-                // IT'S ALWAYS BOUNDS! !@(#*!@)(#*)!
-                // Parent rects aren't invalidated when children change.
-                // Just.. just clear everything and move on. Figure out
-                // bounds.. AGAIN.. later.
-                
-//                BoundsCaching.Clear()
-                plan.targetParent.position = LFloat3(
-                    -plan.targetParent.boundsCenterWidth,
-                     plan.targetParent.boundsCenterHeight,
-                     -256.0
+                plan.targetParent.translate(
+                    dZ: -plan.targetParent.lengthZ - 100
                 )
                 self.root.add(child: plan.targetParent)
             }
