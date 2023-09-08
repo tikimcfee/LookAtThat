@@ -39,11 +39,11 @@ class DirectoryCalculator {
         // Calculate Y coordinate based on the height of its parent directory
         let parentY = positionDict[root]?.1 ?? 0.0.float
         var y: Float = parentY - paddingBetweenLayers
-
+        
         for child in children {
             // Determine size of the child node (file or directory)
             let (width, height) = sizeOfFile(at: child)
-
+            
             if child.isDirectory {
                 // If it's a directory, recursively process its children.
                 x = positionDict[root]?.0 ?? 0.0.float // Reset x-coordinate back to initial value for each new row (subdirectory)
@@ -62,7 +62,7 @@ class DirectoryCalculator {
             }
         }
     }
-
+    
     func traverseTreeSecondPass(root: URL) {
         // Get all children of the root directory
         let children = childrenOfDirectory(at: root)
@@ -110,7 +110,7 @@ class DirectoryCalculator {
     
     func sizeOfFile(at child: URL) -> (width: Float, height: Float) {
         let grid = getGrid(for: child)
-        return (width: grid.boundsWidth, height: grid.boundsHeight)
+        return (width: grid.contentSize.x, height: grid.contentSize.y)
     }
     
     func childrenOfDirectory(at url: URL) -> [URL] {
@@ -120,7 +120,7 @@ class DirectoryCalculator {
     func computeTotalSizeOfDirectory(at url: URL) -> (width: Float, height: Float) {
         var totalHeight: Float = 0.0
         var totalWidth: Float = 0.0
-
+        
         for child in childrenOfDirectory(at: url) {
             if child.isDirectory {
                 let (childWidth, childHeight) = computeTotalSizeOfDirectory(at: child)
@@ -132,7 +132,7 @@ class DirectoryCalculator {
                 totalWidth += fileSize.width
             }
         }
-
+        
         return (totalHeight, totalWidth)
     }
 }
@@ -140,50 +140,80 @@ class DirectoryCalculator {
 class CodeGridGroup {
     
     let globalRootGrid: CodeGrid
-    public var childGroups: [CodeGridGroup] = []
+    var controller = LinearConstraintController()
     
-    let editor = WorldGridEditor()
-    var grids = [CodeGrid]()
+    var childGrids = [CodeGrid]()
+    var childGroups = [CodeGridGroup]()
     
-    var groupStyleHistory: [WorldGridEditor.AddStyle] = []
+    var snapping = WorldGridSnapping()
+    var nextRowStartY: Float {
+        lastRowTallestGrid.map { $0.bottom - 32.0 }
+        ?? 0
+    }
+    
+    var lastRowTallestGrid: CodeGrid? {
+        get { snapping.gridReg2 }
+        set { snapping.gridReg2 = newValue }
+    }
+    var lastRowStartingGrid: CodeGrid? {
+        get { snapping.gridReg1 }
+        set { snapping.gridReg1 = newValue }
+    }
     
     init(globalRootGrid: CodeGrid) {
         self.globalRootGrid = globalRootGrid
     }
     
-    func updateGroup(_ style: WorldGridEditor.AddStyle) {
-        let grid = style.grid
+    func addChildGrid(_ grid: CodeGrid) {
+        if let lastGrid = childGrids.last {
+            controller.add(LiveConstraint(
+                sourceNode: lastGrid.rootNode,
+                targetNode: grid.rootNode,
+                action: { last in
+                    LFloat3(
+                        x: last.contentSize.x + 8,
+                        y: 0,
+                        z: 0
+                    )
+                }
+            ))
+        }
+        lastRowStartingGrid = lastRowStartingGrid ?? grid
+        lastRowTallestGrid = (lastRowTallestGrid?.contentSize.y ?? 0) < grid.contentSize.y ? grid : lastRowTallestGrid
+        
+        childGrids.append(grid)
         globalRootGrid.addChildGrid(grid)
-        editor.transformedByAdding(style)
-        groupStyleHistory.append(style)
     }
     
-    func removeGrid(_ grid: CodeGrid) {
-        globalRootGrid.removeChildGrid(grid)
-        editor.snapping.detachRetaining(grid)
-        groupStyleHistory.removeAll(where: { $0.grid.id == grid.id })
-    }
-    
-    func alignAllSiblingsOfGrid(grid: CodeGrid) {
-        var grids = [grid]
-        editor.snapping.iterateOver(grid, direction: .left) { lastGrid, grid, _ in
-            grids.insert(grid, at: 0)
+    func addChildGroup(_ group: CodeGridGroup) {
+        if let lastGroup = childGroups.last {
+            controller.add(LiveConstraint(
+                sourceNode: lastGroup.globalRootGrid.rootNode,
+                targetNode: group.globalRootGrid.rootNode,
+                action: { node in
+                    LFloat3(
+                        x: node.contentSize.x + 8,
+                        y: 0,
+                        z: 0
+                    )
+                }
+            ))
         }
-        editor.snapping.iterateOver(grid, direction: .right) { lastGrid, grid, _ in
-            grids.append(grid)
+        else {
+            controller.add(LiveConstraint(
+                sourceNode: MetalLinkNode(),
+                targetNode: group.globalRootGrid.rootNode,
+                action: { node in
+                    LFloat3(
+                        x: 32,
+                        y: self.nextRowStartY,
+                        z: -128
+                    )
+                }
+            ))
         }
-        HorizontalLayout().layoutGrids(grids)
-    }
-    
-    func stackLayout(from grid: CodeGrid) {
-        var grids = [grid]
-        editor.snapping.iterateOver(grid, direction: .backward) { lastGrid, grid, _ in
-            grids.insert(grid, at: 0)
-        }
-        editor.snapping.iterateOver(grid, direction: .forward) { lastGrid, grid, _ in
-            grids.append(grid)
-        }
-        DepthLayout().layoutGrids(grids)
+        childGroups.append(group)
+        globalRootGrid.addChildGrid(group.globalRootGrid)
     }
 }
 
@@ -205,7 +235,7 @@ struct WordGraphLayout {
                 return (origin, destination, edge)
             }
             .forEach { source, destination, edge in
-//                print(edge.weight)
+                //                print(edge.weight)
             }
     }
 }
@@ -288,20 +318,20 @@ struct RadialLayout {
             let angleInDegrees = step * i.float
             let angleInRadians = angleInDegrees * Float.pi / 180
             let x = centerX + radius * cos(angleInRadians)
-//            let y = centerY + radius * -sin(angleInRadians)
+            //            let y = centerY + radius * -sin(angleInRadians)
             let z = centerZ + radius * -sin(angleInRadians)
             let final = LFloat3(x: x, y: centerY, z: z)
-//            wordNodes[i].layoutNode.position = LFloat3(x: x, y: y, z: centerZ)
+            //            wordNodes[i].layoutNode.position = LFloat3(x: x, y: y, z: centerZ)
             let node = wordNodes[i]
-            var xOffset: Float = -node.boundsWidth / 2.0
+            var xOffset: Float = -node.contentSize.x / 2.0
             for glyph in wordNodes[i].glyphs {
                 parent.updateNode(glyph) {
                     $0.modelMatrix.columns.3.x = xOffset + final.x
                     $0.modelMatrix.columns.3.y = final.y
                     $0.modelMatrix.columns.3.z = final.z
-//                    $0.modelMatrix.translate(vector: vector)
+                    //                    $0.modelMatrix.translate(vector: vector)
                 }
-                xOffset += glyph.boundsWidth
+                xOffset += glyph.contentSize.x
             }
         }
     }
@@ -321,13 +351,13 @@ struct RadialLayout {
             let radialX = (cos(radians) * (magnitude))
             let radialY = 0.float
             let radialZ = (sin(radians) * (magnitude))
-
+            
             node.layoutNode.position = LFloat3.zero.translated(
                 dX: radialX,
                 dY: radialY,
                 dZ: radialZ
             )
-//            node.layoutNode.rotation.y = radians
+            //            node.layoutNode.rotation.y = radians
         }
     }
 }

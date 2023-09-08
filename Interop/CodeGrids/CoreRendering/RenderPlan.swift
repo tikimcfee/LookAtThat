@@ -93,6 +93,62 @@ extension LFloat3 {
     }
 }
 
+protocol BasicConstraint {
+    func apply()
+}
+
+struct BasicOffsetConstraint: BasicConstraint {
+    var sourceNode: MetalLinkNode
+    var targetNode: MetalLinkNode
+    var offset: LFloat3
+    
+    func apply() {
+        targetNode.position =
+            sourceNode.position.translated(
+                dX: offset.x,
+                dY: offset.y,
+                dZ: offset.z
+            );
+    }
+    
+    static func create(
+        from sourceNode: MetalLinkNode,
+        to targetNode: MetalLinkNode,
+        offset: LFloat3
+    ) -> BasicOffsetConstraint {
+        BasicOffsetConstraint(
+            sourceNode: sourceNode,
+            targetNode: targetNode,
+            offset: offset
+        )
+    }
+}
+
+struct LiveConstraint: BasicConstraint {
+    var sourceNode: MetalLinkNode
+    var targetNode: MetalLinkNode
+    let action: (MetalLinkNode) -> LFloat3
+    
+    func apply() {
+        targetNode.position = sourceNode.position + action(sourceNode)
+    }
+}
+
+
+class LinearConstraintController {
+    var constraints = [any BasicConstraint]()
+    
+    func applyConsecutiveConstraints() {
+        for constraint in constraints {
+            constraint.apply()
+        }
+    }
+    
+    func add(_ constraint: any BasicConstraint) {
+        constraints.append(constraint)
+    }
+}
+
 private extension RenderPlan {
     func doGridLayout() {
 //        layoutWide()
@@ -101,31 +157,61 @@ private extension RenderPlan {
     }
     
     private func layoutFullGood() {
-        let rootGrid = builder.sharedGridCache.setCache(rootPath)
-        let globalGroup = CodeGridGroup(globalRootGrid: rootGrid)
+        let rootGrid = self.builder.sharedGridCache.setCache(rootPath)
+            .withSourcePath(rootPath)
+            .withFileName(rootPath.fileName)
+        let rootGroup = CodeGridGroup(globalRootGrid: rootGrid)
         targetParent.add(child: rootGrid.rootNode)
         
+        state.orderedParents[rootPath] = rootGrid
+        state.directoryGroups[rootGrid] = rootGroup
+        
+        // Attach grids to parent groups
         FileBrowser.recursivePaths(rootPath).forEach { childPath in
-            guard let grid = builder.sharedGridCache.get(childPath) else { return }
-            if FileBrowser.isSupportedFileType(childPath) {
-                if let parent = firstParentGroupOf(target: childPath) {
-                    parent.updateGroup(.inNextRow(grid))
-                }
+            guard !childPath.isDirectory,
+                  let grid = builder.sharedGridCache.get(childPath)
+            else { return }
+            
+            if let parent = firstParentGroupOf(target: childPath) {
+                parent.addChildGrid(grid)
+                parent.controller.applyConsecutiveConstraints()
+//                parent.globalRootGrid.updateBackground()
+            } else {
+//                targetParent.add(child: grid.rootNode)
+                print("-- \(childPath) missing parent for grid...")
             }
         }
         
+        // Attach parent groups to parents...
         FileBrowser.recursivePaths(rootPath).reversed().forEach { childPath in
-            guard let grid = builder.sharedGridCache.get(childPath) else { return }
-            if childPath.isDirectory {
-                if let parent = firstParentGroupOf(target: childPath) {
-                    parent.updateGroup(.trailingFromLastGrid(grid))
-                } else {
-                    globalGroup.updateGroup(.inNextRow(grid))
-                }
+            guard childPath.isDirectory,
+                  let grid = builder.sharedGridCache.get(childPath),
+                  let group = state.directoryGroups[grid]
+            else { return }
+
+
+            if let parent = firstParentGroupOf(target: childPath) {
+                print("Adding \(childPath) to \(parent.globalRootGrid.sourcePath!)")
+                parent.addChildGroup(group)
+                parent.controller.applyConsecutiveConstraints()
+//                group.globalRootGrid.updateBackground()
+            } else {
+//                targetParent.add(child: grid.rootNode)
+                print("-- \(childPath) missing parent for directory...")
             }
         }
-
-        addParentWalls()
+        
+//        FileBrowser.recursivePaths(rootPath).forEach { childPath in
+//            guard childPath.isDirectory,
+//                  let grid = builder.sharedGridCache.get(childPath),
+//                  let group = state.directoryGroups[grid]
+//            else { return }
+//            group.controller.applyConsecutiveConstraints()
+//            group.globalRootGrid.updateBackground()
+//        }
+        
+//        linearController.applyConsecutiveConstraints()
+//        addParentWalls()
     }
     
     func firstParentGroupOf(target: URL) -> CodeGridGroup? {
@@ -253,11 +339,15 @@ private extension RenderPlan {
             FileBrowser.recursivePaths(rootPath).forEach { childPath in
                 if FileBrowser.isSupportedFileType(childPath) {
                     launchGridBuild(childPath)
-                } else if childPath.isDirectory {
-                    let childDirectoryGrid = builder.sharedGridCache.setCache(childPath)
+                }
+                else if childPath.isDirectory {
+                    let childDirectoryGrid = builder.sharedGridCache
+                        .setCache(childPath)
+                        .withSourcePath(childPath)
+                        .withFileName(childPath.fileName)
+                    
                     state.orderedParents[childPath] = childDirectoryGrid
                     state.directoryGroups[childDirectoryGrid] = CodeGridGroup(globalRootGrid: childDirectoryGrid)
-//                    targetParent.add(child: childDirectoryGrid.rootNode)
                 }
             }
         } else {

@@ -513,6 +513,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         doTranslateTest(4)
         doTranslateTest(5)
         doTranslateTest(6)
+        doTranslateTest(7.1)
+        doTranslateTest(7.2)
         doTranslateTest(1000)
         doTranslateTest(-10000)
         doTranslateTest(194.231)

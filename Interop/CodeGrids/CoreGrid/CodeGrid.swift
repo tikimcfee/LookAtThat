@@ -119,27 +119,27 @@ public class CodeGrid: Identifiable, Equatable {
     
     func updateBackground() {
         let size = targetNode.contentSize
-        gridBackground.scale.x = size.x / 2
-        gridBackground.scale.y = size.y / 2
+        let bounds = targetNode.bounds
+        gridBackground.size = LFloat2(x: size.x, y: size.y)
         
         gridBackground
-            .setLeading(localLeading)
-            .setTop(localTop)
-            .setFront(localBack)
+            .setLeading(0)
+            .setTop(bounds.max.y)
+            .setFront(-1)
     }
     
     func addChildGrid(_ other: CodeGrid) {
         childGrids.append(other)
         rootNode.add(child: other.rootNode)
-        rootNode.enumerateNonInstancedChildren = true
+//        rootNode.enumerateNonInstancedChildren = true
     }
     
     func removeChildGrid(_ other: CodeGrid) {
         childGrids.removeAll(where: { $0.id == other.id })
         rootNode.remove(child: other.rootNode)
-        if childGrids.isEmpty {
-            rootNode.enumerateNonInstancedChildren = false
-        }
+//        if childGrids.isEmpty {
+//            rootNode.enumerateNonInstancedChildren = false
+//        }
     }
     
     func updateNode(
@@ -220,10 +220,6 @@ extension CodeGrid: Hashable {
 extension CodeGrid: Measures {
     public var bounds: Bounds {
         targetNode.bounds
-    }
-    
-    public var liveBounds: Bounds {
-        targetNode.liveBounds
     }
     
     public var boundsCacheKey: BoundsKey {

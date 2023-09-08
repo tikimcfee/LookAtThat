@@ -16,7 +16,6 @@ public protocol Measures: AnyObject {
     
     var rectPos: Bounds { get }
     var bounds: Bounds { get }
-    var liveBounds: Bounds { get }
     var position: LFloat3 { get set }
     var worldPosition: LFloat3 { get set }
     
@@ -111,13 +110,6 @@ extension Measures {
     var localBottom: VectorFloat { bounds.min.y }
     var localFront: VectorFloat { bounds.max.z }
     var localBack: VectorFloat { bounds.min.z }
-    
-    var liveLeading: VectorFloat { liveBounds.min.x }
-    var liveTrailing: VectorFloat { liveBounds.max.x }
-    var liveTop: VectorFloat { liveBounds.max.y }
-    var liveBottom: VectorFloat { liveBounds.min.y }
-    var liveFront: VectorFloat { liveBounds.max.z }
-    var liveBack: VectorFloat { liveBounds.min.z }
 }
 
 extension Measures {
@@ -170,39 +162,6 @@ extension Measures {
         let delta = newValue - back
         zpos += delta
         return self
-    }
-}
-
-extension Measures {
-    func computeBoundingBox(convertParent: Bool = true, useLive: Bool = false) -> Bounds {
-        let computing = BoundsComputing()
-        
-        enumerateChildren { childNode in
-            var safeBox = useLive
-                ? childNode.computeBoundingBox(convertParent: convertParent)
-                : childNode.rectPos
-            if convertParent {
-                safeBox.min = convertPosition(safeBox.min, to: parent)
-                safeBox.max = convertPosition(safeBox.max, to: parent)
-            }
-            computing.consumeBounds(safeBox)
-        }
-        
-        if hasIntrinsicSize {
-            let size = contentSize
-            let offset = contentOffset
-            var min = LFloat3(position.x + offset.x,
-                              position.y + offset.y - size.y,
-                              position.z + offset.z)
-            var max = LFloat3(position.x + offset.x + size.x,
-                              position.y + offset.y,
-                              position.z + offset.z + size.z)
-            min = convertParent ? convertPosition(min, to: parent) : min
-            max = convertParent ? convertPosition(max, to: parent) : max
-            computing.consumeBounds((min, max))
-        }
-        
-        return computing.bounds
     }
 }
 
