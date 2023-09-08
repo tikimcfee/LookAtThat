@@ -164,6 +164,13 @@ class CodeGridGroup {
         self.globalRootGrid = globalRootGrid
     }
     
+    func applyAllConstraints() {
+        for childGroup in childGroups {
+            childGroup.applyAllConstraints()
+        }
+        controller.applyConsecutiveConstraints()
+    }
+    
     func addChildGrid(_ grid: CodeGrid) {
         if let lastGrid = childGrids.last {
             controller.add(LiveConstraint(
