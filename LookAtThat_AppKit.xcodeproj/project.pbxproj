@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
+		456A4E652AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */; };
+		456A4E662AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */; };
+		456A4E672AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */; };
+		456A4E692AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
+		456A4E6A2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
+		456A4E6B2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
 		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
 		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
@@ -420,6 +426,8 @@
 
 /* Begin PBXFileReference section */
 		453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoBuilder.swift; sourceTree = "<group>"; };
+		456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSizeChanged.swift; sourceTree = "<group>"; };
+		456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SourceInfo+WordInput.swift"; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* SemanticInfoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoMap.swift; sourceTree = "<group>"; };
 		B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSizeConversionExtensions.swift; sourceTree = "<group>"; };
 		B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFocusRenderTask.swift; sourceTree = "<group>"; };
@@ -816,6 +824,7 @@
 				B74A234A2816258C00F6F727 /* SemanticTracingOutState.swift */,
 				B730EEFC28EA70A700FE6E1D /* TraceLayoutController.swift */,
 				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
+				456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */,
 				B725168228C098AB0094F29B /* GlobalSearchView.swift */,
 			);
 			path = Semantics;
@@ -1087,6 +1096,7 @@
 				B7C2319827645F14003B1C3D /* FileBrowserView.swift */,
 				B7B1098E28D6BBCC00AA4E37 /* WorldFocusView.swift */,
 				B75014A02830505C0024B7C0 /* DragSizableView.swift */,
+				456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */,
 				B7F3AA9F2853903E00273ED1 /* AppStatusView.swift */,
 				B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */,
 				B7501496282CA6600024B7C0 /* SourceInfoCategoryView.swift */,
@@ -1407,10 +1417,12 @@
 				B74A22EB2814FFF300F6F727 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
 				B74A22EF2814FFF300F6F727 /* StateCapturingVisitor.swift in Sources */,
+				456A4E672AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */,
 				B7134054281650E9005E0E31 /* TracingRoot.swift in Sources */,
 				B7D79AAA282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B798102D281CBA39009A82BD /* CallStackParsing.swift in Sources */,
 				B768E2B228BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
+				456A4E6B2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 				B75014B0283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7697AB728EF796F0085D92E /* CodeGridGroup.swift in Sources */,
 				B74A234928161C9200F6F727 /* CodeGridColors.swift in Sources */,
@@ -1470,6 +1482,7 @@
 				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B709F4C928FFA0B9002058BE /* PickingState.swift in Sources */,
+				456A4E692AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 				B7D79AA8282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B730EEFD28EA70A700FE6E1D /* TraceLayoutController.swift in Sources */,
 				B70808D2287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
@@ -1482,6 +1495,7 @@
 				B768E2B528BC2E600067858F /* SemanticInfoMap+Walking.swift in Sources */,
 				B79F93062750528B00E46A96 /* Syntax+Caching.swift in Sources */,
 				B750149B282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
+				456A4E652AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */,
 				B7B46AD828BC81750004CA2D /* GlobalInstances.swift in Sources */,
 				B7247A6029A077F60073B98C /* WordDictionaries.swift in Sources */,
 				B74A233B2815265300F6F727 /* SemanticMapTracer.swift in Sources */,
@@ -1625,6 +1639,7 @@
 				B71C595E2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,
 				B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */,
 				B7815A02273E080A00212176 /* StateCapturingVisitor.swift in Sources */,
+				456A4E6A2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 				B7440EB42748D1D600A7C931 /* WorldGridSnapping.swift in Sources */,
 				B78C19AF2A302176005A3A46 /* CodeGridGlyphCollectionBuilder.swift in Sources */,
 				B7DF9A52280B6D7200187BDC /* CodeGridConcurrentRenderer.swift in Sources */,
@@ -1649,6 +1664,7 @@
 				B79F93072750528B00E46A96 /* Syntax+Caching.swift in Sources */,
 				B768B65D281F7AB60098F8D0 /* TraceLineIDMap.swift in Sources */,
 				B7B46AF928BE692E0004CA2D /* MetalLinkHoverController.swift in Sources */,
+				456A4E662AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */,
 				F0F205722522D6D3009B6D2C /* ReceiverAliases.swift in Sources */,
 				B7C75660280B82E80005A233 /* WorkerPool.swift in Sources */,
 				B7B1684E2A31524F003E7A76 /* 2ETTests.swift in Sources */,

@@ -7,221 +7,60 @@
 
 import SwiftUI
 
-extension DragSizableViewState {
-    struct Offset {
-        var current: CGSize = .zero
-        var last: CGSize = .zero
-    }
+struct DragSizableViewState: Codable, Equatable {
+    var contentSize: CGSize = .zero
+    var offset = CGPoint(x: 0, y: 0)
+    var lastOffset = CGPoint(x: 0, y: 0)
     
-    enum ResizeCorner: CaseIterable {
-        case topLeft
-        case botLeft
-        case topRight
-        case botRight
-    }
-}
-
-class DragSizableViewState: ObservableObject {
-    @Published var rootPositionOffsetLast: CGSize = .zero
-    @Published var rootPositionOffset: CGSize = .zero
-    @Published var resizeOffets = [ResizeCorner: Offset]()
-    
-    private var sumOffsetWidth: CGFloat {
-        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
-            total += pair.value.current.width
-        }
-    }
-    
-    private var sumOffsetHeight: CGFloat {
-        resizeOffets.reduce(into: CGFloat(0.0)) { total, pair in
-            total += pair.value.current.height
-        }
-    }
-    
-    func updateDrag(
-        _ translation: CGSize,
+    mutating func updateDrag(
+        _ value: DragGesture.Value,
         _ isFinal: Bool
     ) {
-        rootPositionOffset = translation + rootPositionOffsetLast
+        offset.x = lastOffset.x + value.translation.width
+        offset.y = lastOffset.y + value.translation.height
         if isFinal {
-            rootPositionOffsetLast = rootPositionOffset
+            lastOffset = offset
         }
-    }
-    
-    func updateResize(
-        _ corner: ResizeCorner,
-        _ translation: CGSize,
-        _ isFinal: Bool
-    ) {
-        var newResizeOffset = resizeOffets[corner, default: Offset()]
-        switch corner {
-        case .topLeft:
-            newResizeOffset.current = translation.negated() + newResizeOffset.last
-            rootPositionOffset = translation + rootPositionOffsetLast
-            
-        case .topRight:
-            newResizeOffset.current = translation.negatedHeight() + newResizeOffset.last
-            rootPositionOffset.height = translation.height + rootPositionOffsetLast.height
-            
-        case .botLeft:
-            newResizeOffset.current = translation.negatedWidth() + newResizeOffset.last
-            rootPositionOffset.width = translation.width + rootPositionOffsetLast.width
-            
-        case .botRight:
-            newResizeOffset.current = translation + newResizeOffset.last
-        }
-        if isFinal {
-            newResizeOffset.last = newResizeOffset.current
-            rootPositionOffsetLast = rootPositionOffset
-        }
-        resizeOffets[corner] = newResizeOffset
-    }
-    
-    func offsetWidth(original: CGSize) -> CGFloat {
-        let total = original.width + sumOffsetWidth
-        return total
-    }
-    
-    func offsetHeight(original: CGSize) -> CGFloat {
-        let total = original.height + sumOffsetHeight
-        return total
-    }
-}
-
-struct DraggableView2: ViewModifier {
-    @State private var offset = CGPoint(x: 0, y: 0)
-    @State private var lastOffset = CGPoint(x: 0, y: 0)
-    private let onDrag: ((_ offset: CGPoint) -> Void)?
-    
-    init(
-        onDrag: ((_ offset: CGPoint) -> Void)? = nil
-    ) {
-        self.onDrag = onDrag
-    }
-    
-    func body(content: Content) -> some View {
-        content.gesture(
-            DragGesture(coordinateSpace: .global)
-                .onChanged { value in
-                    self.offset.x = self.lastOffset.x + (value.location.x - value.startLocation.x)
-                    self.offset.y = self.lastOffset.y + (value.location.y - value.startLocation.y)
-                    self.onDrag?(self.offset)
-                }
-                .onEnded { _ in
-                    self.lastOffset = self.offset
-                }
-        )
-        .offset(x: offset.x, y: offset.y)
     }
 }
 
 struct DragSizableModifer: ViewModifier {
     // TODO: If you sant to save window position, make this owned by the invoker
-    @StateObject var state = DragSizableViewState()
-    let buttonHeight = 16.0
+    @Binding var state: DragSizableViewState
+    let onDragEnded: () -> Void
     
     @ViewBuilder
     public func body(content: Content) -> some View {
-        content.modifier(DraggableView2())
-//        GeometryReader { reader in
-//            rootPositionableView(content)
-//                .frame(
-//                    width: max(0, state.offsetWidth(original: reader.size)),
-//                    height: max(0, state.offsetHeight(original: reader.size))
-//                )
-//                .offset(state.rootPositionOffset)
-//        }
+        rootPositionableView(content)
+            .offset(x: state.offset.x, y: state.offset.y)
     }
     
     func rootPositionableView(_ wrappedContent: Content) -> some View {
         VStack(alignment: .trailing, spacing: 0) {
-            ZStack(alignment: .topTrailing) {
-                dragBar
-                HStack {
-                    resizeBox(.topLeft)
-                    Spacer()
-                    resizeBox(.topRight)
-                }
+            dragBar.frame(maxWidth: state.contentSize.width)
+            wrappedContent.onSizeChanged(DraggableViewSize.self) {
+                guard state.contentSize != $0 else { return }
+                state.contentSize = $0
             }
-            wrappedContent
-            ZStack(alignment: .topTrailing) {
-                dragBar
-                HStack {
-                    resizeBox(.botLeft)
-                    Spacer()
-                    resizeBox(.botRight)
-                }
-            }
-        }
-    }
-    
-    func resizeBox(_ target: DragSizableViewState.ResizeCorner) -> some View {
-        cornerView(target)
-            .font(.headline)
-            .fontWeight(.bold)
-            .frame(width: buttonHeight, height: buttonHeight)
-            .background(Color.gray)
-            .highPriorityGesture(
-                DragGesture(
-                    minimumDistance: 1,
-                    coordinateSpace: .global
-                ).onChanged {
-                    state.updateResize(target, $0.translation, false)
-                }.onEnded {
-                    state.updateResize(target, $0.translation, true)
-                }
-            )
-    }
-    
-    func cornerView(_ target: DragSizableViewState.ResizeCorner) -> Text {
-        switch target {
-        case .topLeft:
-            return Text("⎡")
-        case .topRight:
-            return Text("⎤")
-        case .botLeft:
-            return Text("⎣")
-        case .botRight:
-            return Text("⎦")
+            dragBar.frame(maxWidth: state.contentSize.width)
         }
     }
     
     var dragBar: some View {
         Color.gray.opacity(0.8)
-            .frame(maxHeight: buttonHeight)
+            .frame(maxHeight: 16)
             .highPriorityGesture(
                 DragGesture(
-                    minimumDistance: 1,
+                    minimumDistance: 1.0,
                     coordinateSpace: .global
-                ).onChanged {
-                    state.updateDrag($0.translation, false)
-                }.onEnded {
-                    state.updateDrag($0.translation, true)
+                )
+                .onChanged { value in
+                    state.updateDrag(value, false)
+                }
+                .onEnded { value in
+                    state.updateDrag(value, true)
+                    onDragEnded()
                 }
             )
-    }
-}
-
-extension CGSize: AdditiveArithmetic {
-    public static func - (lhs: CGSize, rhs: CGSize) -> CGSize {
-        return CGSize(width: lhs.width - rhs.width,
-                      height: lhs.height - rhs.height)
-    }
-    
-    public static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
-        return CGSize(width: lhs.width + rhs.width,
-                      height: lhs.height + rhs.height)
-    }
-    
-    public func negated() -> CGSize {
-        CGSize(width: width * -1, height: height * -1)
-    }
-    
-    public func negatedWidth() -> CGSize {
-        CGSize(width: width * -1, height: height)
-    }
-    
-    public func negatedHeight() -> CGSize {
-        CGSize(width: width, height: height * -1)
     }
 }

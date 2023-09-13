@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BitHandling
 
 typealias GlobalWindowKey = PanelSections
 
@@ -25,6 +26,24 @@ struct FloatableView<Inner: View>: View {
     var resizableAsSibling: Bool = false
     let innerViewBuilder: () -> Inner
     
+    @State var dragState: DragSizableViewState
+    
+    init(
+        displayMode: Binding<FloatableViewMode>,
+        windowKey: GlobalWindowKey,
+        resizableAsSibling: Bool,
+        innerViewBuilder: @escaping () -> Inner
+    ) {
+        self._displayMode = displayMode
+        self.windowKey = windowKey
+        self.resizableAsSibling = resizableAsSibling
+        self.innerViewBuilder = innerViewBuilder
+        self.dragState = AppStatePreferences.shared.getCustom(
+            name: "DragState-\(self.windowKey.rawValue)",
+            makeDefault: { DragSizableViewState() }
+        )
+    }
+    
     var body: some View {
         makePlatformBody()
     }
@@ -42,12 +61,20 @@ extension FloatableView {
     #elseif os(macOS)
         switch displayMode {
         case .displayedAsSibling where resizableAsSibling:
-            VStack(alignment: .trailing, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 switchModeButton()
-                innerViewBuilder().modifier(DragSizableModifer())
+                innerViewBuilder()
             }
+            .modifier(
+                DragSizableModifer(state: $dragState) {
+                    AppStatePreferences.shared.setCustom(
+                        name: "DragState-\(self.windowKey.rawValue)",
+                        value: dragState
+                    )
+                }
+            )
         case .displayedAsSibling:
-            VStack(alignment: .trailing, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 switchModeButton()
                 innerViewBuilder()
             }
@@ -92,7 +119,7 @@ private extension FloatableView {
     }
     
     func displayWindowWithNewBuilderInstance() {
-        VStack(alignment: .trailing, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             switchModeButton()
             innerViewBuilder()
         }.openInWindow(key: windowKey, sender: self)

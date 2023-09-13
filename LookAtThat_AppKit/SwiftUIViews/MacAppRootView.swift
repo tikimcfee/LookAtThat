@@ -5,15 +5,10 @@ struct MacAppRootView: View {
     @State var showMultipeer: Bool = false
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack(alignment: .topLeading) {
             GlobalInstances.createDefaultMetalView()
             
-            VStack {
-                extras()
-                HStack(alignment: .top) {
-                    SourceInfoPanelView()
-                }.padding(.bottom, 4.0)   
-            }
+            SourceInfoPanelView()
         }
     }
     

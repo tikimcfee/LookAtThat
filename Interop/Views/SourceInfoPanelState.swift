@@ -5,9 +5,9 @@
 //  Created by Ivan Lugo on 4/23/22.
 //
 
-import Foundation
 import Combine
 import SwiftUI
+import BitHandling
 
 enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
     case editor = "2D Editor"
@@ -31,20 +31,24 @@ enum PanelSections: String, CaseIterable, Equatable, Comparable, Codable {
 }
 
 class SourceInfoPanelState: ObservableObject {
+    // MARK: - Reused states
+    var fileBrowserState = FileBrowserViewState()
+    var dragViewState = DragSizableViewState()
+    
     // Category pannel state
     struct Categories {
         var expandedGrids = Set<CodeGrid.ID>()
     }
-    @Published var categories: Categories = Categories()
+    @Published public var categories: Categories = Categories()
 
     // Visible subsections
-    @Published private(set) var visiblePanelStates = CodableAutoCache<PanelSections, FloatableViewMode>() {
+    @Published public private(set) var visiblePanelStates = CodableAutoCache<PanelSections, FloatableViewMode>() {
         didSet {
             savePanelWindowStates()
         }
     }
     
-    @Published private(set) var visiblePanels: Set<PanelSections> {
+    @Published public private(set) var visiblePanels: Set<PanelSections> {
         didSet {
             savePanelStates()
             updatePanelSlices()
@@ -52,7 +56,7 @@ class SourceInfoPanelState: ObservableObject {
     }
     
     var panelGroups = 3
-    @Published private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
+    @Published public private(set) var visiblePanelSlices: [ArraySlice<PanelSections>] = []
     
     private var bag = Set<AnyCancellable>()
     
