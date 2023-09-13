@@ -7,6 +7,7 @@
 
 import Foundation
 import MetalLink
+import MetalLinkHeaders
 import SwiftNodes
 
 class WordNode: MetalLinkNode {

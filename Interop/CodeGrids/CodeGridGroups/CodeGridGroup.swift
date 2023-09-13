@@ -145,23 +145,26 @@ class CodeGridGroup {
     var childGrids = [CodeGrid]()
     var childGroups = [CodeGridGroup]()
     
-    var snapping = WorldGridSnapping()
-    var nextRowStartY: Float {
-        lastRowTallestGrid.map { $0.bottom - 32.0 }
-        ?? 0
+    var editor = WorldGridEditor()
+    var snapping: WorldGridSnapping { editor.snapping }
+    
+    init(globalRootGrid: CodeGrid) {
+        self.globalRootGrid = globalRootGrid
     }
     
     var lastRowTallestGrid: CodeGrid? {
         get { snapping.gridReg2 }
         set { snapping.gridReg2 = newValue }
     }
+    
     var lastRowStartingGrid: CodeGrid? {
         get { snapping.gridReg1 }
         set { snapping.gridReg1 = newValue }
     }
     
-    init(globalRootGrid: CodeGrid) {
-        self.globalRootGrid = globalRootGrid
+    var nextRowStartY: Float {
+        lastRowTallestGrid.map { $0.bottom - 32.0 }
+        ?? 0
     }
     
     func applyAllConstraints() {

@@ -32,22 +32,22 @@ class AppStatePreferences {
         set { _setEncoded(newValue, .panelSections) }
     }
     
-    var securedScopeData: PeristedSecureScope? {
+    var securedScopeData: PersistedSecureScope? {
         get { getPersistedSecureScope() }
         set { setPersistedSecureScope(newValue) }
     }
 }
 
-typealias PeristedSecureScope = (FileBrowser.Scope, Data)
+typealias PersistedSecureScope = (FileBrowser.Scope, Data)
 private extension AppStatePreferences {
-    func getPersistedSecureScope() -> PeristedSecureScope? {
+    func getPersistedSecureScope() -> PersistedSecureScope? {
         guard let scope: FileBrowser.Scope = _getEncoded(.lastScope),
               let data: Data = _getRaw(.securedScopeData)
         else { return nil }
         return (scope, data)
     }
     
-    func setPersistedSecureScope(_ newValue: PeristedSecureScope?) {
+    func setPersistedSecureScope(_ newValue: PersistedSecureScope?) {
         _setEncoded(newValue?.0, .lastScope)
         _setRaw(newValue?.1, .securedScopeData)
     }

@@ -59,27 +59,27 @@ class PositionerSync {
     }
     
     private func nextDepth() -> Int {
-        let val = depth
-        return val
+        let currentDepth = depth
+        return currentDepth
     }
     
     private func nextColumn() -> Int {
-        let val = column
-        if val >= sideLength / 4 {
+        let currentColumn = column
+        if currentColumn >= sideLength * 2 {
             column = 0
             depth += 1
         }
-        return val
+        return currentColumn
     }
     
     private func nextRow() -> Int {
-        let val = row
-        if val >= sideLength {
+        let currentRow = row
+        if currentRow >= sideLength {
             row = 0
             column += 1
         }
         row += 1
-        return val
+        return currentRow
     }
     
     func nextPos() -> (Int, Int, Int) {

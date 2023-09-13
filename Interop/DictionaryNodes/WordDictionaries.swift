@@ -116,6 +116,8 @@ struct WordDictionary {
     var words: [String: [String]]
     var graph: WordGraph
     
+    var orderedWords: [String: [[String]]] = [:]
+    
     init() {
         self.words = .init()
         self.graph = .init()
@@ -144,70 +146,26 @@ struct WordDictionary {
             from: Data(contentsOf: file, options: .alwaysMapped)
         )
         
-        actor WorkIterator {
-            var sourceSequence: Dictionary<String, [String]>.Iterator
-            
-            init(_ sourceSequence: Dictionary<String, [String]>.Iterator) {
-                self.sourceSequence = sourceSequence
-            }
-            
-            func next() -> Dictionary<String, [String]>.Element? {
-                sourceSequence.next()
-            }
-        }
-        
-        func splitTask(
-            source: String
-        ) async -> [String] {
-            await Task {
-                source.splitToWords.map { $0.dewordnikked }
-            }.value
-        }
-        
-        func definitionListToWordLists(
-            dictionary: [String: [String]]
-        ) async -> [String: [[String]]] {
-//            var iterator = WorkIterator(dictionary.makeIterator())
-//            var wordListMap = [String: [[String]]]()
-//            while let (word, definitionList) = await iterator.next() {
-//
-//            }
-            
-            return [:]
-        }
-        
-        var wordGraph = WordGraph()
-        let mappedWords = decodedWords.reduce(
-            into: [String: Set<String>]()
+        let orderedDefinitionWords = decodedWords.reduce(
+            into: [String: [[String]]]()
         ) { result, entry in
             let sourceWord = entry.key.dewordnikked
-            let uniqueDefinitionWords = entry.value.prefix(1).reduce(
-                into: Set<String>()
-            ) { result, definition in
-                result = result.union(
-                    definition.splitToWords.map {
-                        $0.dewordnikked
-                    }
-                )
+            var currentArray = result[sourceWord, default: []]
+                
+            for definition in entry.value {
+                let definitionWords = definition.splitToWords.map {
+                    let cleaned = $0.dewordnikked
+                    return cleaned
+                }
+                currentArray.append(definitionWords)
             }
             
-            result[sourceWord, default: []].formUnion(uniqueDefinitionWords)
-            
-            wordGraph.insert(sourceWord)
-            for definitionWord in uniqueDefinitionWords {
-                wordGraph.addWeightBetween(
-                    source: sourceWord,
-                    target: definitionWord
-                )
-            }
-        }.reduce(
-            into: [String: [String]]()
-        ) { result, entry in
-            result[entry.key] = Array(entry.value)
+            result[sourceWord] = currentArray
         }
         
-        self.words = mappedWords
-        self.graph = wordGraph
+        self.orderedWords = orderedDefinitionWords
+        self.words = [:]
+        self.graph = .init()
     }
 }
 

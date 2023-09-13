@@ -110,7 +110,7 @@ extension TwoETimeRoot {
                 
                 var time = 0.0.float
                 QuickLooper(interval: .milliseconds(30)) {
-                    plan.targetParent.rotation.y += 0.1
+//                    plan.targetParent.rotation.y += 0.1
                     plan.targetParent.position.x = sin(time) * 10.0
                     time += Float.pi / 180
                 }.runUntil { false }

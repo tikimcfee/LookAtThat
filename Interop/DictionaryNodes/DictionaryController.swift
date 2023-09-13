@@ -44,7 +44,7 @@ class DictionaryController: ObservableObject {
         didSet { nodeMap = .init() }
     }
     
-    lazy var scale: Float = 30.0
+    lazy var scale: Float = 120.0
     lazy var scaleVector = LFloat3(scale, scale, scale)
     lazy var scaleVectorNested = LFloat3(scale / 2.0, scale / 2.0, scale / 2.0)
     

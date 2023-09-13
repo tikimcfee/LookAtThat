@@ -14,6 +14,55 @@ import BitHandling
 import Algorithms
 
 extension TwoETimeRoot {
+    func setupDictionaryTest2(_ controller: DictionaryController) {
+        if let node = controller.lastRootNode {
+            root.remove(child: node)
+        }
+        
+        let wordContainerGrid = builder.createGrid(
+            bufferSize: 15_500_000
+        )
+        wordContainerGrid.removeBackground()
+        wordContainerGrid.translated(dZ: -100.0)
+        controller.lastRootNode = wordContainerGrid.rootNode
+        
+        let orderedWords = controller.dictionary.orderedWords
+        print("Defined words: \(orderedWords.count)")
+        
+        let cachingGenerator = ColorGenerator(maxColorCount: orderedWords.count * 10)
+        let colorFloats = ConcurrentDictionary<String, LFloat4>()
+        let snap = WorldGridSnapping()
+        
+        for (sourceWord, definitionList) in orderedWords {
+            let color = colorFloats[sourceWord] ?? cachingGenerator.nextColor
+            colorFloats[sourceWord] = color
+            
+            let (_, sourceGlyphs) = wordContainerGrid.consume(text: sourceWord)
+            let sourceNode = WordNode(
+                sourceWord: sourceWord,
+                glyphs: sourceGlyphs,
+                parentGrid: wordContainerGrid
+            )
+            controller.nodeMap[sourceWord] = sourceNode
+            
+            for definition in definitionList {
+                for definitionWord in definition {
+                    let (_, definitionGlyphs) = wordContainerGrid.consume(text: definitionWord)
+                    let definitionNode = WordNode(
+                        sourceWord: definitionWord,
+                        glyphs: definitionGlyphs,
+                        parentGrid: wordContainerGrid
+                    )
+                    
+                }
+            }
+            
+            sourceNode.applyGlyphChanges { _, constants in
+                constants.addedColor = color
+            }
+        }
+    }
+    
     func setupDictionaryTest(_ controller: DictionaryController) {
         if let node = controller.lastRootNode {
             root.remove(child: node)
@@ -30,7 +79,7 @@ extension TwoETimeRoot {
         print("Defined words: \(dictionary.sorted.count)")
         
 //        let sideLength = Int(sqrt(dictionary.sorted.count.float))
-        let sideLength = 384
+        let sideLength = 400
         let chunkGroup = DispatchGroup()
 //        let positions = Positioner(sideLength: sideLength)
         let positions = PositionerSync(sideLength: sideLength)

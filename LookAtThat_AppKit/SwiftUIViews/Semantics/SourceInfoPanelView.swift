@@ -164,11 +164,17 @@ extension SourceInfoPanelView {
 //                    autoscrollWord = word
                     updateFocusOnTextChange(word)
                     
-                    if goSlow {
-                        Thread.sleep(forTimeInterval: 0.033)
-                    }
+                    __goSlow(really: goSlow)
                 }
                 Task { @MainActor in playingList = false }
+            }
+        }
+        
+        func __goSlow(really: Bool = false) {
+            if really {
+                Thread.sleep(until: Date.now.addingTimeInterval(2))
+            } else {
+                Thread.sleep(until: Date.now.addingTimeInterval(0.33))
             }
         }
         
@@ -181,9 +187,7 @@ extension SourceInfoPanelView {
                 for word in cleanedSentence {
                     updateFocusOnTextChange(word)
                     
-                    if goSlow {
-                        Thread.sleep(forTimeInterval: 0.033)
-                    }
+                    __goSlow(really: goSlow)
                 }
             }
         }

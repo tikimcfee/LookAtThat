@@ -186,8 +186,7 @@ private extension RenderPlan {
         }
         
         rootGroup.applyAllConstraints()
-        
-        addParentWalls()
+//        addParentWalls()
     }
     
     func firstParentGroupOf(target: URL) -> CodeGridGroup? {
@@ -220,45 +219,39 @@ private extension RenderPlan {
     }
     
     func addParentWalls() {
-        for (url, thisParent) in state.orderedParents {
+        for (grid, group) in state.directoryGroups {
             let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
             let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
             let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
             gridBackground.setColor(LFloat4(0.4, 0.2, 0.2, 0.5))
             gridTopWall.setColor(LFloat4(0.3, 0.2, 0.2, 0.5))
             gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
+            grid.rootNode.add(child: gridBackground)
+//            grid.rootNode.add(child: gridTopWall)
+//            grid.rootNode.add(child: gridRightWall)
             
-            let computing = BoundsComputing()
-            for child in FileBrowser.recursivePaths(url) {
-                guard !child.isDirectory else { continue }
-                if let grid = builder.sharedGridCache.get(child) {
-                    computing.consumeBounds(grid.bounds)
-                }
-            }
-            let bounds = computing.bounds
-            let size = BoundsSize(bounds)
+            var rect: Bounds { group.globalRootGrid.rectPos }
+            var size: LFloat3 { BoundsSize(rect) }
             
-            gridBackground.scale.x = size.x / 2.0
-            gridBackground.scale.y = size.y / 2.0
-            
-            gridTopWall.quad.topLeftPos = bounds.min.translated(dY: size.y, dZ: -16.0)
-            gridTopWall.quad.topRightPos = bounds.min.translated(dX: size.x, dY: size.y, dZ: -16.0)
-            gridTopWall.quad.botLeftPos = bounds.min.translated(dY:size.y, dZ: size.z)
-            gridTopWall.quad.botRightPos = bounds.max
-            
-            gridRightWall.quad.topLeftPos = bounds.max.translated(dZ: -size.z - 16.0)
-            gridRightWall.quad.topRightPos = bounds.max
-            gridRightWall.quad.botLeftPos = bounds.min.translated(dX: size.x, dZ: -16.0)
-            gridRightWall.quad.botRightPos = bounds.max.translated(dY: -size.y)
-            
+            gridBackground.size = LFloat2(x: size.x, y: size.y)
             gridBackground
-                .setLeading(bounds.min.x)
-                .setTop(bounds.max.y)
-                .setFront(bounds.min.z - 16.0)
+                .setLeading(rect.min.x)
+                .setTop(rect.max.y)
+                .setFront(rect.min.z)
+//
+//            gridTopWall.size = LFloat2(x: size.x, y: size.z)
+//            gridTopWall
+//                .setLeading(rect.min.x)
+//                .setFront(rect.max.z / 2.0)
+//            gridTopWall.rotation.x = Float.pi / 2.0
+//
+//            gridRightWall.size = LFloat2(x: size.z, y: size.y)
+//            gridRightWall
+//                .setLeading(rect.max.x - size.z / 2.0)
+//                .setTop(rect.max.y - 0.1)
+//                .setFront(rect.max.z / 2.0)
+//            gridRightWall.rotation.y = -Float.pi / 2.0
             
-            thisParent.rootNode.add(child: gridBackground)
-            thisParent.rootNode.add(child: gridTopWall)
-            thisParent.rootNode.add(child: gridRightWall)
             
             
             // TODO: Lines maybe; generalize this (LineDrawer.addChildLineToOtherWorldNode())
