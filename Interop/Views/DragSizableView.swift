@@ -88,6 +88,33 @@ class DragSizableViewState: ObservableObject {
     }
 }
 
+struct DraggableView2: ViewModifier {
+    @State private var offset = CGPoint(x: 0, y: 0)
+    @State private var lastOffset = CGPoint(x: 0, y: 0)
+    private let onDrag: ((_ offset: CGPoint) -> Void)?
+    
+    init(
+        onDrag: ((_ offset: CGPoint) -> Void)? = nil
+    ) {
+        self.onDrag = onDrag
+    }
+    
+    func body(content: Content) -> some View {
+        content.gesture(
+            DragGesture(coordinateSpace: .global)
+                .onChanged { value in
+                    self.offset.x = self.lastOffset.x + (value.location.x - value.startLocation.x)
+                    self.offset.y = self.lastOffset.y + (value.location.y - value.startLocation.y)
+                    self.onDrag?(self.offset)
+                }
+                .onEnded { _ in
+                    self.lastOffset = self.offset
+                }
+        )
+        .offset(x: offset.x, y: offset.y)
+    }
+}
+
 struct DragSizableModifer: ViewModifier {
     // TODO: If you sant to save window position, make this owned by the invoker
     @StateObject var state = DragSizableViewState()
@@ -95,14 +122,15 @@ struct DragSizableModifer: ViewModifier {
     
     @ViewBuilder
     public func body(content: Content) -> some View {
-        GeometryReader { reader in
-            rootPositionableView(content)
-                .frame(
-                    width: max(0, state.offsetWidth(original: reader.size)),
-                    height: max(0, state.offsetHeight(original: reader.size))
-                )
-                .offset(state.rootPositionOffset)
-        }
+        content.modifier(DraggableView2())
+//        GeometryReader { reader in
+//            rootPositionableView(content)
+//                .frame(
+//                    width: max(0, state.offsetWidth(original: reader.size)),
+//                    height: max(0, state.offsetHeight(original: reader.size))
+//                )
+//                .offset(state.rootPositionOffset)
+//        }
     }
     
     func rootPositionableView(_ wrappedContent: Content) -> some View {
