@@ -27,6 +27,8 @@ class WordNode: MetalLinkNode {
     
     override var hasIntrinsicSize: Bool { true }
     override var contentSize: LFloat3 {
+        if isHidden { return .zero }
+        
         let b = BoundsComputing()
         b.consumeNodeSet(Set(glyphs), convertingTo: nil)
         return BoundsSize(b.bounds) * scale

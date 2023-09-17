@@ -109,15 +109,15 @@ struct GlobalSearchView: View {
         let position = grid
             .worldPosition
             .translated(
-                dX: grid.contentHalfWidth,
-                dY: -32.0,
+                dX: 0,
+                dY: -16.0,
                 dZ: 64.0
             )
         
         GlobalInstances.debugCamera.interceptor.resetPositions()
         GlobalInstances.debugCamera.position = position
         GlobalInstances.debugCamera.rotation = .zero
-        GlobalInstances.debugCamera.scrollBounds = grid.bounds
+        GlobalInstances.debugCamera.scrollBounds = grid.rootNode.worldBounds
         GlobalInstances.gridStore.editor.snapping.searchTargetGrid = grid
         
         searchScrollLock.insert(.horizontal)

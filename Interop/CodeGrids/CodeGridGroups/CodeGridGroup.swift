@@ -70,8 +70,8 @@ class CodeGridGroup {
                 targetNode: group.globalRootGrid.rootNode,
                 action: { node in
                     LFloat3(
-                        x: node.contentSize.x + 8,
-                        y: 0,
+                        x: node.position.x,
+                        y: -node.lengthY - 16.0,
                         z: -128.0
                     )
                 }

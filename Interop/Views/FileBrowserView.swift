@@ -155,12 +155,6 @@ private extension FileBrowserView {
             Text(FileIcon)
                 .font(.footnote)
                 .padding(1)
-                .background(
-                    RoundedRectangle(cornerRadius: 2.0)
-                        .strokeBorder(lineWidth: 0.5)
-                        .foregroundColor(.gray)
-                        
-                )
             Text(path.lastPathComponent)
                 .fontWeight(.light)
             Spacer()
