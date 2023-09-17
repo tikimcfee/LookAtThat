@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftSyntax
 import Combine
+import MetalLink
 
 extension SourceInfoCategoryView {
     struct Interactions {
@@ -77,14 +78,9 @@ struct SourceInfoCategoryView: View {
     }
 
     func globalInfoRows(_ snapshot: CodeGridGlobalSemantics.Snapshot) -> some View {
-        ScrollView {
-            LazyVStack(alignment: .leading) {
-                ForEach(snapshot, id: \.self) {
-                    participantView($0)
-                }
-            }
+        List(snapshot) { snapshotItem in
+            participantView(snapshotItem)
         }
-        .padding(4.0)
     }
     
     @ViewBuilder
@@ -152,9 +148,19 @@ struct SourceInfoCategoryView: View {
             .padding(4)
             .overlay(Rectangle().stroke(Color.gray))
             .onTapGesture {
-                GlobalInstances.gridStore
+                let nodeBounds = GlobalInstances.gridStore
                     .nodeFocusController
                     .selected(id: info.syntaxId, in: grid)
+                
+                let position = LFloat3(
+                    x: BoundsLeading(nodeBounds) + BoundsWidth(nodeBounds) / 2.0,
+                    y: BoundsTop(nodeBounds) - 16,
+                    z: BoundsFront(nodeBounds) + 64
+                )
+                
+                GlobalInstances.debugCamera.interceptor.resetPositions()
+                GlobalInstances.debugCamera.position = position
+                GlobalInstances.debugCamera.rotation = .zero
             }
     }
 }

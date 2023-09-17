@@ -61,10 +61,11 @@ class CodeGridSelectionController: ObservableObject {
         self.tokenCache = tokenCache
     }
     
+    @discardableResult
     func selected(
         id: SyntaxIdentifier,
         in grid: CodeGrid
-    ) {
+    ) -> Bounds {
         // Update set first
         var selectionSet = state.trackedGridSelections[grid, default: []]
         let isSelectedAfterToggle = selectionSet.toggle(id) == .addedToSet
@@ -74,12 +75,16 @@ class CodeGridSelectionController: ObservableObject {
             ? nodeController.focus(_: in:)
             : nodeController.unfocus(_: in:)
         
+        let computing = BoundsComputing()
         grid.semanticInfoMap
             .walkFlattened(from: id, in: tokenCache) { info, nodes in
                 for node in nodes {
                     update(node, grid)
+//                    node.rebuildModelMatrix()
+                    computing.consumeBounds(node.worldBounds)
                 }
             }
+        return computing.bounds
     }
     
     func isSelected(_ id: SyntaxIdentifier) -> Bool {
