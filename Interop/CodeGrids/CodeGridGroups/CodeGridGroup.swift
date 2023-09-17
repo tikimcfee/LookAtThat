@@ -49,20 +49,15 @@ class CodeGridGroup {
     
     func addChildGrid(_ grid: CodeGrid) {
         if let lastGrid = childGrids.last {
-            controller.add(LiveConstraint(
+            controller.add(LinearConstraints.ToTrailingOf(
                 sourceNode: lastGrid.rootNode,
-                targetNode: grid.rootNode,
-                action: { last in
-                    LFloat3(
-                        x: last.contentSize.x + 8,
-                        y: 0,
-                        z: 0
-                    )
-                }
+                targetNode: grid.rootNode
             ))
         }
+        
         lastRowStartingGrid = lastRowStartingGrid ?? grid
-        lastRowTallestGrid = (lastRowTallestGrid?.contentSize.y ?? 0) < grid.contentSize.y ? grid : lastRowTallestGrid
+        let isNewGridTaller = (lastRowTallestGrid?.contentSize.y ?? 0) < grid.contentSize.y
+        lastRowTallestGrid = isNewGridTaller ? grid : lastRowTallestGrid
         
         childGrids.append(grid)
         globalRootGrid.addChildGrid(grid)
@@ -76,7 +71,7 @@ class CodeGridGroup {
                 action: { node in
                     LFloat3(
                         x: node.contentSize.x + 8,
-                        y: -node.contentSize.y - 8,
+                        y: 0,
                         z: -128.0
                     )
                 }
@@ -97,6 +92,18 @@ class CodeGridGroup {
         }
         childGroups.append(group)
         globalRootGrid.addChildGrid(group.globalRootGrid)
+    }
+    
+    func isSiblingOfGroup(_ otherGroup: CodeGridGroup) -> Bool {
+        if let myPath = globalRootGrid.sourcePath,
+            let otherPath = otherGroup.globalRootGrid.sourcePath {
+            let isSibling = myPath.isSiblingOf(otherPath)
+//            if isSibling { print("\(myPath) is sibling of \(otherPath)") }
+            return isSibling
+        } else {
+            print("<!!! you broke it! \(self) ;;;; \(otherGroup)")
+            return false
+        }
     }
 }
 

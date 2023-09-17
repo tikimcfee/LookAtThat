@@ -73,81 +73,6 @@ struct RenderPlan {
     }
 }
 
-// MARK: - Focus Style
-
-extension LFloat3 {
-    var magnitude: Float {
-        sqrt(x * x + y * y + z * z)
-    }
-    
-    var normalized: LFloat3 {
-        let magnitude = magnitude
-        return magnitude == 0
-            ? .zero
-            : self / magnitude
-    }
-    
-    mutating func normalize() -> LFloat3 {
-        self = self / magnitude
-        return self
-    }
-}
-
-protocol BasicConstraint {
-    func apply()
-}
-
-struct BasicOffsetConstraint: BasicConstraint {
-    var sourceNode: MetalLinkNode
-    var targetNode: MetalLinkNode
-    var offset: LFloat3
-    
-    func apply() {
-        targetNode.position =
-            sourceNode.position.translated(
-                dX: offset.x,
-                dY: offset.y,
-                dZ: offset.z
-            );
-    }
-    
-    static func create(
-        from sourceNode: MetalLinkNode,
-        to targetNode: MetalLinkNode,
-        offset: LFloat3
-    ) -> BasicOffsetConstraint {
-        BasicOffsetConstraint(
-            sourceNode: sourceNode,
-            targetNode: targetNode,
-            offset: offset
-        )
-    }
-}
-
-struct LiveConstraint: BasicConstraint {
-    var sourceNode: MetalLinkNode
-    var targetNode: MetalLinkNode
-    let action: (MetalLinkNode) -> LFloat3
-    
-    func apply() {
-        targetNode.position = action(sourceNode)
-    }
-}
-
-class LinearConstraintController {
-    var constraints = [any BasicConstraint]()
-    
-    func applyConsecutiveConstraints() {
-        for constraint in constraints {
-            constraint.apply()
-        }
-    }
-    
-    func add(_ constraint: any BasicConstraint) {
-        constraints.append(constraint)
-    }
-}
-
 private extension RenderPlan {
     func doGridLayout() {
 //        layoutWide()
@@ -166,10 +91,42 @@ private extension RenderPlan {
         state.orderedParents[rootPath] = rootGrid
         state.directoryGroups[rootGrid] = rootGroup
         
+        /*
+         Adding groups / directories is weird.
+         If we find a parent group (root or otherwise), we want to parent this group to the other one.
+         However, this misses the sibling relationship. This results in all siblings and 'subdirectories'
+         laying out identically. So what do we want?
+         If I found a parent that already has children, I'm a sibling, so add me differently.
+         If I'm the first one, I should 'set the standard' and be placed in some offset that implies I'm a subdirectory.
+         So:
+         a/b/c    | siblings(b)
+         a/b/c/d  |   siblings(c)
+         a/b/c/e  |   siblings(c)
+         a/b/c/f  |   siblings(c)
+         a/b/g    | siblings(b)
+         a/b/g/h  |   siblings(g)
+         a/b/g/i  |   siblings(g)
+         a/b/g/j  |   siblings(g)
+         a/b/g/k  |   siblings(g)
+         a/b/m    | siblings(b)
+         a/b/n    | siblings(b)
+         a/b/o    | siblings(b)
+         a/b/p    | siblings(b)
+         
+         I dunno if that helped. Ok, so files go left-right. That's decided.
+         
+         If I'm a directory, find my parent
+             if I'm the first one..
+                 put me underneath the tallest grid, align my leading to my parent
+             if I'm *not* the first one..
+                 put me trailing the last sibling group
+        */
+        
         // Attach grids to parent groups
         FileBrowser.recursivePaths(rootPath).forEach { childPath in
             let grid = builder.sharedGridCache.get(childPath)
             if let grid, !childPath.isDirectory {
+                // Adding files is kinda easy - just add it to the parent and let it sort out position
                 if let parent = firstParentGroupOf(target: childPath) {
                     grid.applyName()
                     parent.addChildGrid(grid)
@@ -184,12 +141,15 @@ private extension RenderPlan {
                 } else {
                     print("-- \(childPath) missing parent for directory...")
                 }
+            } else {
+                print("[!!!] not rendering \(childPath)")
             }
         }
         
         rootGroup.applyAllConstraints()
 //        addParentWalls()
     }
+    
     
     func firstParentGroupOf(target: URL) -> CodeGridGroup? {
         var parentURL = target.deletingLastPathComponent()
@@ -318,5 +278,25 @@ class WatchWrap {
         stopwatch.stop()
         let time = Self.stopwatch.elapsedTimeString()
         print("[* Stopwatch *] Time for \(name): \(time)")
+    }
+}
+
+// MARK: - Focus Style
+
+extension LFloat3 {
+    var magnitude: Float {
+        sqrt(x * x + y * y + z * z)
+    }
+    
+    var normalized: LFloat3 {
+        let magnitude = magnitude
+        return magnitude == 0
+            ? .zero
+            : self / magnitude
+    }
+    
+    mutating func normalize() -> LFloat3 {
+        self = self / magnitude
+        return self
     }
 }

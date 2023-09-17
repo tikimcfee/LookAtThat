@@ -95,10 +95,8 @@ extension GridCache: SwiftSyntaxFileLoadable {
     
     func createGridFromFile(_ url: URL) -> CodeGrid {
         let grid = createNewGrid()
-            .applying {
-                $0.withFileName(url.fileName)
-                    .withSourcePath(url)
-            }
+            .withFileName(url.fileName)
+            .withSourcePath(url)
         
         if let fileContents = try? String(contentsOf: url, encoding: .utf8) {
             grid.consume(text: fileContents)
@@ -113,10 +111,9 @@ extension GridCache: SwiftSyntaxFileLoadable {
         let grid = createNewGrid()
             .consume(rootSyntaxNode: Syntax(syntax))
             .applying {
-                if let url = sourceURL {
-                    $0.withFileName(url.fileName)
-                        .withSourcePath(url)
-                }
+                guard let url = sourceURL else { return }
+                $0.withFileName(url.fileName)
+                  .withSourcePath(url)
             }
         
         return grid

@@ -17,6 +17,7 @@
 		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
 		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
+		45DA82802AB76CEB008913BD /* ConstraintsRoots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */; };
 		B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBD28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
@@ -429,6 +430,7 @@
 		456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSizeChanged.swift; sourceTree = "<group>"; };
 		456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SourceInfo+WordInput.swift"; sourceTree = "<group>"; };
 		45A5E5562729071700A94FCE /* SemanticInfoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticInfoMap.swift; sourceTree = "<group>"; };
+		45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsRoots.swift; sourceTree = "<group>"; };
 		B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSizeConversionExtensions.swift; sourceTree = "<group>"; };
 		B70808D1287E45EB00827CBB /* SearchFocusRenderTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFocusRenderTask.swift; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
@@ -639,6 +641,14 @@
 			path = Libraries;
 			sourceTree = "<group>";
 		};
+		45DA827E2AB76CDE008913BD /* Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */,
+			);
+			path = Constraints;
+			sourceTree = "<group>";
+		};
 		B70808D0287E45DA00827CBB /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,6 +821,7 @@
 		B79F931227508F5600E46A96 /* CoreRendering */ = {
 			isa = PBXGroup;
 			children = (
+				45DA827E2AB76CDE008913BD /* Constraints */,
 				B7F344CD2839C89400629932 /* RenderPlan.swift */,
 				B79F931727509D3400E46A96 /* Stopwatch.swift */,
 			);
@@ -1534,6 +1545,7 @@
 				B768E2AF28BB44190067858F /* CodeGrid+CollectionUpdates.swift in Sources */,
 				B74A2340281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B7241AFA28288C26006A6A3E /* InputStreamReader.swift in Sources */,
+				45DA82802AB76CEB008913BD /* ConstraintsRoots.swift in Sources */,
 				B798103B281CC6BC009A82BD /* ThreadExtensions.swift in Sources */,
 				B74A233D2815267E00F6F727 /* TracingInfoBridging.swift in Sources */,
 				B71C595D2766BB0F00E406AE /* CodeGridTokenCache.swift in Sources */,

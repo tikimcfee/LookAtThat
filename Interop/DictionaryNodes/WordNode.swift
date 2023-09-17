@@ -23,6 +23,14 @@ class WordNode: MetalLinkNode {
     var mass: Float = .zero
     var targetGraph: Graph<String, String, Float>?
     lazy var forceNode = ForceLayoutNode.newZero()
+//    private(set) var xOffsets: [GlyphNode: Float] = [:] // this is the dumbest thing ever and I should feel ashamed; i have spent 0 time looking up algorithms and tools for this. why? I have no idea. Boredom and stubborness? Probably.
+    
+    override var hasIntrinsicSize: Bool { true }
+    override var contentSize: LFloat3 {
+        let b = BoundsComputing()
+        b.consumeNodeSet(Set(glyphs), convertingTo: nil)
+        return BoundsSize(b.bounds) * scale
+    }
     
     init(
         sourceWord: String,
@@ -36,8 +44,10 @@ class WordNode: MetalLinkNode {
         
         var xOffset: Float = 0
         for glyph in glyphs {
+//            children.append(glyph) // get around the warning lolol
             glyph.parent = self
             glyph.position = LFloat3(x: xOffset, y: 0, z: 0)
+//            xOffsets[glyph] = xOffset
             xOffset += glyph.boundsWidth
         }
         push()
@@ -61,6 +71,9 @@ class WordNode: MetalLinkNode {
         for glyph in glyphs {
             UpdateNode(glyph, in: parentGrid) { constants in
                 receiver(glyph, &constants)
+//                if let offset = xOffsets[glyph] {
+//                    glyph.position.x += offset // this is the dumbest thing ever and I should feel ashamed
+//                }
             }
         }
     }

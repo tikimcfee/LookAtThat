@@ -94,9 +94,12 @@ struct FileBrowserView: View {
     @ViewBuilder
     func fileRows(_ rows: RowType) -> some View {
         List(rows) { scope in
-            HStack(spacing: 0) {
-                makeSpacer(pathDepths(scope))
-                rowForScope(scope)
+            VStack {
+                HStack(spacing: 0) {
+                    makeSpacer(pathDepths(scope))
+                    rowForScope(scope)
+                }
+                Divider().opacity(0.75)
             }
         }
         #if os(macOS)

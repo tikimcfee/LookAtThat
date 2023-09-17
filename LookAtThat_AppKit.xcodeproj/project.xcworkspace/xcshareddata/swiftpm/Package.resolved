@@ -5,8 +5,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mchakravarty/CodeEditorView.git",
       "state" : {
-        "revision" : "325759c1cc2873fd5eba0f8d4eedd0233ac9eca7",
-        "version" : "0.10.0"
+        "revision" : "56d177538bc2749464adad1b5c889963dd453d7f",
+        "version" : "0.11.0"
+      }
+    },
+    {
+      "identity" : "rearrange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Rearrange",
+      "state" : {
+        "revision" : "0fb658e721c68495f6340c211cc6d4719e6b52d8",
+        "version" : "1.6.0"
       }
     },
     {
@@ -23,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
       "state" : {
-        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
-        "version" : "1.1.4"
+        "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
+        "version" : "1.2.3"
       }
     },
     {
@@ -51,7 +60,7 @@
       "location" : "https://github.com/apple/swift-syntax",
       "state" : {
         "branch" : "main",
-        "revision" : "b57df1e32dec0f51acaa582e5a5d6ea583ea4403"
+        "revision" : "636a9117599516359fdfb004048e54a77dd01433"
       }
     },
     {
@@ -59,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/codeface-io/SwiftNodes.git",
       "state" : {
-        "revision" : "14bea3996a90a19991fce3b61cbd6486387b7f21",
-        "version" : "0.8.2"
+        "revision" : "db5a47a90c459ba300a2eb90467982b1c3215630",
+        "version" : "0.8.3"
       }
     },
     {
@@ -78,7 +87,7 @@
       "location" : "https://github.com/ChimeHQ/SwiftTreeSitter.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0bb511d0def50d2d597143792a69debb9b761621"
+        "revision" : "1e8ad3c7d7f087c24467f2a8e0390405d18e2cb0"
       }
     },
     {

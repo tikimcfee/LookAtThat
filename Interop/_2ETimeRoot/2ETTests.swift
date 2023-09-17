@@ -104,16 +104,16 @@ extension TwoETimeRoot {
             
             plan.startRender {
                 plan.targetParent.translate(
-                    dZ: -plan.targetParent.lengthZ - 100
+                    dZ: -300
                 )
                 self.root.add(child: plan.targetParent)
                 
-                var time = 0.0.float
-                QuickLooper(interval: .milliseconds(30)) {
+//                var time = 0.0.float
+//                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.y += 0.1
-                    plan.targetParent.position.x = sin(time) * 10.0
-                    time += Float.pi / 180
-                }.runUntil { false }
+//                    plan.targetParent.position.x = sin(time) * 10.0
+//                    time += Float.pi / 180
+//                }.runUntil { false }
             }
         }
     }
