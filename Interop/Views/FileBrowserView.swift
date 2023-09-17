@@ -70,7 +70,7 @@ struct FileBrowserView: View {
             .padding(4.0)
             .frame(
                 minWidth: 256.0,
-                maxWidth: 640.0,
+                maxWidth: 400.0,
                 maxHeight: 768.0,
                 alignment: .leading
             )
@@ -100,7 +100,7 @@ struct FileBrowserView: View {
             }
         }
         #if os(macOS)
-        .listStyle(.inset(alternatesRowBackgrounds: true))
+        .listStyle(.plain)
         #else
         .listStyle(.plain)
         #endif
@@ -113,16 +113,19 @@ private extension FileBrowserView {
         switch scope {
         case let .file(path):
             fileView(scope, path)
+                .background(Color.gray.opacity(0.001))
                 .onTapGesture {
                     genericSelection(.newSingleCommand(path, .focusOnExistingGrid))
                 }
         case let .directory(path):
             directoryView(scope, path)
+                .background(Color.gray.opacity(0.001))
                 .onTapGesture {
                     fileScopeSelected(scope)
                 }
         case let .expandedDirectory(path):
             expandedDirectoryView(scope, path)
+                .background(Color.gray.opacity(0.001))
                 .onTapGesture {
                     fileScopeSelected(scope)
                 }

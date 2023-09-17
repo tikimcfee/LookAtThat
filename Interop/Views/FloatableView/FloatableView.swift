@@ -54,7 +54,15 @@ extension FloatableView {
     func makePlatformBody() -> some View {
     #if os(iOS)
         if resizableAsSibling {
-            innerViewBuilder().modifier(DragSizableModifer())
+            innerViewBuilder()
+                .modifier(
+                    DragSizableModifer(state: $dragState) {
+                        AppStatePreferences.shared.setCustom(
+                            name: "DragState-\(self.windowKey.rawValue)",
+                            value: dragState
+                        )
+                    }
+                )
         } else {
             innerViewBuilder()
         }

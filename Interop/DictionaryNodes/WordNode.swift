@@ -67,7 +67,7 @@ class WordNode: MetalLinkNode {
     
     private var asyncApplyTask: Task<(), Never>?
     
-    func  applyGlyphChangesAsync(
+    func applyGlyphChangesAsync(
         _ receiver: @escaping (GlyphNode, inout GlyphConstants) -> Void
     ) {
         asyncApplyTask?.cancel()
@@ -78,7 +78,6 @@ class WordNode: MetalLinkNode {
                 }
             }
         }
-        
     }
     
     private func push() {

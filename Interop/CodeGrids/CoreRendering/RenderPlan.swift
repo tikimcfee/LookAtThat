@@ -130,10 +130,9 @@ struct LiveConstraint: BasicConstraint {
     let action: (MetalLinkNode) -> LFloat3
     
     func apply() {
-        targetNode.position = sourceNode.position + action(sourceNode)
+        targetNode.position = action(sourceNode)
     }
 }
-
 
 class LinearConstraintController {
     var constraints = [any BasicConstraint]()
@@ -160,6 +159,7 @@ private extension RenderPlan {
         let rootGrid = self.builder.sharedGridCache.setCache(rootPath)
             .withSourcePath(rootPath)
             .withFileName(rootPath.fileName)
+            .applyName()
         let rootGroup = CodeGridGroup(globalRootGrid: rootGrid)
         targetParent.add(child: rootGrid.rootNode)
         
@@ -171,6 +171,7 @@ private extension RenderPlan {
             let grid = builder.sharedGridCache.get(childPath)
             if let grid, !childPath.isDirectory {
                 if let parent = firstParentGroupOf(target: childPath) {
+                    grid.applyName()
                     parent.addChildGrid(grid)
                 } else {
                     print("-- \(childPath) missing parent for grid...")
@@ -178,6 +179,7 @@ private extension RenderPlan {
             } else if let grid, let group = state.directoryGroups[grid] {
                 if let parent = firstParentGroupOf(target: childPath) {
                     print("Adding \(childPath) to \(parent.globalRootGrid.sourcePath!)")
+                    group.globalRootGrid.applyName()
                     parent.addChildGroup(group)
                 } else {
                     print("-- \(childPath) missing parent for directory...")
@@ -220,76 +222,25 @@ private extension RenderPlan {
     
     func addParentWalls() {
         for (grid, group) in state.directoryGroups {
-            let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
-            let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
-            let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
-            gridBackground.setColor(LFloat4(0.4, 0.2, 0.2, 0.5))
-            gridTopWall.setColor(LFloat4(0.3, 0.2, 0.2, 0.5))
-            gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
-            grid.rootNode.add(child: gridBackground)
-//            grid.rootNode.add(child: gridTopWall)
-//            grid.rootNode.add(child: gridRightWall)
-            
-            var rect: Bounds { group.globalRootGrid.rectPos }
-            var size: LFloat3 { BoundsSize(rect) }
-            
-            gridBackground.size = LFloat2(x: size.x, y: size.y)
-            gridBackground
-                .setLeading(rect.min.x)
-                .setTop(rect.max.y)
-                .setFront(rect.min.z)
+//            let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
+//            let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
+//            let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
+//            gridBackground.setColor(LFloat4(0.4, 0.2, 0.2, 0.5))
+//            gridTopWall.setColor(LFloat4(0.3, 0.2, 0.2, 0.5))
+//            gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
+//            grid.rootNode.add(child: gridBackground)
+////            grid.rootNode.add(child: gridTopWall)
+////            grid.rootNode.add(child: gridRightWall)
 //
-//            gridTopWall.size = LFloat2(x: size.x, y: size.z)
-//            gridTopWall
+//            var rect: Bounds { group.globalRootGrid.rectPos }
+//            var size: LFloat3 { BoundsSize(rect) }
+//
+//            gridBackground.size = LFloat2(x: size.x, y: size.y)
+//            gridBackground
 //                .setLeading(rect.min.x)
-//                .setFront(rect.max.z / 2.0)
-//            gridTopWall.rotation.x = Float.pi / 2.0
-//
-//            gridRightWall.size = LFloat2(x: size.z, y: size.y)
-//            gridRightWall
-//                .setLeading(rect.max.x - size.z / 2.0)
-//                .setTop(rect.max.y - 0.1)
-//                .setFront(rect.max.z / 2.0)
-//            gridRightWall.rotation.y = -Float.pi / 2.0
-            
-            
-            
-            // TODO: Lines maybe; generalize this (LineDrawer.addChildLineToOtherWorldNode())
-//            var lineParent = url.deletingLastPathComponent()
-//            var thisParentParent: CodeGrid?
-//            while lineParent.pathComponents.count > 1, thisParentParent == nil {
-//                thisParentParent = state.orderedParents[lineParent]
-//                lineParent.deleteLastPathComponent()
-//            }
-//
-//            if let thisParentParent {
-//                let line = MetalLinkLine(GlobalInstances.defaultLink)
-//                line.setColor(LFloat4(1.0, 0.8, 0.1, 1.0))
-//                line.appendSegment(
-//                    about: thisParentParent.position
-//                )
-//                line.appendSegment(
-//                    about: LFloat3(
-//                        x: thisParent.position.x,
-//                        y: thisParentParent.position.y,
-//                        z: thisParentParent.position.z
-//                    )
-//                )
-//                line.appendSegment(
-//                    about: LFloat3(
-//                        x: thisParent.position.x - 10.0,
-//                        y: thisParent.position.y + 10.0,
-//                        z: thisParentParent.position.z - 10.0
-//                    )
-//                )
-//                line.appendSegment(
-//                    about: thisParent.position
-//                )
-////                targetParent.add(child: line)
-//                thisParent.rootNode.add(child: line)
-////                thisParentParent
-////                thisParentParent
-//            }
+//                .setTop(rect.max.y)
+//                .setFront(rect.min.z)
+            group.globalRootGrid.updateBackground()
         }
     }
 }

@@ -69,6 +69,7 @@ public class CodeGrid: Identifiable, Equatable {
         setupOnInit()
     }
     
+    @discardableResult
     func applyName() -> CodeGrid {
         guard nameNode == nil else { return self }
         guard let sourcePath else { return self }
@@ -85,9 +86,17 @@ public class CodeGrid: Identifiable, Equatable {
             ? LFloat4(0.33, 0.75, 0.45, 1.0)
             : LFloat4(1.00, 0.00, 0.00, 1.0)
         
+        let nameScale: Float = isDirectory
+            ? 16.0 // directory name size
+            : 4.0 // file name size
+        
+        let namePosition = isDirectory
+            ? LFloat3(0.0, 16.0, 0.0)
+            : LFloat3(0.0, 4.0, 0.0)
+        
         nameNode.update { nameNode in
-            nameNode.position = LFloat3(0.0, 4.0, 0.0)
-            nameNode.scale = LFloat3(repeating: 4.0)
+            nameNode.position = namePosition
+            nameNode.scale = LFloat3(repeating: nameScale)
             nameNode.applyGlyphChanges { node, constants in
                 constants.addedColor = nameColor
             }
@@ -131,15 +140,11 @@ public class CodeGrid: Identifiable, Equatable {
     func addChildGrid(_ other: CodeGrid) {
         childGrids.append(other)
         rootNode.add(child: other.rootNode)
-//        rootNode.enumerateNonInstancedChildren = true
     }
     
     func removeChildGrid(_ other: CodeGrid) {
         childGrids.removeAll(where: { $0.id == other.id })
         rootNode.remove(child: other.rootNode)
-//        if childGrids.isEmpty {
-//            rootNode.enumerateNonInstancedChildren = false
-//        }
     }
     
     func updateNode(
