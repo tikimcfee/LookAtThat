@@ -129,6 +129,8 @@ private extension SearchFocusRenderTask {
     }
     
     func test(grid: CodeGrid, searchText: String) throws {
+        guard !(grid.sourcePath?.isDirectory ?? false) else { return }
+        
         var matched: [SemanticInfo: Int] = [:]
         
         for (_, info) in grid.semanticInfoMap.semanticsLookupBySyntaxId {

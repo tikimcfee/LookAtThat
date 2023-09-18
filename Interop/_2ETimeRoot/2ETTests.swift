@@ -90,6 +90,7 @@ extension TwoETimeRoot {
     func setupRenderPlanTest() throws {
         builder.mode = .multiCollection
         root.add(child: GlobalInstances.gridStore.traceLayoutController.currentTraceLine)
+        camera.position = LFloat3(0, 0, 300)
         
         directoryAddPipeline { filePath in
             let plan = RenderPlan(
@@ -103,11 +104,7 @@ extension TwoETimeRoot {
             )
             
             plan.startRender {
-                plan.targetParent.translate(
-                    dZ: -300
-                )
                 self.root.add(child: plan.targetParent)
-                
 //                var time = 0.0.float
 //                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.y += 0.1

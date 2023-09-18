@@ -147,6 +147,7 @@ private extension RenderPlan {
         }
         
         rootGroup.applyAllConstraints()
+        editor.transformedByAdding(.trailingFromLastGrid(rootGrid))
 //        addParentWalls()
     }
     

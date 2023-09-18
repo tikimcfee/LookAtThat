@@ -112,7 +112,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var semanticCategoriesView: some View {
         SourceInfoCategoryView()
-            .frame(maxWidth: 780, maxHeight: 640)
+            .frame(width: 780, height: 640)
             .environmentObject(state)
     }
     
