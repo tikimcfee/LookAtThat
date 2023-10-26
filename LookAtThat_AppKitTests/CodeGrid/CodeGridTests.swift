@@ -68,28 +68,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             }
     }
     
-    func testDirectoryCalculator() throws {
-        // Given
-        let directoryURL = bundle.testSourceDirectory!
-        
-        // When
-        let calculator = DirectoryCalculator()
-        let totalSize = calculator.computeTotalSizeOfDirectory(at: directoryURL)
-        
-        // Then
-        // Adjust these expected values based on the actual sizes of files in your test directory
-        let expectedWidth: Float = 100.0
-        let expectedHeight: Float = 100.0
-        
-        XCTAssertGreaterThan(totalSize.width, expectedWidth, "Computed width does not match expected width")
-        XCTAssertGreaterThan(totalSize.height, expectedHeight, "Computed height does not match expected height")
-        
-        calculator.traverseTreeSecondPass(root: directoryURL)
-        for (url, position) in calculator.positionDict {
-            print(url, " --> ", position)
-        }
-    }
-    
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)

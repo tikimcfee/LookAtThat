@@ -98,6 +98,12 @@ class WordNode: MetalLinkNode {
     private func push() {
         parentGrid.pushNodes(glyphs)
     }
+    
+    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+        for glyph in glyphs {
+            action(glyph)
+        }
+    }
 }
 
 

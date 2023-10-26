@@ -39,31 +39,54 @@ class LookAtThat_TracingTests: XCTestCase {
         let parser = Parser()
         try parser.setLanguage(language)
         
-        let testFile = try String(contentsOf: bundle.testFile)
+        let path = URL(filePath: "/Users/ivanlugo/rapiddev/_personal/LookAtThat/Interop/Views/SourceInfoPanelState.swift")
+        let testFile = try! String(contentsOf: path)
         let tree = parser.parse(testFile)!
         
-        // find the SPM-packaged queries
-        let queryURL = Bundle.main
-            .resourceURL!
-            .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
-            .appendingPathComponent("Contents/Resources/queries/locals.scm")
+        print(tree)
         
-        let query = try language.query(contentsOf: queryURL)
+        let queryUrl = Bundle.main
+                      .resourceURL?
+                      .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
+                      .appendingPathComponent("Contents/Resources/queries/highlights.scm")
         
+        let query = try language.query(contentsOf: queryUrl!)
         let cursor = query.execute(node: tree.rootNode!)
         
-        // the performance of nextMatch is highly dependent on the nature of the queries,
-        // language grammar, and size of input
-        while let match = cursor.next() {
-            match.captures.forEach {
-                print(">> match:")
-                let message = """
-                >> \($0.name ?? "!! name-missing")
-                \(testFile[Range($0.node.range, in: testFile)!])
-                
-                """
-                print(message)
+        for match in cursor {
+            print("match: ", match.id, match.patternIndex)
+            
+            print("\t-- captures")
+            for capture in match.captures {
+                print("\t\t\(capture)")
+                print("\t\t\(capture.nameComponents)")
+                print("\t\t\(capture.metadata)")
             }
+        }
+    }
+    
+    class TreeSyntaxCollector {
+        var rootNode: TreeSyntaxNode
+        
+        init(
+            rootNode: TreeSyntaxNode
+        ) {
+            self.rootNode = rootNode
+        }
+    }
+    
+    class TreeSyntaxNode {
+        var name: String
+        var nameChildren: [String]
+        var nameCaptures: [QueryCapture]
+        init(
+            name: String,
+            nameChildren: [String],
+            nameCaptures: [QueryCapture]
+        ) {
+            self.name = name
+            self.nameChildren = nameChildren
+            self.nameCaptures = nameCaptures
         }
     }
     

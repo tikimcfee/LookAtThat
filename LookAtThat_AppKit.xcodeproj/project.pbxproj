@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45179CC12AE8AB9400CE2885 /* ConstraintsRoots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */; };
+		45179CC22AE8AB9700CE2885 /* ConstraintsRoots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */; };
 		453A462A272B3C840016DB47 /* SemanticInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453A4629272B3C840016DB47 /* SemanticInfoBuilder.swift */; };
 		456A4E652AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */; };
 		456A4E662AB24CFA00BEB2A1 /* OnSizeChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E642AB24CFA00BEB2A1 /* OnSizeChanged.swift */; };
@@ -17,6 +19,7 @@
 		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
 		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45A5E5572729071700A94FCE /* SemanticInfoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5E5562729071700A94FCE /* SemanticInfoMap.swift */; };
+		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		45DA82802AB76CEB008913BD /* ConstraintsRoots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DA827F2AB76CEB008913BD /* ConstraintsRoots.swift */; };
 		B701DDB928B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
 		B701DDBC28B907E6004F7203 /* DataSizeConversionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701DDB828B907E6004F7203 /* DataSizeConversionExtensions.swift */; };
@@ -1420,6 +1423,7 @@
 				B7CBD77728FCD0B600A918C2 /* TraceLayoutController.swift in Sources */,
 				B750149D282DDA9C0024B7C0 /* CodeGridGlobalSemantics.swift in Sources */,
 				B7B1684F2A31524F003E7A76 /* 2ETTests.swift in Sources */,
+				45179CC22AE8AB9700CE2885 /* ConstraintsRoots.swift in Sources */,
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22DE2814FFF300F6F727 /* Stopwatch.swift in Sources */,
 				B74A22E12814FFF300F6F727 /* WorldGridSnapping.swift in Sources */,
@@ -1627,6 +1631,7 @@
 				B7F010B428BAF46B00182FF5 /* FocusPosition.swift in Sources */,
 				F02E110D251EC81C0052D993 /* MultipeerManager+SessionDelegate.swift in Sources */,
 				B7247A6529A0781A0073B98C /* DictionaryController.swift in Sources */,
+				45179CC12AE8AB9400CE2885 /* ConstraintsRoots.swift in Sources */,
 				F057D21F252043480094BD83 /* GlobalAliases.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				B7B1098228D6AD2F00AA4E37 /* WorldGridEditor.swift in Sources */,
@@ -1663,6 +1668,7 @@
 				B725167B28C0871F0094F29B /* DeviceScaling.swift in Sources */,
 				B7F344CF2839C89400629932 /* RenderPlan.swift in Sources */,
 				F02E1117251EEFE40052D993 /* MultipeerControls.swift in Sources */,
+				45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */,
 				B768E2BC28BC2E900067858F /* SemanticInfoMap+Sorting.swift in Sources */,
 				B7A60F8628B983F500ACA4E6 /* CharacterExtensions.swift in Sources */,
 				B7247A5D29A077C10073B98C /* WordNode.swift in Sources */,

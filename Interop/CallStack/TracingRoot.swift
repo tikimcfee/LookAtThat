@@ -6,7 +6,11 @@
 //
 
 import Foundation
+
+#if canImport(AppKit)
 import AppKit
+#endif
+
 import Combine
 import BitHandling
 

@@ -75,7 +75,8 @@ private extension SearchFocusRenderTask {
             workGroup.enter()
             WorkerPool.shared.nextWorker().async {
                 defer { workGroup.leave() }
-                next.gridBackground.setColor(LFloat4(0.03, 0.33, 0.22, 1.0))
+                next.gridBackground.setColor(LFloat4(0.0, 0.0, 0.0, 1.0))
+                next.rootNode.scale = LFloat3(1, 1, 1)
                 next.updateAllNodeConstants { node, constants, stopFlag in
                     constants.addedColor = .zero
                     constants.modelMatrix.columns.3.z = 1
@@ -199,6 +200,8 @@ private extension SearchFocusRenderTask {
     
     func defocusNodesForSemanticInfo(source: CodeGrid) throws {
         let clearFocus = newInput.isEmpty
+        source.rootNode.scale = LFloat3(0.4, 0.4, 0.4)
+        source.gridBackground.setColor(LFloat4(0.2, 0.2, 0.2, 1))
         for rootNode in source.consumedRootSyntaxNodes {
             try source.semanticInfoMap.walkFlattened(
                 from: rootNode.id,
@@ -206,7 +209,6 @@ private extension SearchFocusRenderTask {
             ) { info, targetNodes in
                 for node in targetNodes {
                     try self.throwIfCancelled()
-                    source.gridBackground.setColor(LFloat4(0.2, 0.2, 0.2, 1))
                     source.rootNode.updateConstants(for: node) {
                         if clearFocus {
                             $0.addedColor = .zero

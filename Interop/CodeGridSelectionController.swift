@@ -80,7 +80,6 @@ class CodeGridSelectionController: ObservableObject {
             .walkFlattened(from: id, in: tokenCache) { info, nodes in
                 for node in nodes {
                     update(node, grid)
-//                    node.rebuildModelMatrix()
                     computing.consumeBounds(node.worldBounds)
                 }
             }

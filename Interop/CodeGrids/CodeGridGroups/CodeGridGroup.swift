@@ -254,6 +254,15 @@ struct RadialLayout {
 
 protocol LayoutTarget {
     var layoutNode: MetalLinkNode { get }
+    var grids: [MetalLinkNode] { get }
+}
+
+extension LayoutTarget {
+    var grids: [MetalLinkNode] {
+        layoutNode.children.compactMap {
+           $0 as? GlyphCollection
+        }
+    }
 }
 
 extension CodeGrid: LayoutTarget {
@@ -262,6 +271,77 @@ extension CodeGrid: LayoutTarget {
 
 extension MetalLinkNode: LayoutTarget {
     var layoutNode: MetalLinkNode { self }
+}
+
+struct CircleLayout {
+    let radius: Float
+    func layout(targets: [LayoutTarget]) {
+        let total = targets.count
+        for (index, target) in targets.enumerated() {
+            let angle = 2 * Float.pi * Float(index) / Float(total)
+            let x = radius * cos(angle)
+            let y = radius * sin(angle)
+            target.layoutNode.setTop(y)
+            target.layoutNode.setLeading(x)
+        }
+    }
+}
+
+struct BSPLayout {
+    func layout(root: LayoutTarget) {
+        self.positionNodesBSP(node: root, startPosition: .zero, depth: 0)
+    }
+    
+    func positionNodesBSP(node: LayoutTarget, startPosition: LFloat3, depth: Int) {
+        node.layoutNode.position = startPosition // Position the current node
+        let grids = node.layoutNode.grids
+        
+        if !grids.isEmpty {
+            let totalChildren = grids.count
+            
+            // Calculate grid dimensions
+            let gridDimension = ceil(sqrt(Float(totalChildren)))
+            let spacing = LFloat3(
+                x: node.layoutNode.lengthX + 10,
+                y: node.layoutNode.lengthY + 10,
+                z: 1
+            )
+            
+            for (index, child) in grids.enumerated() {
+                // Calculate the new position for the child
+                let gridX = Float(index % Int(gridDimension))
+                let gridY = Float(index / Int(gridDimension))
+                
+                let childPosition = LFloat3(
+                    x: startPosition.x + spacing.x * gridX,
+                    y: startPosition.y - spacing.y * gridY,              // Layout downward
+                    z: startPosition.z + Float(depth) * spacing.z * 10.0 // Increase Z-distance based on depth
+                )
+                
+                positionNodesBSP(node: child, startPosition: childPosition, depth: depth + 1)
+            }
+        }
+    }
+}
+
+struct SphereLayout {
+    let radius: Float
+    func layout(targets: [LayoutTarget]) {
+        let total = targets.count
+        for (index, target) in targets.enumerated() {
+            let y = 1 - (Float(index) / Float(total - 1)) * 2  // y goes from 1 to -1
+            let radiusAtY = sqrt(1 - y*y) * radius  // radius at y position
+            
+            let phi = (2 * Float.pi) * (1.0 / 0.618033988749895 * Float(index))  // golden angle
+            
+            let x = cos(phi) * radiusAtY
+            let z = sin(phi) * radiusAtY
+            
+            target.layoutNode.setTop(y * radius)
+            target.layoutNode.setLeading(x)
+            target.layoutNode.setFront(z)
+        }
+    }
 }
 
 struct DepthLayout {

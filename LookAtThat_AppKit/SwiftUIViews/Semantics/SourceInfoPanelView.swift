@@ -10,7 +10,10 @@ import Combine
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
+    
+    #if !os(iOS)
     @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
+    #endif
     
     var body: some View {
 //        VStack(alignment: .leading) {
@@ -123,7 +126,11 @@ extension SourceInfoPanelView {
 
     @ViewBuilder
     var traceInfoView: some View {
+        #if !os(iOS)
         SemanticTracingOutView(state: tracingState)
+        #else
+        Text("No tracin' on mobile because abstractions.")
+        #endif
     }
     
     @ViewBuilder
@@ -184,6 +191,7 @@ func helloWorld() {
         return state
     }()
     
+    #if !os(iOS)
     static var semanticTracingOutState: SemanticTracingOutState = {
         let state = SemanticTracingOutState()
 //        #if TARGETING_SUI
@@ -195,6 +203,7 @@ func helloWorld() {
 //        #endif
         return state
     }()
+    #endif
 
     static var previews: some View {
         return Group {

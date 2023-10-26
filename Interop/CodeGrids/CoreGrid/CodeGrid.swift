@@ -134,7 +134,7 @@ public class CodeGrid: Identifiable, Equatable {
         gridBackground
             .setLeading(0)
             .setTop(bounds.max.y)
-            .setFront(-1)
+            .setFront(bounds.min.z - 1)
     }
     
     func addChildGrid(_ other: CodeGrid) {

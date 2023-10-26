@@ -51,7 +51,10 @@ struct GlobalSearchView: View {
     var body: some View {
         VStack(alignment: .leading) {
             searchInput
-            scrollLocks
+            HStack {
+                scrollLocks
+                randomGlobalButtons
+            }
             gridListColumns
         }.onChange(of: searchScrollLock) {
             GlobalInstances.debugCamera.scrollLock = $0
@@ -145,6 +148,18 @@ struct GlobalSearchView: View {
         }
         .padding()
         .border(.gray)
+    }
+    
+    var randomGlobalButtons: some View {
+        VStack {
+            Button("Save Glyph Atlas") {
+                GlobalInstances.defaultAtlas.serialize()
+            }
+            
+//            Button("Load glyph Atlas") {
+//                GlobalInstances.defaultAtlas.serialize()
+//            }
+        }
     }
     
     func scrollToggleButton(_ lock: DebugCamera.ScrollLock) -> some View {
