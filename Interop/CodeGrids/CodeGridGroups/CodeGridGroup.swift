@@ -40,6 +40,9 @@ class CodeGridGroup {
         ?? 0
     }
     
+    var maxGridsInRow = 5
+    var gridsInRow = 0
+    
     func applyAllConstraints() {
         for childGroup in childGroups {
             childGroup.applyAllConstraints()
@@ -53,6 +56,10 @@ class CodeGridGroup {
                 sourceNode: lastGrid.rootNode,
                 targetNode: grid.rootNode
             ))
+//            controller.add(LinearConstraints.Behind(
+//                sourceNode: lastGrid.rootNode,
+//                targetNode: grid.rootNode
+//            ))
         }
         
         lastRowStartingGrid = lastRowStartingGrid ?? grid
@@ -65,25 +72,17 @@ class CodeGridGroup {
     
     func addChildGroup(_ group: CodeGridGroup) {
         if let lastGroup = childGroups.last {
-            controller.add(LiveConstraint(
+            controller.add(LinearConstraints.ToTrailingOf(
                 sourceNode: lastGroup.globalRootGrid.rootNode,
-                targetNode: group.globalRootGrid.rootNode,
-                action: { node in
-                    LFloat3(
-                        x: node.position.x,
-                        y: -node.lengthY - 16.0,
-                        z: -128.0
-                    )
-                }
+                targetNode: group.globalRootGrid.rootNode
             ))
-        }
-        else {
+        } else {
             controller.add(LiveConstraint(
                 sourceNode: MetalLinkNode(),
                 targetNode: group.globalRootGrid.rootNode,
                 action: { node in
                     LFloat3(
-                        x: 32,
+                        x: 0,
                         y: self.nextRowStartY,
                         z: -128
                     )
@@ -186,72 +185,6 @@ struct ChatLayout {
     }
 }
 
-struct RadialLayout {
-    let magnitude: Float
-    
-    init(magnitude: Float) {
-        self.magnitude = magnitude
-    }
-    
-    func layoutGrids2(
-        _ centerX: Float,
-        _ centerY: Float,
-        _ centerZ: Float,
-        _ radius: Float,
-        _ wordNodes: [WordNode],
-        _ parent: CodeGrid
-    ) {
-        let numberOfWords = wordNodes.count
-        let step = 360.0 / numberOfWords.float
-        
-        for i in 0..<numberOfWords {
-            let angleInDegrees = step * i.float
-            let angleInRadians = angleInDegrees * Float.pi / 180
-            let x = centerX + radius * cos(angleInRadians)
-            //            let y = centerY + radius * -sin(angleInRadians)
-            let z = centerZ + radius * -sin(angleInRadians)
-            let final = LFloat3(x: x, y: centerY, z: z)
-            //            wordNodes[i].layoutNode.position = LFloat3(x: x, y: y, z: centerZ)
-            let node = wordNodes[i]
-            var xOffset: Float = -node.contentSize.x / 2.0
-            for glyph in wordNodes[i].glyphs {
-                parent.updateNode(glyph) {
-                    $0.modelMatrix.columns.3.x = xOffset + final.x
-                    $0.modelMatrix.columns.3.y = final.y
-                    $0.modelMatrix.columns.3.z = final.z
-                    //                    $0.modelMatrix.translate(vector: vector)
-                }
-                xOffset += glyph.contentSize.x
-            }
-        }
-    }
-    
-    // TODO: Doesn't quite work, not taking rotation into account for bounds.. I think
-    func layoutGrids(_ nodes: [LayoutTarget]) {
-        guard nodes.count > 1 else { return }
-        let nodeCount = nodes.count
-        
-        let twoPi = 2.0 * Float.pi
-        let childRadians = twoPi / nodeCount.float
-        let childRadianStride = stride(from: 0.0, to: twoPi, by: childRadians)
-        
-        zip(nodes, childRadianStride).enumerated().forEach { index, gridTuple in
-            let (node, radians) = gridTuple
-            
-            let radialX = (cos(radians) * (magnitude))
-            let radialY = 0.float
-            let radialZ = (sin(radians) * (magnitude))
-            
-            node.layoutNode.position = LFloat3.zero.translated(
-                dX: radialX,
-                dY: radialY,
-                dZ: radialZ
-            )
-            //            node.layoutNode.rotation.y = radians
-        }
-    }
-}
-
 protocol LayoutTarget {
     var layoutNode: MetalLinkNode { get }
     var grids: [MetalLinkNode] { get }
@@ -283,63 +216,6 @@ struct CircleLayout {
             let y = radius * sin(angle)
             target.layoutNode.setTop(y)
             target.layoutNode.setLeading(x)
-        }
-    }
-}
-
-struct BSPLayout {
-    func layout(root: LayoutTarget) {
-        self.positionNodesBSP(node: root, startPosition: .zero, depth: 0)
-    }
-    
-    func positionNodesBSP(node: LayoutTarget, startPosition: LFloat3, depth: Int) {
-        node.layoutNode.position = startPosition // Position the current node
-        let grids = node.layoutNode.grids
-        
-        if !grids.isEmpty {
-            let totalChildren = grids.count
-            
-            // Calculate grid dimensions
-            let gridDimension = ceil(sqrt(Float(totalChildren)))
-            let spacing = LFloat3(
-                x: node.layoutNode.lengthX + 10,
-                y: node.layoutNode.lengthY + 10,
-                z: 1
-            )
-            
-            for (index, child) in grids.enumerated() {
-                // Calculate the new position for the child
-                let gridX = Float(index % Int(gridDimension))
-                let gridY = Float(index / Int(gridDimension))
-                
-                let childPosition = LFloat3(
-                    x: startPosition.x + spacing.x * gridX,
-                    y: startPosition.y - spacing.y * gridY,              // Layout downward
-                    z: startPosition.z + Float(depth) * spacing.z * 10.0 // Increase Z-distance based on depth
-                )
-                
-                positionNodesBSP(node: child, startPosition: childPosition, depth: depth + 1)
-            }
-        }
-    }
-}
-
-struct SphereLayout {
-    let radius: Float
-    func layout(targets: [LayoutTarget]) {
-        let total = targets.count
-        for (index, target) in targets.enumerated() {
-            let y = 1 - (Float(index) / Float(total - 1)) * 2  // y goes from 1 to -1
-            let radiusAtY = sqrt(1 - y*y) * radius  // radius at y position
-            
-            let phi = (2 * Float.pi) * (1.0 / 0.618033988749895 * Float(index))  // golden angle
-            
-            let x = cos(phi) * radiusAtY
-            let z = sin(phi) * radiusAtY
-            
-            target.layoutNode.setTop(y * radius)
-            target.layoutNode.setLeading(x)
-            target.layoutNode.setFront(z)
         }
     }
 }

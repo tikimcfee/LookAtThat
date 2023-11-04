@@ -61,7 +61,7 @@ class LinearConstraintController {
     var constraints = [any BasicConstraint]()
     
     func applyConsecutiveConstraints() {
-        for constraint in constraints.reversed() {
+        for constraint in constraints {
             constraint.apply()
         }
     }
@@ -82,6 +82,15 @@ struct LinearConstraints {
             targetNode.setTop(sourceNode.top + offset.y)
             targetNode.setLeading(sourceNode.trailing + Self.xOffset + offset.x)
             targetNode.setBack(sourceNode.back + offset.z)
+        }
+    }
+    
+    class ToTrailingOfFront: BasicOffsetConstraint {
+        static let xOffset: Float = 16.0
+        open override func apply() {
+            targetNode.setTop(sourceNode.top + offset.y)
+            targetNode.setLeading(sourceNode.trailing + Self.xOffset + offset.x)
+            targetNode.setBack(sourceNode.front + offset.z)
         }
     }
     

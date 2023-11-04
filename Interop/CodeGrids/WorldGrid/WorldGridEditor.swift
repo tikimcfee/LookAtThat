@@ -21,7 +21,6 @@ class WorldGridEditor {
     
     let snapping = WorldGridSnapping()
     var layoutStrategy: Strategy = .gridRelative
-    
     var lastFocusedGrid: CodeGrid?
     
     init() {

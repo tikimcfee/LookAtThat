@@ -26,7 +26,11 @@ struct RenderPlan {
     
     class State {
         var orderedParents = OrderedDictionary<URL, CodeGrid>()
-        var directoryGroups = [CodeGrid: CodeGridGroup]()
+        
+        /// Maps the file or directory URL to its contained.
+        /// It's either the parent, or one of its children.
+//        var directoryGroups = [URL: CodeGridGroup]()
+        var directoryGroups = ConcurrentDictionary<URL, CodeGridGroup>()
     }
     var state = State()
 
@@ -76,93 +80,131 @@ struct RenderPlan {
 
 private extension RenderPlan {
     func doGridLayout() {
-        layoutCoicles()
-    }
-    
-    func layoutCoicles() {
-        BSPLayout().layout(root: targetParent)
+        justShowMeCodePlease()
     }
     
     func justShowMeCodePlease() {
-        let reversedPaths = FileBrowser.recursivePaths(rootPath).reversed()
-        
-        
+        guard rootPath.isDirectory else { return }
+        state.directoryGroups[rootPath]?.applyAllConstraints()
     }
 }
 
 private extension RenderPlan {
     func cacheGrids() {
-        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
         statusObject.update {
             $0.totalValue += 1 // pretend there's at least one unfinished task
             $0.message = "Starting grid cache..."
         }
         
+        guard rootPath.isDirectory else {
+            let rootGrid = launchFileGridBuildSync(rootPath)
+            targetParent.add(child: rootGrid.rootNode)
+            return
+        }
+        
         let dispatchGroup = DispatchGroup()
         
-        if rootPath.isDirectory {
-            let rootGrid = builder.sharedGridCache
-                .setCache(rootPath)
-                .withSourcePath(rootPath)
-                .withFileName(rootPath.fileName)
-                .applyName()
-            
-            targetParent
-                .add(child: rootGrid.rootNode)
-            
-            FileBrowser.recursivePaths(rootPath).forEach { childPath in
-                if FileBrowser.isSupportedFileType(childPath) {
-                    launchGridBuild(childPath)
-                }
-                else if childPath.isDirectory {
-                    let childDirectoryGrid = 
-                        builder.sharedGridCache
-                            .setCache(childPath)
-                            .withSourcePath(childPath)
-                            .withFileName(childPath.fileName)
-                            .applyName()
-                    
-//                    if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
-//                        parent.addChildGrid(childDirectoryGrid)
-//                    }
-                }
-            }
-        } else {
-            launchGridBuild(rootPath)
-        }
-        dispatchGroup.wait()
-
+        let rootGrid = builder.sharedGridCache
+            .setCache(rootPath)
+            .withSourcePath(rootPath)
+            .withFileName(rootPath.fileName)
+            .applyName()
+        let group = CodeGridGroup(globalRootGrid: rootGrid)
+        state.directoryGroups[rootPath] = group
+        targetParent.add(child: rootGrid.rootNode)
         
-        func launchGridBuild(_ childPath: URL) {
-            dispatchGroup.enter()
-            
-            statusObject.update {
-                $0.totalValue += 1
-                $0.detail = "File: \(childPath.lastPathComponent)"
-            }
-            
-            worker.async {
-                let grid = builder
-                    .createConsumerForNewGrid()
-                    .consume(url: childPath)
-                    .withFileName(childPath.lastPathComponent)
+        FileBrowser.recursivePaths(rootPath).forEach { childPath in
+            if FileBrowser.isSupportedFileType(childPath) {
+                launchFileGridBuild(dispatchGroup, childPath)
+            } else if childPath.isDirectory {
+                let grid = builder.sharedGridCache
+                    .setCache(childPath)
                     .withSourcePath(childPath)
+                    .withFileName(childPath.fileName)
                     .applyName()
                 
-                builder.sharedGridCache.cachedFiles[childPath] = grid.id
-                hoverController.attachPickingStream(to: grid)
+                let group = CodeGridGroup(globalRootGrid: grid)
+                state.directoryGroups[childPath] = group
                 
-//                if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
-//                    parent.addChildGrid(grid)
-//                }
-
-                statusObject.update {
-                    $0.currentValue += 1
-                    $0.detail = "File Complete: \(childPath.lastPathComponent)"
+                if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
+                    parent.addChildGroup(group)
                 }
-                dispatchGroup.leave()
+            } else {
+                print("Skipping file: \(childPath.fileName)")
             }
         }
+        dispatchGroup.wait()
+        
+        FileBrowser.recursivePaths(rootPath).forEach { childPath in
+            if FileBrowser.isSupportedFileType(childPath) {
+                let grid = builder.sharedGridCache.get(childPath)!
+                let group = state.directoryGroups[childPath.deletingLastPathComponent()]!
+                group.addChildGrid(grid)
+            }
+        }
+    }
+    
+    func launchFileGridBuild(
+        _ dispatchGroup: DispatchGroup,
+        _ childPath: URL
+    ) {
+        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
+        
+        dispatchGroup.enter()
+        statusObject.update {
+            $0.totalValue += 1
+            $0.detail = "File: \(childPath.lastPathComponent)"
+        }
+        
+        worker.async {
+            let grid = builder
+                .createConsumerForNewGrid()
+                .consume(url: childPath)
+                .withFileName(childPath.lastPathComponent)
+                .withSourcePath(childPath)
+                .applyName()
+            
+            builder.sharedGridCache.cachedFiles[childPath] = grid.id
+            hoverController.attachPickingStream(to: grid)
+            
+            statusObject.update {
+                $0.currentValue += 1
+                $0.detail = "File Complete: \(childPath.lastPathComponent)"
+            }
+            dispatchGroup.leave()
+        }
+    }
+    
+    @discardableResult
+    func launchFileGridBuildSync(
+        _ childPath: URL
+    ) -> CodeGrid {
+        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
+        
+        statusObject.update {
+            $0.totalValue += 1
+            $0.detail = "File: \(childPath.lastPathComponent)"
+        }
+        
+        let codeGrid: CodeGrid = worker.sync {
+            let grid = builder
+                .createConsumerForNewGrid()
+                .consume(url: childPath)
+                .withFileName(childPath.lastPathComponent)
+                .withSourcePath(childPath)
+                .applyName()
+            
+            builder.sharedGridCache.cachedFiles[childPath] = grid.id
+            hoverController.attachPickingStream(to: grid)
+            
+            statusObject.update {
+                $0.currentValue += 1
+                $0.detail = "File Complete: \(childPath.lastPathComponent)"
+            }
+            
+            return grid
+        }
+        return codeGrid
     }
 }
 
