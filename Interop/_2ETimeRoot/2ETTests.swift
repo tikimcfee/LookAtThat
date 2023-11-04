@@ -250,6 +250,11 @@ extension TwoETimeRoot {
             case let .newMultiCommandRecursiveAllLayout(rootPath, _):
                 action(rootPath)
                 
+            case let .newSingleCommand(url, .focusOnExistingGrid):
+                if let grid = self.builder.sharedGridCache.get(url) {
+                    self.focus.state = .set(grid)
+                }
+                
             case let .newSingleCommand(url, _):
                 action(url)
                 

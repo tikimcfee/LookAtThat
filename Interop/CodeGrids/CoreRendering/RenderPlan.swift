@@ -24,6 +24,13 @@ struct RenderPlan {
     
     let targetParent = MetalLinkNode()
     
+    class State {
+        var orderedParents = OrderedDictionary<URL, CodeGrid>()
+        var directoryGroups = [CodeGrid: CodeGridGroup]()
+    }
+    var state = State()
+
+    
     let mode: Mode
     enum Mode {
         case cacheOnly
@@ -76,28 +83,10 @@ private extension RenderPlan {
         BSPLayout().layout(root: targetParent)
     }
     
-    func addParentWalls() {
-//        for (grid, group) in state.directoryGroups {
-//            let gridBackground = BackgroundQuad(GlobalInstances.defaultLink)
-//            let gridTopWall = BackgroundQuad(GlobalInstances.defaultLink)
-//            let gridRightWall = BackgroundQuad(GlobalInstances.defaultLink)
-//            gridBackground.setColor(LFloat4(0.4, 0.2, 0.2, 0.5))
-//            gridTopWall.setColor(LFloat4(0.3, 0.2, 0.2, 0.5))
-//            gridRightWall.setColor(LFloat4(0.2, 0.1, 0.1, 0.5))
-//            grid.rootNode.add(child: gridBackground)
-////            grid.rootNode.add(child: gridTopWall)
-////            grid.rootNode.add(child: gridRightWall)
-//
-//            var rect: Bounds { group.globalRootGrid.rectPos }
-//            var size: LFloat3 { BoundsSize(rect) }
-//
-//            gridBackground.size = LFloat2(x: size.x, y: size.y)
-//            gridBackground
-//                .setLeading(rect.min.x)
-//                .setTop(rect.max.y)
-//                .setFront(rect.min.z)
-//            group.globalRootGrid.updateBackground()
-//        }
+    func justShowMeCodePlease() {
+        let reversedPaths = FileBrowser.recursivePaths(rootPath).reversed()
+        
+        
     }
 }
 
@@ -117,6 +106,7 @@ private extension RenderPlan {
                 .withSourcePath(rootPath)
                 .withFileName(rootPath.fileName)
                 .applyName()
+            
             targetParent
                 .add(child: rootGrid.rootNode)
             
@@ -125,15 +115,16 @@ private extension RenderPlan {
                     launchGridBuild(childPath)
                 }
                 else if childPath.isDirectory {
-                    let childDirectoryGrid = builder.sharedGridCache
-                        .setCache(childPath)
-                        .withSourcePath(childPath)
-                        .withFileName(childPath.fileName)
-                        .applyName()
+                    let childDirectoryGrid = 
+                        builder.sharedGridCache
+                            .setCache(childPath)
+                            .withSourcePath(childPath)
+                            .withFileName(childPath.fileName)
+                            .applyName()
                     
-                    if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
-                        parent.addChildGrid(childDirectoryGrid)
-                    }
+//                    if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
+//                        parent.addChildGrid(childDirectoryGrid)
+//                    }
                 }
             }
         } else {
@@ -161,9 +152,9 @@ private extension RenderPlan {
                 builder.sharedGridCache.cachedFiles[childPath] = grid.id
                 hoverController.attachPickingStream(to: grid)
                 
-                if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
-                    parent.addChildGrid(grid)
-                }
+//                if let parent = builder.sharedGridCache.get(childPath.deletingLastPathComponent()) {
+//                    parent.addChildGrid(grid)
+//                }
 
                 statusObject.update {
                     $0.currentValue += 1

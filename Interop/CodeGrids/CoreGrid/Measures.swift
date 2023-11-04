@@ -168,16 +168,16 @@ extension Measures {
 extension Measures {
     var dumpstats: String {
         """
-        ContentSizeX:                    \(contentSize.x)
-        ContentSizeY:                    \(contentSize.y)
-        ContentSizeZ:                    \(contentSize.z)
+        ContentSizeX:   \(contentSize.x)
+        ContentSizeY:   \(contentSize.y)
+        ContentSizeZ:   \(contentSize.z)
         
-        nodePosition:                    \(position)
-        worldPosition:                   \(worldPosition)
+        nodePosition:   \(position)
+        worldPosition:  \(worldPosition)
 
-        boundsMin:                       \(bounds.min)
-        boundsMax:                       \(bounds.max)
-        boundsCenter:                    \(boundsCenterPosition)
+        boundsMin:      \(bounds.min)
+        boundsMax:      \(bounds.max)
+        boundsCenter:   \(boundsCenterPosition)
         --
         """
     }

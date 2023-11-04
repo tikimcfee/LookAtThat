@@ -61,7 +61,7 @@ class LinearConstraintController {
     var constraints = [any BasicConstraint]()
     
     func applyConsecutiveConstraints() {
-        for constraint in constraints {
+        for constraint in constraints.reversed() {
             constraint.apply()
         }
     }

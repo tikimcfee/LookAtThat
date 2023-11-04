@@ -43,7 +43,8 @@ class FileBrowserViewState: ObservableObject {
                 guard let self = self else { return }
                 self.selectedfiles = selectedScopes
                 self.files = self.filter(files: selectedScopes)
-            }.store(in: &bag)
+            }
+            .store(in: &bag)
         
         $filterText.sink { [weak self] _ in
             guard let self = self else { return }
@@ -64,6 +65,7 @@ struct FileBrowserView: View {
     
     typealias RowType = [FileBrowser.Scope]
     @StateObject var browserState = FileBrowserViewState()
+    @State var hoveredScope: FileBrowser.Scope? = .none
     
     var body: some View {
         rootView
@@ -98,6 +100,13 @@ struct FileBrowserView: View {
                 HStack(spacing: 0) {
                     makeSpacer(pathDepths(scope))
                     rowForScope(scope)
+                }
+                .onHover { isHovering in
+                    if isHovering {
+                        hoveredScope = scope
+                    } else if hoveredScope == scope {
+                        hoveredScope = nil
+                    }
                 }
                 Divider().opacity(0.75)
             }

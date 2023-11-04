@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import MetalLink
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
@@ -100,12 +101,37 @@ extension SourceInfoPanelView {
         GitHubClientView()
     }
     
+    
+    
     @ViewBuilder
     var gridStateView: some View {
-        // TODO: This isn't global yet, but it can / should / will be
-        Text("Grid state view not yet reimplemented")
-            .padding(32)
-
+        GridWutView()
+    }
+    
+    struct GridWutView: View {
+        // TODO: Split all this mess up. Getting crazier by the day.
+        @State private var currentHoveredGrid: GridPickingState.Event?
+        @State private var cameraPosition: LFloat3?
+        
+        var body: some View {
+            VStack {
+                if let state = currentHoveredGrid?.latestState {
+                    Text(state.targetGrid.fileName)
+                    Text(state.targetGrid.dumpstats)
+                }
+            }
+            .frame(minWidth: 420, minHeight: 420)
+            .onReceive(
+                GlobalInstances.gridStore
+                    .nodeHoverController
+                    .sharedGridEvent
+                    .subscribe(on: RunLoop.main)
+                    .receive(on: RunLoop.main),
+                perform: { hoveredGrid in
+                    self.currentHoveredGrid = hoveredGrid
+                }
+            )
+        }
     }
     
     var globalSearchView: some View {
