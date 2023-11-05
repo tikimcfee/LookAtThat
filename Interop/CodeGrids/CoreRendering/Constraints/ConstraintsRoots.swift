@@ -73,6 +73,7 @@ class LinearConstraintController {
 
 // MARK: - Basic Constraints
 
+
 struct LinearConstraints {
     private init() { }
     
@@ -81,7 +82,7 @@ struct LinearConstraints {
         open override func apply() {
             targetNode.setTop(sourceNode.top + offset.y)
             targetNode.setLeading(sourceNode.trailing + Self.xOffset + offset.x)
-            targetNode.setBack(sourceNode.back + offset.z)
+            targetNode.setFront(sourceNode.front + offset.z)
         }
     }
     

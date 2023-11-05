@@ -40,8 +40,7 @@ class CodeGridGroup {
         ?? 0
     }
     
-    var maxGridsInRow = 5
-    var gridsInRow = 0
+    var gridsPerColumn = 5
     
     func applyAllConstraints() {
         for childGroup in childGroups {
@@ -51,15 +50,13 @@ class CodeGridGroup {
     }
     
     func addChildGrid(_ grid: CodeGrid) {
+        
+        
         if let lastGrid = childGrids.last {
-            controller.add(LinearConstraints.ToTrailingOf(
+            controller.add(LinearConstraints.Behind(
                 sourceNode: lastGrid.rootNode,
                 targetNode: grid.rootNode
             ))
-//            controller.add(LinearConstraints.Behind(
-//                sourceNode: lastGrid.rootNode,
-//                targetNode: grid.rootNode
-//            ))
         }
         
         lastRowStartingGrid = lastRowStartingGrid ?? grid

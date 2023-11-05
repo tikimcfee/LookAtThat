@@ -128,15 +128,12 @@ extension WorldGridEditor {
     ) {
         snapping.connectWithInverses(sourceGrid: other, to: .down(codeGrid))
         lastFocusedGrid = codeGrid
-        var lowestBottomPosition: VectorFloat = other.bottom
-        var leftMostGrid: CodeGrid?
         
-        snapping.iterateOver(other, direction: .left) { _, grid, _ in
-            /* do this to have everything connected? */
-//            self.snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
-            lowestBottomPosition = min(lowestBottomPosition, grid.bottom)
-            leftMostGrid = grid
-        }
+        var leftMostGrid: CodeGrid?
+        let lowestBottomPosition: VectorFloat = getLowestBottomPosition(
+            relativeTo: other, moving: .left,
+            { leftMostGrid = $0 }
+        )
         
         if let leftMostGrid = leftMostGrid {
             codeGrid
@@ -149,6 +146,23 @@ extension WorldGridEditor {
                 .setFront(other.front)
                 .setTop(lowestBottomPosition - default__VerticalSpacing)
         }
+    }
+    
+    // functions, huh?
+    func getLowestBottomPosition(
+        relativeTo other: CodeGrid,
+        moving direction: SelfRelativeDirection,
+        _ visitor: ((CodeGrid) -> Void)? = nil
+    ) -> Float {
+        var lowestBottomPosition: VectorFloat = other.bottom
+        snapping.iterateOver(other, direction: direction) { _, grid, _ in
+            /* do this to have everything connected? */
+            /* I can see an 'attempt connection repair' flag for debugging */
+//            self.snapping.connectWithInverses(sourceGrid: grid, to: .down(codeGrid))
+            lowestBottomPosition = min(lowestBottomPosition, grid.bottom)
+            visitor?(grid)
+        }
+        return lowestBottomPosition
     }
     
     func addInNextPlane(
