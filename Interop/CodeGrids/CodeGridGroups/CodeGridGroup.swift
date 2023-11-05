@@ -50,8 +50,6 @@ class CodeGridGroup {
     }
     
     func addChildGrid(_ grid: CodeGrid) {
-        
-        
         if let lastGrid = childGrids.last {
             controller.add(LinearConstraints.Behind(
                 sourceNode: lastGrid.rootNode,

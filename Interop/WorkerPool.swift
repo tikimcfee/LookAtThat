@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class WorkerPool {
+public final class WorkerPool {
     
     static let shared = WorkerPool()
     private let workerCount = (ProcessInfo.processInfo.processorCount - 1)
@@ -33,7 +33,7 @@ final class WorkerPool {
     
     private init() {}
     
-    func nextWorker() -> DispatchQueue {
+    public func nextWorker() -> DispatchQueue {
         return workerIterator.next() ?? {
             workerIterator = allWorkers.makeIterator()
             let next = workerIterator.next()!
@@ -41,7 +41,7 @@ final class WorkerPool {
         }()
     }
     
-    func nextConcurrentWorker() -> DispatchQueue {
+    public func nextConcurrentWorker() -> DispatchQueue {
         return concurrentWorkerIterator.next() ?? {
             concurrentWorkerIterator = concurrentWorkers.makeIterator()
             let next = concurrentWorkerIterator.next()!

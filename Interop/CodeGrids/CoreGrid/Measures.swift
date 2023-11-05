@@ -14,7 +14,7 @@ import MetalLink
 public protocol Measures: AnyObject {
     var nodeId: String { get }
     
-    var rectPos: Bounds { get }
+    var sizeBounds: Bounds { get }
     var bounds: Bounds { get }
     var position: LFloat3 { get set }
     var worldPosition: LFloat3 { get set }

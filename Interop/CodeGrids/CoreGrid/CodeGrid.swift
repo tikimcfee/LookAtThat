@@ -231,8 +231,8 @@ extension CodeGrid: Measures {
         targetNode
     }
     
-    public var rectPos: Bounds {
-        targetNode.rectPos
+    public var sizeBounds: Bounds {
+        targetNode.sizeBounds
     }
 
     public var hasIntrinsicSize: Bool {
