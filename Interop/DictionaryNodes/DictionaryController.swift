@@ -9,28 +9,6 @@ import Foundation
 import MetalLink
 import BitHandling
 
-extension DictionaryController {
-    func makeBufferables() -> ([ForceLayoutNode], [ForceLayoutEdge]) {
-        var forceNodes = [ForceLayoutNode]()
-        let indexMappedNodes = nodeMap.values.enumerated().reduce(
-            into: [String: UInt32]()
-        ) { result, index in
-            result[index.element.sourceWord] = UInt32(index.offset)
-            forceNodes.append(index.element.forceNode)
-        }
-        
-        let edges = dictionary.graph.edges.map { edge in
-            ForceLayoutEdge(
-                node1: indexMappedNodes[edge.originID]!,
-                node2: indexMappedNodes[edge.destinationID]!,
-                strength: edge.weight
-            )
-        }
-        
-        return (forceNodes, edges)
-    }
-}
-
 class DictionaryController: ObservableObject {
 
     @Published var dictionary = WordDictionary()
@@ -224,44 +202,25 @@ extension DictionaryController {
         focusNested: Bool = false,
         isNested: Bool = false
     ) {
-        wordNode.update { toUpdate in
-            toUpdate.position
-                .translateBy(dZ: self.rootNodePositionTranslation.z)
-            
-            toUpdate.scale = isNested
-                ? self.scaleVectorNested
-                : self.scaleVector
-            
-            toUpdate.applyGlyphChanges { glyph, constants in
-                constants.addedColor = self.focusedColor
-            }
+        wordNode.position
+            .translateBy(dZ: self.rootNodePositionTranslation.z)
+        
+        wordNode.scale = isNested
+            ? self.scaleVectorNested
+            : self.scaleVector
+        
+        wordNode.enumerateChildren { toUpdate in
+            toUpdate.instanceConstants?.addedColor = self.focusedColor
         }
         
         if let graphNode = dictionary.graph.node(with: wordNode.sourceWord) {
-//            for ancestor in graphNode.ancestorIDs {
-//                if let ancestorNode = nodeMap[ancestor] {
-//                    ancestorNode.update {
-//                        $0.scale = self.scaleVectorNested
-//                        for glyph in ancestorNode.glyphs {
-//                            UpdateNode(glyph, in: ancestorNode.parentGrid) {
-//                                $0.addedColor = self.ancestorColor
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-            
             for descendant in graphNode.descendantIDs {
                 if descendant == wordNode.sourceWord { continue }
                 
                 if let descendantNode = nodeMap[descendant] {
-                    descendantNode.update {
-                        $0.scale = self.scaleVectorNested
-                        for glyph in descendantNode.glyphs {
-                            UpdateNode(glyph, in: descendantNode.parentGrid) {
-                                $0.addedColor = self.descendantColor
-                            }
-                        }
+                    descendantNode.scale = self.scaleVectorNested
+                    descendantNode.enumerateChildren {
+                        $0.instanceConstants?.addedColor = self.descendantColor
                     }
                 }
             }
@@ -273,41 +232,20 @@ extension DictionaryController {
         defocusNested: Bool = false,
         isNested: Bool = false
     ) {
-        wordNode.update { toUpdate in
-            toUpdate.position.translateBy(dZ: self.inversePositionVector.z)
-            toUpdate.scale = self.inverseScaleVector
-            for glyph in toUpdate.glyphs {
-                UpdateNode(glyph, in: toUpdate.parentGrid) {
-                    $0.addedColor = .zero
-                }
-            }
+        wordNode.position.translateBy(dZ: self.inversePositionVector.z)
+        wordNode.scale = self.inverseScaleVector
+        wordNode.enumerateChildren { toUpdate in
+            toUpdate.instanceConstants?.addedColor = .zero
         }
         
         if let graphNode = dictionary.graph.node(with: wordNode.sourceWord) {
-//            for ancestor in graphNode.ancestorIDs {
-//                if let ancestorNode = nodeMap[ancestor] {
-//                    ancestorNode.update {
-//                        $0.scale = .one
-//                        for glyph in ancestorNode.glyphs {
-//                            UpdateNode(glyph, in: ancestorNode.parentGrid) {
-//                                $0.addedColor = .zero
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-            
             for descendant in graphNode.descendantIDs {
                 if descendant == wordNode.sourceWord { continue }
                 
                 if let descendantNode = nodeMap[descendant] {
-                    descendantNode.update {
-                        $0.scale = .one
-                        for glyph in descendantNode.glyphs {
-                            UpdateNode(glyph, in: descendantNode.parentGrid) {
-                                $0.addedColor = .zero
-                            }
-                        }
+                    descendantNode.scale = .one
+                    descendantNode.enumerateChildren {
+                        $0.instanceConstants?.addedColor = .zero
                     }
                 }
             }

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftSyntax
 import MetalLink
+import BitHandling
 
 struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     let targetGrid: CodeGrid
@@ -26,7 +27,37 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             return consumeText(textPath: url)
         }
         consume(rootSyntaxNode: Syntax(fileSource))
+//        Task {
+//            await acceleratedConsume(url: url)
+//        }
         return targetGrid
+    }
+    
+    func acceleratedConsume(
+        url: URL
+    ) async {
+        let reader = SplittingFileReader(targetURL: url)
+        let stream = reader.asyncLineStream()
+        
+        // cache per line, merge lines after each lolol
+        let tokenCache = ConcurrentArray<GlyphNode>()
+        let id = "raw-text-\(UUID().uuidString)"
+        var writtenLines = 0
+        
+        for await line in stream {
+            for newCharacter in line {
+                let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, .white)
+                if let node = writer.addGlyph(glyphKey) {
+                    node.meta.syntaxID = id
+                    tokenCache.append(node)
+                } else {
+                    print("nooooooooooooooooooooo!")
+                }
+            }
+            writtenLines += 1
+        }
+        targetGrid.tokenCache[id] = tokenCache.values
+        print("done writing \(writtenLines) lines")
     }
     
     func consumeText(textPath: URL) -> CodeGrid {
@@ -85,10 +116,11 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     ) {
         for newCharacter in string {
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
-
-            writer.addGlyph(glyphKey) { glyph, constants in
-                glyph.meta.syntaxID = nodeID
-                writtenNodeSet.append(glyph)
+            if let node = writer.addGlyph(glyphKey) {
+                node.meta.syntaxID = nodeID
+                writtenNodeSet.append(node)
+            } else {
+                print("nooooooooooooooooooooo!")
             }
         }
     }

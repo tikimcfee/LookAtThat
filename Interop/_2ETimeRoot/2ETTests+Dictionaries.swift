@@ -57,8 +57,8 @@ extension TwoETimeRoot {
                 }
             }
             
-            sourceNode.applyGlyphChanges { _, constants in
-                constants.addedColor = color
+            sourceNode.enumerateChildren {
+                $0.instanceConstants?.addedColor = color
             }
         }
     }
@@ -116,8 +116,8 @@ extension TwoETimeRoot {
                         controller.nodeMap[word] = sourceNode
                         
                         let color = colorFloats[word] ?? .zero
-                        sourceNode.applyGlyphChanges { _, constants in
-                            constants.addedColor = color
+                        sourceNode.enumerateChildren {
+                            $0.instanceConstants?.addedColor = color
                         }
                     }
                     chunkGroup.leave()
@@ -134,7 +134,7 @@ extension TwoETimeRoot {
                         continue
                     }
                     
-                    node.updateSync {
+                    node.enumerateChildren {
                         let (row, column, depth) = positions.nextPos()
                         $0.position = LFloat3(
                             x: column.float * 24.0,
@@ -208,7 +208,7 @@ extension TwoETimeRoot {
             interval: .milliseconds(16),
             loop: {
                 for node in allNodes {
-                    node.update {
+                    node.enumerateChildren {
                         $0.position.x += -cos(counter / 100)
                     }
                 }
@@ -249,7 +249,7 @@ extension TwoETimeRoot {
                 QuickLooper(
                     interval: .milliseconds(16),
                     loop: {
-                        wordNode.update {
+                        wordNode.enumerateChildren {
                             $0.translate(
                                 dX: cos(counter.float / 5.0.float),
                                 dY: sin(counter.float / 5.0.float)

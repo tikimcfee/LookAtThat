@@ -94,12 +94,11 @@ public class CodeGrid: Identifiable, Equatable {
             ? LFloat3(0.0, 16.0, 0.0)
             : LFloat3(0.0, 4.0, 0.0)
         
-        nameNode.update { nameNode in
-            nameNode.position = namePosition
-            nameNode.scale = LFloat3(repeating: nameScale)
-            nameNode.applyGlyphChanges { node, constants in
-                constants.addedColor = nameColor
-            }
+        
+        nameNode.position = namePosition
+        nameNode.scale = LFloat3(repeating: nameScale)
+        nameNode.enumerateChildren {
+            $0.instanceConstants?.addedColor = nameColor
         }
         
         setNameNode(nameNode)
@@ -131,8 +130,9 @@ public class CodeGrid: Identifiable, Equatable {
         let bounds = targetNode.bounds
         gridBackground.size = LFloat2(x: size.x, y: size.y)
         
+        // Suddenly the grid is out of sync so I set the leading to half bounds.. what is even happening
         gridBackground
-            .setLeading(0)
+            .setLeading(BoundsWidth(bounds) / 2.0)
             .setTop(bounds.max.y)
             .setFront(bounds.min.z - 1)
     }
@@ -146,56 +146,7 @@ public class CodeGrid: Identifiable, Equatable {
         childGrids.removeAll(where: { $0.id == other.id })
         rootNode.remove(child: other.rootNode)
     }
-    
-    func updateNode(
-        _ node: GlyphNode,
-        _ action: (inout GlyphConstants) -> Void
-    ) {
-        let pointer = rootNode.instanceState.rawPointer
-        guard let index = node.meta.instanceBufferIndex else {
-            return
-        }
-        action(&pointer[index])
-    }
-    
-    func pushNode(
-        _ node: GlyphNode
-    ) {
-        let pointer = rootNode.instanceState.rawPointer
-        guard let index = node.meta.instanceBufferIndex else {
-            return
-        }
-        pointer[index].modelMatrix = node.modelMatrix
-    }
-    
-    
-    // TODO: .... multithreaded?
-    func pushNodes<T: GlyphNode>(
-        _ nodes: Set<T>
-    ) {
-        let pointer = rootNode.instanceState.rawPointer
-
-        for node in nodes {
-            guard let index = node.meta.instanceBufferIndex else {
-                return
-            }
-            pointer[index].modelMatrix = node.modelMatrix
-        }
-    }
-    
-    func pushNodes<T: GlyphNode>(
-        _ nodes: [T]
-    ) {
-        let pointer = rootNode.instanceState.rawPointer
         
-        for node in nodes {
-            guard let index = node.meta.instanceBufferIndex else {
-                return
-            }
-            pointer[index].modelMatrix = node.modelMatrix
-        }
-    }
-    
     private func setupOnInit() {
         rootNode.add(child: gridBackground)
         gridBackground.constants.pickingId = InstanceCounter.shared.nextGridId()

@@ -14,7 +14,7 @@ struct NodePickingState {
     let nodeID: InstanceIDType
     let node: GlyphNode
     
-    var nodeBufferIndex: Int? { node.meta.instanceBufferIndex }
+    var nodeBufferIndex: Int? { node.instanceBufferIndex }
     var nodeSyntaxID: NodeSyntaxID? { node.meta.syntaxID }
     
     var constantsPointer: ConstantsPointer {

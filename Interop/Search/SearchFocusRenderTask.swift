@@ -77,9 +77,9 @@ private extension SearchFocusRenderTask {
                 defer { workGroup.leave() }
                 next.gridBackground.setColor(LFloat4(0.0, 0.0, 0.0, 1.0))
                 next.rootNode.scale = LFloat3(1, 1, 1)
-                next.updateAllNodeConstants { node, constants, stopFlag in
-                    constants.addedColor = .zero
-                    constants.modelMatrix.columns.3.z = 1
+                next.updateAllNodeConstants { node, stopFlag in
+                    node.instanceConstants?.addedColor = .zero
+                    node.position.z = 1
                     stopFlag = self.task.isCancelled
                 }
             }
@@ -186,14 +186,12 @@ private extension SearchFocusRenderTask {
         ) { info, targetNodes in
             for node in targetNodes {
                 try self.throwIfCancelled()
-                source.rootNode.updateConstants(for: node) {
-                    if info.syntaxId == matchingSemanticInfo {
-                        $0.addedColor += self.matchAddition
-                    } else {
-                        $0.addedColor += self.focusAddition
-                    }
-                    $0.modelMatrix.translate(vector: self.focusPosition)
+                if info.syntaxId == matchingSemanticInfo {
+                    node.instanceConstants?.addedColor += self.matchAddition
+                } else {
+                    node.instanceConstants?.addedColor += self.focusAddition
                 }
+                node.position.translateBy(self.focusPosition)
             }
         }
     }
@@ -209,14 +207,12 @@ private extension SearchFocusRenderTask {
             ) { info, targetNodes in
                 for node in targetNodes {
                     try self.throwIfCancelled()
-                    source.rootNode.updateConstants(for: node) {
-                        if clearFocus {
-                            $0.addedColor = .zero
-                        } else {
-                            $0.addedColor -= self.focusAddition
-                        }
-                        $0.modelMatrix.columns.3.z = 1
+                    if clearFocus {
+                        node.instanceConstants?.addedColor = .zero
+                    } else {
+                        node.instanceConstants?.addedColor -= self.focusAddition
                     }
+                    node.position.z = 1
                 }
             }
         }

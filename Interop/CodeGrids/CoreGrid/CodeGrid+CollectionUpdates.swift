@@ -18,9 +18,7 @@ extension CodeGrid {
             if stopFlag { return }
             for node in nodeSet {
                 if stopFlag { return }
-                try rootNode.updateConstants(for: node) { pointer in
-                    try update(node, &pointer, &stopFlag)
-                }
+                try update(node, &stopFlag)
             }
         }
     }
@@ -35,9 +33,7 @@ extension CodeGrid {
             if stopFlag { return }
             for node in nodeSet {
                 if stopFlag { return }
-                try rootNode.updateConstants(for: node) { pointer in
-                    try update(node, &pointer, &stopFlag)
-                }
+                try update(node, &stopFlag)
             }
         }
     }

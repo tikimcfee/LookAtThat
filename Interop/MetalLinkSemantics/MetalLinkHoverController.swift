@@ -14,7 +14,7 @@ import BitHandling
 
 typealias GlyphConstants = InstancedConstants
 typealias ConstantsPointer = UnsafeMutablePointer<GlyphConstants>
-typealias UpdateConstants = (GlyphNode, inout GlyphConstants, inout Bool) throws -> Void
+typealias UpdateConstants = (GlyphNode, inout Bool) throws -> Void
 
 class MetalLinkHoverController: ObservableObject {
     

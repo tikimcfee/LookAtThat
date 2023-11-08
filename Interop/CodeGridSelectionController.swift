@@ -18,7 +18,7 @@ func UpdateNode(
     _ action: (inout GlyphConstants) -> Void
 ) {
     let pointer = grid.rootNode.instanceState.rawPointer
-    guard let index = node.meta.instanceBufferIndex else {
+    guard let index = node.instanceBufferIndex else {
         return
     }
     action(&pointer[index])
@@ -26,17 +26,13 @@ func UpdateNode(
 
 class GlobalNodeController {
     func focus(_ node: GlyphNode, in grid: CodeGrid) {
-        UpdateNode(node, in: grid) {
-            $0.modelMatrix.translate(vector: LFloat3(0, 0, 8))
-            $0.addedColor += LFloat4(0.05, 0.09, 0.09, 1)
-        }
+        node.position.translateBy(dZ: 8)
+        node.instanceConstants?.addedColor += LFloat4(0.05, 0.09, 0.09, 1)
     }
     
     func unfocus(_ node: GlyphNode, in grid: CodeGrid) {
-        UpdateNode(node, in: grid) {
-            $0.modelMatrix.translate(vector: LFloat3(0, 0, -8))
-            $0.addedColor -= LFloat4(0.05, 0.09, 0.09, 1)
-        }
+        node.position.translateBy(dZ: -8)
+        node.instanceConstants?.addedColor -= LFloat4(0.05, 0.09, 0.09, 1)
     }
 }
 

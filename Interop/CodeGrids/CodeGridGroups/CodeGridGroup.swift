@@ -243,16 +243,13 @@ struct DepthLayout {
         var lastTarget: LayoutTarget?
         
         for currentTarget in wordNodes {
-            currentTarget.update {
-                if let lastTarget {
-                    let final = lastTarget.layoutNode.position.translated(dZ: zGap)
-                    $0.position = final
-                } else {
-                    let final = LFloat3(x: centerX, y: centerY, z: centerZ)
-                    $0.position = final
-                }
+            if let lastTarget {
+                let final = lastTarget.layoutNode.position.translated(dZ: zGap)
+                currentTarget.position = final
+            } else {
+                let final = LFloat3(x: centerX, y: centerY, z: centerZ)
+                currentTarget.position = final
             }
-            
             lastTarget = currentTarget
         }
     }
