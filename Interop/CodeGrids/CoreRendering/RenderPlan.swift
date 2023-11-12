@@ -63,10 +63,7 @@ struct RenderPlan {
         switch mode {
         case .cacheAndLayout:
             return {
-                targetParent.pausedInvalidate = true
                 cacheGrids()
-                targetParent.pausedInvalidate = false
-                
                 doGridLayout()
             }
         case .cacheOnly:
@@ -89,10 +86,7 @@ private extension RenderPlan {
     func justShowMeCodePlease() {
         guard rootPath.isDirectory else { return }
         state.directoryGroups[rootPath]?.applyAllConstraints()
-        
-//        targetParent.pausedInvalidate = true
 //        state.directoryGroups[rootPath]?.addLines(targetParent)
-//        targetParent.pausedInvalidate = false
     }
 }
 
@@ -143,9 +137,7 @@ private extension RenderPlan {
                 let group = state
                     .directoryGroups[childPath.deletingLastPathComponent()]!
                 
-                group.globalRootGrid.rootNode.pausedInvalidate = true
                 group.addChildGrid(grid)
-                group.globalRootGrid.rootNode.pausedInvalidate = false
             }
         }
     }
@@ -169,9 +161,7 @@ private extension RenderPlan {
             state.directoryGroups[childPath] = group
             
             if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
-                parent.globalRootGrid.rootNode.pausedInvalidate = true
                 parent.addChildGroup(group)
-                parent.globalRootGrid.rootNode.pausedInvalidate = false
             }
             
             dispatchGroup.leave()

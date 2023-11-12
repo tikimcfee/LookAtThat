@@ -21,8 +21,9 @@ class WordNode: MetalLinkNode {
         return BoundsSize(b.bounds) * self.scale
     })
     
-    override var hasIntrinsicSize: Bool { true }
-    override var contentSize: LFloat3 { contentSizeCache.get() }
+    override var contentSize: LFloat3 {
+        contentSizeCache.get()
+    }
     
     init(
         sourceWord: String,
