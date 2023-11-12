@@ -263,12 +263,6 @@ extension CodeGrid: Measures {
         targetNode.convertPosition(position, to: to)
     }
     
-    public func enumerateChildren( /* delegating */ 
-        _ action: (MetalLinkNode) -> Void
-    ) {
-        targetNode.enumerateChildren(action)
-    }
-    
     public var centerPosition: LFloat3 {
         return LFloat3(x: targetNode.centerX, y: targetNode.centerY, z: targetNode.centerZ)
     }
