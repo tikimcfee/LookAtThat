@@ -177,6 +177,14 @@ extension CodeGrid: Hashable {
 // to a collection now, and assume they are the representing object.
 // TODO: Add another `GroupMode` to switch between rootNode and collection node updates
 extension CodeGrid: Measures {
+    public var worldBounds: Bounds {
+        targetNode.worldBounds
+    }
+    
+    public var asNode: MetalLinkNode {
+        targetNode
+    }
+    
     public var bounds: Bounds {
         targetNode.bounds
     }
@@ -257,7 +265,7 @@ extension CodeGrid: Measures {
         targetNode.convertPosition(position, to: to)
     }
     
-    public func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+    /* delegating */ public func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
         targetNode.enumerateChildren(action)
     }
     

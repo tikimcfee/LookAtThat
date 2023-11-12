@@ -84,7 +84,6 @@
 		B74A22A72814FFF300F6F727 /* UtilityGlobalsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057D2642520464B0094BD83 /* UtilityGlobalsAndExtensions.swift */; };
 		B74A22AA2814FFF300F6F727 /* BackgroundWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D91B252EB80000A9E6BC /* BackgroundWorker.swift */; };
 		B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
-		B74A22B82814FFF300F6F727 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E1110251EEF240052D993 /* MultipeerData.swift */; };
 		B74A22C12814FFF300F6F727 /* CodeGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EA88332723938C0098541C /* CodeGrid.swift */; };
 		B74A22C62814FFF300F6F727 /* SwiftSyntax+FileLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B775C7922671A5A200414972 /* SwiftSyntax+FileLoading.swift */; };
@@ -238,8 +237,6 @@
 		B7A60F9428B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9628B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
 		B7A60F9728B99C5800ACA4E6 /* WrappedBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */; };
-		B7A6F2AA275ED95E004CAA66 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
-		B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2A9275ED95E004CAA66 /* Measures.swift */; };
 		B7A6F2B4275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B7A6F2B5275EE544004CAA66 /* LaZTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
@@ -510,7 +507,6 @@
 		B7A3923B2A301BE600FAA9E4 /* MetalLink */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MetalLink; path = ../latcomponents/MetalLink; sourceTree = "<group>"; };
 		B7A60F8228B983F500ACA4E6 /* CharacterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterExtensions.swift; sourceTree = "<group>"; };
 		B7A60F9328B99C5800ACA4E6 /* WrappedBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedBinding.swift; sourceTree = "<group>"; };
-		B7A6F2A9275ED95E004CAA66 /* Measures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measures.swift; sourceTree = "<group>"; };
 		B7A6F2B3275EE544004CAA66 /* LaZTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaZTrace.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
@@ -816,7 +812,6 @@
 				B7EA88332723938C0098541C /* CodeGrid.swift */,
 				B768E2AE28BB44190067858F /* CodeGrid+CollectionUpdates.swift */,
 				B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */,
-				B7A6F2A9275ED95E004CAA66 /* Measures.swift */,
 			);
 			path = CoreGrid;
 			sourceTree = "<group>";
@@ -1386,7 +1381,6 @@
 				B725168628C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				B74A2341281532D400F6F727 /* SemanticTracingOutView.swift in Sources */,
 				B7B1684B2A315230003E7A76 /* 2ETRoot.swift in Sources */,
-				B74A22B82814FFF300F6F727 /* Measures.swift in Sources */,
 				B70808D6287E45EB00827CBB /* SearchFocusRenderTask.swift in Sources */,
 				B74A22B92814FFF300F6F727 /* MultipeerData.swift in Sources */,
 				B78C19B92A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
@@ -1493,7 +1487,6 @@
 				B75014AE283071D50024B7C0 /* FloatableView+WindowOpen.swift in Sources */,
 				B7B46AE228BD72BE0004CA2D /* ColorExtensions.swift in Sources */,
 				B75014A528305B160024B7C0 /* FloatableView.swift in Sources */,
-				B7A6F2AA275ED95E004CAA66 /* Measures.swift in Sources */,
 				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 				F02E1111251EEF240052D993 /* MultipeerData.swift in Sources */,
 				B709F4C928FFA0B9002058BE /* PickingState.swift in Sources */,
@@ -1644,7 +1637,6 @@
 				B7D79AA9282A0E87000F99EB /* TokenSyntax+Coloring.swift in Sources */,
 				B7B46AE928BD76620004CA2D /* Structures.swift in Sources */,
 				B7247A6129A077F60073B98C /* WordDictionaries.swift in Sources */,
-				B7A6F2AB275ED95E004CAA66 /* Measures.swift in Sources */,
 				B78C19B82A302176005A3A46 /* GlyphCollectionSyntaxConsumer.swift in Sources */,
 				B74A234828161C9200F6F727 /* CodeGridColors.swift in Sources */,
 				F0A29E9225395956009108C4 /* SwiftSyntax+Extensions.swift in Sources */,
