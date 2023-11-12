@@ -17,7 +17,7 @@ class WordNode: MetalLinkNode {
     
     public lazy var contentSizeCache = CachedValue(update: {
         let b = BoundsComputing()
-        b.consumeNodeSet(Set(self.glyphs), convertingTo: nil)
+        b.consumeNodes(self.glyphs)
         return BoundsSize(b.bounds) * self.scale
     })
     
@@ -43,8 +43,13 @@ class WordNode: MetalLinkNode {
     }
     
     override func rebuildTreeState() {
-        contentSizeCache.dirty()
         super.rebuildTreeState()
+        contentSizeCache.dirty()
+    }
+    
+    override func rebuildNow() {
+        super.rebuildNow()
+        contentSizeCache.updateNow()
     }
     
     override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {

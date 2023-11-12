@@ -47,9 +47,10 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         for await line in stream {
             for newCharacter in line {
                 let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, .white)
-                if let node = writer.addGlyph(glyphKey) {
+                if let node = writer.writeGlyphToState(glyphKey) {
                     node.meta.syntaxID = id
                     tokenCache.append(node)
+                    targetCollection.renderer.insert(node)
                 } else {
                     print("nooooooooooooooooooooo!")
                 }
@@ -116,9 +117,10 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     ) {
         for newCharacter in string {
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
-            if let node = writer.addGlyph(glyphKey) {
+            if let node = writer.writeGlyphToState(glyphKey) {
                 node.meta.syntaxID = nodeID
                 writtenNodeSet.append(node)
+                targetCollection.renderer.insert(node)
             } else {
                 print("nooooooooooooooooooooo!")
             }

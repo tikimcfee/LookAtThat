@@ -130,9 +130,10 @@ public class CodeGrid: Identifiable, Equatable {
         let bounds = targetNode.bounds
         gridBackground.size = LFloat2(x: size.x, y: size.y)
         
-        // Suddenly the grid is out of sync so I set the leading to half bounds.. what is even happening
         gridBackground
+//            // Suddenly the grid is out of sync so I set the leading to half bounds.. what is even happening
             .setLeading(BoundsWidth(bounds) / 2.0)
+//            .setLeading(0)
             .setTop(bounds.max.y)
             .setFront(bounds.min.z - 1)
     }
