@@ -209,7 +209,7 @@ extension DictionaryController {
             ? self.scaleVectorNested
             : self.scaleVector
         
-        wordNode.enumerateChildren { toUpdate in
+        wordNode.glyphs.forEach { toUpdate in
             toUpdate.instanceConstants?.addedColor = self.focusedColor
         }
         
@@ -219,7 +219,7 @@ extension DictionaryController {
                 
                 if let descendantNode = nodeMap[descendant] {
                     descendantNode.scale = self.scaleVectorNested
-                    descendantNode.enumerateChildren {
+                    descendantNode.glyphs.forEach {
                         $0.instanceConstants?.addedColor = self.descendantColor
                     }
                 }
@@ -234,7 +234,7 @@ extension DictionaryController {
     ) {
         wordNode.position.translateBy(dZ: self.inversePositionVector.z)
         wordNode.scale = self.inverseScaleVector
-        wordNode.enumerateChildren { toUpdate in
+        wordNode.glyphs.forEach { toUpdate in
             toUpdate.instanceConstants?.addedColor = .zero
         }
         
@@ -244,7 +244,7 @@ extension DictionaryController {
                 
                 if let descendantNode = nodeMap[descendant] {
                     descendantNode.scale = .one
-                    descendantNode.enumerateChildren {
+                    descendantNode.glyphs.forEach {
                         $0.instanceConstants?.addedColor = .zero
                     }
                 }

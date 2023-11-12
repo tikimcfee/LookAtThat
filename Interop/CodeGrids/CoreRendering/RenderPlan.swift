@@ -85,6 +85,7 @@ private extension RenderPlan {
     func justShowMeCodePlease() {
         guard rootPath.isDirectory else { return }
         
+        var count = 0
         var last: CodeGrid?
         for grid in builder.sharedGridCache.cachedGrids.values {
             if let parent = grid.parent {
@@ -98,7 +99,9 @@ private extension RenderPlan {
                 targetParent.add(child: grid.rootNode)
             }
             last = grid
+            count += 1
         }
+        print("added: \(count)")
 //        state.directoryGroups[rootPath]?.applyAllConstraints()
 //        state.directoryGroups[rootPath]?.addLines(targetParent)
     }

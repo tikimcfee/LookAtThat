@@ -14,55 +14,6 @@ import BitHandling
 import Algorithms
 
 extension TwoETimeRoot {
-    func setupDictionaryTest2(_ controller: DictionaryController) {
-//        if let node = controller.lastRootNode {
-//            root.remove(child: node)
-//        }
-//        
-//        let wordContainerGrid = builder.createGrid(
-//            bufferSize: 15_500_000
-//        )
-//        wordContainerGrid.removeBackground()
-//        wordContainerGrid.translated(dZ: -100.0)
-//        controller.lastRootNode = wordContainerGrid.rootNode
-//        
-//        let orderedWords = controller.dictionary.orderedWords
-//        print("Defined words: \(orderedWords.count)")
-//        
-//        let cachingGenerator = ColorGenerator(maxColorCount: orderedWords.count * 10)
-//        let colorFloats = ConcurrentDictionary<String, LFloat4>()
-////        let snap = WorldGridSnapping()
-//        
-//        for (sourceWord, definitionList) in orderedWords {
-//            let color = colorFloats[sourceWord] ?? cachingGenerator.nextColor
-//            colorFloats[sourceWord] = color
-//            
-//            let (_, sourceGlyphs) = wordContainerGrid.consume(text: sourceWord)
-//            let sourceNode = WordNode(
-//                sourceWord: sourceWord,
-//                glyphs: sourceGlyphs,
-//                parentGrid: wordContainerGrid
-//            )
-//            controller.nodeMap[sourceWord] = sourceNode
-//            
-//            for definition in definitionList {
-//                for definitionWord in definition {
-//                    let (_, definitionGlyphs) = wordContainerGrid.consume(text: definitionWord)
-//                    let definitionNode = WordNode(
-//                        sourceWord: definitionWord,
-//                        glyphs: definitionGlyphs,
-//                        parentGrid: wordContainerGrid
-//                    )
-//                    
-//                }
-//            }
-//            
-//            sourceNode.enumerateChildren {
-//                $0.instanceConstants?.addedColor = color
-//            }
-//        }
-    }
-    
     func setupDictionaryTest(_ controller: DictionaryController) {
         if let node = controller.lastRootNode {
             root.remove(child: node)
@@ -116,7 +67,7 @@ extension TwoETimeRoot {
                         controller.nodeMap[word] = sourceNode
                         
                         let color = colorFloats[word] ?? .zero
-                        sourceNode.enumerateChildren {
+                        sourceNode.glyphs.forEach {
                             $0.instanceConstants?.addedColor = color
                         }
                     }
@@ -134,7 +85,7 @@ extension TwoETimeRoot {
                         continue
                     }
                     
-                    node.enumerateChildren {
+                    node.glyphs.forEach {
                         let (row, column, depth) = positions.nextPos()
                         $0.position = LFloat3(
                             x: column.float * 24.0,
@@ -208,7 +159,7 @@ extension TwoETimeRoot {
             interval: .milliseconds(16),
             loop: {
                 for node in allNodes {
-                    node.enumerateChildren {
+                    node.glyphs.forEach {
                         $0.position.x += -cos(counter / 100)
                     }
                 }
@@ -249,7 +200,7 @@ extension TwoETimeRoot {
                 QuickLooper(
                     interval: .milliseconds(16),
                     loop: {
-                        wordNode.enumerateChildren {
+                        wordNode.glyphs.forEach {
                             $0.translate(
                                 dX: cos(counter.float / 5.0.float),
                                 dY: sin(counter.float / 5.0.float)

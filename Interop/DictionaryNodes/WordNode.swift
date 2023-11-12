@@ -12,7 +12,7 @@ import SwiftNodes
 
 class WordNode: MetalLinkNode {
     let sourceWord: String
-    let glyphs: CodeGridNodes
+    var glyphs: CodeGridNodes
     let parentGrid: CodeGrid
     
     public lazy var contentSizeCache = CachedValue(update: {
@@ -44,7 +44,6 @@ class WordNode: MetalLinkNode {
         }
     }
     
-    
     override var children: [MetalLinkNode] {
         get { glyphs }
         set { }
@@ -54,25 +53,10 @@ class WordNode: MetalLinkNode {
         // Don't render me
     }
     
-    // TODO: This is cheating... why is it just the names are messed up again? Whatever for now
-    override func update(deltaTime: Float) {
-        super.update(deltaTime: deltaTime)
-//        rebuildNow()
-        for glyph in glyphs {
-            glyph.rebuildNow()
-        }
-    }
-    
     override func rebuildNow() {
         contentSizeCache.updateNow()
         super.rebuildNow()
     }
-    
-//    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
-//        for glyph in glyphs {
-//            action(glyph)
-//        }
-//    }
 }
 
 

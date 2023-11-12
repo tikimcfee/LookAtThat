@@ -97,7 +97,7 @@ public class CodeGrid: Identifiable, Equatable {
         
         nameNode.position = namePosition
         nameNode.scale = LFloat3(repeating: nameScale)
-        nameNode.enumerateChildren {
+        nameNode.glyphs.forEach {
             $0.instanceConstants?.addedColor = nameColor
         }
         
@@ -187,7 +187,7 @@ extension CodeGrid: Measures {
         targetNode.bounds
     }
     
-    public var boundsCacheKey: BoundsKey {
+    public var boundsCacheKey: MetalLinkNode {
         targetNode
     }
     
@@ -263,7 +263,9 @@ extension CodeGrid: Measures {
         targetNode.convertPosition(position, to: to)
     }
     
-    /* delegating */ public func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+    public func enumerateChildren( /* delegating */ 
+        _ action: (MetalLinkNode) -> Void
+    ) {
         targetNode.enumerateChildren(action)
     }
     
