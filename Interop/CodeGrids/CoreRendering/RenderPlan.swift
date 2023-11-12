@@ -86,6 +86,7 @@ private extension RenderPlan {
     func justShowMeCodePlease() {
         guard rootPath.isDirectory else { return }
         state.directoryGroups[rootPath]?.applyAllConstraints()
+        state.directoryGroups[rootPath]?.addLines()
     }
 }
 

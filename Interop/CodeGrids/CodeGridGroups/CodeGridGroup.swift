@@ -49,6 +49,20 @@ class CodeGridGroup {
         controller.applyConsecutiveConstraints()
     }
     
+    func addLines() {
+        for childGroup in childGroups {
+            
+            let line = MetalLinkLine(globalRootGrid.rootNode.link)
+            line.setColor(LFloat4(1.0, 0.0, 0.5, 1.0))
+            line.appendSegment(about: .zero)
+            line.appendSegment(about: childGroup.globalRootGrid.position)
+            globalRootGrid.targetNode.add(child: line)
+            
+            childGroup.addLines()
+        }
+        controller.applyConsecutiveConstraints()
+    }
+    
     func addChildGrid(_ grid: CodeGrid) {
         if let lastGrid = childGrids.last {
             controller.add(LinearConstraints.Behind(

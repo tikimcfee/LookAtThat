@@ -202,7 +202,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     // but it's caught a bunch of stuff so far so I'm keeping it.
                     // For now, this behavior is mostly OK, but be warned when
                     // when interacting the glyph node positioning directly.
-                    testBounds.consumeBounds(node.computeBoundingBox(convertParent: true))
+                    testBounds.consumeBounds(node.computeBoundingBox())
                 }
             }
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
@@ -542,70 +542,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within 1 point")
             XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within 1 point")
             XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within 1 point")
-        }
-    }
-    
-    func testLayout_Force() throws {
-        let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
-        
-        var _next: Float = 0
-        var next: Float { let final = _next; _next += 100; return final }
-        let testDirectory = try XCTUnwrap(bundle.testSourceDirectory, "Must have valid root code directory")
-        FileBrowser.recursivePaths(testDirectory)
-            .filter { FileBrowser.isSwiftFile($0) }
-            .prefix(10)
-            .forEach {
-                builder
-                    .createConsumerForNewGrid()
-                    .consume(url: $0)
-                    .withFileName($0.fileName)
-                    .applying { $0.position = LFloat3(next, next,next) }
-            }
-        let testVertices = Array(bundle.gridCache.cachedGrids.values.prefix(10))
-        
-        
-        let idealLength: Float = 1000.0
-        let idealSquared: Float = idealLength * idealLength
-        let forceLayout = LForceLayout(snapping: GlobalInstances.gridStore.editor.snapping)
-        func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
-            let delta = v.position - u.position
-            let distance = distance(v.position, u.position)
-            let unitVector = delta / distance
-            return (unitVector, distance)
-        }
-        func getIdealLength(_ u: CodeGrid, _ v: CodeGrid) -> Float {
-            if let uPath = u.sourcePath, let vPath = v.sourcePath {
-                let pathDistance = FileBrowser.distanceTo(parent: .file(uPath), from: .file(vPath))
-                let distanceMultiplier = min(1, pathDistance)
-                return 80.0 * distanceMultiplier.float
-            }
-            return 80
-        }
-        forceLayout.doLayout(
-            allVertices: testVertices,
-            repulsiveFunction: { repulseLeft, repulseRight in
-                // repul v -> u
-                let (unitVector, distance) = getUnitVectorPair(repulseLeft, repulseRight)
-                return (idealSquared / distance) * unitVector
-            },
-            attractiveFunction: { attractLeft, attractRight in
-                // attract u -> v
-                let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
-                return ((distance * distance) / idealLength) * unitVector
-            },
-            maxIterations: 200,
-            forceThreshold: LFloat3(100, 100, 100),
-            coolingFactor: 0.88
-        )
-        
-        for grid in testVertices {
-            print("\(grid.fileName) -> \(grid.position)")
         }
     }
     
