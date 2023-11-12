@@ -188,7 +188,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
-            let testBounds = BoundsComputing()
+            let testBounds = BoxComputing()
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 for node in nodeSet {
                     XCTAssertTrue(node.contentSize.x > 0, "Glyph nodes usually have some width")
@@ -278,7 +278,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid = newGrid()
         let testClass = try XCTUnwrap(testGrid.semanticInfoMap.classes.first, "Must have id to test")
         
-        let computing = BoundsComputing()
+        let computing = BoxComputing()
         testGrid
             .semanticInfoMap
             .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in

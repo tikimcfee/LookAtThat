@@ -132,8 +132,8 @@ public class CodeGrid: Identifiable, Equatable {
         
         gridBackground
 //            // Suddenly the grid is out of sync so I set the leading to half bounds.. what is even happening
-            .setLeading(BoundsWidth(bounds) / 2.0)
-//            .setLeading(0)
+//            .setLeading(BoundsWidth(bounds) / 2.0)
+            .setLeading(0)
             .setTop(bounds.max.y)
             .setFront(bounds.min.z - 1)
     }

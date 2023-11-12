@@ -101,7 +101,7 @@ class TraceLayoutController {
         var topLeft = LFloat3(.infinity, -.infinity, 0)
         var didSet = false
         
-//        let computing = BoundsComputing()
+//        let computing = BoxComputing()
         
         collectTraceNodes(trace: trace) { node in
             if hasFurtherLeading(node.worldPosition, topLeft) {

@@ -16,8 +16,8 @@ class WordNode: MetalLinkNode {
     let parentGrid: CodeGrid
     
     public lazy var contentSizeCache = CachedValue(update: {
-        let b = BoundsComputing()
-        b.consumeNodes(self.glyphs)
+        let b = BoxComputing()
+        b.consumeNodeSizes(self.glyphs)
         return BoundsSize(b.bounds) * self.scale
     })
     
@@ -36,6 +36,7 @@ class WordNode: MetalLinkNode {
         
         var xOffset: Float = 0
         for glyph in glyphs {
+            glyph.instanceConstants?.useParentMatrix = .zero
             glyph.parent = self
             glyph.position = LFloat3(x: xOffset, y: 0, z: 0)
             xOffset += glyph.boundsWidth
@@ -43,13 +44,12 @@ class WordNode: MetalLinkNode {
     }
     
     override func rebuildTreeState() {
-        super.rebuildTreeState()
-        contentSizeCache.dirty()
+        rebuildNow()
     }
     
     override func rebuildNow() {
-        super.rebuildNow()
         contentSizeCache.updateNow()
+        super.rebuildNow()
     }
     
     override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {

@@ -71,7 +71,7 @@ class CodeGridSelectionController: ObservableObject {
             ? nodeController.focus(_: in:)
             : nodeController.unfocus(_: in:)
         
-        let computing = BoundsComputing()
+        let computing = BoxComputing()
         grid.semanticInfoMap
             .walkFlattened(from: id, in: tokenCache) { info, nodes in
                 for node in nodes {
