@@ -15,6 +15,8 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     let targetCollection: GlyphCollection
     var writer: GlyphCollectionWriter
     
+    private static let __TEST_ASYNC__ = false
+    
     init(targetGrid: CodeGrid) {
         self.targetGrid = targetGrid
         self.targetCollection = targetGrid.rootNode
@@ -23,17 +25,21 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
   
     @discardableResult
     func consume(url: URL) -> CodeGrid {
-        guard let fileSource = loadSourceUrl(url) else {
-            return consumeText(textPath: url)
+        if Self.__TEST_ASYNC__ {
+            return __asyncConsume(url: url)
+        } else {
+            guard let fileSource = loadSourceUrl(url) else {
+                return consumeText(textPath: url)
+            }
+            consume(rootSyntaxNode: Syntax(fileSource))
+            
+            return targetGrid
         }
-        consume(rootSyntaxNode: Syntax(fileSource))
-        
-        return targetGrid
     }
     
     private func __asyncConsume(url: URL) -> CodeGrid {
         let sem = DispatchSemaphore(value: 0)
-        Task {
+        Task.detached(priority: .userInitiated) {
             await acceleratedConsume(url: url)
             sem.signal()
         }
