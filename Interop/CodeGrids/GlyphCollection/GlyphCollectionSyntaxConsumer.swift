@@ -39,7 +39,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     
     private func __asyncConsume(url: URL) -> CodeGrid {
         let sem = DispatchSemaphore(value: 0)
-        Task.detached(priority: .userInitiated) {
+        Task(priority: .userInitiated) {
             await acceleratedConsume(url: url)
             sem.signal()
         }
