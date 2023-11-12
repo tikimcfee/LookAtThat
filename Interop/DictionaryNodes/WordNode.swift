@@ -44,28 +44,35 @@ class WordNode: MetalLinkNode {
         }
     }
     
-    override func rebuildTreeState() {
-        rebuildNow()
+    
+    override var children: [MetalLinkNode] {
+        get { glyphs }
+        set { }
     }
     
-//    override func update(deltaTime: Float) {
-//        super.update(deltaTime: deltaTime)
-////        rebuildNow()
-//        for glyph in glyphs {
-//            glyph.rebuildNow()
-//        }
-//    }
+    override func render(in sdp: inout SafeDrawPass) {
+        // Don't render me
+    }
+    
+    // TODO: This is cheating... why is it just the names are messed up again? Whatever for now
+    override func update(deltaTime: Float) {
+        super.update(deltaTime: deltaTime)
+//        rebuildNow()
+        for glyph in glyphs {
+            glyph.rebuildNow()
+        }
+    }
     
     override func rebuildNow() {
         contentSizeCache.updateNow()
         super.rebuildNow()
     }
     
-    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
-        for glyph in glyphs {
-            action(glyph)
-        }
-    }
+//    override func enumerateChildren(_ action: (MetalLinkNode) -> Void) {
+//        for glyph in glyphs {
+//            action(glyph)
+//        }
+//    }
 }
 
 

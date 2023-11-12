@@ -25,12 +25,11 @@ struct RenderPlan {
     let targetParent = MetalLinkNode()
     
     class State {
-        var orderedParents = OrderedDictionary<URL, CodeGrid>()
-        
         /// Maps the file or directory URL to its contained.
         /// It's either the parent, or one of its children.
 //        var directoryGroups = [URL: CodeGridGroup]()
-        var directoryGroups = ConcurrentDictionary<URL, CodeGridGroup>()
+//        
+//        var directoryGroups = ConcurrentDictionary<URL, CodeGridGroup>()
     }
     var state = State()
 
@@ -85,7 +84,22 @@ private extension RenderPlan {
     
     func justShowMeCodePlease() {
         guard rootPath.isDirectory else { return }
-        state.directoryGroups[rootPath]?.applyAllConstraints()
+        
+        var last: CodeGrid?
+        for grid in builder.sharedGridCache.cachedGrids.values {
+            if let parent = grid.parent {
+                parent.remove(child: grid.rootNode)
+            }
+            
+            if let last {
+                last.addChildGrid(grid)
+                grid.translated(dY: -2, dZ: -8)
+            } else {
+                targetParent.add(child: grid.rootNode)
+            }
+            last = grid
+        }
+//        state.directoryGroups[rootPath]?.applyAllConstraints()
 //        state.directoryGroups[rootPath]?.addLines(targetParent)
     }
 }
@@ -113,8 +127,8 @@ private extension RenderPlan {
         
         rootGrid.removeBackground()
         
-        let group = CodeGridGroup(globalRootGrid: rootGrid)
-        state.directoryGroups[rootPath] = group
+//        let group = CodeGridGroup(globalRootGrid: rootGrid)
+//        state.directoryGroups[rootPath] = group
         targetParent.add(child: rootGrid.rootNode)
         
         FileBrowser.recursivePaths(rootPath).forEach { childPath in
@@ -128,18 +142,18 @@ private extension RenderPlan {
         }
         dispatchGroup.wait()
         
-        FileBrowser.recursivePaths(rootPath).forEach { childPath in
-            if FileBrowser.isSupportedFileType(childPath) {
-                let grid = builder
-                    .sharedGridCache
-                    .get(childPath)!
-                
-                let group = state
-                    .directoryGroups[childPath.deletingLastPathComponent()]!
-                
-                group.addChildGrid(grid)
-            }
-        }
+//        FileBrowser.recursivePaths(rootPath).forEach { childPath in
+//            if FileBrowser.isSupportedFileType(childPath) {
+//                let grid = builder
+//                    .sharedGridCache
+//                    .get(childPath)!
+//                
+//                let group = state
+//                    .directoryGroups[childPath.deletingLastPathComponent()]!
+//                
+//                group.addChildGrid(grid)
+//            }
+//        }
     }
     
     func launchDirectoryGridBuild(
@@ -157,12 +171,12 @@ private extension RenderPlan {
                 .applyName()
             
             grid.removeBackground()
-            let group = CodeGridGroup(globalRootGrid: grid)
-            state.directoryGroups[childPath] = group
+//            let group = CodeGridGroup(globalRootGrid: grid)
+//            state.directoryGroups[childPath] = group
             
-            if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
-                parent.addChildGroup(group)
-            }
+//            if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
+//                parent.addChildGroup(group)
+//            }
             
             dispatchGroup.leave()
         }
