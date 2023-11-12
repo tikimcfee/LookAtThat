@@ -27,38 +27,12 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             return consumeText(textPath: url)
         }
         consume(rootSyntaxNode: Syntax(fileSource))
+        
 //        Task {
 //            await acceleratedConsume(url: url)
 //        }
+        
         return targetGrid
-    }
-    
-    func acceleratedConsume(
-        url: URL
-    ) async {
-        let reader = SplittingFileReader(targetURL: url)
-        let stream = reader.asyncLineStream()
-        
-        // cache per line, merge lines after each lolol
-        let tokenCache = ConcurrentArray<GlyphNode>()
-        let id = "raw-text-\(UUID().uuidString)"
-        var writtenLines = 0
-        
-        for await line in stream {
-            for newCharacter in line {
-                let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, .white)
-                if let node = writer.writeGlyphToState(glyphKey) {
-                    node.meta.syntaxID = id
-                    tokenCache.append(node)
-                    targetCollection.renderer.insert(node)
-                } else {
-                    print("nooooooooooooooooooooo!")
-                }
-            }
-            writtenLines += 1
-        }
-        targetGrid.tokenCache[id] = tokenCache.values
-        print("done writing \(writtenLines) lines")
     }
     
     func consumeText(textPath: URL) -> CodeGrid {
@@ -117,6 +91,7 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
     ) {
         for newCharacter in string {
             let glyphKey = GlyphCacheKey(source: newCharacter, color)
+//            let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, color)
             if let node = writer.writeGlyphToState(glyphKey) {
                 node.meta.syntaxID = nodeID
                 writtenNodeSet.append(node)
@@ -125,6 +100,36 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
                 print("nooooooooooooooooooooo!")
             }
         }
+    }
+    
+    
+    func acceleratedConsume(
+        url: URL
+    ) async {
+        let reader = SplittingFileReader(targetURL: url)
+        let stream = reader.asyncLineStream()
+        
+        // cache per line, merge lines after each lolol
+        let tokenCache = ConcurrentArray<GlyphNode>()
+        let id = "raw-text-\(UUID().uuidString)"
+        var writtenLines = 0
+        
+        for await line in stream {
+            for newCharacter in line {
+                let glyphKey = GlyphCacheKey(source: newCharacter, .white)
+//                let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, .white)
+                if let node = writer.writeGlyphToState(glyphKey) {
+                    node.meta.syntaxID = id
+                    tokenCache.append(node)
+                    targetCollection.renderer.insert(node)
+                } else {
+                    print("nooooooooooooooooooooo!")
+                }
+            }
+            writtenLines += 1
+        }
+        targetGrid.tokenCache[id] = tokenCache.values
+        print("done writing \(writtenLines) lines")
     }
 }
 
