@@ -109,7 +109,9 @@ public class CodeGrid: Identifiable, Equatable {
         if let nameNode {
             targetNode.remove(child: nameNode)
         }
+        targetNode.pausedInvalidate = true
         targetNode.add(child: node)
+        targetNode.pausedInvalidate = false
         self.nameNode = node
     }
     

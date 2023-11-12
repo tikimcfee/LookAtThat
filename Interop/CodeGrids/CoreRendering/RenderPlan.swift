@@ -116,6 +116,7 @@ private extension RenderPlan {
             .withSourcePath(rootPath)
             .withFileName(rootPath.fileName)
             .applyName()
+        rootGrid.removeBackground()
         let group = CodeGridGroup(globalRootGrid: rootGrid)
         state.directoryGroups[rootPath] = group
         targetParent.add(child: rootGrid.rootNode)
@@ -129,7 +130,7 @@ private extension RenderPlan {
                     .withSourcePath(childPath)
                     .withFileName(childPath.fileName)
                     .applyName()
-                
+                grid.removeBackground()
                 let group = CodeGridGroup(globalRootGrid: grid)
                 state.directoryGroups[childPath] = group
                 
