@@ -28,10 +28,16 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         }
         consume(rootSyntaxNode: Syntax(fileSource))
         
-//        Task {
-//            await acceleratedConsume(url: url)
-//        }
-        
+        return targetGrid
+    }
+    
+    private func __asyncConsume(url: URL) -> CodeGrid {
+        let sem = DispatchSemaphore(value: 0)
+        Task {
+            await acceleratedConsume(url: url)
+            sem.signal()
+        }
+        sem.wait()
         return targetGrid
     }
     
@@ -107,29 +113,30 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         url: URL
     ) async {
         let reader = SplittingFileReader(targetURL: url)
-        let stream = reader.asyncLineStream()
+        let stream = reader.indexingAsyncLineStream()
         
-        // cache per line, merge lines after each lolol
-        let tokenCache = ConcurrentArray<GlyphNode>()
         let id = "raw-text-\(UUID().uuidString)"
-        var writtenLines = 0
         
-        for await line in stream {
-            for newCharacter in line {
-                let glyphKey = GlyphCacheKey(source: newCharacter, .white)
-//                let glyphKey = GlyphCacheKey.fromCache(source: newCharacter, .white)
-                if let node = writer.writeGlyphToState(glyphKey) {
-                    node.meta.syntaxID = id
-                    tokenCache.append(node)
-                    targetCollection.renderer.insert(node)
-                } else {
-                    print("nooooooooooooooooooooo!")
-                }
-            }
-            writtenLines += 1
+        let glyphKey = GlyphCacheKey(source: "\n", .white)
+        guard let lineBreakNode = writer.writeGlyphToState(glyphKey) else {
+            return
         }
-        targetGrid.tokenCache[id] = tokenCache.values
-        print("done writing \(writtenLines) lines")
+        let lineBreakSize = lineBreakNode.quadSize
+        
+        var made = [[GlyphNode]]()
+        for await (line, lineOffset) in stream {
+            let result = targetCollection.renderer.insertLineRaw(
+                line: line,
+                lineOffset: lineOffset,
+                lineOffsetSize: lineBreakSize,
+                writer: writer,
+                rawId: id
+            )
+            made.append(result)
+        }
+//        targetGrid.tokenCache[id] = made.flatMap { $0 }
+        targetGrid.updateBackground()
+        targetCollection.setRootMesh()
     }
 }
 
