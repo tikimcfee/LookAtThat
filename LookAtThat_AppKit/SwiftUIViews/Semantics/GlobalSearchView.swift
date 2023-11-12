@@ -117,7 +117,6 @@ struct GlobalSearchView: View {
         // TL;DR:
         // `grid.rootNode.worldBounds` doesn't work at time of commit. Doing the manual compute is.. usable. Large files go boom.
         //
-        grid.rootNode.rebuildTreeState()
         let computing = BoxComputing()
         grid.enumerateChildren { computing.consumeBounds($0.worldBounds) }
         let nodeBounds = computing.bounds

@@ -15,52 +15,52 @@ import Algorithms
 
 extension TwoETimeRoot {
     func setupDictionaryTest2(_ controller: DictionaryController) {
-        if let node = controller.lastRootNode {
-            root.remove(child: node)
-        }
-        
-        let wordContainerGrid = builder.createGrid(
-            bufferSize: 15_500_000
-        )
-        wordContainerGrid.removeBackground()
-        wordContainerGrid.translated(dZ: -100.0)
-        controller.lastRootNode = wordContainerGrid.rootNode
-        
-        let orderedWords = controller.dictionary.orderedWords
-        print("Defined words: \(orderedWords.count)")
-        
-        let cachingGenerator = ColorGenerator(maxColorCount: orderedWords.count * 10)
-        let colorFloats = ConcurrentDictionary<String, LFloat4>()
-        let snap = WorldGridSnapping()
-        
-        for (sourceWord, definitionList) in orderedWords {
-            let color = colorFloats[sourceWord] ?? cachingGenerator.nextColor
-            colorFloats[sourceWord] = color
-            
-            let (_, sourceGlyphs) = wordContainerGrid.consume(text: sourceWord)
-            let sourceNode = WordNode(
-                sourceWord: sourceWord,
-                glyphs: sourceGlyphs,
-                parentGrid: wordContainerGrid
-            )
-            controller.nodeMap[sourceWord] = sourceNode
-            
-            for definition in definitionList {
-                for definitionWord in definition {
-                    let (_, definitionGlyphs) = wordContainerGrid.consume(text: definitionWord)
-                    let definitionNode = WordNode(
-                        sourceWord: definitionWord,
-                        glyphs: definitionGlyphs,
-                        parentGrid: wordContainerGrid
-                    )
-                    
-                }
-            }
-            
-            sourceNode.enumerateChildren {
-                $0.instanceConstants?.addedColor = color
-            }
-        }
+//        if let node = controller.lastRootNode {
+//            root.remove(child: node)
+//        }
+//        
+//        let wordContainerGrid = builder.createGrid(
+//            bufferSize: 15_500_000
+//        )
+//        wordContainerGrid.removeBackground()
+//        wordContainerGrid.translated(dZ: -100.0)
+//        controller.lastRootNode = wordContainerGrid.rootNode
+//        
+//        let orderedWords = controller.dictionary.orderedWords
+//        print("Defined words: \(orderedWords.count)")
+//        
+//        let cachingGenerator = ColorGenerator(maxColorCount: orderedWords.count * 10)
+//        let colorFloats = ConcurrentDictionary<String, LFloat4>()
+////        let snap = WorldGridSnapping()
+//        
+//        for (sourceWord, definitionList) in orderedWords {
+//            let color = colorFloats[sourceWord] ?? cachingGenerator.nextColor
+//            colorFloats[sourceWord] = color
+//            
+//            let (_, sourceGlyphs) = wordContainerGrid.consume(text: sourceWord)
+//            let sourceNode = WordNode(
+//                sourceWord: sourceWord,
+//                glyphs: sourceGlyphs,
+//                parentGrid: wordContainerGrid
+//            )
+//            controller.nodeMap[sourceWord] = sourceNode
+//            
+//            for definition in definitionList {
+//                for definitionWord in definition {
+//                    let (_, definitionGlyphs) = wordContainerGrid.consume(text: definitionWord)
+//                    let definitionNode = WordNode(
+//                        sourceWord: definitionWord,
+//                        glyphs: definitionGlyphs,
+//                        parentGrid: wordContainerGrid
+//                    )
+//                    
+//                }
+//            }
+//            
+//            sourceNode.enumerateChildren {
+//                $0.instanceConstants?.addedColor = color
+//            }
+//        }
     }
     
     func setupDictionaryTest(_ controller: DictionaryController) {

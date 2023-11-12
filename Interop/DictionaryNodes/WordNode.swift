@@ -47,6 +47,14 @@ class WordNode: MetalLinkNode {
         rebuildNow()
     }
     
+//    override func update(deltaTime: Float) {
+//        super.update(deltaTime: deltaTime)
+////        rebuildNow()
+//        for glyph in glyphs {
+//            glyph.rebuildNow()
+//        }
+//    }
+    
     override func rebuildNow() {
         contentSizeCache.updateNow()
         super.rebuildNow()

@@ -63,7 +63,10 @@ struct RenderPlan {
         switch mode {
         case .cacheAndLayout:
             return {
+                targetParent.pausedInvalidate = true
                 cacheGrids()
+                targetParent.pausedInvalidate = false
+                
                 doGridLayout()
             }
         case .cacheOnly:
@@ -86,7 +89,10 @@ private extension RenderPlan {
     func justShowMeCodePlease() {
         guard rootPath.isDirectory else { return }
         state.directoryGroups[rootPath]?.applyAllConstraints()
-        state.directoryGroups[rootPath]?.addLines()
+        
+//        targetParent.pausedInvalidate = true
+//        state.directoryGroups[rootPath]?.addLines(targetParent)
+//        targetParent.pausedInvalidate = false
     }
 }
 

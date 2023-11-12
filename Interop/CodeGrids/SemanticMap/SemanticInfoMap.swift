@@ -123,7 +123,7 @@ extension SemanticInfoMap {
         switch syntax.syntaxNodeType {
         case is ProtocolDeclSyntax.Type:
             action(&protocols)
-        case is TypealiasDeclSyntax.Type:
+        case is TypeAliasDeclSyntax.Type:
             action(&typeAliases)
         case is VariableDeclSyntax.Type:
             action(&variables)

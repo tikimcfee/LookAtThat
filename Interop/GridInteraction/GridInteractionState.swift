@@ -28,8 +28,8 @@ class GridInteractionState {
     
     func setupStreams() {
         let glyphStream = hoverController.sharedGlyphEvent
-        let gridStream = hoverController.sharedGridEvent
-        let mouseStream = input.sharedMouseDown
+//        let gridStream = hoverController.sharedGridEvent
+//        let mouseStream = input.sharedMouseDown
         
 //        gridStream
 //            .removeDuplicates(by: {

@@ -234,28 +234,28 @@ class TraceCapturingRewriter: SyntaxRewriter {
 //        return element
 //    }
     
-    var fileIDKeyword: TupleExprElementSyntax {
-        TupleExprElementSyntax(
+    var fileIDKeyword: LabeledExprSyntax {
+        LabeledExprSyntax(
             label: nil,
             colon: nil,
             expression: ExprSyntax(
-                IdentifierExprSyntax(
-                    identifier: TokenSyntax.keyword(.file),
-                    declNameArguments: nil
+                DeclReferenceExprSyntax(
+                    baseName: TokenSyntax.keyword(.file),
+                    argumentNames: nil
                 )
             ),
             trailingComma: TokenSyntax.commaToken()
         )
     }
     
-    var functionKeyword: TupleExprElementSyntax {
-        TupleExprElementSyntax(
+    var functionKeyword: LabeledExprSyntax {
+        LabeledExprSyntax(
             label: nil,
             colon: nil,
             expression: ExprSyntax(
-                IdentifierExprSyntax(
-                    identifier: TokenSyntax.keyword(.func),
-                    declNameArguments: nil
+                DeclReferenceExprSyntax(
+                        baseName: TokenSyntax.keyword(.func),
+                        argumentNames: nil
                 )
             ),
             trailingComma: nil

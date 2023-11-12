@@ -49,19 +49,27 @@ class CodeGridGroup {
         controller.applyConsecutiveConstraints()
     }
     
-    func addLines() {
-        for childGroup in childGroups {
-            
-            let line = MetalLinkLine(globalRootGrid.rootNode.link)
-            line.setColor(LFloat4(1.0, 0.0, 0.5, 1.0))
-            line.appendSegment(about: .zero)
-            line.appendSegment(about: childGroup.globalRootGrid.position)
-            globalRootGrid.targetNode.add(child: line)
-            
-            childGroup.addLines()
-        }
-        controller.applyConsecutiveConstraints()
-    }
+//    func addLines(_ root: MetalLinkNode) {
+//        for childGroup in childGroups {
+//            let line = MetalLinkLine(globalRootGrid.rootNode.link)
+//            line.setColor(LFloat4(1.0, 0.0, 0.5, 1.0))
+//            line.appendSegment(about: globalRootGrid.rootNode.boundsTopLeftFront(root))
+//            line.appendSegment(about: childGroup.globalRootGrid.rootNode.boundsTopLeftFront(root))
+//            line.appendSegment(about: childGroup.globalRootGrid.rootNode.boundsTopLeftBack(root))
+//            root.add(child: line)
+//            
+//            childGroup.addLines(root)
+//        }
+//        
+//        for grid in childGrids {
+//            let line = MetalLinkLine(globalRootGrid.rootNode.link)
+//            line.setColor(LFloat4(0.2, 0.2, 0.8, 1.0))
+//            line.appendSegment(about: globalRootGrid.rootNode.boundsTopLeftFront((root)))
+//            line.appendSegment(about: grid.rootNode.boundsTopLeftFront((root)))
+//            line.appendSegment(about: grid.rootNode.boundsTopLeftBack((root)))
+//            root.add(child: line)
+//        }
+//    }
     
     func addChildGrid(_ grid: CodeGrid) {
         if let lastGrid = childGrids.last {
@@ -83,7 +91,8 @@ class CodeGridGroup {
         if let lastGroup = childGroups.last {
             controller.add(LinearConstraints.ToTrailingOf(
                 sourceNode: lastGroup.globalRootGrid.rootNode,
-                targetNode: group.globalRootGrid.rootNode
+                targetNode: group.globalRootGrid.rootNode,
+                offset: LFloat3(0, 0, -64)
             ))
         } else {
             controller.add(LiveConstraint(
@@ -93,7 +102,7 @@ class CodeGridGroup {
                     LFloat3(
                         x: 0,
                         y: self.nextRowStartY,
-                        z: -128
+                        z: -256
                     )
                 }
             ))
