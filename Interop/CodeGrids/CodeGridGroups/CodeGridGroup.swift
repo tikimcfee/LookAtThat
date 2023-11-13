@@ -49,27 +49,25 @@ class CodeGridGroup {
         controller.applyConsecutiveConstraints()
     }
     
-//    func addLines(_ root: MetalLinkNode) {
-//        for childGroup in childGroups {
-//            let line = MetalLinkLine(globalRootGrid.rootNode.link)
-//            line.setColor(LFloat4(1.0, 0.0, 0.5, 1.0))
-//            line.appendSegment(about: globalRootGrid.rootNode.boundsTopLeftFront(root))
-//            line.appendSegment(about: childGroup.globalRootGrid.rootNode.boundsTopLeftFront(root))
-//            line.appendSegment(about: childGroup.globalRootGrid.rootNode.boundsTopLeftBack(root))
-//            root.add(child: line)
-//            
-//            childGroup.addLines(root)
-//        }
-//        
-//        for grid in childGrids {
-//            let line = MetalLinkLine(globalRootGrid.rootNode.link)
-//            line.setColor(LFloat4(0.2, 0.2, 0.8, 1.0))
-//            line.appendSegment(about: globalRootGrid.rootNode.boundsTopLeftFront((root)))
-//            line.appendSegment(about: grid.rootNode.boundsTopLeftFront((root)))
-//            line.appendSegment(about: grid.rootNode.boundsTopLeftBack((root)))
-//            root.add(child: line)
-//        }
-//    }
+    func addLines(_ root: MetalLinkNode) {
+        for childGroup in childGroups {
+            let line = MetalLinkLine(globalRootGrid.rootNode.link)
+            line.setColor(LFloat4(1.0, 0.0, 0.5, 1.0))
+            line.appendSegment(about: globalRootGrid.rootNode.worldPosition)
+            line.appendSegment(about: childGroup.globalRootGrid.rootNode.worldPosition)
+            root.add(child: line)
+            
+            childGroup.addLines(root)
+        }
+        
+        for grid in childGrids {
+            let line = MetalLinkLine(globalRootGrid.rootNode.link)
+            line.setColor(LFloat4(0.2, 0.2, 0.8, 1.0))
+            line.appendSegment(about: globalRootGrid.rootNode.worldPosition)
+            line.appendSegment(about: grid.rootNode.worldPosition)
+            root.add(child: line)
+        }
+    }
     
     func addChildGrid(_ grid: CodeGrid) {
         if let lastGrid = childGrids.last {
