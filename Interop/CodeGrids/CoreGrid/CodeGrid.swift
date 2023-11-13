@@ -121,8 +121,10 @@ public class CodeGrid: Identifiable, Equatable {
         nameNode?.showNode()
     }
     
-    func removeBackground() {
+    @discardableResult
+    func removeBackground() -> CodeGrid {
         rootNode.remove(child: gridBackground)
+        return self
     }
     
     func updateBackground() {
@@ -131,11 +133,13 @@ public class CodeGrid: Identifiable, Equatable {
         gridBackground.size = LFloat2(x: size.x, y: size.y)
         
         gridBackground
-//            // Suddenly the grid is out of sync so I set the leading to half bounds.. what is even happening
-//            .setLeading(BoundsWidth(bounds) / 2.0)
             .setLeading(0)
             .setTop(bounds.max.y)
             .setFront(bounds.min.z - 1)
+        
+//            .setLeading(bounds.max.x / 2.0)
+//            .setTop(bounds.max.y - size.y / 2.0)
+//            .setFront(bounds.min.z - 1)
     }
     
     func addChildGrid(_ other: CodeGrid) {
@@ -264,7 +268,11 @@ extension CodeGrid: Measures {
     }
     
     public var centerPosition: LFloat3 {
-        return LFloat3(x: targetNode.centerX, y: targetNode.centerY, z: targetNode.centerZ)
+        LFloat3(
+            x: targetNode.centerX, 
+            y: targetNode.centerY,
+            z: targetNode.centerZ
+        )
     }
 }
 

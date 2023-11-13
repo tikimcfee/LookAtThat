@@ -148,10 +148,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         testGrid2.setLeading(testGrid1.leading)
         testGrid2.setLeading(testGrid1.leading)
         testGrid2.setLeading(testGrid1.leading)
-        XCTAssertEqual(testGrid2.localLeading, testGrid1.leading, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.leading, testGrid1.leading, "There should be no offset after setting")
         
         testGrid2.setLeading(testGrid1.trailing)
-        XCTAssertEqual(testGrid2.localLeading, testGrid1.trailing, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.leading, testGrid1.trailing, "There should be no offset after setting")
         
         testGrid2.setTrailing(testGrid1.trailing)
         XCTAssertEqual(testGrid2.trailing, testGrid1.trailing, "There should be no offset after setting")
@@ -181,6 +181,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         consumer.consume(url: bundle.testFile)
         let testGrid = consumer.targetGrid
             .withFileName(bundle.testFile.lastPathComponent)
+            .removeBackground()
         
         XCTAssertFalse(
             testGrid.tokenCache.isEmpty(),
@@ -205,6 +206,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     testBounds.consumeBounds(node.computeBoundingBox())
                 }
             }
+            
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
             // The above bounds are computed with all nodes.
             print("computed grid size: ", BoundsSize(testGrid.bounds))
@@ -212,17 +214,16 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             
             print("grid world bounds: ", testGrid.bounds)
             print("test world bounds: ", testBounds.bounds)
-            XCTAssertEqual(
-                testBounds.bounds.min,
-                testGrid.bounds.min,
-                "Bounds min must match from node calculation and grid measures"
-            )
             
-            XCTAssertEqual(
-                testBounds.bounds.max,
-                testGrid.bounds.max,
-                "Bounds max must match from node calculation and grid measures"
-            )
+            func compare(_ l: Bounds, _ r: Bounds) {
+                XCTAssertEqual(l.min.x, r.min.x, "min.x")
+                XCTAssertEqual(l.min.y, r.min.y, "min.y")
+                XCTAssertEqual(l.min.z, r.min.z, "min.z")
+                XCTAssertEqual(l.max.x, r.max.x, "max.x")
+                XCTAssertEqual(l.max.y, r.max.y, "max.y")
+                XCTAssertEqual(l.max.z, r.max.z, "max.z")
+            }
+            compare(testBounds.bounds, testGrid.bounds)
         }
         
         performChecks()
@@ -420,7 +421,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print(testGrid.dumpstats)
         
         // Values should be equal after setting
-        deltaX = testGrid.localLeading
+        deltaX = testGrid.leading
         deltaY = testGrid.top
         deltaZ = testGrid.back
         XCTAssertEqual(deltaX, 0.0, "Error should be within Metal Float accuracy")
@@ -461,7 +462,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         var centerY = centerPosition.y
         var centerZ = centerPosition.z
         
-        let expectedCenterX = testGrid.localLeading + testGridWidth / 2.0
+        let expectedCenterX = testGrid.leading + testGridWidth / 2.0
         let expectedCenterY = testGrid.top - testGridHeight / 2.0
         let expectedCenterZ = testGrid.front - testGridLength / 2.0
         
@@ -521,8 +522,8 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             centerY = newExpectedCenterY
             centerZ = newExpectedCenterZ
             
-            let newBounds = testGrid.rootNode.bounds
-            let newBoundsWidth = BoundsWidth(newBounds) * DeviceScale
+            let newBounds       = testGrid.rootNode.bounds
+            let newBoundsWidth  = BoundsWidth(newBounds) * DeviceScale
             let newBoundsHeight = BoundsHeight(newBounds) * DeviceScale
             let newBoundsLength = BoundsLength(newBounds) * DeviceScale
             let newBoundsCenter = testGrid.rootNode.boundsCenterPosition

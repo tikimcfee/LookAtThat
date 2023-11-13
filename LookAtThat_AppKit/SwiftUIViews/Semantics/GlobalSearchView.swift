@@ -117,14 +117,13 @@ struct GlobalSearchView: View {
         // TL;DR:
         // `grid.rootNode.worldBounds` doesn't work at time of commit. Doing the manual compute is.. usable. Large files go boom.
         //
-        let computing = BoxComputing()
-        computing.consumeBounds(grid.bounds)
-        let nodeBounds = computing.bounds
+//        let computing = BoxComputing()
+//        computing.consumeBounds(grid.bounds)
+//        let nodeBounds = computing.bounds
         
-        let position = LFloat3(
-            x: BoundsLeading(nodeBounds) + BoundsWidth(nodeBounds) / 2.0,
-            y: BoundsTop(nodeBounds) - 16,
-            z: BoundsFront(nodeBounds) + 64
+        var position = grid.worldPosition.translated(
+            dX: grid.lengthX / 2.0,
+            dZ: 64
         )
         
         GlobalInstances.debugCamera.interceptor.resetPositions()
