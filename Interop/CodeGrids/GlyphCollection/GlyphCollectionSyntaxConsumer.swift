@@ -31,7 +31,18 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             guard let fileSource = loadSourceUrl(url) else {
                 return consumeText(textPath: url)
             }
+            
+            let size = fileSource.root.allText.count + 512
+            print("got \(size) textses")
+            try? targetGrid
+                .rootNode
+                .instanceState
+                .constants
+                .expandBuffer(nextSize: size, force: true)
+            
+            print("starting consume: \(url.lastPathComponent)")
             consume(rootSyntaxNode: Syntax(fileSource))
+            print("completed consume: \(url.lastPathComponent)")
             
             return targetGrid
         }
