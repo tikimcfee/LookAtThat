@@ -174,10 +174,10 @@ extension TwoETimeRoot {
         root.add(child: background2)
         root.add(child: background3)
         
-        background2.setLeading(background.localTrailing)
-        background2.setTop(background.localTop)
-        background3.setLeading(background2.localTrailing)
-        background3.setTop(background2.localTop)
+        background2.setLeading(background.trailing)
+        background2.setTop(background.top)
+        background3.setLeading(background2.trailing)
+        background3.setTop(background2.top)
         
         print(background.centerPosition)
         print(background2.centerPosition)

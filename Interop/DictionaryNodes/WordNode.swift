@@ -14,15 +14,15 @@ class WordNode: MetalLinkNode {
     let sourceWord: String
     var glyphs: CodeGridNodes
     let parentGrid: CodeGrid
-    
-    public lazy var contentSizeCache = CachedValue(update: {
-        let b = BoxComputing()
-        b.consumeNodeSizes(self.glyphs)
-        return BoundsSize(b.bounds) * self.scale
-    })
+
+    override var hasIntrinsicSize: Bool {
+        true
+    }
     
     override var contentSize: LFloat3 {
-        contentSizeCache.get()
+        let b = BoxComputing()
+        b.consumeNodeSizeBounds(glyphs)
+        return BoundsSize(b.bounds) * scale
     }
     
     init(
@@ -46,16 +46,11 @@ class WordNode: MetalLinkNode {
     
     override var children: [MetalLinkNode] {
         get { glyphs }
-        set { }
+        set { glyphs = newValue as? [MetalLinkGlyphNode] ?? glyphs }
     }
     
     override func render(in sdp: inout SafeDrawPass) {
         // Don't render me
-    }
-    
-    override func rebuildNow() {
-        contentSizeCache.updateNow()
-        super.rebuildNow()
     }
 }
 

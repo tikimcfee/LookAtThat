@@ -88,16 +88,22 @@ private extension RenderPlan {
         var count = 0
         var last: CodeGrid?
         for grid in builder.sharedGridCache.cachedGrids.values {
-            if let parent = grid.parent {
+            if grid.sourcePath?.isFileURL == true,
+               let parent = grid.parent,
+               grid.parent != targetParent
+            {
                 parent.remove(child: grid.rootNode)
             }
             
             if let last {
-                last.addChildGrid(grid)
-                grid.translated(dY: -2, dZ: -8)
+                grid.setTrailing(last.trailing)
+                    .setTop(last.top)
+                    .setFront(last.back - 32)
+                targetParent.add(child: grid.rootNode)
             } else {
                 targetParent.add(child: grid.rootNode)
             }
+            
             last = grid
             count += 1
         }

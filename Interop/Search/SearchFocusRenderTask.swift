@@ -115,15 +115,8 @@ private extension SearchFocusRenderTask {
         while !task.isCancelled, let next = gridWork.next() {
             workGroup.enter()
             WorkerPool.shared.nextWorker().async {
-                defer {
-                    workGroup.leave()
-                }
-                do {
-                    try self.test(grid: next, searchText: searchText)
-                }
-                catch {
-                    return
-                }
+                try? self.test(grid: next, searchText: searchText)
+                workGroup.leave()
             }
         }
         workGroup.wait()

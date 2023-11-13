@@ -33,7 +33,6 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
             }
             
             let size = fileSource.root.allText.count + 512
-            print("got \(size) textses")
             try? targetGrid
                 .rootNode
                 .instanceState
