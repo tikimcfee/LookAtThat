@@ -110,7 +110,7 @@ private extension RenderPlan {
 //        print("added: \(count)")
         
         state.directoryGroups[rootPath]?.applyAllConstraints()
-        state.directoryGroups[rootPath]?.addLines(targetParent)
+//        state.directoryGroups[rootPath]?.addLines(targetParent)
     }
 }
 
