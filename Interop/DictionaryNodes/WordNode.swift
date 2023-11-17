@@ -19,10 +19,14 @@ class WordNode: MetalLinkNode {
         true
     }
     
-    override var contentSize: LFloat3 {
+    override var contentBounds: Bounds {
         let b = BoxComputing()
-        b.consumeNodeSizeBounds(glyphs)
-        return BoundsSize(b.bounds) * scale
+        for node in glyphs {
+            b.consumeBounds(
+                node.sizeBounds
+            )
+        }
+        return b.bounds * scale
     }
     
     init(

@@ -137,15 +137,15 @@ private extension RenderPlan {
         
         rootGrid.removeBackground()
         
-        let group = CodeGridGroup(globalRootGrid: rootGrid)
-        state.directoryGroups[rootPath] = group
+        let rootGroup = CodeGridGroup(globalRootGrid: rootGrid)
+        state.directoryGroups[rootPath] = rootGroup
         targetParent.add(child: rootGrid.rootNode)
         
         FileBrowser.recursivePaths(rootPath).forEach { childPath in
             if FileBrowser.isSupportedFileType(childPath) {
                 launchFileGridBuild(dispatchGroup, childPath)
             } else if childPath.isDirectory {
-                launchDirectoryGridBuild(dispatchGroup, childPath)
+                launchDirectoryGridBuild(childPath)
             } else {
                 print("Skipping file: \(childPath.fileName)")
             }
@@ -162,34 +162,42 @@ private extension RenderPlan {
                     .directoryGroups[childPath.deletingLastPathComponent()]!
                 
                 group.addChildGrid(grid)
+            } else if childPath.isDirectory,
+                   let group = group(for: childPath),
+                   let parent = parentGroup(for: childPath) {
+                guard group.globalRootGrid.parent == nil else {
+                    print("Skip attach \(group.globalRootGrid.fileName) to \(parent.globalRootGrid.fileName)")
+                    return
+                }
+                parent.addChildGroup(group)
             }
         }
     }
     
+    func group(for url: URL) -> CodeGridGroup? {
+        state.directoryGroups[url]
+    }
+    
+    func parentGroup(for url: URL) -> CodeGridGroup? {
+        state.directoryGroups[url.deletingLastPathComponent()]
+    }
+    
     func launchDirectoryGridBuild(
-        _ dispatchGroup: DispatchGroup,
         _ childPath: URL
     ) {
-        var worker: DispatchQueue { WorkerPool.shared.nextWorker() }
+        let grid = builder.sharedGridCache
+            .setCache(childPath)
+            .withSourcePath(childPath)
+            .withFileName(childPath.fileName)
+            .applyName()
+            .removeBackground()
         
-        dispatchGroup.enter()
-        worker.async {
-            let grid = builder.sharedGridCache
-                .setCache(childPath)
-                .withSourcePath(childPath)
-                .withFileName(childPath.fileName)
-                .applyName()
-            
-            grid.removeBackground()
-            let group = CodeGridGroup(globalRootGrid: grid)
-            state.directoryGroups[childPath] = group
-            
-            if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
-                parent.addChildGroup(group)
-            }
-            
-            dispatchGroup.leave()
-        }
+        let group = CodeGridGroup(globalRootGrid: grid)
+        state.directoryGroups[childPath] = group
+        
+//        if let parent = state.directoryGroups[childPath.deletingLastPathComponent()] {
+//            parent.addChildGroup(group)
+//        }
     }
     
     func launchFileGridBuild(

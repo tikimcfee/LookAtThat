@@ -90,8 +90,6 @@ class TraceLayoutController {
         }
         
         if setFocused {
-//            var topLeft = LFloat3(bounds.minX, bounds.maxY, bounds.maxZ)
-//            topLeft = trace.grid.convertPosition(topLeft, to: nil)
             currentTraceLine.appendSegment(about: topLeft)
         }
     }
@@ -100,15 +98,12 @@ class TraceLayoutController {
         // TODO: worldBounds don't quite work as expected. Compute topLeft manually.
         var topLeft = LFloat3(.infinity, -.infinity, 0)
         var didSet = false
-        
-//        let computing = BoxComputing()
-        
+                
         collectTraceNodes(trace: trace) { node in
             if hasFurtherLeading(node.worldPosition, topLeft) {
                 topLeft = node.worldPosition
                 didSet = true
             }
-//            computing.consumeBounds(node.worldBounds)
         }
         
         if didSet {
@@ -116,18 +111,6 @@ class TraceLayoutController {
             GlobalInstances.debugCamera.position = topLeft.translated(dX: 16, dZ: 32)
             GlobalInstances.debugCamera.rotation = .zero
         }
-        
-//        if computing.didSetInitial {
-//            let final = computing.bounds
-//            let lookPosition = LFloat3(
-//                final.min.x + (BoundsWidth(final) / 2.0),
-//                final.max.y - (BoundsHeight(final) / 2.0),
-//                -8.0
-//            )
-//            GlobalInstances.debugCamera.interceptor.resetPositions()
-//            GlobalInstances.debugCamera.position = lookPosition
-//            GlobalInstances.debugCamera.rotation = .zero
-//        }
     }
     
     private func hasFurtherLeading(_ l: LFloat3, _ r: LFloat3) -> Bool {

@@ -128,18 +128,18 @@ public class CodeGrid: Identifiable, Equatable {
     }
     
     func updateBackground() {
-        let size = targetNode.contentSize
-        let bounds = targetNode.bounds
-        gridBackground.size = LFloat2(x: size.x, y: size.y)
+        let size = targetNode.contentBounds
+//        let bounds = targetNode.bounds
+        gridBackground.size = LFloat2(x: size.width, y: size.height)
         
         gridBackground
             .setLeading(0)
-            .setTop(bounds.max.y)
-            .setFront(bounds.min.z - 1)
+            .setTop(size.height)
+            .setFront(back - 1)
         
-//            .setLeading(bounds.max.x / 2.0)
-//            .setTop(bounds.max.y - size.y / 2.0)
-//            .setFront(bounds.min.z - 1)
+//            .setLeading(bounds.width / 2)
+//            .setTop(bounds.height / 2.0)
+//            .setFront(bounds.length - 1)
     }
     
     func addChildGrid(_ other: CodeGrid) {
@@ -203,8 +203,8 @@ extension CodeGrid: Measures {
         targetNode.hasIntrinsicSize
     }
     
-    public var contentSize: LFloat3 {
-        targetNode.contentSize
+    public var contentBounds: Bounds {
+        targetNode.contentBounds
     }
     
     public var contentOffset: LFloat3 {

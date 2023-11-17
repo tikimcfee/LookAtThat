@@ -438,14 +438,6 @@
 		B71C59592766AC2500E406AE /* CodeGrid+Consume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeGrid+Consume.swift"; sourceTree = "<group>"; };
 		B71C595C2766BB0F00E406AE /* CodeGridTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTokenCache.swift; sourceTree = "<group>"; };
 		B7219725273742B400E1CB60 /* WorldGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldGrid.swift; sourceTree = "<group>"; };
-		B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
-		B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
-		B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
-		B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftSyntaxParser.dylib; sourceTree = "<group>"; };
-		B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = lib_InternalSwiftStaticMirror.dylib; sourceTree = "<group>"; };
 		B7241AF928288C26006A6A3E /* InputStreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStreamReader.swift; sourceTree = "<group>"; };
 		B7241B012828BA41006A6A3E /* SyntaxHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHierarchyView.swift; sourceTree = "<group>"; };
 		B7247A5B29A077C10073B98C /* WordNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordNode.swift; sourceTree = "<group>"; };
@@ -633,13 +625,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45BF82CD2728E29700B2024A /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
 		45DA827E2AB76CDE008913BD /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
@@ -657,17 +642,6 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		B7161472283338AF00C70DC0 /* ExternalFrameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B723D292283342AB000901C8 /* macosx-arm */,
-				B723D28F283342AB000901C8 /* macosx-x64 */,
-				B723D28A283340F3000901C8 /* ios */,
-				B723D284283340F3000901C8 /* ios-sim */,
-			);
-			path = ExternalFrameworks;
-			sourceTree = "<group>";
-		};
 		B72197242737428B00E1CB60 /* WorldGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,42 +652,6 @@
 				B7F010B128BAF46B00182FF5 /* FocusPosition.swift */,
 			);
 			path = WorldGrid;
-			sourceTree = "<group>";
-		};
-		B723D284283340F3000901C8 /* ios-sim */ = {
-			isa = PBXGroup;
-			children = (
-				B723D285283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
-				B723D286283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
-			);
-			path = "ios-sim";
-			sourceTree = "<group>";
-		};
-		B723D28A283340F3000901C8 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				B723D28B283340F3000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
-				B723D28C283340F3000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
-			);
-			path = ios;
-			sourceTree = "<group>";
-		};
-		B723D28F283342AB000901C8 /* macosx-x64 */ = {
-			isa = PBXGroup;
-			children = (
-				B723D290283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
-				B723D291283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
-			);
-			path = "macosx-x64";
-			sourceTree = "<group>";
-		};
-		B723D292283342AB000901C8 /* macosx-arm */ = {
-			isa = PBXGroup;
-			children = (
-				B723D293283342AB000901C8 /* lib_InternalSwiftSyntaxParser.dylib */,
-				B723D294283342AB000901C8 /* lib_InternalSwiftStaticMirror.dylib */,
-			);
-			path = "macosx-arm";
 			sourceTree = "<group>";
 		};
 		B7241AF828288860006A6A3E /* SwiftSyntaxWrapping */ = {
@@ -936,7 +874,6 @@
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
 				F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */,
-				B7161472283338AF00C70DC0 /* ExternalFrameworks */,
 				F00FC72D250C53460092AFF9 /* Products */,
 				F027B1852512EAAE00294F30 /* Frameworks */,
 				B74B575B287BA1300078EB2D /* LookAtThat_AppKit_CV.plist */,
@@ -957,7 +894,6 @@
 		F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXGroup;
 			children = (
-				45BF82CD2728E29700B2024A /* Libraries */,
 				F030B8D92519039A00B94E7A /* SwiftUIViews */,
 				F00FC735250C53470092AFF9 /* Preview Content */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
@@ -1746,7 +1682,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -1781,7 +1716,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LookAtThat_AppKit",
 					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-					"$(PROJECT_DIR)/ExternalFrameworks/macosx-arm",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
@@ -2037,12 +1971,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2071,12 +2000,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios-sim/",
-					"$(PROJECT_DIR)/ExternalFrameworks/ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallspaghetti.LookAtThatMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";

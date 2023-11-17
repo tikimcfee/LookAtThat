@@ -78,7 +78,7 @@ class CodeGridGroup {
         }
         
         lastRowStartingGrid = lastRowStartingGrid ?? grid
-        let isNewGridTaller = (lastRowTallestGrid?.contentSize.y ?? 0) < grid.contentSize.y
+        let isNewGridTaller = (lastRowTallestGrid?.bounds.height ?? 0) < grid.bounds.height
         lastRowTallestGrid = isNewGridTaller ? grid : lastRowTallestGrid
         
         childGrids.append(grid)

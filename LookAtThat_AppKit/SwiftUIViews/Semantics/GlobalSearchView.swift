@@ -108,20 +108,8 @@ struct GlobalSearchView: View {
             }
     }
     
-    func selectGrid(_ grid: CodeGrid) {
-        // It looks like whatever state I leave the grids in after initial layout isn't... right. I guess the bounds are computed and working for the matrix,
-        // but either the cache is busted or something breaks in the interim. Perhaps moar testz. For now, explicitly rebuilding the grid's matrix,
-        // and *manually* computing the world bounds of all children (lol yes I'm serious it doesn't scale but it works), we set the camera to some
-        // visually useful position and try to set its bounds to that grid.
-        // 
-        // TL;DR:
-        // `grid.rootNode.worldBounds` doesn't work at time of commit. Doing the manual compute is.. usable. Large files go boom.
-        //
-//        let computing = BoxComputing()
-//        computing.consumeBounds(grid.bounds)
-//        let nodeBounds = computing.bounds
-        
-        var position = grid.worldPosition.translated(
+    func selectGrid(_ grid: CodeGrid) {        
+        let position = grid.worldPosition.translated(
             dX: grid.lengthX / 2.0,
             dZ: 64
         )

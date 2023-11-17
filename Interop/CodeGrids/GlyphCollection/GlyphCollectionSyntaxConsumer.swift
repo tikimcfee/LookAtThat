@@ -25,26 +25,40 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
   
     @discardableResult
     func consume(url: URL) -> CodeGrid {
-        if Self.__TEST_ASYNC__ {
+        guard !Self.__TEST_ASYNC__ else {
             return __asyncConsume(url: url)
-        } else {
-            guard let fileSource = loadSourceUrl(url) else {
-                return consumeText(textPath: url)
-            }
+        }
+        
+        guard let fileSource = loadSourceUrl(url) else {
+            return consumeText(textPath: url)
+        }
+        let size = fileSource.root.allText.count + 512
+        
+        guard size < 1_000_000 else {
+            print("Yo dude that's just like too many letters and stuff: \(url)")
             
-            let size = fileSource.root.allText.count + 512
-            try? targetGrid
-                .rootNode
-                .instanceState
-                .constants
-                .expandBuffer(nextSize: size, force: true)
-            
-            print("starting consume: \(url.lastPathComponent)")
-            consume(rootSyntaxNode: Syntax(fileSource))
-            print("completed consume: \(url.lastPathComponent)")
-            
+            var trashNodes = CodeGridNodes()
+            write(
+                "This file's just too big right now: \(size)",
+                "raw-text-\(UUID().uuidString)",
+                .green,
+                &trashNodes
+            )
+            targetGrid.rootNode.setRootMesh()
             return targetGrid
         }
+        
+        try? targetGrid
+            .rootNode
+            .instanceState
+            .constants
+            .expandBuffer(nextSize: size, force: true)
+        
+        print("starting consume: \(url.lastPathComponent)")
+        consume(rootSyntaxNode: Syntax(fileSource))
+        print("completed consume: \(url.lastPathComponent)")
+        
+        return targetGrid
     }
     
     private func __asyncConsume(url: URL) -> CodeGrid {
@@ -61,6 +75,14 @@ struct GlyphCollectionSyntaxConsumer: SwiftSyntaxFileLoadable {
         guard let fullString = try? String(contentsOf: textPath) else {
             return targetGrid
         }
+        var nodes = CodeGridNodes()
+        let id = "raw-text-path-\(UUID().uuidString)"
+        write(fullString, id, NSUIColor.white, &nodes)
+        targetGrid.tokenCache[id] = nodes
+        return targetGrid
+    }
+    
+    func consumeText(text fullString: String) -> CodeGrid {
         var nodes = CodeGridNodes()
         let id = "raw-text-\(UUID().uuidString)"
         write(fullString, id, NSUIColor.white, &nodes)

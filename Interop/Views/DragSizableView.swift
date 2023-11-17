@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DragSizableViewState: Codable, Equatable {
-    var contentSize: CGSize = .zero
+    var contentBounds: CGSize = .zero
     var offset = CGPoint(x: 0, y: 0)
     var lastOffset = CGPoint(x: 0, y: 0)
     
@@ -37,12 +37,12 @@ struct DragSizableModifer: ViewModifier {
     
     func rootPositionableView(_ wrappedContent: Content) -> some View {
         VStack(alignment: .trailing, spacing: 0) {
-            dragBar.frame(maxWidth: state.contentSize.width)
+            dragBar.frame(maxWidth: state.contentBounds.width)
             wrappedContent.onSizeChanged(DraggableViewSize.self) {
-                guard state.contentSize != $0 else { return }
-                state.contentSize = $0
+                guard state.contentBounds != $0 else { return }
+                state.contentBounds = $0
             }
-            dragBar.frame(maxWidth: state.contentSize.width)
+            dragBar.frame(maxWidth: state.contentBounds.width)
         }
     }
     
