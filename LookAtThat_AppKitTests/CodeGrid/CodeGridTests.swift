@@ -190,7 +190,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
-            let testBounds = BoxComputing()
+            var testBounds = Bounds.forBaseComputing
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 for node in nodeSet {
                     XCTAssertTrue(node.contentBounds.width > 0, "Glyph nodes usually have some width")
@@ -204,7 +204,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     // but it's caught a bunch of stuff so far so I'm keeping it.
                     // For now, this behavior is mostly OK, but be warned when
                     // when interacting the glyph node positioning directly.
-                    testBounds.consumeBounds(node.computeBoundingBoxInLocalSpace())
+                    testBounds.union(with: node.computeBoundingBoxInLocalSpace())
                 }
             }
             
@@ -212,10 +212,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             // The above bounds are computed with all nodes.
             print("computed grid vector size: ",        testGrid.sizeBounds.size)
             print("computed grid bounds vector size: ", testGrid.bounds.size)
-            print("computed test bounds vector size: ", testBounds.bounds.size)
+            print("computed test bounds vector size: ", testBounds.size)
             
             print("grid world bounds: ", testGrid.bounds)
-            print("test world bounds: ", testBounds.bounds)
+            print("test world bounds: ", testBounds)
             
             func compare(_ l: Bounds, _ r: Bounds) {
                 XCTAssertEqual(l.min.x, r.min.x, "min.x")
@@ -225,7 +225,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                 XCTAssertEqual(l.max.y, r.max.y, "max.y")
                 XCTAssertEqual(l.max.z, r.max.z, "max.z")
             }
-            compare(testGrid.bounds, testBounds.bounds)
+            compare(testGrid.bounds, testBounds)
         }
         
         performChecks()
@@ -281,14 +281,15 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid = newGrid()
         let testClass = try XCTUnwrap(testGrid.semanticInfoMap.classes.first, "Must have id to test")
         
-        let computing = BoxComputing()
+        var computing = Bounds.forBaseComputing
         testGrid
             .semanticInfoMap
             .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in
-                computing.consumeNodes(nodes)
+                nodes.forEach {
+                    computing.union(with: $0.bounds)
+                }
             }
-        print(computing.bounds)
-        
+        print(computing)
         printEnd()
     }
     
