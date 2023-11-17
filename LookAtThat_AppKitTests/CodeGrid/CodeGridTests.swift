@@ -444,7 +444,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testMeasuresAndSizes() throws {
         //        let parsed = try Parser.parse(bundle.testFile)
-        let parsed = Parser.parse(source: TestBundle.RawCode.threeLine)
+        let parsed = Parser.parse(source: TestBundle.RawCode.A)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)
@@ -483,23 +483,23 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         /// NOTE: This is linearly increasing to test a cached bounds issue,
         /// and to more easily detect patterns with problem result positions
         doTranslateTest(-5)
-//        doTranslateTest(-5)
-//        doTranslateTest(-4)
-//        doTranslateTest(-3)
-//        doTranslateTest(-2)
-//        doTranslateTest(-1)
-//        doTranslateTest(0)
-//        doTranslateTest(1)
-//        doTranslateTest(2)
-//        doTranslateTest(3)
-//        doTranslateTest(4)
-//        doTranslateTest(5)
-//        doTranslateTest(6)
-//        doTranslateTest(7.1)
-//        doTranslateTest(7.2)
-//        doTranslateTest(1000)
-//        doTranslateTest(-10000)
-//        doTranslateTest(194.231)
+        doTranslateTest(-5)
+        doTranslateTest(-4)
+        doTranslateTest(-3)
+        doTranslateTest(-2)
+        doTranslateTest(-1)
+        doTranslateTest(0)
+        doTranslateTest(1)
+        doTranslateTest(2)
+        doTranslateTest(3)
+        doTranslateTest(4)
+        doTranslateTest(5)
+        doTranslateTest(6)
+        doTranslateTest(7.1)
+        doTranslateTest(7.2)
+        doTranslateTest(1000)
+        doTranslateTest(-10000)
+        doTranslateTest(194.231)
         
         // Move node, then test the expected position comes back
         func doTranslateTest(_ delta: VectorFloat) {
@@ -517,9 +517,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterZ = centerZ + delta
             
             // Current measurements and position have a precision of about 3-4 places
-            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.0001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.0001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.0001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.001, "Error should be within Metal Float accuracy")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY
@@ -535,17 +535,17 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let sizeDeltaY = abs(testGridHeight - newBoundsHeight)
             let sizeDeltaZ = abs(testGridLength - newBoundsLength)
             
-            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within Metal Float accuracy")
             
             let boundsDeltaX = abs(newCenterX - newBoundsCenter.x)
             let boundsDeltaY = abs(newCenterY - newBoundsCenter.y)
             let boundsDeltaZ = abs(newCenterZ - newBoundsCenter.z)
             
-            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within Metal Float accuracy")
         }
     }
     

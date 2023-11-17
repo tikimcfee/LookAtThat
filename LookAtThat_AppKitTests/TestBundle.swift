@@ -62,6 +62,7 @@ class TestBundle {
 
 extension TestBundle {
     struct RawCode {
+        static let A = "A"
         static let oneLine = "Hello, World!"
         static let twoLine = """
         Hello, yes.
