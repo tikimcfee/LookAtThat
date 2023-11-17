@@ -96,14 +96,10 @@ extension TwoETimeRoot {
                 bounds.min.x -= 10
                 bounds.max.x += 10
                 bounds.max.y += 32
-                bounds.max.z += 32
+                bounds.max.z += 64
                 bounds.min.z -= 8
                 
-                let position = LFloat3(
-                    bounds.leading - 32,
-                    bounds.top + 32,
-                    bounds.front + 128
-                )
+                let position = bounds.center.translated(dZ: bounds.length / 2 + 64)
                 
                 GlobalInstances.debugCamera.interceptor.resetPositions()
                 GlobalInstances.debugCamera.position = position

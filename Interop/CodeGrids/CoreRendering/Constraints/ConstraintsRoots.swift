@@ -86,11 +86,11 @@ struct LinearConstraints {
         }
     }
     
-    class ToTrailingOfFront: BasicOffsetConstraint {
+    class ToFrontOf: BasicOffsetConstraint {
         static let xOffset: Float = 16.0
         open override func apply() {
             targetNode.setTop(sourceNode.top + offset.y)
-            targetNode.setLeading(sourceNode.trailing + Self.xOffset + offset.x)
+            targetNode.setLeading(sourceNode.leading + Self.xOffset + offset.x)
             targetNode.setBack(sourceNode.front + offset.z)
         }
     }

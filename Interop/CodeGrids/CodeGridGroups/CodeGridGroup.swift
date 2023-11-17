@@ -90,7 +90,7 @@ class CodeGridGroup {
             controller.add(LinearConstraints.ToTrailingOf(
                 sourceNode: lastGroup.globalRootGrid.rootNode,
                 targetNode: group.globalRootGrid.rootNode,
-                offset: LFloat3(0, 0, -64)
+                offset: LFloat3(0, 0, 0)
             ))
         } else {
             controller.add(LiveConstraint(
