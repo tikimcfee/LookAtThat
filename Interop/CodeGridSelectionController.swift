@@ -71,15 +71,15 @@ class CodeGridSelectionController: ObservableObject {
             ? nodeController.focus(_: in:)
             : nodeController.unfocus(_: in:)
         
-        let computing = BoxComputing()
+        var totalBounds = Bounds.forBaseComputing
         grid.semanticInfoMap
             .walkFlattened(from: id, in: tokenCache) { info, nodes in
                 for node in nodes {
                     update(node, grid)
-                    computing.consumeBounds(node.worldBounds)
+                    totalBounds.union(with: node.worldBounds)
                 }
             }
-        return computing.bounds
+        return totalBounds
     }
     
     func isSelected(_ id: SyntaxIdentifier) -> Bool {

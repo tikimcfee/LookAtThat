@@ -210,9 +210,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
             // The above bounds are computed with all nodes.
-            print("computed grid size: ", BoundsSize(testGrid.sizeBounds))
-            print("computed grid bounds: ", BoundsSize(testGrid.bounds))
-            print("computed test bounds: ", BoundsSize(testBounds.bounds))
+            print("computed grid vector size: ",        testGrid.sizeBounds.size)
+            print("computed grid bounds vector size: ", testGrid.bounds.size)
+            print("computed test bounds vector size: ", testBounds.bounds.size)
             
             print("grid world bounds: ", testGrid.bounds)
             print("test world bounds: ", testBounds.bounds)
@@ -387,9 +387,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         """
         print(gridInfo)
         
-        let manualWidth = BoundsWidth(testGrid.bounds)
-        let manualHeight = BoundsHeight(testGrid.bounds)
-        let manualLength = BoundsLength(testGrid.bounds)
+        let manualWidth = testGrid.bounds.width
+        let manualHeight = testGrid.bounds.height
+        let manualLength = testGrid.bounds.length
         let manualCenter = testGrid.centerPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
         let manualInfo = """
@@ -525,9 +525,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             centerZ = newExpectedCenterZ
             
             let newBounds       = testGrid.rootNode.bounds
-            let newBoundsWidth  = BoundsWidth(newBounds) * DeviceScale
-            let newBoundsHeight = BoundsHeight(newBounds) * DeviceScale
-            let newBoundsLength = BoundsLength(newBounds) * DeviceScale
+            let newBoundsWidth  = newBounds.width * DeviceScale
+            let newBoundsHeight = newBounds.height * DeviceScale
+            let newBoundsLength = newBounds.length * DeviceScale
             let newBoundsCenter = testGrid.rootNode.boundsCenterPosition
             
             let sizeDeltaX = abs(testGridWidth - newBoundsWidth)

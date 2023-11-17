@@ -394,14 +394,14 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B7D9C0842894B884003FEDA6 /* Embed App Extensions */ = {
+		B7D9C0842894B884003FEDA6 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F027B18E2512EEB100294F30 /* CopyFiles */ = {
@@ -1117,7 +1117,7 @@
 				F00FC729250C53460092AFF9 /* Frameworks */,
 				F00FC72A250C53460092AFF9 /* Resources */,
 				F027B18E2512EEB100294F30 /* CopyFiles */,
-				B7D9C0842894B884003FEDA6 /* Embed App Extensions */,
+				B7D9C0842894B884003FEDA6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -1204,8 +1204,9 @@
 		F00FC724250C53460092AFF9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					F00FC72B250C53460092AFF9 = {
 						CreatedOnToolsVersion = 12.0;
@@ -1729,6 +1730,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1796,6 +1798,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

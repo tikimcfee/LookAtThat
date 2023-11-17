@@ -153,9 +153,9 @@ struct SourceInfoCategoryView: View {
                     .selected(id: info.syntaxId, in: grid)
                 
                 let position = LFloat3(
-                    x: BoundsLeading(nodeBounds) + BoundsWidth(nodeBounds) / 2.0,
-                    y: BoundsTop(nodeBounds) - 16,
-                    z: BoundsFront(nodeBounds) + 64
+                    x: nodeBounds.width,
+                    y: nodeBounds.top - 16,
+                    z: nodeBounds.front + 64
                 )
                 
                 GlobalInstances.debugCamera.interceptor.resetPositions()
