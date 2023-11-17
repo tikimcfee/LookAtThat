@@ -66,6 +66,7 @@ extension TwoETimeRoot {
         root.add(child: GlobalInstances.gridStore.traceLayoutController.currentTraceLine)
         camera.position = LFloat3(0, 0, 300)
         
+        var lastPlan: RenderPlan?
         directoryAddPipeline { filePath in
             let plan = RenderPlan(
                 rootPath: filePath,
@@ -78,13 +79,36 @@ extension TwoETimeRoot {
             )
             
             plan.startRender {
+                if let lastPlan {
+                    self.root.remove(child: lastPlan.targetParent)
+                }
+                
                 self.root.add(child: plan.targetParent)
+                lastPlan = plan
 //                var time = 0.0.float
 //                QuickLooper(interval: .milliseconds(30)) {
 //                    plan.targetParent.rotation.y += 0.1
 //                    plan.targetParent.position.x = sin(time) * 10.0
 //                    time += Float.pi / 180
 //                }.runUntil { false }
+                
+                var bounds = plan.targetParent.bounds
+                bounds.min.x -= 10
+                bounds.max.x += 10
+                bounds.max.y += 32
+                bounds.max.z += 32
+                bounds.min.z -= 8
+                
+                let position = LFloat3(
+                    bounds.leading - 32,
+                    bounds.top + 32,
+                    bounds.front + 128
+                )
+                
+                GlobalInstances.debugCamera.interceptor.resetPositions()
+                GlobalInstances.debugCamera.position = position
+                GlobalInstances.debugCamera.rotation = .zero
+                GlobalInstances.debugCamera.scrollBounds = bounds
             }
         }
     }
