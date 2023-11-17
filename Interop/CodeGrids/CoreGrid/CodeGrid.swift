@@ -129,17 +129,12 @@ public class CodeGrid: Identifiable, Equatable {
     
     func updateBackground() {
         let size = targetNode.contentBounds
-//        let bounds = targetNode.bounds
         gridBackground.size = LFloat2(x: size.width, y: size.height)
         
         gridBackground
             .setLeading(0)
-            .setTop(size.height)
+            .setTop(0)
             .setFront(back - 1)
-        
-//            .setLeading(bounds.width / 2)
-//            .setTop(bounds.height / 2.0)
-//            .setFront(bounds.length - 1)
     }
     
     func addChildGrid(_ other: CodeGrid) {
