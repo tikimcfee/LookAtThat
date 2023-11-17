@@ -202,10 +202,6 @@ extension CodeGrid: Measures {
         targetNode.contentBounds
     }
     
-    public var contentOffset: LFloat3 {
-        targetNode.contentOffset
-    }
-    
     public var nodeId: String {
         targetNode.nodeId
     }

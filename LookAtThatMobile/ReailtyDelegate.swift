@@ -30,7 +30,7 @@ struct CubeARView: UIViewRepresentable {
         arView.scene.addAnchor(parent)
         
         var angle = 0.0.float
-        var axis = LFloat3(1, 0, 0)
+        let axis = LFloat3(1, 0, 0)
         
         QuickLooper(interval: .milliseconds(100), loop: {
             angle += 0.1

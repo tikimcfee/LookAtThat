@@ -204,7 +204,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     // but it's caught a bunch of stuff so far so I'm keeping it.
                     // For now, this behavior is mostly OK, but be warned when
                     // when interacting the glyph node positioning directly.
-                    testBounds.union(with: node.computeBoundingBoxInLocalSpace())
+                    testBounds.union(with: node.computeLocalBounds())
                 }
             }
             

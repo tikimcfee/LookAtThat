@@ -120,7 +120,7 @@ struct GlobalSearchView: View {
         GlobalInstances.debugCamera.scrollBounds = grid.rootNode.worldBounds
         GlobalInstances.gridStore.editor.snapping.searchTargetGrid = grid
         
-        searchScrollLock.insert(.horizontal)
+        searchScrollLock.insert(.transverse)
     }
     
     var scrollLocks: some View {
