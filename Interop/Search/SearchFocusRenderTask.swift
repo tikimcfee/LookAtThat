@@ -77,10 +77,13 @@ private extension SearchFocusRenderTask {
                 defer { workGroup.leave() }
                 next.gridBackground.setColor(LFloat4(0.0, 0.0, 0.0, 1.0))
                 next.rootNode.scale = LFloat3(1, 1, 1)
+                
                 next.updateAllNodeConstants { node, stopFlag in
                     node.instanceConstants?.addedColor = .zero
-                    node.position.z = 1
-                    stopFlag = self.task.isCancelled
+                    node.instanceConstants?.modelMatrix.columns.3.z = 1.0
+                    if self.task.isCancelled {
+                        stopFlag = true
+                    }
                 }
             }
         }
@@ -179,7 +182,7 @@ private extension SearchFocusRenderTask {
                 } else {
                     node.instanceConstants?.addedColor += self.focusAddition
                 }
-                node.position.translateBy(self.focusPosition)
+                node.instanceConstants?.modelMatrix.translate(vector: self.focusPosition)
             }
         }
     }
@@ -207,12 +210,14 @@ private extension SearchFocusRenderTask {
     }
 }
 
-private extension SearchFocusRenderTask {
-    func throwIfCancelled() throws {
+extension SearchFocusRenderTask {
+    @inlinable
+    public func throwIfCancelled() throws {
         if task.isCancelled { throw Condition.cancelled(input: newInput) }
     }
-    
-    
+}
+
+private extension SearchFocusRenderTask {
     func printStart(_ input: String) {
         print("new search ---------------------- [\(input)]")
     }
