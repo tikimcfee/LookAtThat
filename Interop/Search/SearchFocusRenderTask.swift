@@ -136,13 +136,8 @@ private extension SearchFocusRenderTask {
             }
             
             var matchesTrivia: Bool {
-                // TODO: include comment searchd
-                [info.node.leadingTrivia, info.node.trailingTrivia]
-                    .lazy
-                    .compactMap { $0 }
-                    .contains {
-                        $0.stringified.containsMatch(searchText, caseSensitive: false)
-                    }
+                info.node.trailingTrivia.stringified.containsMatch(searchText, caseSensitive: false)
+                || info.node.leadingTrivia.stringified.containsMatch(searchText, caseSensitive: false)
             }
             
             if matchesReference || matchesTrivia {

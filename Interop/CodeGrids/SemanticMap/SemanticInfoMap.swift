@@ -10,9 +10,6 @@ import SwiftSyntax
 import SceneKit
 import MetalLink
 
-typealias NodeSyntaxID = String
-typealias NodeSet = Set<GlyphNode>
-typealias SortedNodeSet = [GlyphNode]
 typealias AssociatedSyntaxSet = Set<SyntaxIdentifier>
 typealias AssociatedSyntaxMap = [SyntaxIdentifier: [SyntaxIdentifier: Int]]
 

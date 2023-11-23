@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftSyntax
+import MetalLink
 
 // MARK: - Associated Nodes for ID
 
@@ -102,6 +103,10 @@ extension SemanticInfoMap {
 // MARK: Parent Hierarchy from ID
 
 extension SemanticInfoMap {
+    func basicJumpToDefinition(_ token: TokenSyntax) {
+        
+    }
+    
     func parentList(
         _ nodeId: NodeSyntaxID,
         _ reversed: Bool = false
@@ -113,7 +118,7 @@ extension SemanticInfoMap {
         return reversed ? parentList.reversed() : parentList
     }
     
-    private func walkToRootFrom(
+    func walkToRootFrom(
         _ nodeId: NodeSyntaxID?,
         _ walker: (SemanticInfo) -> Void
     ) {

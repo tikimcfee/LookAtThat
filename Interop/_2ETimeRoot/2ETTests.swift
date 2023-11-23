@@ -67,9 +67,32 @@ extension TwoETimeRoot {
         camera.position = LFloat3(0, 0, 300)
         
         var lastPlan: RenderPlan?
-        directoryAddPipeline { filePath in
-            let plan = RenderPlan(
-                rootPath: filePath,
+        directoryAddPipeline(doAddFilePath(_:))
+        
+        func onRenderComplete(_ plan: RenderPlan) {
+            if let lastPlan {
+                plan.targetParent
+                    .setTop(lastPlan.targetParent.top)
+                    .setLeading(lastPlan.targetParent.trailing + 16)
+                    .setFront(lastPlan.targetParent.front)
+            }
+            
+            self.root.add(child: plan.targetParent)
+            lastPlan = plan
+                        
+            self.lockZoomToBounds(of: plan.targetParent)
+            
+//                var time = 0.0.float
+//                QuickLooper(interval: .milliseconds(30)) {
+//                    plan.targetParent.rotation.y += 0.1
+//                    plan.targetParent.position.x = sin(time) * 10.0
+//                    time += Float.pi / 180
+//                }.runUntil { false }
+        }
+        
+        func doAddFilePath(_ url: URL) {
+            RenderPlan(
+                rootPath: url,
                 queue: DispatchQueue.global(),
                 builder: self.builder,
                 editor: self.editor,
@@ -77,36 +100,24 @@ extension TwoETimeRoot {
                 hoverController: GlobalInstances.gridStore.nodeHoverController,
                 mode: .cacheAndLayout
             )
-            
-            plan.startRender {
-                if let lastPlan {
-                    self.root.remove(child: lastPlan.targetParent)
-                }
-                
-                self.root.add(child: plan.targetParent)
-                lastPlan = plan
-//                var time = 0.0.float
-//                QuickLooper(interval: .milliseconds(30)) {
-//                    plan.targetParent.rotation.y += 0.1
-//                    plan.targetParent.position.x = sin(time) * 10.0
-//                    time += Float.pi / 180
-//                }.runUntil { false }
-                
-                var bounds = plan.targetParent.bounds
-                bounds.min.x -= 10
-                bounds.max.x += 10
-                bounds.max.y += 32
-                bounds.max.z += 64
-                bounds.min.z -= 8
-                
-                let position = bounds.center.translated(dZ: bounds.length / 2 + 64)
-                
-                GlobalInstances.debugCamera.interceptor.resetPositions()
-                GlobalInstances.debugCamera.position = position
-                GlobalInstances.debugCamera.rotation = .zero
-                GlobalInstances.debugCamera.scrollBounds = bounds
-            }
+            .startRender(onRenderComplete)
         }
+    }
+    
+    func lockZoomToBounds(of node: MetalLinkNode) {
+        var bounds = node.bounds
+        bounds.min.x -= 4
+        bounds.max.x += 4
+        bounds.min.y += 8
+        bounds.max.y += 32
+        bounds.min.z += 8
+        bounds.max.z += 196
+        
+        let position = bounds.center.translated(dZ: bounds.length / 2 + 128)
+        GlobalInstances.debugCamera.interceptor.resetPositions()
+        GlobalInstances.debugCamera.position = position
+        GlobalInstances.debugCamera.rotation = .zero
+        GlobalInstances.debugCamera.scrollBounds = bounds
     }
 }
 
@@ -247,6 +258,8 @@ extension TwoETimeRoot {
             case let .newSingleCommand(url, .focusOnExistingGrid):
                 if let grid = self.builder.sharedGridCache.get(url) {
                     self.focus.state = .set(grid)
+                } else {
+                    action(url)
                 }
                 
             case let .newSingleCommand(url, _):

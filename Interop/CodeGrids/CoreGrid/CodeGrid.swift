@@ -132,8 +132,8 @@ public class CodeGrid: Identifiable, Equatable {
         gridBackground.size = LFloat2(x: size.width, y: size.height)
         
         gridBackground
-            .setLeading(0)
-            .setTop(0)
+            .setLeading(size.leading)
+            .setTop(size.top)
             .setFront(back - 1)
     }
     
@@ -259,11 +259,7 @@ extension CodeGrid: Measures {
     }
     
     public var centerPosition: LFloat3 {
-        LFloat3(
-            x: targetNode.centerX, 
-            y: targetNode.centerY,
-            z: targetNode.centerZ
-        )
+        targetNode.centerPosition
     }
 }
 

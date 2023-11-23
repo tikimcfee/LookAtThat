@@ -101,6 +101,7 @@ extension SyntaxHierarchyView {
             ?? "No target grid"
     }
     
+    // This is the most riduculous thing that's been thinged.
     func enumeratedParents(of id: String) -> [EnumeratedSequence<[SemanticInfo]>.Element] {
         return Array(sourceInfo.parentList(id).enumerated())
     }

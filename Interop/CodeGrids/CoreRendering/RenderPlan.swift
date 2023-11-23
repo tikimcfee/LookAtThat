@@ -41,7 +41,9 @@ struct RenderPlan {
         case cacheAndLayout
     }
     
-    func startRender(_ onComplete: @escaping () -> Void = { }) {
+    func startRender(
+        _ onComplete: @escaping (RenderPlan) -> Void = { _ in }
+    ) {
         queue.async {
             statusObject.resetProgress()
             
@@ -54,7 +56,7 @@ struct RenderPlan {
                 $0.currentValue = statusObject.progress.totalValue
             }
             
-            onComplete()
+            onComplete(self)
         }
     }
     
