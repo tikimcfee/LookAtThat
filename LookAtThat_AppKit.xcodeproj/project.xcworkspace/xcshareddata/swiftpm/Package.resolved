@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "foundationtoolz",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/flowtoolz/FoundationToolz.git",
+      "state" : {
+        "revision" : "3826c80d3edfde96a2da12ccbafabdd149ee2e43",
+        "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "lspservicekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/codeface-io/LSPServiceKit.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "3a1b4b3a53fdac0b5352e9b47bd0470e7dd3a225"
+      }
+    },
+    {
       "identity" : "rearrange",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ChimeHQ/Rearrange",
@@ -64,12 +82,30 @@
       }
     },
     {
+      "identity" : "swiftlsp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/codeface-io/SwiftLSP.git",
+      "state" : {
+        "revision" : "d5f96eec86822d8f423c8bc2280d5b6c1bb0322a",
+        "version" : "0.3.15"
+      }
+    },
+    {
       "identity" : "swiftnodes",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/codeface-io/SwiftNodes.git",
       "state" : {
         "revision" : "db5a47a90c459ba300a2eb90467982b1c3215630",
         "version" : "0.8.3"
+      }
+    },
+    {
+      "identity" : "swiftobserver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/codeface-io/SwiftObserver.git",
+      "state" : {
+        "revision" : "0208d4dac1f88f2e6fd21fd57ab17044ebb71ec6",
+        "version" : "7.0.9"
       }
     },
     {
