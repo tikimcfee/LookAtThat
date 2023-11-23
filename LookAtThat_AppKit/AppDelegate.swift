@@ -7,6 +7,7 @@
 
 import Cocoa
 import SwiftUI
+import SwiftGlyphs
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -57,11 +58,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     func __ENABLE_TRACE_LOG_WRITES__() {
-        print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
-        TracingRoot.shared.state.traceWritesEnabled = true
-        TracingRoot.shared.removeAllTraces()
-        TracingRoot.shared.removeMapping()
-        TracingRoot.shared.setupTracing()
+        fatalError("YOU SHALL NOT TRACE")
     }
     
     private func onRootViewAppeared() {

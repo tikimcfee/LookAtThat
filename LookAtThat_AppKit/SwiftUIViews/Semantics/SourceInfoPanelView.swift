@@ -8,13 +8,10 @@
 import SwiftUI
 import Combine
 import MetalLink
+import SwiftGlyphs
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
-    
-    #if !os(iOS)
-    @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
-    #endif
     
     var body: some View {
 //        VStack(alignment: .leading) {
@@ -153,7 +150,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var traceInfoView: some View {
         #if !os(iOS)
-        SemanticTracingOutView(state: tracingState)
+        Text("No tracin' on desktop because we movin' on.")
         #else
         Text("No tracin' on mobile because abstractions.")
         #endif
@@ -162,9 +159,7 @@ extension SourceInfoPanelView {
     @ViewBuilder
     var editorView: some View {
 #if !TARGETING_SUI
-        CodePagesPopupEditor(
-            state: GlobalInstances.editorState
-        )
+        Text("Editor not implemented. Again.")
 #endif
     }
     
@@ -216,25 +211,9 @@ func helloWorld() {
         let state = SourceInfoPanelState()
         return state
     }()
-    
-    #if !os(iOS)
-    static var semanticTracingOutState: SemanticTracingOutState = {
-        let state = SemanticTracingOutState()
-//        #if TARGETING_SUI
-//        state.allTracedInfo = sourceGrid.semanticInfoMap.allSemanticInfo
-//            .filter { !$0.callStackName.isEmpty }
-//            .map {
-//                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
-//            }
-//        #endif
-        return state
-    }()
-    #endif
 
     static var previews: some View {
         return Group {
-//            SemanticTracingOutView(state: semanticTracingOutState)
-//            SourceInfoPanelView(state: sourceState)
             SourceInfoCategoryView()
                 .environmentObject(sourceState)
         }

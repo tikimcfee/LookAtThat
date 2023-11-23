@@ -4,6 +4,7 @@
 //  
 
 import SwiftUI
+import SwiftGlyphs
 
 extension SourceInfoPanelView {
     struct WordInputView: View {

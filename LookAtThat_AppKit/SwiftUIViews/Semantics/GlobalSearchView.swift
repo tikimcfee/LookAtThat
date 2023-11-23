@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import MetalLink
+import SwiftGlyphs
 
 class GlobalSearchViewState: ObservableObject {
     @Published var filterText = ""
