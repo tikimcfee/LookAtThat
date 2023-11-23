@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SwiftSyntax
-
+import Combine
 
 struct SyntaxHierarchyView: View {
     @State var lastState: NodePickingState?
@@ -15,15 +15,31 @@ struct SyntaxHierarchyView: View {
     var body: some View {
         hoveredNodeInfoView(hoveredId)
             .onReceive(
-                GlobalInstances.gridStore
-                    .nodeHoverController
-                    .sharedGlyphEvent
-                    .subscribe(on: RunLoop.main)
-                    .receive(on: RunLoop.main),
+                onShiftDoHover(),
                 perform: {
                     lastState = $0.latestState
                 }
             )
+    }
+    
+    func onShiftDoHover() -> AnyPublisher<NodePickingState.Event, Never> {
+        let glyphs = GlobalInstances.gridStore
+            .nodeHoverController
+            .sharedGlyphEvent
+            
+        
+        let keys = GlobalInstances.defaultLink
+            .input
+            .sharedKeyEvent
+            .filter { $0.modifierFlags.contains(.command) }
+        
+        return keys.combineLatest(glyphs)
+            .compactMap { key, glyphs in
+                glyphs
+            }
+            .subscribe(on: RunLoop.main)
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
     }
     
     func hoveredNodeInfoView(_ hoveredId: String) -> some View {
@@ -76,11 +92,22 @@ struct SyntaxHierarchyView: View {
 //            }
         }
     }
+    
+    func doFindOnClick(_ info: SemanticInfo) {
+        // Try to find local class identifier
+        guard info.node.kind == .token
+        else { return }
+        
+        guard let reference = info.node.parent?.as(DeclReferenceExprSyntax.self),
+              let memberAccess = reference.parent?.as(MemberAccessExprSyntax.self)
+        else { return }
+        print(memberAccess)
+    }
 }
 
 extension SyntaxHierarchyView {
     func didTapRow(semantics: SemanticInfo) {
-        
+        doFindOnClick(semantics)
     }
 }
 
