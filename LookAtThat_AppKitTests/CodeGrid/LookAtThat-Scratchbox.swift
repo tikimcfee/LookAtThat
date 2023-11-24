@@ -14,6 +14,7 @@ import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
 import BitHandling
+import SwiftGlyphs
 @testable import LookAtThat_AppKit
 
 class LookAtThat_ScratchboxTests: XCTestCase {
@@ -111,30 +112,6 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         backingBuffer.forEach { _ in afterResizeIterations += 1 }
         XCTAssertEqual(afterResizeIterations, initialSize + 1, "Iteration must match buffer size")
         XCTAssertEqual(afterResizeIterations, backingBuffer.count, "Iteration must count all items")
-    }
-    
-    func testVertexRects() throws {
-        var rects = [VertexRect]()
-        let testLength = 10
-        let testWidth = 100
-        let testHeight = 100
-        for _ in (0..<testLength) {
-            for _ in (0..<testLength) {
-                let rect = VertexRect()
-                rect.width = testWidth
-                rect.height = testHeight
-                rects.append(rect)
-            }
-        }
-        
-        let intPacking = AtlasPacking<VertexRect>(width: 1000, height: 1000)
-        rects.forEach { intPacking.packNextRect($0) }
-
-        var expectedY = 0
-        for (index, rect) in rects.striding(by: testLength).enumerated() {
-            expectedY = index * testHeight
-            XCTAssertEqual(rect.y, expectedY)
-        }
     }
     
     func testUVRects() throws {

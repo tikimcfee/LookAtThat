@@ -14,6 +14,7 @@ import BitHandling
 import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
+import SwiftGlyphs
 @testable import LookAtThat_AppKit
 
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {

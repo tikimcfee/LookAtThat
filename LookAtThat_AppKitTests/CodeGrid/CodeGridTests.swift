@@ -14,6 +14,7 @@ import BitHandling
 import MetalLinkHeaders
 import MetalLinkResources
 import MetalLink
+import SwiftGlyphs
 @testable import LookAtThat_AppKit
 
 extension Parser {
@@ -97,7 +98,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        builder.mode = .multiCollection
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -131,7 +131,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        builder.mode = .multiCollection
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -340,7 +339,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
-        
         
         let firstGrid = bundle.newGrid()
         let second_toRightOfFirst = bundle.newGrid()

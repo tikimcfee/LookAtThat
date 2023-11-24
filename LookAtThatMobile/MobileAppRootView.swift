@@ -12,6 +12,7 @@ import ARKit
 #endif
 import MetalLink
 import MetalLinkResources
+import SwiftGlyphs
 
 private extension MobileAppRootView {
     static var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
@@ -28,6 +29,8 @@ struct MobileAppRootView : View {
     @State var touchStart: CGPoint? = nil
     @State var showMetal: Bool = false
     
+    @StateObject var browserState = FileBrowserViewState()
+    
     private let delta = CGFloat(20)
     
     var body: some View {
@@ -38,7 +41,7 @@ struct MobileAppRootView : View {
                 }, label: {
                    Image(systemName: "square.and.arrow.down.fill")
                 })
-                FileBrowserView()
+                FileBrowserView(browserState: browserState)
                     .frame(maxHeight: 192.0)
             }
             gestureControl

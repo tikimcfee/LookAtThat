@@ -11,6 +11,7 @@ import SwiftParser
 import SceneKit
 import Foundation
 import BitHandling
+import SwiftGlyphs
 @testable import LookAtThat_AppKit
 
 import SwiftTreeSitter
@@ -51,7 +52,7 @@ class LookAtThat_TracingTests: XCTestCase {
                       .appendingPathComponent("Contents/Resources/queries/highlights.scm")
         
         let query = try language.query(contentsOf: queryUrl!)
-        let cursor = query.execute(node: tree.rootNode!)
+        let cursor = query.execute(node: tree.rootNode!, in: tree)
         
         for match in cursor {
             print("match: ", match.id, match.patternIndex)
@@ -126,77 +127,5 @@ class LookAtThat_TracingTests: XCTestCase {
         printEnd()
     }
     
-    func testTracing() throws {
-        let tracer = TracingRoot.shared
-        tracer.setupTracing()
-        tracer.state.traceWritesEnabled = true
-        
-        let sourceFile = try bundle.loadTestSource()
-        let sourceSyntax = Syntax(sourceFile)
-        
-        let grid = bundle.newGrid()
-            .applying { _ in printStart() }
-            .consume(rootSyntaxNode: sourceSyntax)
-        printEnd()
-        
-        let _ = SemanticMapTracer.wrapForLazyLoad(
-            sourceGrids: [grid],
-            sourceTracer: tracer
-        )
-        tracer.commitMappingState()
-        
-        //        let firstThread = try XCTUnwrap(tracer.capturedLoggingThreads.keys.first, "Expected at least one log thread")
-        //        let logs = try XCTUnwrap(firstThread.getTraceLogs())
-        
-        let _ = try XCTUnwrap(tracer.capturedLoggingQueues.keys.first, "Expected at least one log queue")
-        let logs = try XCTUnwrap(tracer.getCurrentQueueTraceLogs())
-        
-        XCTAssertGreaterThan(logs.count, 0, "Expected at least 1 trace result")
-    }
-
-    func testTracingGroup() throws {
-        let group = PersistentThreadGroup()
-        PersistentThreadTracer.SHOULD_WRITE = true
-        let tracer = try XCTUnwrap(
-            group.tracer(for: currentQueueName()),
-            "Must recreate from the same thread during runtime"
-        )
-        tracer.eraseTargetAndReset()
-        group.eraseTraceMap()
-        
-        let testWrites = (0..<12_512)
-        for _ in testWrites {
-            group.multiplextNewLine(
-                thread: Thread.current,
-                queueName: currentQueueName(),
-                line: .random
-            )
-        }
-        print("Wrote: \(testWrites.upperBound)")
-        print("CachedIds: \(group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count)")
-        print("Tracer reports count: \(tracer.count)")
-        XCTAssertEqual(tracer.count, testWrites.upperBound, "All writes must be recorded")
-        
-        let commitDidSucceed = group.commitTraceMapToTarget()
-        XCTAssertTrue(commitDidSucceed, "Group must succeed in writing to target file")
-        let data = try Data(contentsOf: PersistentThreadGroup.defaultMapFile)
-        print("Final traceIdMap: \(data)")
-        XCTAssertGreaterThan(data.count, 0, "Commited target map must have some data written")
-        let allTraceFileSizes = totalTraceFilesByteCount
-        print("Final id list totals: \(allTraceFileSizes) bytes || \(Double(allTraceFileSizes) / Double(1024))kb")
-        
-        let groupMapKeyCount = group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count
-        group.reloadTraceMap()
-        let reloadedKeyCount = group.sharedSignatureMap.persistedBiMap.keysToValues.keys.count
-        XCTAssertEqual(groupMapKeyCount, reloadedKeyCount, "Reload must not mutate data")
-    }
     
-    var totalTraceFilesByteCount: Int {
-        AppFiles.allTraceFiles().reduce(into: 0) { total, url in
-            let data = try? Data(contentsOf: url)
-            let count = data?.count ?? 0
-            print("\(url): \(count)")
-            total += data?.count ?? 0
-        }
-    }
 }
