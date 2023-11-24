@@ -26,7 +26,6 @@ class LookAtThat_TracingTests: XCTestCase {
         
         bundle = TestBundle()
         try bundle.setUpWithError()
-        
     }
     
     override func tearDownWithError() throws {

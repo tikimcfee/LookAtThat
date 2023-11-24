@@ -107,7 +107,7 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     func testPathEncoding() throws {
         printStart()
         
-        let pathSource = try XCTUnwrap(URL(string: bundle.testFileAbsolute), "Need valid file")
+        let pathSource =  bundle.testFile
         print(pathSource)
         let pathJson = try JSONEncoder().encode(pathSource)
         print("encoded", pathJson.count)

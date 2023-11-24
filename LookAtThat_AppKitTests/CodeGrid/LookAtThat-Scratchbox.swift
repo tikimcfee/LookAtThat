@@ -26,6 +26,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
     
     override func setUpWithError() throws {
         // Fields reset on each test!
+        
         bundle = TestBundle()
         try bundle.setUpWithError()
         
@@ -47,19 +48,20 @@ class LookAtThat_ScratchboxTests: XCTestCase {
     }
     
     func testSplittingFileReader() async throws {
-        let rawString = try String(contentsOf: bundle.testFile)
-        let reader = SplittingFileReader(targetURL: bundle.testFile)
-        let stream = reader.asyncLineStream()
-        
-        let copyTarget = bundle.testFile.appendingPathExtension("__text")
-        if FileManager.default.isDeletableFile(atPath: copyTarget.path()) {
-            try FileManager.default.removeItem(at: copyTarget)
-        }
-        
-        try FileManager.default.copyItem(
-            at: bundle.testFile,
-            to: copyTarget
-        )
+//        let rawString = try String(contentsOf: bundle.testFile)
+//        let reader = SplittingFileReader(targetURL: bundle.testFile)
+//        let stream = reader.asyncLineStream()
+//        
+//        let copyTarget = bundle.testFile.appendingPathExtension("__text")
+//        if FileManager.default.fileExists(atPath: copyTarget.path())
+//            && FileManager.default.isDeletableFile(atPath: copyTarget.path()) {
+//            try FileManager.default.removeItem(at: copyTarget)
+//        }
+//        try FileManager.default.copyItem(
+//            at: bundle.testFile,
+//            to: copyTarget
+//        )
+        XCTFail("not enabled")
     }
     
     func testBufferReadWrite() throws {
