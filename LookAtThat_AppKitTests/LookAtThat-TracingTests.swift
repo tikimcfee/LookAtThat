@@ -33,6 +33,49 @@ class LookAtThat_TracingTests: XCTestCase {
         printEnd()
     }
     
+    func testScalars() throws {
+//        let test = "🇵🇷"
+        let test = RAW_ATLAS_STRING_
+        
+        var counts: [Int: Int] = [:]
+        for character in test {
+            counts[character.unicodeScalars.count, default: 0] += 1
+            if character.unicodeScalars.count == 7 {
+                print(
+                    character,
+                    character.unicodeScalars
+                        .map { "\($0.value)" }
+                        .joined(separator: ", ")
+                )
+            }
+        }
+        print("Scalars in \(test.count) characters:")
+        print(counts)
+    }
+    
+    func testGlyphCompute() throws {
+        try doComputeTest("A")
+        try doComputeTest("🇵🇷")
+        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A")
+        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23456")
+        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A🇵🇷")
+        try doComputeTest(RAW_ATLAS_STRING_)
+        
+        func doComputeTest(_ testString: String) throws {
+            let compute = ConvertCompute(link: GlobalInstances.defaultLink)
+            let output = try compute.execute(inputData: testString.data!.nsData)
+            let (pointer, count) = compute.cast(output)
+            let result = compute.makeString(from: pointer, count: count)
+            
+            XCTAssertEqual(testString, result, "Must have the same strings... yo.")
+        }
+    }
+    
     func testTreeSitter() throws {
         let language = Language(language: tree_sitter_swift())
         
