@@ -5,6 +5,7 @@
 //  Created by Ivan Lugo on 5/3/22.
 //
 
+@testable import LookAtThat_AppKit
 import XCTest
 import SwiftSyntax
 import SwiftParser
@@ -12,10 +13,13 @@ import SceneKit
 import Foundation
 import BitHandling
 import SwiftGlyphs
-@testable import LookAtThat_AppKit
+import MetalLink
+import MetalLinkHeaders
+import MetalLinkResources
 
 import SwiftTreeSitter
 import TreeSitterSwift
+
 
 class LookAtThat_TracingTests: XCTestCase {
     var bundle: TestBundle!
@@ -38,9 +42,10 @@ class LookAtThat_TracingTests: XCTestCase {
         let test = RAW_ATLAS_STRING_
         
         var counts: [Int: Int] = [:]
+        let eh = [2, 7]
         for character in test {
             counts[character.unicodeScalars.count, default: 0] += 1
-            if character.unicodeScalars.count == 7 {
+            if eh.contains(character.unicodeScalars.count) {
                 print(
                     character,
                     character.unicodeScalars
@@ -54,17 +59,17 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testGlyphCompute() throws {
-        try doComputeTest("A")
-        try doComputeTest("🇵🇷")
-        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
-        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷A")
-        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23456")
-        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷A🇵🇷")
-        try doComputeTest(RAW_ATLAS_STRING_)
+//        try doComputeTest("A")
+//        try doComputeTest("🇵🇷")
+//        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
+//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷A")
+//        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56")
+//        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷A🇵🇷")
+//        try doComputeTest(RAW_ATLAS_STRING_)
         
         func doComputeTest(_ testString: String) throws {
             let compute = ConvertCompute(link: GlobalInstances.defaultLink)
@@ -73,6 +78,26 @@ class LookAtThat_TracingTests: XCTestCase {
             let result = compute.makeString(from: pointer, count: count)
             
             XCTAssertEqual(testString, result, "Must have the same strings... yo.")
+        }
+    }
+    
+    func testAtlas() throws {
+        let atlas = GlobalInstances.defaultAtlas
+        let test = RAW_ATLAS_STRING_
+        for character in test {
+            let key = GlyphCacheKey.fromCache(source: character, .white)
+            atlas.addGlyphToAtlasIfMissing(key)
+        }
+        
+    }
+    
+    func testMeasureGlyphComputeButLikeALot() throws {
+        measure {
+            do {
+                try testGlyphCompute()
+            } catch {
+                
+            }
         }
     }
     
