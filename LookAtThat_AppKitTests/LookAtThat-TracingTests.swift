@@ -102,25 +102,29 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testAtlas() throws {
-        let atlas = GlobalInstances.defaultAtlas
+        var atlas = GlobalInstances.defaultAtlas
         
-        
-        let text = RAW_ATLAS_STRING_
-//        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+        // TODO: to 'reset' the atlas, load it up, the recreate it and save it
+//        GlobalInstances.recreateAtlas()
+//        atlas = GlobalInstances.defaultAtlas
 
+        // --- Raw strings
+//        var text = RAW_ATLAS_STRING_
+        var text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+//        let filtered = text.filter {
+//            CharacterSet.alphanumerics
+//                .union(.symbols)
+//                .union(.whitespacesAndNewlines)
+//                .containsUnicodeScalars(of: $0)
+//        }
+//        var text = filtered
+        
+        // --- Sample files
 //        let testFile = bundle.testFile2
 //        let text = try String(contentsOf: testFile)
         
-        let filtered = text.filter {
-            CharacterSet.alphanumerics
-                .union(.symbols)
-                .union(.whitespacesAndNewlines)
-                .containsUnicodeScalars(of: $0)
-        }
-        
-        let test = filtered
-        let testCount = test
-            .count
+        let test = text
+        let testCount = test.count
         
         let compute = ConvertCompute(link: GlobalInstances.defaultLink)
         let output = try compute.execute(inputData: test.data!.nsData)
