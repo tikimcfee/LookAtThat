@@ -70,6 +70,10 @@ class LookAtThat_TracingTests: XCTestCase {
         try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
         try doComputeTest("🇵🇷A🇵🇷")
         
+        let testFile = bundle.testFile2
+        let testFileText = try String(contentsOf: testFile)
+        try doComputeTest(testFileText)
+        
         // This is the current failing test case for grapheme clusters.. not bad so far...
         // I think I'm just missing some types of glyphs.
 //        try doComputeTest(RAW_ATLAS_STRING_)
@@ -83,7 +87,8 @@ class LookAtThat_TracingTests: XCTestCase {
             XCTAssertEqual(testString, result, "Adding them all up manually needs to work")
             
             let graphemeString = compute.makeGraphemeBasedString(from: pointer, count: count)
-            XCTAssertEqual(testString, graphemeString, "Graphemes need to match for Atlas to match")
+            let graphemeMatchesTest = testString == graphemeString
+            XCTAssertTrue(graphemeMatchesTest, "Graphemes need to match for Atlas to match")
         }
     }
     
