@@ -104,18 +104,29 @@ class LookAtThat_TracingTests: XCTestCase {
     func testAtlas() throws {
         let atlas = GlobalInstances.defaultAtlas
         
-        let test = RAW_ATLAS_STRING_
-//        let test = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
-//        let testFile = bundle.testFile2
-//        let test = try String(contentsOf: testFile)
         
-        let testCount = test.count
+//        let text = RAW_ATLAS_STRING_
+        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+
+//        let testFile = bundle.testFile2
+//        let text = try String(contentsOf: testFile)
+        
+//        let filtered = text.filter {
+//            CharacterSet.alphanumerics
+//                .union(.symbols)
+//                .union(.whitespacesAndNewlines)
+//                .containsUnicodeScalars(of: $0)
+//        }
+        
+        let test = text
+        let testCount = test
+            .count
         
         let compute = ConvertCompute(link: GlobalInstances.defaultLink)
         let output = try compute.execute(inputData: test.data!.nsData)
         let (pointer, count) = compute.cast(output)
         
-        let (atlasBuffer, atlasPointer) = try compute.makeGraphemeAtlasBuffer()
+        let (_, atlasPointer) = try compute.makeGraphemeAtlasBuffer()
         
         var added = 0
         for index in (0..<count) {
@@ -144,6 +155,9 @@ class LookAtThat_TracingTests: XCTestCase {
 //        XCTAssertEqual failed: ("435716") is not equal to ("457634") - Make all the glyphyees
 
         XCTAssertEqual(added, testCount, "Make all the glyphees")
+        
+        atlas.save()
+//        atlas.load()
     }
     
     func testMeasureGlyphComputeButLikeALot() throws {
