@@ -130,7 +130,8 @@ class LookAtThat_TracingTests: XCTestCase {
         let output = try compute.execute(inputData: test.data!.nsData)
         let (pointer, count) = compute.cast(output)
         
-        let (_, atlasPointer) = try compute.makeGraphemeAtlasBuffer()
+        let atlasBuffer = try compute.makeGraphemeAtlasBuffer(size: 1_000_512)
+        let graphemePointer = atlasBuffer.boundPointer(as: GlyphMapKernelAtlasIn.self, count: 1_000_512)
         
         var added = 0
         for index in (0..<count) {
@@ -146,19 +147,38 @@ class LookAtThat_TracingTests: XCTestCase {
             
             let writtenKey = try XCTUnwrap(atlas.uvPairCache[key])
             let unicodeHash = pointee.unicodeHash
-            atlasPointer[Int(unicodeHash)].unicodeHash = unicodeHash
-            atlasPointer[Int(unicodeHash)].textureDescriptorU = writtenKey.u
-            atlasPointer[Int(unicodeHash)].textureDescriptorV = writtenKey.v
+            graphemePointer[Int(unicodeHash)].unicodeHash = unicodeHash
+            graphemePointer[Int(unicodeHash)].textureDescriptorU = writtenKey.u
+            graphemePointer[Int(unicodeHash)].textureDescriptorV = writtenKey.v
+            graphemePointer[Int(unicodeHash)].textureSize = writtenKey.size
             
             added += 1
+        }
+        
+        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
+        let atlasOut = try computeAtlas.executeWithAtlas(
+            inputData: test.data!.nsData,
+            atlasBuffer: atlasBuffer
+        )
+        
+        var hashes = [UInt64]()
+        var sizes = [LFloat2]()
+        let (atlasRenderedPointer, atlasRenderedCount) = compute.cast(atlasOut)
+        for index in (0..<atlasRenderedCount) {
+            let pointee = atlasRenderedPointer[index]
+            let hash = pointee.unicodeHash
+            guard hash > 0 else { continue; }
+            
+            hashes.append(hash)
+            sizes.append(pointee.textureSize)
         }
         
         // TODO: Ya know, NOT FREAKING BAD for a first run!
         // I'm missing 20,000 characters. I'm sure a lot of those are non rendering and
         // I'm not filtering them out, but still, that's AWESOME so far!
 //        XCTAssertEqual failed: ("435716") is not equal to ("457634") - Make all the glyphyees
-
         XCTAssertEqual(added, testCount, "Make all the glyphees")
+        XCTAssertEqual(hashes, test.map { $0.glyphComputeHash }, "All the hashes must match on the way out too")
         
         atlas.save()
 //        atlas.load()
