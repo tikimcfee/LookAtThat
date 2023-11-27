@@ -42,10 +42,11 @@ class LookAtThat_TracingTests: XCTestCase {
         let test = RAW_ATLAS_STRING_
         
         var counts: [Int: Int] = [:]
-        let eh = [2, 7]
+//        let eh = [2, 7]
         for character in test {
             counts[character.unicodeScalars.count, default: 0] += 1
-            if eh.contains(character.unicodeScalars.count) {
+//            if eh.contains(character.unicodeScalars.count) {
+            if character.unicodeScalars.count > 6 {
                 print(
                     character,
                     character.unicodeScalars
@@ -59,20 +60,20 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testGlyphCompute() throws {
-//        try doComputeTest("A")
-//        try doComputeTest("🇵🇷")
-//        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A")
-//        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("A")
+        try doComputeTest("🇵🇷")
+        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A")
+        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
         try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56")
-//        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A🇵🇷")
+        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A🇵🇷")
         
-//        let testFile = bundle.testFile2
-//        let testFileText = try String(contentsOf: testFile)
-//        try doComputeTest(testFileText)
+        let testFile = bundle.testFile2
+        let testFileText = try String(contentsOf: testFile)
+        try doComputeTest(testFileText)
         
         // This is the current failing test case for grapheme clusters.. not bad so far...
         // I think I'm just missing some types of glyphs.
@@ -102,12 +103,47 @@ class LookAtThat_TracingTests: XCTestCase {
     
     func testAtlas() throws {
         let atlas = GlobalInstances.defaultAtlas
+        
         let test = RAW_ATLAS_STRING_
-        for character in test {
-            let key = GlyphCacheKey.fromCache(source: character, .white)
+//        let test = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+//        let testFile = bundle.testFile2
+//        let test = try String(contentsOf: testFile)
+        
+        let testCount = test.count
+        
+        let compute = ConvertCompute(link: GlobalInstances.defaultLink)
+        let output = try compute.execute(inputData: test.data!.nsData)
+        let (pointer, count) = compute.cast(output)
+        
+        let (atlasBuffer, atlasPointer) = try compute.makeGraphemeAtlasBuffer()
+        
+        var added = 0
+        for index in (0..<count) {
+            let pointee = pointer[index]
+            let hash = pointee.unicodeHash
+            guard hash > 0 else { continue; }
+            
+            // We should always get back 1 character.. that's.. kinda the whole point.
+            let unicodeCharacter = pointee.expressedAsString.first!
+            
+            let key = GlyphCacheKey.fromCache(source: unicodeCharacter, .white)
             atlas.addGlyphToAtlasIfMissing(key)
+            
+            let writtenKey = try XCTUnwrap(atlas.uvPairCache[key])
+            let unicodeHash = pointee.unicodeHash
+            atlasPointer[Int(unicodeHash)].unicodeHash = unicodeHash
+            atlasPointer[Int(unicodeHash)].textureDescriptorU = writtenKey.u
+            atlasPointer[Int(unicodeHash)].textureDescriptorV = writtenKey.v
+            
+            added += 1
         }
         
+        // TODO: Ya know, NOT FREAKING BAD for a first run!
+        // I'm missing 20,000 characters. I'm sure a lot of those are non rendering and
+        // I'm not filtering them out, but still, that's AWESOME so far!
+//        XCTAssertEqual failed: ("435716") is not equal to ("457634") - Make all the glyphyees
+
+        XCTAssertEqual(added, testCount, "Make all the glyphees")
     }
     
     func testMeasureGlyphComputeButLikeALot() throws {
