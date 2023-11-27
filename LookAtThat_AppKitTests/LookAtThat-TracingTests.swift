@@ -105,20 +105,20 @@ class LookAtThat_TracingTests: XCTestCase {
         let atlas = GlobalInstances.defaultAtlas
         
         
-//        let text = RAW_ATLAS_STRING_
-        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+        let text = RAW_ATLAS_STRING_
+//        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
 
 //        let testFile = bundle.testFile2
 //        let text = try String(contentsOf: testFile)
         
-//        let filtered = text.filter {
-//            CharacterSet.alphanumerics
-//                .union(.symbols)
-//                .union(.whitespacesAndNewlines)
-//                .containsUnicodeScalars(of: $0)
-//        }
+        let filtered = text.filter {
+            CharacterSet.alphanumerics
+                .union(.symbols)
+                .union(.whitespacesAndNewlines)
+                .containsUnicodeScalars(of: $0)
+        }
         
-        let test = text
+        let test = filtered
         let testCount = test
             .count
         

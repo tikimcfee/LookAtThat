@@ -165,7 +165,8 @@ class LookAtThat_ScratchboxTests: XCTestCase {
             
             uvCache[key] = TextureUVCache.Pair(
                 u: LFloat4(topRight.x, topLeft.x, bottomLeft.x, bottomRight.x),
-                v: LFloat4(topRight.y, topLeft.y, bottomLeft.y, bottomRight.y)
+                v: LFloat4(topRight.y, topLeft.y, bottomLeft.y, bottomRight.y),
+                size: LFloat2(width, height)
             )
         }
         
