@@ -59,16 +59,19 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testGlyphCompute() throws {
-//        try doComputeTest("A")
-//        try doComputeTest("🇵🇷")
-//        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A")
-//        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("A")
+        try doComputeTest("🇵🇷")
+        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
+        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A")
+        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
         try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56")
-//        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A🇵🇷")
+        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+        try doComputeTest("🇵🇷A🇵🇷")
+        
+        // This is the current failing test case for grapheme clusters.. not bad so far...
+        // I think I'm just missing some types of glyphs.
 //        try doComputeTest(RAW_ATLAS_STRING_)
         
         func doComputeTest(_ testString: String) throws {
@@ -77,7 +80,10 @@ class LookAtThat_TracingTests: XCTestCase {
             let (pointer, count) = compute.cast(output)
             let result = compute.makeString(from: pointer, count: count)
             
-            XCTAssertEqual(testString, result, "Must have the same strings... yo.")
+            XCTAssertEqual(testString, result, "Adding them all up manually needs to work")
+            
+            let graphemeString = compute.makeGraphemeBasedString(from: pointer, count: count)
+            XCTAssertEqual(testString, graphemeString, "Graphemes need to match for Atlas to match")
         }
     }
     
