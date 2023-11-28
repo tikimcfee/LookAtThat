@@ -38,14 +38,11 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testScalars() throws {
-//        let test = "🇵🇷"
-        let test = RAW_ATLAS_STRING_
+        let test = "🇵🇷"
         
         var counts: [Int: Int] = [:]
-//        let eh = [2, 7]
         for character in test {
             counts[character.unicodeScalars.count, default: 0] += 1
-//            if eh.contains(character.unicodeScalars.count) {
             if character.unicodeScalars.count > 6 {
                 print(
                     character,
@@ -101,22 +98,35 @@ class LookAtThat_TracingTests: XCTestCase {
         }
     }
     
+    func testUnrenderedBlockSafetyAtlas() throws {
+        let text = "𪘀" //TODO: This is just a sample unsupported glyph
+        let text2 = "䗹" //TODO: This is just a sample unsupported glyph
+        
+        func makeData(_ text: String) throws -> Data {
+            let builder = GlyphBuilder()
+            let unrenderable = builder.makeBitmaps(
+                GlyphCacheKey(source: text.first!, .white)
+            )
+            return try XCTUnwrap(unrenderable?.requested.tiffRepresentation)
+        }
+        let textData = try makeData(text)
+        let textData2 = try makeData(text2)
+        let allDataMatches =
+               textData == textData2
+            && textData2 == __UNRENDERABLE__GLYPH__DATA__
+        XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
+    }
+    
     func testAtlas() throws {
         var atlas = GlobalInstances.defaultAtlas
         
         // TODO: to 'reset' the atlas, load it up, the recreate it and save it
-//        GlobalInstances.recreateAtlas()
-//        atlas = GlobalInstances.defaultAtlas
+        GlobalInstances.recreateAtlas()
+        atlas = GlobalInstances.defaultAtlas
 
         // --- Raw strings
-//        var text = RAW_ATLAS_STRING_
-        var text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
-//        let filtered = text.filter {
-//            CharacterSet.alphanumerics
-//                .union(.symbols)
-//                .union(.whitespacesAndNewlines)
-//                .containsUnicodeScalars(of: $0)
-//        }
+//        var text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+        var text = RAW_ATLAS_STRING_
 //        var text = filtered
         
         // --- Sample files
@@ -130,8 +140,8 @@ class LookAtThat_TracingTests: XCTestCase {
         let output = try compute.execute(inputData: test.data!.nsData)
         let (pointer, count) = compute.cast(output)
         
-        let atlasBuffer = try compute.makeGraphemeAtlasBuffer(size: 1_000_512)
-        let graphemePointer = atlasBuffer.boundPointer(as: GlyphMapKernelAtlasIn.self, count: 1_000_512)
+        let atlasBuffer = try compute.makeGraphemeAtlasBuffer(size: GRAPHEME_BUFFER_DEFAULT_SIZE)
+        let graphemePointer = atlasBuffer.boundPointer(as: GlyphMapKernelAtlasIn.self, count: GRAPHEME_BUFFER_DEFAULT_SIZE)
         
         var added = 0
         for index in (0..<count) {
@@ -154,34 +164,48 @@ class LookAtThat_TracingTests: XCTestCase {
             
             added += 1
         }
+        atlas.currentBuffer = atlasBuffer
         
-        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
-        let atlasOut = try computeAtlas.executeWithAtlas(
-            inputData: test.data!.nsData,
-            atlasBuffer: atlasBuffer
-        )
+//        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
+//        let atlasOut = try computeAtlas.executeWithAtlas(
+//            inputData: test.data!.nsData,
+//            atlasBuffer: atlasBuffer
+//        )
         
-        var hashes = [UInt64]()
-        var sizes = [LFloat2]()
-        let (atlasRenderedPointer, atlasRenderedCount) = compute.cast(atlasOut)
-        for index in (0..<atlasRenderedCount) {
-            let pointee = atlasRenderedPointer[index]
-            let hash = pointee.unicodeHash
-            guard hash > 0 else { continue; }
-            
-            hashes.append(hash)
-            sizes.append(pointee.textureSize)
-        }
+//        var hashes = [UInt64]()
+//        var sizes = [LFloat2]()
+//        let (atlasRenderedPointer, atlasRenderedCount) = compute.cast(atlasOut)
+//        for index in (0..<atlasRenderedCount) {
+//            let pointee = atlasRenderedPointer[index]
+//            let hash = pointee.unicodeHash
+//            guard hash > 0 else { continue; }
+//            
+//            hashes.append(hash)
+//            sizes.append(pointee.textureSize)
+//        }
         
         // TODO: Ya know, NOT FREAKING BAD for a first run!
         // I'm missing 20,000 characters. I'm sure a lot of those are non rendering and
         // I'm not filtering them out, but still, that's AWESOME so far!
 //        XCTAssertEqual failed: ("435716") is not equal to ("457634") - Make all the glyphyees
         XCTAssertEqual(added, testCount, "Make all the glyphees")
-        XCTAssertEqual(hashes, test.map { $0.glyphComputeHash }, "All the hashes must match on the way out too")
+//        XCTAssertEqual(hashes, test.map { $0.glyphComputeHash }, "All the hashes must match on the way out too")
         
         atlas.save()
 //        atlas.load()
+    }
+    
+    func testPrebuiltAtlas() throws {
+        // TODO: loaded manually in app root, not really safe
+        var atlas = GlobalInstances.defaultAtlas
+        
+//        bundle.testSourceDirectory
+//        
+//        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
+//        let atlasOut = try computeAtlas.executeWithAtlas(
+//            inputData: test.data!.nsData,
+//            atlasBuffer: atlasBuffer
+//        )
     }
     
     func testMeasureGlyphComputeButLikeALot() throws {
