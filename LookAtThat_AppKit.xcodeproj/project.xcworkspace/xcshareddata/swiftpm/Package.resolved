@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "binarycodable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/christophhagen/BinaryCodable.git",
+      "state" : {
+        "revision" : "28804e7ffb656e53949cb0713691fb53aed26fe1",
+        "version" : "2.0.1"
+      }
+    },
+    {
       "identity" : "codeeditorview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mchakravarty/CodeEditorView.git",

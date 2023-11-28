@@ -117,7 +117,11 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
     }
     
-    func testAtlas() throws {
+    private static let __ATLAS_SAVE_ENABLED__ = false
+    func testAtlasSave() throws {
+        XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
+        guard Self.__ATLAS_SAVE_ENABLED__ else { return }
+        
         var atlas = GlobalInstances.defaultAtlas
         
         // TODO: to 'reset' the atlas, load it up, the recreate it and save it
@@ -195,17 +199,27 @@ class LookAtThat_TracingTests: XCTestCase {
 //        atlas.load()
     }
     
+    func testResaveAtlas() throws {
+        var atlas = GlobalInstances.defaultAtlas
+//        atlas.save()
+    }
+    
     func testPrebuiltAtlas() throws {
         // TODO: loaded manually in app root, not really safe
-        var atlas = GlobalInstances.defaultAtlas
+        let atlas = GlobalInstances.defaultAtlas
+        let atlasBuffer = try XCTUnwrap(atlas.currentBuffer, "Needs to have an existing (deserialized) buffer for this comparison to work.")
+        let allFiles = bundle.testSourceDirectory!.enumeratedChildren().filter { !$0.isDirectory }
         
-//        bundle.testSourceDirectory
-//        
-//        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
-//        let atlasOut = try computeAtlas.executeWithAtlas(
-//            inputData: test.data!.nsData,
-//            atlasBuffer: atlasBuffer
-//        )
+        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
+        var allGlyphBuffers = [MTLBuffer]()
+        for file in allFiles {
+            let parsedGlyphData = try computeAtlas.executeWithAtlas(
+                inputData: Data(contentsOf: file, options: .alwaysMapped).nsData,
+                atlasBuffer: atlasBuffer
+            )
+            allGlyphBuffers.append(parsedGlyphData)
+        }
+        print("Made \(allGlyphBuffers.count)")
     }
     
     func testMeasureGlyphComputeButLikeALot() throws {
