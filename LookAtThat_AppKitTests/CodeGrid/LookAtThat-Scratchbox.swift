@@ -147,7 +147,7 @@ class LookAtThat_ScratchboxTests: XCTestCase {
             return LFloat2(bundleSize.x / atlasSize.x, bundleSize.y / atlasSize.y)
         }
         
-        let uvPacking = AtlasPacking<UVRect>(width: 1.0, height: 1.0)
+        var uvPacking = AtlasContainerUV(canvasWidth: 1.0, canvasHeight: 1.0)
         for (key, bundle) in textureBundles {
             let uvSize = atlasUVSize(for: bundle, in: atlasTexture)
             let samplePack = UVRect()

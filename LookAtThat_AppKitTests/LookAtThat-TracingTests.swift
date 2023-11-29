@@ -117,7 +117,7 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
     }
     
-    private static let __ATLAS_SAVE_ENABLED__ = false
+    private static let __ATLAS_SAVE_ENABLED__ = true
     func testAtlasSave() throws {
         XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
         guard Self.__ATLAS_SAVE_ENABLED__ else { return }
@@ -170,24 +170,6 @@ class LookAtThat_TracingTests: XCTestCase {
         }
         atlas.currentBuffer = atlasBuffer
         
-//        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
-//        let atlasOut = try computeAtlas.executeWithAtlas(
-//            inputData: test.data!.nsData,
-//            atlasBuffer: atlasBuffer
-//        )
-        
-//        var hashes = [UInt64]()
-//        var sizes = [LFloat2]()
-//        let (atlasRenderedPointer, atlasRenderedCount) = compute.cast(atlasOut)
-//        for index in (0..<atlasRenderedCount) {
-//            let pointee = atlasRenderedPointer[index]
-//            let hash = pointee.unicodeHash
-//            guard hash > 0 else { continue; }
-//            
-//            hashes.append(hash)
-//            sizes.append(pointee.textureSize)
-//        }
-        
         // TODO: Ya know, NOT FREAKING BAD for a first run!
         // I'm missing 20,000 characters. I'm sure a lot of those are non rendering and
         // I'm not filtering them out, but still, that's AWESOME so far!
@@ -200,7 +182,7 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testResaveAtlas() throws {
-        var atlas = GlobalInstances.defaultAtlas
+//        var atlas = GlobalInstances.defaultAtlas
 //        atlas.save()
     }
     
