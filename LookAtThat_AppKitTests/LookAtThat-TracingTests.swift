@@ -117,7 +117,11 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
     }
     
-    private static let __ATLAS_SAVE_ENABLED__ = true
+    func testRowEndings() throws {
+        CharacterSet.newlines
+    }
+    
+    private static let __ATLAS_SAVE_ENABLED__ = false
     func testAtlasSave() throws {
         XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
         guard Self.__ATLAS_SAVE_ENABLED__ else { return }
@@ -144,9 +148,6 @@ class LookAtThat_TracingTests: XCTestCase {
         let output = try compute.execute(inputData: test.data!.nsData)
         let (pointer, count) = compute.cast(output)
         
-        let atlasBuffer = try compute.makeGraphemeAtlasBuffer(size: GRAPHEME_BUFFER_DEFAULT_SIZE)
-        let graphemePointer = atlasBuffer.boundPointer(as: GlyphMapKernelAtlasIn.self, count: GRAPHEME_BUFFER_DEFAULT_SIZE)
-        
         var added = 0
         for index in (0..<count) {
             let pointee = pointer[index]
@@ -159,23 +160,15 @@ class LookAtThat_TracingTests: XCTestCase {
             let key = GlyphCacheKey.fromCache(source: unicodeCharacter, .white)
             atlas.addGlyphToAtlasIfMissing(key)
             
-            let writtenKey = try XCTUnwrap(atlas.uvPairCache[key])
-            let unicodeHash = pointee.unicodeHash
-            graphemePointer[Int(unicodeHash)].unicodeHash = unicodeHash
-            graphemePointer[Int(unicodeHash)].textureDescriptorU = writtenKey.u
-            graphemePointer[Int(unicodeHash)].textureDescriptorV = writtenKey.v
-            graphemePointer[Int(unicodeHash)].textureSize = writtenKey.size
-            
+            let _ = try XCTUnwrap(atlas.uvPairCache[key])
             added += 1
         }
-        atlas.currentBuffer = atlasBuffer
         
         // TODO: Ya know, NOT FREAKING BAD for a first run!
         // I'm missing 20,000 characters. I'm sure a lot of those are non rendering and
         // I'm not filtering them out, but still, that's AWESOME so far!
 //        XCTAssertEqual failed: ("435716") is not equal to ("457634") - Make all the glyphyees
         XCTAssertEqual(added, testCount, "Make all the glyphees")
-//        XCTAssertEqual(hashes, test.map { $0.glyphComputeHash }, "All the hashes must match on the way out too")
         
         atlas.save()
 //        atlas.load()
