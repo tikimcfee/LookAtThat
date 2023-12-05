@@ -121,6 +121,41 @@ class LookAtThat_TracingTests: XCTestCase {
         CharacterSet.newlines
     }
     
+    func testAtlasLayout() throws {
+        var atlas = GlobalInstances.defaultAtlas
+        let compute = ConvertCompute(link: GlobalInstances.defaultLink)
+        let stopswatch = Stopwatch()
+        
+        FileBrowser
+            .recursivePaths(bundle.testDirectory).lazy
+            .filter { !$0.isDirectory }
+            .forEach(doLayout(_:))
+        
+        print("Welp. Something happened, I think,")
+        
+        func doLayout(_ url: URL) {
+            do {
+                let data = try Data(contentsOf: url, options: .alwaysMapped)
+                
+                stopswatch.start()
+                let output = try compute.executeWithAtlas(
+                    inputData: data.nsData,
+                    atlasBuffer: atlas.currentBuffer
+                )
+                let (pointer, count) = compute.cast(output)
+                print("Layed out: \(url): \(stopswatch.elapsedTimeString())")
+                stopswatch.reset()
+                
+                let dataString = String(data: data, encoding: .utf8)
+                let computeString = compute.makeGraphemeBasedString(from: pointer, count: count)
+                let stringsMatch = dataString == computeString
+                XCTAssertTrue(stringsMatch, "Gotta make the same fancy String as the Fancy String People")
+            } catch {
+                XCTFail("\(error)")
+            }
+        }
+    }
+    
     private static let __ATLAS_SAVE_ENABLED__ = false
     func testAtlasSave() throws {
         XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
