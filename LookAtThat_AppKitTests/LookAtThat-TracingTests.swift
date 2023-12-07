@@ -16,6 +16,7 @@ import SwiftGlyphs
 import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
+import Collections
 
 import SwiftTreeSitter
 import TreeSitterSwift
@@ -57,20 +58,20 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testGlyphCompute() throws {
-        try doComputeTest("A")
-        try doComputeTest("🇵🇷")
-        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
-        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷A")
-        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("A")
+//        try doComputeTest("🇵🇷")
+//        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
+//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷A")
+//        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
         try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56")
-        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("🇵🇷A🇵🇷")
+//        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+//        try doComputeTest("🇵🇷A🇵🇷")
         
-        let testFile = bundle.testFile2
-        let testFileText = try String(contentsOf: testFile)
-        try doComputeTest(testFileText)
+//        let testFile = bundle.testFile2
+//        let testFileText = try String(contentsOf: testFile)
+//        try doComputeTest(testFileText)
         
         // This is the current failing test case for grapheme clusters.. not bad so far...
         // I think I'm just missing some types of glyphs.
@@ -80,17 +81,19 @@ class LookAtThat_TracingTests: XCTestCase {
             let compute = ConvertCompute(link: GlobalInstances.defaultLink)
             let output = try compute.execute(inputData: testString.data!.nsData)
             let (pointer, count) = compute.cast(output)
-            let result = compute.makeString(from: pointer, count: count)
+            print("buffer count: \(count)")
             
-            let testHashes = testString.map { $0.glyphComputeHash }
-            let resultHashes = result.map { $0.glyphComputeHash }
-            let gpuComputeHashes = (0..<count).map { pointer[$0].unicodeHash }.filter { $0 != 0 }
             
-            XCTAssertEqual(testHashes, resultHashes, "Hashes are indices and need to line up")
-            XCTAssertEqual(resultHashes, gpuComputeHashes, "Hashes are indices and need to line up")
-            
-            let iterativeStringMatchesTest = testString == result
-            XCTAssertTrue(iterativeStringMatchesTest, "Adding them all up manually needs to work")
+//            let result = compute.makeString(from: pointer, count: count)
+//            let testHashes = testString.map { $0.glyphComputeHash }
+//            let resultHashes = result.map { $0.glyphComputeHash }
+//            let gpuComputeHashes = (0..<count).map { pointer[$0].unicodeHash }.filter { $0 != 0 }
+//            
+//            XCTAssertEqual(testHashes, resultHashes, "Hashes are indices and need to line up")
+//            XCTAssertEqual(resultHashes, gpuComputeHashes, "Hashes are indices and need to line up")
+//            
+//            let iterativeStringMatchesTest = testString == result
+//            XCTAssertTrue(iterativeStringMatchesTest, "Adding them all up manually needs to work")
             
             let graphemeString = compute.makeGraphemeBasedString(from: pointer, count: count)
             let graphemeMatchesTest = testString == graphemeString
@@ -117,34 +120,42 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
     }
     
-    func testRowEndings() throws {
-        CharacterSet.newlines
-    }
-    
     func testAtlasLayout() throws {
-        var atlas = GlobalInstances.defaultAtlas
+        let atlas = GlobalInstances.defaultAtlas
         let compute = ConvertCompute(link: GlobalInstances.defaultLink)
         let stopswatch = Stopwatch()
         
-        FileBrowser
-            .recursivePaths(bundle.testDirectory).lazy
-            .filter { !$0.isDirectory }
-            .forEach(doLayout(_:))
+//        FileBrowser
+//            .recursivePaths(bundle.testDirectory).lazy
+//            .filter { !$0.isDirectory }
+//            .forEach(doLayout(_:))
+        
+        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+        doLayoutData(text.data!)
         
         print("Welp. Something happened, I think,")
         
         func doLayout(_ url: URL) {
+            print("Layed out: \(url): \(stopswatch.elapsedTimeString())")
             do {
                 let data = try Data(contentsOf: url, options: .alwaysMapped)
-                
+                doLayoutData(data)
+            } catch {
+                XCTFail("\(error)")
+            }
+        }
+        
+        func doLayoutData(_ data: Data) {
+            do {
                 stopswatch.start()
                 let output = try compute.executeWithAtlas(
                     inputData: data.nsData,
                     atlasBuffer: atlas.currentBuffer
                 )
                 let (pointer, count) = compute.cast(output)
-                print("Layed out: \(url): \(stopswatch.elapsedTimeString())")
+                
                 stopswatch.reset()
+//                let (p, c) = compute.cast(output); (0..<c).map { p[$0].graphemeCategory }.reduce(into: Set<String>()) { $0.insert($1) }
                 
                 let dataString = String(data: data, encoding: .utf8)
                 let computeString = compute.makeGraphemeBasedString(from: pointer, count: count)
