@@ -125,18 +125,24 @@ class LookAtThat_TracingTests: XCTestCase {
         let compute = ConvertCompute(link: GlobalInstances.defaultLink)
         let stopswatch = Stopwatch()
         
+        var allBuffers = [(MTLBuffer, UInt32)]()
+        var failedBuffers = [(MTLBuffer, UInt32)]()
+        
 //        FileBrowser
 //            .recursivePaths(bundle.testDirectory).lazy
 //            .filter { !$0.isDirectory }
 //            .forEach(doLayout(_:))
         
-        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
-        doLayoutData(text.data!)
+//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
+        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
+        for _ in (0..<10) {
+            doLayoutData(text.data!)
+        }
+        
         
         print("Welp. Something happened, I think,")
         
         func doLayout(_ url: URL) {
-            print("Layed out: \(url): \(stopswatch.elapsedTimeString())")
             do {
                 let data = try Data(contentsOf: url, options: .alwaysMapped)
                 doLayoutData(data)
@@ -145,22 +151,50 @@ class LookAtThat_TracingTests: XCTestCase {
             }
         }
         
-        func doLayoutData(_ data: Data) {
+        func doLayoutData(_ data: Data, _ source: URL? = nil) {
             do {
                 stopswatch.start()
-                let output = try compute.executeWithAtlas(
+                let (rawOutputBuffer, computedCharacterCount) = try compute.executeWithAtlas(
                     inputData: data.nsData,
                     atlasBuffer: atlas.currentBuffer
                 )
-                let (pointer, count) = compute.cast(output)
-                
+                let (rawBufferPointer, rawBufferCount) = compute.cast(rawOutputBuffer)
+                let finalizedBuffer = try compute.compressFreshMappedBuffer(unprocessedBuffer: rawOutputBuffer, expectedCount: computedCharacterCount)
+                let finalizedPointer = finalizedBuffer.boundPointer(as: GlyphMapKernelOut.self, count: computedCharacterCount)
+                allBuffers.append((rawOutputBuffer, computedCharacterCount))
+                let message = source.map { $0.lastPathComponent } ?? String(data.count)
+                print("Layed out: \(message): \(stopswatch.elapsedTimeString())")
                 stopswatch.reset()
-//                let (p, c) = compute.cast(output); (0..<c).map { p[$0].graphemeCategory }.reduce(into: Set<String>()) { $0.insert($1) }
                 
                 let dataString = String(data: data, encoding: .utf8)
-                let computeString = compute.makeGraphemeBasedString(from: pointer, count: count)
-                let stringsMatch = dataString == computeString
-                XCTAssertTrue(stringsMatch, "Gotta make the same fancy String as the Fancy String People")
+                let computeString = compute.makeGraphemeBasedString(from: rawBufferPointer, count: rawBufferCount)
+                let makeNaiveConcatString = String(
+                    (0..<computedCharacterCount)
+                        .lazy
+                        .map { finalizedPointer[Int($0)].expressedAsString }
+                        .joined()
+                )
+                    
+                let rawComputeStringsMatch = dataString == computeString
+                let denoisedBufferMatches = dataString == makeNaiveConcatString
+                
+                let rawOffsets = (0..<rawBufferCount)
+                    .map { rawBufferPointer[$0] }
+                    .filter { $0.unicodeHash != 0 }
+                    .map { "|| \($0.xOffset), \($0.yOffset) || [\($0.unicodeHash)] << raw " }
+                
+                let compressedOffsets = (0..<computedCharacterCount)
+                    .map { finalizedPointer[Int($0)] }
+                    .filter { $0.unicodeHash != 0 }
+                    .map { "|| \($0.xOffset), \($0.yOffset) || [\($0.unicodeHash)] <.> cmprspsd" }
+                /*
+                (lldb) po (0..<rawBufferCount).map { rawBufferPointer[$0] }.filter { $0.unicodeHash != 0 }.map { "\($0.xOffset), \($0.yOffset)" }
+                 */
+                XCTAssertTrue(rawComputeStringsMatch, "Gotta make the same fancy String as the Fancy String People")
+                XCTAssertTrue(denoisedBufferMatches, "The cleanup buffer should end up with the same correct string as the raw buffer.")
+                if !denoisedBufferMatches {
+                    failedBuffers.append((finalizedBuffer, computedCharacterCount))
+                }
             } catch {
                 XCTFail("\(error)")
             }
@@ -234,23 +268,13 @@ class LookAtThat_TracingTests: XCTestCase {
         let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
         var allGlyphBuffers = [MTLBuffer]()
         for file in allFiles {
-            let parsedGlyphData = try computeAtlas.executeWithAtlas(
+            let (parsedGlyphData, _) = try computeAtlas.executeWithAtlas(
                 inputData: Data(contentsOf: file, options: .alwaysMapped).nsData,
                 atlasBuffer: atlasBuffer
             )
             allGlyphBuffers.append(parsedGlyphData)
         }
         print("Made \(allGlyphBuffers.count)")
-    }
-    
-    func testMeasureGlyphComputeButLikeALot() throws {
-        measure {
-            do {
-                try testGlyphCompute()
-            } catch {
-                
-            }
-        }
     }
     
     func testTreeSitter() throws {
