@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftGlyphs
+import BitHandling
 
 extension SourceInfoPanelView {
     struct WordInputView: View {

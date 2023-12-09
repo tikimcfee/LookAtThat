@@ -56,51 +56,7 @@ class LookAtThat_TracingTests: XCTestCase {
         print("Scalars in \(test.count) characters:")
         print(counts)
     }
-    
-    func testGlyphCompute() throws {
-        let compute = GlobalInstances.gridStore.sharedConvert
-//        try doComputeTest("A")
-//        try doComputeTest("🇵🇷")
-//        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿A")
-//        try doComputeTest("🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A")
-//        try doComputeTest("A🇵🇷A🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-        try doComputeTest("0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56")
-//        try doComputeTest("A🇵🇷🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-//        try doComputeTest("🇵🇷A🇵🇷")
-        
-//        let testFile = bundle.testFile2
-//        let testFileText = try String(contentsOf: testFile)
-//        try doComputeTest(testFileText)
-        
-        // This is the current failing test case for grapheme clusters.. not bad so far...
-        // I think I'm just missing some types of glyphs.
-//        try doComputeTest(RAW_ATLAS_STRING_)
-        
-        func doComputeTest(_ testString: String) throws {
-            let output = try compute.execute(inputData: testString.data!.nsData)
-            let (pointer, count) = compute.cast(output)
-            print("buffer count: \(count)")
-            
-            
-//            let result = compute.makeString(from: pointer, count: count)
-//            let testHashes = testString.map { $0.glyphComputeHash }
-//            let resultHashes = result.map { $0.glyphComputeHash }
-//            let gpuComputeHashes = (0..<count).map { pointer[$0].unicodeHash }.filter { $0 != 0 }
-//            
-//            XCTAssertEqual(testHashes, resultHashes, "Hashes are indices and need to line up")
-//            XCTAssertEqual(resultHashes, gpuComputeHashes, "Hashes are indices and need to line up")
-//            
-//            let iterativeStringMatchesTest = testString == result
-//            XCTAssertTrue(iterativeStringMatchesTest, "Adding them all up manually needs to work")
-            
-            let graphemeString = compute.makeGraphemeBasedString(from: pointer, count: count)
-            let graphemeMatchesTest = testString == graphemeString
-            XCTAssertTrue(graphemeMatchesTest, "Graphemes need to match for Atlas to match")
-        }
-    }
-    
+
     func testUnrenderedBlockSafetyAtlas() throws {
         let text = "𪘀" //TODO: This is just a sample unsupported glyph
         let text2 = "䗹" //TODO: This is just a sample unsupported glyph
@@ -122,27 +78,9 @@ class LookAtThat_TracingTests: XCTestCase {
     
     func testAtlasLayout() throws {
         let atlas = GlobalInstances.defaultAtlas
-        let link = GlobalInstances.defaultLink
         let compute = GlobalInstances.gridStore.sharedConvert
-        
         let stopswatch = Stopwatch()
-        let group = DispatchGroup()
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
-        
-        var allBuffers = [(MTLBuffer, UInt32)]()
-        var failedBuffers = [(MTLBuffer, UInt32)]()
-        
-//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
-//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
-//        for _ in (0..<10) {
-//            doLayoutData(text.data!)
-//        }
-      
+
         let toRender = FileBrowser
             .recursivePaths(bundle.testDirectory)
             .lazy
@@ -163,6 +101,7 @@ class LookAtThat_TracingTests: XCTestCase {
                     tokenCache: GlobalInstances.gridStore.globalTokenCache
                 )
                 let bounds = grid.sizeBounds
+                print("Grid bounds: \(result.sourceURL.lastPathComponent) -> \(bounds)")
                 resultGrids.append(grid)
                 
             case .notBuilt:
@@ -175,21 +114,27 @@ class LookAtThat_TracingTests: XCTestCase {
         print("Welp. They all.. stopped.")
         print("Completed in: \(completionTime)")
         print("Well then.")
+    }
+    
+    func testRawDataLayout() throws {
+        let atlas = GlobalInstances.defaultAtlas
+        let compute = GlobalInstances.gridStore.sharedConvert
+        let stopswatch = Stopwatch()
         
-        func doLayout(_ url: URL) {
-            do {
-                let data = try Data(contentsOf: url, options: .alwaysMapped)
-                doLayoutData(data)
-            } catch {
-                XCTFail("\(error)")
-            }
-        }
+        var allBuffers = [(MTLBuffer, UInt32)]()
+        var failedBuffers = [(MTLBuffer, UInt32)]()
         
+//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
+//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
+//        for _ in (0..<10) {
+//            doLayoutData(text.data!)
+//        }
+
         func doLayoutData(_ data: Data, _ source: URL? = nil) {
             do {
                 stopswatch.start()
-                let (rawOutputBuffer, computedCharacterCount) = try compute.executeWithAtlas(
-                    inputData: data.nsData,
+                let (rawOutputBuffer, computedCharacterCount) = try compute.executeWithAtlasBuffer(
+                    inputData: data,
                     atlasBuffer: atlas.currentBuffer
                 )
                 let (rawBufferPointer, rawBufferCount) = compute.cast(rawOutputBuffer)
@@ -224,6 +169,7 @@ class LookAtThat_TracingTests: XCTestCase {
                 /*
                 (lldb) po (0..<rawBufferCount).map { rawBufferPointer[$0] }.filter { $0.unicodeHash != 0 }.map { "\($0.xOffset), \($0.yOffset)" }
                  */
+                print("Raw offsets: (\(rawOffsets.count)) || Compressed offsets: (\(compressedOffsets.count))")
                 XCTAssertTrue(rawComputeStringsMatch, "Gotta make the same fancy String as the Fancy String People")
                 XCTAssertTrue(denoisedBufferMatches, "The cleanup buffer should end up with the same correct string as the raw buffer.")
                 if !denoisedBufferMatches {
@@ -247,9 +193,8 @@ class LookAtThat_TracingTests: XCTestCase {
         atlas = GlobalInstances.defaultAtlas
 
         // --- Raw strings
-//        var text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
-        var text = RAW_ATLAS_STRING_
-//        var text = filtered
+//        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
+        let text = RAW_ATLAS_STRING_
         
         // --- Sample files
 //        let testFile = bundle.testFile2
@@ -259,7 +204,7 @@ class LookAtThat_TracingTests: XCTestCase {
         let testCount = test.count
         
         let compute = GlobalInstances.gridStore.sharedConvert
-        let output = try compute.execute(inputData: test.data!.nsData)
+        let output = try compute.execute(inputData: test.data!)
         let (pointer, count) = compute.cast(output)
         
         var added = 0
@@ -302,8 +247,8 @@ class LookAtThat_TracingTests: XCTestCase {
         let computeAtlas = GlobalInstances.gridStore.sharedConvert
         var allGlyphBuffers = [MTLBuffer]()
         for file in allFiles {
-            let (parsedGlyphData, _) = try computeAtlas.executeWithAtlas(
-                inputData: Data(contentsOf: file, options: .alwaysMapped).nsData,
+            let (parsedGlyphData, _) = try computeAtlas.executeWithAtlasBuffer(
+                inputData: Data(contentsOf: file, options: .alwaysMapped),
                 atlasBuffer: atlasBuffer
             )
             allGlyphBuffers.append(parsedGlyphData)
