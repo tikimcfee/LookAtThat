@@ -58,6 +58,7 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testGlyphCompute() throws {
+        let compute = GlobalInstances.gridStore.sharedConvert
 //        try doComputeTest("A")
 //        try doComputeTest("🇵🇷")
 //        try doComputeTest("🏴󠁧󠁢󠁥󠁮󠁧󠁿")
@@ -78,7 +79,6 @@ class LookAtThat_TracingTests: XCTestCase {
 //        try doComputeTest(RAW_ATLAS_STRING_)
         
         func doComputeTest(_ testString: String) throws {
-            let compute = ConvertCompute(link: GlobalInstances.defaultLink)
             let output = try compute.execute(inputData: testString.data!.nsData)
             let (pointer, count) = compute.cast(output)
             print("buffer count: \(count)")
@@ -122,25 +122,59 @@ class LookAtThat_TracingTests: XCTestCase {
     
     func testAtlasLayout() throws {
         let atlas = GlobalInstances.defaultAtlas
-        let compute = ConvertCompute(link: GlobalInstances.defaultLink)
+        let link = GlobalInstances.defaultLink
+        let compute = GlobalInstances.gridStore.sharedConvert
+        
         let stopswatch = Stopwatch()
+        let group = DispatchGroup()
+        let builder = try CodeGridGlyphCollectionBuilder(
+            link: link,
+            sharedSemanticMap: SemanticInfoMap(),
+            sharedTokenCache: CodeGridTokenCache(),
+            sharedGridCache: bundle.gridCache
+        )
         
         var allBuffers = [(MTLBuffer, UInt32)]()
         var failedBuffers = [(MTLBuffer, UInt32)]()
         
-//        FileBrowser
-//            .recursivePaths(bundle.testDirectory).lazy
-//            .filter { !$0.isDirectory }
-//            .forEach(doLayout(_:))
-        
 //        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
-        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
-        for _ in (0..<10) {
-            doLayoutData(text.data!)
+//        let text = "X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56X🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿2\n3🦾4🥰56"
+//        for _ in (0..<10) {
+//            doLayoutData(text.data!)
+//        }
+      
+        let toRender = FileBrowser
+            .recursivePaths(bundle.testDirectory)
+            .lazy
+            .filter { !$0.isDirectory }
+            .prefix(1)
+        
+        var resultGrids = [CodeGrid]()
+        stopswatch.start()
+        let allComputedResults = try compute.executeManyWithAtlas(
+            sources: Array(toRender),
+            atlas: atlas
+        )
+        for result in allComputedResults {
+            switch result.collection {
+            case .built(let collection):
+                let grid = CodeGrid(
+                    rootNode: collection,
+                    tokenCache: GlobalInstances.gridStore.globalTokenCache
+                )
+                let bounds = grid.sizeBounds
+                resultGrids.append(grid)
+                
+            case .notBuilt:
+                break
+            }
         }
+        let completionTime = stopswatch.elapsedTimeString()
+        stopswatch.reset()
         
-        
-        print("Welp. Something happened, I think,")
+        print("Welp. They all.. stopped.")
+        print("Completed in: \(completionTime)")
+        print("Well then.")
         
         func doLayout(_ url: URL) {
             do {
@@ -181,12 +215,12 @@ class LookAtThat_TracingTests: XCTestCase {
                 let rawOffsets = (0..<rawBufferCount)
                     .map { rawBufferPointer[$0] }
                     .filter { $0.unicodeHash != 0 }
-                    .map { "|| \($0.xOffset), \($0.yOffset) || [\($0.unicodeHash)] << raw " }
+                    .map { "|| \($0.positionOffset.x), \($0.positionOffset.y) || [\($0.unicodeHash)] << raw " }
                 
                 let compressedOffsets = (0..<computedCharacterCount)
                     .map { finalizedPointer[Int($0)] }
                     .filter { $0.unicodeHash != 0 }
-                    .map { "|| \($0.xOffset), \($0.yOffset) || [\($0.unicodeHash)] <.> cmprspsd" }
+                    .map { "|| \($0.positionOffset.x), \($0.positionOffset.y) || [\($0.unicodeHash)] <.> cmprspsd" }
                 /*
                 (lldb) po (0..<rawBufferCount).map { rawBufferPointer[$0] }.filter { $0.unicodeHash != 0 }.map { "\($0.xOffset), \($0.yOffset)" }
                  */
@@ -224,7 +258,7 @@ class LookAtThat_TracingTests: XCTestCase {
         let test = text
         let testCount = test.count
         
-        let compute = ConvertCompute(link: GlobalInstances.defaultLink)
+        let compute = GlobalInstances.gridStore.sharedConvert
         let output = try compute.execute(inputData: test.data!.nsData)
         let (pointer, count) = compute.cast(output)
         
@@ -240,7 +274,7 @@ class LookAtThat_TracingTests: XCTestCase {
             let key = GlyphCacheKey.fromCache(source: unicodeCharacter, .white)
             atlas.addGlyphToAtlasIfMissing(key)
             
-            let _ = try XCTUnwrap(atlas.uvPairCache[key])
+            let _ = try XCTUnwrap(atlas.builder.cacheRef[key])
             added += 1
         }
         
@@ -265,7 +299,7 @@ class LookAtThat_TracingTests: XCTestCase {
         let atlasBuffer = try XCTUnwrap(atlas.currentBuffer, "Needs to have an existing (deserialized) buffer for this comparison to work.")
         let allFiles = bundle.testSourceDirectory!.enumeratedChildren().filter { !$0.isDirectory }
         
-        let computeAtlas = ConvertCompute(link: GlobalInstances.defaultLink)
+        let computeAtlas = GlobalInstances.gridStore.sharedConvert
         var allGlyphBuffers = [MTLBuffer]()
         for file in allFiles {
             let (parsedGlyphData, _) = try computeAtlas.executeWithAtlas(
