@@ -78,7 +78,7 @@ extension SourceInfoPanelView {
             
             playingList = true
             
-            WorkerPool.shared.nextConcurrentWorker().async {
+            WorkerPool.shared.nextWorker().async {
                 startPlay()
             }
             
