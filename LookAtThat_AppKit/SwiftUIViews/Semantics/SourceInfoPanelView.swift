@@ -69,15 +69,9 @@ extension SourceInfoPanelView {
             gitHubTools
         case .focusState:
             focusState
-        case .wordInput:
-            wordInputView
         }
     }
     
-    @ViewBuilder
-    var wordInputView: some View {
-        WordInputView()
-    }
     
     @ViewBuilder
     var focusState: some View {

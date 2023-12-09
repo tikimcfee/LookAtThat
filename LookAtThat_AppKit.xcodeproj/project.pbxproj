@@ -10,9 +10,6 @@
 		450D76E92B0FFD36004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76E82B0FFD36004FEB11 /* SwiftGlyphs */; };
 		450D76EB2B0FFD50004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76EA2B0FFD50004FEB11 /* SwiftGlyphs */; };
 		4539FFDE2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4539FFDD2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift */; };
-		456A4E692AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
-		456A4E6A2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
-		456A4E6B2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */; };
 		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
 		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
@@ -140,7 +137,6 @@
 /* Begin PBXFileReference section */
 		450D76E62B0FF930004FEB11 /* SwiftGlyphs */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftGlyphs; path = ../LatComponents/SwiftGlyphs; sourceTree = "<group>"; };
 		4539FFDD2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = all_displayable_unicode_characters.swift; sourceTree = "<group>"; };
-		456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SourceInfo+WordInput.swift"; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
@@ -240,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
-				456A4E682AB2557300BEB2A1 /* SourceInfo+WordInput.swift */,
 				B725168228C098AB0094F29B /* GlobalSearchView.swift */,
 			);
 			path = Semantics;
@@ -620,7 +615,6 @@
 				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
 				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
 				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
-				456A4E6B2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,7 +624,6 @@
 			files = (
 				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
 				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
-				456A4E692AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 			);
@@ -657,7 +650,6 @@
 				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
-				456A4E6A2AB2557300BEB2A1 /* SourceInfo+WordInput.swift in Sources */,
 				45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */,
 				B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 			);

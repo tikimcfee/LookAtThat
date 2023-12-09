@@ -65,7 +65,7 @@ extension AppDelegate {
         // Set initial state on appearance
         GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
         GlobalInstances.gridStore.gridInteractionState.setupStreams()
-        GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances._2ETRoot
+        GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphsRoot
     }
     
     private func onRootViewDisappeared() {
