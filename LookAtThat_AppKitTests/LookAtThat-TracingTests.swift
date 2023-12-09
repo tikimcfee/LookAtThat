@@ -201,10 +201,11 @@ class LookAtThat_TracingTests: XCTestCase {
 //        let text = try String(contentsOf: testFile)
         
         let test = text
+        let testData = try XCTUnwrap(test.data(using: .utf8), "Need some valid utf8")
         let testCount = test.count
         
         let compute = GlobalInstances.gridStore.sharedConvert
-        let output = try compute.execute(inputData: test.data!)
+        let output = try compute.execute(inputData: testData)
         let (pointer, count) = compute.cast(output)
         
         var added = 0
