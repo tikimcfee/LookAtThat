@@ -41,7 +41,6 @@ class LookAtThat_TracingTests: XCTestCase {
     
     func testScalars() throws {
         let test = "🇵🇷"
-        
         var counts: [Int: Int] = [:]
         for character in test {
             counts[character.unicodeScalars.count, default: 0] += 1
@@ -187,22 +186,20 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
         guard Self.__ATLAS_SAVE_ENABLED__ else { return }
         
-        var atlas = GlobalInstances.defaultAtlas
-        
         // TODO: to 'reset' the atlas, load it up, the recreate it and save it
-        GlobalInstances.recreateAtlas()
-        atlas = GlobalInstances.defaultAtlas
+        GlobalInstances.resetAtlas()
+        let atlas = GlobalInstances.defaultAtlas
 
         // --- Raw strings
 //        let text = "0🇵🇷1🏴󠁧󠁢󠁥󠁮󠁧󠁿23🦾4🥰56"
-        let text = RAW_ATLAS_STRING_
+        let text = BIG_CHARACTER_WALL.joined()
         
         // --- Sample files
 //        let testFile = bundle.testFile2
 //        let text = try String(contentsOf: testFile)
         
         let test = text
-        let testData = try XCTUnwrap(test.data(using: .utf8), "Need some valid utf8")
+        let testData = try XCTUnwrap(text.data(using: .utf8), "Need some valid utf8")
         let testCount = test.count
         
         let compute = GlobalInstances.gridStore.sharedConvert
