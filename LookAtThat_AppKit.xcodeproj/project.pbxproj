@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		450D76E92B0FFD36004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76E82B0FFD36004FEB11 /* SwiftGlyphs */; };
 		450D76EB2B0FFD50004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76EA2B0FFD50004FEB11 /* SwiftGlyphs */; };
-		4539FFDE2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4539FFDD2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift */; };
 		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
 		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
@@ -136,7 +135,6 @@
 
 /* Begin PBXFileReference section */
 		450D76E62B0FF930004FEB11 /* SwiftGlyphs */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftGlyphs; path = ../LatComponents/SwiftGlyphs; sourceTree = "<group>"; };
-		4539FFDD2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = all_displayable_unicode_characters.swift; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				4539FFDD2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift */,
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
@@ -636,7 +633,6 @@
 				B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */,
 				B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */,
 				B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */,
-				4539FFDE2B15A21F0048D5C5 /* all_displayable_unicode_characters.swift in Sources */,
 				F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */,
 				B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */,
 				B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */,

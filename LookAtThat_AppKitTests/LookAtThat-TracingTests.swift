@@ -17,6 +17,7 @@ import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
 import Collections
+import CasePaths
 
 import SwiftTreeSitter
 import TreeSitterSwift
@@ -56,7 +57,7 @@ class LookAtThat_TracingTests: XCTestCase {
         print("Scalars in \(test.count) characters:")
         print(counts)
     }
-
+    
     func testUnrenderedBlockSafetyAtlas() throws {
         let text = "𪘀" //TODO: This is just a sample unsupported glyph
         let text2 = "䗹" //TODO: This is just a sample unsupported glyph

@@ -30,6 +30,10 @@ struct MobileAppRootView : View {
             GlobalInstances.createDefaultMetalView()
             
             VStack(alignment: .trailing) {
+                AppStatusView(status: GlobalInstances.appStatus)
+                
+                Spacer()
+                
                 button(
                     "Download from GitHub",
                     "square.and.arrow.down.fill"
