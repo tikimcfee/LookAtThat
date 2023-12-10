@@ -36,32 +36,87 @@ struct MobileAppRootView : View {
         splitView
     }
     
+    var fileButtonName: String {
+        if showFileBrowser {
+            return "Hide"
+        } else {
+            return "\(browserState.files.first?.path.lastPathComponent ?? "No Files Selected")"
+        }
+    }
+    
     private var splitView: some View {
         ZStack(alignment: .bottomTrailing) {
             GlobalInstances.createDefaultMetalView()
-            
-            AppStatusView(status: GlobalInstances.appStatus)
-            
-            controlsButton
-                .padding()
         }
+        .ignoresSafeArea()
         .sheet(isPresented: $showGitFetch) {
             GitHubClientView()
-        }
-        .sheet(isPresented: $showFileBrowser) {
-            FileBrowserView(browserState: browserState)
         }
         .sheet(isPresented: $showActions) {
             actionsContent
                 .presentationDetents([.medium])
         }
+        .safeAreaInset(edge: .bottom, alignment: .trailing) {
+            bottomSafeArea
+        }
+        .safeAreaInset(edge: .top) {
+            topSafeArea
+        }
+        
+    }
+    var topSafeArea: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            AppStatusView(status: GlobalInstances.appStatus)
+            controlsButton
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal)
+    }
+    
+    var bottomSafeArea: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            button(fileButtonName, "") {
+                withAnimation(.snappy(duration: 0.333)) {
+                    showFileBrowser.toggle()
+                }
+            }
+            .zIndex(1)
+            
+            if showFileBrowser {
+                browserPopup
+                    .zIndex(2)
+            }
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    var browserPopup: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            button(
+                "Download from GitHub",
+                "square.and.arrow.down.fill"
+            ) {
+                showGitFetch.toggle()
+            }
+            .padding(.top, 8)
+            
+            FileBrowserView(browserState: browserState)
+                .frame(maxHeight: 320)
+                .padding(.top, 8)
+        }
+        .transition(.asymmetric(
+            insertion: .move(edge: .bottom),
+            removal: .move(edge: .bottom)
+        ))
     }
     
     var controlsButton: some View {
         Image(systemName: "gearshape.fill")
             .renderingMode(.template)
             .foregroundStyle(.red.opacity(0.8))
-            .padding()
+            .padding(6)
             .background(.blue.opacity(0.2))
             .contentShape(Rectangle())
             .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -70,17 +125,6 @@ struct MobileAppRootView : View {
     
     var actionsContent: some View {
         List {
-            button(
-                "Download from GitHub",
-                "square.and.arrow.down.fill"
-            ) { showGitFetch.toggle() }
-            
-            button(
-                "Browse files in [\(browserState.files.first?.path.lastPathComponent ?? "..")]]",
-                ""
-            ) { showFileBrowser.toggle() }
-            
-            
             Button("Preload Glyph Atlas") {
                 GlobalInstances.defaultAtlas.preload()
             }
@@ -105,11 +149,13 @@ struct MobileAppRootView : View {
             label: {
                 HStack {
                     Text(text)
-                    Image(systemName: image)
+                    if !image.isEmpty {
+                        Image(systemName: image)
+                    }
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(.blue.opacity(0.2))
+                .background(Color.primaryBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         )
@@ -120,7 +166,11 @@ struct MobileAppRootView : View {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        MobileAppRootView()
+        VStack {
+            MobileAppRootView()
+                .foregroundStyle(Color.primaryForeground)
+        }
+            
     }
 }
 #endif
