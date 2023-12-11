@@ -3,14 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		450D76E92B0FFD36004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76E82B0FFD36004FEB11 /* SwiftGlyphs */; };
-		450D76EB2B0FFD50004FEB11 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 450D76EA2B0FFD50004FEB11 /* SwiftGlyphs */; };
-		456E5FD92A97B050001E0166 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FD82A97B050001E0166 /* MetalLink */; };
-		456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 456E5FDA2A97B05D001E0166 /* BitHandling */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -20,7 +16,6 @@
 		B76576D028F0DDF5003617FC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576CF28F0DDF5003617FC /* Collections */; };
 		B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576D128F0DDF5003617FC /* OrderedCollections */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
-		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
@@ -151,7 +146,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				456E5FD92A97B050001E0166 /* MetalLink in Frameworks */,
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
@@ -159,9 +153,7 @@
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
 				B7CBD76628FCCC8400A918C2 /* SwiftParser in Frameworks */,
-				456E5FDB2A97B05D001E0166 /* BitHandling in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
-				450D76E92B0FFD36004FEB11 /* SwiftGlyphs in Frameworks */,
 				B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,11 +171,9 @@
 			files = (
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
-				450D76EB2B0FFD50004FEB11 /* SwiftGlyphs in Frameworks */,
 				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
-				B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */,
 				B7CBD76C28FCD01500A918C2 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,9 +363,6 @@
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
-				456E5FD82A97B050001E0166 /* MetalLink */,
-				456E5FDA2A97B05D001E0166 /* BitHandling */,
-				450D76E82B0FFD36004FEB11 /* SwiftGlyphs */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -426,8 +413,6 @@
 				B7CBD76F28FCD08400A918C2 /* SwiftParser */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
-				B78C199A2A301CA9005A3A46 /* MetalLink */,
-				450D76EA2B0FFD50004FEB11 /* SwiftGlyphs */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -473,15 +458,15 @@
 				B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
 				B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				450D76E72B0FFD36004FEB11 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyphs" */,
+				457328CD2B268FD70014B4A3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */,
-				F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E6251C5AE800F28173 /* LookAtThatMobile */,
+				F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -725,11 +710,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = 5F5H835QPF;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -753,11 +739,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = 5F5H835QPF;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -774,7 +761,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5F5H835QPF;
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -801,7 +788,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5F5H835QPF;
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -825,7 +812,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = X72TF388K8;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
@@ -854,7 +841,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = X72TF388K8;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
@@ -916,14 +903,15 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		450D76E72B0FFD36004FEB11 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyphs" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LatComponents/SwiftGlyphs;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
+		457328CD2B268FD70014B4A3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph/";
+			requirement = {
+				branch = "sgalpha-swift-glyphs";
+				kind = branch;
+			};
+		};
 		B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
@@ -991,22 +979,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		450D76E82B0FFD36004FEB11 /* SwiftGlyphs */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftGlyphs;
-		};
-		450D76EA2B0FFD50004FEB11 /* SwiftGlyphs */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftGlyphs;
-		};
-		456E5FD82A97B050001E0166 /* MetalLink */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MetalLink;
-		};
-		456E5FDA2A97B05D001E0166 /* BitHandling */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BitHandling;
-		};
 		B713405528170F88005E0E31 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
@@ -1026,10 +998,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
-		};
-		B78C199A2A301CA9005A3A46 /* MetalLink */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MetalLink;
 		};
 		B79592E728A7615B00F16746 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

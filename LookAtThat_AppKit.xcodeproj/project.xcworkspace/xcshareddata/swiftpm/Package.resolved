@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "swiftglyph",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/SwiftGlyph/",
+      "state" : {
+        "branch" : "sgalpha-swift-glyphs",
+        "revision" : "caa7e3bdfd85b7c53fba7baf0a8ffec04a22bd42"
+      }
+    },
+    {
       "identity" : "swifttreesitter",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ChimeHQ/SwiftTreeSitter.git",
