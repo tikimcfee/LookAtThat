@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F342B26A5FB00E8D9E1 /* SwiftGlyph */; };
-		45A86F542B26939F00D44695 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 45A86F532B26939F00D44695 /* SwiftGlyphs */; };
+		45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F362B26A6AC00E8D9E1 /* SwiftGlyph */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -171,10 +171,10 @@
 			files = (
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
-				45A86F542B26939F00D44695 /* SwiftGlyphs in Frameworks */,
 				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
+				45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */,
 				B7CBD76C28FCD01500A918C2 /* SwiftSyntax in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,7 +404,7 @@
 				B7CBD76F28FCD08400A918C2 /* SwiftParser */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
-				45A86F532B26939F00D44695 /* SwiftGlyphs */,
+				45703F362B26A6AC00E8D9E1 /* SwiftGlyph */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -975,10 +975,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
 		};
-		45A86F532B26939F00D44695 /* SwiftGlyphs */ = {
+		45703F362B26A6AC00E8D9E1 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
-			productName = SwiftGlyphs;
+			productName = SwiftGlyph;
 		};
 		B713405528170F88005E0E31 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
