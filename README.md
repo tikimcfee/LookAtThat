@@ -1,6 +1,6 @@
 # SwiftGlyph HI/LO
 
-<img src="./repo_info/features/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=320px >
+<img src="./repo_info/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=512px >
 
 ## SwiftGlyph Alpha
 
