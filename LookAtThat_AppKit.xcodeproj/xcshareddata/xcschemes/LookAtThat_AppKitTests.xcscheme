@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1340"
+   LastUpgradeVersion = "1500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-               BuildableName = "LookAtThat_AppKit.app"
-               BlueprintName = "LookAtThat_AppKit"
+               BuildableName = "SwiftGlyphsHI.app"
+               BlueprintName = "SwiftGlyphsHI"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,15 +26,22 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "test-path"
+            value = "/Users/ivanlugo/rapiddev/_personal/LatComponents/"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F07C49C4251C095200F28173"
-               BuildableName = "LookAtThat_AppKitTests.xctest"
-               BlueprintName = "LookAtThat_AppKitTests"
+               BuildableName = "LookAtThat Tests.xctest"
+               BlueprintName = "LookAtThat Tests"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -55,17 +62,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-            BuildableName = "LookAtThat_AppKit.app"
-            BlueprintName = "LookAtThat_AppKit"
+            BuildableName = "SwiftGlyphsHI.app"
+            BlueprintName = "SwiftGlyphsHI"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "cherrier-test"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -77,8 +78,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-            BuildableName = "LookAtThat_AppKit.app"
-            BlueprintName = "LookAtThat_AppKit"
+            BuildableName = "SwiftGlyphsHI.app"
+            BlueprintName = "SwiftGlyphsHI"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

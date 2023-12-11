@@ -7,6 +7,7 @@
 
 import Cocoa
 import SwiftUI
+import SwiftGlyph
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -14,8 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-//        __ENABLE_TRACE_LOG_WRITES__()
-        
         let rootWindow = makeRootWindow()
         GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
         rootWindow.contentView = makeRootContentView()
@@ -36,8 +35,15 @@ extension AppDelegate {
     func makeRootContentView() -> NSView {
         let contentView = MacAppRootView()
             .environmentObject(MultipeerConnectionManager.shared)
-            .onAppear { self.onRootViewAppeared() }
-            .onDisappear { self.onRootViewDisappeared() }
+            .onAppear {
+                // Set initial state on appearance
+                GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
+                GlobalInstances.gridStore.gridInteractionState.setupStreams()
+                GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
+            }
+            .onDisappear {
+                URL.dumpAndDescopeAllKnownBookmarks()
+            }
         
         return NSHostingView(rootView: contentView)
     }
@@ -52,26 +58,5 @@ extension AppDelegate {
         window.center()
         window.setFrameAutosaveName("Main Window")
         return window
-    }
-}
-
-extension AppDelegate {
-    func __ENABLE_TRACE_LOG_WRITES__() {
-        print("\n\n\t\t!!!! Tracing is enabled !!!!\n\n\t\tPrepare your cycles!\n\n")
-        TracingRoot.shared.state.traceWritesEnabled = true
-        TracingRoot.shared.removeAllTraces()
-        TracingRoot.shared.removeMapping()
-        TracingRoot.shared.setupTracing()
-    }
-    
-    private func onRootViewAppeared() {
-        // Set initial state on appearance
-        GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
-        GlobalInstances.gridStore.gridInteractionState.setupStreams()
-        GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances._2ETRoot
-    }
-    
-    private func onRootViewDisappeared() {
-        URL.dumpAndDescopeAllKnownBookmarks()
     }
 }

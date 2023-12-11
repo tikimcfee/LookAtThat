@@ -9,32 +9,29 @@ import XCTest
 import SwiftSyntax
 import SwiftParser
 import SceneKit
+import SwiftGlyph
 @testable import LookAtThat_AppKit
 
 class TestBundle {
     
+    var rootDirectory: String
+    lazy var testDirectory = URL(fileURLWithPath: rootDirectory).appending(path: "MetalLink/Sources/MetalLink/")
+    lazy var testFile = testDirectory.appending(path: "MetalLink.swift")
+    lazy var testFile2 = testDirectory.appending(path: "MetalLinkAliases.swift")
     
-    lazy var rootDirectory = "/Users/lugos/udev/manicmind/LookAtThat/"
-    lazy var testFile = URL(fileURLWithPath: Self.testFilesRawPath[0])
-    lazy var testFile2 = URL(fileURLWithPath: Self.testFilesRawPath[1])
-    lazy var testFileRaw = Self.testFilesAbsolute[0]
-    lazy var testFileAbsolute = Self.testFilesRawPath[0]
-    lazy var testTraceFile = Self.testTraceFile
     var tokenCache: CodeGridTokenCache!
     var semanticBuilder: SemanticInfoBuilder!
     var gridCache: GridCache!
     var concurrent: ConcurrentGridRenderer!
     
+    init(
+        root: String = ProcessInfo.processInfo.environment["test-path", default: "/Users/"]
+    ) {
+        self.rootDirectory = root
+    }
+    
     var testSourceDirectory: URL? {
-        let absolutePath = Self.testDirectoriesAbsolute[2]
-        var isDirectory: ObjCBool = false
-        let exists = FileManager.default.fileExists(atPath: absolutePath, isDirectory: &isDirectory)
-        guard exists, isDirectory.boolValue else {
-            print("Could not resolve a directory for \(absolutePath)")
-            return nil
-        }
-        
-        return URL(fileURLWithPath: absolutePath, isDirectory: true)
+        testDirectory
     }
     
     func setUpWithError() throws {
@@ -50,7 +47,7 @@ class TestBundle {
     
     func loadTestSource() throws -> SourceFileSyntax {
         try XCTUnwrap(
-            gridCache.loadSourceUrl(testFileRaw),
+            gridCache.loadSourceUrl(testFile),
             "Failed to load test file"
         )
     }
@@ -62,6 +59,7 @@ class TestBundle {
 
 extension TestBundle {
     struct RawCode {
+        static let A = "A"
         static let oneLine = "Hello, World!"
         static let twoLine = """
         Hello, yes.
@@ -73,34 +71,4 @@ extension TestBundle {
         it spun, it instead began?
         """
     }
-}
-
-extension TestBundle {
-    static let dictionaryFile = "file:///Users/lugos/udev/manicmind/LookAtThat/Resources/dictionary_simple.json"
-        
-    static let rewriteDirectories = [
-        "/Users/lugos/udev/manicmind/LookAtThat"
-    ]
-    
-    static let testTraceFile = URL(
-        fileURLWithPath: "/Users/lugos/udev/manicmind/LookAtThat-FirstTrace/traces/app-trace-output-LugoWorkerPool-Serial-1.txt"
-    )
-    
-    static let coreGridDirectory = "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/"
-    
-    static let testFilesRawPath = [
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid.swift",
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/CoreGrid/CodeGrid+Measures.swift"
-    ]
-    
-    static let testFilesAbsolute = [
-        URL(fileURLWithPath: coreGridDirectory + "CodeGrid.swift")
-    ]
-    
-    static let testDirectoriesAbsolute = [
-        "/Users/lugos/udev/manicmind/LookAtThat",
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/",
-        "/Users/lugos/udev/manicmind/LookAtThat/Interop/CodeGrids/",
-        "/Users/lugos/udev/manicmind/otherfolks/swift-ast-explorer/.build/checkouts/swift-syntax/Sources/SwiftSyntax"
-    ]
 }

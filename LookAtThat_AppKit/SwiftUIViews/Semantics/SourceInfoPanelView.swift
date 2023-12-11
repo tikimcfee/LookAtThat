@@ -7,10 +7,11 @@
 
 import SwiftUI
 import Combine
+import MetalLink
+import SwiftGlyph
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()
-    @StateObject var tracingState: SemanticTracingOutState = SemanticTracingOutState()
     
     var body: some View {
 //        VStack(alignment: .leading) {
@@ -68,15 +69,9 @@ extension SourceInfoPanelView {
             gitHubTools
         case .focusState:
             focusState
-        case .wordInput:
-            wordInputView
         }
     }
     
-    @ViewBuilder
-    var wordInputView: some View {
-        WordInputView()
-    }
     
     @ViewBuilder
     var focusState: some View {
@@ -97,12 +92,37 @@ extension SourceInfoPanelView {
         GitHubClientView()
     }
     
+    
+    
     @ViewBuilder
     var gridStateView: some View {
-        // TODO: This isn't global yet, but it can / should / will be
-        Text("Grid state view not yet reimplemented")
-            .padding(32)
-
+        GridWutView()
+    }
+    
+    struct GridWutView: View {
+        // TODO: Split all this mess up. Getting crazier by the day.
+        @State private var currentHoveredGrid: GridPickingState.Event?
+        @State private var cameraPosition: LFloat3?
+        
+        var body: some View {
+            VStack {
+                if let state = currentHoveredGrid?.latestState {
+                    Text(state.targetGrid.fileName)
+                    Text(state.targetGrid.dumpstats)
+                }
+            }
+            .frame(minWidth: 420, minHeight: 420)
+            .onReceive(
+                GlobalInstances.gridStore
+                    .nodeHoverController
+                    .sharedGridEvent
+                    .subscribe(on: RunLoop.main)
+                    .receive(on: RunLoop.main),
+                perform: { hoveredGrid in
+                    self.currentHoveredGrid = hoveredGrid
+                }
+            )
+        }
     }
     
     var globalSearchView: some View {
@@ -123,15 +143,17 @@ extension SourceInfoPanelView {
 
     @ViewBuilder
     var traceInfoView: some View {
-        SemanticTracingOutView(state: tracingState)
+        #if !os(iOS)
+        Text("No tracin' on desktop because we movin' on.")
+        #else
+        Text("No tracin' on mobile because abstractions.")
+        #endif
     }
     
     @ViewBuilder
     var editorView: some View {
 #if !TARGETING_SUI
-        CodePagesPopupEditor(
-            state: GlobalInstances.editorState
-        )
+        Text("Editor not implemented. Again.")
 #endif
     }
     
@@ -183,23 +205,9 @@ func helloWorld() {
         let state = SourceInfoPanelState()
         return state
     }()
-    
-    static var semanticTracingOutState: SemanticTracingOutState = {
-        let state = SemanticTracingOutState()
-//        #if TARGETING_SUI
-//        state.allTracedInfo = sourceGrid.semanticInfoMap.allSemanticInfo
-//            .filter { !$0.callStackName.isEmpty }
-//            .map {
-//                TracedInfo.found(out: .init(), trace: (sourceGrid, $0), threadName: "TestThread-X")
-//            }
-//        #endif
-        return state
-    }()
 
     static var previews: some View {
         return Group {
-//            SemanticTracingOutView(state: semanticTracingOutState)
-//            SourceInfoPanelView(state: sourceState)
             SourceInfoCategoryView()
                 .environmentObject(sourceState)
         }

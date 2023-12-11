@@ -5,118 +5,172 @@
 //  Created by Ivan Lugo on 9/23/20.
 //
 
-import SwiftUI
-
 #if os(iOS)
 import ARKit
 #endif
+import SwiftUI
 import MetalLink
 import MetalLinkResources
+import SwiftGlyph
+import BitHandling
 
 private extension MobileAppRootView {
-    static var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
-    static var keyEvent: OSEvent {
-        get { receiver.lastKeyEvent }
-        set { receiver.lastKeyEvent  = newValue }
-    }
+    var receiver: DefaultInputReceiver { DefaultInputReceiver.shared }
 }
 
 struct MobileAppRootView : View {
-    @State var showInfoView = false
+    enum Tab {
+        case metalView
+        case actions
+    }
+    
     @State var showGitFetch = false
+    @State var showFileBrowser = false
+    @State var showActions = false
     
-    @State var touchStart: CGPoint? = nil
-    @State var showMetal: Bool = false
+    @State var tab: Tab = .metalView
     
-    private let delta = CGFloat(20)
+    @StateObject var browserState = FileBrowserViewState()
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            VStack {
-                Button(action: {
-                    showGitFetch.toggle()
-                }, label: {
-                   Image(systemName: "square.and.arrow.down.fill")
-                })
-                FileBrowserView()
-                    .frame(maxHeight: 192.0)
-            }
-            gestureControl
-        }
-        .sheet(isPresented: $showGitFetch) {
-            GitHubClientView()
+        splitView
+    }
+    
+    var fileButtonName: String {
+        if showFileBrowser {
+            return "Hide"
+        } else {
+            return "\(browserState.files.first?.path.lastPathComponent ?? "No Files Selected")"
         }
     }
     
-    var gestureControl: some View {
-        ZStack(alignment: .topLeading) {
-            Spacer()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray)
-            if let touch = touchStart {
-                Circle()
-                    .foregroundColor(Color.red)
-                    .frame(width: 32, height: 32)
-                    .offset(x: touch.x - 16, y: touch.y - 16)
-                    .shadow(color: .red, radius: 3.0)
+    private var splitView: some View {
+        ZStack(alignment: .bottomTrailing) {
+            GlobalInstances.createDefaultMetalView()
+        }
+        .ignoresSafeArea()
+        .sheet(isPresented: $showGitFetch) {
+            GitHubClientView()
+        }
+        .sheet(isPresented: $showActions) {
+            actionsContent
+                .presentationDetents([.medium])
+        }
+        .safeAreaInset(edge: .bottom, alignment: .trailing) {
+            bottomSafeArea
+        }
+        .safeAreaInset(edge: .top) {
+            topSafeArea
+        }
+        
+    }
+    var topSafeArea: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            AppStatusView(status: GlobalInstances.appStatus)
+            controlsButton
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal)
+    }
+    
+    var bottomSafeArea: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            button(fileButtonName, "") {
+                withAnimation(.snappy(duration: 0.333)) {
+                    showFileBrowser.toggle()
+                }
+            }
+            .zIndex(1)
+            
+            if showFileBrowser {
+                browserPopup
+                    .zIndex(2)
             }
         }
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { change in
-                    if touchStart == nil { touchStart = change.startLocation }
-                    
-                    #if os(iOS)
-                    if change.translation.width < -delta {
-                        Self.keyEvent = .RightDragKeyup
-                        Self.keyEvent = .LeftDragKeydown
-                    } else {
-                        Self.keyEvent = .LeftDragKeyup
+        .padding(.vertical, 4)
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    var browserPopup: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            button(
+                "Download from GitHub",
+                "square.and.arrow.down.fill"
+            ) {
+                showGitFetch.toggle()
+            }
+            .padding(.top, 8)
+            
+            FileBrowserView(browserState: browserState)
+                .frame(maxHeight: 320)
+                .padding(.top, 8)
+        }
+        .transition(.asymmetric(
+            insertion: .move(edge: .bottom),
+            removal: .move(edge: .bottom)
+        ))
+    }
+    
+    var controlsButton: some View {
+        Image(systemName: "gearshape.fill")
+            .renderingMode(.template)
+            .foregroundStyle(.red.opacity(0.8))
+            .padding(6)
+            .background(.blue.opacity(0.2))
+            .contentShape(Rectangle())
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .onTapGesture { showActions.toggle() }
+    }
+    
+    var actionsContent: some View {
+        List {
+            Button("Preload Glyph Atlas") {
+                GlobalInstances.defaultAtlas.preload()
+            }
+            
+            Button("Save Glyph Atlas") {
+                GlobalInstances.defaultAtlas.save()
+            }
+            
+            Button("Reset (delete) atlas") {
+                GlobalInstances.resetAtlas()
+            }
+        }
+    }
+    
+    func button(
+        _ text: String,
+        _ image: String,
+        _ action: @escaping () -> Void
+    ) -> some View {
+        Button(
+            action: action,
+            label: {
+                HStack {
+                    Text(text)
+                    if !image.isEmpty {
+                        Image(systemName: image)
                     }
-                    
-                    
-                    if change.translation.width > delta {
-                        Self.keyEvent = .LeftDragKeyup
-                        Self.keyEvent = .RightDragKeydown
-                    } else {
-                        Self.keyEvent = .RightDragKeyup
-                    }
-                    
-                    if change.translation.height < -delta {
-                        Self.keyEvent = .UpDragKeyup
-                        Self.keyEvent = .DownDragKeydown
-                    } else {
-                        Self.keyEvent = .DownDragKeyup
-                    }
-                    
-                    if change.translation.height > delta {
-                        Self.keyEvent = .DownDragKeyup
-                        Self.keyEvent = .UpDragKeydown
-                    } else {
-                        Self.keyEvent = .UpDragKeyup
-                    }
-                    #endif
                 }
-                .onEnded { _ in
-                    touchStart = nil
-                    
-                    #if os(iOS)
-                    Self.keyEvent = .UpDragKeyup
-                    Self.keyEvent = .DownDragKeyup
-                    Self.keyEvent = .LeftDragKeyup
-                    Self.keyEvent = .RightDragKeyup
-                    Self.keyEvent = .InDragKeyup
-                    Self.keyEvent = .OutDragKeyup
-                    #endif
-                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.primaryBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
         )
+        .buttonStyle(.plain)
     }
 }
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        MobileAppRootView()
+        VStack {
+            MobileAppRootView()
+                .foregroundStyle(Color.primaryForeground)
+        }
+            
     }
 }
 #endif

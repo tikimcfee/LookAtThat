@@ -1,21 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "codeeditorview",
+      "identity" : "bithandling",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mchakravarty/CodeEditorView.git",
+      "location" : "https://github.com/tikimcfee/BitHandling.git",
       "state" : {
-        "revision" : "56d177538bc2749464adad1b5c889963dd453d7f",
-        "version" : "0.11.0"
+        "branch" : "sgalpha-bits",
+        "revision" : "fae61fea5157724223509822368dff0d371f5ff5"
       }
     },
     {
-      "identity" : "rearrange",
+      "identity" : "metallink",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ChimeHQ/Rearrange",
+      "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
-        "revision" : "0fb658e721c68495f6340c211cc6d4719e6b52d8",
-        "version" : "1.6.0"
+        "branch" : "sgalpha-metal-link",
+        "revision" : "f6b175205978db250f3b3e42f8d7a6a76e8a9587"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
       "state" : {
-        "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
-        "version" : "1.0.0"
+        "revision" : "f6919dfc309e7f1b56224378b11e28bab5bccc42",
+        "version" : "1.2.0"
       }
     },
     {
@@ -60,25 +60,16 @@
       "location" : "https://github.com/apple/swift-syntax",
       "state" : {
         "branch" : "main",
-        "revision" : "636a9117599516359fdfb004048e54a77dd01433"
+        "revision" : "7c1c56c0aa505c939b210b9f3b6797417107820a"
       }
     },
     {
-      "identity" : "swiftnodes",
+      "identity" : "swiftglyph",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/codeface-io/SwiftNodes.git",
+      "location" : "https://github.com/tikimcfee/SwiftGlyph/",
       "state" : {
-        "revision" : "db5a47a90c459ba300a2eb90467982b1c3215630",
-        "version" : "0.8.3"
-      }
-    },
-    {
-      "identity" : "swifttrace",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikimcfee/SwiftTrace",
-      "state" : {
-        "branch" : "logging-output",
-        "revision" : "5c924cc464e49d4f534a2915ada4b3ba555267b5"
+        "branch" : "sgalpha-swift-glyphs",
+        "revision" : "be4dae82aeb8b0e28766c2fbd45fa9c803b6e49d"
       }
     },
     {
@@ -87,16 +78,7 @@
       "location" : "https://github.com/ChimeHQ/SwiftTreeSitter.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1e8ad3c7d7f087c24467f2a8e0390405d18e2cb0"
-      }
-    },
-    {
-      "identity" : "swiftytoolz",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/flowtoolz/SwiftyToolz.git",
-      "state" : {
-        "revision" : "00a4a9bb0d9b135be428ef266ae1f08f4b4f2eb7",
-        "version" : "0.5.1"
+        "revision" : "f2be4d017ca399ded47af5dc04d16c2c8dba31b9"
       }
     },
     {

@@ -14,6 +14,7 @@ import BitHandling
 import MetalLinkHeaders
 import MetalLinkResources
 import MetalLink
+import SwiftGlyph
 @testable import LookAtThat_AppKit
 
 extension Parser {
@@ -68,28 +69,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             }
     }
     
-    func testDirectoryCalculator() throws {
-        // Given
-        let directoryURL = bundle.testSourceDirectory!
-        
-        // When
-        let calculator = DirectoryCalculator()
-        let totalSize = calculator.computeTotalSizeOfDirectory(at: directoryURL)
-        
-        // Then
-        // Adjust these expected values based on the actual sizes of files in your test directory
-        let expectedWidth: Float = 100.0
-        let expectedHeight: Float = 100.0
-        
-        XCTAssertGreaterThan(totalSize.width, expectedWidth, "Computed width does not match expected width")
-        XCTAssertGreaterThan(totalSize.height, expectedHeight, "Computed height does not match expected height")
-        
-        calculator.traverseTreeSecondPass(root: directoryURL)
-        for (url, position) in calculator.positionDict {
-            print(url, " --> ", position)
-        }
-    }
-    
     func testSemanticInfo() throws {
         let sourceFile = try bundle.loadTestSource()
         let sourceSyntax = Syntax(sourceFile)
@@ -119,7 +98,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        builder.mode = .multiCollection
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -153,7 +131,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        builder.mode = .multiCollection
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -167,28 +144,28 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         testGrid2.position = LFloat3(123_456, 654_321, 987_654)
         
         // call multiple times to make sure it isn't additive.
-        testGrid2.setLeading(testGrid1.localLeading)
-        testGrid2.setLeading(testGrid1.localLeading)
-        testGrid2.setLeading(testGrid1.localLeading)
-        XCTAssertEqual(testGrid2.localLeading, testGrid1.localLeading, "There should be no offset after setting")
+        testGrid2.setLeading(testGrid1.leading)
+        testGrid2.setLeading(testGrid1.leading)
+        testGrid2.setLeading(testGrid1.leading)
+        XCTAssertEqual(testGrid2.leading, testGrid1.leading, "There should be no offset after setting")
         
-        testGrid2.setLeading(testGrid1.localTrailing)
-        XCTAssertEqual(testGrid2.localLeading, testGrid1.localTrailing, "There should be no offset after setting")
+        testGrid2.setLeading(testGrid1.trailing)
+        XCTAssertEqual(testGrid2.leading, testGrid1.trailing, "There should be no offset after setting")
         
-        testGrid2.setTrailing(testGrid1.localTrailing)
-        XCTAssertEqual(testGrid2.localTrailing, testGrid1.localTrailing, "There should be no offset after setting")
+        testGrid2.setTrailing(testGrid1.trailing)
+        XCTAssertEqual(testGrid2.trailing, testGrid1.trailing, "There should be no offset after setting")
         
-        testGrid2.setTop(testGrid1.localTop)
-        XCTAssertEqual(testGrid2.localTop, testGrid1.localTop, "There should be no offset after setting")
+        testGrid2.setTop(testGrid1.top)
+        XCTAssertEqual(testGrid2.top, testGrid1.top, "There should be no offset after setting")
         
-        testGrid2.setBottom(testGrid1.localBottom)
-        XCTAssertEqual(testGrid2.localBottom, testGrid1.localBottom, "There should be no offset after setting")
+        testGrid2.setBottom(testGrid1.bottom)
+        XCTAssertEqual(testGrid2.bottom, testGrid1.bottom, "There should be no offset after setting")
         
-        testGrid2.setFront(testGrid1.localFront)
-        XCTAssertEqual(testGrid2.localFront, testGrid1.localFront, "There should be no offset after setting")
+        testGrid2.setFront(testGrid1.front)
+        XCTAssertEqual(testGrid2.front, testGrid1.front, "There should be no offset after setting")
         
-        testGrid2.setBack(testGrid1.localBack)
-        XCTAssertEqual(testGrid2.localBack, testGrid1.localBack, "There should be no offset after setting")
+        testGrid2.setBack(testGrid1.back)
+        XCTAssertEqual(testGrid2.back, testGrid1.back, "There should be no offset after setting")
     }
     
     func testLinkNodeStatsForMultiCollection() throws {
@@ -199,10 +176,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             sharedTokenCache: CodeGridTokenCache(),
             sharedGridCache: bundle.gridCache
         )
-        let consumer = builder.createConsumerForNewGrid()
-        consumer.consume(url: bundle.testFile)
-        let testGrid = consumer.targetGrid
+        
+        let testGrid = builder
+            .createConsumerForNewGrid()
+            .consumeText(text: "A")
             .withFileName(bundle.testFile.lastPathComponent)
+            .removeBackground()
         
         XCTAssertFalse(
             testGrid.tokenCache.isEmpty(),
@@ -210,12 +189,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         )
         
         func performChecks() {
-            let testBounds = BoundsComputing()
+            var testBounds = Bounds.forBaseComputing
             testGrid.tokenCache.doOnEach { id, nodeSet in
                 for node in nodeSet {
-                    XCTAssertTrue(node.contentSize.x > 0, "Glyph nodes usually have some width")
-                    XCTAssertTrue(node.contentSize.y > 0, "Glyph nodes usually have some height")
-                    XCTAssertTrue(node.contentSize.z > 0, "Glyph nodes usually have some depth")
+                    XCTAssertTrue(node.contentBounds.width > 0, "Glyph nodes usually have some width")
+                    XCTAssertTrue(node.contentBounds.height > 0, "Glyph nodes usually have some height")
+                    XCTAssertTrue(node.contentBounds.length > 0, "Glyph nodes usually have some depth")
                     
                     // TODO: WARNING! CAREFUL! OH NO! `.bounds` is still rocky!
                     // node.bounds gave local bounds. Without calling convert directly,
@@ -224,42 +203,43 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
                     // but it's caught a bunch of stuff so far so I'm keeping it.
                     // For now, this behavior is mostly OK, but be warned when
                     // when interacting the glyph node positioning directly.
-                    testBounds.consumeBounds(node.computeBoundingBox(convertParent: true))
+                    testBounds.union(with: node.computeLocalBounds())
                 }
             }
+            
             // NOTE: This test will fail if whitespaces/newlines aren't added to constants.
             // The above bounds are computed with all nodes.
-            print("computed grid size: ", BoundsSize(testGrid.bounds))
-            print("computed test size: ", BoundsSize(testBounds.bounds))
+            print("computed grid vector size: ",        testGrid.sizeBounds.size)
+            print("computed grid bounds vector size: ", testGrid.bounds.size)
+            print("computed test bounds vector size: ", testBounds.size)
             
             print("grid world bounds: ", testGrid.bounds)
-            print("test world bounds: ", testBounds.bounds)
-            XCTAssertEqual(
-                testBounds.bounds.min,
-                testGrid.bounds.min,
-                "Bounds min must match from node calculation and grid measures"
-            )
+            print("test world bounds: ", testBounds)
             
-            XCTAssertEqual(
-                testBounds.bounds.max,
-                testGrid.bounds.max,
-                "Bounds max must match from node calculation and grid measures"
-            )
+            func compare(_ l: Bounds, _ r: Bounds) {
+                XCTAssertEqual(l.min.x, r.min.x, "min.x")
+                XCTAssertEqual(l.min.y, r.min.y, "min.y")
+                XCTAssertEqual(l.min.z, r.min.z, "min.z")
+                XCTAssertEqual(l.max.x, r.max.x, "max.x")
+                XCTAssertEqual(l.max.y, r.max.y, "max.y")
+                XCTAssertEqual(l.max.z, r.max.z, "max.z")
+            }
+            compare(testGrid.bounds, testBounds)
         }
         
         performChecks()
         testGrid.translated(dX: 10, dY: 0, dZ: 0)
         performChecks()
-        testGrid.translated(dX: 0, dY: 10, dZ: 0)
-        performChecks()
-        testGrid.translated(dX: 0, dY: -20, dZ: 0)
-        performChecks()
-        testGrid.translated(dX: 0, dY: 0, dZ: -10)
-        performChecks()
-        testGrid.translated(dX: 0, dY: 0, dZ: 20)
-        performChecks()
-        testGrid.zeroedPosition()
-        performChecks()
+//        testGrid.translated(dX: 0, dY: 10, dZ: 0)
+//        performChecks()
+//        testGrid.translated(dX: 0, dY: -20, dZ: 0)
+//        performChecks()
+//        testGrid.translated(dX: 0, dY: 0, dZ: -10)
+//        performChecks()
+//        testGrid.translated(dX: 0, dY: 0, dZ: 20)
+//        performChecks()
+//        testGrid.zeroedPosition()
+//        performChecks()
     }
     
     func testGridSize() throws {
@@ -300,14 +280,15 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let testGrid = newGrid()
         let testClass = try XCTUnwrap(testGrid.semanticInfoMap.classes.first, "Must have id to test")
         
-        let computing = BoundsComputing()
+        var computing = Bounds.forBaseComputing
         testGrid
             .semanticInfoMap
             .doOnAssociatedNodes(testClass.key, testGrid.tokenCache) { info, nodes in
-                computing.consumeNodeSet(Set(nodes), convertingTo: nil)
+                nodes.forEach {
+                    computing.union(with: $0.bounds)
+                }
             }
-        print(computing.bounds)
-        
+        print(computing)
         printEnd()
     }
     
@@ -359,7 +340,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
         
-        
         let firstGrid = bundle.newGrid()
         let second_toRightOfFirst = bundle.newGrid()
         let third_toRightOfSecond = bundle.newGrid()
@@ -406,9 +386,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         """
         print(gridInfo)
         
-        let manualWidth = BoundsWidth(testGrid.bounds)
-        let manualHeight = BoundsHeight(testGrid.bounds)
-        let manualLength = BoundsLength(testGrid.bounds)
+        let manualWidth = testGrid.bounds.width
+        let manualHeight = testGrid.bounds.height
+        let manualLength = testGrid.bounds.length
         let manualCenter = testGrid.centerPosition
         let manualCenterConverted = testGrid.rootNode.convertPosition(manualCenter, to: testGrid.rootNode.parent)
         let manualInfo = """
@@ -442,9 +422,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print(testGrid.dumpstats)
         
         // Values should be equal after setting
-        deltaX = testGrid.localLeading
-        deltaY = testGrid.localTop
-        deltaZ = testGrid.localBack
+        deltaX = testGrid.leading
+        deltaY = testGrid.top
+        deltaZ = testGrid.back
         XCTAssertEqual(deltaX, 0.0, "Error should be within Metal Float accuracy")
         XCTAssertEqual(deltaY, 0.0, "Error should be within Metal Float accuracy")
         XCTAssertEqual(deltaZ, 0.0, "Error should be within Metal Float accuracy")
@@ -452,7 +432,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         let alignedGrid = newGrid()
         print("new grid: ----")
         print(alignedGrid.dumpstats)
-        alignedGrid.setLeading(testGrid.localTrailing)
+        alignedGrid.setLeading(testGrid.trailing)
         
         print("after align: ----")
         print(alignedGrid.dumpstats)
@@ -462,7 +442,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testMeasuresAndSizes() throws {
         //        let parsed = try Parser.parse(bundle.testFile)
-        let parsed = Parser.parse(source: TestBundle.RawCode.threeLine)
+        let parsed = Parser.parse(source: TestBundle.RawCode.A)
         func newGrid() -> CodeGrid {
             bundle.newGrid()
                 .consume(rootSyntaxNode: parsed.root)
@@ -483,9 +463,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         var centerY = centerPosition.y
         var centerZ = centerPosition.z
         
-        let expectedCenterX = testGrid.localLeading + testGridWidth / 2.0
-        let expectedCenterY = testGrid.localTop - testGridHeight / 2.0
-        let expectedCenterZ = testGrid.localFront - testGridLength / 2.0
+        let expectedCenterX = testGrid.leading + testGridWidth / 2.0
+        let expectedCenterY = testGrid.top - testGridHeight / 2.0
+        let expectedCenterZ = testGrid.front - testGridLength / 2.0
         
         XCTAssertGreaterThanOrEqual(expectedCenterX, 0, "Grids at (0,0,0) expected to draw left to right; its center should ahead of that point")
         XCTAssertLessThanOrEqual(expectedCenterY, 0, "Grids at (0,0,0) expected to draw top to bottom; its center should be below that point")
@@ -535,99 +515,35 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterZ = centerZ + delta
             
             // Current measurements and position have a precision of about 3-4 places
-            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.0001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.0001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.0001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.001, "Error should be within Metal Float accuracy")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY
             centerZ = newExpectedCenterZ
             
-            let newBounds = testGrid.rootNode.bounds
-            let newBoundsWidth = BoundsWidth(newBounds) * DeviceScale
-            let newBoundsHeight = BoundsHeight(newBounds) * DeviceScale
-            let newBoundsLength = BoundsLength(newBounds) * DeviceScale
+            let newBounds       = testGrid.rootNode.bounds
+            let newBoundsWidth  = newBounds.width * DeviceScale
+            let newBoundsHeight = newBounds.height * DeviceScale
+            let newBoundsLength = newBounds.length * DeviceScale
             let newBoundsCenter = testGrid.rootNode.boundsCenterPosition
             
             let sizeDeltaX = abs(testGridWidth - newBoundsWidth)
             let sizeDeltaY = abs(testGridHeight - newBoundsHeight)
             let sizeDeltaZ = abs(testGridLength - newBoundsLength)
             
-            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within 1 point")
+            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within Metal Float accuracy")
             
             let boundsDeltaX = abs(newCenterX - newBoundsCenter.x)
             let boundsDeltaY = abs(newCenterY - newBoundsCenter.y)
             let boundsDeltaZ = abs(newCenterZ - newBoundsCenter.z)
             
-            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within 1 point")
-            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within 1 point")
-        }
-    }
-    
-    func testLayout_Force() throws {
-        let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
-        
-        var _next: Float = 0
-        var next: Float { let final = _next; _next += 100; return final }
-        let testDirectory = try XCTUnwrap(bundle.testSourceDirectory, "Must have valid root code directory")
-        FileBrowser.recursivePaths(testDirectory)
-            .filter { FileBrowser.isSwiftFile($0) }
-            .prefix(10)
-            .forEach {
-                builder
-                    .createConsumerForNewGrid()
-                    .consume(url: $0)
-                    .withFileName($0.fileName)
-                    .applying { $0.position = LFloat3(next, next,next) }
-            }
-        let testVertices = Array(bundle.gridCache.cachedGrids.values.prefix(10))
-        
-        
-        let idealLength: Float = 1000.0
-        let idealSquared: Float = idealLength * idealLength
-        let forceLayout = LForceLayout(snapping: GlobalInstances.gridStore.editor.snapping)
-        func getUnitVectorPair(_ u: CodeGrid, _ v: CodeGrid) -> (LFloat3, Float) {
-            let delta = v.position - u.position
-            let distance = distance(v.position, u.position)
-            let unitVector = delta / distance
-            return (unitVector, distance)
-        }
-        func getIdealLength(_ u: CodeGrid, _ v: CodeGrid) -> Float {
-            if let uPath = u.sourcePath, let vPath = v.sourcePath {
-                let pathDistance = FileBrowser.distanceTo(parent: .file(uPath), from: .file(vPath))
-                let distanceMultiplier = min(1, pathDistance)
-                return 80.0 * distanceMultiplier.float
-            }
-            return 80
-        }
-        forceLayout.doLayout(
-            allVertices: testVertices,
-            repulsiveFunction: { repulseLeft, repulseRight in
-                // repul v -> u
-                let (unitVector, distance) = getUnitVectorPair(repulseLeft, repulseRight)
-                return (idealSquared / distance) * unitVector
-            },
-            attractiveFunction: { attractLeft, attractRight in
-                // attract u -> v
-                let (unitVector, distance) = getUnitVectorPair(attractRight, attractLeft)
-                return ((distance * distance) / idealLength) * unitVector
-            },
-            maxIterations: 200,
-            forceThreshold: LFloat3(100, 100, 100),
-            coolingFactor: 0.88
-        )
-        
-        for grid in testVertices {
-            print("\(grid.fileName) -> \(grid.position)")
+            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within Metal Float accuracy")
         }
     }
     

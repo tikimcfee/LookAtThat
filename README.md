@@ -1,103 +1,65 @@
-# AR/VR Code Visualizing
-See Swift in Space
+# SwiftGlyph HI/LO
 
-### What?
+<img src="./repo_info/features/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=320px >
 
-A tool to load up Swift files, render them into a SceneKit layer, and view the results in a 3D VR (macOS) or AR (iOS) environment.
+## SwiftGlyph Alpha
 
-# Some things you can do!
-<table style="padding:10px">
-  <tr>
-    <td><span>Load directories</span><img src="./repo_info/features/1_load.gif" alt="A set of files being loaded into the viewer" width = 384 ></td>
-    <td><span>Analyze syntax</span><img src="./repo_info/features/2_analyze.gif" alt="Syntax information being displayed" width = 384 ></td>
-  </tr>
+If you're reading this, you're seeing the first major update of the iteration of LookAtThat - now happily modularized and imported for your enjoyment.
 
-  <tr>
-    <td><span>Query categories and type info</span><img src="./repo_info/features/3_highlight.gif" alt="Syntax information being highlighted" width = 384 ></td>
-    <td><span>.. globally, too!<img src="./repo_info/features/4_highlight_global.gif" alt="All syntax information of a type being queried" width = 384 ></td>
-  </tr>
+There are a number of major changes to the feature set, including the first batch of updated rendering techniques (this term applied extremely loosely).
 
+[WIP] MetalLink and SwiftGlyph are the stars of the show.
+httphs://www.github.com/tikimcfee/SwiftGlyph
+httphs://www.github.com/tikimcfee/MetalLink
 
-  <tr>
-    <td><span>Group files</span><img src="./repo_info/features/5_focus.gif" alt="A group of stack files" width = 384 ></td>
-    <td><span>Search reference names</span><img src="./repo_info/features/6_search.gif" alt="Searching grouped files" width = 384 ></td>
-  </tr>
+### What Works in the Alpha
 
-  <tr>
-    <td><span>Trace app execution</span><img src="./repo_info/features/8_tracing.gif" alt="Tracing execution" width = 384 ></td>
-    <td><span>[WIP] Editing!</span><img src="./repo_info/features/7_editing.gif" alt="Preview of editing" width = 384 ></td>
-  </tr>
+- Load up arbitrary directories of mostly code and render it all in 3D.
+- Download and view GitHub repositories in app and view them like local data.
+- Dual-style rendering for iOS / macOS for platform optimizations.
+- AtlasTexture load / save / preload / reset for viewing and saving newly seen glyphs (currently limited to 1 Atlas sheet!)
+- Mouse-based hover interactions, including symbol-highlighting (macOS includes AST node viewing)
+
+The macOS target includes lots of random features in varying working states, including:
+
+- Full text search with visual highlighting (scale / color / position)
+- Syntax highlighting for Swift code using SwiftSyntax
   
-  <tr>
-    <td>
-      <span>Walk around your code in AR on iOS and iPad!</span><img src="./repo_info/DemoAnimation-iOS-Gif.gif"  alt="An iOS app displaying Swift code in an AR display in an outside backyard during the day" width = 384 ></td>
-  </tr>
-</table>
+### How to run it
 
-### Why?
+This is the demonstration consuming app project for SwiftGlyph, which is the major wrapping library around MetalLink. You should be able to ... :
 
-Plenty of reasons why. Here are some smarter people with better presentation skills and more carefully studied reasons:
+- Clone
+- Open the `xcproject`
+- (As needed) update the signing magicka within Xcode
+- Choose your target (HI == macOS, LO == iOS), and device. It'll complain if you choose the wrong device / target pairing.  
+
+## How can I help?
+
+Anything is fine, and if something might be project related, feel free to create an Issue. It's a boring but functional discussion place, and doesn't require bumping around to other chat platforms or external wikis.
+
+You can also free fring to ping me directly from my GitHub profile. And, if you can't seem to find a pingable thing, make an issue and bug me about it! I want to make sure those with interest in working on this have an easy way to get a hold of me, and everyone else with a curious eye.
+
+## What's next?
+
+### Editing
+- 3D or 2D...
+
+### Tracing
+- SwiftTrace was once, and must be again.. or should it?
+
+### UI
+- The interface is full of buttons like the universe is full of stars.
+- More correctly, it's full of buttons like LEO is full of metallic bodies.
+
+### Language Server / Sourcekit
+- This is the unlock for better, more generic syntax highlighting.
+- SwiftSyntax is great, but limited.
+
+
+## With thanks, reference, and deference to:
 
 - https://embodiedcode.net/
 - https://divan.dev/posts/visual_programming_go/
 - https://futureofcoding.org/
 - https://stars.library.ucf.edu/etd/5511/ (<3 UCF)
-- <your name here / link here>
-  
-### How?
-
-Lots and lots of other people's tools and code suggestions. Primarily:
-
-- SceneKit and a light AR wrapper for iOS support.
-- [SwiftSyntax](https://github.com/apple/swift-syntax) for parsing Swift files and grabbing an Abstract Syntax Tree.
-- [SwiftTrace](https://github.com/johnno1962/SwiftTrace) to capture execution traces and generate small tracing corpuses for visualization.
-- [CodeEditorView](https://github.com/mchakravarty/CodeEditorView) because it's a great simple drop in for text-field editing in SwiftUI
-
-### When?
-
-Whenever I can, and even sooner if you help! All questions, contributors, ideas, thoughts, issues, suggestions, hopes, dreams, and pull requests are welcome!
-
-## How to run it
-
-You will need everything in this repository, including the syntax parsing libraries for SwiftSyntax targeting macOS, and iOS - play along with your phone or tablet!
-
-The current goal is to allow you to:
-
-- Pull the project
-- Run it from XCode, targeting your iPhone, iPad or Mac
-- See code in space
-
-At the moment, none of the important things with respect to building a functioning release binary are in place. Everything is experimental, unstable, and ready to explode at any moment. It's very exciting.
-
-## How can I help?
-
-Anything is fine, and if something might be project related, feel free to create an Issue. It's a boring but functional discussion place, and doesn't require bumping around to other chat platforms or external wikis. We can get there later if needed.
-
-You can also free fring to ping me directly from my GitHub profile. And, if you can't seem to find a pingagle thing, make an issue and bug me about it! I want to make sure those with interest in working on this have an easy way to get a hold of me, and everyone else with a curious eye.
-
-
-### What's next?
-
-Likely to be out of date sooner rather than later, here's a running list of target features, fixes, and ideas being worked on now-ish!
-
-# Editing
--  Using a standard 2D editor to select and edit selected files in-line, rendering as necessary.
-
-# Focusing and Highlighting
-- Update GlyphNode to support smarter focusing; more geometry slots, better caching flow, etc.
-
-# Tracing
-- Multi-queue: currently traces one queue at a time. Trace each running queue simultaneously.
-- Static lines: draw paths through an ordered set of trace lines to create 'static' visualization of call flow
-
-# UI
-- Update mobiles interfaces. Most controls are supported on iPhone / iPad. Use interface.idiom to create different layouts per device.
-- Update mainframe interfaces: add support to dock/popout panel windows (fun!)
-
-# Language Server / Sourcekit
-- Jump to definition to auto-render and jump to grid syntax nodes
-- Server/client interaction from phone to mainframe (pretty much no way to get sourcekit-lsp running on device AFAIK)
-
-# Misc Experiments
-- TapKit: I bought this weird TapStrap thing for more inputs. It's kinda fun for shortcuts. Code is there play with.
--- [Cool sample from Zack Qattan!](https://youtube.com/shorts/5J7k5tu-MZ8?feature=share) -> [They're on YouTube!](https://www.youtube.com/c/ZackQattan)

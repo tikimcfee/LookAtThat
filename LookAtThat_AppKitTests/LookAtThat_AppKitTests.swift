@@ -2,6 +2,7 @@ import XCTest
 import SwiftSyntax
 import SwiftParser
 import SceneKit
+import SwiftGlyph
 @testable import LookAtThat_AppKit
 
 class LookAtThat_AppKitTests: XCTestCase {
