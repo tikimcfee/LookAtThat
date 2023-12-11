@@ -9,11 +9,14 @@ If you're reading this, you're seeing the first major update of the iteration of
 There are a number of major changes to the feature set, including the first batch of updated rendering techniques (this term applied extremely loosely).
 
 [WIP] MetalLink and SwiftGlyph are the stars of the show.
-httphs://www.github.com/tikimcfee/SwiftGlyph
-httphs://www.github.com/tikimcfee/MetalLink
+
+https://www.github.com/tikimcfee/SwiftGlyph
+
+https://www.github.com/tikimcfee/MetalLink
 
 ### What Works in the Alpha
 
+- New GPU based UTF8->UTF32->Unicode (fauxnicode <3) parsing and text layout.
 - Load up arbitrary directories of mostly code and render it all in 3D.
 - Download and view GitHub repositories in app and view them like local data.
 - Dual-style rendering for iOS / macOS for platform optimizations.
