@@ -1,10 +1,6 @@
 # SwiftGlyph HI/LO
 
-<table style="padding:10px">
-  <tr>
-    <td><img src="./repo_info/features/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width = 400 ></td>
-  </tr>
-</table>
+<img src="./repo_info/features/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=320px >
 
 ## SwiftGlyph Alpha
 
