@@ -38,8 +38,8 @@
         }
       ],
       "color" : {
-        "platform" : "ios",
-        "reference" : "systemGray6Color"
+        "platform" : "osx",
+        "reference" : "controlBackgroundColor"
       },
       "idiom" : "universal"
     }
