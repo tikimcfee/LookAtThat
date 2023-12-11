@@ -2,6 +2,8 @@
 
 <img src="./repo_info/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=512px >
 
+<img src="./repo_info/metal-v2-devices.jpg" alt="An isometric view of SwiftGlyph rendered in 3D" width=512px >
+
 ## SwiftGlyph Alpha
 
 If you're reading this, you're seeing the first major update of the iteration of LookAtThat - now happily modularized and imported for your enjoyment.
