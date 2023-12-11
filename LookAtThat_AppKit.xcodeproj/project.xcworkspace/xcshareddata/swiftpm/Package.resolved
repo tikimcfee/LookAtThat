@@ -1,6 +1,24 @@
 {
   "pins" : [
     {
+      "identity" : "bithandling",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/BitHandling.git",
+      "state" : {
+        "branch" : "sgalpha-bits",
+        "revision" : "fae61fea5157724223509822368dff0d371f5ff5"
+      }
+    },
+    {
+      "identity" : "metallink",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/MetalLink.git",
+      "state" : {
+        "branch" : "sgalpha-metal-link",
+        "revision" : "f6b175205978db250f3b3e42f8d7a6a76e8a9587"
+      }
+    },
+    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
@@ -51,7 +69,7 @@
       "location" : "https://github.com/tikimcfee/SwiftGlyph/",
       "state" : {
         "branch" : "sgalpha-swift-glyphs",
-        "revision" : "caa7e3bdfd85b7c53fba7baf0a8ffec04a22bd42"
+        "revision" : "be4dae82aeb8b0e28766c2fbd45fa9c803b6e49d"
       }
     },
     {

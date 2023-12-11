@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45A86F522B26939500D44695 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 45A86F512B26939500D44695 /* SwiftGlyphs */; };
+		45A86F542B26939F00D44695 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 45A86F532B26939F00D44695 /* SwiftGlyphs */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -105,14 +107,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		450D76E62B0FF930004FEB11 /* SwiftGlyphs */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftGlyphs; path = ../LatComponents/SwiftGlyphs; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
-		B78C19A02A302073005A3A46 /* BitHandling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BitHandling; path = ../latcomponents/BitHandling; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
-		B7A3923B2A301BE600FAA9E4 /* MetalLink */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MetalLink; path = ../latcomponents/MetalLink; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesTests.swift; sourceTree = "<group>"; };
@@ -149,6 +148,7 @@
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
+				45A86F522B26939500D44695 /* SwiftGlyphs in Frameworks */,
 				B7CBD76828FCCC8400A918C2 /* SwiftSyntax in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
@@ -171,6 +171,7 @@
 			files = (
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
+				45A86F542B26939F00D44695 /* SwiftGlyphs in Frameworks */,
 				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
@@ -188,16 +189,6 @@
 				B725168228C098AB0094F29B /* GlobalSearchView.swift */,
 			);
 			path = Semantics;
-			sourceTree = "<group>";
-		};
-		B7A392382A301B8B00FAA9E4 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				450D76E62B0FF930004FEB11 /* SwiftGlyphs */,
-				B78C19A02A302073005A3A46 /* BitHandling */,
-				B7A3923B2A301BE600FAA9E4 /* MetalLink */,
-			);
-			name = Packages;
 			sourceTree = "<group>";
 		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
@@ -221,7 +212,6 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
-				B7A392382A301B8B00FAA9E4 /* Packages */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
@@ -363,6 +353,7 @@
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
+				45A86F512B26939500D44695 /* SwiftGlyphs */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -413,6 +404,7 @@
 				B7CBD76F28FCD08400A918C2 /* SwiftParser */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
+				45A86F532B26939F00D44695 /* SwiftGlyphs */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
@@ -458,7 +450,7 @@
 				B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
 				B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				457328CD2B268FD70014B4A3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
+				45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -904,7 +896,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		457328CD2B268FD70014B4A3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
+		45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph/";
 			requirement = {
@@ -979,6 +971,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		45A86F512B26939500D44695 /* SwiftGlyphs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
+			productName = SwiftGlyphs;
+		};
+		45A86F532B26939F00D44695 /* SwiftGlyphs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
+			productName = SwiftGlyphs;
+		};
 		B713405528170F88005E0E31 /* SwiftTrace */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
