@@ -118,7 +118,7 @@
 		B7D9C0762894B884003FEDA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B7D9C0782894B884003FEDA6 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 		B7E7FBEB2904B3F400EC304F /* find_git_files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = find_git_files.swift; sourceTree = "<group>"; };
-		F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThat_AppKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsHI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
 		F00FC733250C53470092AFF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -129,10 +129,10 @@
 		F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCP-Bridging-Header.h"; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
-		F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LookAtThat_AppKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LookAtThat Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LookAtThatMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49E9251C5AE800F28173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppRootView.swift; sourceTree = "<group>"; };
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -224,9 +224,9 @@
 		F00FC72D250C53460092AFF9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */,
-				F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */,
-				F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */,
+				F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */,
+				F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */,
+				F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -327,9 +327,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */ = {
+		F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit" */;
+			buildConfigurationList = F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "SwiftGlyphsHI" */;
 			buildPhases = (
 				B7C75722280CF2FF0005A233 /* Headers */,
 				F00FC728250C53460092AFF9 /* Sources */,
@@ -342,7 +342,7 @@
 			);
 			dependencies = (
 			);
-			name = LookAtThat_AppKit;
+			name = SwiftGlyphsHI;
 			packageProductDependencies = (
 				B72A8774287BE93900A78B19 /* ArgumentParser */,
 				B7C69FF728A4526500A84860 /* Algorithms */,
@@ -356,12 +356,12 @@
 				45703F342B26A5FB00E8D9E1 /* SwiftGlyph */,
 			);
 			productName = LookAtThat_AppKit;
-			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
+			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */ = {
+		F07C49C4251C095200F28173 /* LookAtThat Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKitTests" */;
+			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */;
 			buildPhases = (
 				F07C49C1251C095200F28173 /* Sources */,
 				F07C49C2251C095200F28173 /* Frameworks */,
@@ -375,16 +375,16 @@
 				F07C49CB251C095200F28173 /* PBXTargetDependency */,
 				B7F44C42276E324600522B45 /* PBXTargetDependency */,
 			);
-			name = LookAtThat_AppKitTests;
+			name = "LookAtThat Tests";
 			packageProductDependencies = (
 			);
 			productName = LookAtThat_AppKitTests;
-			productReference = F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */;
+			productReference = F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		F07C49E6251C5AE800F28173 /* LookAtThatMobile */ = {
+		F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F07C49F7251C5AE900F28173 /* Build configuration list for PBXNativeTarget "LookAtThatMobile" */;
+			buildConfigurationList = F07C49F7251C5AE900F28173 /* Build configuration list for PBXNativeTarget "SwiftGlyphsLO" */;
 			buildPhases = (
 				B7C75726280CF3130005A233 /* Headers */,
 				F07C49E3251C5AE800F28173 /* Sources */,
@@ -396,7 +396,7 @@
 			);
 			dependencies = (
 			);
-			name = LookAtThatMobile;
+			name = SwiftGlyphsLO;
 			packageProductDependencies = (
 				B79592E728A7615B00F16746 /* Algorithms */,
 				B7D1872028C57AFA00BACAA1 /* Zip */,
@@ -407,7 +407,7 @@
 				45703F362B26A6AC00E8D9E1 /* SwiftGlyph */,
 			);
 			productName = LookAtThatMobile;
-			productReference = F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */;
+			productReference = F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -456,9 +456,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */,
-				F07C49E6251C5AE800F28173 /* LookAtThatMobile */,
-				F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */,
+				F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */,
+				F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */,
+				F07C49C4251C095200F28173 /* LookAtThat Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -539,12 +539,12 @@
 		};
 		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F07C49E6251C5AE800F28173 /* LookAtThatMobile */;
+			target = F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */;
 			targetProxy = B7F44C41276E324600522B45 /* PBXContainerItemProxy */;
 		};
 		F07C49CB251C095200F28173 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */;
+			target = F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */;
 			targetProxy = F07C49CA251C095200F28173 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -866,7 +866,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit" */ = {
+		F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "SwiftGlyphsHI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F00FC740250C53470092AFF9 /* Debug */,
@@ -875,7 +875,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKitTests" */ = {
+		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F07C49CC251C095200F28173 /* Debug */,
@@ -884,7 +884,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F07C49F7251C5AE900F28173 /* Build configuration list for PBXNativeTarget "LookAtThatMobile" */ = {
+		F07C49F7251C5AE900F28173 /* Build configuration list for PBXNativeTarget "SwiftGlyphsLO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F07C49F5251C5AE900F28173 /* Debug */,

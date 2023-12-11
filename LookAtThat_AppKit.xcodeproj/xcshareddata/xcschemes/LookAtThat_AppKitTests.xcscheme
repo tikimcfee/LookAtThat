@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-               BuildableName = "LookAtThat_AppKit.app"
-               BlueprintName = "LookAtThat_AppKit"
+               BuildableName = "SwiftGlyphsHI.app"
+               BlueprintName = "SwiftGlyphsHI"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,8 +40,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F07C49C4251C095200F28173"
-               BuildableName = "LookAtThat_AppKitTests.xctest"
-               BlueprintName = "LookAtThat_AppKitTests"
+               BuildableName = "LookAtThat Tests.xctest"
+               BlueprintName = "LookAtThat Tests"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-            BuildableName = "LookAtThat_AppKit.app"
-            BlueprintName = "LookAtThat_AppKit"
+            BuildableName = "SwiftGlyphsHI.app"
+            BlueprintName = "SwiftGlyphsHI"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -78,8 +78,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F00FC72B250C53460092AFF9"
-            BuildableName = "LookAtThat_AppKit.app"
-            BlueprintName = "LookAtThat_AppKit"
+            BuildableName = "SwiftGlyphsHI.app"
+            BlueprintName = "SwiftGlyphsHI"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

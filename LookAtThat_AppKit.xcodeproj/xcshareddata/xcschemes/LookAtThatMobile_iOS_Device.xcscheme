@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F07C49E6251C5AE800F28173"
-               BuildableName = "LookAtThatMobile.app"
-               BlueprintName = "LookAtThatMobile"
+               BuildableName = "SwiftGlyphsLO.app"
+               BlueprintName = "SwiftGlyphsLO"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F07C49E6251C5AE800F28173"
-            BuildableName = "LookAtThatMobile.app"
-            BlueprintName = "LookAtThatMobile"
+            BuildableName = "SwiftGlyphsLO.app"
+            BlueprintName = "SwiftGlyphsLO"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F07C49E6251C5AE800F28173"
-            BuildableName = "LookAtThatMobile.app"
-            BlueprintName = "LookAtThatMobile"
+            BuildableName = "SwiftGlyphsLO.app"
+            BlueprintName = "SwiftGlyphsLO"
             ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
