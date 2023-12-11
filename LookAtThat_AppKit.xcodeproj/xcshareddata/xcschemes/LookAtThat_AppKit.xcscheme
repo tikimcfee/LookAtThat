@@ -27,13 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO">
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "test-path"
-            value = "/Users/ivanlugo/rapiddev/_personal/LatComponents"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <Testables>
          <TestableReference
             skipped = "NO">
