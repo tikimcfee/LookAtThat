@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 import MetalLink
-import SwiftGlyphs
+import SwiftGlyph
 
 struct SourceInfoPanelView: View {
     @StateObject var state: SourceInfoPanelState = SourceInfoPanelState()

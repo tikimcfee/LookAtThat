@@ -7,7 +7,7 @@
 
 import UIKit
 import SwiftUI
-import SwiftGlyphs
+import SwiftGlyph
 
 @main
 struct AppDelegate: App {
@@ -20,7 +20,7 @@ struct AppDelegate: App {
                     // Set initial state on appearance
                     GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
                     GlobalInstances.gridStore.gridInteractionState.setupStreams()
-                    GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphsRoot
+                    GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
                 }
                 .onDisappear {
                     URL.dumpAndDescopeAllKnownBookmarks()

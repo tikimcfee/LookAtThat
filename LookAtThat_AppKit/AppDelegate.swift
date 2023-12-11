@@ -7,7 +7,7 @@
 
 import Cocoa
 import SwiftUI
-import SwiftGlyphs
+import SwiftGlyph
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -39,7 +39,7 @@ extension AppDelegate {
                 // Set initial state on appearance
                 GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
                 GlobalInstances.gridStore.gridInteractionState.setupStreams()
-                GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphsRoot
+                GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
             }
             .onDisappear {
                 URL.dumpAndDescopeAllKnownBookmarks()

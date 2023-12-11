@@ -8,7 +8,7 @@
 import SwiftUI
 import RealityKit
 import MetalLink
-import SwiftGlyphs
+import SwiftGlyph
 
 struct CubeARView: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {

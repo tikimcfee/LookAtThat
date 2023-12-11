@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45A86F522B26939500D44695 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 45A86F512B26939500D44695 /* SwiftGlyphs */; };
+		45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F342B26A5FB00E8D9E1 /* SwiftGlyph */; };
 		45A86F542B26939F00D44695 /* SwiftGlyphs in Frameworks */ = {isa = PBXBuildFile; productRef = 45A86F532B26939F00D44695 /* SwiftGlyphs */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
@@ -148,7 +148,7 @@
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
 				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
 				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
-				45A86F522B26939500D44695 /* SwiftGlyphs in Frameworks */,
+				45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */,
 				B7CBD76828FCCC8400A918C2 /* SwiftSyntax in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
@@ -353,7 +353,7 @@
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
 				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
-				45A86F512B26939500D44695 /* SwiftGlyphs */,
+				45703F342B26A5FB00E8D9E1 /* SwiftGlyph */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */;
@@ -971,10 +971,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		45A86F512B26939500D44695 /* SwiftGlyphs */ = {
+		45703F342B26A5FB00E8D9E1 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
-			productName = SwiftGlyphs;
+			productName = SwiftGlyph;
 		};
 		45A86F532B26939F00D44695 /* SwiftGlyphs */ = {
 			isa = XCSwiftPackageProductDependency;

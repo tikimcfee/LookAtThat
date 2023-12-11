@@ -11,7 +11,7 @@ import ARKit
 import SwiftUI
 import MetalLink
 import MetalLinkResources
-import SwiftGlyphs
+import SwiftGlyph
 import BitHandling
 
 private extension MobileAppRootView {

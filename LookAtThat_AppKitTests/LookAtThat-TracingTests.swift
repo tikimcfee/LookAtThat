@@ -12,7 +12,7 @@ import SwiftParser
 import SceneKit
 import Foundation
 import BitHandling
-import SwiftGlyphs
+import SwiftGlyph
 import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources

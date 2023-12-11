@@ -14,7 +14,7 @@ import BitHandling
 import MetalLinkHeaders
 import MetalLinkResources
 import MetalLink
-import SwiftGlyphs
+import SwiftGlyph
 @testable import LookAtThat_AppKit
 
 extension Parser {

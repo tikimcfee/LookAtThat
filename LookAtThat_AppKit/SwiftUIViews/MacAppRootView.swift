@@ -1,6 +1,6 @@
 import SwiftUI
 import MetalLink
-import SwiftGlyphs
+import SwiftGlyph
 
 struct MacAppRootView: View {
     @State var showMultipeer: Bool = false
