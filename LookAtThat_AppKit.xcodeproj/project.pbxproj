@@ -15,22 +15,12 @@
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
 		B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
-		B725168628C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
 		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
 		B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */; };
-		B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
-		B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
-		B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
-		B74A23272814FFF300F6F727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
-		B74A23282814FFF300F6F727 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
-		B74A23292814FFF300F6F727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
 		B76576D028F0DDF5003617FC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576CF28F0DDF5003617FC /* Collections */; };
 		B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576D128F0DDF5003617FC /* OrderedCollections */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
 		B78C199B2A301CA9005A3A46 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = B78C199A2A301CA9005A3A46 /* MetalLink */; };
-		B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
-		B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88628AB630100AE8CC0 /* Algorithms */; };
-		B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B792C88928AB64A600AE8CC0 /* ArgumentParser */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
 		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
@@ -44,11 +34,6 @@
 		B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD76F28FCD08400A918C2 /* SwiftParser */; };
 		B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD77128FCD0A600A918C2 /* Collections */; };
 		B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD77328FCD0A600A918C2 /* OrderedCollections */; };
-		B7CBD78228FE241E00A918C2 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78128FE241E00A918C2 /* Zip */; };
-		B7CBD78428FE242D00A918C2 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78328FE242D00A918C2 /* OrderedCollections */; };
-		B7CBD78628FE243100A918C2 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78528FE243100A918C2 /* Collections */; };
-		B7CBD78A28FE259500A918C2 /* SwiftParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78928FE259500A918C2 /* SwiftParser */; };
-		B7CBD78C28FE259500A918C2 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD78B28FE259500A918C2 /* SwiftSyntax */; };
 		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
 		B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1872028C57AFA00BACAA1 /* Zip */; };
 		B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */; };
@@ -83,15 +68,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B74A232E2814FFF300F6F727 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7D7CC8126782CCA00105AFB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,7 +114,6 @@
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
-		B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LookAtThat_AppKit - Previews.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
 		B78C19A02A302073005A3A46 /* BitHandling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BitHandling; path = ../latcomponents/BitHandling; sourceTree = "<group>"; };
 		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
@@ -172,20 +147,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B74A231F2814FFF300F6F727 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B7CBD78628FE243100A918C2 /* Collections in Frameworks */,
-				B7CBD78A28FE259500A918C2 /* SwiftParser in Frameworks */,
-				B792C88A28AB64A600AE8CC0 /* ArgumentParser in Frameworks */,
-				B7CBD78C28FE259500A918C2 /* SwiftSyntax in Frameworks */,
-				B7CBD78428FE242D00A918C2 /* OrderedCollections in Frameworks */,
-				B792C88728AB630100AE8CC0 /* Algorithms in Frameworks */,
-				B7CBD78228FE241E00A918C2 /* Zip in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F00FC729250C53460092AFF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,7 +245,6 @@
 			isa = PBXGroup;
 			children = (
 				F00FC72C250C53460092AFF9 /* LookAtThat_AppKit.app */,
-				B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */,
 				F07C49C5251C095200F28173 /* LookAtThat_AppKitTests.xctest */,
 				F07C49E7251C5AE800F28173 /* LookAtThatMobile.app */,
 			);
@@ -370,13 +330,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		B74A22A32814FFF300F6F727 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7C75722280CF2FF0005A233 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,34 +347,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		B74A22992814FFF300F6F727 /* LookAtThat_AppKit - Previews */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B74A23302814FFF300F6F727 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit - Previews" */;
-			buildPhases = (
-				B74A22A32814FFF300F6F727 /* Headers */,
-				B74A22A42814FFF300F6F727 /* Sources */,
-				B74A231F2814FFF300F6F727 /* Frameworks */,
-				B74A23262814FFF300F6F727 /* Resources */,
-				B74A232E2814FFF300F6F727 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "LookAtThat_AppKit - Previews";
-			packageProductDependencies = (
-				B792C88628AB630100AE8CC0 /* Algorithms */,
-				B792C88928AB64A600AE8CC0 /* ArgumentParser */,
-				B7CBD78128FE241E00A918C2 /* Zip */,
-				B7CBD78328FE242D00A918C2 /* OrderedCollections */,
-				B7CBD78528FE243100A918C2 /* Collections */,
-				B7CBD78928FE259500A918C2 /* SwiftParser */,
-				B7CBD78B28FE259500A918C2 /* SwiftSyntax */,
-			);
-			productName = LookAtThat_AppKit;
-			productReference = B74A23332814FFF300F6F727 /* LookAtThat_AppKit - Previews.app */;
-			productType = "com.apple.product-type.application";
-		};
 		F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F00FC73F250C53470092AFF9 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit" */;
@@ -557,22 +482,11 @@
 				F00FC72B250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49C4251C095200F28173 /* LookAtThat_AppKitTests */,
 				F07C49E6251C5AE800F28173 /* LookAtThatMobile */,
-				B74A22992814FFF300F6F727 /* LookAtThat_AppKit - Previews */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B74A23262814FFF300F6F727 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B74A23272814FFF300F6F727 /* Main.storyboard in Resources */,
-				B74A23282814FFF300F6F727 /* Preview Assets.xcassets in Resources */,
-				B74A23292814FFF300F6F727 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F00FC72A250C53460092AFF9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,18 +517,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B74A22A42814FFF300F6F727 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B74A22B12814FFF300F6F727 /* SourceInfoPanelView.swift in Sources */,
-				B725168628C098AB0094F29B /* GlobalSearchView.swift in Sources */,
-				B792C88528AB629B00AE8CC0 /* MobileAppRootView.swift in Sources */,
-				B74A22DD2814FFF300F6F727 /* MacAppRootView.swift in Sources */,
-				B74A22EE2814FFF300F6F727 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F00FC728250C53460092AFF9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -682,73 +584,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B74A23312814FFF300F6F727 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = LookAtThat_AppKit/LookAtThat_AppKit.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = XR2HQNSZ68;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = LookAtThat_AppKit/LookAtThat_Previews.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG TARGETING_SUI";
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		B74A23322814FFF300F6F727 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = LookAtThat_AppKit/LookAtThat_AppKit.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = XR2HQNSZ68;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = LookAtThat_AppKit/LookAtThat_Previews.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/LookAtThat_AppKit",
-					"$(PROJECT_DIR)/LookAtThat_AppKit/Libraries",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = MetalLink/ShaderBridge.h;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		F00FC73D250C53470092AFF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1043,15 +878,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B74A23302814FFF300F6F727 /* Build configuration list for PBXNativeTarget "LookAtThat_AppKit - Previews" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B74A23312814FFF300F6F727 /* Debug */,
-				B74A23322814FFF300F6F727 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		F00FC727250C53460092AFF9 /* Build configuration list for PBXProject "LookAtThat_AppKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1205,16 +1031,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MetalLink;
 		};
-		B792C88628AB630100AE8CC0 /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
-		B792C88928AB64A600AE8CC0 /* ArgumentParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
-			productName = ArgumentParser;
-		};
 		B79592E728A7615B00F16746 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
@@ -1264,31 +1080,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
-		};
-		B7CBD78128FE241E00A918C2 /* Zip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */;
-			productName = Zip;
-		};
-		B7CBD78328FE242D00A918C2 /* OrderedCollections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = OrderedCollections;
-		};
-		B7CBD78528FE243100A918C2 /* Collections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = Collections;
-		};
-		B7CBD78928FE259500A918C2 /* SwiftParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftParser;
-		};
-		B7CBD78B28FE259500A918C2 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
 		};
 		B7D1871E28C44A0900BACAA1 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
