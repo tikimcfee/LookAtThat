@@ -15,7 +15,7 @@
       "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
         "branch" : "sgalpha-metal-link",
-        "revision" : "f6b175205978db250f3b3e42f8d7a6a76e8a9587"
+        "revision" : "cfcc30ebdd1461b3391fb4abf6acecc2d33989c9"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
       "state" : {
-        "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
-        "version" : "1.2.3"
+        "revision" : "c8ed701b513cf5177118a175d85fbbbcd707ab41",
+        "version" : "1.3.0"
       }
     },
     {
@@ -60,7 +60,7 @@
       "location" : "https://github.com/apple/swift-syntax",
       "state" : {
         "branch" : "main",
-        "revision" : "7c1c56c0aa505c939b210b9f3b6797417107820a"
+        "revision" : "89831cea0f5dcc12ae0fc2b86ce83319bd3082db"
       }
     },
     {
@@ -69,7 +69,7 @@
       "location" : "https://github.com/tikimcfee/SwiftGlyph/",
       "state" : {
         "branch" : "sgalpha-swift-glyphs",
-        "revision" : "be4dae82aeb8b0e28766c2fbd45fa9c803b6e49d"
+        "revision" : "f855516e64352b12f471a66b5cba3e320b89d6ae"
       }
     },
     {
