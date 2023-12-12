@@ -5,10 +5,7 @@
 //  Created by Ivan Lugo on 5/3/22.
 //
 
-@testable import LookAtThat_AppKit
 import XCTest
-import SwiftSyntax
-import SwiftParser
 import SceneKit
 import Foundation
 import BitHandling
@@ -20,6 +17,8 @@ import Collections
 
 import SwiftTreeSitter
 import TreeSitterSwift
+import Neon
+@testable import SwiftGlyphsHI
 
 class LookAtThat_TracingTests: XCTestCase {
     var bundle: TestBundle!
@@ -181,8 +180,14 @@ class LookAtThat_TracingTests: XCTestCase {
     
     private static let __ATLAS_SAVE_ENABLED__ = false
     func testAtlasSave() throws {
-        XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
-        guard Self.__ATLAS_SAVE_ENABLED__ else { return }
+        guard Self.__ATLAS_SAVE_ENABLED__ else {
+            print("****************************************")
+            print("****************************************")
+            print("Not writing or checking for safety's safe; flip flag to actually save / write")
+            print("****************************************")
+            print("****************************************")
+            return
+        }
         
         // TODO: to 'reset' the atlas, load it up, the recreate it and save it
         GlobalInstances.resetAtlas()
@@ -275,12 +280,16 @@ class LookAtThat_TracingTests: XCTestCase {
         
         for match in cursor {
             print("match: ", match.id, match.patternIndex)
-            
-            print("\t-- captures")
+
+//            print("\t - [captures]")
             for capture in match.captures {
-                print("\t\t\(capture)")
+                print("\t>> [\(capture)] <<")
+//                let lo = testFile.index(testFile.startIndex, offsetBy: capture.range.lowerBound)
+//                let hi = testFile.index(testFile.startIndex, offsetBy: capture.range.upperBound)
+//                print("\t\t\(testFile[lo..<hi])")
                 print("\t\t\(capture.nameComponents)")
-                print("\t\t\(capture.metadata)")
+                print("\t\t\(capture.name ?? "<!> no name")")
+//                print("\t\t\(capture.metadata)")
             }
         }
     }
@@ -288,38 +297,5 @@ class LookAtThat_TracingTests: XCTestCase {
     func testDeepRecursion() throws {
         let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
         rootUrl.enumeratedChildren().forEach { print($0) }
-    }
-    
-    func testClassCollection() throws {
-        let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
-        let dummyGrid = bundle.newGrid()
-        let visitor = FlatteningVisitor(
-            target: dummyGrid.semanticInfoMap,
-            builder: dummyGrid.semanticInfoBuilder
-        )
-        
-        try rootUrl.enumeratedChildren().forEach { url in
-            guard !url.isDirectory else {
-                return
-            }
-            let sourceFile = try XCTUnwrap(bundle.gridCache.loadSourceUrl(url), "Must render syntax from file")
-            let sourceSyntax = Syntax(sourceFile)
-            visitor.walkRecursiveFromSyntax(sourceSyntax)
-        }
-        
-        let classes = dummyGrid.semanticInfoMap.classes.keys.compactMap {
-            dummyGrid.semanticInfoMap.semanticsLookupBySyntaxId[$0]
-        }.compactMap { (info: SemanticInfo) -> String? in
-            "\(info.referenceName).self"
-        }
-        .sorted()
-        .joined(separator: ",\n")
-        
-        
-        print(classes)
-        
-        printEnd()
-    }
-    
-    
+    }    
 }

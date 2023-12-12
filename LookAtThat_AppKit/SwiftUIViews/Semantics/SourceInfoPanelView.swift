@@ -185,8 +185,8 @@ func helloWorld() {
 """
     
     static var sourceGrid: CodeGrid = {
-        let cache = GridCache()
-        let grid = cache.renderGrid(sourceString)!
+        let builder = GlobalInstances.gridStore.builder
+        let grid = builder.createConsumerForNewGrid().consumeText(text: sourceString)
         return grid
     }()
     

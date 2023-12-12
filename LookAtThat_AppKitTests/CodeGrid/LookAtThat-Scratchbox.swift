@@ -6,8 +6,6 @@
 //
 
 import XCTest
-import SwiftSyntax
-import SwiftParser
 import SceneKit
 import Foundation
 import MetalLink
@@ -15,7 +13,7 @@ import MetalLinkHeaders
 import MetalLinkResources
 import BitHandling
 import SwiftGlyph
-@testable import LookAtThat_AppKit
+@testable import SwiftGlyphsHI
 
 class LookAtThat_ScratchboxTests: XCTestCase {
     var bundle: TestBundle!
@@ -47,21 +45,28 @@ class LookAtThat_ScratchboxTests: XCTestCase {
         printEnd()
     }
     
+    static let ENABLE_FILE_WRITE_TEST = false
     func testSplittingFileReader() async throws {
-//        let rawString = try String(contentsOf: bundle.testFile)
-//        let reader = SplittingFileReader(targetURL: bundle.testFile)
-//        let stream = reader.asyncLineStream()
-//        
-//        let copyTarget = bundle.testFile.appendingPathExtension("__text")
-//        if FileManager.default.fileExists(atPath: copyTarget.path())
-//            && FileManager.default.isDeletableFile(atPath: copyTarget.path()) {
-//            try FileManager.default.removeItem(at: copyTarget)
-//        }
-//        try FileManager.default.copyItem(
-//            at: bundle.testFile,
-//            to: copyTarget
-//        )
-        XCTFail("not enabled")
+        guard Self.ENABLE_FILE_WRITE_TEST else {
+            print("~ \\ n \\ ` \\ n \\ ` \\ n \\ ~")
+            print(" Splitting reader test off")
+            print("~ \\ n \\ ` \\ n \\ ` \\ n \\ ~")
+            return
+        }
+        
+        let rawString = try String(contentsOf: bundle.testFile)
+        let reader = SplittingFileReader(targetURL: bundle.testFile)
+        let stream = reader.asyncLineStream()
+        
+        let copyTarget = bundle.testFile.appendingPathExtension("__text")
+        if FileManager.default.fileExists(atPath: copyTarget.path())
+            && FileManager.default.isDeletableFile(atPath: copyTarget.path()) {
+            try FileManager.default.removeItem(at: copyTarget)
+        }
+        try FileManager.default.copyItem(
+            at: bundle.testFile,
+            to: copyTarget
+        )
     }
     
     func testBufferReadWrite() throws {

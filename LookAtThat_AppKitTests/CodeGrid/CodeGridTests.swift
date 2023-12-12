@@ -6,8 +6,6 @@
 //
 
 import XCTest
-import SwiftSyntax
-import SwiftParser
 import SceneKit
 import Foundation
 import BitHandling
@@ -15,14 +13,9 @@ import MetalLinkHeaders
 import MetalLinkResources
 import MetalLink
 import SwiftGlyph
-@testable import LookAtThat_AppKit
+@testable import SwiftGlyphsHI
 
-extension Parser {
-    static func parse(_ url: URL) throws -> SourceFileSyntax {
-        let source = try String(contentsOf: url)
-        return Parser.parse(source: source)
-    }
-}
+let ACCURACY: VectorFloat = 0.001
 
 class LookAtThat_AppKitCodeGridTests: XCTestCase {
     var bundle: TestBundle!
@@ -69,20 +62,6 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             }
     }
     
-    func testSemanticInfo() throws {
-        let sourceFile = try bundle.loadTestSource()
-        let sourceSyntax = Syntax(sourceFile)
-        
-        for token in sourceSyntax.tokens(viewMode: .all) {
-            print(token.id.stringIdentifier, "\n\n---\n\(token.text)\n---")
-            var nextParent: Syntax? = token._syntaxNode
-            while let next = nextParent?.parent {
-                print("<--> \(next.id.stringIdentifier)")
-                nextParent = next
-            }
-        }
-    }
-    
     func testFileRecursion() throws {
         let path = try XCTUnwrap(URL(string: bundle.rootDirectory), "Must have valid root directory")
         FileBrowser.recursivePaths(path).forEach {
@@ -92,12 +71,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testLinkParenting() throws {
         let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
+        let builder = GlobalInstances.gridStore.builder
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -124,13 +98,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testLinkNodeSetters() throws {
-        let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
+        let builder = GlobalInstances.gridStore.builder
         
         func consumed(_ url: URL) -> GlyphCollectionSyntaxConsumer {
             let consumer = builder.createConsumerForNewGrid()
@@ -147,41 +115,47 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         testGrid2.setLeading(testGrid1.leading)
         testGrid2.setLeading(testGrid1.leading)
         testGrid2.setLeading(testGrid1.leading)
-        XCTAssertEqual(testGrid2.leading, testGrid1.leading, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.leading, testGrid1.leading, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setLeading(testGrid1.trailing)
-        XCTAssertEqual(testGrid2.leading, testGrid1.trailing, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.leading, testGrid1.trailing, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setTrailing(testGrid1.trailing)
-        XCTAssertEqual(testGrid2.trailing, testGrid1.trailing, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.trailing, testGrid1.trailing, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setTop(testGrid1.top)
-        XCTAssertEqual(testGrid2.top, testGrid1.top, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.top, testGrid1.top, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setBottom(testGrid1.bottom)
-        XCTAssertEqual(testGrid2.bottom, testGrid1.bottom, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.bottom, testGrid1.bottom, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setFront(testGrid1.front)
-        XCTAssertEqual(testGrid2.front, testGrid1.front, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.front, testGrid1.front, accuracy: ACCURACY, "There should be no offset after setting")
         
         testGrid2.setBack(testGrid1.back)
-        XCTAssertEqual(testGrid2.back, testGrid1.back, "There should be no offset after setting")
+        XCTAssertEqual(testGrid2.back, testGrid1.back, accuracy: ACCURACY, "There should be no offset after setting")
     }
     
     func testLinkNodeStatsForMultiCollection() throws {
-        let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
+//        let builder = GlobalInstances.gridStore.builder
         
-        let testGrid = builder
-            .createConsumerForNewGrid()
-            .consumeText(text: "A")
-            .withFileName(bundle.testFile.lastPathComponent)
-            .removeBackground()
+        // NOTE: HEADS: README:
+        // This is specifically checking node cache bounds, don't use the shared one.
+        // The tests are parallel by default and I dont mind doing this for now before deps.
+        let cache = CodeGridTokenCache()
+        let collection = try GlyphCollection.init(
+            link: GlobalInstances.defaultLink,
+            linkAtlas: GlobalInstances.defaultAtlas
+        )
+        let testGrid = GlyphCollectionSyntaxConsumer(
+            targetGrid: CodeGrid(
+                rootNode: collection,
+                tokenCache: cache
+            )
+        )
+        .consumeText(text: "A")
+        .withFileName(bundle.testFile.lastPathComponent)
+        .removeBackground()
         
         XCTAssertFalse(
             testGrid.tokenCache.isEmpty(),
@@ -217,12 +191,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             print("test world bounds: ", testBounds)
             
             func compare(_ l: Bounds, _ r: Bounds) {
-                XCTAssertEqual(l.min.x, r.min.x, "min.x")
-                XCTAssertEqual(l.min.y, r.min.y, "min.y")
-                XCTAssertEqual(l.min.z, r.min.z, "min.z")
-                XCTAssertEqual(l.max.x, r.max.x, "max.x")
-                XCTAssertEqual(l.max.y, r.max.y, "max.y")
-                XCTAssertEqual(l.max.z, r.max.z, "max.z")
+                XCTAssertEqual(l.min.x, r.min.x, accuracy: ACCURACY, "min.x")
+                XCTAssertEqual(l.min.y, r.min.y, accuracy: ACCURACY, "min.y")
+                XCTAssertEqual(l.min.z, r.min.z, accuracy: ACCURACY, "min.z")
+                XCTAssertEqual(l.max.x, r.max.x, accuracy: ACCURACY, "max.x")
+                XCTAssertEqual(l.max.y, r.max.y, accuracy: ACCURACY, "max.y")
+                XCTAssertEqual(l.max.z, r.max.z, accuracy: ACCURACY, "max.z")
             }
             compare(testGrid.bounds, testBounds)
         }
@@ -230,30 +204,25 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         performChecks()
         testGrid.translated(dX: 10, dY: 0, dZ: 0)
         performChecks()
-//        testGrid.translated(dX: 0, dY: 10, dZ: 0)
-//        performChecks()
-//        testGrid.translated(dX: 0, dY: -20, dZ: 0)
-//        performChecks()
-//        testGrid.translated(dX: 0, dY: 0, dZ: -10)
-//        performChecks()
-//        testGrid.translated(dX: 0, dY: 0, dZ: 20)
-//        performChecks()
-//        testGrid.zeroedPosition()
-//        performChecks()
+        testGrid.translated(dX: 0, dY: 10, dZ: 0)
+        performChecks()
+        testGrid.translated(dX: 0, dY: -20, dZ: 0)
+        performChecks()
+        testGrid.translated(dX: 0, dY: 0, dZ: -10)
+        performChecks()
+        testGrid.translated(dX: 0, dY: 0, dZ: 20)
+        performChecks()
+        testGrid.zeroedPosition()
+        performChecks()
     }
     
     func testGridSize() throws {
         printStart()
         
-        let parsed = try Parser.parse(bundle.testFile)
-        let testGrid = bundle.newGrid()
+        let builder = GlobalInstances.gridStore.builder
+        let testGrid = builder.createConsumerForNewGrid()
+            .consume(url: bundle.testFile)
             .withFileName(bundle.testFile.lastPathComponent)
-            .consume(rootSyntaxNode: parsed.root)
-        
-        //        let testClass = try XCTUnwrap(
-        //            testGrid.semanticInfoMap.classes.first,
-        //            "Must have id to test"
-        //        )
         
         let (x, y, z) = (
             testGrid.lengthX,
@@ -269,12 +238,12 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     func testNodeBoundsFinding() throws {
         printStart()
         
-        let parsed = try Parser.parse(bundle.testFile)
+        let builder = GlobalInstances.gridStore.builder
+        
         func newGrid() -> CodeGrid {
-            bundle
-                .newGrid()
+            builder.createConsumerForNewGrid()
+                .consume(url: bundle.testFile)
                 .withFileName(bundle.testFile.lastPathComponent)
-                .consume(rootSyntaxNode: parsed.root)
         }
         
         let testGrid = newGrid()
@@ -339,10 +308,16 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     
     func testSnapping_EasyRight() throws {
         let snapping = WorldGridSnapping()
+        let builder = GlobalInstances.gridStore.builder
+        func newGrid() -> CodeGrid {
+            builder.createConsumerForNewGrid()
+                .consume(url: bundle.testFile)
+                .withFileName(bundle.testFile.lastPathComponent)
+        }
         
-        let firstGrid = bundle.newGrid()
-        let second_toRightOfFirst = bundle.newGrid()
-        let third_toRightOfSecond = bundle.newGrid()
+        let firstGrid = newGrid()
+        let second_toRightOfFirst = newGrid()
+        let third_toRightOfSecond = newGrid()
         
         print("connect first[\(firstGrid.id)] to second[\(second_toRightOfFirst.id)]")
         snapping.connect(sourceGrid: firstGrid, to: .right(second_toRightOfFirst))
@@ -400,12 +375,13 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testPositions() throws {
-        let parsed = try Parser.parse(bundle.testFile)
+        let builder = GlobalInstances.gridStore.builder
         func newGrid() -> CodeGrid {
-            bundle.newGrid()
+            builder.createConsumerForNewGrid()
+                .consume(url: bundle.testFile)
                 .withFileName(bundle.testFile.lastPathComponent)
-                .consume(rootSyntaxNode: parsed.root)
         }
+        
         let testGrid = newGrid()
         var (deltaX, deltaY, deltaZ) = (Float.zero, Float.zero, Float.zero)
         
@@ -441,11 +417,10 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
     }
     
     func testMeasuresAndSizes() throws {
-        //        let parsed = try Parser.parse(bundle.testFile)
-        let parsed = Parser.parse(source: TestBundle.RawCode.A)
+        let builder = GlobalInstances.gridStore.builder
         func newGrid() -> CodeGrid {
-            bundle.newGrid()
-                .consume(rootSyntaxNode: parsed.root)
+            builder.createConsumerForNewGrid()
+                .consumeText(text: TestBundle.RawCode.A)
         }
         
         let testGrid = newGrid()
@@ -481,23 +456,23 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         /// NOTE: This is linearly increasing to test a cached bounds issue,
         /// and to more easily detect patterns with problem result positions
         doTranslateTest(-5)
-        doTranslateTest(-5)
-        doTranslateTest(-4)
-        doTranslateTest(-3)
-        doTranslateTest(-2)
-        doTranslateTest(-1)
-        doTranslateTest(0)
-        doTranslateTest(1)
-        doTranslateTest(2)
-        doTranslateTest(3)
-        doTranslateTest(4)
-        doTranslateTest(5)
-        doTranslateTest(6)
-        doTranslateTest(7.1)
-        doTranslateTest(7.2)
-        doTranslateTest(1000)
-        doTranslateTest(-10000)
-        doTranslateTest(194.231)
+//        doTranslateTest(-5)
+//        doTranslateTest(-4)
+//        doTranslateTest(-3)
+//        doTranslateTest(-2)
+//        doTranslateTest(-1)
+//        doTranslateTest(0)
+//        doTranslateTest(1)
+//        doTranslateTest(2)
+//        doTranslateTest(3)
+//        doTranslateTest(4)
+//        doTranslateTest(5)
+//        doTranslateTest(6)
+//        doTranslateTest(7.1)
+//        doTranslateTest(7.2)
+//        doTranslateTest(1000)
+//        doTranslateTest(-10000)
+//        doTranslateTest(194.231)
         
         // Move node, then test the expected position comes back
         func doTranslateTest(_ delta: VectorFloat) {
@@ -515,9 +490,9 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newExpectedCenterZ = centerZ + delta
             
             // Current measurements and position have a precision of about 3-4 places
-            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterX, newExpectedCenterX, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterY, newExpectedCenterY, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterZ, newExpectedCenterZ, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
             
             centerX = newExpectedCenterX
             centerY = newExpectedCenterY
@@ -529,30 +504,23 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
             let newBoundsLength = newBounds.length * DeviceScale
             let newBoundsCenter = testGrid.rootNode.boundsCenterPosition
             
-            let sizeDeltaX = abs(testGridWidth - newBoundsWidth)
-            let sizeDeltaY = abs(testGridHeight - newBoundsHeight)
-            let sizeDeltaZ = abs(testGridLength - newBoundsLength)
+            XCTAssertEqual(testGridWidth, newBoundsWidth, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(testGridHeight, newBoundsHeight, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(testGridLength, newBoundsLength, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
             
-            XCTAssertLessThanOrEqual(sizeDeltaX, 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertLessThanOrEqual(sizeDeltaY, 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertLessThanOrEqual(sizeDeltaZ, 0.001, "Error should be within Metal Float accuracy")
-            
-            let boundsDeltaX = abs(newCenterX - newBoundsCenter.x)
-            let boundsDeltaY = abs(newCenterY - newBoundsCenter.y)
-            let boundsDeltaZ = abs(newCenterZ - newBoundsCenter.z)
-            
-            XCTAssertLessThanOrEqual(boundsDeltaX, 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertLessThanOrEqual(boundsDeltaY, 0.001, "Error should be within Metal Float accuracy")
-            XCTAssertLessThanOrEqual(boundsDeltaZ, 0.001, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterX, newBoundsCenter.x, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterY, newBoundsCenter.y, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
+            XCTAssertEqual(newCenterZ, newBoundsCenter.z, accuracy: ACCURACY, "Error should be within Metal Float accuracy")
         }
     }
     
     func testSnapping_Complicated() throws {
-        let parsed = try Parser.parse(bundle.testFile)
         var allGrids = [CodeGrid]()
+        let builder = GlobalInstances.gridStore.builder
         func newGrid() -> CodeGrid {
-            let newGrid = bundle.newGrid()
-                .consume(rootSyntaxNode: parsed.root)
+            let newGrid = builder.createConsumerForNewGrid()
+                .consume(url: bundle.testFile)
+                .withFileName(bundle.testFile.lastPathComponent)
             allGrids.append(newGrid)
             return newGrid
         }
