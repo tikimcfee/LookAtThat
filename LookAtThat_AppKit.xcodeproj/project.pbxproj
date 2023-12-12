@@ -129,7 +129,7 @@
 		F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCP-Bridging-Header.h"; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
-		F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LookAtThat Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LookAtThat_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */,
-				F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */,
+				F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */,
 				F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */,
 			);
 			name = Products;
@@ -359,9 +359,9 @@
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F07C49C4251C095200F28173 /* LookAtThat Tests */ = {
+		F07C49C4251C095200F28173 /* LookAtThat_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */;
+			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_Tests" */;
 			buildPhases = (
 				F07C49C1251C095200F28173 /* Sources */,
 				F07C49C2251C095200F28173 /* Frameworks */,
@@ -371,15 +371,14 @@
 			buildRules = (
 			);
 			dependencies = (
-				B713405628170F88005E0E31 /* PBXTargetDependency */,
 				F07C49CB251C095200F28173 /* PBXTargetDependency */,
 				B7F44C42276E324600522B45 /* PBXTargetDependency */,
 			);
-			name = "LookAtThat Tests";
+			name = LookAtThat_Tests;
 			packageProductDependencies = (
 			);
 			productName = LookAtThat_AppKitTests;
-			productReference = F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */;
+			productReference = F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */ = {
@@ -458,7 +457,7 @@
 			targets = (
 				F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */,
 				F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */,
-				F07C49C4251C095200F28173 /* LookAtThat Tests */,
+				F07C49C4251C095200F28173 /* LookAtThat_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -533,10 +532,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B713405628170F88005E0E31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = B713405528170F88005E0E31 /* SwiftTrace */;
-		};
 		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */;
@@ -769,7 +764,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LookAtThat_AppKit.app/Contents/MacOS/LookAtThat_AppKit";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftGlyphsHI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftGlyphsHI";
 			};
 			name = Debug;
 		};
@@ -791,7 +786,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LookAtThat_AppKit.app/Contents/MacOS/LookAtThat_AppKit";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftGlyphsHI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftGlyphsHI";
 			};
 			name = Release;
 		};
@@ -875,7 +870,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */ = {
+		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F07C49CC251C095200F28173 /* Debug */,
@@ -910,14 +905,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
-			};
-		};
-		B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
-			requirement = {
-				branch = "logging-output";
-				kind = branch;
 			};
 		};
 		B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */ = {
@@ -978,11 +965,6 @@
 		45703F362B26A6AC00E8D9E1 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
-		};
-		B713405528170F88005E0E31 /* SwiftTrace */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
-			productName = SwiftTrace;
 		};
 		B72A8774287BE93900A78B19 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;

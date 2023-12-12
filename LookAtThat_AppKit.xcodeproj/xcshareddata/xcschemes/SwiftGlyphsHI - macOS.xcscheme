@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F07C49C4251C095200F28173"
-               BuildableName = "LookAtThat Tests.xctest"
-               BlueprintName = "LookAtThat Tests"
+               BuildableName = "LookAtThat_Tests.xctest"
+               BlueprintName = "LookAtThat_Tests"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </TestableReference>

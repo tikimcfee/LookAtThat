@@ -17,11 +17,9 @@ import MetalLink
 import MetalLinkHeaders
 import MetalLinkResources
 import Collections
-import CasePaths
 
 import SwiftTreeSitter
 import TreeSitterSwift
-
 
 class LookAtThat_TracingTests: XCTestCase {
     var bundle: TestBundle!
@@ -261,7 +259,7 @@ class LookAtThat_TracingTests: XCTestCase {
         let parser = Parser()
         try parser.setLanguage(language)
         
-        let path = URL(filePath: "/Users/ivanlugo/rapiddev/_personal/LookAtThat/Interop/Views/SourceInfoPanelState.swift")
+        let path = URL(filePath: "/Users/ivanlugo/rapiddev/_personal/LatComponents/SwiftGlyph/Sources/SwiftGlyphs/GlobalInstances.swift")
         let testFile = try! String(contentsOf: path)
         let tree = parser.parse(testFile)!
         
@@ -284,31 +282,6 @@ class LookAtThat_TracingTests: XCTestCase {
                 print("\t\t\(capture.nameComponents)")
                 print("\t\t\(capture.metadata)")
             }
-        }
-    }
-    
-    class TreeSyntaxCollector {
-        var rootNode: TreeSyntaxNode
-        
-        init(
-            rootNode: TreeSyntaxNode
-        ) {
-            self.rootNode = rootNode
-        }
-    }
-    
-    class TreeSyntaxNode {
-        var name: String
-        var nameChildren: [String]
-        var nameCaptures: [QueryCapture]
-        init(
-            name: String,
-            nameChildren: [String],
-            nameCaptures: [QueryCapture]
-        ) {
-            self.name = name
-            self.nameChildren = nameChildren
-            self.nameCaptures = nameCaptures
         }
     }
     
