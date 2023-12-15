@@ -10,7 +10,6 @@ import ARKit
 #endif
 import SwiftUI
 import MetalLink
-import MetalLinkResources
 import SwiftGlyph
 import BitHandling
 

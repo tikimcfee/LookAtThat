@@ -12,7 +12,6 @@ import BitHandling
 import SwiftGlyph
 import MetalLink
 import MetalLinkHeaders
-import MetalLinkResources
 import Collections
 
 import SwiftTreeSitter
@@ -71,6 +70,39 @@ class LookAtThat_TracingTests: XCTestCase {
                textData == textData2
             && textData2 == __UNRENDERABLE__GLYPH__DATA__
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
+    }
+    
+    func testAsyncRender() throws {
+        let file = bundle.testFile
+        let render = FileWatchRenderer(
+            link: GlobalInstances.defaultLink,
+            atlas:GlobalInstances.defaultAtlas,
+            compute: GlobalInstances.gridStore.sharedConvert,
+            sourceUrl: file
+        )
+        
+        let watch = Stopwatch()
+        watch.start()
+        
+        let loopCount = 1
+        let expecation = expectation(description: "Finished render")
+        expecation.expectedFulfillmentCount = loopCount
+        
+        for _ in (0..<loopCount) {
+//            Task {
+            WorkerPool.shared.nextConcurrentWorker().async {
+                do {
+                    let resultCollection = try render.regenerateCollectionForSource()
+                    XCTAssert(resultCollection.bounds.size.y > 0, "The render should result in a collection with bounds.")
+                    expecation.fulfill()
+                } catch {
+                    print(error)
+                }
+            }
+        }
+        wait(for: [expecation])
+        watch.stop()
+        print("Completed in: \(watch.elapsedTimeString())")
     }
     
     func testAtlasLayout() throws {
@@ -232,12 +264,6 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertEqual(added, testCount, "Make all the glyphees")
         
         atlas.save()
-//        atlas.load()
-    }
-    
-    func testResaveAtlas() throws {
-//        var atlas = GlobalInstances.defaultAtlas
-//        atlas.save()
     }
     
     func testPrebuiltAtlas() throws {
@@ -292,6 +318,17 @@ class LookAtThat_TracingTests: XCTestCase {
 //                print("\t\t\(capture.metadata)")
             }
         }
+    }
+    
+    func testLSP() async throws {
+        let server = GlobalInstances.lspServer
+        let testDirectory = bundle.testDirectory
+        
+        let startLocation = GlyphServer.Language.Swift.location(for: testDirectory)
+        try await server.startup(location: startLocation)
+        
+        print("Well waddya know!")
+        
     }
     
     func testDeepRecursion() throws {

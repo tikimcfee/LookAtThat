@@ -93,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		459F70542B2BF38800C209D8 /* SwiftGlyphsHIDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftGlyphsHIDebug.entitlements; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +162,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45E81A382B2BF1B000C7B87A /* LSP */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LSP;
+			sourceTree = "<group>";
+		};
 		B79F93192750C3B000E46A96 /* Semantics */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +199,7 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				459F70542B2BF38800C209D8 /* SwiftGlyphsHIDebug.entitlements */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
@@ -254,6 +263,7 @@
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				45E81A382B2BF1B000C7B87A /* LSP */,
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
@@ -652,7 +662,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = LookAtThat_AppKit/LookAtThat_AppKit.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SwiftGlyphsHIDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -660,7 +670,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -693,7 +703,7 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_MetalCaptureEnabled = YES;
+				INFOPLIST_KEY_MetalCaptureEnabled = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;

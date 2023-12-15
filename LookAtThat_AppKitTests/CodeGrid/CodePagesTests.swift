@@ -11,7 +11,6 @@ import Foundation
 import BitHandling
 import MetalLink
 import MetalLinkHeaders
-import MetalLinkResources
 import SwiftGlyph
 @testable import SwiftGlyphsHI
 

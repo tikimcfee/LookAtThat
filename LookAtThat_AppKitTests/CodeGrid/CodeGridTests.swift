@@ -10,7 +10,6 @@ import SceneKit
 import Foundation
 import BitHandling
 import MetalLinkHeaders
-import MetalLinkResources
 import MetalLink
 import SwiftGlyph
 @testable import SwiftGlyphsHI
