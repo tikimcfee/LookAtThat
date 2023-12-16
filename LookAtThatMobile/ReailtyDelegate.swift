@@ -14,7 +14,6 @@ struct CubeARView: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
         
-
         // Create the cube entity
         let boxMesh = MeshResource.generateBox(size: 0.2, cornerRadius: 0.02)
         let material = SimpleMaterial(color: .red, isMetallic: true)

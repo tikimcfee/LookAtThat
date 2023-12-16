@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450A84DF2B2D465000188284 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 450A84DE2B2D465000188284 /* MetalLink */; };
 		45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F342B26A5FB00E8D9E1 /* SwiftGlyph */; };
 		45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F362B26A6AC00E8D9E1 /* SwiftGlyph */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
@@ -35,7 +36,6 @@
 		F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F057D2092520328C0094BD83 /* LaunchScreen.storyboard */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
 		F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* AppDelegate.swift */; };
-		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
 		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
 		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -121,7 +121,6 @@
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49E9251C5AE800F28173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppRootView.swift; sourceTree = "<group>"; };
 		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F07C49F4251C5AE900F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -155,6 +154,7 @@
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
+				450A84DF2B2D465000188284 /* MetalLink in Frameworks */,
 				45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,7 +279,6 @@
 				F07C49F1251C5AE900F28173 /* Preview Content */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
 				B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */,
-				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
 				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
 				F07C49F4251C5AE900F28173 /* Info.plist */,
@@ -385,6 +384,7 @@
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
 				45703F362B26A6AC00E8D9E1 /* SwiftGlyph */,
+				450A84DE2B2D465000188284 /* MetalLink */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */;
@@ -498,7 +498,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
 				45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */,
@@ -581,8 +580,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
+				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -645,7 +645,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -677,7 +677,7 @@
 				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -706,7 +706,7 @@
 				INFOPLIST_KEY_MetalCaptureEnabled = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -727,7 +727,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-Xlinker",
@@ -754,7 +754,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -771,11 +771,11 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -804,7 +804,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -898,6 +898,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		450A84DE2B2D465000188284 /* MetalLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetalLink;
+		};
 		45703F342B26A5FB00E8D9E1 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;

@@ -59,6 +59,9 @@ struct GlobalSearchView: View {
         }.onChange(of: searchScrollLock) {
             GlobalInstances.debugCamera.scrollLock = $0
         }
+//        }.onChange(of: searchScrollLock) { oldValue, newValue in
+//            GlobalInstances.debugCamera.scrollLock = newValue
+//        }
         .padding()
         .fixedSize()
     }

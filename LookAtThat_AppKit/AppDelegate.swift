@@ -33,19 +33,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate {
     func makeRootContentView() -> NSView {
-        let contentView = MacAppRootView()
-            .environmentObject(MultipeerConnectionManager.shared)
-            .onAppear {
-                // Set initial state on appearance
-                GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
-                GlobalInstances.gridStore.gridInteractionState.setupStreams()
-                GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
-            }
-            .onDisappear {
-                URL.dumpAndDescopeAllKnownBookmarks()
-            }
-        
-        return NSHostingView(rootView: contentView)
+        let rootDemoView = SwiftGlyphDemoView()
+        return NSHostingView(rootView: rootDemoView)
     }
     
     func makeRootWindow() -> NSWindow {
