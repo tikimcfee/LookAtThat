@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 import MetalLink
+import MetalLinkHeaders
+import MetalLinkResources
 import SwiftGlyph
 
 struct SourceInfoPanelView: View {
