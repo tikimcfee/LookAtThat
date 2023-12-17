@@ -47,7 +47,7 @@ extension GlobalSearchViewState {
 
 struct GlobalSearchView: View {
     @StateObject var searchState = GlobalSearchViewState()
-    @State var searchScrollLock = Set<DebugCamera.ScrollLock>()
+    @State var searchScrollLock = Set<ScrollLock>()
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -132,7 +132,7 @@ struct GlobalSearchView: View {
         VStack {
             Text("Camera Lock")
             HStack {
-                ForEach(DebugCamera.ScrollLock.allCases) {
+                ForEach(ScrollLock.allCases) {
                     scrollToggleButton($0)
                 }
             }
@@ -141,7 +141,7 @@ struct GlobalSearchView: View {
         .border(.gray)
     }
     
-    func scrollToggleButton(_ lock: DebugCamera.ScrollLock) -> some View {
+    func scrollToggleButton(_ lock: ScrollLock) -> some View {
         Button(
             action: {
                 _ = searchScrollLock.toggle(lock)
