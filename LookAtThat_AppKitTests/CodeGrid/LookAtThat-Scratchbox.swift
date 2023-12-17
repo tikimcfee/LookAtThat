@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import SceneKit
 import Foundation
 import MetalLink
 import MetalLinkHeaders

@@ -1,5 +1,4 @@
 import XCTest
-import SceneKit
 import SwiftGlyph
 @testable import SwiftGlyphsHI
 
