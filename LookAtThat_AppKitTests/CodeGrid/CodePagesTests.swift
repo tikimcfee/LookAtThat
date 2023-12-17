@@ -60,7 +60,8 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         let branchName = "main"
         printStart(.message("Git repo fetch test, \(owner):\(repoName)@\(branchName)"))
         
-        GitHubClient.shared.downloadAndUnzipRepository(
+        let client = GitHubClient(session: .shared)
+        let result = client.downloadAndUnzipRepository(
             owner: owner, repositoryName: repoName, branchName: branchName
         ) { result in
             switch result {

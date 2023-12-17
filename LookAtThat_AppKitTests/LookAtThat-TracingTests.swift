@@ -284,12 +284,13 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testTreeSitter() throws {
+        let compute = GlobalInstances.gridStore.sharedConvert
         let language = Language(language: tree_sitter_swift())
         
         let parser = Parser()
         try parser.setLanguage(language)
         
-        let path = URL(filePath: "/Users/ivanlugo/rapiddev/_personal/LatComponents/SwiftGlyph/Sources/SwiftGlyphs/GlobalInstances.swift")
+        let path = bundle.testFile
         let testFile = try! String(contentsOf: path)
         let tree = parser.parse(testFile)!
         
@@ -303,20 +304,29 @@ class LookAtThat_TracingTests: XCTestCase {
         let query = try language.query(contentsOf: queryUrl!)
         let cursor = query.execute(node: tree.rootNode!, in: tree)
         
+        // I'm gonna setup a pipe to just render any stream of UTF-8 data.
+        // Teehee.
+        
+        var rawOutput = ""
+        func addLine(_ message: String) { rawOutput += message + "\n" }
         for match in cursor {
-            print("match: ", match.id, match.patternIndex)
-
-//            print("\t - [captures]")
+            addLine("match: \(match.id), \(match.patternIndex)")
+            
             for capture in match.captures {
-                print("\t>> [\(capture)] <<")
-//                let lo = testFile.index(testFile.startIndex, offsetBy: capture.range.lowerBound)
-//                let hi = testFile.index(testFile.startIndex, offsetBy: capture.range.upperBound)
-//                print("\t\t\(testFile[lo..<hi])")
-                print("\t\t\(capture.nameComponents)")
-                print("\t\t\(capture.name ?? "<!> no name")")
-//                print("\t\t\(capture.metadata)")
+                addLine("\t>> [\(capture)] <<")
+                addLine("\t\t\(capture.nameComponents)")
+                addLine("\t\t\(capture.name ?? "<!> no name")")
             }
         }
+        let rawData = try XCTUnwrap(rawOutput.data(using: .utf8), "How did you generate bad UTF-8 data?")
+        
+        let result = try compute.executeDataWithAtlas(
+            name: "TreeSitterTest",
+            source: rawData,
+            atlas: GlobalInstances.defaultAtlas
+        )
+        
+        print(result)
     }
     
     func testLSP() async throws {
