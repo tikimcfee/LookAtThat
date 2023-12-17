@@ -94,8 +94,6 @@ extension SourceInfoPanelView {
         GitHubClientView()
     }
     
-    
-    
     @ViewBuilder
     var gridStateView: some View {
         GridWutView()
