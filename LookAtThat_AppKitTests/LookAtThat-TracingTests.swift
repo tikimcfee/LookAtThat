@@ -294,31 +294,47 @@ class LookAtThat_TracingTests: XCTestCase {
         let testFile = try! String(contentsOf: path)
         let tree = parser.parse(testFile)!
         
+        var rawOutput = ""
+        func addLine(_ message: String) {
+            rawOutput += message + "\n"
+        }
+        func addSeparator() {
+            rawOutput += "\n\n" + "~~~~~~~~~~~~~~~~~~" + "\n\n"
+        }
+        
         print(tree)
         
-        let queryUrl = Bundle.main
-                      .resourceURL?
-                      .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
-                      .appendingPathComponent("Contents/Resources/queries/highlights.scm")
+        let queryRootUrl = Bundle.main.resourceURL?
+            .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
+            .appendingPathComponent("Contents/Resources/queries/")
         
-        let query = try language.query(contentsOf: queryUrl!)
-        let cursor = query.execute(node: tree.rootNode!, in: tree)
-        
-        // I'm gonna setup a pipe to just render any stream of UTF-8 data.
-        // Teehee.
-        
-        var rawOutput = ""
-        func addLine(_ message: String) { rawOutput += message + "\n" }
-        for match in cursor {
-            addLine("match: \(match.id), \(match.patternIndex)")
-            
-            for capture in match.captures {
-                addLine("\t>> [\(capture)] <<")
-                addLine("\t\t\(capture.nameComponents)")
-                addLine("\t\t\(capture.name ?? "<!> no name")")
-            }
+        let names = ["highlights", "tags", "locals"].map { $0 + ".scm" }
+        let queryUrls = names.compactMap {
+            queryRootUrl?.appendingPathComponent($0)
         }
-        let rawData = try XCTUnwrap(rawOutput.data(using: .utf8), "How did you generate bad UTF-8 data?")
+        
+        for queryUrl in queryUrls {
+            
+            let query = try language.query(contentsOf: queryUrl)
+            let cursor = query.execute(node: tree.rootNode!, in: tree)
+            
+            for match in cursor {
+//                addLine("match: \(match.id), \(match.patternIndex)")
+                for capture in match.captures {
+                    addLine("\(capture.name ?? ".."),\(capture.node.nodeType ?? "?"),\(capture.range)")
+//                    addLine("\t>> [\(capture)] <<")
+//                    addLine("\t\t\(capture.nameComponents)")
+//                    addLine("\t\t\(capture.name ?? "<!> no name")")
+                }
+            }
+            
+            addSeparator()
+        }
+        
+        let rawData = try XCTUnwrap(
+            rawOutput.data(using: .utf8),
+            "How did you generate bad UTF-8 data?"
+        )
         
         let result = try compute.executeDataWithAtlas(
             name: "TreeSitterTest",
