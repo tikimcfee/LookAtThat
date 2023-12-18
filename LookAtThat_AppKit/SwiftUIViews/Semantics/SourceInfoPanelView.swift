@@ -96,33 +96,9 @@ extension SourceInfoPanelView {
     
     @ViewBuilder
     var gridStateView: some View {
-        GridWutView()
-    }
-    
-    struct GridWutView: View {
-        // TODO: Split all this mess up. Getting crazier by the day.
-        @State private var currentHoveredGrid: GridPickingState.Event?
-        @State private var cameraPosition: LFloat3?
-        
-        var body: some View {
-            VStack {
-                if let state = currentHoveredGrid?.latestState {
-                    Text(state.targetGrid.fileName)
-                    Text(state.targetGrid.dumpstats)
-                }
-            }
-            .frame(minWidth: 420, minHeight: 420)
-            .onReceive(
-                GlobalInstances.gridStore
-                    .nodeHoverController
-                    .sharedGridEvent
-                    .subscribe(on: RunLoop.main)
-                    .receive(on: RunLoop.main),
-                perform: { hoveredGrid in
-                    self.currentHoveredGrid = hoveredGrid
-                }
-            )
-        }
+        SwiftGlyphHoverView(
+            link: GlobalInstances.defaultLink
+        )
     }
     
     var globalSearchView: some View {
