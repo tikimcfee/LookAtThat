@@ -1,4 +1,5 @@
 {
+  "originHash" : "030a0242c174c5e66900579a93c6a405c0cdfb852f542182dbf2584e2eabdfb9",
   "pins" : [
     {
       "identity" : "bithandling",
@@ -6,7 +7,7 @@
       "location" : "https://github.com/tikimcfee/BitHandling.git",
       "state" : {
         "branch" : "sgalpha-bits",
-        "revision" : "fae61fea5157724223509822368dff0d371f5ff5"
+        "revision" : "ddcccc1bdc1b0c7c44970c73aa5685189e68c2be"
       }
     },
     {
@@ -15,7 +16,25 @@
       "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
         "branch" : "sgalpha-metal-link",
-        "revision" : "cfcc30ebdd1461b3391fb4abf6acecc2d33989c9"
+        "revision" : "faf99d2086271cd81c29576c917305f0ff87b3f2"
+      }
+    },
+    {
+      "identity" : "neon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Neon.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "26f53e55e363727209a7a97854306b54b71cb3a5"
+      }
+    },
+    {
+      "identity" : "rearrange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Rearrange",
+      "state" : {
+        "revision" : "5ff7f3363f7a08f77e0d761e38e6add31c2136e1",
+        "version" : "1.8.1"
       }
     },
     {
@@ -46,21 +65,20 @@
       }
     },
     {
-      "identity" : "swift-syntax",
+      "identity" : "swifttreesitter",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-syntax.git",
+      "location" : "https://github.com/ChimeHQ/SwiftTreeSitter",
       "state" : {
-        "branch" : "main",
-        "revision" : "89831cea0f5dcc12ae0fc2b86ce83319bd3082db"
+        "revision" : "b01904a3737649c1d8520106bbb285724fe5b0bb"
       }
     },
     {
-      "identity" : "swiftglyph",
+      "identity" : "tree-sitter-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikimcfee/SwiftGlyph/",
+      "location" : "https://github.com/alex-pinkus/tree-sitter-swift.git",
       "state" : {
-        "branch" : "sgalpha-swift-glyphs",
-        "revision" : "f855516e64352b12f471a66b5cba3e320b89d6ae"
+        "branch" : "with-generated-files",
+        "revision" : "33e56e4e2a6455f3fd4e04cfe5c7a314d498612d"
       }
     },
     {
@@ -73,5 +91,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

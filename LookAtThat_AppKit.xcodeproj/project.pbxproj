@@ -3,15 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		450A84DF2B2D465000188284 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 450A84DE2B2D465000188284 /* MetalLink */; };
 		450B820F2B2E5E9B00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820E2B2E5E9400B3242C /* Assets.xcassets */; };
 		450B82102B2E5E9E00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820D2B2E5E8800B3242C /* Assets.xcassets */; };
-		45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F342B26A5FB00E8D9E1 /* SwiftGlyph */; };
-		45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F362B26A6AC00E8D9E1 /* SwiftGlyph */; };
+		459A9CFE2BEBED9200637719 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 459A9CFD2BEBED9200637719 /* MetalLink */; };
+		459A9D012BEBEE1D00637719 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 459A9D002BEBEE1D00637719 /* SwiftGlyph */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -126,10 +126,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
-				45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
+				459A9CFE2BEBED9200637719 /* MetalLink in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
+				459A9D012BEBEE1D00637719 /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +150,6 @@
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
 				450A84DF2B2D465000188284 /* MetalLink in Frameworks */,
-				45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +311,8 @@
 				B7D1871E28C44A0900BACAA1 /* Zip */,
 				B76576CF28F0DDF5003617FC /* Collections */,
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
-				45703F342B26A5FB00E8D9E1 /* SwiftGlyph */,
+				459A9CFD2BEBED9200637719 /* MetalLink */,
+				459A9D002BEBEE1D00637719 /* SwiftGlyph */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
@@ -358,7 +359,6 @@
 				B7D1872028C57AFA00BACAA1 /* Zip */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
-				45703F362B26A6AC00E8D9E1 /* SwiftGlyph */,
 				450A84DE2B2D465000188284 /* MetalLink */,
 			);
 			productName = LookAtThatMobile;
@@ -373,7 +373,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					F00FC72B250C53460092AFF9 = {
 						CreatedOnToolsVersion = 12.0;
@@ -401,7 +401,7 @@
 				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
-				45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
+				459A9CFF2BEBEE1D00637719 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyph" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -534,9 +534,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -604,9 +606,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -640,6 +644,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -670,6 +675,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -692,6 +698,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -719,6 +726,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -832,15 +840,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph/";
-			requirement = {
-				branch = "sgalpha-swift-glyphs";
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		459A9CFF2BEBEE1D00637719 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyph" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../LatComponents/SwiftGlyph;
 		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
 		B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -872,11 +879,11 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MetalLink;
 		};
-		45703F342B26A5FB00E8D9E1 /* SwiftGlyph */ = {
+		459A9CFD2BEBED9200637719 /* MetalLink */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SwiftGlyph;
+			productName = MetalLink;
 		};
-		45703F362B26A6AC00E8D9E1 /* SwiftGlyph */ = {
+		459A9D002BEBEE1D00637719 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
 		};
