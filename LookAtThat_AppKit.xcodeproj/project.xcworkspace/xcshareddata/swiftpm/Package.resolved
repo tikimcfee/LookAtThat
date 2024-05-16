@@ -1,5 +1,5 @@
 {
-  "originHash" : "030a0242c174c5e66900579a93c6a405c0cdfb852f542182dbf2584e2eabdfb9",
+  "originHash" : "bed24c3e458947eab6ed0ee032c3f8bb59a46d7c558fe00174f676844bd76eb6",
   "pins" : [
     {
       "identity" : "bithandling",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/tikimcfee/BitHandling.git",
       "state" : {
         "branch" : "sgalpha-bits",
-        "revision" : "ddcccc1bdc1b0c7c44970c73aa5685189e68c2be"
+        "revision" : "3c527920400caebf8682ea7ab929daa911d33344"
       }
     },
     {
@@ -25,7 +25,7 @@
       "location" : "https://github.com/ChimeHQ/Neon.git",
       "state" : {
         "branch" : "main",
-        "revision" : "26f53e55e363727209a7a97854306b54b71cb3a5"
+        "revision" : "709683a2e2f3a2e502e8383f9aa5c725bf7d85e6"
       }
     },
     {
@@ -58,7 +58,7 @@
     {
       "identity" : "swift-numerics",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-numerics",
+      "location" : "https://github.com/apple/swift-numerics.git",
       "state" : {
         "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
         "version" : "1.0.2"

@@ -11,8 +11,8 @@
 		450B820F2B2E5E9B00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820E2B2E5E9400B3242C /* Assets.xcassets */; };
 		450B82102B2E5E9E00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820D2B2E5E8800B3242C /* Assets.xcassets */; };
 		459A9CFE2BEBED9200637719 /* MetalLink in Frameworks */ = {isa = PBXBuildFile; productRef = 459A9CFD2BEBED9200637719 /* MetalLink */; };
-		459A9D012BEBEE1D00637719 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 459A9D002BEBEE1D00637719 /* SwiftGlyph */; };
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
+		961008832BF6896C009DA6A0 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 961008822BF6896C009DA6A0 /* SwiftGlyph */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
 		B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -130,7 +130,7 @@
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
 				459A9CFE2BEBED9200637719 /* MetalLink in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
-				459A9D012BEBEE1D00637719 /* SwiftGlyph in Frameworks */,
+				961008832BF6896C009DA6A0 /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +312,7 @@
 				B76576CF28F0DDF5003617FC /* Collections */,
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				459A9CFD2BEBED9200637719 /* MetalLink */,
-				459A9D002BEBEE1D00637719 /* SwiftGlyph */,
+				961008822BF6896C009DA6A0 /* SwiftGlyph */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
@@ -401,7 +401,7 @@
 				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
-				459A9CFF2BEBEE1D00637719 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyph" */,
+				961008812BF6896C009DA6A0 /* XCLocalSwiftPackageReference "../SwiftGlyph" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -841,9 +841,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		459A9CFF2BEBEE1D00637719 /* XCLocalSwiftPackageReference "../LatComponents/SwiftGlyph" */ = {
+		961008812BF6896C009DA6A0 /* XCLocalSwiftPackageReference "../SwiftGlyph" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LatComponents/SwiftGlyph;
+			relativePath = ../SwiftGlyph;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -883,7 +883,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MetalLink;
 		};
-		459A9D002BEBEE1D00637719 /* SwiftGlyph */ = {
+		961008822BF6896C009DA6A0 /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
 		};
