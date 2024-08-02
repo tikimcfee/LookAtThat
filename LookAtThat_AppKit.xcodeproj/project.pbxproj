@@ -12,6 +12,8 @@
 		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 963F88952BF6A1D000070C1B /* SwiftGlyph */; };
 		963F88982BF6A1DA00070C1B /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 963F88972BF6A1DA00070C1B /* SwiftGlyph */; };
+		96B6D8EB2C5B518D00183604 /* STTextView in Frameworks */ = {isa = PBXBuildFile; productRef = 96B6D8EA2C5B518D00183604 /* STTextView */; };
+		96B6D8F12C5B52AE00183604 /* STTextView in Frameworks */ = {isa = PBXBuildFile; productRef = 96B6D8F02C5B52AE00183604 /* STTextView */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
 		B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
@@ -129,6 +131,8 @@
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
 				963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
+				96B6D8F12C5B52AE00183604 /* STTextView in Frameworks */,
+				96B6D8EB2C5B518D00183604 /* STTextView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +314,8 @@
 				B76576CF28F0DDF5003617FC /* Collections */,
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				963F88952BF6A1D000070C1B /* SwiftGlyph */,
+				96B6D8EA2C5B518D00183604 /* STTextView */,
+				96B6D8F02C5B52AE00183604 /* STTextView */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
@@ -399,6 +405,7 @@
 				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
 				963F88942BF6A1D000070C1B /* XCLocalSwiftPackageReference "../SwiftGlyph" */,
+				96B6D8EF2C5B52AE00183604 /* XCLocalSwiftPackageReference "../STTextView" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -654,6 +661,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -684,6 +692,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -842,6 +851,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../SwiftGlyph;
 		};
+		96B6D8EF2C5B52AE00183604 /* XCLocalSwiftPackageReference "../STTextView" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../STTextView;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -880,6 +893,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 963F88942BF6A1D000070C1B /* XCLocalSwiftPackageReference "../SwiftGlyph" */;
 			productName = SwiftGlyph;
+		};
+		96B6D8EA2C5B518D00183604 /* STTextView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STTextView;
+		};
+		96B6D8F02C5B52AE00183604 /* STTextView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STTextView;
 		};
 		B76576CF28F0DDF5003617FC /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;

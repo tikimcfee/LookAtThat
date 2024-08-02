@@ -71,6 +71,8 @@ extension SourceInfoPanelView {
             gitHubTools
         case .focusState:
             focusState
+        case .testStreamInput:
+            EmptyView()
         }
     }
     

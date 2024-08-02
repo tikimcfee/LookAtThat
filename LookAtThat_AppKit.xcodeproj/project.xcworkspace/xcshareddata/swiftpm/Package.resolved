@@ -1,5 +1,5 @@
 {
-  "originHash" : "93a752c726d7d92873a178a428b6edc084731ea488fd4adbc5c9690794188324",
+  "originHash" : "73f72a03aedd47a6f883688f7860c3c0c5195e56b2a6862a593ff141165d299b",
   "pins" : [
     {
       "identity" : "bithandling",
@@ -11,12 +11,21 @@
       }
     },
     {
+      "identity" : "coretextswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/CoreTextSwift",
+      "state" : {
+        "revision" : "833177201d6421e6322296f39fce6ff6ae52618a",
+        "version" : "0.2.0"
+      }
+    },
+    {
       "identity" : "metallink",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
         "branch" : "sgalpha-metal-link",
-        "revision" : "faf99d2086271cd81c29576c917305f0ff87b3f2"
+        "revision" : "c532162f103e2b0c7acd1b742b683615b055d346"
       }
     },
     {
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "5ff7f3363f7a08f77e0d761e38e6add31c2136e1",
         "version" : "1.8.1"
+      }
+    },
+    {
+      "identity" : "sttextkitplus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/STTextKitPlus",
+      "state" : {
+        "revision" : "5f70354133a6213854cbdd25f53629f8856b4942",
+        "version" : "0.1.3"
       }
     },
     {
