@@ -1,4 +1,5 @@
 {
+  "originHash" : "3aa9d06982830cd42ebe597e1bf48ed87029e9f18f278ab1ded04943b2bc9a99",
   "pins" : [
     {
       "identity" : "bithandling",
@@ -19,12 +20,12 @@
       }
     },
     {
-      "identity" : "metalcompilerplugin",
+      "identity" : "metallink",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/schwa/MetalCompilerPlugin",
+      "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "8eee0b05069520306c93abe7ee9a333740d59007"
+        "branch" : "sgalpha-metal-link",
+        "revision" : "1c32eccb38ed2be13792d8f4d03e020dda8ac81c"
       }
     },
     {
@@ -55,21 +56,21 @@
       }
     },
     {
+      "identity" : "sttextview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/STTextView.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "48a5356cd61da59e59af79f8d43249bc20c079e2"
+      }
+    },
+    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
       "state" : {
         "revision" : "f6919dfc309e7f1b56224378b11e28bab5bccc42",
         "version" : "1.2.0"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser",
-      "state" : {
-        "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
-        "version" : "1.5.0"
       }
     },
     {
@@ -88,6 +89,15 @@
       "state" : {
         "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
         "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swiftglyph",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikimcfee/SwiftGlyph.git",
+      "state" : {
+        "branch" : "sgalpha-sg-ts1",
+        "revision" : "267229b036c0351b3c18db3a4ec8a3067aaa59bc"
       }
     },
     {
@@ -117,5 +127,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
