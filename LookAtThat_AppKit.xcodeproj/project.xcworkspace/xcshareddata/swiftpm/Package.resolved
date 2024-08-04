@@ -1,5 +1,4 @@
 {
-  "originHash" : "73f72a03aedd47a6f883688f7860c3c0c5195e56b2a6862a593ff141165d299b",
   "pins" : [
     {
       "identity" : "bithandling",
@@ -20,12 +19,12 @@
       }
     },
     {
-      "identity" : "metallink",
+      "identity" : "metalcompilerplugin",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikimcfee/MetalLink.git",
+      "location" : "https://github.com/schwa/MetalCompilerPlugin",
       "state" : {
-        "branch" : "sgalpha-metal-link",
-        "revision" : "c532162f103e2b0c7acd1b742b683615b055d346"
+        "branch" : "main",
+        "revision" : "8eee0b05069520306c93abe7ee9a333740d59007"
       }
     },
     {
@@ -62,6 +61,15 @@
       "state" : {
         "revision" : "f6919dfc309e7f1b56224378b11e28bab5bccc42",
         "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
+        "version" : "1.5.0"
       }
     },
     {
@@ -109,5 +117,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
