@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let rootWindow = makeRootWindow()
-        GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
+        GlobalWindowDelegate.instance.registerRootWindow(rootWindow)
         rootWindow.contentView = makeRootContentView()
         rootWindow.makeKeyAndOrderFront(nil)
         window = rootWindow

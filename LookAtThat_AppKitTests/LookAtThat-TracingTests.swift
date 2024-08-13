@@ -15,7 +15,7 @@ import Collections
 
 import SwiftTreeSitter
 import TreeSitterSwift
-import Neon
+//import Neon
 @testable import SwiftGlyphsHI
 
 class LookAtThat_TracingTests: XCTestCase {
