@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/STTextKitPlus",
       "state" : {
-        "revision" : "5f70354133a6213854cbdd25f53629f8856b4942",
-        "version" : "0.1.3"
+        "revision" : "60e1e790c4a77ffd10176849719eb3c52bbfb2c3",
+        "version" : "0.1.5"
       }
     },
     {
