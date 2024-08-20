@@ -10,10 +10,7 @@
 		450B820F2B2E5E9B00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820E2B2E5E9400B3242C /* Assets.xcassets */; };
 		450B82102B2E5E9E00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820D2B2E5E8800B3242C /* Assets.xcassets */; };
 		96271C472C607C290026AB5F /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 96271C462C607C290026AB5F /* SwiftGlyph */; };
-		962B92AA2C5FEF9E00BC0588 /* STTextView in Frameworks */ = {isa = PBXBuildFile; productRef = 962B92A92C5FEF9E00BC0588 /* STTextView */; };
 		963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 963F88952BF6A1D000070C1B /* SwiftGlyph */; };
-		96B6D8EB2C5B518D00183604 /* STTextView in Frameworks */ = {isa = PBXBuildFile; productRef = 96B6D8EA2C5B518D00183604 /* STTextView */; };
-		96B6D8F12C5B52AE00183604 /* STTextView in Frameworks */ = {isa = PBXBuildFile; productRef = 96B6D8F02C5B52AE00183604 /* STTextView */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
 		B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */; };
 		B76576D028F0DDF5003617FC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576CF28F0DDF5003617FC /* Collections */; };
@@ -126,13 +123,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
-				962B92AA2C5FEF9E00BC0588 /* STTextView in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
 				963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
-				96B6D8F12C5B52AE00183604 /* STTextView in Frameworks */,
-				96B6D8EB2C5B518D00183604 /* STTextView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,9 +302,6 @@
 				B76576CF28F0DDF5003617FC /* Collections */,
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
 				963F88952BF6A1D000070C1B /* SwiftGlyph */,
-				96B6D8EA2C5B518D00183604 /* STTextView */,
-				96B6D8F02C5B52AE00183604 /* STTextView */,
-				962B92A92C5FEF9E00BC0588 /* STTextView */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
@@ -640,7 +631,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -885,22 +875,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
 		};
-		962B92A92C5FEF9E00BC0588 /* STTextView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 962B92A82C5FEF9E00BC0588 /* XCRemoteSwiftPackageReference "STTextView" */;
-			productName = STTextView;
-		};
 		963F88952BF6A1D000070C1B /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
-		};
-		96B6D8EA2C5B518D00183604 /* STTextView */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = STTextView;
-		};
-		96B6D8F02C5B52AE00183604 /* STTextView */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = STTextView;
 		};
 		B76576CF28F0DDF5003617FC /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
