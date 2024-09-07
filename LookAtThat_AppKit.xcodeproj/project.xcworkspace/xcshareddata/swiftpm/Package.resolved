@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "neon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Neon.git",
+      "state" : {
+        "revision" : "7df7d080a271cfa4dc87f94cccc024665a75047e",
+        "version" : "0.6.0"
+      }
+    },
+    {
+      "identity" : "rearrange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Rearrange",
+      "state" : {
+        "revision" : "5ff7f3363f7a08f77e0d761e38e6add31c2136e1",
+        "version" : "1.8.1"
+      }
+    },
+    {
       "identity" : "sttextkitplus",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/STTextKitPlus",
@@ -70,15 +88,6 @@
       "state" : {
         "revision" : "2599e95310b3159641469d8a21baf2d3d200e61f",
         "version" : "0.8.0"
-      }
-    },
-    {
-      "identity" : "tree-sitter-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alex-pinkus/tree-sitter-swift.git",
-      "state" : {
-        "branch" : "with-generated-files",
-        "revision" : "33e56e4e2a6455f3fd4e04cfe5c7a314d498612d"
       }
     },
     {

@@ -92,6 +92,7 @@
 		962B92AC2C5FF2E800BC0588 /* SwiftGlyph */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftGlyph; path = ../SwiftGlyph; sourceTree = "<group>"; };
 		962B92AD2C5FF2E800BC0588 /* STTextView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = STTextView; path = ../STTextView; sourceTree = "<group>"; };
 		962B92AE2C5FF2E800BC0588 /* MetalLink */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MetalLink; path = ../MetalLink; sourceTree = "<group>"; };
+		967659BD2C75B34600E17269 /* STTextView-Plugin-Neon */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "STTextView-Plugin-Neon"; path = "../STTextView-Plugin-Neon"; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				967659BD2C75B34600E17269 /* STTextView-Plugin-Neon */,
 				962B92AB2C5FF2E800BC0588 /* BitHandling */,
 				962B92AE2C5FF2E800BC0588 /* MetalLink */,
 				962B92AD2C5FF2E800BC0588 /* STTextView */,
