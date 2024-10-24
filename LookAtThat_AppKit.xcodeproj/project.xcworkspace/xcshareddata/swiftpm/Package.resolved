@@ -10,15 +10,6 @@
       }
     },
     {
-      "identity" : "metalcompilerplugin",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/schwa/MetalCompilerPlugin",
-      "state" : {
-        "branch" : "main",
-        "revision" : "8eee0b05069520306c93abe7ee9a333740d59007"
-      }
-    },
-    {
       "identity" : "sttextkitplus",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/STTextKitPlus",
@@ -34,15 +25,6 @@
       "state" : {
         "branch" : "main",
         "revision" : "34eec0dd27ba4b539fe01e61fac07c9227c65a63"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser",
-      "state" : {
-        "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
-        "version" : "1.5.0"
       }
     },
     {
