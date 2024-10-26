@@ -12,6 +12,16 @@ import SwiftGlyph
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    static var shared: AppDelegate {
+        return NSApp.delegate as! AppDelegate
+    }
+    
+    var willTerminate = false
+    
+    override init() {
+        super.init()
+    }
+    
     var window: NSWindow?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -24,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        GlobalWindowDelegate.instance.isTerminating = true
     }
     
     func testingCherrierView() -> Bool {
