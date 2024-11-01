@@ -81,7 +81,7 @@ class LookAtThat_AppKitCodeGridTests: XCTestCase {
         print(testGrid1.position)
         
         let root = RootNode(DebugCamera(link: link))
-        root.add(child: testGrid1.targetNode)
+        root.add(child: testGrid1.rootNode)
         print(testGrid1.position)
         
         root.position.x += 10
