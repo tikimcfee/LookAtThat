@@ -6,16 +6,12 @@
 //
 
 import XCTest
-import SwiftSyntax
-import SwiftParser
-import SceneKit
 import Foundation
 import BitHandling
 import MetalLink
 import MetalLinkHeaders
-import MetalLinkResources
 import SwiftGlyph
-@testable import LookAtThat_AppKit
+@testable import SwiftGlyphsHI
 
 class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     var bundle: TestBundle!
@@ -31,13 +27,8 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
     }
     
     func testClassCollections() throws {
-        let link = GlobalInstances.defaultLink
-        let builder = try CodeGridGlyphCollectionBuilder(
-            link: link,
-            sharedSemanticMap: SemanticInfoMap(),
-            sharedTokenCache: CodeGridTokenCache(),
-            sharedGridCache: bundle.gridCache
-        )
+        let builder = GlobalInstances.gridStore.builder
+        let cache = GlobalInstances.gridStore.gridCache
         
         let testDirectory = try XCTUnwrap(bundle.testSourceDirectory, "Must have valid root code directory")
         FileBrowser.recursivePaths(testDirectory)
@@ -49,7 +40,7 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
             }
         
         var classNames = [String]()
-        for grid in bundle.gridCache.cachedGrids.values {
+        for grid in cache.cachedGrids.values {
             grid.semanticInfoMap.classes.lazy.compactMap { key, value in
                 grid.semanticInfoMap.semanticsLookupBySyntaxId[key]
             }.forEach { semanticInfo in
@@ -69,7 +60,8 @@ class LookAtThat_AppKit_CodePagesTests: XCTestCase {
         let branchName = "main"
         printStart(.message("Git repo fetch test, \(owner):\(repoName)@\(branchName)"))
         
-        GitHubClient.shared.downloadAndUnzipRepository(
+        let client = GitHubClient(session: .shared)
+        let result = client.downloadAndUnzipRepository(
             owner: owner, repositoryName: repoName, branchName: branchName
         ) { result in
             switch result {

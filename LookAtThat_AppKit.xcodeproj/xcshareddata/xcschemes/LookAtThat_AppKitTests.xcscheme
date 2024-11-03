@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1500"
+   LastUpgradeVersion = "1600"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "F00FC72B250C53460092AFF9"
                BuildableName = "SwiftGlyphsHI.app"
                BlueprintName = "SwiftGlyphsHI"
+               ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F07C49C4251C095200F28173"
+               BuildableName = "LookAtThat_Tests.xctest"
+               BlueprintName = "LookAtThat_Tests"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,8 +54,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F07C49C4251C095200F28173"
-               BuildableName = "LookAtThat Tests.xctest"
-               BlueprintName = "LookAtThat Tests"
+               BuildableName = "LookAtThat_Tests.xctest"
+               BlueprintName = "LookAtThat_Tests"
                ReferencedContainer = "container:LookAtThat_AppKit.xcodeproj">
             </BuildableReference>
          </TestableReference>

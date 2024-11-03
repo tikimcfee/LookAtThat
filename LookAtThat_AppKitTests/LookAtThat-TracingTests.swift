@@ -5,23 +5,18 @@
 //  Created by Ivan Lugo on 5/3/22.
 //
 
-@testable import LookAtThat_AppKit
 import XCTest
-import SwiftSyntax
-import SwiftParser
-import SceneKit
 import Foundation
 import BitHandling
 import SwiftGlyph
 import MetalLink
 import MetalLinkHeaders
-import MetalLinkResources
 import Collections
-import CasePaths
 
 import SwiftTreeSitter
 import TreeSitterSwift
-
+//import Neon
+@testable import SwiftGlyphsHI
 
 class LookAtThat_TracingTests: XCTestCase {
     var bundle: TestBundle!
@@ -74,6 +69,39 @@ class LookAtThat_TracingTests: XCTestCase {
                textData == textData2
             && textData2 == __UNRENDERABLE__GLYPH__DATA__
         XCTAssertTrue(allDataMatches, "The sample needs to fail correctly.")
+    }
+    
+    func testAsyncRender() throws {
+        let file = bundle.testFile
+        let render = FileWatchRenderer(
+            link: GlobalInstances.defaultLink,
+            atlas:GlobalInstances.defaultAtlas,
+            compute: GlobalInstances.gridStore.sharedConvert,
+            sourceUrl: file
+        )
+        
+        let watch = Stopwatch()
+        watch.start()
+        
+        let loopCount = 1
+        let expecation = expectation(description: "Finished render")
+        expecation.expectedFulfillmentCount = loopCount
+        
+        for _ in (0..<loopCount) {
+//            Task {
+            WorkerPool.shared.nextConcurrentWorker().async {
+                do {
+                    let resultCollection = try render.regenerateCollectionForSource()
+                    XCTAssert(resultCollection.bounds.size.y > 0, "The render should result in a collection with bounds.")
+                    expecation.fulfill()
+                } catch {
+                    print(error)
+                }
+            }
+        }
+        wait(for: [expecation])
+        watch.stop()
+        print("Completed in: \(watch.elapsedTimeString())")
     }
     
     func testAtlasLayout() throws {
@@ -183,8 +211,14 @@ class LookAtThat_TracingTests: XCTestCase {
     
     private static let __ATLAS_SAVE_ENABLED__ = false
     func testAtlasSave() throws {
-        XCTAssertTrue(Self.__ATLAS_SAVE_ENABLED__, "Not writing or checking for safety's safe; flip flag to actually save / write")
-        guard Self.__ATLAS_SAVE_ENABLED__ else { return }
+        guard Self.__ATLAS_SAVE_ENABLED__ else {
+            print("****************************************")
+            print("****************************************")
+            print("Not writing or checking for safety's safe; flip flag to actually save / write")
+            print("****************************************")
+            print("****************************************")
+            return
+        }
         
         // TODO: to 'reset' the atlas, load it up, the recreate it and save it
         GlobalInstances.resetAtlas()
@@ -229,12 +263,6 @@ class LookAtThat_TracingTests: XCTestCase {
         XCTAssertEqual(added, testCount, "Make all the glyphees")
         
         atlas.save()
-//        atlas.load()
-    }
-    
-    func testResaveAtlas() throws {
-//        var atlas = GlobalInstances.defaultAtlas
-//        atlas.save()
     }
     
     func testPrebuiltAtlas() throws {
@@ -256,97 +284,80 @@ class LookAtThat_TracingTests: XCTestCase {
     }
     
     func testTreeSitter() throws {
+        let compute = GlobalInstances.gridStore.sharedConvert
         let language = Language(language: tree_sitter_swift())
         
         let parser = Parser()
         try parser.setLanguage(language)
         
-        let path = URL(filePath: "/Users/ivanlugo/rapiddev/_personal/LookAtThat/Interop/Views/SourceInfoPanelState.swift")
+        let path = bundle.testFile
         let testFile = try! String(contentsOf: path)
         let tree = parser.parse(testFile)!
         
+        var rawOutput = ""
+        func addLine(_ message: String) {
+            rawOutput += message + "\n"
+        }
+        func addSeparator() {
+            rawOutput += "\n\n" + "~~~~~~~~~~~~~~~~~~" + "\n\n"
+        }
+        
         print(tree)
         
-        let queryUrl = Bundle.main
-                      .resourceURL?
-                      .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
-                      .appendingPathComponent("Contents/Resources/queries/highlights.scm")
+        let queryRootUrl = Bundle.main.resourceURL?
+            .appendingPathComponent("TreeSitterSwift_TreeSitterSwift.bundle")
+            .appendingPathComponent("Contents/Resources/queries/")
         
-        let query = try language.query(contentsOf: queryUrl!)
-        let cursor = query.execute(node: tree.rootNode!, in: tree)
+        let names = ["highlights", "tags", "locals"].map { $0 + ".scm" }
+        let queryUrls = names.compactMap {
+            queryRootUrl?.appendingPathComponent($0)
+        }
         
-        for match in cursor {
-            print("match: ", match.id, match.patternIndex)
+        for queryUrl in queryUrls {
             
-            print("\t-- captures")
-            for capture in match.captures {
-                print("\t\t\(capture)")
-                print("\t\t\(capture.nameComponents)")
-                print("\t\t\(capture.metadata)")
+            let query = try language.query(contentsOf: queryUrl)
+            let cursor = query.execute(node: tree.rootNode!, in: tree)
+            
+            for match in cursor {
+//                addLine("match: \(match.id), \(match.patternIndex)")
+                for capture in match.captures {
+                    addLine("\(capture.name ?? ".."),\(capture.node.nodeType ?? "?"),\(capture.range)")
+//                    addLine("\t>> [\(capture)] <<")
+//                    addLine("\t\t\(capture.nameComponents)")
+//                    addLine("\t\t\(capture.name ?? "<!> no name")")
+                }
             }
+            
+            addSeparator()
         }
-    }
-    
-    class TreeSyntaxCollector {
-        var rootNode: TreeSyntaxNode
         
-        init(
-            rootNode: TreeSyntaxNode
-        ) {
-            self.rootNode = rootNode
-        }
+        let rawData = try XCTUnwrap(
+            rawOutput.data(using: .utf8),
+            "How did you generate bad UTF-8 data?"
+        )
+        
+        let result = try compute.executeDataWithAtlas(
+            name: "TreeSitterTest",
+            source: rawData,
+            atlas: GlobalInstances.defaultAtlas
+        )
+        
+        print(result)
     }
     
-    class TreeSyntaxNode {
-        var name: String
-        var nameChildren: [String]
-        var nameCaptures: [QueryCapture]
-        init(
-            name: String,
-            nameChildren: [String],
-            nameCaptures: [QueryCapture]
-        ) {
-            self.name = name
-            self.nameChildren = nameChildren
-            self.nameCaptures = nameCaptures
-        }
+    func testLSP() async throws {
+        let server = GlobalInstances.lspServer
+        let testDirectory = bundle.testDirectory
+        
+        let startLocation = GlyphServer.Language.Swift.location(for: testDirectory)
+        try await server.startup(location: startLocation)
+        
+        print("Well waddya know!")
+        
     }
     
     func testDeepRecursion() throws {
         let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
         rootUrl.enumeratedChildren().forEach { print($0) }
-    }
-    
-    func testClassCollection() throws {
-        let rootUrl = try XCTUnwrap(bundle.testSourceDirectory, "Must have root directory")
-        let dummyGrid = bundle.newGrid()
-        let visitor = FlatteningVisitor(
-            target: dummyGrid.semanticInfoMap,
-            builder: dummyGrid.semanticInfoBuilder
-        )
-        
-        try rootUrl.enumeratedChildren().forEach { url in
-            guard !url.isDirectory else {
-                return
-            }
-            let sourceFile = try XCTUnwrap(bundle.gridCache.loadSourceUrl(url), "Must render syntax from file")
-            let sourceSyntax = Syntax(sourceFile)
-            visitor.walkRecursiveFromSyntax(sourceSyntax)
-        }
-        
-        let classes = dummyGrid.semanticInfoMap.classes.keys.compactMap {
-            dummyGrid.semanticInfoMap.semanticsLookupBySyntaxId[$0]
-        }.compactMap { (info: SemanticInfo) -> String? in
-            "\(info.referenceName).self"
-        }
-        .sorted()
-        .joined(separator: ",\n")
-        
-        
-        print(classes)
-        
-        printEnd()
-    }
-    
-    
+    }    
 }

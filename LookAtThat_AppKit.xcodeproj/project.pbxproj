@@ -7,54 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F342B26A5FB00E8D9E1 /* SwiftGlyph */; };
-		45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 45703F362B26A6AC00E8D9E1 /* SwiftGlyph */; };
-		45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
+		450B820F2B2E5E9B00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820E2B2E5E9400B3242C /* Assets.xcassets */; };
+		450B82102B2E5E9E00B3242C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 450B820D2B2E5E8800B3242C /* Assets.xcassets */; };
+		96271C472C607C290026AB5F /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 96271C462C607C290026AB5F /* SwiftGlyph */; };
+		963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 963F88952BF6A1D000070C1B /* SwiftGlyph */; };
 		B7083FC728ACAA0700881DF3 /* LookAtThat-Scratchbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */; };
-		B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
-		B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725168228C098AB0094F29B /* GlobalSearchView.swift */; };
-		B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = B72A8774287BE93900A78B19 /* ArgumentParser */; };
 		B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */; };
 		B76576D028F0DDF5003617FC /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576CF28F0DDF5003617FC /* Collections */; };
 		B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B76576D128F0DDF5003617FC /* OrderedCollections */; };
 		B768B6692821CC2C0098F8D0 /* LookAtThat-TracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */; };
 		B79592E828A7615B00F16746 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B79592E728A7615B00F16746 /* Algorithms */; };
-		B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */; };
 		B7AB37142745696000CEC7DD /* TestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB37132745696000CEC7DD /* TestBundle.swift */; };
 		B7AB371A27456A4A00CEC7DD /* CodeGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */; };
-		B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099828D817B400AA4E37 /* SwiftTreeSitter */; };
-		B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B7B1099B28D8189800AA4E37 /* TreeSitterSwift */; };
 		B7C69FF828A4526500A84860 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B7C69FF728A4526500A84860 /* Algorithms */; };
-		B7CBD76628FCCC8400A918C2 /* SwiftParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD76528FCCC8400A918C2 /* SwiftParser */; };
-		B7CBD76828FCCC8400A918C2 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD76728FCCC8400A918C2 /* SwiftSyntax */; };
-		B7CBD76C28FCD01500A918C2 /* SwiftSyntax in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD76B28FCD01500A918C2 /* SwiftSyntax */; };
-		B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD76F28FCD08400A918C2 /* SwiftParser */; };
 		B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD77128FCD0A600A918C2 /* Collections */; };
 		B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = B7CBD77328FCD0A600A918C2 /* OrderedCollections */; };
 		B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1871E28C44A0900BACAA1 /* Zip */; };
 		B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = B7D1872028C57AFA00BACAA1 /* Zip */; };
 		B7D79AB3282B2BC6000F99EB /* CodePagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */; };
 		F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC72F250C53460092AFF9 /* AppDelegate.swift */; };
-		F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00FC731250C53460092AFF9 /* MacAppRootView.swift */; };
-		F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC733250C53470092AFF9 /* Assets.xcassets */; };
-		F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F00FC736250C53470092AFF9 /* Preview Assets.xcassets */; };
 		F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F00FC738250C53470092AFF9 /* Main.storyboard */; };
 		F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F057D2092520328C0094BD83 /* LaunchScreen.storyboard */; };
 		F07C49C8251C095200F28173 /* LookAtThat_AppKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */; };
 		F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49E9251C5AE800F28173 /* AppDelegate.swift */; };
-		F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */; };
-		F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49EF251C5AE900F28173 /* Assets.xcassets */; };
-		F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B7F44C41276E324600522B45 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F07C49E6251C5AE800F28173;
-			remoteInfo = LookAtThatMobile;
-		};
 		F07C49CA251C095200F28173 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F00FC724250C53460092AFF9 /* Project object */;
@@ -107,11 +85,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		450B820D2B2E5E8800B3242C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		450B820E2B2E5E9400B3242C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		459F70542B2BF38800C209D8 /* SwiftGlyphsHIDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftGlyphsHIDebug.entitlements; sourceTree = "<group>"; };
+		962B92AB2C5FF2E800BC0588 /* BitHandling */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BitHandling; path = ../BitHandling; sourceTree = "<group>"; };
+		962B92AC2C5FF2E800BC0588 /* SwiftGlyph */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftGlyph; path = ../SwiftGlyph; sourceTree = "<group>"; };
+		962B92AD2C5FF2E800BC0588 /* STTextView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = STTextView; path = ../STTextView; sourceTree = "<group>"; };
+		962B92AE2C5FF2E800BC0588 /* MetalLink */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MetalLink; path = ../MetalLink; sourceTree = "<group>"; };
 		B7083FC628ACAA0700881DF3 /* LookAtThat-Scratchbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-Scratchbox.swift"; sourceTree = "<group>"; };
-		B725168228C098AB0094F29B /* GlobalSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSearchView.swift; sourceTree = "<group>"; };
 		B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReailtyDelegate.swift; sourceTree = "<group>"; };
 		B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookAtThat-TracingTests.swift"; sourceTree = "<group>"; };
-		B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInfoPanelView.swift; sourceTree = "<group>"; };
 		B7AB37132745696000CEC7DD /* TestBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBundle.swift; sourceTree = "<group>"; };
 		B7AB371927456A4A00CEC7DD /* CodeGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGridTests.swift; sourceTree = "<group>"; };
 		B7D79AB2282B2BC6000F99EB /* CodePagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePagesTests.swift; sourceTree = "<group>"; };
@@ -120,23 +103,17 @@
 		B7E7FBEB2904B3F400EC304F /* find_git_files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = find_git_files.swift; sourceTree = "<group>"; };
 		F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsHI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00FC72F250C53460092AFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F00FC731250C53460092AFF9 /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
-		F00FC733250C53470092AFF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F00FC736250C53470092AFF9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F00FC739250C53470092AFF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F00FC73B250C53470092AFF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F00FC73C250C53470092AFF9 /* LookAtThat_AppKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThat_AppKit.entitlements; sourceTree = "<group>"; };
 		F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCP-Bridging-Header.h"; sourceTree = "<group>"; };
 		F057D2092520328C0094BD83 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LookAtThatMobile.entitlements; sourceTree = "<group>"; };
-		F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LookAtThat Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LookAtThat_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAtThat_AppKitTests.swift; sourceTree = "<group>"; };
 		F07C49C9251C095200F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlyphsLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F07C49E9251C5AE800F28173 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileAppRootView.swift; sourceTree = "<group>"; };
-		F07C49EF251C5AE900F28173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F07C49F4251C5AE900F28173 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,15 +123,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B76576D228F0DDF5003617FC /* OrderedCollections in Frameworks */,
-				B7B1099928D817B400AA4E37 /* SwiftTreeSitter in Frameworks */,
-				B72A8775287BE93900A78B19 /* ArgumentParser in Frameworks */,
-				45703F352B26A5FB00E8D9E1 /* SwiftGlyph in Frameworks */,
-				B7CBD76828FCCC8400A918C2 /* SwiftSyntax in Frameworks */,
 				B7C69FF828A4526500A84860 /* Algorithms in Frameworks */,
 				B76576D028F0DDF5003617FC /* Collections in Frameworks */,
-				B7CBD76628FCCC8400A918C2 /* SwiftParser in Frameworks */,
+				963F88962BF6A1D000070C1B /* SwiftGlyph in Frameworks */,
 				B7D1871F28C44A0900BACAA1 /* Zip in Frameworks */,
-				B7B1099C28D8189800AA4E37 /* TreeSitterSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,24 +143,20 @@
 			files = (
 				B7CBD77228FCD0A600A918C2 /* Collections in Frameworks */,
 				B7D1872128C57AFA00BACAA1 /* Zip in Frameworks */,
-				B7CBD77028FCD08400A918C2 /* SwiftParser in Frameworks */,
 				B79592E828A7615B00F16746 /* Algorithms in Frameworks */,
 				B7CBD77428FCD0A600A918C2 /* OrderedCollections in Frameworks */,
-				45703F372B26A6AC00E8D9E1 /* SwiftGlyph in Frameworks */,
-				B7CBD76C28FCD01500A918C2 /* SwiftSyntax in Frameworks */,
+				96271C472C607C290026AB5F /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B79F93192750C3B000E46A96 /* Semantics */ = {
+		45E81A382B2BF1B000C7B87A /* LSP */ = {
 			isa = PBXGroup;
 			children = (
-				B79F931A2750C3D900E46A96 /* SourceInfoPanelView.swift */,
-				B725168228C098AB0094F29B /* GlobalSearchView.swift */,
 			);
-			path = Semantics;
+			path = LSP;
 			sourceTree = "<group>";
 		};
 		B7AB371827456A3500CEC7DD /* CodeGrid */ = {
@@ -212,6 +180,11 @@
 		F00FC723250C53460092AFF9 = {
 			isa = PBXGroup;
 			children = (
+				962B92AB2C5FF2E800BC0588 /* BitHandling */,
+				962B92AE2C5FF2E800BC0588 /* MetalLink */,
+				962B92AD2C5FF2E800BC0588 /* STTextView */,
+				962B92AC2C5FF2E800BC0588 /* SwiftGlyph */,
+				459F70542B2BF38800C209D8 /* SwiftGlyphsHIDebug.entitlements */,
 				B7F74EEF28921CE8004C5F8F /* Playgrounds */,
 				F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */,
 				F07C49E8251C5AE800F28173 /* LookAtThatMobile */,
@@ -225,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */,
-				F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */,
+				F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */,
 				F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */,
 			);
 			name = Products;
@@ -234,24 +207,15 @@
 		F00FC72E250C53460092AFF9 /* LookAtThat_AppKit */ = {
 			isa = PBXGroup;
 			children = (
+				450B820D2B2E5E8800B3242C /* Assets.xcassets */,
 				F030B8D92519039A00B94E7A /* SwiftUIViews */,
-				F00FC735250C53470092AFF9 /* Preview Content */,
 				F00FC72F250C53460092AFF9 /* AppDelegate.swift */,
 				F00FC73C250C53470092AFF9 /* LookAtThat_AppKit.entitlements */,
 				F00FC73B250C53470092AFF9 /* Info.plist */,
-				F00FC733250C53470092AFF9 /* Assets.xcassets */,
 				F00FC738250C53470092AFF9 /* Main.storyboard */,
 				F038D911252E7C1600A9E6BC /* SCP-Bridging-Header.h */,
 			);
 			path = LookAtThat_AppKit;
-			sourceTree = "<group>";
-		};
-		F00FC735250C53470092AFF9 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				F00FC736250C53470092AFF9 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		F027B1852512EAAE00294F30 /* Frameworks */ = {
@@ -266,8 +230,6 @@
 		F030B8D92519039A00B94E7A /* SwiftUIViews */ = {
 			isa = PBXGroup;
 			children = (
-				B79F93192750C3B000E46A96 /* Semantics */,
-				F00FC731250C53460092AFF9 /* MacAppRootView.swift */,
 			);
 			path = SwiftUIViews;
 			sourceTree = "<group>";
@@ -275,6 +237,7 @@
 		F07C49C6251C095200F28173 /* LookAtThat_AppKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				45E81A382B2BF1B000C7B87A /* LSP */,
 				B7AB371827456A3500CEC7DD /* CodeGrid */,
 				F07C49C7251C095200F28173 /* LookAtThat_AppKitTests.swift */,
 				B768B6682821CC2C0098F8D0 /* LookAtThat-TracingTests.swift */,
@@ -287,24 +250,14 @@
 		F07C49E8251C5AE800F28173 /* LookAtThatMobile */ = {
 			isa = PBXGroup;
 			children = (
-				F07C49F1251C5AE900F28173 /* Preview Content */,
+				450B820E2B2E5E9400B3242C /* Assets.xcassets */,
 				F07C49E9251C5AE800F28173 /* AppDelegate.swift */,
 				B72C67702A3D073900D987E4 /* ReailtyDelegate.swift */,
-				F07C49EB251C5AE800F28173 /* MobileAppRootView.swift */,
 				F06C33D9251F1CBC00553039 /* LookAtThatMobile.entitlements */,
-				F07C49EF251C5AE900F28173 /* Assets.xcassets */,
 				F07C49F4251C5AE900F28173 /* Info.plist */,
 				F057D2092520328C0094BD83 /* LaunchScreen.storyboard */,
 			);
 			path = LookAtThatMobile;
-			sourceTree = "<group>";
-		};
-		F07C49F1251C5AE900F28173 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				F07C49F2251C5AE900F28173 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,24 +297,19 @@
 			);
 			name = SwiftGlyphsHI;
 			packageProductDependencies = (
-				B72A8774287BE93900A78B19 /* ArgumentParser */,
 				B7C69FF728A4526500A84860 /* Algorithms */,
 				B7D1871E28C44A0900BACAA1 /* Zip */,
-				B7B1099828D817B400AA4E37 /* SwiftTreeSitter */,
-				B7B1099B28D8189800AA4E37 /* TreeSitterSwift */,
 				B76576CF28F0DDF5003617FC /* Collections */,
 				B76576D128F0DDF5003617FC /* OrderedCollections */,
-				B7CBD76528FCCC8400A918C2 /* SwiftParser */,
-				B7CBD76728FCCC8400A918C2 /* SwiftSyntax */,
-				45703F342B26A5FB00E8D9E1 /* SwiftGlyph */,
+				963F88952BF6A1D000070C1B /* SwiftGlyph */,
 			);
 			productName = LookAtThat_AppKit;
 			productReference = F00FC72C250C53460092AFF9 /* SwiftGlyphsHI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F07C49C4251C095200F28173 /* LookAtThat Tests */ = {
+		F07C49C4251C095200F28173 /* LookAtThat_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */;
+			buildConfigurationList = F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_Tests" */;
 			buildPhases = (
 				F07C49C1251C095200F28173 /* Sources */,
 				F07C49C2251C095200F28173 /* Frameworks */,
@@ -371,15 +319,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				B713405628170F88005E0E31 /* PBXTargetDependency */,
 				F07C49CB251C095200F28173 /* PBXTargetDependency */,
-				B7F44C42276E324600522B45 /* PBXTargetDependency */,
 			);
-			name = "LookAtThat Tests";
+			name = LookAtThat_Tests;
 			packageProductDependencies = (
 			);
 			productName = LookAtThat_AppKitTests;
-			productReference = F07C49C5251C095200F28173 /* LookAtThat Tests.xctest */;
+			productReference = F07C49C5251C095200F28173 /* LookAtThat_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */ = {
@@ -400,11 +346,9 @@
 			packageProductDependencies = (
 				B79592E728A7615B00F16746 /* Algorithms */,
 				B7D1872028C57AFA00BACAA1 /* Zip */,
-				B7CBD76B28FCD01500A918C2 /* SwiftSyntax */,
-				B7CBD76F28FCD08400A918C2 /* SwiftParser */,
 				B7CBD77128FCD0A600A918C2 /* Collections */,
 				B7CBD77328FCD0A600A918C2 /* OrderedCollections */,
-				45703F362B26A6AC00E8D9E1 /* SwiftGlyph */,
+				96271C462C607C290026AB5F /* SwiftGlyph */,
 			);
 			productName = LookAtThatMobile;
 			productReference = F07C49E7251C5AE800F28173 /* SwiftGlyphsLO.app */;
@@ -418,7 +362,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					F00FC72B250C53460092AFF9 = {
 						CreatedOnToolsVersion = 12.0;
@@ -443,14 +387,11 @@
 			);
 			mainGroup = F00FC723250C53460092AFF9;
 			packageReferences = (
-				B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */,
-				B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */,
-				B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */,
 				B76576CE28F0DDF5003617FC /* XCRemoteSwiftPackageReference "swift-collections" */,
-				B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */,
-				45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
+				962B92A72C5FEECF00BC0588 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
+				962B92A82C5FEF9E00BC0588 /* XCRemoteSwiftPackageReference "STTextView" */,
 			);
 			productRefGroup = F00FC72D250C53460092AFF9 /* Products */;
 			projectDirPath = "";
@@ -458,7 +399,7 @@
 			targets = (
 				F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */,
 				F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */,
-				F07C49C4251C095200F28173 /* LookAtThat Tests */,
+				F07C49C4251C095200F28173 /* LookAtThat_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -468,9 +409,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				450B82102B2E5E9E00B3242C /* Assets.xcassets in Resources */,
 				F00FC73A250C53470092AFF9 /* Main.storyboard in Resources */,
-				F00FC737250C53470092AFF9 /* Preview Assets.xcassets in Resources */,
-				F00FC734250C53470092AFF9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,9 +425,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F07C49F3251C5AE900F28173 /* Preview Assets.xcassets in Resources */,
+				450B820F2B2E5E9B00B3242C /* Assets.xcassets in Resources */,
 				F057D20B2520328C0094BD83 /* LaunchScreen.storyboard in Resources */,
-				F07C49F0251C5AE900F28173 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,9 +437,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B79F931B2750C3D900E46A96 /* SourceInfoPanelView.swift in Sources */,
-				B725168328C098AB0094F29B /* GlobalSearchView.swift in Sources */,
-				F00FC732250C53460092AFF9 /* MacAppRootView.swift in Sources */,
 				F00FC730250C53460092AFF9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,26 +458,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F07C49EC251C5AE800F28173 /* MobileAppRootView.swift in Sources */,
 				B72C67712A3D073900D987E4 /* ReailtyDelegate.swift in Sources */,
 				F07C49EA251C5AE800F28173 /* AppDelegate.swift in Sources */,
-				45D761B02AE8AD6300B9DD92 /* SourceInfoPanelView.swift in Sources */,
-				B725168528C098AB0094F29B /* GlobalSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B713405628170F88005E0E31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = B713405528170F88005E0E31 /* SwiftTrace */;
-		};
-		B7F44C42276E324600522B45 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F07C49E6251C5AE800F28173 /* SwiftGlyphsLO */;
-			targetProxy = B7F44C41276E324600522B45 /* PBXContainerItemProxy */;
-		};
 		F07C49CB251C095200F28173 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F00FC72B250C53460092AFF9 /* SwiftGlyphsHI */;
@@ -596,9 +520,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -614,8 +542,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
+				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -665,9 +594,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -678,7 +611,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -691,28 +624,30 @@
 		F00FC740250C53470092AFF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = LookAtThat_AppKit/LookAtThat_AppKit.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SwiftGlyphsHIDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_MetalCaptureEnabled = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -721,27 +656,30 @@
 		F00FC741250C53470092AFF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = LookAtThat_AppKit/LookAtThat_AppKit.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThat_AppKit/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				INFOPLIST_FILE = LookAtThat_AppKit/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_MetalCaptureEnabled = YES;
+				INFOPLIST_KEY_MetalCaptureEnabled = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -750,17 +688,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5F5H835QPF;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-Xlinker",
@@ -769,7 +708,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LookAtThat_AppKit.app/Contents/MacOS/LookAtThat_AppKit";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftGlyphsHI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftGlyphsHI";
 			};
 			name = Debug;
 		};
@@ -780,18 +719,19 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5F5H835QPF;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LookAtThat_AppKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallspaghetti.LookAtThat-AppKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LookAtThat_AppKit.app/Contents/MacOS/LookAtThat_AppKit";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftGlyphsHI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftGlyphsHI";
 			};
 			name = Release;
 		};
@@ -803,12 +743,13 @@
 				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -832,12 +773,13 @@
 				CODE_SIGN_ENTITLEMENTS = LookAtThatMobile/LookAtThatMobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"LookAtThatMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				INFOPLIST_FILE = LookAtThatMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -875,7 +817,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat Tests" */ = {
+		F07C49CE251C095200F28173 /* Build configuration list for PBXNativeTarget "LookAtThat_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F07C49CC251C095200F28173 /* Debug */,
@@ -896,27 +838,19 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		45A86F502B26927100D44695 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
+		962B92A72C5FEECF00BC0588 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph/";
+			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph.git";
 			requirement = {
-				branch = "sgalpha-swift-glyphs";
+				branch = "sgalpha-sg-ts1";
 				kind = branch;
 			};
 		};
-		B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+		962B92A82C5FEF9E00BC0588 /* XCRemoteSwiftPackageReference "STTextView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			repositoryURL = "https://github.com/tikimcfee/STTextView.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tikimcfee/SwiftTrace";
-			requirement = {
-				branch = "logging-output";
+				branch = main;
 				kind = branch;
 			};
 		};
@@ -928,36 +862,12 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ChimeHQ/SwiftTreeSitter.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/alex-pinkus/tree-sitter-swift.git";
-			requirement = {
-				branch = "with-generated-files";
-				kind = branch;
-			};
-		};
 		B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
-			};
-		};
-		B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-syntax";
-			requirement = {
-				branch = main;
-				kind = branch;
 			};
 		};
 		B7D1871D28C44A0900BACAA1 /* XCRemoteSwiftPackageReference "Zip" */ = {
@@ -971,23 +881,13 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		45703F342B26A5FB00E8D9E1 /* SwiftGlyph */ = {
+		96271C462C607C290026AB5F /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
 		};
-		45703F362B26A6AC00E8D9E1 /* SwiftGlyph */ = {
+		963F88952BF6A1D000070C1B /* SwiftGlyph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftGlyph;
-		};
-		B713405528170F88005E0E31 /* SwiftTrace */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B75250F22814CEF500820412 /* XCRemoteSwiftPackageReference "SwiftTrace" */;
-			productName = SwiftTrace;
-		};
-		B72A8774287BE93900A78B19 /* ArgumentParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B72A8773287BE93900A78B19 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
-			productName = ArgumentParser;
 		};
 		B76576CF28F0DDF5003617FC /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1004,40 +904,10 @@
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
 		};
-		B7B1099828D817B400AA4E37 /* SwiftTreeSitter */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7B1099728D817B400AA4E37 /* XCRemoteSwiftPackageReference "SwiftTreeSitter" */;
-			productName = SwiftTreeSitter;
-		};
-		B7B1099B28D8189800AA4E37 /* TreeSitterSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7B1099A28D8189800AA4E37 /* XCRemoteSwiftPackageReference "tree-sitter-swift" */;
-			productName = TreeSitterSwift;
-		};
 		B7C69FF728A4526500A84860 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7C69FF628A4526500A84860 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
-		};
-		B7CBD76528FCCC8400A918C2 /* SwiftParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftParser;
-		};
-		B7CBD76728FCCC8400A918C2 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B7CBD76B28FCD01500A918C2 /* SwiftSyntax */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftSyntax;
-		};
-		B7CBD76F28FCD08400A918C2 /* SwiftParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B7CBD76428FCCC8400A918C2 /* XCRemoteSwiftPackageReference "swift-syntax" */;
-			productName = SwiftParser;
 		};
 		B7CBD77128FCD0A600A918C2 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -6,11 +6,7 @@
 //
 
 import XCTest
-import SwiftSyntax
-import SwiftParser
-import SceneKit
 import SwiftGlyph
-@testable import LookAtThat_AppKit
 
 class TestBundle {
     
@@ -18,11 +14,6 @@ class TestBundle {
     lazy var testDirectory = URL(fileURLWithPath: rootDirectory).appending(path: "MetalLink/Sources/MetalLink/")
     lazy var testFile = testDirectory.appending(path: "MetalLink.swift")
     lazy var testFile2 = testDirectory.appending(path: "MetalLinkAliases.swift")
-    
-    var tokenCache: CodeGridTokenCache!
-    var semanticBuilder: SemanticInfoBuilder!
-    var gridCache: GridCache!
-    var concurrent: ConcurrentGridRenderer!
     
     init(
         root: String = ProcessInfo.processInfo.environment["test-path", default: "/Users/"]
@@ -35,25 +26,11 @@ class TestBundle {
     }
     
     func setUpWithError() throws {
-        tokenCache = CodeGridTokenCache()
-        semanticBuilder = SemanticInfoBuilder()
-        gridCache = GridCache(tokenCache: tokenCache)
-        concurrent = ConcurrentGridRenderer(cache: gridCache)
+
     }
     
     func tearDownWithError() throws {
         
-    }
-    
-    func loadTestSource() throws -> SourceFileSyntax {
-        try XCTUnwrap(
-            gridCache.loadSourceUrl(testFile),
-            "Failed to load test file"
-        )
-    }
-    
-    func newGrid() -> CodeGrid {
-        gridCache.createNewGrid()
     }
 }
 

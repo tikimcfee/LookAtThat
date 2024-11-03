@@ -12,11 +12,21 @@ import SwiftGlyph
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    static var shared: AppDelegate {
+        return NSApp.delegate as! AppDelegate
+    }
+    
+    var willTerminate = false
+    
+    override init() {
+        super.init()
+    }
+    
     var window: NSWindow?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let rootWindow = makeRootWindow()
-        GlobablWindowDelegate.instance.registerRootWindow(rootWindow)
+        GlobalWindowDelegate.instance.registerRootWindow(rootWindow)
         rootWindow.contentView = makeRootContentView()
         rootWindow.makeKeyAndOrderFront(nil)
         window = rootWindow
@@ -24,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        GlobalWindowDelegate.instance.isTerminating = true
     }
     
     func testingCherrierView() -> Bool {
@@ -33,19 +44,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate {
     func makeRootContentView() -> NSView {
-        let contentView = MacAppRootView()
-            .environmentObject(MultipeerConnectionManager.shared)
-            .onAppear {
-                // Set initial state on appearance
-                GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
-                GlobalInstances.gridStore.gridInteractionState.setupStreams()
-                GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
-            }
-            .onDisappear {
-                URL.dumpAndDescopeAllKnownBookmarks()
-            }
-        
-        return NSHostingView(rootView: contentView)
+        let rootDemoView = SwiftGlyphDemoView()
+        return NSHostingView(rootView: rootDemoView)
     }
     
     func makeRootWindow() -> NSWindow {

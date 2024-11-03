@@ -14,17 +14,7 @@ struct AppDelegate: App {
     
     var body: some Scene {
         WindowGroup(id: "glyphee") {
-            MobileAppRootView()
-                .environmentObject(MultipeerConnectionManager.shared)
-                .onAppear {
-                    // Set initial state on appearance
-                    GlobalInstances.fileBrowser.loadRootScopeFromDefaults()
-                    GlobalInstances.gridStore.gridInteractionState.setupStreams()
-                    GlobalInstances.defaultRenderer.renderDelegate = GlobalInstances.swiftGlyphRoot
-                }
-                .onDisappear {
-                    URL.dumpAndDescopeAllKnownBookmarks()
-                }
+            SwiftGlyphDemoView()
 
             // Soon...
 //            CubeARView()
