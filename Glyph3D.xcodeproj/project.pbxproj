@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		96A7A0002CD807E300228DB3 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 96A79FFF2CD807E300228DB3 /* SwiftGlyph */; };
+		96A7A0032CD807FB00228DB3 /* SwiftGlyph in Frameworks */ = {isa = PBXBuildFile; productRef = 96A7A0022CD807FB00228DB3 /* SwiftGlyph */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		96A79FB32CD8076C00228DB3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +26,29 @@
 			remoteGlobalIDString = 96A79FA12CD8076B00228DB3;
 			remoteInfo = Glyph3D;
 		};
+		96A79FE42CD807B100228DB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96A79F9A2CD8076B00228DB3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96A79FD22CD807AF00228DB3;
+			remoteInfo = Glyph3DDesktop;
+		};
+		96A79FEE2CD807B100228DB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96A79F9A2CD8076B00228DB3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96A79FD22CD807AF00228DB3;
+			remoteInfo = Glyph3DDesktop;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		96A79FA22CD8076B00228DB3 /* Glyph3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glyph3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96A79FB22CD8076C00228DB3 /* Glyph3DTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Glyph3DTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96A79FBC2CD8076C00228DB3 /* Glyph3DUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Glyph3DUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A79FD32CD807AF00228DB3 /* Glyph3DDesktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glyph3DDesktop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A79FE32CD807B100228DB3 /* Glyph3DDesktopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Glyph3DDesktopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A79FED2CD807B100228DB3 /* Glyph3DDesktopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Glyph3DDesktopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,6 +67,21 @@
 			path = Glyph3DUITests;
 			sourceTree = "<group>";
 		};
+		96A79FD42CD807AF00228DB3 /* Glyph3DDesktop */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Glyph3DDesktop;
+			sourceTree = "<group>";
+		};
+		96A79FE62CD807B100228DB3 /* Glyph3DDesktopTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Glyph3DDesktopTests;
+			sourceTree = "<group>";
+		};
+		96A79FF02CD807B100228DB3 /* Glyph3DDesktopUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Glyph3DDesktopUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96A7A0002CD807E300228DB3 /* SwiftGlyph in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +107,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96A79FD02CD807AF00228DB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96A7A0032CD807FB00228DB3 /* SwiftGlyph in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FE02CD807B100228DB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FEA2CD807B100228DB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +138,10 @@
 				96A79FA42CD8076B00228DB3 /* Glyph3D */,
 				96A79FB52CD8076C00228DB3 /* Glyph3DTests */,
 				96A79FBF2CD8076C00228DB3 /* Glyph3DUITests */,
+				96A79FD42CD807AF00228DB3 /* Glyph3DDesktop */,
+				96A79FE62CD807B100228DB3 /* Glyph3DDesktopTests */,
+				96A79FF02CD807B100228DB3 /* Glyph3DDesktopUITests */,
+				96A7A0012CD807FB00228DB3 /* Frameworks */,
 				96A79FA32CD8076B00228DB3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +152,18 @@
 				96A79FA22CD8076B00228DB3 /* Glyph3D.app */,
 				96A79FB22CD8076C00228DB3 /* Glyph3DTests.xctest */,
 				96A79FBC2CD8076C00228DB3 /* Glyph3DUITests.xctest */,
+				96A79FD32CD807AF00228DB3 /* Glyph3DDesktop.app */,
+				96A79FE32CD807B100228DB3 /* Glyph3DDesktopTests.xctest */,
+				96A79FED2CD807B100228DB3 /* Glyph3DDesktopUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		96A7A0012CD807FB00228DB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +186,7 @@
 			);
 			name = Glyph3D;
 			packageProductDependencies = (
+				96A79FFF2CD807E300228DB3 /* SwiftGlyph */,
 			);
 			productName = Glyph3D;
 			productReference = 96A79FA22CD8076B00228DB3 /* Glyph3D.app */;
@@ -163,6 +238,75 @@
 			productReference = 96A79FBC2CD8076C00228DB3 /* Glyph3DUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		96A79FD22CD807AF00228DB3 /* Glyph3DDesktop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96A79FF52CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktop" */;
+			buildPhases = (
+				96A79FCF2CD807AF00228DB3 /* Sources */,
+				96A79FD02CD807AF00228DB3 /* Frameworks */,
+				96A79FD12CD807AF00228DB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				96A79FD42CD807AF00228DB3 /* Glyph3DDesktop */,
+			);
+			name = Glyph3DDesktop;
+			packageProductDependencies = (
+				96A7A0022CD807FB00228DB3 /* SwiftGlyph */,
+			);
+			productName = Glyph3DDesktop;
+			productReference = 96A79FD32CD807AF00228DB3 /* Glyph3DDesktop.app */;
+			productType = "com.apple.product-type.application";
+		};
+		96A79FE22CD807B100228DB3 /* Glyph3DDesktopTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96A79FF82CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktopTests" */;
+			buildPhases = (
+				96A79FDF2CD807B100228DB3 /* Sources */,
+				96A79FE02CD807B100228DB3 /* Frameworks */,
+				96A79FE12CD807B100228DB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				96A79FE52CD807B100228DB3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				96A79FE62CD807B100228DB3 /* Glyph3DDesktopTests */,
+			);
+			name = Glyph3DDesktopTests;
+			packageProductDependencies = (
+			);
+			productName = Glyph3DDesktopTests;
+			productReference = 96A79FE32CD807B100228DB3 /* Glyph3DDesktopTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		96A79FEC2CD807B100228DB3 /* Glyph3DDesktopUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96A79FFB2CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktopUITests" */;
+			buildPhases = (
+				96A79FE92CD807B100228DB3 /* Sources */,
+				96A79FEA2CD807B100228DB3 /* Frameworks */,
+				96A79FEB2CD807B100228DB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				96A79FEF2CD807B100228DB3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				96A79FF02CD807B100228DB3 /* Glyph3DDesktopUITests */,
+			);
+			name = Glyph3DDesktopUITests;
+			packageProductDependencies = (
+			);
+			productName = Glyph3DDesktopUITests;
+			productReference = 96A79FED2CD807B100228DB3 /* Glyph3DDesktopUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +328,17 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 96A79FA12CD8076B00228DB3;
 					};
+					96A79FD22CD807AF00228DB3 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					96A79FE22CD807B100228DB3 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 96A79FD22CD807AF00228DB3;
+					};
+					96A79FEC2CD807B100228DB3 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 96A79FD22CD807AF00228DB3;
+					};
 				};
 			};
 			buildConfigurationList = 96A79F9D2CD8076B00228DB3 /* Build configuration list for PBXProject "Glyph3D" */;
@@ -195,14 +350,20 @@
 			);
 			mainGroup = 96A79F992CD8076B00228DB3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				96A79FFE2CD807E300228DB3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 96A79FA32CD8076B00228DB3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				96A79FA12CD8076B00228DB3 /* Glyph3D */,
+				96A79FD22CD807AF00228DB3 /* Glyph3DDesktop */,
 				96A79FB12CD8076C00228DB3 /* Glyph3DTests */,
 				96A79FBB2CD8076C00228DB3 /* Glyph3DUITests */,
+				96A79FE22CD807B100228DB3 /* Glyph3DDesktopTests */,
+				96A79FEC2CD807B100228DB3 /* Glyph3DDesktopUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +384,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		96A79FBA2CD8076C00228DB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FD12CD807AF00228DB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FE12CD807B100228DB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FEB2CD807B100228DB3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +435,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96A79FCF2CD807AF00228DB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FDF2CD807B100228DB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A79FE92CD807B100228DB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +468,16 @@
 			isa = PBXTargetDependency;
 			target = 96A79FA12CD8076B00228DB3 /* Glyph3D */;
 			targetProxy = 96A79FBD2CD8076C00228DB3 /* PBXContainerItemProxy */;
+		};
+		96A79FE52CD807B100228DB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96A79FD22CD807AF00228DB3 /* Glyph3DDesktop */;
+			targetProxy = 96A79FE42CD807B100228DB3 /* PBXContainerItemProxy */;
+		};
+		96A79FEF2CD807B100228DB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96A79FD22CD807AF00228DB3 /* Glyph3DDesktop */;
+			targetProxy = 96A79FEE2CD807B100228DB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -404,6 +617,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,6 +647,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -518,6 +733,138 @@
 			};
 			name = Release;
 		};
+		96A79FF62CD807B100228DB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Glyph3DDesktop/Glyph3DDesktop.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		96A79FF72CD807B100228DB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Glyph3DDesktop/Glyph3DDesktop.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		96A79FF92CD807B100228DB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glyph3DDesktop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Glyph3DDesktop";
+			};
+			name = Debug;
+		};
+		96A79FFA2CD807B100228DB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Glyph3DDesktop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Glyph3DDesktop";
+			};
+			name = Release;
+		};
+		96A79FFC2CD807B100228DB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Glyph3DDesktop;
+			};
+			name = Debug;
+		};
+		96A79FFD2CD807B100228DB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XR2HQNSZ68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = lugonium.works.Glyph3DDesktopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Glyph3DDesktop;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -557,7 +904,58 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		96A79FF52CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96A79FF62CD807B100228DB3 /* Debug */,
+				96A79FF72CD807B100228DB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96A79FF82CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktopTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96A79FF92CD807B100228DB3 /* Debug */,
+				96A79FFA2CD807B100228DB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96A79FFB2CD807B100228DB3 /* Build configuration list for PBXNativeTarget "Glyph3DDesktopUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96A79FFC2CD807B100228DB3 /* Debug */,
+				96A79FFD2CD807B100228DB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		96A79FFE2CD807E300228DB3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tikimcfee/SwiftGlyph.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		96A79FFF2CD807E300228DB3 /* SwiftGlyph */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96A79FFE2CD807E300228DB3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
+			productName = SwiftGlyph;
+		};
+		96A7A0022CD807FB00228DB3 /* SwiftGlyph */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96A79FFE2CD807E300228DB3 /* XCRemoteSwiftPackageReference "SwiftGlyph" */;
+			productName = SwiftGlyph;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 96A79F9A2CD8076B00228DB3 /* Project object */;
 }
