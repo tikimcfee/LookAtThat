@@ -1,17 +1,20 @@
 //
-//  Glyph3DApp.swift
-//  Glyph3D
+//  AppDelegate.swift
+//  LookAtThatMobile
 //
-//  Created by Ivan Lugo on 11/3/24.
+//  Created by Ivan Lugo on 9/23/20.
 //
 
+import UIKit
 import SwiftUI
+import SwiftGlyph
 
 @main
-struct Glyph3DApp: App {
+struct AppDelegate: App {
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        WindowGroup(id: "glyphee") {
+            SwiftGlyphDemoView()
         }
-    }
+     }
 }
