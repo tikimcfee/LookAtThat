@@ -51,9 +51,29 @@
 		96A79FED2CD807B100228DB3 /* Glyph3DDesktopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Glyph3DDesktopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		96EB2F5B2CD9140E00F145E8 /* Exceptions for "Glyph3D" folder in "Glyph3D" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 96A79FA12CD8076B00228DB3 /* Glyph3D */;
+		};
+		96EB2F5D2CD9144900F145E8 /* Exceptions for "Glyph3DDesktop" folder in "Glyph3DDesktop" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 96A79FD22CD807AF00228DB3 /* Glyph3DDesktop */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		96A79FA42CD8076B00228DB3 /* Glyph3D */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				96EB2F5B2CD9140E00F145E8 /* Exceptions for "Glyph3D" folder in "Glyph3D" target */,
+			);
 			path = Glyph3D;
 			sourceTree = "<group>";
 		};
@@ -69,6 +89,9 @@
 		};
 		96A79FD42CD807AF00228DB3 /* Glyph3DDesktop */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				96EB2F5D2CD9144900F145E8 /* Exceptions for "Glyph3DDesktop" folder in "Glyph3DDesktop" target */,
+			);
 			path = Glyph3DDesktop;
 			sourceTree = "<group>";
 		};
@@ -612,6 +635,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph3D/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -648,6 +672,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph3D/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -757,6 +782,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph3DDesktop/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -787,6 +813,7 @@
 				DEVELOPMENT_TEAM = XR2HQNSZ68;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glyph3DDesktop/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
