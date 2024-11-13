@@ -56,6 +56,7 @@ extension AppDelegate {
         )
         window.isReleasedWhenClosed = false
         window.center()
+        window.title = "Main"
         window.setFrameAutosaveName("Main Window")
         return window
     }
