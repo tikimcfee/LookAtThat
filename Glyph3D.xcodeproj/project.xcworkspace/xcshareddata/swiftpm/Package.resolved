@@ -25,7 +25,7 @@
       "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
         "branch" : "main",
-        "revision" : "7f09ec7e64bba7e361e9a63e078ba4918adc3e6f"
+        "revision" : "decc0393e65249839d5b321f1871fe87c61f8509"
       }
     },
     {
@@ -79,7 +79,7 @@
       "location" : "https://github.com/tikimcfee/SwiftGlyph.git",
       "state" : {
         "branch" : "main",
-        "revision" : "037abe74b4487405c20d57a9ce5078f5ebb363ea"
+        "revision" : "ff670ab9af9b38a46f6a518c5fbb720b4a5361e6"
       }
     },
     {
