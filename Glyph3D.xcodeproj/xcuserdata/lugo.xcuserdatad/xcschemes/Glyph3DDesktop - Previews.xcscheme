@@ -35,9 +35,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "96A79FE22CD807B100228DB3"
-               BuildableName = "Glyph3DDesktopTests.xctest"
-               BlueprintName = "Glyph3DDesktopTests"
+               BlueprintIdentifier = "96A79FB12CD8076C00228DB3"
+               BuildableName = "Glyph3DTests.xctest"
+               BlueprintName = "Glyph3DTests"
                ReferencedContainer = "container:Glyph3D.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -46,29 +46,24 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "96A79FEC2CD807B100228DB3"
-               BuildableName = "Glyph3DDesktopUITests.xctest"
-               BlueprintName = "Glyph3DDesktopUITests"
+               BlueprintIdentifier = "96A79FBB2CD8076C00228DB3"
+               BuildableName = "Glyph3DUITests.xctest"
+               BlueprintName = "Glyph3DUITests"
                ReferencedContainer = "container:Glyph3D.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
-      disableMainThreadChecker = "YES"
-      disablePerformanceAntipatternChecker = "YES"
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      enableGPUValidationMode = "1"
-      allowLocationSimulation = "YES"
-      viewDebuggingEnabled = "No"
-      queueDebuggingEnabled = "No">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
@@ -79,6 +74,13 @@
             ReferencedContainer = "container:Glyph3D.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "IS_PREVIEW"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -98,7 +100,7 @@
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Release">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"

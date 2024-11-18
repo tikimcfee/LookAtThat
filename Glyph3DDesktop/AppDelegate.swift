@@ -51,11 +51,18 @@ extension AppDelegate {
     func makeRootWindow() -> NSWindow {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1440, height: 1024),
-            styleMask: [.titled, .miniaturizable, .resizable, .fullSizeContentView],
+            styleMask: [
+                .titled,
+                .miniaturizable,
+                .resizable,
+                .fullSizeContentView,
+                .closable
+            ],
             backing: .buffered, defer: false
         )
         window.isReleasedWhenClosed = false
         window.center()
+        window.title = "Main"
         window.setFrameAutosaveName("Main Window")
         return window
     }
