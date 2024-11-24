@@ -7,7 +7,7 @@
       "location" : "https://github.com/tikimcfee/BitHandling.git",
       "state" : {
         "branch" : "main",
-        "revision" : "5cf83d6ea6adac6bef6927068faeb0b7e9dc24c2"
+        "revision" : "f53d345bb5f003debb21bf1188f7c1941ddfb37f"
       }
     },
     {
@@ -25,7 +25,7 @@
       "location" : "https://github.com/tikimcfee/MetalLink.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0739c6a9565cd3e9402c437561faf16447b85ff9"
+        "revision" : "1825febdedec73c536b3acd615625c59bd145d12"
       }
     },
     {
@@ -79,7 +79,7 @@
       "location" : "https://github.com/tikimcfee/SwiftGlyph.git",
       "state" : {
         "branch" : "main",
-        "revision" : "fde5c10bcfcd7a9b25aab3f27681298d85b21fd1"
+        "revision" : "71b599f96cbfe399fbca443d76184fe48e9f0837"
       }
     },
     {
