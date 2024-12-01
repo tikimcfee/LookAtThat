@@ -1,70 +1,47 @@
-# SwiftGlyph HI/LO
+# Glyph3D
 
-<img src="./repo_info/metal-v2-snapshot.png" alt="An isometric view of SwiftGlyph rendered in 3D" width=512px >
+<img src="./repo_info/metal-v3-desktop-ide.png" width=300px />
+<img src="./repo_info/metal-v3-ipad.png" width=300px />
+<img src="./repo_info/metal-v3-iphone.png" width=300px />
 
-<img src="./repo_info/metal-v2-devices.jpg" alt="An isometric view of SwiftGlyph rendered in 3D" width=512px >
+Download for macOS:
 
-## SwiftGlyph Alpha
+<Coming Soon>
 
-If you're reading this, you're seeing the first major update of the iteration of LookAtThat - now happily modularized and imported for your enjoyment.
+Download for iOS / iPad OS:
 
-There are a number of major changes to the feature set, including the first batch of updated rendering techniques (this term applied extremely loosely).
+<Coming Soon>
 
-[WIP] MetalLink and SwiftGlyph are the stars of the show.
+## Open Beta
 
-https://www.github.com/tikimcfee/SwiftGlyph
+'Glyph3D' is the new application bundle that supports macOS and iOS / iPadOS compatible devices.
 
-https://www.github.com/tikimcfee/MetalLink
-
-### What Works in the Alpha
-
-- New GPU based UTF8->UTF32->Unicode (fauxnicode <3) parsing and text layout.
-- Load up arbitrary directories of mostly code and render it all in 3D.
-- Download and view GitHub repositories in app and view them like local data.
-- Dual-style rendering for iOS / macOS for platform optimizations.
-- AtlasTexture load / save / preload / reset for viewing and saving newly seen glyphs (currently limited to 1 Atlas sheet!)
-- Mouse-based hover interactions, including symbol-highlighting (macOS includes AST node viewing)
-
-The macOS target includes lots of random features in varying working states, including:
-
-- Full text search with visual highlighting (scale / color / position)
-- Syntax highlighting for Swift code using SwiftSyntax
-  
 ### How to run it
 
-This is the demonstration consuming app project for SwiftGlyph, which is the major wrapping library around MetalLink. You should be able to ... :
-
-- Clone
+- Clone this repository
 - Open the `xcproject`
-- (As needed) update the signing magicka within Xcode
-- Choose your target (HI == macOS, LO == iOS), and device. It'll complain if you choose the wrong device / target pairing.  
+- (As needed) update the signing settings within Xcode
+- Select the mobile or desktop variant and accompanying device, and then run.  
 
-## How can I help?
+### Contributions
 
-Anything is fine, and if something might be project related, feel free to create an Issue. It's a boring but functional discussion place, and doesn't require bumping around to other chat platforms or external wikis.
+These are the core libraries in this bundle:
 
-You can also free fring to ping me directly from my GitHub profile. And, if you can't seem to find a pingable thing, make an issue and bug me about it! I want to make sure those with interest in working on this have an easy way to get a hold of me, and everyone else with a curious eye.
+https://www.github.com/tikimcfee/SwiftGlyph
+https://www.github.com/tikimcfee/MetalLink
 
-## What's next?
+All issues / Pull Requests are accepted in this open beta phase.
+
+## Plans
 
 ### Editing
-- 3D or 2D...
+- Multi-pane editing
 
 ### Tracing
-- SwiftTrace was once, and must be again.. or should it?
+- Recording and highlighting file traces
 
 ### UI
-- The interface is full of buttons like the universe is full of stars.
-- More correctly, it's full of buttons like LEO is full of metallic bodies.
+- Additional
 
-### Language Server / Sourcekit
-- This is the unlock for better, more generic syntax highlighting.
-- SwiftSyntax is great, but limited.
-
-
-## With thanks, reference, and deference to:
-
-- https://embodiedcode.net/
-- https://divan.dev/posts/visual_programming_go/
-- https://futureofcoding.org/
-- https://stars.library.ucf.edu/etd/5511/ (<3 UCF)
+### Treesitter + other AST parsers
+- `swift` ast parser catches a lot of script-like languages, but need to support more per file
