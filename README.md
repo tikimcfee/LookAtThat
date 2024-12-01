@@ -6,9 +6,7 @@
 <td>
 <img src="./repo_info/metal-v3-desktop-ide.png" width=600px />
 </td>
-</tr>
-
-<tr>
+  
 <td>
 <img src="./repo_info/metal-v3-ipad.png" width=300px />
 </td>
@@ -20,19 +18,23 @@
 
 </table>
 
-Download for macOS:
+Download in TestFlight for macOS:
 
-<Coming Soon>
+https://testflight.apple.com/join/Q77FGU62
 
-Download for iOS / iPad OS:
+Download in TestFlight for iOS / iPad OS:
 
-<Coming Soon>
+https://testflight.apple.com/join/8bWcqyGz
 
 ## Open Beta
 
 'Glyph3D' is the new application bundle that supports macOS and iOS / iPadOS compatible devices.
 
-### How to run it
+## How to run it
+
+- Download from TestFlight above
+
+OR
 
 - Clone this repository
 - Open the `xcproject`
