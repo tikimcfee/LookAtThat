@@ -3,11 +3,12 @@
 <table>
 
 <tr>
-
 <td>
-<img src="./repo_info/metal-v3-desktop-ide.png" width=300px />
+<img src="./repo_info/metal-v3-desktop-ide.png" width=600px />
 </td>
+</tr>
 
+<tr>
 <td>
 <img src="./repo_info/metal-v3-ipad.png" width=300px />
 </td>
@@ -15,7 +16,6 @@
 <td>
 <img src="./repo_info/metal-v3-iphone.png" width=300px />
 </td>
-
 </tr>
 
 </table>
